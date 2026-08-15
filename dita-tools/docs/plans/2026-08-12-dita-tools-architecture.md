@@ -2,11 +2,29 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-> **状态说明（2026-08-15 补）：** Task 1–5 的代码均已写出（`crates/` 与 `apps/` 下），
-> 但**未在本机验证**——VPS 缺 C 链接器（`build-essential`），cargo 无法链接产物，
-> 因此下方的 checkbox 一律保持未勾选。装上链接器、跑通 `cargo test --workspace`
-> 之后再逐项确认。另：`dita_validate` 已写进 workspace 依赖表，但 crate 尚未创建；
-> Phase 2 起的路线图只有一张表，没有任务分解——见 [架构与边界](../../../docs/架构与边界.md) 待定项 4。
+> **状态与更正（2026-08-15 补）**
+>
+> **状态：** Task 1–5 的代码均已写出并于 2026-08-15 首次在本机编译通过、`cargo test
+> --workspace` 全过（此前 VPS 缺 C 链接器，一直没验证过）。下方 checkbox 仍保持未勾选：
+> 它们记录的是当初的规格，而规格已被下面这条更正推翻，逐条打勾会掩盖这件事。
+> `dita_validate` 已写进 workspace 依赖表，但 crate 尚未创建。
+>
+> **规格更正 —— 本计划内部自相矛盾，代码忠实执行了错的那一半：**
+>
+> | 位置 | 原文 | 问题 |
+> |---|---|---|
+> | 「背景 · 问题起点」第 1 条 | 「看不到……**哪些域是空的**」 | 这是立项的头号理由 |
+> | 目录树注释 / Task 3 描述 | 「XML → AST（**递归展开 mapref**）」「参照 `MaprefModule.java`……递归展开」 | 展开即内联，**必然让空 map 连同标题一起消失** |
+> | Task 1 类型规格 | `MapRef { href, processing_role }` | 无 `title` / `children`，结构无处安放 |
+>
+> 两处相隔三百行，没有人对照过。DITA-OT 展开 mapref 是对的——它要产出页面，空 map
+> 本来就没有页面可产；本工具要的恰恰相反。**从参照实现借来了机制，没拿自己的立项理由
+> 验一遍**，而测试也是照着规格写的（`expands_mapref_inline` 在给缺陷背书），所以测试
+> 全绿也没兜住。
+>
+> 已更正为：`MapRef { href, processing_role, title, children }`，被引 map 保留为自己的
+> 节点，空的渲染成 `[空]`。见 commit `7f09ed9`。教训写入
+> [架构与边界](../../../docs/架构与边界.md)。
 
 **Goal:** 构建一套 Rust monorepo DITA 工具链，从 IA 视图出发，逐步演进为完整的 DITA 预处理引擎，最终支持 Web 编辑器的实时解析能力。
 
@@ -873,13 +891,21 @@ git commit -m "feat(dita_cli): add ia subcommand for IA overview"
 
 ## 后续路线图
 
-| Phase | 内容 | 复杂度 | 参考 |
-|---|---|---|---|
-| Phase 2 | `dita_validate`：R11 @dimension 枚举校验 | ⭐⭐ | `check-rules.xsl` 的 Rust 替代 |
-| Phase 3 | Key Space 构建 + Keyref 解析 | ⭐⭐⭐⭐⭐ | `KeyrefModule.java`（~3600 LOC）|
-| Phase 4 | Conref 展开 | ⭐⭐⭐⭐⭐ | `conrefImpl.xsl`（1500 行 XSLT）|
-| Phase 5 | `napi/`：napi-rs 绑定 | ⭐⭐⭐ | OXC napi 层 |
-| Phase 6 | Wasm 编译，浏览器内实时解析 | ⭐⭐⭐ | OXC playground |
+> **2026-08-15 重排。** 原路线图（`dita_validate` → Keyref → Conref → napi → wasm）把
+> IA 视图当成已完成的 Phase 1，直接转向预处理引擎。实际的迫切需求不是预处理，而是
+> **IA 视角本身**——它有两个用途：建库之初的**全局观测与设计**（现在），以及之后面向
+> **使用者 / 作者视角的页面渲染**（未来）。预处理相关的大件（Keyref / Conref）顺延。
+
+| 阶段 | 内容 | 为什么在这个位置 |
+|---|---|---|
+| ✅ 已完成 | map 层 IA 视图：知识树、空领域、孤儿、诊断 | 见上方规格更正 |
+| **当前主线** | **topic 解析器**（`dita_parser` 补 `topic_parser.rs`，产出 `TopicMeta`） | **不是独立赛道，是 IA 视图的前置**：要看清"哪个域缺哪类内容、哪些还是 draft、哪些维度没覆盖"，必须先读到 topic 的 `@dimension` / `@maturity` / `@volatility` 与类型 |
+| 当前主线 | IA 视图深化：按类型 / 成熟度 / 维度统计与盲区 | 观测与设计真正要看的东西 |
+| 顺带 | R11 `@dimension` 枚举校验（值集从 `subjectScheme` 直读，不内联） | topic 解析器一到位就近乎免费；归属仍见「架构与边界」待定项 2 |
+| 未来 | 页面渲染：使用者 / 作者视角 | 从"结构观测"走向"内容可读"，与 `kb/scripts/preview.sh`（现由 DITA-OT 出 HTML5）的关系需先定 |
+| 顺延 | Key Space / Keyref 解析 | ⭐⭐⭐⭐⭐，`KeyrefModule.java` ~3600 行 |
+| 顺延 | Conref 展开 | ⭐⭐⭐⭐⭐，`conrefImpl.xsl` ~1500 行 |
+| 顺延 | napi 绑定 / Wasm | 有 Web 编辑器需求时再说 |
 
 ## 差分测试策略
 

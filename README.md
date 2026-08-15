@@ -8,7 +8,7 @@
 |---|---|---|---|
 | [`docs/`](docs/README.md) | DITA 2.0 研究笔记 + 设计案例 | **判据与规则规格**（为什么这么定） | 笔记 16 篇，设计定案 |
 | [`kb/`](kb/README.md) | 知识体系正本 | **内容 + 唯一事实源**（`vocab/subjectScheme.ditamap`） | 建设中，22 篇 |
-| [`dita-tools/`](dita-tools/README.md) | Rust 工具链 | **规则的执行**（校验、IA 视图） | 骨架，本机暂不可编译 |
+| [`dita-tools/`](dita-tools/README.md) | Rust 工具链 | **规则的执行**（校验、IA 视图） | map 层 IA 视图可用；topic 层在建 |
 
 > 依赖方向是单向的：`docs` 定规则 → `kb` 遵守规则并定义合法值 → `dita-tools` 读词表执行规则。**下游不得反向定义上游**——工具里不许再抄一份值集，规则的"为什么"不写在工具的 README 里。
 
@@ -16,7 +16,7 @@
 
 - **内容**：22 篇 topic（12 条术语 + 10 篇内容）。九个领域 map 里 **7 个仍是空骨架**，只有 `ai` 和 `content-engineering` 挂了内容。
 - **规则**：R1–R10 已实现并全过；**R11（`@dimension` 枚举校验）尚无实现，且归属未定**（见架构文档的规则归属表）。
-- **工具**：`dita-tools ia` 可出知识树与孤儿 topic，但**没有 topic 解析器**——读不到 `@dimension`/`@maturity`，接不上任何业务规则。
+- **工具**：`dita-tools ia` 已可出知识树、空领域、孤儿 topic（2026-08-15 实测）。但**没有 topic 解析器**——读不到 `@dimension`/`@maturity`，因此还答不了"哪个域缺哪类内容"。补它是当前主线。
 - **交付物**：单源 → 双工具变体（`CLAUDE.md` / `AGENTS.md`）已跑通。
 
 ## 环境
@@ -27,7 +27,7 @@
 |---|---|---|
 | Java 17+ / DITA-OT 4.4 | 校验、构建、交付物 | ✅ 已装（`~/ws/tools`） |
 | python3 | 覆盖度、术语扫描 | ✅ 系统自带 |
-| Rust + **C 链接器** | dita-tools | ⚠️ Rust 已装，**缺 `build-essential`，无法链接** |
+| Rust + C 链接器 | dita-tools | ✅ 已装（rustup + build-essential），`cargo test` 全过 |
 
 ```bash
 cd kb && sh scripts/review.sh          # 结构校验 + 业务规则 + 覆盖度 + 术语扫描
