@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# 机器兜底：一条命令串全套——RNG 结构校验 + 业务规则 R1–R10 + 维度覆盖度报告。
+# 机器兜底：一条命令串全套——RNG 结构校验 + 业务规则 R1–R10 + 术语扫描。
 # 只用 DITA-OT 自带工具（dita validate + 自带 Saxon + python3），不装额外东西。
 # 有 error 则退出非零，可挡入库 / 接 git hook / CI。
 # 设计见 dita2 cases/kb-redesign/machine-checks-design.md。
@@ -45,12 +45,11 @@ for f in $(find "$KB/topics" -name '*.dita' | sort); do
   fi
 done
 
-echo
-echo "== 2. 维度覆盖度报告（含盲区；R9 域缺全景在此体现）=="
-python3 "$KB/scripts/dimension-coverage.py"
+# 维度覆盖度已归 IA 治理（库的形状，非单篇规则），看 `just ia`；
+# 脚本 dimension-coverage.py 于 2026-08-15 走完吸收五关退役。
 
 echo
-echo "== 3. 术语规整建议（报告版，不阻断入库）=="
+echo "== 2. 术语规整建议（报告版，不阻断入库）=="
 python3 "$KB/scripts/term-normalize.py"
 
 echo

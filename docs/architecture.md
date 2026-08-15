@@ -39,7 +39,7 @@ dita-tools/  执行引擎     产出：校验结果、IA 视图
 |---|---|---|---|
 | R1–R6、R8、R10 | shortdesc、时效标注、核对日期、三个属性值域、来源、quickstart 挂靠 | `scripts/check-rules.xsl`（Saxon） | `dita-tools lint`（实现后 xsl 退役，SSOT 手抄副本随之还清） |
 | R7 | 术语裸字面 → `term keyref` | `scripts/term-normalize.py`（报告版） | `dita-tools lint` |
-| R9 / 维度覆盖度 | 领域全景、盲区统计 | `scripts/dimension-coverage.py` | `dita-tools ia`（**已实现且差分对齐，脚本可第一个退役**） |
+| R9 / 维度覆盖度 | 领域全景、盲区统计 | `dita-tools ia`（脚本已于 2026-08-15 退役） | `dita-tools ia` ✅ |
 | **R11** | **`@dimension` 值合法性** | `dita-tools ia` 已报 error | `dita-tools lint`（归属冲突随终态落定而消） |
 | 结构校验 | RNG shell 一致性 | `dita validate`（DITA-OT） | DITA-OT，不自造 |
 | map 结构 / 孤儿 topic | 引用文件是否存在、topic 是否被引 | `dita-tools ia` | dita-tools |
@@ -82,7 +82,7 @@ R11 的归属之所以两份规划都伸手认领，根子在这条线一直没�
 | 结构校验（RNG）/ 发布 | DITA-OT | 留 DITA-OT，不自造 |
 | 业务规则 lint（R1–R11） | `check-rules.xsl` + `ia` 各持一段 | `dita-tools lint` |
 | 术语扫描（R7） | `term-normalize.py` | `dita-tools lint` |
-| 维度覆盖 | `dimension-coverage.py` | `dita-tools ia`——已实现，**可第一个退役** |
+| 维度覆盖 | ~~`dimension-coverage.py`~~ | ✅ **已吸收（2026-08-15 退役，五关首个先例）**，归 `dita-tools ia` |
 | IA 治理骨架 | `dita-tools ia` | ✅ 已在 |
 | 链接活性 | `link-check.py` | `dita-tools links` |
 | 交付物构建编排 | `build-agent-rules.sh` | `dita-tools build`（包 DITA-OT） |

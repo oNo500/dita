@@ -110,7 +110,7 @@
         <strow><stentry>verified 内容标核对日期 data name="reviewed"</stentry><stentry>R3</stentry></strow>
         <strow><stentry>关键术语用 term keyref</stentry><stentry>R7</stentry></strow>
         <strow><stentry>concept/reference 必有来源</stentry><stentry>R8</stentry></strow>
-        <strow><stentry>建域先全景、quickstart 挂全景</stentry><stentry>R9(脚本)/R10 + 覆盖度</stentry></strow>
+        <strow><stentry>建域先全景、quickstart 挂全景</stentry><stentry>R10 + dita-tools ia（R9 观测与覆盖度）</stentry></strow>
         <strow><stentry>引 map 包 topichead、navtitle 与被引 map 标题一致</stentry><stentry>dita-tools ia 一致性检查</stentry></strow>
       </simpletable>
     </section>

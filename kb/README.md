@@ -49,7 +49,7 @@ Phase 0 盘点 → 1 评审 → 2 骨架 → 3 试点重写 → 4 首个交付�
 - `schema/`：四属性域（maturity/volatility/tool/dimension）+ concept/reference/glossentry 三个 shell
 - `topics/`：22 篇——术语 12 条、写作规则 4 篇、agent 方法论 3 篇、agent-rules-core、DITA 写作总纲、领域全景样板各 1
 - `maps/`：九个领域 map 中 7 个仍是空骨架，只有 ai 与 content-engineering 挂了内容
-- 机器兜底：`scripts/review.sh` 串结构校验 + R1–R10 + 覆盖度 + 术语扫描，当前全过
+- 机器兜底：`scripts/review.sh` 串结构校验 + R1–R10 + 术语扫描（维度覆盖归 `just ia`），当前全过
 - 交付物：`maps/deliverables/agent-rules.ditamap` + `filters/tool-*.ditaval`
 
 下一步 Phase 5 批量重写（前置见 [`phase3-review.md`](../research/cases/kb-redesign/phase3-review.md)）。规划全貌见 [`../research/cases/kb-redesign/`](../research/cases/kb-redesign/README.md)；跨子项目的边界见 [架构与边界](../docs/architecture.md)。
@@ -57,7 +57,7 @@ Phase 0 盘点 → 1 评审 → 2 骨架 → 3 试点重写 → 4 首个交付�
 ## 检查
 
 ```bash
-sh scripts/review.sh                    # 入库前：结构 + 业务规则 R1–R10 + 覆盖度 + 术语
+sh scripts/review.sh                    # 入库前：结构 + 业务规则 R1–R10 + 术语扫描
 python3 scripts/link-check.py           # 定期：外链还活着吗（联网，不并入 review）
 python3 scripts/link-check.py ../research   # 也可查别的目录
 dita-tools ia                           # IA 治理：骨架、空白、盲区、对标到期

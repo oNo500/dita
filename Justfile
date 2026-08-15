@@ -4,7 +4,7 @@
 default:
     @just --list
 
-# kb 治理全套：结构校验 + 业务规则 R1–R10 + 覆盖度 + 术语扫描（入库前跑）
+# kb 治理全套：结构校验 + 业务规则 R1–R10 + 术语扫描（入库前跑；维度覆盖看 just ia）
 review:
     cd kb && sh scripts/review.sh
 
