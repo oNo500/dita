@@ -1,5 +1,4 @@
 use std::{
-    collections::HashSet,
     fs,
     path::{Path, PathBuf},
 };
@@ -8,28 +7,32 @@ use anyhow::Context;
 use dita_ast::{DitaMap, MapNode, MapRef, ProcessingRole, TopicHead, TopicRef};
 use dita_diagnostics::{Diagnostic, DiagnosticBag};
 
-/// Parse a `.ditamap` file, recursively expanding all `<mapref>` elements.
+/// Parse a `.ditamap` file, recursively resolving all `<mapref>` elements.
 /// Returns the resolved map tree and any diagnostics (errors/warnings) collected.
 ///
-/// Corresponds to DITA-OT's `MaprefModule.java` (197 lines) + `mapref.xsl`.
+/// Corresponds to DITA-OT's `MaprefModule.java` (197 lines) + `mapref.xsl`,
+/// with one deliberate difference: referenced maps stay their own nodes instead
+/// of being spliced into the parent (see `MapRef`).
 pub fn parse_map(path: &Path) -> anyhow::Result<(DitaMap, DiagnosticBag)> {
     let mut diag = DiagnosticBag::default();
-    let mut visited = HashSet::new();
-    let map = parse_map_file(path, &mut visited, &mut diag)?;
+    let mut ancestors = Vec::new();
+    let map = parse_map_file(path, &mut ancestors, &mut diag)?;
     Ok((map, diag))
 }
 
 fn parse_map_file(
     path: &Path,
-    visited: &mut HashSet<PathBuf>,
+    ancestors: &mut Vec<PathBuf>,
     diag: &mut DiagnosticBag,
 ) -> anyhow::Result<DitaMap> {
     let canonical = path
         .canonicalize()
         .with_context(|| format!("cannot resolve path: {}", path.display()))?;
 
-    // Circular mapref detection — mirrors DITA-OT's loop prevention logic
-    if !visited.insert(canonical.clone()) {
+    // A cycle is a map that references one of its own ancestors. The same map
+    // reached twice through different parents is a diamond, which DITA permits
+    // — tracking a global visited set would misreport those as cycles.
+    if ancestors.contains(&canonical) {
         diag.push(Diagnostic::error(&canonical, "circular mapref detected"));
         return Ok(DitaMap {
             title: String::new(),
@@ -38,6 +41,7 @@ fn parse_map_file(
             children: vec![],
         });
     }
+    ancestors.push(canonical.clone());
 
     let base = canonical.parent().unwrap_or(Path::new(".")).to_path_buf();
     let xml = fs::read_to_string(&canonical)
@@ -58,7 +62,8 @@ fn parse_map_file(
     let lang = root
         .attribute(("http://www.w3.org/XML/1998/namespace", "lang"))
         .map(str::to_string);
-    let children = collect_children(root, &base, visited, diag);
+    let children = collect_children(root, &base, ancestors, diag);
+    ancestors.pop();
 
     Ok(DitaMap { title, path: canonical, lang, children })
 }
@@ -66,7 +71,7 @@ fn parse_map_file(
 fn collect_children(
     node: roxmltree::Node,
     base: &Path,
-    visited: &mut HashSet<PathBuf>,
+    ancestors: &mut Vec<PathBuf>,
     diag: &mut DiagnosticBag,
 ) -> Vec<MapNode> {
     let mut result = Vec::new();
@@ -85,12 +90,23 @@ fn collect_children(
                 };
                 // resource-only maprefs (e.g. subjectScheme) are recorded but not expanded
                 if role == ProcessingRole::ResourceOnly {
-                    result.push(MapNode::MapRef(MapRef { href, processing_role: role }));
+                    result.push(MapNode::MapRef(MapRef {
+                        href,
+                        processing_role: role,
+                        title: None,
+                        children: vec![],
+                    }));
                     continue;
                 }
-                // Normal maprefs: recursively expand inline
-                match parse_map_file(&href, visited, diag) {
-                    Ok(sub_map) => result.extend(sub_map.children),
+                // Normal maprefs: resolve, but keep the referenced map as its own
+                // node so that an empty one stays visible in the tree
+                match parse_map_file(&href, ancestors, diag) {
+                    Ok(sub_map) => result.push(MapNode::MapRef(MapRef {
+                        href,
+                        processing_role: role,
+                        title: Some(sub_map.title).filter(|t| !t.is_empty()),
+                        children: sub_map.children,
+                    })),
                     Err(e) => diag.push(Diagnostic::error(&href, e.to_string())),
                 }
             }
@@ -110,7 +126,7 @@ fn collect_children(
             "topichead" => {
                 let nav_title = extract_nav_title(&child)
                     .unwrap_or_else(|| "(unnamed)".to_string());
-                let children = collect_children(child, base, visited, diag);
+                let children = collect_children(child, base, ancestors, diag);
                 result.push(MapNode::TopicHead(TopicHead { nav_title, children }));
             }
             "title" => {} // already captured at map level

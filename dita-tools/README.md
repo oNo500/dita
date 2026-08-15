@@ -6,7 +6,7 @@
 
 > **边界**：本工具是三层链条的执行层——上游 [`docs/`](../docs/README.md) 定规则、[`kb/`](../kb/README.md) 定合法值与内容，本工具只负责把规则跑起来，**不自带值集、不重新定义规则语义**。契约与规则归属见 [架构与边界](../docs/架构与边界.md)。
 >
-> **当前状态**：`dita-tools ia` 已可用；尚无 topic 解析器，因此读不到 `@dimension`/`@maturity`，还接不上业务规则。本机缺 C 链接器，暂时编译不了。
+> **当前状态**：`dita-tools ia` 已可用（2026-08-15 在 kb 上实测，`cargo test` 全过）；尚无 topic 解析器，因此读不到 `@dimension`/`@maturity`，还接不上业务规则。
 
 ## 为什么做这个
 
@@ -18,43 +18,59 @@
 
 ```bash
 # 编译
-cargo build -p dita-tools
+cargo build
 
-# IA 全景——展示知识树、孤儿 Topic、诊断信息
+# IA 全景——知识树、空领域、孤儿 Topic、诊断
 ./target/debug/dita-tools ia \
   --map /path/to/maps/root.ditamap \
-  --topics /path/to/topics/
+  --topics /path/to/topics
 
-# 在 kb 仓库根目录下直接运行（使用默认路径）
+# 在 kb 仓库根目录下直接运行（默认 --map maps/root.ditamap --topics topics --maps-dir maps）
 dita-tools ia
 ```
 
-**实际输出示例（`kb` 仓库）：**
+| 参数 | 默认 | 作用 |
+|---|---|---|
+| `--map` | `maps/root.ditamap` | 要渲染成树的 map，可重复 |
+| `--topics` | `topics` | topic 根目录，孤儿检测的扫描范围 |
+| `--maps-dir` | `maps` | 判定孤儿时**参考的全部 map**——交付物 map 引用的 topic 不算孤儿 |
+| `--root-only` | 关 | 只按 `--map` 判定孤儿，忽略 `--maps-dir` |
+
+**实际输出（`kb` 仓库）：**
 
 ```
 == 知识树（IA 视角）==
 
 知识体系 (root)
-├── [3]  AI
-│   ├── ✓ agent-rule-loading.dita
-│   ├── ✓ agent-skill-orchestration.dita
-│   └── ✓ agent-context-verification.dita
-├── [4]  知识工程
-│   └── [4]  写作规则
-│       ├── ✓ writing-atomicity.dita
-│       ├── ✓ writing-typing.dita
-│       ├── ✓ writing-sourcing.dita
-│       └── ✓ writing-llm-friendly.dita
-├── ✓ term-context-engineering.dita
-└── ...（术语库 12 项）
+├── ◦ subjectScheme.ditamap（resource-only，不进导航）
+├── [空] 语言本体
+├── [空] Web 技术栈
+├── [空] 数据存储
+├── [空] 网络协议
+├── [空] 安全
+├── [3] AI
+│   └── [3] AI
+│       ├── ✓ agent-rule-loading.dita
+│       └── ...
+├── [空] 工程化
+├── [空] 基础
+├── [4] 知识工程
+│   └── [4] 知识工程
+│       └── [4] 写作规则
+│           └── ...
+└── [12] 术语库
+    └── ...
 
-⚠  孤儿 Topic（未被任何 Map 引用，共 3 个）：
-   topics/engineering/agent-rules-core.dita
-   topics/engineering/dita-authoring-guide.dita
-   topics/web/electron-landscape.dita
-
-✓  无诊断错误
+── 孤儿判定：参考了 12 个 map ──
+⚠  孤儿 Topic（未被任何 map 引用，共 1 个）：
+   web/electron-landscape.dita
 ```
+
+**看这份输出该注意什么：**
+
+- `[空]` 是这个工具存在的理由——九个领域里七个是空的，这件事在 DITA-OT 的任何输出里都看不到（空 map 不产出页面）。
+- 树里 `AI → AI`、`知识工程 → 知识工程` 的重复层级不是 bug，是 `root.ditamap` 里 `topichead` 包了一层同名的 `mapref`。工具照实显示源结构；要消掉得改 kb 的 map，不是改工具。
+- 孤儿判定默认参考 `maps/` 下**全部** map。若只按根 map 判，`agent-rules-core` 这类只挂在交付物 map 上的 topic 会被误报成孤儿。
 
 ## 开发
 
@@ -75,7 +91,7 @@ dita-tools/
 ├── crates/
 │   ├── dita_ast/          # 核心 AST 类型：DitaMap、TopicRef、MapRef、TopicHead
 │   ├── dita_diagnostics/  # 错误/警告报告
-│   ├── dita_parser/       # XML → AST 解析器，递归展开 mapref，循环引用检测
+│   ├── dita_parser/       # XML → AST 解析器，递归解析 mapref（保留为节点），环检测
 │   └── dita_ia/           # IA 视图：知识树 + 孤儿 Topic 检测
 └── apps/
     └── dita_cli/          # `dita-tools` 二进制（clap CLI）
@@ -101,7 +117,7 @@ dita_cli（clap）
 
 DITA-OT 仍然是**发布引擎**——最终输出 HTML/PDF 时作为黑盒命令行调用。本项目负责 DITA-OT 不提供的**创作与分析层**。
 
-`dita_parser` 的 mapref 展开逻辑参照 DITA-OT 的 `MaprefModule.java`（197 行），并遵循同样的处理顺序：
+`dita_parser` 的 mapref 解析逻辑参照 DITA-OT 的 `MaprefModule.java`（197 行），并遵循同样的处理顺序（一处刻意的差异：被引 map 保留为自己的节点，不并入父级，否则空领域会消失）：
 
 ```
 Mapref 展开 → Key Space 构建 → DITAVAL 过滤 → Conref 展开 → Topicpull

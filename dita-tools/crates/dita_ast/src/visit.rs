@@ -4,7 +4,7 @@ use crate::{DitaMap, MapNode, MapRef, TopicHead, TopicRef};
 ///
 /// Override only the methods you care about. The default implementations
 /// call the corresponding `walk_*` function to keep recursing into children.
-/// Leaf nodes (`TopicRef`, `MapRef`) do nothing by default — no children to walk.
+/// `TopicRef` is the only leaf — it has no children to walk.
 ///
 /// # Example
 ///
@@ -34,8 +34,8 @@ pub trait Visit: Sized {
     fn visit_topic_ref(&mut self, _node: &TopicRef) {
         // leaf — nothing to walk into
     }
-    fn visit_map_ref(&mut self, _node: &MapRef) {
-        // leaf — nothing to walk into
+    fn visit_map_ref(&mut self, node: &MapRef) {
+        walk_map_ref(self, node);
     }
     fn visit_topic_head(&mut self, node: &TopicHead) {
         walk_topic_head(self, node);
@@ -57,6 +57,12 @@ pub fn walk_map_node<V: Visit>(v: &mut V, node: &MapNode) {
         MapNode::TopicRef(n) => v.visit_topic_ref(n),
         MapNode::MapRef(n) => v.visit_map_ref(n),
         MapNode::TopicHead(n) => v.visit_topic_head(n),
+    }
+}
+
+pub fn walk_map_ref<V: Visit>(v: &mut V, map_ref: &MapRef) {
+    for child in &map_ref.children {
+        v.visit_map_node(child);
     }
 }
 
