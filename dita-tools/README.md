@@ -6,7 +6,7 @@
 
 > **边界**：本工具是三层链条的执行层——上游 [`docs/`](../docs/README.md) 定规则、[`kb/`](../kb/README.md) 定合法值与内容，本工具只负责把规则跑起来，**不自带值集、不重新定义规则语义**。契约与规则归属见 [架构与边界](../docs/架构与边界.md)。
 >
-> **当前状态**：`dita-tools ia` 已可用（2026-08-15 在 kb 上实测，`cargo test` 全过）；尚无 topic 解析器，因此读不到 `@dimension`/`@maturity`，还接不上业务规则。
+> **当前状态**（2026-08-15，均在 kb 上实测）：`dita-tools ia` 可出知识树、按分支概览、维度覆盖与盲区、孤儿与诊断。map 与 topic 两层解析器都在，受控值直接读 `subjectScheme`。未做：Keyref / Conref 等预处理，以及页面渲染。
 
 ## 为什么做这个
 
@@ -39,6 +39,7 @@ cargo build
 | `--topics` | `topics` | topic 根目录，孤儿检测的扫描范围 |
 | `--maps-dir` | `maps` | 判定孤儿时**参考的全部 map**——交付物 map 引用的 topic 不算孤儿 |
 | `--root-only` | 关 | 只按 `--map` 判定孤儿，忽略 `--maps-dir` |
+| `--vocab` | `vocab/subjectScheme.ditamap` | 受控值来源。读不到就**跳过值检查并说明**，绝不猜一份合法值清单 |
 
 **实际输出（`kb` 仓库）：**
 
@@ -48,33 +49,40 @@ cargo build
 知识体系 (root)
 ├── ◦ subjectScheme.ditamap（resource-only，不进导航）
 ├── [空] 语言本体
-├── [空] Web 技术栈
-├── [空] 数据存储
-├── [空] 网络协议
-├── [空] 安全
+├── [1] Web 技术栈
+│   └── ✓ electron-landscape.dita
+├── [空] 数据存储 ... [空] 网络协议 ... [空] 安全
 ├── [3] AI
-│   └── [3] AI
-│       ├── ✓ agent-rule-loading.dita
-│       └── ...
-├── [空] 工程化
-├── [空] 基础
+│   ├── ✓ agent-rule-loading.dita
+│   └── ...
+├── [空] 工程化 ... [空] 基础
 ├── [4] 知识工程
-│   └── [4] 知识工程
-│       └── [4] 写作规则
-│           └── ...
+│   └── [4] 写作规则
+│       └── ...
 └── [12] 术语库
     └── ...
 
+── 按分支 ──
+  AI          3 篇   类型 concept 3   成熟度 curated 3   时效 stable 2 / volatile 1   · 无全景
+  Web 技术栈  1 篇   类型 concept 1   成熟度 draft 1   时效 volatile 1
+  基础       空
+  ...
+  （另有 2 篇不属任何分支——只被交付物 map 引用）
+
+── 维度覆盖（按技术域，取自各 topic 声明的 domain）──
+  域 electron：0/10（0%），1 篇，位于 Web 技术栈
+     盲区（10）：dim-comparison dim-concept dim-ecosystem ...
+
 ── 孤儿判定：参考了 12 个 map ──
-⚠  孤儿 Topic（未被任何 map 引用，共 1 个）：
-   web/electron-landscape.dita
+✓  无孤儿 Topic
 ```
 
 **看这份输出该注意什么：**
 
-- `[空]` 是这个工具存在的理由——九个领域里七个是空的，这件事在 DITA-OT 的任何输出里都看不到（空 map 不产出页面）。
-- 树里 `AI → AI`、`知识工程 → 知识工程` 的重复层级不是 bug，是 `root.ditamap` 里 `topichead` 包了一层同名的 `mapref`。工具照实显示源结构；要消掉得改 kb 的 map，不是改工具。
+- `[空]` 与「按分支」是这个工具存在的理由——九个分支里七个是空的、三个有内容的没有全景、唯一一篇 Web 内容还是 draft。这些在 DITA-OT 的任何产物里都看不到（空 map 不产出页面）。
+- **两种"域"不是一回事**：「按分支」用的是 map 结构推出的分支（`web`），「维度覆盖」用的是 topic 自己声明的技术域（`electron`）。`planned-dimension` 按技术域声明，一个分支下可以有多个技术域，按分支合并算覆盖度会把多份规划混成一份。
 - 孤儿判定默认参考 `maps/` 下**全部** map。若只按根 map 判，`agent-rules-core` 这类只挂在交付物 map 上的 topic 会被误报成孤儿。
+- 「无全景」是标注不是告警：术语库这类纯组织分支本就不该有全景。
 
 ## 开发
 
@@ -93,10 +101,11 @@ just ready    # fmt + lint + test，提交前运行
 ```
 dita-tools/
 ├── crates/
-│   ├── dita_ast/          # 核心 AST 类型：DitaMap、TopicRef、MapRef、TopicHead
+│   ├── dita_ast/          # 核心 AST 类型：DitaMap、TopicRef、MapRef、TopicHead、TopicMeta
 │   ├── dita_diagnostics/  # 错误/警告报告
-│   ├── dita_parser/       # XML → AST 解析器，递归解析 mapref（保留为节点），环检测
-│   └── dita_ia/           # IA 视图：知识树 + 孤儿 Topic 检测
+│   ├── dita_parser/       # XML → AST：map（保留 mapref 为节点、环检测）与 topic（元数据）
+│   ├── dita_vocab/        # 读 subjectScheme：受控值的唯一来源，Rust 里不内联任何值集
+│   └── dita_ia/           # IA 视图：知识树、分支统计、维度覆盖、孤儿、一致性检查
 └── apps/
     └── dita_cli/          # `dita-tools` 二进制（clap CLI）
 ```
@@ -106,13 +115,13 @@ dita-tools/
 ### Crate 依赖图
 
 ```
-dita_ast  ←────────────────────────┐
-    ↑                              │
-dita_diagnostics                   │
-    ↑                              │
-dita_parser（roxmltree）            │
-    ↑                              │
-dita_ia ───────────────────────────┘
+dita_ast  ←──────────────────────────┐
+    ↑                                │
+dita_diagnostics ←───────────────┐   │
+    ↑                            │   │
+dita_parser（roxmltree）   dita_vocab │
+    ↑                            ↑   │
+dita_ia ─────────────────────────┴───┘
     ↑
 dita_cli（clap）
 ```
@@ -129,16 +138,25 @@ Mapref 展开 → Key Space 构建 → DITAVAL 过滤 → Conref 展开 → Topi
 
 ## 路线图
 
-| 阶段 | Crate | 内容 | 参考 |
-|---|---|---|---|
-| ✅ Phase 1 | `dita_ia` | IA 全景：知识树 + 孤儿 Topic | — |
-| Phase 2 | `dita_validate` | @dimension 枚举值校验（R11） | `check-rules.xsl` 的 Rust 替代 |
-| Phase 3 | `dita_preprocess` | Keyref / Key Space 引擎 | `KeyrefModule.java`（~3600 行）|
-| Phase 4 | `dita_preprocess` | Conref 展开 | `conrefImpl.xsl`（~1500 行 XSLT）|
-| Phase 5 | `napi/` | Node.js 绑定（napi-rs） | OXC napi 层 |
-| Phase 6 | `wasm/` | 浏览器端实时解析 | OXC playground 架构 |
+2026-08-15 按「IA 视角优先」重排（原路线把 IA 当作已完成、直奔预处理引擎）。理由见
+[架构与边界](../docs/架构与边界.md) §八。
 
-完整实现计划见 [`docs/plans/2026-08-12-dita-tools-architecture.md`](docs/plans/2026-08-12-dita-tools-architecture.md)。
+| 阶段 | 内容 | 状态 |
+|---|---|---|
+| map 层 IA | 知识树、空分支、孤儿、诊断 | ✅ |
+| topic 解析 + 词表 | `TopicMeta` 生产者、受控值直读 `subjectScheme` | ✅ |
+| IA 深化 | 按分支统计、维度覆盖与盲区、非法值检测 | ✅ |
+| `--format json` | 供页面渲染与 `kb/scripts/` 消费 | 可选，未做 |
+| 页面渲染 | 使用者 / 作者视角 | 未做，与 `kb/scripts/preview.sh` 的分工待定 |
+| Key Space / Keyref | `KeyrefModule.java` ~3600 行 | 顺延 |
+| Conref 展开 | `conrefImpl.xsl` ~1500 行 XSLT | 顺延 |
+| napi / Wasm | 有 Web 编辑器需求时再说 | 顺延 |
+
+R11（`@dimension` 枚举校验）的**能力**已具备（IA 视图会报非法值），但它是否取代
+`check-rules.xsl` 属治理决策，仍是[架构与边界](../docs/架构与边界.md)的待定项。
+
+实现计划：[topic 解析器与 IA 深化](docs/plans/2026-08-15-topic-parser-and-ia-depth.md)、
+[总架构（含规格更正）](docs/plans/2026-08-12-dita-tools-architecture.md)。
 
 ## 测试
 
