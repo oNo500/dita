@@ -5,6 +5,9 @@
 <concept id="writing-atomicity" xml:lang="zh-CN" maturity="curated" volatility="stable" dimension="dim-criteria">
   <title>准入测试：一篇内容能否进库</title>
   <shortdesc>内容进入知识库前必须过两道判据——自足性与可归型；两者都不过的是噪音，不进。</shortdesc>
+  <prolog>
+    <data name="domain" value="writing-principles"/>
+  </prolog>
   <conbody>
     <p>三年后你搜到自己写的一条笔记，第一句是"所以还是得手动改一下"。改什么？在哪改？为什么？——你不记得了，这条笔记等于没写过。它当初写下来是有用的，因为当时那个语境还在你脑子里；语境一散，它就成了占位置的噪音。</p>
     <p>知识库的价值不在收得多，在每一篇都用得上。旧库失守就失守在这里：什么都往里放，几百篇之后分不清哪些是高价值、哪些是 slop、哪些是上面那种残句。准入测试把"要不要收"从模糊感觉变成两条可判定的判据——判据的意义是，拿不准的时候有个东西替你决定，而不是靠当时心情。</p>

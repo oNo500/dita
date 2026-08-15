@@ -111,9 +111,9 @@ fn branch_stats_break_topics_down_by_type_and_maturity() {
         .iter()
         .find(|b| b.name == "演示分支")
         .expect("demo branch");
-    assert_eq!(demo.topics, 3);
-    assert_eq!(demo.by_type.get("concept"), Some(&3));
-    assert_eq!(demo.by_maturity.get("curated"), Some(&2));
+    assert_eq!(demo.topics, 4);
+    assert_eq!(demo.by_type.get("concept"), Some(&4));
+    assert_eq!(demo.by_maturity.get("curated"), Some(&3));
 }
 
 #[test]
@@ -123,7 +123,7 @@ fn plan_matches_branches_by_map_file_name() {
     let report = report();
     let demo = report.plans.iter().find(|p| p.key == "demo").expect("demo plan");
     assert_eq!(demo.matched_branch.as_deref(), Some("演示分支"));
-    assert_eq!(demo.built, 3);
+    assert_eq!(demo.built, 4);
     assert_eq!(demo.planned.len(), 2, "direct sub-topics");
     assert_eq!(demo.planned_total, 3, "including the nested one");
 }
@@ -162,7 +162,7 @@ fn unused_controlled_values_are_listed() {
         .iter()
         .find(|u| u.attribute == "maturity")
         .expect("maturity usage");
-    assert_eq!(maturity.used.get("curated"), Some(&2));
+    assert_eq!(maturity.used.get("curated"), Some(&3));
     assert!(
         maturity.unused.contains("draft"),
         "a value the vocabulary defines but no topic uses must show up"
@@ -201,7 +201,7 @@ fn topics_without_a_domain_land_in_the_unplaced_bucket() {
     // largest structural gap in the library
     let report = report();
     let demo = node(&report.skeleton, "demo");
-    assert!(demo.topics.len() + demo.unplaced.len() == 3);
+    assert_eq!(demo.topics.len() + demo.unplaced.len(), 4);
 }
 
 #[test]
@@ -220,4 +220,27 @@ fn branch_without_a_vocabulary_key_is_not_applicable_not_unbuilt() {
 fn an_empty_planned_branch_stays_unbuilt() {
     let report = report();
     assert_eq!(node(&report.skeleton, "empty").state, dita_ia::State::Unbuilt);
+}
+
+
+#[test]
+fn a_typo_in_domain_falls_into_the_bucket_and_errors() {
+    // the failure mode this guards: "declared anything" counted as placed, so a
+    // typo'd domain hung nowhere and the topic vanished from the skeleton —
+    // worse than undeclared, which at least stays visible in the bucket
+    let report = report();
+    let demo = node(&report.skeleton, "demo");
+    assert!(
+        demo.unplaced.iter().any(|n| n == "bogus-domain.dita"),
+        "typo'd domain must stay visible in the unplaced bucket: {:?}",
+        demo.unplaced
+    );
+    assert!(
+        report
+            .diagnostics
+            .items
+            .iter()
+            .any(|d| d.is_error() && d.message().contains("not-a-subject-key")),
+        "and be reported as an error naming the bogus value"
+    );
 }

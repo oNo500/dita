@@ -3,6 +3,9 @@
 <concept id="writing-llm-friendly" xml:lang="zh-CN" maturity="curated" volatility="stable" dimension="dim-criteria dim-retrieval">
   <title>LLM 友好写作：为检索与复用而写</title>
   <shortdesc>写成自足、语义完整、带摘要的块，让内容既能被人查、也能被检索器和 agent 直接取用。</shortdesc>
+  <prolog>
+    <data name="domain" value="llm-friendly"/>
+  </prolog>
   <conbody>
     <p>检索系统不会整篇读你的内容。它把内容切成块、嵌入、按相似度取回其中几块塞给模型——模型看到的从来不是"你写的那篇"，而是<b>从中间截出来的一段</b>。所以为检索而写，本质上是在问一个问题：这段话被单独截出来放到别处，还站得住吗？</p>
     <p>好消息是这个问题的答案和"对人清晰"的答案是同一个。两者要的都是自足的语义单元，不需要为机器另写一套。</p>

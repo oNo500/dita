@@ -3,6 +3,9 @@
 <concept id="writing-typing" xml:lang="zh-CN" maturity="curated" volatility="stable" dimension="dim-classification">
   <title>类型化写作：先判类型，再动笔</title>
   <shortdesc>动笔前先确定这块内容是哪一类，一篇只写一类；类型服务于自足性，不是为分类而分类。</shortdesc>
+  <prolog>
+    <data name="domain" value="doc-types"/>
+  </prolog>
   <conbody>
     <p>一篇没定类型就动笔的内容，写着写着会变成这样：先讲了两段原理，中间插进四条命令，末尾又补了三个"如果报错就……"。读的人想查命令，得先跳过原理；想理解原理，又被命令打断。谁都没被服务好。</p>
     <p>类型化的收益是结构可预测：同一类内容形状一致，才能被统一地检索、复用、喂给工具。但它更直接的作用是对作者的强制——动笔前先答一句"我这是在讲原理，还是在写步骤"，上面那种混装从源头就不会发生。</p>

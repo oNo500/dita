@@ -98,10 +98,17 @@ pub fn domain_coverage(branches: &Branches, topics: &[TopicMeta]) -> Vec<DomainC
         // Python implementation
         let Some(domain) = &meta.domain else { continue };
         *counts.entry(domain.clone()).or_default() += 1;
-        planned
-            .entry(domain.clone())
-            .or_default()
-            .extend(meta.planned_dimensions.iter().cloned());
+        // a planned entry exists only when a landscape declared dimensions —
+        // matching the Python implementation, which reports coverage only for
+        // domains that have a plan. Creating an empty entry for every declared
+        // domain made nodes without a landscape read "全景 0/0", which claims a
+        // landscape exists when none does.
+        if !meta.planned_dimensions.is_empty() {
+            planned
+                .entry(domain.clone())
+                .or_default()
+                .extend(meta.planned_dimensions.iter().cloned());
+        }
         covered
             .entry(domain.clone())
             .or_default()

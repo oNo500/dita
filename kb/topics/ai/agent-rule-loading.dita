@@ -5,6 +5,9 @@
 <concept id="agent-rule-loading" xml:lang="zh-CN" maturity="curated" volatility="volatile" dimension="dim-mechanism dim-decision">
   <title>agent 规则的三层加载判据</title>
   <shortdesc>规则按"为什么被加载"分三层——无条件常驻、按路径匹配、按意图语义触发；给一条内容选层（按意图层装的是 skill，不是规则），先判 glob 能否表达它的真实触发条件，再看内容体量。</shortdesc>
+  <prolog>
+    <data name="domain" value="coding-agents"/>
+  </prolog>
   <conbody>
     <p>规则文件是这样长胖的：先写三条原则，接着补一段 TypeScript 约定，然后是目录结构、命名、提交格式、测试放哪……每条单看都该写。半年后它八百行，每次会话开头无条件全量载入，而其中当天用得上的可能只有两条。</p>
     <p>问题不在这些内容不该存在，在于它们<b>被混在了同一层</b>。组织 agent 规则的第一刀，不是按"内容是什么"分（前端规则 / 后端规则 / 通用规则），而是按"它为什么进入上下文"分。分对了层，八百行里的绝大部分就不必常驻了。</p>

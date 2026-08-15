@@ -171,7 +171,21 @@ pub fn build_report(
 /// Check tagged values against the subject scheme — the vocabulary is the only
 /// source of legal values, so this is the one place that knows them.
 fn check_values(vocab: &dita_vocab::Vocabulary, topics: &[TopicMeta], diag: &mut DiagnosticBag) {
+    // domain must name a subject key — it is the only link from a topic to the
+    // taxonomy, and a typo silently detaches the topic from the skeleton
+    let subject_keys = vocab
+        .subject("subject")
+        .map(dita_vocab::Subject::all_keys)
+        .unwrap_or_default();
     for meta in topics {
+        if let Some(domain) = &meta.domain {
+            if !subject_keys.is_empty() && !subject_keys.contains(domain) {
+                diag.push(Diagnostic::error(
+                    &meta.path,
+                    format!("domain 值 \"{domain}\" 不是词表主题键"),
+                ));
+            }
+        }
         if let Some(legal) = vocab.legal_values("dimension") {
             for value in &meta.dimensions {
                 if !legal.contains(value) {

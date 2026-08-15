@@ -3,6 +3,9 @@
 <concept id="writing-sourcing" xml:lang="zh-CN" maturity="curated" volatility="stable" dimension="dim-criteria dim-governance">
   <title>来源与成熟度：让"可信到什么程度"可见</title>
   <shortdesc>每篇内容显式标注成熟度与时效；verified 必须有已核对的来源和日期，volatile 内容无日期不得升为 verified。</shortdesc>
+  <prolog>
+    <data name="domain" value="writing-principles"/>
+  </prolog>
   <conbody>
     <p>你翻到一篇自己写的配置笔记，照着做，失败了。查了半天才发现：那个参数两个版本前就改名了。笔记没有错——它写的时候是对的，只是没有任何地方记着"它写于什么时候、依据是什么、还作不作数"。</p>
     <p>这是旧库最痛的一点：<b>分不清哪些还能信、哪些已过时</b>，于是每一篇都要重新验一遍，等于每一篇都不能直接用。成熟度和时效两个维度就是来治它的——把"可信到什么程度"从读者的猜测变成内容自带的标注，再用规则强制，让过期内容自动失去"可信"资格，而不是靠人记得它旧了。</p>

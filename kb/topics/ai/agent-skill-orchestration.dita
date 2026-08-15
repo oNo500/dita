@@ -5,6 +5,9 @@
 <concept id="agent-skill-orchestration" xml:lang="zh-CN" maturity="curated" volatility="stable" dimension="dim-agent-orchestration dim-decision">
   <title>skill 编排：skill 之间的衔接</title>
   <shortdesc>加载分层解决"单个 skill 何时进上下文"，但不解决 skill 之间的顺序与交接；编排有两种落法——写进 skill 正文，或独立成一个编排物。</shortdesc>
+  <prolog>
+    <data name="domain" value="coding-agents"/>
+  </prolog>
   <conbody>
     <p>你有一个"头脑风暴"skill 和一个"写实施计划"skill，各自都好用。但它们之间有个默认的先后：风暴出方案，计划把选中的方案落成步骤。这层顺序写在哪？两个 skill 的描述里都不该写——描述是给触发用的，不是给排流程用的。</p>
     <p>加载分层（见 <xref href="agent-rule-loading.dita">agent 规则的三层加载判据</xref>）回答的是"单个 skill 何时进上下文"，它管不了 skill 之间的顺序与交接。编排就是补这一层的：分层管<b>进不进来</b>，编排管<b>进来之后按什么次序接力</b>。</p>

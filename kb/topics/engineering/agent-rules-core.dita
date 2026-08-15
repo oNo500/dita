@@ -13,6 +13,7 @@
   <prolog>
     <source href="https://www.conventionalcommits.org/en/v1.0.0/" scope="external"
             format="html">Conventional Commits 1.0.0 —— commit 规范一条的来源：约定 <![CDATA[<type>[optional scope]: <description>]]> 结构，配合语义化版本。</source>
+    <data name="domain" value="coding-practices"/>
   </prolog>
   <conbody>
     <section>

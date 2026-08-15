@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<concept id="bogus" maturity="curated" volatility="stable">
+  <title>domain 填了不存在的键</title>
+  <prolog><data name="domain" value="not-a-subject-key"/></prolog>
+  <conbody/>
+</concept>

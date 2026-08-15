@@ -5,6 +5,9 @@
 <concept id="agent-context-verification" xml:lang="zh-CN" maturity="curated" volatility="stable" dimension="dim-method dim-mechanism">
   <title>做事链与查证链：agent coding 的两条并行链</title>
   <shortdesc>做事与查证是两条并行的链——规则和 skill 管"怎么做"，文档链管"事实是什么"；排成一条优先级会绕路，查 API 时先翻 skill 是浪费。</shortdesc>
+  <prolog>
+    <data name="domain" value="coding-agents"/>
+  </prolog>
   <conbody>
     <p>agent 写代码卡住，通常是两种卡法。一种是"这个库的这个方法到底收什么参数"——它需要的是<b>事实</b>。另一种是"这个项目里新增一个模块该放哪、要不要写测试"——它需要的是<b>你的约定</b>。</p>
     <p>这两种需求走的是两条<b>并行</b>的链，不是一条有先后的链。把它们排成一条优先级，就会出现这种绕路：agent 要查一个 API 签名，却先去翻了三个 skill 的描述，确认都不相关，才想起来该去查文档。规则和 skill 管"怎么做"，文档链管"事实是什么"，两条各走各的。</p>

@@ -98,13 +98,14 @@ pub fn build(input: &Input) -> Vec<Node> {
     let coverage: BTreeMap<&str, &DomainCoverage> =
         input.coverage.iter().map(|c| (c.domain.as_str(), c)).collect();
 
+    let valid_keys: BTreeSet<String> = subject.all_keys().into_iter().collect();
     let mut nodes: Vec<Node> = subject
         .children
         .iter()
         .map(|branch| {
             let mut node = build_node(branch, &by_domain, &coverage);
             node.benchmark = input.benchmarks.get(&branch.keys).cloned();
-            attach_unplaced(&mut node, branch, input);
+            attach_unplaced(&mut node, branch, input, &valid_keys);
             recompute_state(&mut node);
             node
         })
@@ -176,14 +177,18 @@ fn build_node(
 /// declaration the vocabulary tree has no idea where it belongs. Bucketing them
 /// visibly is the point — it is currently the largest structural gap in the
 /// library, and hiding it would hide exactly what this view exists to show.
-fn attach_unplaced(node: &mut Node, subject: &Subject, input: &Input) {
+fn attach_unplaced(node: &mut Node, subject: &Subject, input: &Input, valid_keys: &BTreeSet<String>) {
     let Some((label, paths)) = branch_topics(subject, input) else {
         return;
     };
+    // Placed means the declared domain actually names a subject key. A typo'd
+    // domain must fall back into this bucket: treating "declared anything" as
+    // placed makes the topic hang nowhere and vanish from the skeleton — worse
+    // than undeclared, which at least stays visible here.
     let placed: BTreeSet<&str> = input
         .topics
         .iter()
-        .filter(|t| t.domain.is_some())
+        .filter(|t| t.domain.as_ref().is_some_and(|d| valid_keys.contains(d)))
         .map(|t| t.path.to_str().unwrap_or_default())
         .collect();
     node.label.get_or_insert(label);
