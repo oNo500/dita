@@ -86,6 +86,17 @@
     </section>
 
     <section>
+      <title>组9 改 map 结构（引 map 必须包 topichead）</title>
+      <p><b>规范定义的 <xmlelement>mapref</xmlelement> 处理是：被引 map 的层级并入容器 map，被引 map 的 <xmlelement>title</xmlelement> 不产生导航节点。</b>所以裸写 <codeph>&lt;mapref href="domains/web.ditamap"/&gt;</codeph> 会让该域的 topic 直接摊到上一层，"Web 技术栈"这个名字在产物里消失。</p>
+      <ul>
+        <li>在 <filepath>maps/root.ditamap</filepath> 引任何领域 map / 术语库 map，<b>一律包一层 <xmlelement>topichead</xmlelement></b>，其 <xmlelement>navtitle</xmlelement> 与被引 map 的 <xmlelement>title</xmlelement> <b>逐字一致</b>。</li>
+        <li>该分支若已有真实落地 topic，改用指向它的 <xmlelement>topicref</xmlelement> 更好——分组节点从空壳变成真实页面，且不再有标题副本。</li>
+        <li>别把 <xmlelement>topicgroup</xmlelement> 当替代：它只做分组，自身不进导航，救不了这个问题。</li>
+      </ul>
+      <p>标题副本由 <cmdname>dita-tools ia</cmdname> 的一致性检查兜住（navtitle 与被引 map 标题不符即报警），但事前写对就不会触发它。</p>
+    </section>
+
+    <section>
       <title>规则与机器兜底的对应（两条腿咬合）</title>
       <p>本集每条对应 <cmdname>review.sh</cmdname> 的一条检查，事前照做＝事后必过：</p>
       <simpletable relcolwidth="3* 1*">
@@ -96,6 +107,7 @@
         <strow><stentry>关键术语用 term keyref</stentry><stentry>R7</stentry></strow>
         <strow><stentry>concept/reference 必有来源</stentry><stentry>R8</stentry></strow>
         <strow><stentry>建域先全景、quickstart 挂全景</stentry><stentry>R9(脚本)/R10 + 覆盖度</stentry></strow>
+        <strow><stentry>引 map 包 topichead、navtitle 与被引 map 标题一致</stentry><stentry>dita-tools ia 一致性检查</stentry></strow>
       </simpletable>
     </section>
   </conbody>
