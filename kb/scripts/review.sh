@@ -7,8 +7,18 @@ set -u
 KB="$(cd "$(dirname "$0")/.." && pwd)"
 XSL="$KB/scripts/check-rules.xsl"
 
-# 探测 DITA-OT 自带 Saxon 及其依赖 jar（lib/*），不硬编码版本
-SAXON_JAR="$(find /opt/homebrew/Cellar/dita-ot -name 'Saxon-HE-*.jar' 2>/dev/null | head -1)"
+# 探测 DITA-OT 自带 Saxon 及其依赖 jar（lib/*），不硬编码版本与安装位置。
+# 顺序：显式 DITA_HOME → dita 可执行文件所在目录反推 → 常见安装路径（Linux 用户态 / macOS homebrew）。
+if [ -z "${DITA_HOME:-}" ]; then
+  DITA_BIN="$(command -v dita 2>/dev/null || true)"
+  if [ -n "$DITA_BIN" ]; then
+    # dita 可能是包装器或软链，逐层解到真身再取上级目录
+    while [ -L "$DITA_BIN" ]; do DITA_BIN="$(readlink -f "$DITA_BIN")"; done
+    DITA_HOME="$(dirname "$(dirname "$DITA_BIN")")"
+  fi
+fi
+SEARCH_DIRS="${DITA_HOME:-} $HOME/ws/tools/dita-ot-* /opt/dita-ot-* /opt/homebrew/Cellar/dita-ot /usr/local/Cellar/dita-ot"
+SAXON_JAR="$(find $SEARCH_DIRS -name 'Saxon-HE-*.jar' 2>/dev/null | head -1)"
 if [ -z "$SAXON_JAR" ]; then
   echo "找不到 DITA-OT 自带 Saxon，业务规则检查跳过（改这里的探测路径）。" >&2
   CP=""

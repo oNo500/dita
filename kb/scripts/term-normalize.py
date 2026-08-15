@@ -38,17 +38,31 @@ def build_alias_map(gloss_dir):
     return aliases
 
 
+# 这些元素内的文本是"标记语境"而非行文：路径、代码、元素/属性名、命令、链接文字。
+# 术语 keyref 属于行文，塞进这些地方是错的（<filepath>.codex/</filepath> 不该改成术语引用，
+# 引文标题 <xref>Claude Code, ...</xref> 也不该）。扫描时整体跳过。
+SKIP_TAGS = {
+    'term', 'keyword',
+    'filepath', 'codeph', 'codeblock', 'cmdname', 'varname', 'userinput',
+    'systemoutput', 'msgph', 'msgnum', 'apiname', 'option', 'parmname', 'synph',
+    'xmlelement', 'xmlatt', 'xmlnsname', 'xmlpi', 'markupname',
+    'uicontrol', 'wintitle', 'menucascade', 'shortcut',
+    'xref', 'linktext', 'draft-comment',
+}
+
+
 def text_outside_terms(root):
-    """收集不在 <term> 元素内的文本片段。"""
+    """收集行文文本片段——跳过 SKIP_TAGS 及其子树（标记语境不是行文）。"""
     chunks = []
 
-    def walk(el, in_term):
-        it = in_term or (el.tag == 'term')
-        if el.text and not it:
+    def walk(el, skipping):
+        sk = skipping or (el.tag in SKIP_TAGS)
+        if el.text and not sk:
             chunks.append(el.text)
         for c in el:
-            walk(c, it)
-            if c.tail:            # tail 属于父，不在 c 内部
+            walk(c, sk)
+            # tail 属于父的行文，跳过与否取决于父（即当前 skipping），不取决于 c
+            if c.tail and not skipping:
                 chunks.append(c.tail)
     walk(root, False)
     return chunks
@@ -60,7 +74,10 @@ def is_ascii(s):
 
 def hits_in(chunk, alias):
     if is_ascii(alias):
-        return re.search(r'\b' + re.escape(alias) + r'\b', chunk, re.I) is not None
+        # 含大写字母的 ASCII 叫法按专有名词处理，区分大小写——否则 "Codex" 会命中
+        # 路径/包名里的 codex，"Go" 会命中 go 等。全小写叫法（kebab-case）才忽略大小写。
+        flags = 0 if any(c.isupper() for c in alias) else re.I
+        return re.search(r'\b' + re.escape(alias) + r'\b', chunk, flags) is not None
     return alias in chunk
 
 
