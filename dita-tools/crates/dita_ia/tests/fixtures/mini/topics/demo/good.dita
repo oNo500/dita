@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<concept id="good" maturity="curated" volatility="stable" dimension="dim-concept">
+  <title>覆盖了一个规划维度</title>
+  <prolog><data name="domain" value="demo"/></prolog>
+  <conbody/>
+</concept>

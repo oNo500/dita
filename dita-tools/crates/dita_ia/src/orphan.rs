@@ -38,6 +38,12 @@ fn collect_referenced(map: &DitaMap) -> HashSet<PathBuf> {
     collector.0
 }
 
+/// Every `.dita` file under `root`, sorted. Orphans included — an orphan's
+/// metadata is as interesting as any other topic's.
+pub fn find_topics(root: &Path) -> Vec<PathBuf> {
+    walkdir(root)
+}
+
 fn walkdir(root: &Path) -> Vec<PathBuf> {
     let mut result = Vec::new();
     if let Ok(entries) = std::fs::read_dir(root) {

@@ -8,6 +8,7 @@ license.workspace = true
 [dependencies]
 dita_ast.workspace = true
 dita_parser.workspace = true
+dita_vocab.workspace = true
 dita_diagnostics.workspace = true
 anyhow.workspace = true
 owo-colors.workspace = true

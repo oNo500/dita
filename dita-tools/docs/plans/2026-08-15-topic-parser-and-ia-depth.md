@@ -16,7 +16,7 @@
 | N1 | 这个域有几篇、都是什么类型 | Task 2 产出 `TopicMeta.topic_type`；Task 3 按域聚合 | kb 实跑，与 `find topics -name '*.dita'` 计数对账 |
 | N2 | 哪些内容还不可信（draft / 未核对） | `TopicMeta.maturity` / `volatility`，Task 3 按域分布 | kb 实跑，与 `grep maturity=` 对账 |
 | N3 | 这个域规划了哪些维度、还缺哪些 | Task 1 读全景的 `planned-dimension`，Task 3 求差 | **与 `dimension-coverage.py` 输出逐域对账，必须一致** |
-| N4 | 域归属不该靠每篇手标 | Task 3 从 map 树推域归属（见下方「关键设计」） | 对账：推出的域归属 ⊇ 手标的 `data name="domain"` |
+| N4 | 域归属不该靠每篇手标 | **已修正，见下方「关键设计」**：map 推的是*分支*，手标的是*技术域*，两者并存各司其职 | 覆盖度按技术域与脚本对账；分支信息为新增 |
 | N5 | 有没有标了不存在的维度值 | Task 1 读 `subjectScheme` 得合法值，Task 3 报非法值 | 造一个非法值样例，确认被报出 |
 | N6 | 空领域、孤儿、断链 | 已完成（commit `7f09ed9`） | 已在 kb 实测 |
 
@@ -26,13 +26,20 @@
 
 现状：`dimension-coverage.py` 靠每篇 topic 里手写 `<data name="domain" value="…"/>` 判断域归属。**全库 22 篇只有 1 篇标了**，所以覆盖度报告只看得见 `electron` 一个域，其余八域完全不在统计内——这个功能目前近乎空转。
 
-本工具已有 map 树，域归属是**结构事实**：一篇 topic 挂在 `domains/web.ditamap` 下，它就属于 web 域。因此：
+**动手时发现原方案有个前提是错的**（记在此处，不抹掉）：本库的"域"有两个粒度，且不重合。
 
-- 域归属**从 map 树推**，不要求作者每篇手标。
-- 仍读 `data name="domain"`，但只作为**交叉校验**：手标与结构推导不一致时报 warning（通常意味着 topic 挂错了 map，或标注过期）。
-- 一篇 topic 被多个域 map 引用时，全部计入（交叉标引是本库明确允许的，见词表设计）。
+| | 来自 | 粒度 | 例 |
+|---|---|---|---|
+| **分支** | map 结构（root 的直接子节点） | 粗，九个 | `web` |
+| **技术域** | topic 自己声明的 `data name="domain"` | 细 | `electron` |
 
-这是 Rust 工具相对现有脚本的真实增益：脚本只有文件系统视角，工具有结构视角。
+`planned-dimension` 是**按技术域**声明的。一个分支下将来会有 electron / react / nextjs 各自的全景，**按分支合并算覆盖度会把三份规划混成一份**，是错的。所以不是"用 map 推导取代手标"，而是两者并存、各司其职：
+
+- **分支归属（map 推导）** → 篇数、类型/成熟度/时效分布、空分支、无全景标注。作者不必手标。
+- **技术域归属（手标 `domain`）** → 维度覆盖度与盲区。这个粒度 map 结构里没有，只能声明。
+- **交叉校验**：同一技术域的 topic 若分散在多个分支下，报 warning（通常是挂错 map 或标注过期）。
+
+Rust 工具相对脚本的真实增益仍然成立，只是位置变了：脚本只有文件系统视角，看不到一个域坐落在哪个分支、哪个分支是空的、哪个分支没有全景。
 
 ## 前置（kb 侧，各一处，需先处理）
 
@@ -99,15 +106,16 @@
 **Files:** `crates/dita_ia/src/{lib.rs,domain.rs,stats.rs}`、`apps/dita_cli/src/commands/ia.rs`
 
 **Steps:**
-- [ ] `domain.rs`：遍历 map 树，产出 `topic 路径 → 所属域` 的映射（域 = 直接挂载它的领域 map；跨域引用则多归属）
-- [ ] 解析每个被引 topic 与每个孤儿 topic 的 `TopicMeta`（并发不必要，库还小；先直白实现）
-- [ ] `stats.rs`：按域聚合——篇数、类型分布、maturity 分布、volatility 分布
-- [ ] 维度覆盖：`planned`（来自本域全景的 `planned-dimension`）∩ `covered`（本域各 topic 的 `@dimension`）→ 覆盖度与盲区，**语义与 `dimension-coverage.py` 完全一致**（覆盖度 = |覆盖∩规划| / |规划|；另列"规划外的覆盖"）
+- [x] `domain.rs`：遍历 map 树，产出 `topic 路径 → 所属**分支**`（跨分支引用则多归属）
+- [x] 解析 `topics/` 下**全部** topic 的 `TopicMeta`（含孤儿——孤儿的元数据往往更值得看）
+- [x] `stats.rs`：按分支聚合——篇数、类型/maturity/volatility 分布，另标注该分支有无全景
+- [x] 维度覆盖：语义与 `dimension-coverage.py` 完全一致，**差分对账通过**（域名、分子分母、盲区集合逐项相同）；另附该域位于哪个分支——这是脚本给不出的
 - [x] 诊断：`topichead` navtitle 与被引 map 标题漂移（提前做——它是上面那个决定的安全网，2 个测试）
-- [ ] 诊断新增：非法 `@dimension` 值（N5）、缺全景的域（R9 的观测面）、手标 domain 与结构推导不一致（N4）
-- [ ] 终端输出：树之后加「按域概览」段，每域一行摘要 + 盲区明细
-- [ ] `--vocab` 参数（默认 `vocab/subjectScheme.ditamap`）；词表缺失时降级——跳过 N5 并提示，不中断（`kb` 不必为工具改结构，工具也不该假定 kb 布局不变）
-- [ ] Commit
+- [x] 诊断新增：非法 `@dimension` / `@maturity` / `@volatility` 值（N5，error）、同一技术域的 topic 分散在多个分支（warning）。**缺全景改为标注而非 warning**——"术语库"这类纯组织分支本就不该有全景，报 warning 是制造假阳性
+- [x] 终端输出：树之后加「按分支」与「维度覆盖」两段。列宽按**显示宽度**对齐（CJK 占两列，`{:<n}` 数的是字符，混排必错位）；并明说有几篇不属任何分支，免得分支合计与总数对不上却无人察觉
+- [x] `--vocab` 参数；词表缺失即跳过值检查**并明说跳过了**，绝不猜一份合法值清单（有测试守着）
+- [x] 端到端测试：迷你 kb fixture（含空分支、全景、非法值），6 个测试
+- [x] Commit
 
 ## Task 4（可选，做完 1–3 再定）：`--format json`
 
@@ -131,7 +139,7 @@ python3 scripts/dimension-coverage.py                 # 现有实现
 
 ## 完成的判据
 
-- [ ] `cargo test --workspace` 全过，`cargo clippy` 零告警
-- [ ] `dita-tools ia` 在 kb 上跑通，输出九个域的概览与盲区
-- [ ] 与 `dimension-coverage.py` 按上述规则对账通过
+- [x] `cargo test --workspace` 全过（30 个测试），`cargo clippy` 零告警
+- [x] `dita-tools ia` 在 kb 上跑通，输出九个分支的概览与盲区
+- [x] 与 `dimension-coverage.py` 对账通过
 - [ ] 本文件每个 checkbox 都基于**实跑**勾选，不基于"代码写完了"

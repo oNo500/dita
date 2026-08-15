@@ -20,6 +20,11 @@ pub struct IaArgs {
     /// Judge orphanhood from --map alone, ignoring --maps-dir
     #[arg(long)]
     pub root_only: bool,
+
+    /// Subject scheme supplying the controlled values. Missing file = value
+    /// checks are skipped and said so, never guessed at.
+    #[arg(long, default_value = "vocab/subjectScheme.ditamap")]
+    pub vocab: PathBuf,
 }
 
 pub fn run(args: IaArgs) -> Result<()> {
@@ -28,7 +33,7 @@ pub fn run(args: IaArgs) -> Result<()> {
     } else {
         Some(args.maps_dir.as_path())
     };
-    let report = dita_ia::build_report(&args.map, &args.topics, maps_dir)?;
+    let report = dita_ia::build_report(&args.map, &args.topics, maps_dir, Some(&args.vocab))?;
     dita_ia::print_report(&report);
     if report.diagnostics.has_errors() {
         std::process::exit(1);

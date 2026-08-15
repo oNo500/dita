@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map xml:lang="zh-CN">
+  <title>演示分支</title>
+  <topicref href="../../topics/demo/landscape.dita"/>
+  <topicref href="../../topics/demo/good.dita"/>
+  <topicref href="../../topics/demo/illegal.dita"/>
+</map>

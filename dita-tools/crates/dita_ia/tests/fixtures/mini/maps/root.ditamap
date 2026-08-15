@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map xml:lang="zh-CN">
+  <title>迷你知识体系</title>
+  <mapref href="../vocab/scheme.ditamap" format="ditamap" processing-role="resource-only"/>
+  <topichead>
+    <topicmeta><navtitle>演示分支</navtitle></topicmeta>
+    <mapref href="domains/demo.ditamap"/>
+  </topichead>
+  <topichead>
+    <topicmeta><navtitle>空分支</navtitle></topicmeta>
+    <mapref href="domains/empty.ditamap"/>
+  </topichead>
+</map>

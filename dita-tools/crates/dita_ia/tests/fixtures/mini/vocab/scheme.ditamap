@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<subjectScheme xml:lang="zh-CN">
+  <title>迷你词表</title>
+  <subjectdef keys="dimension">
+    <subjectdef keys="dim-concept"/>
+    <subjectdef keys="dim-usage"/>
+    <subjectdef keys="dim-security"/>
+  </subjectdef>
+  <subjectdef keys="maturity-values">
+    <subjectdef keys="draft"/>
+    <subjectdef keys="curated"/>
+  </subjectdef>
+  <enumerationdef>
+    <attributedef name="dimension"/>
+    <subjectdef keyref="dimension"/>
+  </enumerationdef>
+  <enumerationdef>
+    <attributedef name="maturity"/>
+    <subjectdef keyref="maturity-values"/>
+  </enumerationdef>
+</subjectScheme>

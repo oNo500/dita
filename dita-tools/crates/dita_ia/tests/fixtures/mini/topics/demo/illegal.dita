@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<concept id="illegal" maturity="不存在的成熟度" volatility="stable" dimension="dim-usage dim-nonexistent">
+  <title>标了非法值</title>
+  <prolog><data name="domain" value="demo"/></prolog>
+  <conbody/>
+</concept>
