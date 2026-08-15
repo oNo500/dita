@@ -41,40 +41,32 @@ cargo build
 | `--root-only` | 关 | 只按 `--map` 判定孤儿，忽略 `--maps-dir` |
 | `--vocab` | `vocab/subjectScheme.ditamap` | 受控值来源。读不到就**跳过值检查并说明**，绝不猜一份合法值清单 |
 
-**实际输出（`kb` 仓库）：**
+**实际输出（`kb` 仓库，2026-08-15 实跑）：**
 
 ```
-== 知识树（IA 视角）==
 
-知识体系 (root)
+== 知识树（IA 视角）==
+按 map 声明的结构展开，看的是「组织成什么样」而非「发布成什么样」——
+空分支在发布产物里不存在，这里保留可见。
+图例：[n] 该节点下的 topic 数 · [空] 分支已建但无内容 · ✓/✗ topic 文件在/缺失 · ◦ 不进导航的资源
+
+知识体系  ← 根 map：root.ditamap
 ├── ◦ subjectScheme.ditamap（resource-only，不进导航）
 ├── [空] 语言本体
 ├── [1] Web 技术栈
 │   └── ✓ electron-landscape.dita
-├── [空] 数据存储 ... [空] 网络协议 ... [空] 安全
-├── [3] AI
-│   ├── ✓ agent-rule-loading.dita
-│   └── ...
-├── [空] 工程化 ... [空] 基础
-├── [4] 知识工程
-│   └── [4] 写作规则
-│       └── ...
-└── [12] 术语库
-    └── ...
+├── [空] 数据存储
+│   ...（其余分支从略）
 
 ── 按分支 ──
+  每个分支手上有什么，用来决定下一批写哪里。「· 无全景」= 该分支尚无声明维度清单的全景 topic。
   AI          3 篇   类型 concept 3   成熟度 curated 3   时效 stable 2 / volatile 1   · 无全景
   Web 技术栈  1 篇   类型 concept 1   成熟度 draft 1   时效 volatile 1
   基础       空
   ...
-  （另有 2 篇不属任何分支——只被交付物 map 引用）
 
 ── 维度覆盖（按技术域，取自各 topic 声明的 domain）──
-  域 electron：0/10（0%），1 篇，位于 Web 技术栈
-     盲区（10）：dim-comparison dim-concept dim-ecosystem ...
-
-── 孤儿判定：参考了 12 个 map ──
-✓  无孤儿 Topic
+  ...
 ```
 
 **看这份输出该注意什么：**

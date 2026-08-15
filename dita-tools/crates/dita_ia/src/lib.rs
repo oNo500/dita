@@ -172,6 +172,9 @@ fn check_domains(coverage: &[DomainCoverage], diag: &mut DiagnosticBag) {
 
 pub fn print_report(report: &IaReport) {
     println!("\n== 知识树（IA 视角）==");
+    println!("按 map 声明的结构展开，看的是「组织成什么样」而非「发布成什么样」——");
+    println!("空分支在发布产物里不存在，这里保留可见。");
+    println!("图例：[n] 该节点下的 topic 数 · [空] 分支已建但无内容 · ✓/✗ topic 文件在/缺失 · ◦ 不进导航的资源");
     for map in &report.display {
         println!();
         tree::print_tree(map);
@@ -181,16 +184,14 @@ pub fn print_report(report: &IaReport) {
     print_coverage(report);
 
     println!("\n── 孤儿判定：参考了 {} 个 map ──", report.consulted.len());
+    println!("  孤儿 = 文件在 topics/ 下，却没有任何 map 引用它——写了但没挂上，发布不出去。");
     if report.orphans.is_empty() {
-        println!("✓  无孤儿 Topic");
+        println!("  ✓ 无孤儿 Topic");
     } else {
-        println!(
-            "⚠  孤儿 Topic（未被任何 map 引用，共 {} 个）：",
-            report.orphans.len()
-        );
+        println!("  ⚠ 孤儿 Topic（共 {} 个）：", report.orphans.len());
         for p in &report.orphans {
             let rel = p.strip_prefix(&report.topics_root).unwrap_or(p);
-            println!("   {}", rel.display());
+            println!("     {}", rel.display());
         }
     }
 
@@ -210,6 +211,7 @@ fn print_branches(report: &IaReport) {
         return;
     }
     println!("\n── 按分支 ──");
+    println!("  每个分支手上有什么，用来决定下一批写哪里。「· 无全景」= 该分支尚无声明维度清单的全景 topic。");
     let width = report
         .branch_stats
         .iter()
@@ -238,7 +240,7 @@ fn print_branches(report: &IaReport) {
     let unplaced = report.topics.len().saturating_sub(in_branches);
     if unplaced > 0 {
         println!(
-            "  （另有 {unplaced} 篇不属任何分支——只被交付物 map 引用，见「孤儿判定」段的说明）"
+            "  （另有 {unplaced} 篇不属任何分支——只被交付物 map 引用，因此不算孤儿，但也不在上面的统计里）"
         );
     }
 }
@@ -269,6 +271,8 @@ fn pad(s: &str, width: usize) -> String {
 
 fn print_coverage(report: &IaReport) {
     println!("\n── 维度覆盖（按技术域，取自各 topic 声明的 domain）──");
+    println!("  技术域比分支细（分支 web 下可有 electron / react 各自的全景）。");
+    println!("  覆盖度 = 已覆盖 ∩ 规划 / 规划；盲区 = 规划了但还没人写的维度。");
     if report.coverage.is_empty() {
         println!("  没有域声明了 planned-dimension（领域全景未建，或未标 domain）");
     }

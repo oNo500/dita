@@ -1,7 +1,12 @@
 use dita_ast::{DitaMap, MapNode, ProcessingRole};
 
 pub fn print_tree(map: &DitaMap) {
-    println!("{} (root)", map.title);
+    let file = map
+        .path
+        .file_name()
+        .and_then(|s| s.to_str())
+        .unwrap_or("?");
+    println!("{}  ← 根 map：{file}", map.title);
     print_nodes(&map.children, "");
 }
 
