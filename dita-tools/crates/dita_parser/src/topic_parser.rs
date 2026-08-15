@@ -62,6 +62,18 @@ pub fn parse_topic(path: &Path) -> anyhow::Result<(TopicMeta, DiagnosticBag)> {
         maturity: root.attribute("maturity").map(str::to_string),
         volatility: root.attribute("volatility").map(str::to_string),
         dimensions: split_values(root.attribute("dimension")),
+        // @tool 标在条件段上（<p tool="…">），不像 @dimension 只在根上，
+        // 所以要扫全树——只看根会漏掉全部工具变体
+        tools: {
+            let mut all: Vec<String> = root
+                .descendants()
+                .filter_map(|n| n.attribute("tool"))
+                .flat_map(|v| v.split_whitespace().map(str::to_string))
+                .collect();
+            all.sort_unstable();
+            all.dedup();
+            all
+        },
         domain: None,
         planned_dimensions: Vec::new(),
         reviewed: None,

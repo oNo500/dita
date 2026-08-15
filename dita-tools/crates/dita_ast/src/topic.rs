@@ -18,6 +18,9 @@ pub struct TopicMeta {
     pub volatility: Option<String>,
     /// `@dimension`, whitespace-separated (specialized from `@props`).
     pub dimensions: Vec<String>,
+    /// `@tool`, whitespace-separated (specialized from `@props`). Drives the
+    /// DITAVAL variants a deliverable is built into.
+    pub tools: Vec<String>,
     /// `<data name="domain">` — the hand-written domain claim. Structural
     /// domain membership comes from the map tree instead; this is kept for
     /// cross-checking.

@@ -123,7 +123,7 @@ pub fn benchmarks(vocab: &Vocabulary) -> Vec<BenchmarkEntry> {
 #[must_use]
 pub fn value_usage(vocab: &Vocabulary, topics: &[TopicMeta]) -> Vec<ValueUsage> {
     let mut out = Vec::new();
-    for attribute in ["maturity", "volatility", "dimension"] {
+    for attribute in ["maturity", "volatility", "tool", "dimension"] {
         let Some(legal) = vocab.legal_values(attribute) else {
             continue;
         };
@@ -132,6 +132,7 @@ pub fn value_usage(vocab: &Vocabulary, topics: &[TopicMeta]) -> Vec<ValueUsage> 
             let values: Vec<&String> = match attribute {
                 "maturity" => meta.maturity.iter().collect(),
                 "volatility" => meta.volatility.iter().collect(),
+                "tool" => meta.tools.iter().collect(),
                 _ => meta.dimensions.iter().collect(),
             };
             for v in values {

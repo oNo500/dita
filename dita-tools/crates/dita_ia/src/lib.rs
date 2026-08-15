@@ -240,13 +240,15 @@ fn check_values(vocab: &dita_vocab::Vocabulary, topics: &[TopicMeta], diag: &mut
                 ));
             }
         }
-        if let Some(legal) = vocab.legal_values("dimension") {
-            for value in &meta.dimensions {
-                if !legal.contains(value) {
-                    diag.push(Diagnostic::error(
-                        &meta.path,
-                        format!("@dimension 值 \"{value}\" 不在词表中"),
-                    ));
+        for (attr, values) in [("dimension", &meta.dimensions), ("tool", &meta.tools)] {
+            if let Some(legal) = vocab.legal_values(attr) {
+                for value in values {
+                    if !legal.contains(value) {
+                        diag.push(Diagnostic::error(
+                            &meta.path,
+                            format!("@{attr} 值 \"{value}\" 不在词表中"),
+                        ));
+                    }
                 }
             }
         }

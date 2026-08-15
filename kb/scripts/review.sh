@@ -1,9 +1,9 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # 机器兜底：一条命令串全套——RNG 结构校验 + 业务规则 R1–R10 + 术语扫描。
 # 只用 DITA-OT 自带工具（dita validate + 自带 Saxon + python3），不装额外东西。
 # 有 error 则退出非零，可挡入库 / 接 git hook / CI。
 # 设计见 dita2 cases/kb-redesign/machine-checks-design.md。
-set -u
+set -uo pipefail
 KB="$(cd "$(dirname "$0")/.." && pwd)"
 XSL="$KB/scripts/check-rules.xsl"
 
