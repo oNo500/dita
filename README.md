@@ -28,7 +28,7 @@
 | 需要 | 用途 | 本机状态 |
 |---|---|---|
 | Java 17+ / DITA-OT 4.4 | 校验、构建、交付物 | ✅ 已装（`~/ws/tools`） |
-| python3 | 覆盖度、术语扫描 | ✅ 系统自带 |
+| uv | 跑 `kb/scripts` 下的 Python（脚本自带 PEP 723 头，不用系统 python） | ✅ 由 setup 装 |
 | Rust + C 链接器 | dita-tools | ✅ 已装（rustup + build-essential），`cargo test` 全过 |
 
 ```bash

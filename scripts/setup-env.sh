@@ -22,11 +22,16 @@ fi
 
 # 2. uv（kb/scripts 里的 .py 靠它跑：脚本内 PEP 723 头声明 requires-python，
 #    不依赖系统 python——Ubuntu 的 python3 是 externally-managed，装不了任何依赖）
-if ! command -v uv >/dev/null 2>&1 && [ ! -x "$HOME/.local/bin/uv" ]; then
+if ! command -v uv >/dev/null 2>&1 && [ ! -x "$BIN_DIR/uv" ]; then
   say "装 uv…"
   curl -LsSf https://astral.sh/uv/install.sh | sh
 fi
-say "✓ uv → $(command -v uv || echo "$HOME/.local/bin/uv")"
+# 安装器可能听 XDG_BIN_HOME 而落在别处；统一软链进 BIN_DIR，
+# 与 java/dita/cargo 同一套出口，"把 BIN_DIR 加进 PATH"才是充分条件
+UV_BIN="$(command -v uv || true)"
+[ -n "$UV_BIN" ] || UV_BIN="$(find "$HOME" -maxdepth 4 -type f -name uv -perm -u+x 2>/dev/null | head -1)"
+[ -n "$UV_BIN" ] && ln -sf "$UV_BIN" "$BIN_DIR/uv"
+say "✓ uv → ${UV_BIN:-未找到，请手动确认}"
 
 # 3. Temurin JRE
 JRE_DIR=$(find "$TOOLS_DIR" -maxdepth 1 -type d -name "jdk-${TEMURIN_MAJOR}*" | head -1)

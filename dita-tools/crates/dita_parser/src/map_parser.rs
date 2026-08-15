@@ -48,8 +48,6 @@ fn parse_map_file(
             children: vec![],
         });
     }
-    ancestors.push(canonical.clone());
-
     let base = canonical.parent().unwrap_or(Path::new(".")).to_path_buf();
     let xml = fs::read_to_string(&canonical)
         .with_context(|| format!("cannot read file: {}", canonical.display()))?;
@@ -72,6 +70,10 @@ fn parse_map_file(
     let lang = root
         .attribute(("http://www.w3.org/XML/1998/namespace", "lang"))
         .map(str::to_string);
+    // 推栈放在所有可失败步骤之后：早推而中途 `?` 返回，栈上会留下这条路径，
+    // 后面再引用同一个 map 就被误判成环——菱形引用 + 子 map 解析失败正好触发，
+    // 且真正的原因（XML 错误）会被"circular mapref"盖掉。
+    ancestors.push(canonical.clone());
     let children = collect_children(root, &base, ancestors, diag);
     ancestors.pop();
 

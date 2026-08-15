@@ -59,8 +59,8 @@ Phase 0 盘点 → 1 评审 → 2 骨架 → 3 试点重写 → 4 首个交付�
 
 ```bash
 sh scripts/review.sh                    # 入库前：结构 + 业务规则 R1–R10 + 术语扫描
-python3 scripts/link-check.py           # 定期：外链还活着吗（联网，不并入 review）
-python3 scripts/link-check.py ../research   # 也可查别的目录
+uv run --script scripts/link-check.py    # 定期：外链还活着吗（联网，不并入 review）
+uv run --script scripts/link-check.py ../research   # 也可查别的目录
 dita-tools ia                           # IA 治理：骨架、空白、盲区、对标到期
 ```
 

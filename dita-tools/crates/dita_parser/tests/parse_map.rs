@@ -61,3 +61,27 @@ fn reports_missing_topic_files() {
     assert!(diag.has_errors());
     assert_eq!(diag.error_count(), 2);
 }
+
+#[test]
+fn a_broken_submap_is_never_reported_as_a_cycle() {
+    // 祖先栈若在失败路径上不回弹，第二次引用同一个坏 map 会被误判成环，
+    // 真正的原因（XML 解析失败）反而被盖住
+    let fixture = Path::new("tests/fixtures/diamond-broken.ditamap");
+    let (_map, diag) = parse_map(fixture).expect("root map itself is fine");
+    let msgs: Vec<&str> = diag
+        .items
+        .iter()
+        .map(dita_diagnostics::Diagnostic::message)
+        .collect();
+    assert!(
+        !msgs.iter().any(|m| m.contains("circular")),
+        "解析失败不是环，不该报成环：{msgs:?}"
+    );
+    assert_eq!(
+        msgs.iter()
+            .filter(|m| m.contains("XML parse error"))
+            .count(),
+        2,
+        "两次引用都应各自报出真正的原因：{msgs:?}"
+    );
+}

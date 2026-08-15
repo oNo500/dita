@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # 机器兜底：一条命令串全套——RNG 结构校验 + 业务规则 R1–R10 + 术语扫描。
-# 只用 DITA-OT 自带工具（dita validate + 自带 Saxon + python3），不装额外东西。
+# 依赖：DITA-OT（dita validate + 自带 Saxon）与 uv（跑 kb/scripts 下的 .py）。
+# 两者缺任何一个都不会静默放行——缺什么就少跑什么，且结果不得当作通过。
 # 有 error 则退出非零，可挡入库 / 接 git hook / CI。
 # 设计见 dita2 cases/kb-redesign/machine-checks-design.md。
 set -uo pipefail
@@ -28,6 +29,12 @@ else
   CP="$(dirname "$SAXON_JAR")/*"
 fi
 
+term_skipped=0
+if ! command -v uv >/dev/null 2>&1; then
+  echo "找不到 uv，术语扫描跳过（装：scripts/setup-env.sh）。" >&2
+  term_skipped=1
+fi
+
 fail=0
 
 echo "== 1. 结构校验（RNG）+ 业务规则（R1–R10）=="
@@ -52,12 +59,26 @@ done
 
 echo
 echo "== 2. 术语规整建议（报告版，不阻断入库）=="
-uv run --script "$KB/scripts/term-normalize.py"
+if [ "$term_skipped" -eq 0 ]; then
+  uv run --script "$KB/scripts/term-normalize.py"
+else
+  echo "（跳过：uv 不可用）"
+fi
 
 echo
-# 跳过 ≠ 通过：Saxon 缺失时 R1–R10 一条都没跑，此时报"全过"是假绿，必须挡住。
+# 跳过 ≠ 通过：某项检查没跑就报"全过"是假绿。但"没跑"也不能盖住"真失败"——
+# 确定的失败先说，未执行随后说，两者可同时成立，退出码取更确定的那个（失败 1 > 跳过 2）。
 if [ "$skipped" -ne 0 ]; then
   echo "⚠️  业务规则 R1–R10 未执行（找不到 Saxon），本次结果不能当作通过依据"
+fi
+if [ "$term_skipped" -ne 0 ]; then
+  echo "⚠️  术语扫描未执行（找不到 uv）"
+fi
+if [ "$fail" -ne 0 ]; then
+  echo "❌ 有 error（见上），阻断入库"
+  exit 1
+fi
+if [ "$skipped" -ne 0 ] || [ "$term_skipped" -ne 0 ]; then
   exit 2
 fi
 if [ "$fail" -eq 0 ]; then

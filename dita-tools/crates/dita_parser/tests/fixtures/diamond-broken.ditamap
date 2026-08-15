@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 菱形引用同一个坏 map：两次都该报 XML 错误，不该有一次变成"环" -->
+<map xml:lang="zh-CN">
+  <title>菱形引坏 map</title>
+  <mapref href="broken-sub.ditamap"/>
+  <mapref href="broken-sub.ditamap"/>
+</map>
