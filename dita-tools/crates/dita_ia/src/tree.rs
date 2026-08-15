@@ -1,18 +1,47 @@
-use dita_ast::{DitaMap, MapNode, ProcessingRole};
+use crate::{BenchmarkEntry, BranchPlan, DomainCoverage};
+use dita_ast::{DitaMap, MapNode, ProcessingRole, TopicMeta};
+use std::{collections::BTreeMap, path::PathBuf};
 
-pub fn print_tree(map: &DitaMap) {
-    let file = map
-        .path
-        .file_name()
-        .and_then(|s| s.to_str())
-        .unwrap_or("?");
-    println!("{}  ← 根 map：{file}", map.title);
-    print_nodes(&map.children, "");
+/// Everything the skeleton needs to annotate itself.
+///
+/// The skeleton is the view — not a section of it. Numbers that describe a
+/// branch belong on that branch's line, where they are read together with it;
+/// pulled into separate tables they become a report, and the shape of the
+/// library stops being visible.
+pub struct Annotations<'a> {
+    /// Print every leaf instead of collapsing long uniform runs.
+    pub full: bool,
+    pub topics: BTreeMap<PathBuf, &'a TopicMeta>,
+    /// branch label → what the vocabulary plans for it
+    pub plans: BTreeMap<String, &'a BranchPlan>,
+    /// branch label → its benchmark registry entry
+    pub benchmarks: BTreeMap<String, &'a BenchmarkEntry>,
+    /// landscape topic path → the coverage of the domain it declares
+    pub coverage: BTreeMap<PathBuf, &'a DomainCoverage>,
+    /// topics carrying values the vocabulary does not define
+    pub illegal: BTreeMap<PathBuf, usize>,
 }
 
-fn print_nodes(nodes: &[MapNode], prefix: &str) {
+pub fn print_skeleton(map: &DitaMap, ann: &Annotations) {
+    let file = map.path.file_name().and_then(|s| s.to_str()).unwrap_or("?");
+    println!("{}  ← {file}", map.title);
+    print_nodes(&map.children, "", ann);
+}
+
+/// Beyond this many plain topics in a row, the names stop being skeleton and
+/// start being a directory listing. The count already carries the structural
+/// fact; the names are one `--details` away.
+const COLLAPSE_AFTER: usize = 6;
+
+fn print_nodes(nodes: &[MapNode], prefix: &str, ann: &Annotations) {
     let count = nodes.len();
+    let plain_leaves = nodes.iter().all(|n| matches!(n, MapNode::TopicRef(_)));
+    let collapse = !ann.full && plain_leaves && count > COLLAPSE_AFTER;
     for (i, node) in nodes.iter().enumerate() {
+        if collapse && i == 3 {
+            println!("{prefix}└── …（共 {count} 篇，--details 列全）");
+            return;
+        }
         let is_last = i == count - 1;
         let conn = if is_last { "└── " } else { "├── " };
         let child_prefix = if is_last {
@@ -23,58 +52,114 @@ fn print_nodes(nodes: &[MapNode], prefix: &str) {
 
         match node {
             MapNode::TopicRef(t) => {
+                let path = t.href.canonicalize().unwrap_or_else(|_| t.href.clone());
                 let name = t.href.file_name().and_then(|s| s.to_str()).unwrap_or("?");
-                let marker = if t.href.exists() { "✓" } else { "✗" };
-                println!("{prefix}{conn}{marker} {name}");
+                if !t.href.exists() {
+                    println!("{prefix}{conn}✗ {name}   ← 文件不存在");
+                    continue;
+                }
+                println!("{prefix}{conn}{name}{}", topic_note(&path, ann));
             }
             MapNode::TopicHead(h) => {
-                println!("{prefix}{conn}{} {}", count_label(&h.children), h.nav_title);
-                // A topichead wrapping a single same-named mapref exists only to
-                // give the referenced map a navigation node (merge semantics give
-                // it none). Printing both would show one branch twice; the titles
-                // are kept in step by consistency::check_group_titles, and a
-                // mismatch still prints both plus a warning.
+                // a wrapper around one same-named mapref exists only to give the
+                // map a navigation node; drawing both would show one branch twice
                 if let [MapNode::MapRef(m)] = h.children.as_slice() {
                     if m.title.as_deref() == Some(h.nav_title.as_str()) {
-                        print_nodes(&m.children, &child_prefix);
+                        println!(
+                            "{prefix}{conn}{}{}",
+                            h.nav_title,
+                            branch_note(&h.nav_title, &m.children, ann)
+                        );
+                        print_nodes(&m.children, &child_prefix, ann);
                         continue;
                     }
                 }
-                print_nodes(&h.children, &child_prefix);
+                println!(
+                    "{prefix}{conn}{}{}",
+                    h.nav_title,
+                    branch_note(&h.nav_title, &h.children, ann)
+                );
+                print_nodes(&h.children, &child_prefix, ann);
             }
             MapNode::MapRef(m) => {
-                // resource-only maps (subject schemes, key definitions) carry no
-                // navigation — listing them as empty branches would be misleading
                 if m.processing_role == ProcessingRole::ResourceOnly {
                     let name = m.href.file_name().and_then(|s| s.to_str()).unwrap_or("?");
-                    println!("{prefix}{conn}◦ {name}（resource-only，不进导航）");
+                    println!("{prefix}{conn}{name}   ← 词表，不进导航");
                     continue;
                 }
                 let label = m.title.clone().unwrap_or_else(|| {
                     m.href
-                        .file_name()
+                        .file_stem()
                         .and_then(|s| s.to_str())
                         .unwrap_or("?")
                         .to_string()
                 });
-                println!("{prefix}{conn}{} {label}", count_label(&m.children));
-                print_nodes(&m.children, &child_prefix);
+                println!(
+                    "{prefix}{conn}{label}{}",
+                    branch_note(&label, &m.children, ann)
+                );
+                print_nodes(&m.children, &child_prefix, ann);
             }
         }
     }
 }
 
-/// `[空]` is the whole point of the IA view: a domain that exists but holds
-/// nothing has to be visible, not silently absent.
-fn count_label(nodes: &[MapNode]) -> String {
-    let n = count_topics(nodes);
-    if n == 0 {
-        "[空]".to_string()
+/// What a branch line says about itself: how much it holds, how much the
+/// vocabulary plans for it, and whether its taxonomy is due for re-benchmarking.
+fn branch_note(label: &str, children: &[MapNode], ann: &Annotations) -> String {
+    let built = count_topics(children);
+    let mut parts = vec![if built == 0 {
+        "空".to_string()
     } else {
-        format!("[{n}]")
+        format!("{built} 篇")
+    }];
+
+    if let Some(plan) = ann.plans.get(label) {
+        parts.push(if plan.planned_total == plan.planned.len() {
+            format!("规划 {}", plan.planned.len())
+        } else {
+            format!("规划 {}↓{}", plan.planned.len(), plan.planned_total)
+        });
+    }
+    if let Some(bm) = ann.benchmarks.get(label) {
+        if let (Some(date), Some(months)) = (&bm.last_benchmarked, bm.due_months()) {
+            parts.push(format!("对标 {date}+{months}mo"));
+        }
+    }
+    format!("   {}", parts.join(" · "))
+}
+
+/// What a topic line says: only what deviates or needs acting on. Marking every
+/// topic `curated stable` would drown the skeleton in the unremarkable.
+fn topic_note(path: &PathBuf, ann: &Annotations) -> String {
+    let mut parts = Vec::new();
+    if let Some(meta) = ann.topics.get(path) {
+        if meta.maturity.as_deref() != Some("curated") && meta.maturity.as_deref() != Some("verified") {
+            parts.push(meta.maturity.clone().unwrap_or_else(|| "未标成熟度".into()));
+        }
+        if meta.volatility.is_none() {
+            parts.push("未标时效".to_string());
+        }
+    }
+    if let Some(cov) = ann.coverage.get(path) {
+        parts.push(format!(
+            "全景 {} {}/{}",
+            cov.domain,
+            cov.covered.len(),
+            cov.planned.len()
+        ));
+    }
+    if let Some(n) = ann.illegal.get(path) {
+        parts.push(format!("⚠ {n} 个非法值"));
+    }
+    if parts.is_empty() {
+        String::new()
+    } else {
+        format!("   {}", parts.join(" · "))
     }
 }
 
+#[must_use]
 pub fn count_topics(nodes: &[MapNode]) -> usize {
     nodes
         .iter()

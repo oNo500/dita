@@ -187,43 +187,140 @@ fn check_domains(coverage: &[DomainCoverage], diag: &mut DiagnosticBag) {
     }
 }
 
-pub fn print_report(report: &IaReport) {
-    println!("\n== 知识树（IA 视角）==");
-    println!("按 map 声明的结构展开，看的是「组织成什么样」而非「发布成什么样」——");
-    println!("空分支在发布产物里不存在，这里保留可见。");
-    println!("图例：[n] 该节点下的 topic 数 · [空] 分支已建但无内容 · ✓/✗ topic 文件在/缺失 · ◦ 不进导航的资源");
+/// The skeleton is the view. Everything else is either an annotation on it or
+/// an exception listed under it — a set of parallel tables would bury the one
+/// thing an IA view exists to show.
+pub fn print_report(report: &IaReport, details: bool) {
+    let ann = annotations(report, details);
+    println!();
     for map in &report.display {
-        println!();
-        tree::print_tree(map);
+        tree::print_skeleton(map, &ann);
     }
+    println!("\n分支行：已有篇数 · 词表规划数（↓含下级）· 上次对标+复核档位（仅日历档位有此项）");
+    println!("topic 行：只标反常处——非 curated/verified 的成熟度、漏标的时效、全景覆盖度、非法值");
 
-    print_branches(report);
-    print_plans(report);
-    print_coverage(report);
-    print_benchmarks(report);
-    print_value_usage(report);
+    print_exceptions(report);
 
-    println!("\n── 孤儿判定：参考了 {} 个 map ──", report.consulted.len());
-    println!("  孤儿 = 文件在 topics/ 下，却没有任何 map 引用它——写了但没挂上，发布不出去。");
-    if report.orphans.is_empty() {
-        println!("  ✓ 无孤儿 Topic");
-    } else {
-        println!("  ⚠ 孤儿 Topic（共 {} 个）：", report.orphans.len());
-        for p in &report.orphans {
-            let rel = p.strip_prefix(&report.topics_root).unwrap_or(p);
-            println!("     {}", rel.display());
+    if details {
+        print_branches(report);
+        print_plans(report);
+        print_coverage(report);
+        print_benchmarks(report);
+        print_value_usage(report);
+    } else if has_details(report) {
+        println!("\n（`--details` 展开分支统计、应然对照、维度盲区、对标登记、受控值使用）");
+    }
+}
+
+fn annotations(report: &IaReport, details: bool) -> tree::Annotations<'_> {
+    let mut illegal: std::collections::BTreeMap<PathBuf, usize> = std::collections::BTreeMap::new();
+    for d in &report.diagnostics.items {
+        if d.is_error() && d.message().contains("不在词表中") {
+            *illegal.entry(d.path().to_path_buf()).or_default() += 1;
         }
     }
+    tree::Annotations {
+        full: details,
+        topics: report.topics.iter().map(|t| (t.path.clone(), t)).collect(),
+        plans: report
+            .plans
+            .iter()
+            .filter_map(|p| p.matched_branch.clone().map(|b| (b, p)))
+            .collect(),
+        benchmarks: report
+            .benchmarks
+            .iter()
+            .filter_map(|b| {
+                let key = b.key.strip_prefix("bm-")?;
+                let plan = report.plans.iter().find(|p| p.key == key)?;
+                Some((plan.matched_branch.clone()?, b))
+            })
+            .collect(),
+        coverage: report
+            .coverage
+            .iter()
+            .filter_map(|c| {
+                let landscape = report
+                    .topics
+                    .iter()
+                    .find(|t| t.domain.as_deref() == Some(&c.domain) && !t.planned_dimensions.is_empty())?;
+                Some((landscape.path.clone(), c))
+            })
+            .collect(),
+        illegal,
+    }
+}
 
+fn has_details(report: &IaReport) -> bool {
+    !report.plans.is_empty() || !report.benchmarks.is_empty() || !report.coverage.is_empty()
+}
+
+/// Only what needs acting on, one line each. Silence means nothing is wrong.
+fn print_exceptions(report: &IaReport) {
+    let mut lines = Vec::new();
+    if !report.orphans.is_empty() {
+        lines.push(format!(
+            "孤儿 {} 篇（写了但没挂进任何 map）：{}",
+            report.orphans.len(),
+            report
+                .orphans
+                .iter()
+                .map(|p| p
+                    .strip_prefix(&report.topics_root)
+                    .unwrap_or(p)
+                    .display()
+                    .to_string())
+                .collect::<Vec<_>>()
+                .join("、")
+        ));
+    }
+    let unplaced = report
+        .topics
+        .len()
+        .saturating_sub(report.branch_stats.iter().map(|b| b.topics).sum::<usize>());
+    if unplaced > 0 {
+        lines.push(format!("{unplaced} 篇不在任何分支下（只被交付物 map 引用）"));
+    }
+    let blind: usize = report.coverage.iter().map(|c| c.blind.len()).sum();
+    if blind > 0 {
+        lines.push(format!("维度盲区 {blind} 个"));
+    }
+    for usage in &report.value_usage {
+        if !usage.unused.is_empty() {
+            lines.push(format!(
+                "@{} 有 {} 个受控值从未被用过",
+                usage.attribute,
+                usage.unused.len()
+            ));
+        }
+    }
     let errs = report.diagnostics.error_count();
     let warns = report.diagnostics.warning_count();
     if errs > 0 || warns > 0 {
-        println!("\n── 诊断（{errs} error / {warns} warning）──");
+        lines.push(format!("诊断 {errs} error / {warns} warning"));
+    }
+    if !report.vocab_loaded {
+        lines.push("未读到词表：规划对照与值检查均已跳过".to_string());
+    }
+
+    if lines.is_empty() {
+        return;
+    }
+    println!("\n需要处理：");
+    for line in lines {
+        println!("  · {line}");
+    }
+    if errs_present(report) {
+        println!("\n诊断明细：");
         for d in &report.diagnostics.items {
             let prefix = if d.is_error() { "❌" } else { "⚠ " };
             println!("  {prefix} {}: {}", d.path().display(), d.message());
         }
     }
+}
+
+fn errs_present(report: &IaReport) -> bool {
+    report.diagnostics.error_count() > 0 || report.diagnostics.warning_count() > 0
 }
 
 fn print_branches(report: &IaReport) {

@@ -25,6 +25,10 @@ pub struct IaArgs {
     /// checks are skipped and said so, never guessed at.
     #[arg(long, default_value = "vocab/subjectScheme.ditamap")]
     pub vocab: PathBuf,
+
+    /// Expand the per-branch tables behind the skeleton
+    #[arg(long)]
+    pub details: bool,
 }
 
 pub fn run(args: IaArgs) -> Result<()> {
@@ -34,7 +38,7 @@ pub fn run(args: IaArgs) -> Result<()> {
         Some(args.maps_dir.as_path())
     };
     let report = dita_ia::build_report(&args.map, &args.topics, maps_dir, Some(&args.vocab))?;
-    dita_ia::print_report(&report);
+    dita_ia::print_report(&report, args.details);
     if report.diagnostics.has_errors() {
         std::process::exit(1);
     }

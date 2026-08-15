@@ -46,29 +46,42 @@ cargo build
 **实际输出（`kb` 仓库，2026-08-15 实跑）：**
 
 ```
+知识体系  ← root.ditamap
+├── subjectScheme.ditamap   ← 词表，不进导航
+├── 语言本体   空 · 规划 4
+├── Web 技术栈   1 篇 · 规划 6 · 对标 2026-08-08+12mo
+│   └── electron-landscape.dita   draft · 全景 electron 0/10
+├── 数据存储   空 · 规划 6 · 对标 2026-08-08+12mo
+├── 网络协议   空 · 规划 4
+├── 安全   空 · 规划 8 · 对标 2026-08-08+12mo
+├── AI   3 篇 · 规划 4↓18 · 对标 2026-08-08+6mo
+│   ├── agent-rule-loading.dita
+│   ├── agent-skill-orchestration.dita
+│   └── agent-context-verification.dita
+├── 工程化   空 · 规划 8 · 对标 2026-08-08+12mo
+├── 基础   空 · 规划 2
+├── 知识工程   4 篇 · 规划 4↓16
+│   └── 写作规则   4 篇
+│       ├── writing-atomicity.dita
+│       ├── writing-typing.dita
+│       ├── writing-sourcing.dita
+│       └── writing-llm-friendly.dita
+└── 术语库   12 篇
+    ├── term-context-engineering.dita
+    ├── term-ssot.dita
+    ├── term-mece.dita
+    └── …（共 12 篇，--details 列全）
 
-== 知识树（IA 视角）==
-按 map 声明的结构展开，看的是「组织成什么样」而非「发布成什么样」——
-空分支在发布产物里不存在，这里保留可见。
-图例：[n] 该节点下的 topic 数 · [空] 分支已建但无内容 · ✓/✗ topic 文件在/缺失 · ◦ 不进导航的资源
+分支行：已有篇数 · 词表规划数（↓含下级）· 上次对标+复核档位（仅日历档位有此项）
+topic 行：只标反常处——非 curated/verified 的成熟度、漏标的时效、全景覆盖度、非法值
 
-知识体系  ← 根 map：root.ditamap
-├── ◦ subjectScheme.ditamap（resource-only，不进导航）
-├── [空] 语言本体
-├── [1] Web 技术栈
-│   └── ✓ electron-landscape.dita
-├── [空] 数据存储
-│   ...（其余分支从略）
+需要处理：
+  · 2 篇不在任何分支下（只被交付物 map 引用）
+  · 维度盲区 10 个
+  · @maturity 有 1 个受控值从未被用过
+  · @dimension 有 41 个受控值从未被用过
 
-── 按分支 ──
-  每个分支手上有什么，用来决定下一批写哪里。「· 无全景」= 该分支尚无声明维度清单的全景 topic。
-  AI          3 篇   类型 concept 3   成熟度 curated 3   时效 stable 2 / volatile 1   · 无全景
-  Web 技术栈  1 篇   类型 concept 1   成熟度 draft 1   时效 volatile 1
-  基础       空
-  ...
-
-── 维度覆盖（按技术域，取自各 topic 声明的 domain）──
-  ...
+（`--details` 展开分支统计、应然对照、维度盲区、对标登记、受控值使用）
 ```
 
 **看这份输出该注意什么：**
@@ -76,8 +89,9 @@ cargo build
 - `[空]` 与「按分支」是这个工具存在的理由——九个分支里七个是空的、三个有内容的没有全景、唯一一篇 Web 内容还是 draft。这些在 DITA-OT 的任何产物里都看不到（空 map 不产出页面）。
 - **两种"域"不是一回事**：「按分支」用的是 map 结构推出的分支（`web`），「维度覆盖」用的是 topic 自己声明的技术域（`electron`）。`planned-dimension` 按技术域声明，一个分支下可以有多个技术域，按分支合并算覆盖度会把多份规划混成一份。
 - 孤儿判定默认参考 `maps/` 下**全部** map。若只按根 map 判，`agent-rules-core` 这类只挂在交付物 map 上的 topic 会被误报成孤儿。
-- 「无全景」是标注不是告警：术语库这类纯组织分支本就不该有全景。
-- 「应然对照」把词表键与 `domains/<key>.ditamap` **按文件名**匹配——词表用英文键、map 用中文标题，没有任何地方声明这层对应，文件名是唯一的线索。匹配不上就报未匹配，**不会静默算成 0 篇**。
+- **骨架就是视图**：数字长在分支行和 topic 行上，不另起表格。分并表格会把「库长什么样」埋掉——那正是这个工具唯一要回答的问题。`--details` 才展开细表。
+- topic 行**只标反常处**。给每篇都标上 `curated stable` 等于没标，反常才是信号。
+- 「规划 N」把词表键与 `domains/<key>.ditamap` **按文件名**匹配——词表用英文键、map 用中文标题，没有任何地方声明这层对应，文件名是唯一的线索。匹配不上就报未匹配，**不会静默算成 0 篇**。
 
 ## 开发
 
