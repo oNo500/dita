@@ -131,8 +131,10 @@ dita --input=sample/root.ditamap --format=html5 --output=out
 ## 权威资源
 
 **规范**（无版本路径 = 2.0）
-- 语言参考：<https://dita-lang.org/dita/langref/base/>
-- 架构规范：<https://dita-lang.org/dita/archspec/base/>
+- 规范总入口（草案预览）：<https://dita-lang.org/specifications>
+- 语言参考（base）：单页可直达，如 <https://dita-lang.org/dita/langref/base/shortdesc>；封面 <https://dita-lang.org/2.0/dita/resources/oasis-cover>
+- 语言参考（技术内容）：concept / task / reference / troubleshooting 在此，如 <https://dita-lang.org/dita-techcomm/langref/technicalcontent/concept>
+- 架构规范：单页可直达，如 <https://dita-lang.org/dita/archspec/base/topicstructure>
 - `@specializations` 规则：<https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute>
 - TC 源码与 beta 发布：<https://github.com/oasis-tcs/dita/releases>
 
