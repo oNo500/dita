@@ -55,6 +55,15 @@ Phase 0 盘点 → 1 评审 → 2 骨架 → 3 试点重写 → 4 首个交付�
 
 下一步 Phase 5 批量重写（前置见 [`Phase3-回顾.md`](../docs/cases/知识体系重塑/Phase3-回顾.md)）。规划全貌见 [`../docs/cases/知识体系重塑/`](../docs/cases/知识体系重塑/README.md)；跨子项目的边界见 [架构与边界](../docs/架构与边界.md)。
 
+## 检查
+
+```bash
+sh scripts/review.sh                    # 入库前：结构 + 业务规则 R1–R10 + 覆盖度 + 术语
+python3 scripts/link-check.py           # 定期：外链还活着吗（联网，不并入 review）
+python3 scripts/link-check.py ../docs   # 也可查别的目录
+dita-tools ia                           # IA 治理：骨架、空白、盲区、对标到期
+```
+
 ## 构建 agent 规则集（Phase 4，单源 → 多工具变体）
 
 一份规则源 + 各工具的 DITAVAL → 各工具的配置文件。**改一处源，所有工具变体同步更新**——不用手动同步多份。

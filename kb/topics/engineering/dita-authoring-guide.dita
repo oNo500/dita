@@ -8,8 +8,10 @@
   <title>给 AI 的 DITA 写作规则（总纲）</title>
   <shortdesc>AI 主笔 DITA 时照此决策。本集与 review.sh 机器兜底一一对应——事前照做，事后必过。写作原则见 topics/writing/*，选型见《内容类型框架》，本篇只给 DITA 操作层的流程与规则。</shortdesc>
   <prolog>
-    <source href="https://docs.oasis-open.org/dita/dita/v2.0/" scope="external"/>
-    <data name="reviewed" value="2026-08-09"/>
+    <!-- 原链接 docs.oasis-open.org/dita/dita/v2.0/ 已 404（link-check.py 于 2026-08-15 查出）：
+         2.0 仍是草案，OASIS 正式发布路径下还没有它。改指 TC 的规范总入口。 -->
+    <source href="https://dita-lang.org/specifications" scope="external"/>
+    <data name="reviewed" value="2026-08-15"/>
   </prolog>
   <conbody>
     <p>你（AI）是 kb 的主笔。这篇是你写每一篇 DITA 前照着走的流程与规则。它不讲写作原则（那些在 <filepath>topics/writing/</filepath>），只讲 DITA 操作：选类型、用标签、标属性、挂术语与来源。每条规则都对应机器兜底 <cmdname>review.sh</cmdname> 的一条检查，事前照做就不会被事后拦。</p>
