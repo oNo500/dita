@@ -7,6 +7,6 @@
   <title>Agent 规则集</title>
   <topicref href="../../topics/engineering/agent-rules-core.dita"/>
   <!-- 给 AI 的 DITA 写作规则总纲（层0）：AI 主笔 kb 时读它，与 review.sh 机器兜底两条腿咬合 -->
-  <topicref href="../../topics/engineering/dita-authoring-guide.dita"/>
+  <topicref href="../../topics/content-engineering/dita-authoring-guide.dita"/>
   <!-- Phase 5 扩：更多 rule topic（frontend/nestjs/testing 等，从矿场 infra-ai/rules 重写） -->
 </map>

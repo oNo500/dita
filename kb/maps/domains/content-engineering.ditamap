@@ -9,10 +9,10 @@
   <!-- writing（写作规则，人读层）：Phase 2 首批已写 -->
   <topichead>
     <topicmeta><navtitle>写作规则</navtitle></topicmeta>
-    <topicref href="../../topics/writing/writing-atomicity.dita"/>
-    <topicref href="../../topics/writing/writing-typing.dita"/>
-    <topicref href="../../topics/writing/writing-sourcing.dita"/>
-    <topicref href="../../topics/writing/writing-llm-friendly.dita"/>
+    <topicref href="../../topics/content-engineering/writing-atomicity.dita"/>
+    <topicref href="../../topics/content-engineering/writing-typing.dita"/>
+    <topicref href="../../topics/content-engineering/writing-sourcing.dita"/>
+    <topicref href="../../topics/content-engineering/writing-llm-friendly.dita"/>
   </topichead>
 
   <!-- structured-content / knowledge-organization / knowledge-mgmt：待 Phase 3+ 重写填入 -->

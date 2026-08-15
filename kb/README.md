@@ -24,8 +24,7 @@ kb/
 │   ├── root.ditamap              全库总组织，引所有领域 map
 │   ├── domains/*.ditamap         九个领域 map（lang/web/data/network/security/ai/engineering/foundations/content-engineering）
 │   └── glossary.ditamap          术语库
-├── topics/<领域>/                内容 topic，按领域分目录
-│   └── writing/                  写作规则（人读 concept）
+├── topics/<分支键>/              内容 topic，一级目录 = 词表分支键（ai/web/…/content-engineering）
 ├── glossary/                     术语 glossentry
 └── schema/                       DITA 架构师的零件（四属性域 + concept/reference/glossentry shell）
 ```

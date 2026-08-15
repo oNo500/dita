@@ -2,11 +2,11 @@
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 给 AI 的 DITA 写作规则总纲。层0：AI 主笔质量事前靠本篇、事后靠 review.sh。
      本篇是操作手册，串起内容类型框架/维度方法/术语双语，只补 DITA 操作层；
-     写作原则不重写，引 topics/writing/*。并入 agent-rules 交付物，AI 读它来写 kb。 -->
+     写作原则不重写，引 topics/content-engineering/writing-*。并入 agent-rules 交付物，AI 读它来写 kb。 -->
 <concept id="dita-authoring-guide" xml:lang="zh-CN"
          maturity="curated" volatility="stable" dimension="dim-criteria dim-process">
   <title>给 AI 的 DITA 写作规则（总纲）</title>
-  <shortdesc>AI 主笔 DITA 时照此决策。本集与 review.sh 机器兜底一一对应——事前照做，事后必过。写作原则见 topics/writing/*，选型见《内容类型框架》，本篇只给 DITA 操作层的流程与规则。</shortdesc>
+  <shortdesc>AI 主笔 DITA 时照此决策。本集与 review.sh 机器兜底一一对应——事前照做，事后必过。写作原则见 topics/content-engineering/writing-*，选型见《内容类型框架》，本篇只给 DITA 操作层的流程与规则。</shortdesc>
   <prolog>
     <!-- 原链接 docs.oasis-open.org/dita/dita/v2.0/ 已 404（link-check.py 于 2026-08-15 查出）：
          2.0 仍是草案，OASIS 正式发布路径下还没有它。改指 TC 的规范总入口。 -->
@@ -15,7 +15,7 @@
     <data name="domain" value="dita"/>
   </prolog>
   <conbody>
-    <p>你（AI）是 kb 的主笔。这篇是你写每一篇 DITA 前照着走的流程与规则。它不讲写作原则（那些在 <filepath>topics/writing/</filepath>），只讲 DITA 操作：选类型、用标签、标属性、挂术语与来源。每条规则都对应机器兜底 <cmdname>review.sh</cmdname> 的一条检查，事前照做就不会被事后拦。</p>
+    <p>你（AI）是 kb 的主笔。这篇是你写每一篇 DITA 前照着走的流程与规则。它不讲写作原则（那些在 <filepath>topics/content-engineering/</filepath>），只讲 DITA 操作：选类型、用标签、标属性、挂术语与来源。每条规则都对应机器兜底 <cmdname>review.sh</cmdname> 的一条检查，事前照做就不会被事后拦。</p>
 
     <section>
       <title>写一篇的决策流程</title>
@@ -61,7 +61,7 @@
         <li><xmlatt>maturity</xmlatt>：draft/curated/verified。不标默认 draft。verified 前提：来源已核对且标了 <xmlelement>data</xmlelement> <xmlatt>name</xmlatt>="reviewed"（→ R3）。</li>
         <li><xmlatt>volatility</xmlatt>：stable/volatile，<b>必须显式标</b>（漏标 R2 报错）。生态易变的内容标 volatile。</li>
         <li><xmlatt>dimension</xmlatt>：标这篇覆盖的维度（dim-*，可空格分隔多值），值必须在词表 dimension 值集内。</li>
-        <li><b>domain</b>（prolog <xmlelement>data</xmlelement> <xmlatt>name</xmlatt>="domain"）：这篇内容<b>讲的是哪个主题</b>，值必须是词表 subject 树里的键。它是 topic 与分类树之间唯一的链接——不声明就进不了骨架与覆盖度。优先叶子键（如 <codeph>doc-types</codeph>），内容确实横跨一整组才用组键（如 <codeph>coding-agents</codeph>）。归主题不归目录：文件放在哪个目录是文件组织，词表键才是分类。glossentry 豁免（术语库是组织节点）。填错键 <cmdname>dita-tools ia</cmdname> 报 error 并落回未归桶。</li>
+        <li><b>domain</b>（prolog <xmlelement>data</xmlelement> <xmlatt>name</xmlatt>="domain"）：这篇内容<b>讲的是哪个主题</b>，值必须是词表 subject 树里的键。它是 topic 与分类树之间唯一的链接——不声明就进不了骨架与覆盖度。优先叶子键（如 <codeph>doc-types</codeph>），内容确实横跨一整组才用组键（如 <codeph>coding-agents</codeph>）。目录与主题两级对应词表同一棵树：<b>目录 = 所属分支键</b>（一级，如 <filepath>topics/content-engineering/</filepath>），<b>domain = 主题键</b>（细粒度）。新建 topic 先按 domain 推出分支，放进同名目录。glossentry 豁免（术语库是组织节点）。填错键 <cmdname>dita-tools ia</cmdname> 报 error 并落回未归桶。</li>
       </ul>
     </section>
 
