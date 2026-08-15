@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA 2.0 Concept//EN" "concept.dtd">
+<concept id="full-topic" xml:lang="zh-CN" maturity="curated" volatility="volatile"
+         dimension="dim-mechanism dim-decision">
+  <title>标题里带<term>标记</term>的情形</title>
+  <shortdesc>摘要。</shortdesc>
+  <prolog>
+    <data name="domain" value="web"/>
+    <data name="reviewed" value="2026-08-15"/>
+  </prolog>
+  <conbody><p>正文。</p></conbody>
+</concept>

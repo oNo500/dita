@@ -22,6 +22,8 @@
 > 验一遍**，而测试也是照着规格写的（`expands_mapref_inline` 在给缺陷背书），所以测试
 > 全绿也没兜住。
 >
+> 另：`TopicMeta` 的字段规格已在 [2026-08-15 计划](2026-08-15-topic-parser-and-ia-depth.md) Task 2 扩展（`id` 改 `Option`、`dimension`→`dimensions`、新增 `lang` / `planned_dimensions` / `reviewed`），以后者为准。
+>
 > 已更正为：`MapRef { href, processing_role, title, children }`，被引 map 保留为自己的
 > 节点，空的渲染成 `[空]`。见 commit `7f09ed9`。教训写入
 > [架构与边界](../../../docs/架构与边界.md)。

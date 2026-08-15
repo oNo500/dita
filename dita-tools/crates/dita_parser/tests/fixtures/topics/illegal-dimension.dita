@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA 2.0 Concept//EN" "concept.dtd">
+<concept id="illegal" maturity="draft" volatility="stable" dimension="dim-concept dim-nonexistent">
+  <title>标了不存在的维度值</title>
+  <conbody><p>正文。</p></conbody>
+</concept>

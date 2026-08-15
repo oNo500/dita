@@ -75,13 +75,14 @@
 **Produces:** `fn parse_topic(path: &Path) -> Result<(TopicMeta, DiagnosticBag)>`
 
 **Steps:**
-- [ ] 根元素名 → `TopicType`（concept/task/reference/troubleshooting/glossentry，其余 `Unknown` 并报 warning）
-- [ ] 读根属性 `@id`、`@maturity`、`@volatility`、`@dimension`（空白分隔多值）、`@xml:lang`
-- [ ] 读 `<title>`；读 prolog 下 `<data name="domain">`、`<data name="planned-dimension">`（多值）、`<data name="reviewed">`
-- [ ] `TopicMeta` 增加字段承载上述内容（`planned_dimensions`、`reviewed`），并同步更新 Task 1 计划里的类型规格
-- [ ] fixtures：一个 concept（全属性齐）、一个全景（带 planned-dimension）、一个属性缺失的、一个非法 `@dimension` 值的
-- [ ] 测试断言逐字段，**含缺失属性时不 panic**（`maturity` 缺失 = `None`，由上层按"默认 draft"解释——默认值语义属规则层，不属解析层）
-- [ ] Commit
+- [x] 根元素名 → `TopicType`。**偏离计划一处**：另立 `TopicType::Topic` 承载通用 `<topic>`——它是合法 DITA，「本库要不要允许」属规则层判断，解析层只报事实；`Unknown` 仅留给真正不认识的根元素，只有它报 warning
+- [x] 读根属性 `@id`、`@maturity`、`@volatility`、`@dimension`（空白分隔多值）、`@xml:lang`
+- [x] 读 `<title>`（**含子元素内的文字**——标题里嵌 `<term>`/`<xmlelement>` 很常见，只取直接文本节点会静默截断）；glossentry 的标题取 `<glossterm>`；读 prolog 下三种 `<data>`
+- [x] `TopicMeta` 扩字段：`planned_dimensions`、`reviewed`、`lang`，`id` 改 `Option`（缺失不是空串），`dimension` 改 `dimensions`（多值）。2026-08-12 计划里的旧类型规格已加注以本计划为准
+- [x] fixtures 六个：全属性 concept、全景、属性全缺、glossentry、非法维度值、根元素不认识的
+- [x] 7 个测试逐字段断言，含"缺失属性是 `None` 而非默认值"（"忘了标"和"选了默认"必须可区分，R2 靠的就是这个区别）
+- [x] **在真库实跑**（新增 `examples/dump_topics.rs`）：22 篇全解析、**零告警**；与 grep 对账一致——concept 10 / glossentry 12、curated 21 / draft 1、volatile 7 / stable 15。顺带发现：全库唯一的 draft 正是 web 域的全景 `electron-landscape`，即该域的维度规划本身还没过审
+- [x] Commit
 
 ## Task 3：IA 报告深化
 
