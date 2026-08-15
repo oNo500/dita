@@ -45,14 +45,15 @@ kb/
 
 ## 当前进度
 
-Phase 0 盘点 → 1 评审 → 2 骨架 → 3 试点重写 → 4 首个交付物，均已走通。
+Phase 0 盘点 → 1 评审 → 2 骨架 → 3 试点重写 → 4 首个交付物，均已走通；**Phase 5 批量重写进行中**。
 - `schema/`：四属性域（maturity/volatility/tool/dimension）+ concept/reference/glossentry 三个 shell
-- `topics/`：22 篇——术语 12 条、写作规则 4 篇、agent 方法论 3 篇、agent-rules-core、DITA 写作总纲、领域全景样板各 1
-- `maps/`：九个领域 map 中 7 个仍是空骨架，只有 ai 与 content-engineering 挂了内容
+- `topics/`：24 篇——术语 12 条、写作规则 4 篇、agent 方法论 3 篇、agent-rules-core、DITA 写作总纲、领域全景 2（electron / coding-agents）、claude-code 配置速查 1
+- `maps/`：九个领域 map 中 6 个仍是空骨架；ai / content-engineering / web 有内容
+- 内容全部声明 `domain`（术语豁免），归入词表主题树；覆盖度与盲区看 `just ia`
 - 机器兜底：`scripts/review.sh` 串结构校验 + R1–R10 + 术语扫描（维度覆盖归 `just ia`），当前全过
 - 交付物：`maps/deliverables/agent-rules.ditamap` + `filters/tool-*.ditaval`
 
-下一步 Phase 5 批量重写（前置见 [`phase3-review.md`](../research/cases/kb-redesign/phase3-review.md)）。规划全貌见 [`../research/cases/kb-redesign/`](../research/cases/kb-redesign/README.md)；跨子项目的边界见 [架构与边界](../docs/architecture.md)。
+下一步继续 Phase 5（前置见 [`phase3-review.md`](../research/cases/kb-redesign/phase3-review.md)）。规划全貌见 [`../research/cases/kb-redesign/`](../research/cases/kb-redesign/README.md)；跨子项目的边界见 [架构与边界](../docs/architecture.md)。
 
 ## 检查
 
