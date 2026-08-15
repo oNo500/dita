@@ -20,8 +20,8 @@ build:
 
 # 外链活性（联网、慢；定期跑，不并入 review）
 links:
-    python3 kb/scripts/link-check.py
-    python3 kb/scripts/link-check.py research
+    uv run --script kb/scripts/link-check.py
+    uv run --script kb/scripts/link-check.py research
 
 # Rust 平台：测试 / lint / 重装二进制（改了 Rust 代码后必须 install，否则 PATH 上是旧的）
 test:

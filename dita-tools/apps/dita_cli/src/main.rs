@@ -23,6 +23,6 @@ enum Commands {
 fn main() -> Result<()> {
     let cli = Cli::parse();
     match cli.command {
-        Commands::Ia(args) => commands::ia::run(args),
+        Commands::Ia(args) => commands::ia::run(&args),
     }
 }

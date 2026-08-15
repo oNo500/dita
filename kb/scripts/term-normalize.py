@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.11"
+# dependencies = []
+# ///
 """术语规整（报告版）：扫正文里术语库已收录术语的"字面出现"（未用 keyref），
 报告建议改成 <term keyref="...">。
 
@@ -8,7 +12,7 @@
 <term> 内的），命中即报。
 
 缩写等短 ASCII 词易误报，报告里标注（缩写｜注意误报），交人判断。
-用法：python3 scripts/term-normalize.py [topics目录]
+用法：uv run --script scripts/term-normalize.py [topics目录]
 """
 import sys, glob, os, re
 import xml.etree.ElementTree as ET

@@ -1,3 +1,6 @@
+//! 骨架树的渲染（与 `render.rs` 同属渲染层，`print_stdout` 的豁免理由见那里）。
+#![allow(clippy::print_stdout)]
+
 use crate::{BenchmarkEntry, BranchPlan, DomainCoverage};
 use dita_ast::{DitaMap, MapNode, ProcessingRole, TopicMeta};
 use std::{collections::BTreeMap, path::PathBuf};

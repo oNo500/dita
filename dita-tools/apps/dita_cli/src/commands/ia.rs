@@ -35,7 +35,7 @@ pub struct IaArgs {
     pub depth: Option<usize>,
 }
 
-pub fn run(args: IaArgs) -> Result<()> {
+pub fn run(args: &IaArgs) -> Result<()> {
     let maps_dir = if args.root_only {
         None
     } else {

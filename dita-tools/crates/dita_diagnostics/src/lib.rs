@@ -33,10 +33,12 @@ impl Diagnostic {
         })
     }
 
+    #[must_use]
     pub fn is_error(&self) -> bool {
         matches!(self, Self::Error(_))
     }
 
+    #[must_use]
     pub fn path(&self) -> &PathBuf {
         match self {
             Self::Error(e) => &e.path,
@@ -44,6 +46,7 @@ impl Diagnostic {
         }
     }
 
+    #[must_use]
     pub fn message(&self) -> &str {
         match self {
             Self::Error(e) => &e.message,
@@ -62,14 +65,17 @@ impl DiagnosticBag {
         self.items.push(d);
     }
 
+    #[must_use]
     pub fn has_errors(&self) -> bool {
         self.items.iter().any(Diagnostic::is_error)
     }
 
+    #[must_use]
     pub fn error_count(&self) -> usize {
         self.items.iter().filter(|d| d.is_error()).count()
     }
 
+    #[must_use]
     pub fn warning_count(&self) -> usize {
         self.items.iter().filter(|d| !d.is_error()).count()
     }

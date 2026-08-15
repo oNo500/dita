@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.11"
+# dependencies = []
+# ///
 """链接活性检查：提取外链，批量查活性，报失效。
 
 来源纪律的机器化配套（见 dita2 cases/kb-redesign/sourcing-and-freshness-design.md）：
@@ -11,8 +15,8 @@ R8 只保证"有来源"，本脚本保证"来源还在"。源没了是内容过�
 见来源与时效-设计"所有外部来源统一用 scope=external"），以及 .md 文件里的裸 URL。
 
 用法：
-    python3 scripts/link-check.py                # 默认扫 kb 的 topics/ maps/ vocab/
-    python3 scripts/link-check.py ../docs        # 也可扫别的目录（.md 一并扫）
+    uv run --script scripts/link-check.py            # 默认扫 kb 的 topics/ maps/ vocab/
+    uv run --script scripts/link-check.py ../docs    # 也可扫别的目录（.md 一并扫）
 退出码：有失效链接则非零。
 """
 import concurrent.futures

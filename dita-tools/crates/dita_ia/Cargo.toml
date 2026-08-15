@@ -12,3 +12,6 @@ dita_vocab.workspace = true
 dita_diagnostics.workspace = true
 anyhow.workspace = true
 owo-colors.workspace = true
+
+[lints]
+workspace = true

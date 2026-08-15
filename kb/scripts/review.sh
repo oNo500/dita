@@ -19,9 +19,11 @@ if [ -z "${DITA_HOME:-}" ]; then
 fi
 SEARCH_DIRS="${DITA_HOME:-} $HOME/ws/tools/dita-ot-* /opt/dita-ot-* /opt/homebrew/Cellar/dita-ot /usr/local/Cellar/dita-ot"
 SAXON_JAR="$(find $SEARCH_DIRS -name 'Saxon-HE-*.jar' 2>/dev/null | head -1)"
+skipped=0
 if [ -z "$SAXON_JAR" ]; then
   echo "找不到 DITA-OT 自带 Saxon，业务规则检查跳过（改这里的探测路径）。" >&2
   CP=""
+  skipped=1
 else
   CP="$(dirname "$SAXON_JAR")/*"
 fi
@@ -50,9 +52,14 @@ done
 
 echo
 echo "== 2. 术语规整建议（报告版，不阻断入库）=="
-python3 "$KB/scripts/term-normalize.py"
+uv run --script "$KB/scripts/term-normalize.py"
 
 echo
+# 跳过 ≠ 通过：Saxon 缺失时 R1–R10 一条都没跑，此时报"全过"是假绿，必须挡住。
+if [ "$skipped" -ne 0 ]; then
+  echo "⚠️  业务规则 R1–R10 未执行（找不到 Saxon），本次结果不能当作通过依据"
+  exit 2
+fi
 if [ "$fail" -eq 0 ]; then
   echo "✅ 结构与业务规则全过"
 else

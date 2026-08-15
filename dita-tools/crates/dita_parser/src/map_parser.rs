@@ -13,6 +13,13 @@ use dita_diagnostics::{Diagnostic, DiagnosticBag};
 /// Corresponds to DITA-OT's `MaprefModule.java` (197 lines) + `mapref.xsl`,
 /// with one deliberate difference: referenced maps stay their own nodes instead
 /// of being spliced into the parent (see `MapRef`).
+///
+/// # Errors
+///
+/// Returns `Err` when the root map itself cannot be used: the path does not
+/// resolve, the file cannot be read, or it is not well-formed XML. Problems in
+/// referenced maps are diagnostics, not errors — one broken branch must not
+/// take down the whole tree.
 pub fn parse_map(path: &Path) -> anyhow::Result<(DitaMap, DiagnosticBag)> {
     let mut diag = DiagnosticBag::default();
     let mut ancestors = Vec::new();
@@ -84,7 +91,7 @@ fn collect_children(
 ) -> Vec<MapNode> {
     let mut result = Vec::new();
 
-    for child in node.children().filter(|n| n.is_element()) {
+    for child in node.children().filter(roxmltree::Node::is_element) {
         match child.tag_name().name() {
             "mapref" => {
                 let Some(href_str) = child.attribute("href") else {
@@ -140,8 +147,9 @@ fn collect_children(
                     children,
                 }));
             }
-            "title" => {} // already captured at map level
-            _ => {}       // unknown/unsupported elements are silently skipped
+            // title is already captured at map level; anything else is an
+            // element this view has no use for
+            _ => {}
         }
     }
 

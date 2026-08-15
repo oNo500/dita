@@ -7,7 +7,7 @@ members = ["apps/*", "crates/*"]
 edition = "2024"
 rust-version = "1.85.0"
 license = "MIT"
-repository = "https://github.com/xiu/dita-tools"
+repository = "https://github.com/oNo500/dita"
 description = "A collection of DITA authoring and publishing tools written in Rust."
 
 [workspace.lints.rust]
@@ -29,7 +29,6 @@ dita_ast       = { path = "crates/dita_ast" }
 dita_parser    = { path = "crates/dita_parser" }
 dita_ia        = { path = "crates/dita_ia" }
 dita_vocab     = { path = "crates/dita_vocab" }
-dita_validate  = { path = "crates/dita_validate" }
 dita_diagnostics = { path = "crates/dita_diagnostics" }
 
 # XML parsing

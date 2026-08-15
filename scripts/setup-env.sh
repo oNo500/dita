@@ -20,7 +20,15 @@ if ! command -v cc >/dev/null 2>&1; then
   exit 1
 fi
 
-# 2. Temurin JRE
+# 2. uv（kb/scripts 里的 .py 靠它跑：脚本内 PEP 723 头声明 requires-python，
+#    不依赖系统 python——Ubuntu 的 python3 是 externally-managed，装不了任何依赖）
+if ! command -v uv >/dev/null 2>&1 && [ ! -x "$HOME/.local/bin/uv" ]; then
+  say "装 uv…"
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+fi
+say "✓ uv → $(command -v uv || echo "$HOME/.local/bin/uv")"
+
+# 3. Temurin JRE
 JRE_DIR=$(find "$TOOLS_DIR" -maxdepth 1 -type d -name "jdk-${TEMURIN_MAJOR}*" | head -1)
 if [ -z "$JRE_DIR" ]; then
   say "装 Temurin ${TEMURIN_MAJOR} JRE…"
@@ -32,7 +40,7 @@ fi
 ln -sf "$JRE_DIR/bin/java" "$BIN_DIR/java"
 say "✓ java → $JRE_DIR"
 
-# 3. DITA-OT
+# 4. DITA-OT
 OT_DIR="$TOOLS_DIR/dita-ot-${DITA_OT_VERSION}"
 if [ ! -d "$OT_DIR" ]; then
   say "装 DITA-OT ${DITA_OT_VERSION}…"
@@ -50,7 +58,7 @@ WRAP
 chmod +x "$BIN_DIR/dita"
 say "✓ dita → $OT_DIR（markdown 插件 org.lwdita 随 4.4 自带）"
 
-# 4. Rust + just + dita-tools
+# 5. Rust + just + dita-tools
 if ! command -v cargo >/dev/null 2>&1 && [ ! -x "$HOME/.cargo/bin/cargo" ]; then
   say "装 rustup…"
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
