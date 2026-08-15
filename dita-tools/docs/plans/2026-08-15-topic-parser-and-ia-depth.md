@@ -36,7 +36,7 @@
 
 ## 前置（kb 侧，各一处，需先处理）
 
-- [ ] `electron-landscape.dita` 未挂进 `domains/web.ditamap`（当前是全库唯一的孤儿）。挂上它，N3/N4 才有真实数据可测。
+- [x] `electron-landscape.dita` 挂进 `domains/web.ditamap` —— **已挂，全库零孤儿**，N3/N4 有真实数据可测了。
 - [ ] `root.ditamap` 里 `ai` 与 `content-engineering` 被 `topichead` 包了一层同名节点，另外七个域是裸 `mapref` → 树里出现 `AI → AI`。**需决策**：删掉这两个 wrapper（结构一致），还是九个都包（语义一致）。不阻塞本计划，但会影响域归属推导的实现细节（要不要跳过同名 topichead）。
 
 ---
@@ -56,11 +56,13 @@
 - `fn legal_values(&self, attribute: &str) -> Option<&HashSet<String>>` —— 由 `<enumerationdef>` 的 `<attributedef name>` + `<subjectdef keys>` 解析而来
 
 **Steps:**
-- [ ] Cargo.toml：依赖 `roxmltree`、`dita_diagnostics`、`anyhow`、`thiserror`
-- [ ] 解析 `<subjectdef>` 树（递归，保留层级——维度值集是分组的）
-- [ ] 解析 `<enumerationdef>`：`<attributedef name="dimension"/>` + `<subjectdef keyref="…"/>` → 属性到合法值集合的映射
-- [ ] 单元测试：用 kb 的真词表做 fixture 的**子集**（不引用 kb 路径，工具不得依赖 kb 存在），断言 `dimension` 合法值含 `dim-concept`、不含 `dim-nonexistent`
-- [ ] Commit
+- [x] Cargo.toml：依赖 `roxmltree`、`dita_diagnostics`、`anyhow`（`thiserror` 没用上——本 crate 的失败只有一类「文件读不了」，`anyhow` 足够）
+- [x] 解析 `<subjectdef>` 树（递归，保留层级——维度值集是分组的）
+- [x] 解析 `<enumerationdef>` → 属性到合法值集合的映射。另读 `<defaultSubject>`：它的**缺席**是有意义的（volatility 故意不设默认，漏标应报错而非静默取默认）
+- [x] 单元测试：fixture 是真词表的结构**子集**，不引用 kb 路径。6 个测试，含「分组键合法但不是叶子」「被绑 subject 自身不是值」「悬空 keyref 报 error 但不拖垮其余属性」
+- [x] **在真词表上实跑**（新增 `examples/dump_vocab.rs`——fixture 过了不等于真文件能读）：@dimension 51 值（5 分组 + 46 叶子）、@maturity 3 值默认 draft、@volatility 2 值无默认、@tool 3 值，零诊断
+- [x] 对账 `check-rules.xsl` 的手抄副本：三个小值集**当前无漂移**（同批所建、词表未再改），SSOT 欠账仍是潜伏状态；45 个维度值从未抄进 XSL，正是 R11 缺失的原因
+- [x] Commit
 
 ## Task 2：`topic_parser` — 产出 `TopicMeta`
 

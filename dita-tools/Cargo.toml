@@ -28,6 +28,7 @@ print_stderr = "warn"
 dita_ast       = { path = "crates/dita_ast" }
 dita_parser    = { path = "crates/dita_parser" }
 dita_ia        = { path = "crates/dita_ia" }
+dita_vocab     = { path = "crates/dita_vocab" }
 dita_validate  = { path = "crates/dita_validate" }
 dita_diagnostics = { path = "crates/dita_diagnostics" }
 

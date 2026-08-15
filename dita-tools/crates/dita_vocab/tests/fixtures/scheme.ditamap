@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subjectScheme PUBLIC "-//OASIS//DTD DITA 2.0 Subject Scheme Map//EN" "subjectScheme.dtd">
+<!-- kb 真实词表的结构子集。刻意不引用 kb 的文件：工具不得假定 kb 存在。 -->
+<subjectScheme xml:lang="zh-CN">
+  <title>测试词表</title>
+
+  <subjectdef keys="dimension">
+    <subjectdef keys="dim-common">
+      <subjectdef keys="dim-concept"/>
+      <subjectdef keys="dim-mechanism"/>
+    </subjectdef>
+    <subjectdef keys="dim-artifact">
+      <subjectdef keys="dim-install"/>
+    </subjectdef>
+  </subjectdef>
+
+  <subjectdef keys="maturity-values">
+    <subjectdef keys="draft"/>
+    <subjectdef keys="curated"/>
+    <subjectdef keys="verified"/>
+  </subjectdef>
+
+  <subjectdef keys="volatility-values">
+    <subjectdef keys="stable"/>
+    <subjectdef keys="volatile"/>
+  </subjectdef>
+
+  <enumerationdef>
+    <attributedef name="maturity"/>
+    <subjectdef keyref="maturity-values"/>
+    <defaultSubject keyref="draft"/>
+  </enumerationdef>
+
+  <enumerationdef>
+    <attributedef name="volatility"/>
+    <subjectdef keyref="volatility-values"/>
+  </enumerationdef>
+
+  <enumerationdef>
+    <attributedef name="dimension"/>
+    <subjectdef keyref="dimension"/>
+  </enumerationdef>
+
+  <!-- 悬空绑定：应报 error 但不影响其他属性可用 -->
+  <enumerationdef>
+    <attributedef name="tool"/>
+    <subjectdef keyref="tool-values-that-do-not-exist"/>
+  </enumerationdef>
+</subjectScheme>
