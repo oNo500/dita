@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 用 kb concept shell（schema/concept-kb.rng）；maturity/volatility 为特化属性。
+     分类归属由 content-engineering 领域 map 的 topicref 表达。 -->
+<concept id="writing-atomicity" xml:lang="zh-CN" maturity="curated" volatility="stable" dimension="dim-criteria">
+  <title>准入测试：一篇内容能否进库</title>
+  <shortdesc>内容进入知识库前必须过两道判据——自足性与可归型；两者都不过的是噪音，不进。</shortdesc>
+  <conbody>
+    <p>知识库的价值不在收得多，在每一篇都用得上。旧库失守的教训是：什么都往里放，最后分不清高价值、slop 和噪音。准入测试把"要不要收"从模糊感觉变成两条可判定的判据。</p>
+
+    <section>
+      <title>判据一：自足性</title>
+      <p>一篇内容脱离它原来的语境后，是否仍然正确、仍然可用。这是复用的前提——被复用的内容会出现在新地方，如果它依赖"上文说过""这个项目里"，换了地方就是错的。</p>
+      <p>检验方法：把这篇内容单独拿出来，想象一个不知道它出处的人读到它。如果需要补充背景才能理解，说明它没有自足，要么补全语境写成自足的，要么它本就不是一个独立单元。</p>
+      <note>自足性是尺寸中立的：短不等于自足，长不等于不自足。判据是"脱离原语境是否仍成立"，不是字数。</note>
+    </section>
+
+    <section>
+      <title>判据二：可归型</title>
+      <p>一篇内容必须能归入下列类型之一（怎么写见 <xref href="writing-typing.dita">类型化写作</xref>）：</p>
+      <ul>
+        <li><xmlelement>concept</xmlelement> —— 原理、背景、为什么</li>
+        <li><xmlelement>task</xmlelement> —— 操作步骤，怎么做</li>
+        <li><xmlelement>reference</xmlelement> —— 查阅型参考、速查、参数</li>
+        <li><xmlelement>troubleshooting</xmlelement> —— 症状、原因、处置</li>
+        <li><xmlelement>glossentry</xmlelement> —— 一个术语的一个义项</li>
+      </ul>
+      <p>归不进任何一类，通常说明它还不是"知识"，而是未成形的片段或过程记录。</p>
+    </section>
+
+    <section>
+      <title>过不了就是噪音——这是定义，不用纠结</title>
+      <p>两道判据都不过的内容，按定义就是噪音，不进库。典型：</p>
+      <ul>
+        <li>日志、复盘、一次性记录 —— 无自足性，事过境迁不可复用</li>
+        <li>纯链接堆、无加工的粘贴 —— 没有自己的判断，可随时再生</li>
+        <li>三五行的空壳 stub、待办 —— 尚未成形</li>
+      </ul>
+      <p>不进库不等于删除——它们可以留在原处（如只读的旧库），只是不进入这个要求人人可用的正本。把准入门槛守住，库才不会退化成又一个分不清价值的堆场。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <ul>
+        <li>自足性 / 原子化：Zettelkasten 方法（一条笔记只讲一件事、脱离语境仍成立），<xref href="https://zettelkasten.de/introduction/" scope="external">zettelkasten.de</xref></li>
+        <li>可归型 / 类型划分：<xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>（教程 / 操作 / 参考 / 解释四类）</li>
+      </ul>
+    </section>
+  </conbody>
+</concept>

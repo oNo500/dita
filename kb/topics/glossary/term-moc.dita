@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-moc" xml:lang="zh-CN" maturity="curated" volatility="stable">
+  <glossterm>内容地图</glossterm>
+  <glossdef>一种导航型笔记：用一个页面把某个主题下的相关内容按结构组织并链接起来，作为该主题的入口。它本身不承载新内容，只提供组织与导航。</glossdef>
+  <glossBody>
+    <glossSurfaceForm>内容地图（map of content）</glossSurfaceForm>
+    <glossAlt>
+      <glossSynonym xml:lang="en">map of content</glossSynonym>
+    </glossAlt>
+    <glossAlt>
+      <glossSynonym>知识地图</glossSynonym>
+    </glossAlt>
+    <glossAlt>
+      <glossAcronym xml:lang="en">MOC</glossAcronym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

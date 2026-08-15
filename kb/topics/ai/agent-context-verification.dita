@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 重写自矿场 20-02-ai-assistant/AI-资产与查证分层（type:concept, draft）。
+     stable：做事/查证两条链是方法论，不随具体工具版本变。 -->
+<concept id="agent-context-verification" xml:lang="zh-CN" maturity="curated" volatility="stable">
+  <title>做事链与查证链：agent coding 的两条并行链</title>
+  <shortdesc>做事与查证是两条并行的链——规则和 skill 管"怎么做"，文档链管"事实是什么"；排成一条优先级会绕路，查 API 时先翻 skill 是浪费。</shortdesc>
+  <conbody>
+    <p>agent 写代码时需要两种东西：知道该怎么做，和知道事实是什么。这两者是<b>并行的两条链</b>，不是一条。混成一条优先级，查 API 时先去翻工作流，就绕了远路。</p>
+
+    <section>
+      <title>做事链：规则与 skill</title>
+      <ul>
+        <li><b>规则</b> —— 姿态约束，回答"应该/不应该怎样"，是个人沉淀。</li>
+        <li><b>skill</b> —— 可执行工作流，回答"怎么做一件事"，有输入有产物。</li>
+      </ul>
+      <p>判据不是"有没有步骤"，而是<b>被执行还是被遵守</b>。纯参考型的 skill（只查、无步骤）形态上接近规则。</p>
+    </section>
+
+    <section>
+      <title>查证链：按可信度递进，命中即停</title>
+      <ol>
+        <li><b>统一检索入口</b>（如 context7）—— 覆盖最广，查单点 API 用。</li>
+        <li><b>llms.txt / llms-full.txt</b> —— 官方编排的"AI 应该知道这些"，与抓取切片不同，用来建立整体理解。</li>
+        <li><b>仓库文档 / 抓官方页</b> —— 唯一能拿到<b>最新未索引内容</b>的途径。</li>
+        <li><b>读源码</b> —— 文档回答"怎么用"，源码回答"实际怎么跑"；文档写错时的唯一权威。</li>
+      </ol>
+      <note type="warning">所有索引都有延迟。近期变更只能直接读仓库——凭训练数据描述 API，是最常见的失效来源。配套一条纪律：某个 API 第一次用时查证，之后看代码里已有的实现。</note>
+    </section>
+
+    <section>
+      <title>第三方资产必验三件事</title>
+      <p>官方资产优先；引入第三方 skill/资产前，必验：</p>
+      <ol>
+        <li><b>读正文，不看描述</b> —— 描述是营销面，正文才是实际行为。</li>
+        <li><b>查与现有资产的重叠</b> —— 同主题两份会争夺触发。</li>
+        <li><b>看隐含依赖</b> —— 最易漏。可能依赖同仓的 setup 流程，单独摘出来会静默失效。</li>
+      </ol>
+    </section>
+
+    <section>
+      <title>什么该收、什么不该收</title>
+      <p>"常用技术栈"不等于"有官方 skill"——多数库官方不维护 skill，搜到的多是个人仓。按类型分流：</p>
+      <ul>
+        <li><b>API 用法</b> → 查证链已覆盖且更新更快，不必收。</li>
+        <li><b>判断与约定</b> → 写成自己的规则。</li>
+        <li>只有<b>官方自己维护</b>的 skill 才值得收录。</li>
+      </ul>
+    </section>
+  </conbody>
+</concept>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map PUBLIC "-//OASIS//DTD DITA 2.0 Map//EN" "map.dtd">
+<!-- 交付物 map：Agent 规则集。选取跨域的 rule topic，构建成各工具的配置文件。
+     同一 map + 不同 DITAVAL（filters/tool-*.ditaval）→ claude-code / codex 各自变体。
+     构建命令见 kb README 的 Phase 4 节（含双横线 flag，不便写进 XML 注释）。 -->
+<map xml:lang="zh-CN" chunk="combine">
+  <title>Agent 规则集</title>
+  <topicref href="../../topics/engineering/agent-rules-core.dita"/>
+  <!-- 给 AI 的 DITA 写作规则总纲（层0）：AI 主笔 kb 时读它，与 review.sh 机器兜底两条腿咬合 -->
+  <topicref href="../../topics/engineering/dita-authoring-guide.dita"/>
+  <!-- Phase 5 扩：更多 rule topic（frontend/nestjs/testing 等，从矿场 infra-ai/rules 重写） -->
+</map>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Codex 变体：排除其他工具特有段，保留通用 + codex 段。 -->
+<val>
+  <prop att="tool" val="tool-claude-code" action="exclude"/>
+  <prop att="tool" val="tool-antigravity" action="exclude"/>
+</val>

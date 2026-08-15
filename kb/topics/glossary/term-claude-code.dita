@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-claude-code" xml:lang="zh-CN" maturity="curated" volatility="volatile">
+  <glossterm>Claude Code</glossterm>
+  <glossdef>Anthropic 推出的命令行 AI 编码代理，在终端里理解代码库、编辑文件、运行命令，协助完成多步开发任务。</glossdef>
+  <glossBody>
+    <glossSurfaceForm>Claude Code</glossSurfaceForm>
+    <glossAlt>
+      <glossSynonym xml:lang="en">Claude Code</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

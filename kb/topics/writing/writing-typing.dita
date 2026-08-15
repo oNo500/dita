@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<concept id="writing-typing" xml:lang="zh-CN" maturity="curated" volatility="stable">
+  <title>类型化写作：先判类型，再动笔</title>
+  <shortdesc>动笔前先确定这块内容是哪一类，一篇只写一类；类型服务于自足性，不是为分类而分类。</shortdesc>
+  <conbody>
+    <p>类型化的收益是结构可预测：同一类内容形状一致，才能被统一地检索、复用、喂给工具。它也是对作者的强制——迫使你在动笔前想清"我这是在讲原理，还是在写步骤"，从源头阻止把概念和操作揉成一团。</p>
+
+    <section>
+      <title>五种类型的选择</title>
+      <table>
+        <tgroup cols="3">
+          <colspec colname="c1"/><colspec colname="c2"/><colspec colname="c3"/>
+          <thead>
+            <row><entry>类型</entry><entry>回答</entry><entry>典型内容</entry></row>
+          </thead>
+          <tbody>
+            <row><entry><term>concept</term></entry><entry>是什么 / 为什么</entry><entry>原理、背景、术语、心智模型</entry></row>
+            <row><entry><term>task</term></entry><entry>怎么做</entry><entry>精确分步：前提、动作、顺序、结果</entry></row>
+            <row><entry><term>reference</term></entry><entry>查什么</entry><entry>参数、速查、API、错误码——用来查而非用来记</entry></row>
+            <row><entry><term>troubleshooting</term></entry><entry>出问题怎么办</entry><entry>症状 → 原因 → 处置</entry></row>
+            <row><entry><term>glossentry</term></entry><entry>某词何意</entry><entry>一个术语的一个义项</entry></row>
+          </tbody>
+        </tgroup>
+      </table>
+      <p>拿不准 reference 还是 concept 时，问一句："这是用来查的，还是用来理解的？"用来查的进 reference。</p>
+    </section>
+
+    <section>
+      <title>主题不是类型</title>
+      <p>主题（讲什么领域）和类型（是哪种信息）是两个正交的维度。同一个主题会自然产生多篇不同类型的内容——"OAuth"这个主题下，授权模型是 concept、如何配置客户端是 task、参数表是 reference。</p>
+      <p>按主题切、不按类型切，就会写出一篇把原理、步骤、参数全混在一起的东西——那正是类型化要消灭的。</p>
+    </section>
+
+    <section>
+      <title>两种失败模式</title>
+      <ul>
+        <li><b>全写成 concept</b>：等于没有类型化，却仍要承担一套体系的成本。</li>
+        <li><b>为凑类型硬拆</b>：拆出无法独立理解的碎片，违背了更根本的自足性（见 <xref href="writing-atomicity.dita">准入测试</xref>）。</li>
+      </ul>
+      <p>判断顺序：先问这块内容能否独立成立，再问它是哪一类。<b>类型化服务于自足性，不能反过来破坏它。</b></p>
+    </section>
+  </conbody>
+</concept>

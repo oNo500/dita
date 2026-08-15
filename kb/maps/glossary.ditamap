@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map PUBLIC "-//OASIS//DTD DITA 2.0 Map//EN" "map.dtd">
+<!-- 术语库 map：收全库 glossentry（一术语一条目）。
+     术语一致性靠 <term keyref>（见 dita2 笔记 01）：正文引用术语走 keyref，改名一处生效。
+     Phase 2 骨架：首批从矿场 30-06 的 27 条 glossary 重写为 glossentry 后填入。 -->
+<map xml:lang="zh-CN">
+  <title>术语库</title>
+  <!-- 首批 12 条（2026-08-09）：矿场 30-06 甄别后重塑的通用概念 9 + 工具名 3；
+       Obsidian 特有等 18 条已弃（重塑非迁移）。keys=term-* 供正文 <term keyref> 引用。
+       术语库只增、随内容长：重写遇到关键术语库里没有，就先建 glossentry 再引。 -->
+  <topicref keys="term-context-engineering" href="../topics/glossary/term-context-engineering.dita"/>
+  <topicref keys="term-ssot" href="../topics/glossary/term-ssot.dita"/>
+  <topicref keys="term-mece" href="../topics/glossary/term-mece.dita"/>
+  <topicref keys="term-atomicity" href="../topics/glossary/term-atomicity.dita"/>
+  <topicref keys="term-zettelkasten" href="../topics/glossary/term-zettelkasten.dita"/>
+  <topicref keys="term-domain-event" href="../topics/glossary/term-domain-event.dita"/>
+  <topicref keys="term-aggregate" href="../topics/glossary/term-aggregate.dita"/>
+  <topicref keys="term-kebab-case" href="../topics/glossary/term-kebab-case.dita"/>
+  <topicref keys="term-moc" href="../topics/glossary/term-moc.dita"/>
+  <topicref keys="term-claude-code" href="../topics/glossary/term-claude-code.dita"/>
+  <topicref keys="term-codex" href="../topics/glossary/term-codex.dita"/>
+  <topicref keys="term-antigravity" href="../topics/glossary/term-antigravity.dita"/>
+</map>

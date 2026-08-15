@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-kebab-case" xml:lang="zh-CN" maturity="curated" volatility="stable">
+  <glossterm>短横线命名</glossterm>
+  <glossdef>一种命名风格：全部小写，单词之间用连字符分隔，如 my-folder。常用于目录名、URL 等对大小写不敏感的场合。</glossdef>
+  <glossBody>
+    <glossSurfaceForm>短横线命名（kebab-case）</glossSurfaceForm>
+    <glossAlt>
+      <glossSynonym xml:lang="en">kebab-case</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

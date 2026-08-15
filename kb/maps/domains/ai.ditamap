@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map PUBLIC "-//OASIS//DTD DITA 2.0 Map//EN" "map.dtd">
+<!-- 领域 map：AI（subjectScheme 分支：ai）
+     该 map 收 subject/ai 分支下的 topic：llm / agent / coding-agents / ai-security。 -->
+<map xml:lang="zh-CN">
+  <title>AI</title>
+
+  <!-- coding-agents / agent 方法论：Phase 3 试点首批。直接列 topic，不套多余分组 -->
+  <topicref href="../../topics/ai/agent-rule-loading.dita"/>
+  <topicref href="../../topics/ai/agent-skill-orchestration.dita"/>
+  <topicref href="../../topics/ai/agent-context-verification.dita"/>
+
+  <!-- llm / ai-security / 其余 agent 内容：待后续重写填入 -->
+</map>

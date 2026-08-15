@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-aggregate" xml:lang="zh-CN" maturity="curated" volatility="stable">
+  <glossterm>聚合</glossterm>
+  <glossdef>领域驱动设计中一组被封装为一致性边界的领域对象，对外只能通过唯一的根实体（聚合根）访问。事务边界与聚合边界一致，一次事务只修改一个聚合。</glossdef>
+  <glossBody>
+    <glossSurfaceForm>聚合（aggregate）</glossSurfaceForm>
+    <glossAlt>
+      <glossSynonym xml:lang="en">aggregate</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

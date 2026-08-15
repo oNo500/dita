@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-domain-event" xml:lang="zh-CN" maturity="curated" volatility="stable">
+  <glossterm>领域事件</glossterm>
+  <glossdef>领域中已经发生、且业务关心的事实，以不可变的消息形式表达。通常采用过去时命名（如 OrderPlaced），由聚合在状态变更后发布，是跨限界上下文集成的常用机制。</glossdef>
+  <glossBody>
+    <glossSurfaceForm>领域事件（domain event）</glossSurfaceForm>
+    <glossAlt>
+      <glossSynonym xml:lang="en">domain event</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

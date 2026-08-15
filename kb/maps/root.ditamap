@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map PUBLIC "-//OASIS//DTD DITA 2.0 Map//EN" "map.dtd">
+<!-- root map：全库总组织（信息架构师产出）。引所有领域 map + glossary map。
+     这是键空间的根（见 dita2 笔记 10 寻址与键空间）。
+     Phase 2 骨架：领域 map 均为空骨架，内容 topic 待 Phase 3+ 重写后填入各领域 map。 -->
+<map xml:lang="zh-CN">
+  <title>知识体系</title>
+
+  <!-- 词表：受控值来源，resource-only 不进导航 -->
+  <mapref href="../vocab/subjectScheme.ditamap" format="ditamap" processing-role="resource-only"/>
+
+  <!-- 九个领域 -->
+  <mapref href="domains/lang.ditamap"/>
+  <mapref href="domains/web.ditamap"/>
+  <mapref href="domains/data.ditamap"/>
+  <mapref href="domains/network.ditamap"/>
+  <mapref href="domains/security.ditamap"/>
+  <topichead>
+    <topicmeta><navtitle>AI</navtitle></topicmeta>
+    <mapref href="domains/ai.ditamap"/>
+  </topichead>
+  <mapref href="domains/engineering.ditamap"/>
+  <mapref href="domains/foundations.ditamap"/>
+  <topichead>
+    <topicmeta><navtitle>知识工程</navtitle></topicmeta>
+    <mapref href="domains/content-engineering.ditamap"/>
+  </topichead>
+
+  <!-- 术语库 -->
+  <mapref href="glossary.ditamap"/>
+</map>

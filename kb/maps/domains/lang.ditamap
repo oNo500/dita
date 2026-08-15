@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map PUBLIC "-//OASIS//DTD DITA 2.0 Map//EN" "map.dtd">
+<!-- 领域 map：语言本体（subjectScheme 分支：lang）
+     Phase 2 骨架：只建组织结构，topicref 待内容重写后填入。
+     该 map 收 subject/lang 分支下的 topic。 -->
+<map xml:lang="zh-CN">
+  <title>语言本体</title>
+  <!-- 例：<topicref href="../../topics/lang/xxx.dita"/> -->
+</map>

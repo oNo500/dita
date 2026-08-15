@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-antigravity" xml:lang="zh-CN" maturity="curated" volatility="volatile">
+  <glossterm>Antigravity</glossterm>
+  <glossdef>Google 推出的、以 AI 代理为中心的开发环境（智能体式 IDE，基于 Gemini），让代理较自主地完成编写与修改代码等开发任务。</glossdef>
+  <glossBody>
+    <glossSurfaceForm>Antigravity</glossSurfaceForm>
+    <glossAlt>
+      <glossSynonym xml:lang="en">Antigravity</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

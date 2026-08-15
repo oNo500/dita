@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subjectScheme PUBLIC "-//OASIS//DTD DITA 2.0 Subject Scheme Map//EN" "subjectScheme.dtd">
+<!-- 知识体系受控词表正本 v0.3（2026-08-09）—— kb 正本
+     信息架构师产出。依据：422 篇实测盘点 + 五路外部对标 + 评审裁定。
+     设计与推导过程见 dita2 仓库 cases/知识体系重塑/（那里有一份同版本快照作案例记录，
+     本文件是随 kb 演进的正本，两者可能分叉——以本文件为准）。
+     确切 DOCTYPE 字符串以所用 DITA-OT 的 catalog 为准。
+     本文件是合法 DITA 文件，可先于工具链存在；校验依 beta03 语法文件。
+
+     v0.1→v0.2 变更（全部经评审通过）：
+     · 建 6 节点：db-fundamentals / vector-search（data）、concurrency（foundations）、
+       context-engineering（ai）、docs-as-code（content-eng）、reverse-eng（security）
+     · 改 5 处：code-style→coding-practices、sec-ops 拆分（威胁建模移 appsec）、
+       identity 显式分出 authz、agent-cli→coding-agents、evals 扩义含 observability
+     · content-engineering 重构为四组（B5）；transport 注释补 QUIC
+     · agent/memory 预留挂点；对标治理登记（benchmark-registry）
+
+     v0.2→v0.3 变更（2026-08-09，维度对标定稿，经批准）：
+     · 新增横切「维度值集」dimension：dim-common 通用核心 11 ＋ 四族特有
+       （A 技术制品 9 / B 工程治理 8 / C AI 构建 10 / D 方法规范 7），共 45 键。
+       维度标引：内容 topic 用专门化属性 @dimension（从 @props 专门化、enumerationdef 绑本值集、可多值）；
+       全景用 prolog data（planned-dimension 规划清单 + domain 域，属治理元数据）。key 统一 dim- 前缀避免撞键。
+       依据五路对标（矿场＋技术制品＋工程治理＋AI＋写作），见 cases 维度对标报告.md。
+     · 含矿场特有维度 dim-mental-model-migration（换栈差异，外部五路框架均无）。
+     · v0.3 后按需补 dim-packaging（打包分发/自动更新，A 族桌面框架子类首个，electron 样板触发）。 -->
+<subjectScheme xml:lang="zh-CN">
+  <title>知识体系受控词表（正本 v0.3）</title>
+
+  <!-- ═══════ 主题维度 ═══════
+       供 @subjectrefs 引用做分类标引，不绑定过滤属性。
+       树按"排除父亲时儿子该消失"的过滤语义画（14 §4），不按学科从属画。
+       九个顶层分支互相正交，经五路对标确认无一需改动。 -->
+  <subjectdef keys="subject">
+
+    <subjectdef keys="lang">
+      <subjectdef keys="go"/>
+      <subjectdef keys="typescript"/>
+      <subjectdef keys="javascript"/>
+      <subjectdef keys="python"/>
+    </subjectdef>
+
+    <!-- nodejs 与 electron 归 web 而非 lang：运行时/平台知识，
+         排除 lang（语言本体）时不该消失，排除 web 技术栈时该消失 -->
+    <subjectdef keys="web">
+      <subjectdef keys="browsers"/>       <!-- 含 Web 平台 API：PWA/WASM/Web Components 落此 -->
+      <subjectdef keys="css"/>
+      <subjectdef keys="react"/>
+      <subjectdef keys="nextjs"/>
+      <subjectdef keys="nodejs"/>
+      <subjectdef keys="electron"/>
+    </subjectdef>
+
+    <subjectdef keys="data">
+      <subjectdef keys="postgresql"/>
+      <subjectdef keys="redis"/>
+      <subjectdef keys="sqlite-local-first"/>
+      <subjectdef keys="orm"/>
+      <subjectdef keys="db-fundamentals"/> <!-- 事务/隔离/一致性/索引原理/建模范式（跨库通论，v0.2 新增） -->
+      <subjectdef keys="vector-search"/>   <!-- pgvector/HNSW/FTS/hybrid；与 ai/rag 交叉标引（v0.2 新增） -->
+    </subjectdef>
+
+    <subjectdef keys="network">
+      <subjectdef keys="transport"/>       <!-- TCP/UDP/TLS/QUIC -->
+      <subjectdef keys="http"/>            <!-- 含 HTTP/3 -->
+      <subjectdef keys="dns"/>
+      <subjectdef keys="realtime"/>        <!-- WebSocket/SSE -->
+    </subjectdef>
+
+    <subjectdef keys="security">
+      <subjectdef keys="appsec"/>          <!-- XSS/SQLi/SSRF/反序列化/API 安全/威胁建模（v0.2 起含威胁建模） -->
+      <subjectdef keys="identity"/>        <!-- OAuth/OIDC/JWT/Session/MFA -->
+      <subjectdef keys="authz"/>           <!-- 授权/访问控制/IDOR/多租户（v0.2 从 identity 显式分出） -->
+      <subjectdef keys="crypto"/>          <!-- 密码学/哈希/传输安全 -->
+      <subjectdef keys="supply-chain"/>
+      <subjectdef keys="cloud-native-sec"/>
+      <subjectdef keys="sec-ops"/>         <!-- IR/检测/响应（v0.2 起只留运行期，威胁建模已移 appsec） -->
+      <subjectdef keys="reverse-eng"/>     <!-- 动态插桩/抓包分析/客户端拆解（v0.2 新增，有存量实践） -->
+    </subjectdef>
+
+    <subjectdef keys="ai">
+      <subjectdef keys="llm">
+        <subjectdef keys="llm-api"/>       <!-- 各家 API/SDK/结构化输出/multimodal 输入 -->
+        <subjectdef keys="inference"/>     <!-- 推理模型/token -->
+        <subjectdef keys="cost-caching"/>
+      </subjectdef>
+      <subjectdef keys="agent">
+        <subjectdef keys="agent-patterns"/> <!-- 范式/workflow 区分 -->
+        <subjectdef keys="rag"/>           <!-- 含 GraphRAG；与 data/vector-search 交叉标引 -->
+        <subjectdef keys="prompt"/>
+        <subjectdef keys="context-engineering"/> <!-- compaction/context editing/token 预算（v0.2 新增，收拢散落内容） -->
+        <subjectdef keys="evals"/>         <!-- 含 observability/生产 tracing（v0.2 扩义，不单开 llmops） -->
+        <subjectdef keys="sandboxing"/>
+        <subjectdef keys="mcp"/>           <!-- 出现 A2A/ACP 真实笔记时升 protocols 父节点 -->
+        <subjectdef keys="memory"/>        <!-- 预留挂点：agent 记忆/KG-as-memory（v0.2 预留） -->
+      </subjectdef>
+      <!-- coding-agents（原 agent-cli）：工具已不限 CLI 形态；产品名叶子接受高周转，
+           父节点稳定、叶子死了归档即可（如 Google 2026-06 砍 Gemini CLI） -->
+      <subjectdef keys="coding-agents">
+        <subjectdef keys="claude-code"/>
+        <subjectdef keys="codex"/>
+        <subjectdef keys="antigravity"/>
+      </subjectdef>
+      <subjectdef keys="ai-security"/>     <!-- prompt 注入/越狱；与 security 交叉标引 -->
+    </subjectdef>
+
+    <subjectdef keys="engineering">
+      <subjectdef keys="architecture"/>    <!-- 设计原则/架构模式/DDD/微前端/缓存/消息队列/扩展性 -->
+      <subjectdef keys="api-design"/>      <!-- 含 gRPC/protobuf（与 network/http 交叉） -->
+      <subjectdef keys="coding-practices"/> <!-- 风格/lint/惯用法/可读性/重构（v0.2 从 code-style 改名扩容） -->
+      <subjectdef keys="testing"/>
+      <subjectdef keys="tooling"/>         <!-- 开发工具链：构建/lint/包管理/Rust 工具链（与 devops 划界：运行时基础设施归 devops） -->
+      <subjectdef keys="git"/>             <!-- 含版本控制通识 -->
+      <subjectdef keys="devops"/>          <!-- CI/CD/容器/IaC/Secret/云 + observability -->
+      <subjectdef keys="terminal"/>        <!-- TUI/TTY/shell -->
+    </subjectdef>
+
+    <subjectdef keys="foundations">
+      <subjectdef keys="dsa"/>
+      <subjectdef keys="concurrency"/>     <!-- 跨运行时并发理论：事件循环/CSP/actor/内存模型（v0.2 新增，收散落内容） -->
+      <!-- 观察名单第一位：os（terminal/沙箱笔记重写出 OS 基底即建） -->
+    </subjectdef>
+
+    <!-- ═══ content-engineering：知识工程（v0.2 从 5 扁平叶子重构为四组，B5）═══
+         knowledge-organization = 知识"用什么结构"（静态形态，KOS）
+         knowledge-mgmt         = 知识"怎么运营"（动态过程，KM） -->
+    <subjectdef keys="content-engineering">
+
+      <subjectdef keys="structured-content">
+        <subjectdef keys="dita"/>
+        <subjectdef keys="s1000d"/>
+        <subjectdef keys="docs-as-code"/>  <!-- markdown/note-conventions（v0.2 新增，note-conventions 归此） -->
+      </subjectdef>
+
+      <subjectdef keys="knowledge-organization">
+        <subjectdef keys="terminology"/>   <!-- ISO 704/1087/25964/TBX（v0.1 原顶层叶子，升入此组） -->
+        <subjectdef keys="taxonomy"/>      <!-- 分类法/受控词表/facet（本体系自身的方法域） -->
+        <subjectdef keys="ontology"/>      <!-- 本体/RDF/语义网（理论侧；技术 KG 的 RDF 在此交叉） -->
+        <subjectdef keys="knowledge-graph"/> <!-- KG 作为知识结构形态（技术 KG 的图库归 data、GraphRAG 归 ai/rag、memory 归 agent） -->
+      </subjectdef>
+
+      <subjectdef keys="knowledge-mgmt">
+        <subjectdef keys="km-methodology"/>   <!-- SSoT/MECE/原子化/Zettelkasten -->
+        <subjectdef keys="km-maintenance"/>   <!-- 审计流程/生命周期 -->
+      </subjectdef>
+
+      <subjectdef keys="writing">
+        <subjectdef keys="writing-principles"/> <!-- 写作规范/原子化判据/Diátaxis -->
+        <subjectdef keys="doc-types"/>          <!-- ADR/README/API 文档 -->
+        <subjectdef keys="llm-friendly"/>       <!-- RAG 友好写作/语义分块 -->
+      </subjectdef>
+
+    </subjectdef>
+
+  </subjectdef>
+
+  <!-- ═══════ 维度值集（v0.3 新增）═══════
+       横切"内容讲主题的哪个方面"。DITA 2.0 移除了 classification domain（topicsubject/subjectref 等元素 2.0 不存在），
+       受控维度标引改由"@props 专门化属性 + enumerationdef 绑受控值"承担（与 maturity/volatility/tool 同路）：
+       内容 topic 在根用 @dimension 标覆盖的维度（专门化自 @props、shell 声明；可多值；enumerationdef 校验值在本值集内，见文件末绑定）；
+       全景 topic 用 prolog data name="planned-dimension" 声明本域规划清单、data name="domain" 标域
+       （规划/域属治理元数据、非内容分类，用 data 承载）。覆盖度＝planned vs 各 topic 的 @dimension，按 domain 求差可算。
+       key 统一 dim- 前缀，避免与主题树/其他值集撞键（同 tool- 前缀先例）。
+       两层：dim-common 通用核心（所有族可用）＋ 四族特有子集。
+       依据五路对标定稿，见 dita2 cases/知识体系重塑/维度对标报告.md。
+       机制沿革：先误用 topic @subjectrefs（非法）→ 再用 prolog data（丢语义）→ 查 DITA 2.0 规范定为 @props 专门化 @dimension。 -->
+  <subjectdef keys="dimension">
+
+    <subjectdef keys="dim-common">        <!-- 通用核心：跨族都出现 -->
+      <subjectdef keys="dim-concept"/>              <!-- 概念/心智模型 -->
+      <subjectdef keys="dim-mechanism"/>            <!-- 机制/原理 -->
+      <subjectdef keys="dim-comparison"/>           <!-- 对比/选型/权衡 -->
+      <subjectdef keys="dim-decision"/>             <!-- 决策/判断，含判断树 -->
+      <subjectdef keys="dim-terminology"/>          <!-- 术语/界定 -->
+      <subjectdef keys="dim-evolution"/>            <!-- 演进/版本 -->
+      <subjectdef keys="dim-ecosystem"/>            <!-- 生态/资源选材 -->
+      <subjectdef keys="dim-boundary-pitfalls"/>    <!-- 边界/禁区/反模式/不变量 -->
+      <subjectdef keys="dim-process"/>              <!-- 流程/维护治理 -->
+      <subjectdef keys="dim-principles"/>           <!-- 原则/公理 -->
+      <subjectdef keys="dim-mental-model-migration"/> <!-- 换栈差异/心智模型迁移（矿场特有，外部框架无）-->
+    </subjectdef>
+
+    <subjectdef keys="dim-artifact">      <!-- A 技术制品特有（语言/数据库/协议/框架子类按需再加）-->
+      <subjectdef keys="dim-install"/>
+      <subjectdef keys="dim-config"/>
+      <subjectdef keys="dim-usage"/>
+      <subjectdef keys="dim-tuning"/>
+      <subjectdef keys="dim-troubleshooting"/>
+      <subjectdef keys="dim-security"/>
+      <subjectdef keys="dim-integration"/>
+      <subjectdef keys="dim-reference"/>
+      <subjectdef keys="dim-internals"/>
+      <subjectdef keys="dim-packaging"/>    <!-- 打包分发与自动更新：桌面/客户端框架等产出可分发制品的技术特有（electron 样板触发，子类按需补，首个）-->
+    </subjectdef>
+
+    <subjectdef keys="dim-ops">           <!-- B 工程实践与治理特有 -->
+      <subjectdef keys="dim-goals"/>
+      <subjectdef keys="dim-roles"/>
+      <subjectdef keys="dim-metrics"/>
+      <subjectdef keys="dim-observability"/>
+      <subjectdef keys="dim-governance"/>
+      <subjectdef keys="dim-scaling"/>
+      <subjectdef keys="dim-incident"/>
+      <subjectdef keys="dim-adoption"/>
+    </subjectdef>
+
+    <subjectdef keys="dim-aibuild">       <!-- C AI 应用构建特有 -->
+      <subjectdef keys="dim-model-capability"/>
+      <subjectdef keys="dim-prompt"/>
+      <subjectdef keys="dim-context-engineering"/>
+      <subjectdef keys="dim-retrieval"/>
+      <subjectdef keys="dim-agent-orchestration"/>
+      <subjectdef keys="dim-tool-design"/>
+      <subjectdef keys="dim-evaluation"/>
+      <subjectdef keys="dim-cost-latency"/>
+      <subjectdef keys="dim-failure-modes"/>
+      <subjectdef keys="dim-injection-safety"/>
+    </subjectdef>
+
+    <subjectdef keys="dim-method">        <!-- D 方法与规范特有 -->
+      <subjectdef keys="dim-criteria"/>
+      <subjectdef keys="dim-classification"/>
+      <subjectdef keys="dim-structure-template"/>
+      <subjectdef keys="dim-relations"/>
+      <subjectdef keys="dim-examples"/>
+      <subjectdef keys="dim-consistency"/>
+      <subjectdef keys="dim-interop"/>
+    </subjectdef>
+
+  </subjectdef>
+
+  <!-- ═══════ 对标治理登记 ═══════
+       把"跟上前沿"从愿望变成机制：分类树本身也会过时（内容层的 volatility
+       管不了结构层），这里给九个顶层分支登记对标锚点与复核纪律。
+
+       灵活性是设计核心——机制是"提示与登记"，不是"定期作业"：
+       · 触发以【事件】为主：某分支连续 ≥3 篇笔记无处安放、或外部锚点体系
+         大改版（如 SWEBOK 出新版、OWASP 重构），即触发对标——这才是"按需"。
+       · 【到期】只是兜底防遗忘，不是硬门：过期仅由工具 flag 提示，不阻塞
+         任何写作或构建。
+       · 到期复核【默认轻量】：花几分钟确认锚点体系有无大变即可续期
+         （更新 last-benchmarked）；只有轻量确认发现大变、或事件触发时，
+         才跑一次全量对标（即 2026-08-08 的五路调研规格）。
+       · cadence 是默认档，可按分支手动调；stable 分支基本靠事件触发。 -->
+  <subjectdef keys="benchmark-registry">
+    <topicmeta><navtitle>对标治理登记（不参与内容分类）</navtitle></topicmeta>
+    <data name="policy"
+          value="event-primary; date-fallback; lightweight-recheck-default; expiry-flags-not-blocks"/>
+
+    <subjectdef keys="bm-ai">
+      <data name="anchor">无稳定权威：Anthropic/OpenAI 官方文档结构 + AI-eng roadmaps（活文档交叉验证）</data>
+      <data name="last-benchmarked" value="2026-08-08"/>
+      <data name="cadence" value="volatile-6mo"/>
+      <data name="event-trigger">新子领域连续 ≥3 篇无处安放；官方文档大类重构；新 agent 协议出现真实笔记</data>
+    </subjectdef>
+    <subjectdef keys="bm-security">
+      <data name="anchor">OWASP ASVS 5.0 / WSTG / Top10 系列 / CWE Top25 / MITRE ATT&amp;CK</data>
+      <data name="last-benchmarked" value="2026-08-08"/>
+      <data name="cadence" value="annual"/>
+      <data name="event-trigger">OWASP 主体系新版；CWE Top25 年度更新引入新类别</data>
+    </subjectdef>
+    <subjectdef keys="bm-engineering">
+      <data name="anchor">IEEE SWEBOK v4 / roadmap.sh backend·devops</data>
+      <data name="last-benchmarked" value="2026-08-08"/>
+      <data name="cadence" value="annual"/>
+      <data name="event-trigger">SWEBOK 新版；连续多篇笔记归类困难</data>
+    </subjectdef>
+    <subjectdef keys="bm-web">
+      <data name="anchor">roadmap.sh frontend·full-stack / MDN Curriculum</data>
+      <data name="last-benchmarked" value="2026-08-08"/>
+      <data name="cadence" value="annual"/>
+      <data name="event-trigger">主框架换代；平台 API 出现装不下的笔记（PWA/WASM 观察项落地）</data>
+    </subjectdef>
+    <subjectdef keys="bm-data">
+      <data name="anchor">DB-Engines 模型分类 / CMU 15-445</data>
+      <data name="last-benchmarked" value="2026-08-08"/>
+      <data name="cadence" value="annual"/>
+      <data name="event-trigger">新存储范式进入工作流（如已发生的向量检索）</data>
+    </subjectdef>
+    <subjectdef keys="bm-network">
+      <data name="anchor">IETF/OSI 分层 / Modern HTTP Stack</data>
+      <data name="last-benchmarked" value="2026-08-08"/>
+      <data name="cadence" value="stable-on-trigger"/>
+      <data name="event-trigger">新传输/应用协议成为实践标配</data>
+    </subjectdef>
+    <subjectdef keys="bm-foundations">
+      <data name="anchor">ACM CCS 2012 / teachyourselfcs / CS2023</data>
+      <data name="last-benchmarked" value="2026-08-08"/>
+      <data name="cadence" value="stable-on-trigger"/>
+      <data name="event-trigger">观察项落地（os 第一顺位）；跨域理论笔记积累</data>
+    </subjectdef>
+    <subjectdef keys="bm-lang">
+      <data name="anchor">可枚举域，无外部锚点</data>
+      <data name="last-benchmarked" value="2026-08-08"/>
+      <data name="cadence" value="on-trigger"/>
+      <data name="event-trigger">新增语言进入技术栈；单语言超 ~20 篇需就地分裂</data>
+    </subjectdef>
+    <subjectdef keys="bm-content-engineering">
+      <data name="anchor">ISO 704/1087/25964/TBX（自有笔记即权威）/ DITA·S1000D / SIGDOC docs-as-code</data>
+      <data name="last-benchmarked" value="2026-08-08"/>
+      <data name="cadence" value="stable-on-trigger"/>
+      <data name="event-trigger">标准出新版；结构化内容领域新范式</data>
+    </subjectdef>
+
+    <!-- 维度值集的对标（v0.3 新增）：登记的不是主题分支，是横切 dimension 值集本身。 -->
+    <subjectdef keys="bm-dimension">
+      <data name="anchor">五路对标：Diátaxis/Good Docs（体裁与解释性文档）· 主流官方文档顶层结构（技术制品维度）· Google SRE/DORA/SPACE/Team Topologies（工程治理维度）· Anthropic/OpenAI/Chip Huyen AI Engineering（AI 构建维度）· ISO 25964/Z39.19（方法规范维度）＋ 矿场 422 篇实据</data>
+      <data name="last-benchmarked" value="2026-08-09"/>
+      <data name="cadence" value="stable-on-trigger"/>
+      <data name="event-trigger">某族连续 ≥3 篇内容标不上现有维度（触发子类/新维度，如 dim-packaging 已发生）；外部框架大改版（Diátaxis/AI Engineering 出新结构）；出现四族之外的知识形态（第五族）</data>
+    </subjectdef>
+  </subjectdef>
+
+  <!-- ═══════ 成熟度值集 ═══════ 绑定 @props/maturity（属性由 shell 声明） -->
+  <subjectdef keys="maturity-values">
+    <subjectdef keys="draft"/>
+    <subjectdef keys="curated"/>
+    <subjectdef keys="verified"/>          <!-- 晋级前提：来源已核对且标注日期 -->
+  </subjectdef>
+
+  <!-- ═══════ 时效值集 ═══════ 绑定 @props/volatility -->
+  <subjectdef keys="volatility-values">
+    <subjectdef keys="stable"/>
+    <subjectdef keys="volatile"/>          <!-- 治理规则：volatile 无核对日期不得标 verified -->
+  </subjectdef>
+
+  <!-- ═══════ 工具值集 ═══════ 绑定 @props/tool，用于按工具出变体（03 条件化） -->
+  <subjectdef keys="tool-values">
+    <subjectdef keys="tool-claude-code"/>
+    <subjectdef keys="tool-codex"/>
+    <subjectdef keys="tool-antigravity"/>
+  </subjectdef>
+
+  <!-- ═══════ 绑定 ═══════
+       注意规范语义（03/14）：被绑定的容器节点本身不是合法值；
+       defaultSubject 是五级优先级的第 4 级 -->
+  <enumerationdef>
+    <attributedef name="maturity"/>
+    <subjectdef keyref="maturity-values"/>
+    <defaultSubject keyref="draft"/>       <!-- 未标注即视为 draft，天然防"未审内容冒充成品" -->
+  </enumerationdef>
+
+  <enumerationdef>
+    <attributedef name="volatility"/>
+    <subjectdef keyref="volatility-values"/>
+    <!-- 不设默认：时效必须显式判断，漏标应报错而非静默取默认 -->
+  </enumerationdef>
+
+  <enumerationdef>
+    <attributedef name="tool"/>
+    <subjectdef keyref="tool-values"/>
+  </enumerationdef>
+
+  <!-- 维度：绑 @props/dimension（专门化属性，shell 声明）到维度值集。
+       不设 defaultSubject（维度必须显式标，漏标不该静默取默认）。可多值。 -->
+  <enumerationdef>
+    <attributedef name="dimension"/>
+    <subjectdef keyref="dimension"/>
+  </enumerationdef>
+
+</subjectScheme>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-mece" xml:lang="zh-CN" maturity="curated" volatility="stable">
+  <glossterm>相互独立、完全穷尽</glossterm>
+  <glossdef>一种分类原则：所有分类项两两之间没有交集（相互独立），它们的并集覆盖整个论域（完全穷尽）。由麦肯锡的 Barbara Minto 在《金字塔原理》中确立，是结构化思维的基础。</glossdef>
+  <glossBody>
+    <glossSurfaceForm>相互独立、完全穷尽（mutually exclusive, collectively exhaustive）</glossSurfaceForm>
+    <glossAlt>
+      <glossSynonym xml:lang="en">mutually exclusive, collectively exhaustive</glossSynonym>
+    </glossAlt>
+    <glossAlt>
+      <glossAcronym xml:lang="en">MECE</glossAcronym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

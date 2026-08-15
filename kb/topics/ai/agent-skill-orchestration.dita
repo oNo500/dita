@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 重写自矿场 Rule与Skill分层"编排"节——原文该节是独立的原创判断，
+     不属"加载判据"题域，故从 agent-rule-loading 分出独立成篇。 -->
+<concept id="agent-skill-orchestration" xml:lang="zh-CN" maturity="curated" volatility="stable">
+  <title>skill 编排：skill 之间的衔接</title>
+  <shortdesc>加载分层解决"单个 skill 何时进上下文"，但不解决 skill 之间的顺序与交接；编排有两种落法——写进 skill 正文，或独立成一个编排物。</shortdesc>
+  <conbody>
+    <p>加载分层（见 <xref href="agent-rule-loading.dita">agent 规则的三层加载判据</xref>）回答的是"单个 skill 何时进上下文"，但不回答 skill 之间的顺序与交接——"先分诊再收集""先头脑风暴再定计划"这类先后关系，分层管不了。编排是补这一层的。</p>
+
+    <section>
+      <title>两种落法</title>
+      <ul>
+        <li><b>写进 skill 正文</b> —— 每个 skill 在自己正文里声明前置和终态交接（如某个头脑风暴 skill 的终态是调用"写计划"skill）。零机制成本；代价是链路散落在各 skill 正文里，没有全局视图。</li>
+        <li><b>独立成编排物</b> —— 一个专门的 <filepath>workflow</filepath> 文件按步骤引用 skill，链路有单一事实源、可校验（步骤引用的 skill 是否存在，可以对账）。代价：这不是 agent 工具的原生机制，需要自建资产管线支撑。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>怎么选</title>
+      <p>链路简单、交接少 → 写进正文，够用且零成本。链路多、需要保证完整性（不能有断裂的步骤）→ 独立成编排物，用单一事实源换取可对账。判据和加载分层一致：<b>能靠机制校验的完整性，值得为它付独立成物的成本；否则不值。</b></p>
+    </section>
+  </conbody>
+</concept>

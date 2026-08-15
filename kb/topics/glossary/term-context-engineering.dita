@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 双语术语条目示范。结构约定（term-normalize 靠它认叫法）：
+     glossterm＝中文首选词；glossSynonym @xml:lang="en"＝英文首选词；
+     其余 glossSynonym＝中文别名；glossAcronym＝缩写；glossSurfaceForm＝完整形式。
+     正文用 <term keyref="term-context-engineering"/> 引用，输出统一渲染成首选词。 -->
+<glossentry id="term-context-engineering" xml:lang="zh-CN" maturity="curated" volatility="volatile">
+  <glossterm>上下文工程</glossterm>
+  <glossdef>在模型推理时，策划与维护"进入上下文窗口的那批 token"的整套策略——决定放什么、压缩什么、何时即时取用，让上下文始终保持在最有效的状态。</glossdef>
+  <glossBody>
+    <glossSurfaceForm>上下文工程（context engineering）</glossSurfaceForm>
+    <glossAlt>
+      <glossSynonym xml:lang="en">context engineering</glossSynonym>
+    </glossAlt>
+    <glossAlt>
+      <glossSynonym>上下文治理</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

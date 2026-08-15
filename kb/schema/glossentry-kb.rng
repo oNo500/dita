@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="urn:pubid:oasis:names:tc:dita:rng:checkShell.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<!-- KB Glossentry 文档类型外壳（DITA 架构师产出）。
+     服务术语一致性主线：术语库每条术语一篇 glossentry（含首选词、别名/简称/全称，中英双语）。
+     照 OASIS glossentry.rng 装配，与 concept-kb 同套配置，只改三处：
+       1) 身份（shellPublicIds）
+       2) @specializations 默认值追加 @props/maturity @props/volatility @props/tool @props/dimension
+       3) MODULE INCLUSIONS 装 glossentryMod + 四个 KB 属性域
+     OASIS 模块用 URN（DITA-OT catalog 解析）；KB 属性域用相对路径（同目录）。
+     外壳不声明任何元素——只装配与配置。 -->
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"
+  xmlns:dita="http://dita.oasis-open.org/architecture/2005/"
+  xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">
+  <moduleDesc xmlns="http://dita.oasis-open.org/architecture/2005/">
+    <moduleTitle>KB Glossentry Shell</moduleTitle>
+    <moduleMetadata>
+      <moduleType>topicshell</moduleType>
+      <moduleShortName>glossentry-kb</moduleShortName>
+      <shellPublicIds>
+        <rngShell>urn:x-kb:names:rng:glossentry-kb.rng</rngShell>
+      </shellPublicIds>
+    </moduleMetadata>
+  </moduleDesc>
+
+  <div>
+    <a:documentation>ROOT ELEMENT DECLARATION</a:documentation>
+    <start>
+      <ref name="glossentry.element"/>
+    </start>
+  </div>
+
+  <div>
+    <a:documentation>SPECIALIZATIONS ATTRIBUTE — 追加 KB 四个属性专门化</a:documentation>
+    <define name="specializations-att" combine="interleave">
+      <optional>
+        <attribute name="specializations"
+          a:defaultValue="@props/audience
+                         @props/deliveryTarget
+                         @props/platform
+                         @props/product
+                         @props/otherprops
+                         @props/maturity
+                         @props/volatility
+                         @props/tool
+                         @props/dimension"/>
+      </optional>
+    </define>
+  </div>
+
+  <div>
+    <a:documentation>MODULE INCLUSIONS</a:documentation>
+    <include href="urn:pubid:oasis:names:tc:dita:rng:topicMod.rng:2.0"/>
+    <include href="urn:pubid:oasis:names:tc:dita:rng:glossentryMod.rng:2.0">
+      <define name="glossentry-info-types">
+        <ref name="glossentry.element"/>
+      </define>
+    </include>
+    <include href="urn:pubid:oasis:names:tc:dita:rng:alternativeTitlesDomain.rng:2.0"/>
+    <include href="urn:pubid:oasis:names:tc:dita:rng:audienceAttDomain.rng:2.0"/>
+    <include href="urn:pubid:oasis:names:tc:dita:rng:deliveryTargetAttDomain.rng:2.0"/>
+    <include href="urn:pubid:oasis:names:tc:dita:rng:platformAttDomain.rng:2.0"/>
+    <include href="urn:pubid:oasis:names:tc:dita:rng:productAttDomain.rng:2.0"/>
+    <include href="urn:pubid:oasis:names:tc:dita:rng:otherpropsAttDomain.rng:2.0"/>
+    <include href="urn:pubid:oasis:names:tc:dita:rng:emphasisDomain.rng:2.0"/>
+    <include href="urn:pubid:oasis:names:tc:dita:rng:highlightDomain.rng:2.0"/>
+    <include href="urn:pubid:oasis:names:tc:dita:rng:programmingDomain.rng:2.0"/>
+    <include href="urn:pubid:oasis:names:tc:dita:rng:softwareDomain.rng:2.0"/>
+    <include href="urn:pubid:oasis:names:tc:dita:rng:markupDomain.rng:2.0"/>
+    <include href="urn:pubid:oasis:names:tc:dita:rng:xmlDomain.rng:2.0"/>
+    <include href="urn:pubid:oasis:names:tc:dita:rng:utilitiesDomain.rng:2.0"/>
+
+    <!-- KB 自有属性域（相对路径，同目录） -->
+    <include href="maturityAttDomain.rng"/>
+    <include href="volatilityAttDomain.rng"/>
+    <include href="toolAttDomain.rng"/>
+    <include href="dimensionAttDomain.rng"/>
+  </div>
+
+  <div>
+    <a:documentation>ID-DEFINING-ELEMENT OVERRIDES</a:documentation>
+    <define name="any">
+      <zeroOrMore>
+        <choice>
+          <ref name="idElements"/>
+          <element>
+            <anyName>
+              <except>
+                <name>glossentry</name>
+                <name>topic</name>
+                <nsName ns="http://www.w3.org/2000/svg"/>
+                <nsName ns="http://www.w3.org/1998/Math/MathML"/>
+              </except>
+            </anyName>
+            <zeroOrMore>
+              <attribute>
+                <anyName/>
+              </attribute>
+            </zeroOrMore>
+            <ref name="any"/>
+          </element>
+          <text/>
+        </choice>
+      </zeroOrMore>
+    </define>
+  </div>
+</grammar>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-atomicity" xml:lang="zh-CN" maturity="curated" volatility="stable">
+  <glossterm>原子化</glossterm>
+  <glossdef>一篇笔记只承载一个完整、自洽的想法，达到可独立理解、可自由链接与复用的最小粒度。源自卡片盒笔记法对笔记粒度的核心要求。</glossdef>
+  <glossBody>
+    <glossSurfaceForm>原子化（atomicity）</glossSurfaceForm>
+    <glossAlt>
+      <glossSynonym xml:lang="en">atomicity</glossSynonym>
+    </glossAlt>
+    <glossAlt>
+      <glossSynonym>原子性</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

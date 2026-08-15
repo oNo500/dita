@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- KB 维度属性域：从 @props 专门化出 @dimension。
+     受控值（dim-* 见 vocab/subjectScheme.ditamap 的 dimension 值集）由 subjectScheme enumerationdef 绑定。
+     多值：一篇内容可覆盖多个维度（dimension="dim-a dim-b"），各 token 由 enumerationdef 校验。
+     背景：DITA 2.0 移除了 classification domain（topicsubject/subjectref），
+     受控主题/维度标引改由"@props 专门化属性 + enumerationdef 绑受控值"承担——与 maturity/volatility/tool 同路。
+     照 OASIS platformAttDomain.rng 模式编写。 -->
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"
+  xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+  xmlns:dita="http://dita.oasis-open.org/architecture/2005/"
+  datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <moduleDesc xmlns="http://dita.oasis-open.org/architecture/2005/">
+    <moduleTitle>KB Dimension Attribute Domain</moduleTitle>
+    <moduleMetadata>
+      <moduleType>attributedomain</moduleType>
+      <moduleShortName>dimensionAtt-d</moduleShortName>
+      <modulePublicIds>
+        <rngMod>urn:x-kb:names:rng:dimensionAttDomain.rng</rngMod>
+      </modulePublicIds>
+      <domainsContribution>@props/dimension</domainsContribution>
+    </moduleMetadata>
+  </moduleDesc>
+
+  <define name="dimensionAtt-d-attribute">
+    <optional>
+      <attribute name="dimension" dita:since="2.0">
+        <a:documentation>内容覆盖的维度轴：dim-*（受控值见 subjectScheme 的 dimension 值集，可多值）。</a:documentation>
+      </attribute>
+    </optional>
+  </define>
+
+  <define name="props-attribute-extensions" combine="interleave">
+    <ref name="dimensionAtt-d-attribute"/>
+  </define>
+</grammar>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 给 AI 的 DITA 写作规则总纲。层0：AI 主笔质量事前靠本篇、事后靠 review.sh。
+     本篇是操作手册，串起内容类型框架/维度方法/术语双语，只补 DITA 操作层；
+     写作原则不重写，引 topics/writing/*。并入 agent-rules 交付物，AI 读它来写 kb。 -->
+<concept id="dita-authoring-guide" xml:lang="zh-CN"
+         maturity="curated" volatility="stable" dimension="dim-criteria dim-process">
+  <title>给 AI 的 DITA 写作规则（总纲）</title>
+  <shortdesc>AI 主笔 DITA 时照此决策。本集与 review.sh 机器兜底一一对应——事前照做，事后必过。写作原则见 topics/writing/*，选型见《内容类型框架》，本篇只给 DITA 操作层的流程与规则。</shortdesc>
+  <prolog>
+    <source href="https://docs.oasis-open.org/dita/dita/v2.0/" scope="external"/>
+    <data name="reviewed" value="2026-08-09"/>
+  </prolog>
+  <conbody>
+    <p>你（AI）是 kb 的主笔。这篇是你写每一篇 DITA 前照着走的流程与规则。它不讲写作原则（那些在 <filepath>topics/writing/</filepath>），只讲 DITA 操作：选类型、用标签、标属性、挂术语与来源。每条规则都对应机器兜底 <cmdname>review.sh</cmdname> 的一条检查，事前照做就不会被事后拦。</p>
+
+    <section>
+      <title>写一篇的决策流程</title>
+      <ol>
+        <li>定<b>维度</b>——这篇讲主题的哪个方面（安装/机制/对比/调优…，见词表 dimension 值集）。</li>
+        <li>选<b>类型与题材</b>——按《内容类型框架》：DITA 类型（concept/task/reference/troubleshooting）＋题材（<xmlatt>outputclass</xmlatt>）。</li>
+        <li>写正文——用<b>精细行内语义</b>，不糊成一个 <xmlelement>codeph</xmlelement>。</li>
+        <li>标<b>元数据</b>——<xmlatt>maturity</xmlatt>、<xmlatt>volatility</xmlatt>（必标）、<xmlatt>dimension</xmlatt>（覆盖的维度，可多值）。</li>
+        <li>挂<b>术语与来源</b>——关键术语走 <xmlelement>term</xmlelement> <xmlatt>keyref</xmlatt>；concept/reference 必有来源。</li>
+        <li>建新领域时——先建全景 topic、标维度清单与盲区；内容按 80/20 从完整图上切。</li>
+        <li>写完跑 <cmdname>review.sh</cmdname>——结构＋业务规则＋覆盖度，有 error 按报告自修再跑。</li>
+      </ol>
+    </section>
+
+    <section>
+      <title>组1 选类型与题材（→ 结构模板/R 无直接项，靠框架自证）</title>
+      <p>不靠感觉，按《内容类型框架》的三层判断：先维度、再类型、再题材。</p>
+      <ul>
+        <li>要教人一步步做出东西 → <xmlelement>task</xmlelement>（tutorial/how-to 题材）。</li>
+        <li>要讲清"是什么、为什么" → <xmlelement>concept</xmlelement>（best-practice/tech-landscape/deep-dive 题材）。</li>
+        <li>要给查阅的结构化条目 → <xmlelement>reference</xmlelement>（cheatsheet/curated-resources 题材）。</li>
+        <li>症状→原因→处置 → <xmlelement>troubleshooting</xmlelement>。</li>
+      </ul>
+      <p>题材用 <xmlatt>outputclass</xmlatt> 标，遵守该题材的固定结构（见《内容类型框架》题材表：如 quickstart＝目标→前置→步骤→next）。</p>
+    </section>
+
+    <section>
+      <title>组2 行内精细语义（准确优先，不糊成 codeph）</title>
+      <p>你的内容价值在精确。该用专门标签就用，别一律 <xmlelement>codeph</xmlelement>：</p>
+      <dl>
+        <dlentry><dt><xmlelement>cmdname</xmlelement></dt><dd>命令名（<codeph>git</codeph>、<codeph>review.sh</codeph>）</dd></dlentry>
+        <dlentry><dt><xmlelement>filepath</xmlelement></dt><dd>文件/目录路径</dd></dlentry>
+        <dlentry><dt><xmlelement>apiname</xmlelement></dt><dd>API/函数/方法名</dd></dlentry>
+        <dlentry><dt><xmlelement>xmlelement</xmlelement> / <xmlelement>xmlatt</xmlelement></dt><dd>XML 元素名 / 属性名</dd></dlentry>
+        <dlentry><dt><xmlelement>codeph</xmlelement> / <xmlelement>codeblock</xmlelement></dt><dd>行内代码片段 / 成块代码</dd></dlentry>
+        <dlentry><dt><xmlelement>term</xmlelement> <xmlatt>keyref</xmlatt></dt><dd>受控术语（见组4）</dd></dlentry>
+      </dl>
+    </section>
+
+    <section>
+      <title>组3 元数据标注（→ R2/R4/R5，构建期 enumerationdef）</title>
+      <ul>
+        <li><xmlatt>maturity</xmlatt>：draft/curated/verified。不标默认 draft。verified 前提：来源已核对且标了 <xmlelement>data</xmlelement> <xmlatt>name</xmlatt>="reviewed"（→ R3）。</li>
+        <li><xmlatt>volatility</xmlatt>：stable/volatile，<b>必须显式标</b>（漏标 R2 报错）。生态易变的内容标 volatile。</li>
+        <li><xmlatt>dimension</xmlatt>：标这篇覆盖的维度（dim-*，可空格分隔多值），值必须在词表 dimension 值集内。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>组4 术语一致性（→ R7）</title>
+      <p>关键术语不打字面词：查术语库（<filepath>maps/glossary.ditamap</filepath>），有则 <xmlelement>term</xmlelement> <xmlatt>keyref</xmlatt>="term-x"，没有则先建 glossentry（双语条目）再引。改叫法只改术语库，正文不动。</p>
+    </section>
+
+    <section>
+      <title>组6 来源（→ R8）</title>
+      <p>concept/reference 必有来源，否则 R8 报错——你的内容本就来源驱动：</p>
+      <ul>
+        <li>一两个主来源：prolog <xmlelement>source</xmlelement>。</li>
+        <li>大量来源：正文末尾"来源"节，多个 <xmlelement>xref</xmlelement> <xmlatt>scope</xmlatt>="external"。</li>
+        <li>所有外链统一 <xmlatt>scope</xmlatt>="external"，便于链接活性检查。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>组5 双语 · 组7 维度 · 组8 结构模板（引用已有，不重复）</title>
+      <ul>
+        <li><b>双语</b>：正文中文单源；术语库双语条目；英文按需翻不预填。详见《术语与双语-设计》。</li>
+        <li><b>维度完整性</b>：建域先对标建完整维度框架、标盲区，再 80/20 切快速上手；quickstart 挂全景。详见《维度完整性-方法与约束》。</li>
+        <li><b>结构模板</b>：每类型/题材的固定骨架与必校验项，见《内容类型框架》题材表。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>规则与机器兜底的对应（两条腿咬合）</title>
+      <p>本集每条对应 <cmdname>review.sh</cmdname> 的一条检查，事前照做＝事后必过：</p>
+      <simpletable relcolwidth="3* 1*">
+        <sthead><stentry>写作规则（事前）</stentry><stentry>机器兜底（事后）</stentry></sthead>
+        <strow><stentry>每篇写非空 shortdesc</stentry><stentry>R1</stentry></strow>
+        <strow><stentry>显式标 volatility / maturity、只用受控值</stentry><stentry>R2/R4/R5</stentry></strow>
+        <strow><stentry>verified 内容标核对日期 data name="reviewed"</stentry><stentry>R3</stentry></strow>
+        <strow><stentry>关键术语用 term keyref</stentry><stentry>R7</stentry></strow>
+        <strow><stentry>concept/reference 必有来源</stentry><stentry>R8</stentry></strow>
+        <strow><stentry>建域先全景、quickstart 挂全景</stentry><stentry>R9(脚本)/R10 + 覆盖度</stentry></strow>
+      </simpletable>
+    </section>
+  </conbody>
+</concept>

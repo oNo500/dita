@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-ssot" xml:lang="zh-CN" maturity="curated" volatility="stable">
+  <glossterm>单一真相源</glossterm>
+  <glossdef>每个事实在系统中只有一处权威定义，其他位置引用它而不复制。源自数据库与信息系统设计，用来消除数据冗余、避免副本之间不一致。</glossdef>
+  <glossBody>
+    <glossSurfaceForm>单一真相源（single source of truth）</glossSurfaceForm>
+    <glossAlt>
+      <glossSynonym xml:lang="en">single source of truth</glossSynonym>
+    </glossAlt>
+    <glossAlt>
+      <glossAcronym xml:lang="en">SSoT</glossAcronym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

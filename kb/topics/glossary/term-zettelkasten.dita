@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-zettelkasten" xml:lang="zh-CN" maturity="curated" volatility="stable">
+  <glossterm>卡片盒笔记法</glossterm>
+  <glossdef>一种知识管理方法：把知识拆成一个想法一张的原子笔记，再用相互链接把这些笔记连成网络，知识的价值主要来自连接而非堆积。德语意为"卡片盒"，因社会学家 Niklas Luhmann 的实践而闻名，经 Sönke Ahrens《How to Take Smart Notes》系统化。</glossdef>
+  <glossBody>
+    <glossSurfaceForm>卡片盒笔记法（Zettelkasten）</glossSurfaceForm>
+    <glossAlt>
+      <glossSynonym xml:lang="en">Zettelkasten</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

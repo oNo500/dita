@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<concept id="writing-llm-friendly" xml:lang="zh-CN" maturity="curated" volatility="stable">
+  <title>LLM 友好写作：为检索与复用而写</title>
+  <shortdesc>写成自足、语义完整、带摘要的块，让内容既能被人查、也能被检索器和 agent 直接取用。</shortdesc>
+  <conbody>
+    <p>知识最终不只给人读，也会喂给检索系统和 agent。好消息是：让内容对人清晰的那些做法，恰好也让它对机器友好——两者要的是同一件事，自足的语义单元。</p>
+
+    <section>
+      <title>自足的块就是好的检索单元</title>
+      <p>一篇自足的内容（见 <xref href="writing-atomicity.dita">准入测试</xref>）天然是一个语义完整的检索块——切出来喂给模型仍然成立，不会是断头内容。这不是额外要求，就是自足性在检索场景的同一个性质。</p>
+    </section>
+
+    <section>
+      <title>摘要要写，别让机器猜</title>
+      <p>每篇开头写一句准确的摘要（DITA 里是 <term>shortdesc</term>）。它同时服务三处：人快速判断要不要读、检索结果展示、重排序时的信号。作者写的摘要比模型生成的更准。</p>
+    </section>
+
+    <section>
+      <title>章节自包含，不靠外部指代</title>
+      <p>每个章节尽量能独立理解，少用"如上所述""下一节会讲"这类跨节指代。语义分块的检索会把章节拆开，跨节指代一断，块就残了。</p>
+      <note>这条对翻译同样成立：跨节指代和"如上所述"在目标语言里往往无处落脚。为检索而写和为翻译而写，约束是同一条。</note>
+    </section>
+
+    <section>
+      <title>术语显式化</title>
+      <p>关键术语用显式标记并指向术语库（DITA 里是 <term>term</term> 加 keyref），而不是靠字面。这让"同一个概念"在全库有唯一身份，检索、改名、消歧都受益。</p>
+    </section>
+
+    <section>
+      <title>结构化元数据是免费的检索维度</title>
+      <p>内容带的类型、主题、成熟度、时效，做检索时全部现成可用——类型可做过滤器（"how 类问题优先查 task"），主题做分面，成熟度做排序。前提是这些标注真的在维护：失真的元数据喂给检索器，比没有更糟——它会自信地用错误信息过滤和排序。</p>
+    </section>
+  </conbody>
+</concept>

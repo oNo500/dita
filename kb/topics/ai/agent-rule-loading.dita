@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 重写自矿场 30-05-ai/claude-code/AI-ClaudeCode-Rule与Skill分层（type:concept, growing）。
+     volatile：rule/skill/paths 是 agent 工具当前机制，会随版本变——判据稳定，具体字段易腐。 -->
+<concept id="agent-rule-loading" xml:lang="zh-CN" maturity="curated" volatility="volatile">
+  <title>agent 规则的三层加载判据</title>
+  <shortdesc>规则按"为什么被加载"分三层——无条件常驻、按路径匹配、按意图语义触发；给一条内容选层（按意图层装的是 skill，不是规则），先判 glob 能否表达它的真实触发条件，再看内容体量。</shortdesc>
+  <conbody>
+    <p>组织 agent 规则的第一刀，不是按"内容是什么"分，是按"它为什么进入上下文"分。分对了层，上下文才不会被常驻的长内容挤占。</p>
+
+    <section>
+      <title>三个加载条件</title>
+      <ul>
+        <li><b>无条件</b> —— 全局规则，永远在上下文里。只装两样：原则与红线（一句话级），以及指向 skill 的指引。</li>
+        <li><b>按路径</b> —— 文件作用域规则，模型读到匹配 glob 的文件时才加载。</li>
+        <li><b>按意图</b> —— skill，靠描述的语义匹配，模型判断与任务相关时才加载。</li>
+      </ul>
+      <p>大内容都放按意图层，所以前两层永远薄；skill 正文想写多长都行，不触发时只有描述常驻。</p>
+    </section>
+
+    <section>
+      <title>分层判据：先 glob 后体量</title>
+      <p><b>第一步，问 glob 能不能表达这条内容的真实触发条件。</b></p>
+      <ul>
+        <li><b>能（充分必要）</b> → 候选按路径。编辑 <filepath>.py</filepath> 就是需要"用 uv 不用 pip"，不编辑就不需要，二者等价。语言工具链、类型语法、CSS 单位都属这类。</li>
+        <li><b>不能（glob 只是代理）</b> → 必须按意图。"新建文件放哪"的真实条件是"正在决定放哪"，与当前编辑的是哪个文件无关；用 glob 只能退化成匹配所有源文件，命中率很低。</li>
+      </ul>
+      <p><b>第二步，能表达时看体量。</b>重要且简短的留按路径（换成按意图是退步：多一次不确定的语义判断，省下的上下文却很小）；信息量大的仍走按意图——按路径层没有渐进披露，一触发就是全文，长内容常驻是浪费。</p>
+      <note>例外：防"默认失效"的纪律（模型凭训练数据写过时 API、随手引重库）允许用宽 glob 代理。因为失效瞬间模型没有主观不确定感，按意图的语义触发靠不住，纪律必须在写代码的瞬间已经在场。代价是正文压到一句话级。</note>
+    </section>
+
+    <section>
+      <title>上下文成本：为什么大内容必须归按意图层</title>
+      <p>两层的展开能力根本不同：</p>
+      <ul>
+        <li>规则只有"不在"和"全文在"两态，<b>没有渐进披露</b>。</li>
+        <li>skill 是三态两级展开：未触发只有描述常驻 → 触发后正文进上下文 → 正文里指向的大材料（<filepath>references/</filepath> 下）模型要用才读。</li>
+      </ul>
+      <p>所以"判据 + 各语言具体形态"这种结构有干净的落法：判据写 <filepath>SKILL.md</filepath>，各语言的目录树、命令清单写 <filepath>references/&lt;lang&gt;.md</filepath>——后者不占常驻预算，需要时重读即可。规则做不到，它一触发就是全文。</p>
+    </section>
+
+    <section>
+      <title>skill 触发不确定，规则提供担保</title>
+      <p>glob 匹配是确定的，skill 触发是模型判断——会漏。缓解的关键，是在规则层写一条确定的入口，补上语义层的不确定性。担保双轨，按覆盖面选形态：</p>
+      <ul>
+        <li><b>跨域入口</b>指向查询命令，而不点名具体 skill（"做 X 之前先查有无对应 skill"）——触发面宽、对应 skill 会随资产重构漂移，点名会腐坏，查询命令是稳定契约。</li>
+        <li><b>域内归口</b>直接点名（go 规则产物里"并发见 go-concurrency skill"）——规则与 skill 同域共生，一行指针就是它被查到的担保入口。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>工具能强制的，不写成规则</title>
+      <p>依赖方向、循环依赖、feature 隔离这类静态可检查的约束，交给 CI 工具（如 <cmdname>dependency-cruiser</cmdname>），不写进规则文本。工具能强制的就该是检查而非文字——这能显著缩小规则与 skill 正文。</p>
+    </section>
+  </conbody>
+</concept>

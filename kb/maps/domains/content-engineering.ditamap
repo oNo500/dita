@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map PUBLIC "-//OASIS//DTD DITA 2.0 Map//EN" "map.dtd">
+<!-- 领域 map：知识工程（subjectScheme 分支：content-engineering）
+     该 map 收 subject/content-engineering 分支下的 topic：
+     structured-content / knowledge-organization / knowledge-mgmt / writing 四组。 -->
+<map xml:lang="zh-CN">
+  <title>知识工程</title>
+
+  <!-- writing（写作规则，人读层）：Phase 2 首批已写 -->
+  <topichead>
+    <topicmeta><navtitle>写作规则</navtitle></topicmeta>
+    <topicref href="../../topics/writing/writing-atomicity.dita"/>
+    <topicref href="../../topics/writing/writing-typing.dita"/>
+    <topicref href="../../topics/writing/writing-sourcing.dita"/>
+    <topicref href="../../topics/writing/writing-llm-friendly.dita"/>
+  </topichead>
+
+  <!-- structured-content / knowledge-organization / knowledge-mgmt：待 Phase 3+ 重写填入 -->
+</map>
