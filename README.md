@@ -30,9 +30,13 @@
 | Rust + C 链接器 | dita-tools | ✅ 已装（rustup + build-essential），`cargo test` 全过 |
 
 ```bash
-cd kb && sh scripts/review.sh          # 结构校验 + 业务规则 + 覆盖度 + 术语扫描
-cd kb && sh scripts/build-agent-rules.sh   # 单源 → out/<tool>.md
+cd kb && sh scripts/review.sh               # 结构校验 + 业务规则 + 覆盖度 + 术语扫描
+cd kb && sh scripts/build-agent-rules.sh    # 单源 → out/<tool>.md
+cd kb && dita-tools ia                      # IA 全景：分支概览、维度盲区、孤儿
 ```
+
+> `dita-tools` 需先安装：`cd dita-tools && cargo install --path apps/dita_cli`。它默认按 kb 的
+> 相对路径找文件，所以在 `kb/` 下运行；改了代码要重新 install 才会生效。
 
 ## 关于旧文档里的路径
 

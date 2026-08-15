@@ -17,17 +17,21 @@
 ## 使用
 
 ```bash
-# 编译
+# 装到 PATH 上（~/.cargo/bin），任何目录可调用
+cargo install --path apps/dita_cli
+
+# 默认参数全是相对路径，所以在 kb 目录下跑
+cd ../kb && dita-tools ia
+
+# 或显式给路径，在哪跑都行
+dita-tools ia --map ../kb/maps/root.ditamap --topics ../kb/topics \
+              --maps-dir ../kb/maps --vocab ../kb/vocab/subjectScheme.ditamap
+
+# 只编译不安装（产物在 target/debug/dita-tools）
 cargo build
-
-# IA 全景——知识树、空领域、孤儿 Topic、诊断
-./target/debug/dita-tools ia \
-  --map /path/to/maps/root.ditamap \
-  --topics /path/to/topics
-
-# 在 kb 仓库根目录下直接运行（默认 --map maps/root.ditamap --topics topics --maps-dir maps）
-dita-tools ia
 ```
+
+> **改了代码要重新 `cargo install`**，否则 PATH 上跑的仍是旧二进制——这点最容易踩。
 
 | 参数 | 默认 | 作用 |
 |---|---|---|
