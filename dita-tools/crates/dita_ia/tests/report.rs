@@ -115,3 +115,65 @@ fn branch_stats_break_topics_down_by_type_and_maturity() {
     assert_eq!(demo.by_type.get("concept"), Some(&3));
     assert_eq!(demo.by_maturity.get("curated"), Some(&2));
 }
+
+#[test]
+fn plan_matches_branches_by_map_file_name() {
+    // the scheme keys branches in English and the maps title them in Chinese;
+    // domains/<key>.ditamap is the only thing carrying the correspondence
+    let report = report();
+    let demo = report.plans.iter().find(|p| p.key == "demo").expect("demo plan");
+    assert_eq!(demo.matched_branch.as_deref(), Some("演示分支"));
+    assert_eq!(demo.built, 3);
+    assert_eq!(demo.planned.len(), 2, "direct sub-topics");
+    assert_eq!(demo.planned_total, 3, "including the nested one");
+}
+
+#[test]
+fn unmatched_subject_key_is_not_counted_as_zero() {
+    // silently reporting "0 built" for a key with no map would read as "nothing
+    // written yet" when the truth is "nothing to compare against"
+    let report = report();
+    let nomap = report.plans.iter().find(|p| p.key == "nomap").expect("nomap plan");
+    assert_eq!(nomap.matched_branch, None);
+}
+
+#[test]
+fn benchmark_entries_carry_dates_and_cadence() {
+    let report = report();
+    let demo = report
+        .benchmarks
+        .iter()
+        .find(|b| b.key == "bm-demo")
+        .expect("bm-demo");
+    assert_eq!(demo.last_benchmarked.as_deref(), Some("2026-01-01"));
+    assert_eq!(demo.due_months(), Some(6));
+    // anchors are element text, dates are @value — both forms must be read
+    assert_eq!(demo.anchor.as_deref(), Some("某个外部对标锚点"));
+
+    let on_trigger = report.benchmarks.iter().find(|b| b.key == "bm-empty").unwrap();
+    assert_eq!(on_trigger.due_months(), None, "event-triggered has no calendar expiry");
+}
+
+#[test]
+fn unused_controlled_values_are_listed() {
+    let report = report();
+    let maturity = report
+        .value_usage
+        .iter()
+        .find(|u| u.attribute == "maturity")
+        .expect("maturity usage");
+    assert_eq!(maturity.used.get("curated"), Some(&2));
+    assert!(
+        maturity.unused.contains("draft"),
+        "a value the vocabulary defines but no topic uses must show up"
+    );
+
+    let dimension = report
+        .value_usage
+        .iter()
+        .find(|u| u.attribute == "dimension")
+        .unwrap();
+    assert!(dimension.unused.contains("dim-security"));
+    // an illegal value is not usage: it is already an error elsewhere
+    assert!(!dimension.used.contains_key("dim-nonexistent"));
+}

@@ -19,6 +19,12 @@ use std::{
 pub struct Branches {
     /// branch label → topic paths, in tree order
     pub topics: BTreeMap<String, Vec<PathBuf>>,
+    /// branch label → the map file it came from. This is the only thing tying a
+    /// branch back to a subject key: the maps are titled in Chinese while the
+    /// scheme keys them in English, but `domains/web.ditamap` is named after
+    /// the key. Nothing declares that correspondence, so it is read off the
+    /// file name rather than guessed from the title.
+    pub source_map: BTreeMap<String, PathBuf>,
     branch_of: BTreeMap<PathBuf, Vec<String>>,
 }
 
@@ -47,6 +53,9 @@ pub fn branches(map: &DitaMap) -> Branches {
         let Some(label) = branch_label(node) else {
             continue;
         };
+        if let Some(path) = source_map(node) {
+            out.source_map.insert(label.clone(), path);
+        }
         let mut found = Vec::new();
         collect_topics(std::slice::from_ref(node), &mut found);
         for path in &found {
@@ -58,6 +67,18 @@ pub fn branches(map: &DitaMap) -> Branches {
         out.topics.entry(label).or_default().extend(found);
     }
     out
+}
+
+/// The map a branch node wraps, if it wraps exactly one.
+fn source_map(node: &MapNode) -> Option<PathBuf> {
+    match node {
+        MapNode::MapRef(m) => Some(m.href.clone()),
+        MapNode::TopicHead(h) => match h.children.as_slice() {
+            [MapNode::MapRef(m)] => Some(m.href.clone()),
+            _ => None,
+        },
+        MapNode::TopicRef(_) => None,
+    }
 }
 
 /// The label of a top-level node, or `None` for nodes that are not branches

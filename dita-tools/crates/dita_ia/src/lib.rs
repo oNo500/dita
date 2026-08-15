@@ -1,5 +1,6 @@
 mod consistency;
 mod domain;
+mod governance;
 mod orphan;
 mod stats;
 mod tree;
@@ -15,6 +16,7 @@ use std::{
 
 pub use consistency::check_group_titles;
 pub use domain::{Branches, branches};
+pub use governance::{BenchmarkEntry, BranchPlan, ValueUsage};
 pub use stats::{BranchStats, DomainCoverage};
 pub use tree::count_topics;
 
@@ -31,6 +33,12 @@ pub struct IaReport {
     pub topics_root: PathBuf,
     /// False when no subject scheme was available, so value checks were skipped.
     pub vocab_loaded: bool,
+    /// What the taxonomy plans per branch versus what the maps hold.
+    pub plans: Vec<BranchPlan>,
+    /// The benchmark registry — the taxonomy's own decay clock.
+    pub benchmarks: Vec<BenchmarkEntry>,
+    /// Which controlled values the content actually uses.
+    pub value_usage: Vec<ValueUsage>,
 }
 
 /// Build the IA report.
@@ -94,11 +102,17 @@ pub fn build_report(
     let branch_stats = stats::branch_stats(&branch_map, &topics);
     let coverage = stats::domain_coverage(&branch_map, &topics);
 
+    let mut plans = Vec::new();
+    let mut benchmarks = Vec::new();
+    let mut value_usage = Vec::new();
     let vocab_loaded = match vocab {
         Some(path) if path.exists() => {
             let (vocabulary, diag) = dita_vocab::parse_vocab(path)?;
             diagnostics.items.extend(diag.items);
             check_values(&vocabulary, &topics, &mut diagnostics);
+            plans = governance::branch_plans(&vocabulary, &branch_map, &branch_stats);
+            benchmarks = governance::benchmarks(&vocabulary);
+            value_usage = governance::value_usage(&vocabulary, &topics);
             true
         }
         _ => false,
@@ -118,6 +132,9 @@ pub fn build_report(
             .canonicalize()
             .unwrap_or_else(|_| topics_root.to_path_buf()),
         vocab_loaded,
+        plans,
+        benchmarks,
+        value_usage,
     })
 }
 
@@ -181,7 +198,10 @@ pub fn print_report(report: &IaReport) {
     }
 
     print_branches(report);
+    print_plans(report);
     print_coverage(report);
+    print_benchmarks(report);
+    print_value_usage(report);
 
     println!("\n── 孤儿判定：参考了 {} 个 map ──", report.consulted.len());
     println!("  孤儿 = 文件在 topics/ 下，却没有任何 map 引用它——写了但没挂上，发布不出去。");
@@ -267,6 +287,108 @@ fn pad(s: &str, width: usize) -> String {
     let mut out = s.to_string();
     out.push_str(&" ".repeat(width.saturating_sub(display_width(s))));
     out
+}
+
+fn print_plans(report: &IaReport) {
+    if report.plans.is_empty() {
+        return;
+    }
+    println!("\n── 应然对照（词表规划 vs 实际已建）──");
+    println!("  词表的主题树是「本该长什么样」。规划了子主题却一篇没有，就是下一批的候选。");
+    let width = report
+        .plans
+        .iter()
+        .map(|p| display_width(&p.key))
+        .max()
+        .unwrap_or(0);
+    let mut planned_total = 0;
+    let mut unmatched = 0;
+    for plan in &report.plans {
+        planned_total += plan.planned_total;
+        let sub = if plan.planned_total == plan.planned.len() {
+            format!("{:>2}", plan.planned.len())
+        } else {
+            format!("{:>2}（含下级 {}）", plan.planned.len(), plan.planned_total)
+        };
+        let Some(branch) = plan.matched_branch.as_deref() else {
+            unmatched += 1;
+            println!(
+                "  {}  规划子主题 {sub}   ⚠ 词表键在 maps/ 下找不到同名 map，未能对照",
+                pad(&plan.key, width)
+            );
+            continue;
+        };
+        let mark = if plan.built == 0 { "  ← 规划了但一篇没有" } else { "" };
+        println!(
+            "  {}  规划子主题 {sub}   实际 {:>2} 篇   （{branch}）{mark}",
+            pad(&plan.key, width),
+            plan.built,
+        );
+    }
+    println!("  合计：词表规划 {planned_total} 个主题节点（含下级）");
+    if unmatched > 0 {
+        println!("  其中 {unmatched} 个分支未能与 maps/ 对照——词表键需与领域 map 文件名同名");
+    }
+}
+
+fn print_benchmarks(report: &IaReport) {
+    if report.benchmarks.is_empty() {
+        return;
+    }
+    println!("\n── 分类树防腐（对标登记）──");
+    println!("  分类树自己也会过时。这里记的是各分支上次对标的时间与复核档位；");
+    println!("  按词表的 policy，到期只 flag 不阻断（expiry-flags-not-blocks）。");
+    let width = report
+        .benchmarks
+        .iter()
+        .map(|b| display_width(&b.key))
+        .max()
+        .unwrap_or(0);
+    for b in &report.benchmarks {
+        let due = b.due_months().map_or_else(
+            || "事件触发（无日历到期）".to_string(),
+            |m| format!("{m} 个月后复核"),
+        );
+        println!(
+            "  {}  上次对标 {}   {due}",
+            pad(&b.key, width),
+            b.last_benchmarked.as_deref().unwrap_or("—"),
+        );
+    }
+}
+
+fn print_value_usage(report: &IaReport) {
+    if report.value_usage.is_empty() {
+        return;
+    }
+    println!("\n── 受控值使用情况 ──");
+    println!("  定义了却从未被用过的值，要么是规划过早，要么该清理——词表声称的区分，内容里并不存在。");
+    for usage in &report.value_usage {
+        let used: Vec<String> = usage
+            .used
+            .iter()
+            .map(|(v, n)| format!("{v} {n}"))
+            .collect();
+        println!(
+            "  @{:<11} 已用 {:>2} 个：{}",
+            usage.attribute,
+            usage.used.len(),
+            if used.is_empty() {
+                "（无）".to_string()
+            } else {
+                used.join(" / ")
+            }
+        );
+        if !usage.unused.is_empty() {
+            let list: Vec<&str> = usage.unused.iter().map(String::as_str).collect();
+            let shown = if list.len() > 8 {
+                format!("{} …（共 {}）", list[..8].join(" "), list.len())
+            } else {
+                list.join(" ")
+            };
+            println!("  {:<12} 未用 {:>2} 个：{shown}", "", usage.unused.len());
+        }
+    }
 }
 
 fn print_coverage(report: &IaReport) {

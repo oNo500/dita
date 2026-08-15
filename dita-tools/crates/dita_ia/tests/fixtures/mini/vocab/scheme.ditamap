@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <subjectScheme xml:lang="zh-CN">
   <title>迷你词表</title>
+  <!-- 主题树：分支键与 maps/domains/<key>.ditamap 文件名对应 -->
+  <subjectdef keys="subject">
+    <subjectdef keys="demo">
+      <subjectdef keys="demo-a"/>
+      <subjectdef keys="demo-b">
+        <subjectdef keys="demo-b1"/>
+      </subjectdef>
+    </subjectdef>
+    <subjectdef keys="empty">
+      <subjectdef keys="empty-a"/>
+    </subjectdef>
+    <!-- 词表里有、maps/ 下没有同名 map：必须报未匹配，不能算成 0 篇 -->
+    <subjectdef keys="nomap"/>
+  </subjectdef>
+
+  <subjectdef keys="benchmark-registry">
+    <subjectdef keys="bm-demo">
+      <data name="anchor">某个外部对标锚点</data>
+      <data name="last-benchmarked" value="2026-01-01"/>
+      <data name="cadence" value="volatile-6mo"/>
+    </subjectdef>
+    <subjectdef keys="bm-empty">
+      <data name="last-benchmarked" value="2026-01-01"/>
+      <data name="cadence" value="on-trigger"/>
+    </subjectdef>
+  </subjectdef>
+
   <subjectdef keys="dimension">
     <subjectdef keys="dim-concept"/>
     <subjectdef keys="dim-usage"/>

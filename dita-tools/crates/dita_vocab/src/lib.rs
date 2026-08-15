@@ -6,7 +6,7 @@
 //! `docs/架构与边界.md`, 唯一事实源清单).
 
 use std::{
-    collections::{HashMap, HashSet},
+    collections::{BTreeMap, HashMap, HashSet},
     fs,
     path::Path,
 };
@@ -19,6 +19,10 @@ use dita_diagnostics::{Diagnostic, DiagnosticBag};
 pub struct Subject {
     pub keys: String,
     pub nav_title: Option<String>,
+    /// `<data>` children, by `@name`. The value is `@value` when present and
+    /// the element text otherwise — the benchmark registry uses both forms
+    /// (`last-benchmarked` carries an attribute, `anchor` carries prose).
+    pub data: BTreeMap<String, String>,
     pub children: Vec<Subject>,
 }
 
@@ -232,8 +236,37 @@ fn read_subject(
     Some(Subject {
         keys: keys.to_string(),
         nav_title: nav_title(node),
+        data: read_data(node),
         children,
     })
+}
+
+/// Direct `<data>` children only: a nested subject's data belongs to it, not
+/// to its parent.
+fn read_data(node: roxmltree::Node) -> BTreeMap<String, String> {
+    let mut out = BTreeMap::new();
+    for data in node
+        .children()
+        .filter(roxmltree::Node::is_element)
+        .filter(|n| n.tag_name().name() == "data")
+    {
+        let Some(name) = data.attribute("name") else {
+            continue;
+        };
+        let value = data.attribute("value").map(str::to_string).or_else(|| {
+            let text: String = data
+                .descendants()
+                .filter(roxmltree::Node::is_text)
+                .filter_map(|n| n.text())
+                .collect();
+            let trimmed = text.trim().to_string();
+            (!trimmed.is_empty()).then_some(trimmed)
+        });
+        if let Some(value) = value {
+            out.insert(name.to_string(), value);
+        }
+    }
+    out
 }
 
 fn nav_title(node: roxmltree::Node) -> Option<String> {
