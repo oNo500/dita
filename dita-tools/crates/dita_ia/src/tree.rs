@@ -24,6 +24,17 @@ fn print_nodes(nodes: &[MapNode], prefix: &str) {
             }
             MapNode::TopicHead(h) => {
                 println!("{prefix}{conn}{} {}", count_label(&h.children), h.nav_title);
+                // A topichead wrapping a single same-named mapref exists only to
+                // give the referenced map a navigation node (merge semantics give
+                // it none). Printing both would show one branch twice; the titles
+                // are kept in step by consistency::check_group_titles, and a
+                // mismatch still prints both plus a warning.
+                if let [MapNode::MapRef(m)] = h.children.as_slice() {
+                    if m.title.as_deref() == Some(h.nav_title.as_str()) {
+                        print_nodes(&m.children, &child_prefix);
+                        continue;
+                    }
+                }
                 print_nodes(&h.children, &child_prefix);
             }
             MapNode::MapRef(m) => {

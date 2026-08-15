@@ -1,3 +1,4 @@
+mod consistency;
 mod orphan;
 mod tree;
 
@@ -10,6 +11,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
+pub use consistency::check_group_titles;
 pub use tree::count_topics;
 
 pub struct IaReport {
@@ -40,6 +42,7 @@ pub fn build_report(
     for path in display_maps {
         let (map, diag) = parse_map(path)?;
         diagnostics.items.extend(diag.items);
+        consistency::check_group_titles(&map, &mut diagnostics);
         seen.insert(map.path.clone());
         consulted.push(map.clone());
         display.push(map);

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map xml:lang="zh-CN">
+  <title>根</title>
+  <topichead>
+    <topicmeta><navtitle>新名字</navtitle></topicmeta>
+    <mapref href="branch.ditamap"/>
+  </topichead>
+</map>

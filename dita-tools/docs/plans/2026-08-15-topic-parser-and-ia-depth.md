@@ -37,7 +37,15 @@
 ## 前置（kb 侧，各一处，需先处理）
 
 - [x] `electron-landscape.dita` 挂进 `domains/web.ditamap` —— **已挂，全库零孤儿**，N3/N4 有真实数据可测了。
-- [ ] `root.ditamap` 里 `ai` 与 `content-engineering` 被 `topichead` 包了一层同名节点，另外七个域是裸 `mapref` → 树里出现 `AI → AI`。**需决策**：删掉这两个 wrapper（结构一致），还是九个都包（语义一致）。不阻塞本计划，但会影响域归属推导的实现细节（要不要跳过同名 topichead）。
+- [x] `root.ditamap` 的 wrapper 不一致 —— **已定：九个域 + 术语库全部包 `topichead`**。
+  先实测搞清了 wrapper 到底解决什么：规范规定 mapref 是"被引 map 的层级并入容器 map"，
+  **被引 map 的 `<title>` 不产生导航节点**。`dita -f html5` 实测印证——没包 wrapper 的
+  `web` 域，其 topic 被直接摊到 TOC 顶层，"Web 技术栈"在产物里根本不存在；术语库同理。
+  所以 wrapper 补的是真实发布缺陷，**不是 DITA 2.0 语法要求**。
+  一度考虑的替代方案（领域 map 内部用全景 topic 当父节点）**解决不了这个问题**：全景是
+  技术域级的（`domain="electron"`），而丢失的是分支级的名字。
+  代价（分支名两处副本会漂移）由工具兜住，见下。
+  迁移路径写进了 map 注释：将来分支有了真实落地 topic，就把 topichead 换成指向它的 topicref。
 
 ---
 
@@ -95,6 +103,7 @@
 - [ ] 解析每个被引 topic 与每个孤儿 topic 的 `TopicMeta`（并发不必要，库还小；先直白实现）
 - [ ] `stats.rs`：按域聚合——篇数、类型分布、maturity 分布、volatility 分布
 - [ ] 维度覆盖：`planned`（来自本域全景的 `planned-dimension`）∩ `covered`（本域各 topic 的 `@dimension`）→ 覆盖度与盲区，**语义与 `dimension-coverage.py` 完全一致**（覆盖度 = |覆盖∩规划| / |规划|；另列"规划外的覆盖"）
+- [x] 诊断：`topichead` navtitle 与被引 map 标题漂移（提前做——它是上面那个决定的安全网，2 个测试）
 - [ ] 诊断新增：非法 `@dimension` 值（N5）、缺全景的域（R9 的观测面）、手标 domain 与结构推导不一致（N4）
 - [ ] 终端输出：树之后加「按域概览」段，每域一行摘要 + 盲区明细
 - [ ] `--vocab` 参数（默认 `vocab/subjectScheme.ditamap`）；词表缺失时降级——跳过 N5 并提示，不中断（`kb` 不必为工具改结构，工具也不该假定 kb 布局不变）

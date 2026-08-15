@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- wrapper 的 navtitle 与被引 map 的标题不一致：标题副本漂移的样子。 -->
+<map xml:lang="zh-CN">
+  <title>根</title>
+  <topichead>
+    <topicmeta><navtitle>旧名字</navtitle></topicmeta>
+    <mapref href="branch.ditamap"/>
+  </topichead>
+</map>
