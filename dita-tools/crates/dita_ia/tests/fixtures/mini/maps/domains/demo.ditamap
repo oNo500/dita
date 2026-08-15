@@ -5,4 +5,5 @@
   <topicref href="../../topics/demo/good.dita"/>
   <topicref href="../../topics/demo/illegal.dita"/>
   <topicref href="../../topics/demo/bogus-domain.dita"/>
+  <topicref href="../../topics/demo/nested.dita"/>
 </map>

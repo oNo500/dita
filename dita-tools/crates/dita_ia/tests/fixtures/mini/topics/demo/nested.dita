@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<concept id="nested" maturity="curated" volatility="stable" dimension="dim-security">
+  <title>归在孙键下，覆盖父域规划的维度</title>
+  <prolog><data name="domain" value="demo-b1"/></prolog>
+  <conbody/>
+</concept>

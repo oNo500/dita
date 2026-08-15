@@ -86,8 +86,22 @@ pub fn branch_stats(branches: &Branches, topics: &[TopicMeta]) -> Vec<BranchStat
         .collect()
 }
 
+/// Coverage rolls up the subject tree: a topic filed under `claude-code`
+/// counts toward the plan declared for `coding-agents`.
+///
+/// A subject scheme is a taxonomy — a child key is a narrower statement of its
+/// parent, so covering a dimension for the narrower subject covers it for the
+/// broader one. Requiring exact matches would force a near-identical landscape
+/// under every leaf, and the landscape is per domain, not per tool.
+///
+/// `descendants` maps each subject key to its descendants; empty (no
+/// vocabulary) degrades to exact matching rather than guessing a hierarchy.
 #[must_use]
-pub fn domain_coverage(branches: &Branches, topics: &[TopicMeta]) -> Vec<DomainCoverage> {
+pub fn domain_coverage(
+    branches: &Branches,
+    topics: &[TopicMeta],
+    descendants: &BTreeMap<String, BTreeSet<String>>,
+) -> Vec<DomainCoverage> {
     let mut planned: BTreeMap<String, BTreeSet<String>> = BTreeMap::new();
     let mut covered: BTreeMap<String, BTreeSet<String>> = BTreeMap::new();
     let mut in_branches: BTreeMap<String, BTreeSet<String>> = BTreeMap::new();
@@ -122,14 +136,29 @@ pub fn domain_coverage(branches: &Branches, topics: &[TopicMeta]) -> Vec<DomainC
     planned
         .into_iter()
         .map(|(domain, planned)| {
-            let all_covered = covered.remove(&domain).unwrap_or_default();
+            let mut all_covered = covered.remove(&domain).unwrap_or_default();
+            let mut rolled_topics = 0;
+            if let Some(kids) = descendants.get(&domain) {
+                for kid in kids {
+                    if let Some(kid_dims) = covered.get(kid) {
+                        all_covered.extend(kid_dims.iter().cloned());
+                    }
+                    rolled_topics += counts.get(kid).copied().unwrap_or(0);
+                    // clone first: the map is read and written in the same step
+                    let kid_branches = in_branches.get(kid).cloned().unwrap_or_default();
+                    in_branches
+                        .entry(domain.clone())
+                        .or_default()
+                        .extend(kid_branches);
+                }
+            }
             let covered_in_plan: BTreeSet<_> =
                 all_covered.intersection(&planned).cloned().collect();
             DomainCoverage {
                 blind: planned.difference(&covered_in_plan).cloned().collect(),
                 outside_plan: all_covered.difference(&planned).cloned().collect(),
                 branches: in_branches.remove(&domain).unwrap_or_default(),
-                topics: counts.get(&domain).copied().unwrap_or(0),
+                topics: counts.get(&domain).copied().unwrap_or(0) + rolled_topics,
                 covered: covered_in_plan,
                 planned,
                 domain,

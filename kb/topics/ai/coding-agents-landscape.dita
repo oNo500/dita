@@ -6,9 +6,9 @@
      矿场素材只参考、不迁移；本域三篇方法论 topic 已先于全景存在，其覆盖计入下表。 -->
 <concept id="coding-agents-landscape" xml:lang="zh-CN"
          outputclass="tech-landscape"
-         maturity="draft" volatility="volatile">
+         maturity="curated" volatility="volatile">
   <title>Coding Agents 领域全景</title>
-  <shortdesc>agent CLI 工具（Claude Code / Codex / Antigravity）该从哪些维度理解——本域完整维度清单与当前覆盖状态。二十个维度已覆盖四个，其余为盲区；全景先立、内容按 volatile 优先逐篇填。</shortdesc>
+  <shortdesc>agent CLI 工具（Claude Code / Codex / Antigravity）该从哪些维度理解——本域完整维度清单与当前覆盖状态。二十个维度已覆盖五个，其余为盲区；全景先立、内容按 volatile 优先逐篇填。</shortdesc>
   <prolog>
     <source href="https://code.claude.com/docs/" scope="external"/>
     <data name="domain" value="coding-agents"/>
@@ -54,7 +54,7 @@
         <strow><stentry>版本演进（dim-evolution）</stentry><stentry>changelog 跟读、特性迭代节奏、旧知识的失效周期</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>边界与反模式（dim-boundary-pitfalls）</stentry><stentry>bypass 权限的风险面、不该交给 agent 的操作、常见误用</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>安装与认证（dim-install）</stentry><stentry>安装、登录认证、版本管理、多机部署</stentry><stentry>盲区</stentry></strow>
-        <strow><stentry>配置（dim-config）</stentry><stentry>settings 体系、权限配置、模型与上下文配置</stentry><stentry>盲区</stentry></strow>
+        <strow><stentry>配置（dim-config）</stentry><stentry>settings 体系、权限配置、模型与上下文配置</stentry><stentry>已覆盖：claude-code-settings</stentry></strow>
         <strow><stentry>日常用法（dim-usage）</stentry><stentry>会话管理、常用工作流、并行会话与 worktree</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>速查参考（dim-reference）</stentry><stentry>命令 / 快捷键 / 设置项速查表</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>集成（dim-integration）</stentry><stentry>MCP 服务器、hooks、IDE / CI / 浏览器 / IM 接入、headless</stentry><stentry>盲区</stentry></strow>
@@ -66,7 +66,7 @@
         <strow><stentry>成本与延迟（dim-cost-latency）</stentry><stentry>模型档位选择、token 预算、缓存与 fast mode 的取舍</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>注入安全（dim-injection-safety）</stentry><stentry>联网 / 读第三方内容时的 prompt 注入面与挡板</stentry><stentry>盲区</stentry></strow>
       </simpletable>
-      <p>当前覆盖度：4 / 20。每重写一篇本域笔记，在其根元素标 <codeph>dimension="dim-…"</codeph>（可多值）并声明 <codeph>domain="coding-agents"</codeph>，此处对应格转为"已覆盖"，<cmdname>dita-tools ia</cmdname> 的覆盖度随之更新。</p>
+      <p>当前覆盖度：5 / 20。每重写一篇本域笔记，在其根元素标 <codeph>dimension="dim-…"</codeph>（可多值）并声明 <codeph>domain="coding-agents"</codeph>，此处对应格转为"已覆盖"，<cmdname>dita-tools ia</cmdname> 的覆盖度随之更新。</p>
     </section>
 
     <section>
@@ -91,7 +91,7 @@
     <section>
       <title>来源</title>
       <p><b>已核对</b>（2026-08-15）：对标主锚是 <xref href="https://code.claude.com/docs/" scope="external">Claude Code 官方文档</xref>——其完整索引（llms.txt）当日取回，上表官方结构映射以它为据。<xref href="https://developers.openai.com/codex" scope="external">Codex 文档</xref>与 <xref href="https://antigravity.google/docs" scope="external">Antigravity 文档</xref>入口已验证存在，但<b>只验了在、未逐节读</b>——两家的结构对标留待其内容重写时补，届时若顶出新维度按"子类按需再加"处理。跨工具规则的开放格式见 <xref href="https://agents.md/" scope="external">AGENTS.md</xref>（本会话读过原文）。</p>
-      <p><b>判断与通用实践</b>：二十维的取舍、两项刻意排除、"volatile 优先"的填写顺序，均为本库判断，可被反驳——维度齐不齐是人审事项，本篇 maturity 为 draft 正为此留着：清单过审后再升 curated。</p>
+      <p><b>判断与通用实践</b>：二十维的取舍、两项刻意排除、"volatile 优先"的填写顺序，均为本库判断，可被反驳——维度齐不齐是人审事项，<b>清单已于 2026-08-15 经人审通过，maturity 随之由 draft 升 curated</b>。</p>
     </section>
   </conbody>
 </concept>

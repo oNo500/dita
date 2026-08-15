@@ -106,7 +106,19 @@ pub fn build_report(
 
     let branch_map = display.first().map_or_else(Branches::default, branches);
     let branch_stats = stats::branch_stats(&branch_map, &topics);
-    let coverage = stats::domain_coverage(&branch_map, &topics);
+    // subject key → its descendants, so coverage can roll up the taxonomy
+    let descendants = vocab
+        .filter(|p| p.exists())
+        .and_then(|p| dita_vocab::parse_vocab(p).ok())
+        .map_or_else(Default::default, |(v, _)| {
+            let mut out: std::collections::BTreeMap<String, std::collections::BTreeSet<String>> =
+                std::collections::BTreeMap::new();
+            if let Some(subject) = v.subject("subject") {
+                collect_descendants(subject, &mut out);
+            }
+            out
+        });
+    let coverage = stats::domain_coverage(&branch_map, &topics, &descendants);
 
     let mut plans = Vec::new();
     let mut benchmarks = Vec::new();
@@ -174,6 +186,19 @@ pub fn build_report(
 
 /// Check tagged values against the subject scheme — the vocabulary is the only
 /// source of legal values, so this is the one place that knows them.
+/// Record每个 subject 键的全部后代键。
+fn collect_descendants(
+    subject: &dita_vocab::Subject,
+    out: &mut std::collections::BTreeMap<String, std::collections::BTreeSet<String>>,
+) {
+    let mut kids = std::collections::BTreeSet::new();
+    for child in &subject.children {
+        kids.extend(child.all_keys());
+        collect_descendants(child, out);
+    }
+    out.insert(subject.keys.clone(), kids);
+}
+
 fn check_values(vocab: &dita_vocab::Vocabulary, topics: &[TopicMeta], diag: &mut DiagnosticBag) {
     // domain must name a subject key — it is the only link from a topic to the
     // taxonomy, and a typo silently detaches the topic from the skeleton

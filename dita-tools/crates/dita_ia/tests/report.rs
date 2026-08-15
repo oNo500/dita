@@ -37,13 +37,12 @@ fn coverage_counts_only_planned_dimensions() {
         .find(|c| c.domain == "demo")
         .expect("demo domain");
     assert_eq!(demo.planned.len(), 3);
-    assert_eq!(demo.covered.len(), 2, "dim-concept and dim-usage");
-    assert_eq!(
-        demo.blind.iter().map(String::as_str).collect::<Vec<_>>(),
-        ["dim-security"]
-    );
+    // dim-concept 与 dim-usage 直接归 demo；dim-security 来自孙键 demo-b1，按分类法上卷
+    assert_eq!(demo.covered.len(), 3);
+    assert!(demo.blind.is_empty());
+    // 规划外的覆盖不进分子、也不进分母
     assert!(demo.outside_plan.contains("dim-nonexistent"));
-    assert_eq!(demo.percent(), 66);
+    assert_eq!(demo.percent(), 100);
 }
 
 #[test]
@@ -114,9 +113,9 @@ fn branch_stats_break_topics_down_by_type_and_maturity() {
         .iter()
         .find(|b| b.name == "演示分支")
         .expect("demo branch");
-    assert_eq!(demo.topics, 4);
-    assert_eq!(demo.by_type.get("concept"), Some(&4));
-    assert_eq!(demo.by_maturity.get("curated"), Some(&3));
+    assert_eq!(demo.topics, 5);
+    assert_eq!(demo.by_type.get("concept"), Some(&5));
+    assert_eq!(demo.by_maturity.get("curated"), Some(&4));
 }
 
 #[test]
@@ -130,7 +129,7 @@ fn plan_matches_branches_by_map_file_name() {
         .find(|p| p.key == "demo")
         .expect("demo plan");
     assert_eq!(demo.matched_branch.as_deref(), Some("演示分支"));
-    assert_eq!(demo.built, 4);
+    assert_eq!(demo.built, 5);
     assert_eq!(demo.planned.len(), 2, "direct sub-topics");
     assert_eq!(demo.planned_total, 3, "including the nested one");
 }
@@ -181,7 +180,7 @@ fn unused_controlled_values_are_listed() {
         .iter()
         .find(|u| u.attribute == "maturity")
         .expect("maturity usage");
-    assert_eq!(maturity.used.get("curated"), Some(&3));
+    assert_eq!(maturity.used.get("curated"), Some(&4));
     assert!(
         maturity.unused.contains("draft"),
         "a value the vocabulary defines but no topic uses must show up"
@@ -192,7 +191,6 @@ fn unused_controlled_values_are_listed() {
         .iter()
         .find(|u| u.attribute == "dimension")
         .unwrap();
-    assert!(dimension.unused.contains("dim-security"));
     // an illegal value is not usage: it is already an error elsewhere
     assert!(!dimension.used.contains_key("dim-nonexistent"));
 }
@@ -230,7 +228,11 @@ fn topics_without_a_domain_land_in_the_unplaced_bucket() {
     // largest structural gap in the library
     let report = report();
     let demo = node(&report.skeleton, "demo");
-    assert_eq!(demo.topics.len() + demo.unplaced.len(), 4);
+    assert_eq!(
+        demo.topics.len() + demo.unplaced.len(),
+        4,
+        "nested 归在孙键，不计入 demo 节点自身"
+    );
 }
 
 #[test]
@@ -276,4 +278,20 @@ fn a_typo_in_domain_falls_into_the_bucket_and_errors() {
             .any(|d| d.is_error() && d.message().contains("not-a-subject-key")),
         "and be reported as an error naming the bogus value"
     );
+}
+
+#[test]
+fn coverage_rolls_up_the_subject_tree() {
+    // a subject scheme is a taxonomy: filing under demo-b1 (a grandchild) covers
+    // the dimension for demo. Exact matching would force a near-identical
+    // landscape under every leaf.
+    let report = report();
+    let demo = report.coverage.iter().find(|c| c.domain == "demo").unwrap();
+    assert!(
+        demo.covered.contains("dim-security"),
+        "a grandchild's dimension must count toward the ancestor's plan"
+    );
+    // demo 自身 3 篇（landscape/good/illegal）＋ 孙键 demo-b1 的 1 篇；
+    // bogus-domain 的 domain 不是词表键，不计入任何域
+    assert_eq!(demo.topics, 4, "rolled-up topics are counted too");
 }

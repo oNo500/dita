@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 库内第一篇 reference（reference-kb shell 首次投用）。
+     题材 cheatsheet：用来查，不用来读完。
+     volatile 且 verified：全部事实当日逐条核对官方 settings 文档，核对日期见 prolog（R3）。
+     矿场 20-02/AI-Claude-Code权限配置.md 与 30-05/settings模板.md 只作选题参考——
+     两者都写"三层配置"，官方实为四层 + CLI 参数，旧笔记的结论未采信。 -->
+<reference id="claude-code-settings" xml:lang="zh-CN"
+           outputclass="cheatsheet"
+           maturity="verified" volatility="volatile"
+           dimension="dim-config">
+  <title>Claude Code 配置与权限速查</title>
+  <shortdesc>settings 的四层作用域与优先级、permissions 的 allow/deny/ask 语法与合并规则、改完是否要重启——按"查一个值"编排，不按阅读顺序。</shortdesc>
+  <prolog>
+    <source href="https://code.claude.com/docs/en/settings" scope="external"/>
+    <data name="domain" value="claude-code"/>
+    <data name="reviewed" value="2026-08-15"/>
+  </prolog>
+  <refbody>
+    <section>
+      <title>四层作用域与优先级</title>
+      <p>同一个设置出现在多层时，<b>由高到低</b>取第一个：</p>
+      <simpletable relcolwidth="1* 2* 2*">
+        <sthead><stentry>优先级</stentry><stentry>层</stentry><stentry>位置与共享范围</stentry></sthead>
+        <strow><stentry>1（最高）</stentry><stentry>Managed</stentry><stentry>组织下发（服务端 / plist / 注册表 / <filepath>managed-settings.json</filepath>）；除少数例外不可被覆盖</stentry></strow>
+        <strow><stentry>2</stentry><stentry>命令行参数</stentry><stentry>仅当次会话</stentry></strow>
+        <strow><stentry>3</stentry><stentry>Local</stentry><stentry><filepath>.claude/settings.local.json</filepath>；本人本仓库，gitignore</stentry></strow>
+        <strow><stentry>4</stentry><stentry>Project</stentry><stentry><filepath>.claude/settings.json</filepath>；随仓库共享，入 git</stentry></strow>
+        <strow><stentry>5（最低）</stentry><stentry>User</stentry><stentry><filepath>~/.claude/settings.json</filepath>；本人全部项目</stentry></strow>
+      </simpletable>
+      <note>常见误记是"三层"（user / project / local）。Managed 与命令行参数都在它们之上——个人机器上前者通常不存在，于是容易被漏掉，一旦所在组织下发了策略，按三层模型推断就会得出错误结论。</note>
+    </section>
+
+    <section>
+      <title>permissions：三种规则</title>
+      <p>结构与取值：</p>
+      <codeblock>{
+  "permissions": {
+    "allow": ["Bash(npm run lint)", "Bash(npm run test *)", "Read(~/.zshrc)"],
+    "deny":  ["Bash(curl *)", "Read(./.env)", "Read(./.env.*)", "Read(./secrets/**)"],
+    "ask":   ["Write(./config.json)"]
+  }
+}</codeblock>
+      <ul>
+        <li><codeph>allow</codeph> —— 预先放行，不再询问。</li>
+        <li><codeph>deny</codeph> —— 直接阻断。</li>
+        <li><codeph>ask</codeph> —— 执行前询问；<b>未被任何规则命中的动作默认走这一档</b>。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>通配符</title>
+      <simpletable relcolwidth="1* 3*">
+        <sthead><stentry>写法</stentry><stentry>含义与示例</stentry></sthead>
+        <strow><stentry><codeph>*</codeph></stentry><stentry>匹配<b>单个路径段内</b>的任意字符串。<codeph>Bash(npm run test *)</codeph> 放行带任意参数的 <codeph>npm run test</codeph></stentry></strow>
+        <strow><stentry><codeph>**</codeph></stentry><stentry>递归匹配零或多个路径段。<codeph>Read(./secrets/**)</codeph> 覆盖 <filepath>secrets/</filepath> 下任意深度</stentry></strow>
+        <strow><stentry>前缀式</stentry><stentry><codeph>Read(./.env*)</codeph> 命中 <filepath>.env</filepath>、<filepath>.env.local</filepath>、<filepath>.env.production</filepath> 等</stentry></strow>
+      </simpletable>
+    </section>
+
+    <section>
+      <title>权限规则的合并规则（与普通设置不同）</title>
+      <p>普通设置按优先级<b>覆盖</b>：高层赢，低层被丢弃。权限规则<b>不是</b>——它们跨层<b>合并</b>：</p>
+      <ul>
+        <li>各层的 <codeph>allow</codeph> 取并集：任一层放行即放行。</li>
+        <li>各层的 <codeph>deny</codeph> 取并集：任一层阻断即阻断。</li>
+        <li><b><codeph>deny</codeph> 优先于 <codeph>allow</codeph></b>：同一动作两边都命中时，阻断生效。</li>
+      </ul>
+      <p>由此得到一条实用推论：想彻底禁掉某个动作，把它写进 <codeph>deny</codeph> 即可，不必去清理别处的 <codeph>allow</codeph>；反过来，在低层加 <codeph>allow</codeph> 无法解除高层的 <codeph>deny</codeph>。</p>
+      <p>MCP 相关键另有特殊合并：<codeph>deniedMcpServers</codeph> 跨层合并且任一 deny 即生效；<codeph>allowedMcpServers</codeph> 的黑名单优先于白名单；<codeph>sandbox.credentials</codeph> 的掩码/拒绝也按特殊规则合并。</p>
+    </section>
+
+    <section>
+      <title>改完是否要重启</title>
+      <ul>
+        <li><b>会话内即时生效</b>：权限、hooks、凭据 helper 等多数设置。</li>
+        <li><b>启动时读取一次</b>：<codeph>model</codeph>、<codeph>outputStyle</codeph>——改了要重启才作数。</li>
+      </ul>
+      <p>排查"设置好像没生效"时，先用 <codeph>/status</codeph> 看 <codeph>Setting sources</codeph>：它列出实际加载的每个设置文件，<b>一个文件只有在至少含一个有效设置时才会出现</b>——文件不在列表里，通常意味着路径错了或整份 JSON 无效。Managed 层的无效条目会被剥离并告警，用 <codeph>/doctor</codeph> 查。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>已核对</b>（2026-08-15，逐条对照 <xref href="https://code.claude.com/docs/en/settings" scope="external">Claude Code 官方 settings 文档</xref>）：四层作用域及其位置与共享范围、五级优先级顺序、<codeph>allow</codeph>/<codeph>deny</codeph>/<codeph>ask</codeph> 三种规则与未命中默认走 ask、两种通配符语义、权限规则跨层合并且 deny 优先、MCP 键的特殊合并、即时生效与需重启的设置之分、<codeph>/status</codeph> 的 Setting sources 与"至少一个有效设置才显示"、<codeph>/doctor</codeph> 查被剥离条目。本篇事实<b>仅限</b>该页所载；未核对的（如具体 settings 键的完整清单、各 CLI flag）一律未写入。</p>
+      <p><b>判断与通用实践</b>：只有一处——"想彻底禁掉某动作就写 deny，不必清理别处 allow"是从合并规则推出的用法建议，非官方原文。</p>
+      <p><b>时效</b>：本篇 volatile。设置键与合并语义随版本变，核对日期即上方 <codeph>reviewed</codeph>；日期一旧，先回官方页复核再引用。</p>
+    </section>
+  </refbody>
+</reference>
