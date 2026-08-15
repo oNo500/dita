@@ -1,6 +1,8 @@
 mod consistency;
 mod domain;
 mod governance;
+mod paint;
+mod skeleton;
 mod orphan;
 mod stats;
 mod tree;
@@ -17,6 +19,8 @@ use std::{
 pub use consistency::check_group_titles;
 pub use domain::{Branches, branches};
 pub use governance::{BenchmarkEntry, BranchPlan, ValueUsage};
+pub use paint::Paint;
+pub use skeleton::{Node, State};
 pub use stats::{BranchStats, DomainCoverage};
 pub use tree::count_topics;
 
@@ -39,6 +43,8 @@ pub struct IaReport {
     pub benchmarks: Vec<BenchmarkEntry>,
     /// Which controlled values the content actually uses.
     pub value_usage: Vec<ValueUsage>,
+    /// The subject tree with content hung on it — the view itself.
+    pub skeleton: Vec<Node>,
 }
 
 /// Build the IA report.
@@ -118,6 +124,29 @@ pub fn build_report(
         _ => false,
     };
 
+    let mut skeleton = Vec::new();
+    if let Some(path) = vocab.filter(|p| p.exists()) {
+        let (vocabulary, _) = dita_vocab::parse_vocab(path)?;
+        let benchmarks: std::collections::BTreeMap<String, String> = governance::benchmarks(&vocabulary)
+            .iter()
+            .filter_map(|b| {
+                let key = b.key.strip_prefix("bm-")?.to_string();
+                let date = b.last_benchmarked.clone()?;
+                Some((key, match b.due_months() {
+                    Some(m) => format!("对标 {date}+{m}mo"),
+                    None => format!("对标 {date}·触发"),
+                }))
+            })
+            .collect();
+        skeleton = skeleton::build(&skeleton::Input {
+            vocab: &vocabulary,
+            topics: &topics,
+            branches: &branch_map,
+            coverage: &coverage,
+            benchmarks: &benchmarks,
+        });
+    }
+
     check_domains(&coverage, &mut diagnostics);
 
     Ok(IaReport {
@@ -135,6 +164,7 @@ pub fn build_report(
         plans,
         benchmarks,
         value_usage,
+        skeleton,
     })
 }
 
@@ -187,17 +217,34 @@ fn check_domains(coverage: &[DomainCoverage], diag: &mut DiagnosticBag) {
     }
 }
 
-/// The skeleton is the view. Everything else is either an annotation on it or
-/// an exception listed under it — a set of parallel tables would bury the one
-/// thing an IA view exists to show.
-pub fn print_report(report: &IaReport, details: bool) {
-    let ann = annotations(report, details);
+/// The skeleton is the view: the subject tree, with content hung on it and each
+/// node's state on its own line. Design: docs/plans/2026-08-15-skeleton-design.md
+pub fn print_report(report: &IaReport, details: bool, depth: Option<usize>) {
+    let paint = Paint::detect();
     println!();
-    for map in &report.display {
-        tree::print_skeleton(map, &ann);
+    if report.skeleton.is_empty() {
+        // no vocabulary means no "ought", so fall back to what the maps say
+        let ann = annotations(report, details);
+        for map in &report.display {
+            tree::print_skeleton(map, &ann);
+        }
+        println!("\n（未读到词表：只能显示 maps 的实际结构，无法对照规划）");
+    } else {
+        let placed: usize = report.skeleton.iter().map(Node::total_topics).sum();
+        let planned: usize = report.skeleton.iter().map(count_nodes).sum();
+        let total = report.topics.len();
+        println!(
+            "知识体系   全库 {total} 篇（骨架内 {placed}）· 词表规划 {planned} 个主题节点\n"
+        );
+        let last = report.skeleton.len().saturating_sub(1);
+        for (i, node) in report.skeleton.iter().enumerate() {
+            print_node(node, "", i == last, paint, depth, 0);
+        }
+        println!(
+            "\n{}",
+            paint.dim("○ 未建   ◐ 进行中   ● 完成（有全景且零盲区）   · 不适用   ⚠ 有问题   ⏰ 待复核")
+        );
     }
-    println!("\n分支行：已有篇数 · 词表规划数（↓含下级）· 上次对标+复核档位（仅日历档位有此项）");
-    println!("topic 行：只标反常处——非 curated/verified 的成熟度、漏标的时效、全景覆盖度、非法值");
 
     print_exceptions(report);
 
@@ -208,11 +255,93 @@ pub fn print_report(report: &IaReport, details: bool) {
         print_benchmarks(report);
         print_value_usage(report);
     } else if has_details(report) {
-        println!("\n（`--details` 展开分支统计、应然对照、维度盲区、对标登记、受控值使用）");
+        println!(
+            "\n{}",
+            paint.dim("（--details 展开分支统计、对标登记、受控值使用；--depth N 限制层数）")
+        );
     }
 }
 
-fn annotations(report: &IaReport, details: bool) -> tree::Annotations<'_> {
+fn count_nodes(node: &Node) -> usize {
+    1 + node.children.iter().map(count_nodes).sum::<usize>()
+}
+
+fn print_node(
+    node: &Node,
+    prefix: &str,
+    is_last: bool,
+    paint: Paint,
+    depth: Option<usize>,
+    level: usize,
+) {
+    let conn = if is_last { "└── " } else { "├── " };
+    let child_prefix = format!("{prefix}{}", if is_last { "    " } else { "│   " });
+
+    let symbol = match node.state {
+        State::Unbuilt => paint.dim(node.state.symbol()),
+        State::InProgress => paint.yellow(node.state.symbol()),
+        State::Done => paint.green(node.state.symbol()),
+        State::NotApplicable => node.state.symbol().to_string(),
+    };
+    let name = node.label.as_deref().unwrap_or(&node.key);
+    let mut notes = Vec::new();
+    if !node.children.is_empty() {
+        notes.push(format!("{}/{}", node.built_children(), node.children.len()));
+    }
+    let own = node.topics.len() + node.unplaced.len();
+    if own > 0 {
+        notes.push(format!("{own} 篇"));
+    }
+    if let Some((covered, planned)) = node.coverage {
+        notes.push(format!("全景 {covered}/{planned}"));
+    }
+    if let Some(bm) = &node.benchmark {
+        notes.push(paint.dim(bm));
+    }
+    let line = if notes.is_empty() {
+        format!("{prefix}{conn}{symbol} {name}")
+    } else {
+        format!("{prefix}{conn}{symbol} {name}   {}", notes.join(" · "))
+    };
+    println!(
+        "{line}{}",
+        if node.state == State::Unbuilt && node.children.is_empty() {
+            paint.dim("   —")
+        } else {
+            String::new()
+        }
+    );
+
+    if depth.is_some_and(|d| level + 1 >= d) {
+        return;
+    }
+
+    let extra = node.topics.len() + usize::from(!node.unplaced.is_empty());
+    let total = node.children.len() + extra;
+    let mut printed = 0;
+
+    for child in &node.children {
+        printed += 1;
+        print_node(child, &child_prefix, printed == total, paint, depth, level + 1);
+    }
+    for name in &node.topics {
+        printed += 1;
+        let conn = if printed == total { "└──" } else { "├──" };
+        println!("{child_prefix}{conn} {name}");
+    }
+    if !node.unplaced.is_empty() {
+        printed += 1;
+        let conn = if printed == total { "└──" } else { "├──" };
+        println!(
+            "{child_prefix}{conn} {} {} 篇未归子主题：{}",
+            paint.red("⚠"),
+            node.unplaced.len(),
+            node.unplaced.join("、")
+        );
+    }
+}
+
+fn annotations(report: &IaReport, details: bool)-> tree::Annotations<'_> {
     let mut illegal: std::collections::BTreeMap<PathBuf, usize> = std::collections::BTreeMap::new();
     for d in &report.diagnostics.items {
         if d.is_error() && d.message().contains("不在词表中") {

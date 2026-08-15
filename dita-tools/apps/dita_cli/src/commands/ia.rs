@@ -29,6 +29,10 @@ pub struct IaArgs {
     /// Expand the per-branch tables behind the skeleton
     #[arg(long)]
     pub details: bool,
+
+    /// Limit how many levels of the subject tree are expanded
+    #[arg(long)]
+    pub depth: Option<usize>,
 }
 
 pub fn run(args: IaArgs) -> Result<()> {
@@ -38,7 +42,7 @@ pub fn run(args: IaArgs) -> Result<()> {
         Some(args.maps_dir.as_path())
     };
     let report = dita_ia::build_report(&args.map, &args.topics, maps_dir, Some(&args.vocab))?;
-    dita_ia::print_report(&report, args.details);
+    dita_ia::print_report(&report, args.details, args.depth);
     if report.diagnostics.has_errors() {
         std::process::exit(1);
     }

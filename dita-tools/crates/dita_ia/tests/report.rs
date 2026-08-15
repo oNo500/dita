@@ -177,3 +177,47 @@ fn unused_controlled_values_are_listed() {
     // an illegal value is not usage: it is already an error elsewhere
     assert!(!dimension.used.contains_key("dim-nonexistent"));
 }
+
+// ── 骨架（设计见 docs/plans/2026-08-15-skeleton-design.md）────────────────
+
+fn node<'a>(nodes: &'a [dita_ia::Node], key: &str) -> &'a dita_ia::Node {
+    nodes.iter().find(|n| n.key == key).unwrap_or_else(|| panic!("node {key}"))
+}
+
+#[test]
+fn skeleton_is_the_subject_tree_with_content_hung_on_it() {
+    let report = report();
+    let demo = node(&report.skeleton, "demo");
+    assert_eq!(demo.children.len(), 2, "planned sub-topics are listed even when empty");
+    assert_eq!(demo.state, dita_ia::State::InProgress);
+    // planned but unwritten sub-topics must be visible — that is the point
+    assert_eq!(node(&demo.children, "demo-a").state, dita_ia::State::Unbuilt);
+}
+
+#[test]
+fn topics_without_a_domain_land_in_the_unplaced_bucket() {
+    // the only link from a topic to a subject key is <data name="domain">;
+    // without it nothing can place the topic, and hiding that would hide the
+    // largest structural gap in the library
+    let report = report();
+    let demo = node(&report.skeleton, "demo");
+    assert!(demo.topics.len() + demo.unplaced.len() == 3);
+}
+
+#[test]
+fn branch_without_a_vocabulary_key_is_not_applicable_not_unbuilt() {
+    // an organisational branch (the glossary) is not a subject: it can never be
+    // "done", and calling it unbuilt would be a permanent false alarm
+    let mut report = report();
+    report.skeleton.retain(|n| n.state == dita_ia::State::NotApplicable);
+    assert!(
+        report.skeleton.iter().all(|n| n.children.is_empty()),
+        "unkeyed branches carry topics, not planned children"
+    );
+}
+
+#[test]
+fn an_empty_planned_branch_stays_unbuilt() {
+    let report = report();
+    assert_eq!(node(&report.skeleton, "empty").state, dita_ia::State::Unbuilt);
+}
