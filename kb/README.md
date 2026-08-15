@@ -7,11 +7,11 @@
 | 路径 | 是什么 | 状态 |
 |---|---|---|
 | `~/ws/projects/notes` | 旧 Obsidian 库 | 只读矿场，永不迁移，重写时查原文用 |
-| [`../docs/`](../docs/README.md)（原 dita2） | DITA 2.0 研究笔记 + 分类法实践案例 | 方法论来源（本库的设计依据都在其 `cases/`） |
+| [`../research/`](../research/README.md)（原 dita2） | DITA 2.0 研究笔记 + 分类法实践案例 | 方法论来源（本库的设计依据都在其 `cases/`） |
 | `../kb/`（本库） | 重塑后的知识体系正本 | 建设中 |
 | [`../dita-tools/`](../dita-tools/README.md) | Rust 工具链 | 消费本库的词表与内容，见下 |
 
-**docs 是研究，kb 是成品，dita-tools 是执行引擎。** 本库的分类树、角色分工、验证纪律全部承自 `../docs/` 的笔记与 `cases/知识体系重塑/`；三者的依赖方向与边界见 [架构与边界](../docs/架构与边界.md)。
+**research 是研究，kb 是成品，dita-tools 是工具平台。** 本库的分类树、角色分工、验证纪律全部承自 `../research/` 的笔记与 `cases/知识体系重塑/`；三者的依赖方向与边界见 [架构与边界](../docs/架构与边界.md)。
 
 > 本库**不依赖 dita-tools 才能用**：`dita validate` + `scripts/` 就能跑完整条链。工具是加速器，不是必需品。
 
@@ -35,9 +35,9 @@ kb/
 - **信息架构师**：内容怎么组织——词表、map。产物在 `vocab/`、`maps/`。
 - **DITA 架构师**：内容用什么语法——shell、模块、约束。产物在 `schema/`。
 
-切换帽子的判断表见 [`../docs/cases/知识体系重塑/角色分工.md`](../docs/cases/知识体系重塑/角色分工.md)。
+切换帽子的判断表见 [`../research/cases/知识体系重塑/角色分工.md`](../research/cases/知识体系重塑/角色分工.md)。
 
-## 纪律（承自 `../docs/`）
+## 纪律（承自 `../research/`）
 
 - **准入测试**：一篇内容进库，须自足（脱离原语境仍成立）+ 可归型（concept/task/reference/troubleshooting/glossentry 之一）。过不了的是噪音，不进。
 - **来源核对 + 日期戳**：volatile 内容无核对日期不得标 verified。
@@ -53,14 +53,14 @@ Phase 0 盘点 → 1 评审 → 2 骨架 → 3 试点重写 → 4 首个交付�
 - 机器兜底：`scripts/review.sh` 串结构校验 + R1–R10 + 覆盖度 + 术语扫描，当前全过
 - 交付物：`maps/deliverables/agent-rules.ditamap` + `filters/tool-*.ditaval`
 
-下一步 Phase 5 批量重写（前置见 [`Phase3-回顾.md`](../docs/cases/知识体系重塑/Phase3-回顾.md)）。规划全貌见 [`../docs/cases/知识体系重塑/`](../docs/cases/知识体系重塑/README.md)；跨子项目的边界见 [架构与边界](../docs/架构与边界.md)。
+下一步 Phase 5 批量重写（前置见 [`Phase3-回顾.md`](../research/cases/知识体系重塑/Phase3-回顾.md)）。规划全貌见 [`../research/cases/知识体系重塑/`](../research/cases/知识体系重塑/README.md)；跨子项目的边界见 [架构与边界](../docs/架构与边界.md)。
 
 ## 检查
 
 ```bash
 sh scripts/review.sh                    # 入库前：结构 + 业务规则 R1–R10 + 覆盖度 + 术语
 python3 scripts/link-check.py           # 定期：外链还活着吗（联网，不并入 review）
-python3 scripts/link-check.py ../docs   # 也可查别的目录
+python3 scripts/link-check.py ../research   # 也可查别的目录
 dita-tools ia                           # IA 治理：骨架、空白、盲区、对标到期
 ```
 
