@@ -1,0 +1,41 @@
+# Default: show available commands
+default:
+    just --list
+
+# Install required tools
+init:
+    cargo binstall just -y || cargo install just
+    rustup show
+
+# Build all crates
+build:
+    cargo build --workspace
+
+# Run all tests
+test:
+    cargo test --workspace
+
+# Run clippy on all crates
+lint:
+    cargo clippy --workspace --all-targets -- -D warnings
+
+# Format all code
+fmt:
+    cargo fmt --all
+
+# Check everything (lint + test) — run before commit
+ready:
+    just fmt
+    just lint
+    just test
+
+# Run the IA overview.
+# Usage:
+#   just ia                                              # use defaults (run from kb repo root)
+#   just ia /path/to/maps/root.ditamap /path/to/topics
+ia map="maps/root.ditamap" topics="topics":
+    cargo run -p dita-tools -- ia --map "{{map}}" --topics "{{topics}}"
+
+# Clean build artifacts
+clean:
+    cargo clean

@@ -1,0 +1,49 @@
+[workspace]
+resolver = "3"
+members = ["apps/*", "crates/*"]
+# napi/* and tasks/* added when those crates are created
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.85.0"
+license = "MIT"
+repository = "https://github.com/xiu/dita-tools"
+description = "A collection of DITA authoring and publishing tools written in Rust."
+
+[workspace.lints.rust]
+non_ascii_idents = "warn"
+unsafe_op_in_unsafe_fn = "warn"
+unused_unsafe = "warn"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+todo = "warn"
+dbg_macro = "warn"
+print_stdout = "warn"
+print_stderr = "warn"
+
+[workspace.dependencies]
+# Internal crates
+dita_ast       = { path = "crates/dita_ast" }
+dita_parser    = { path = "crates/dita_parser" }
+dita_ia        = { path = "crates/dita_ia" }
+dita_validate  = { path = "crates/dita_validate" }
+dita_diagnostics = { path = "crates/dita_diagnostics" }
+
+# XML parsing
+roxmltree = "0.21"
+quick-xml = { version = "0.36", features = ["serialize"] }
+
+# CLI
+clap = { version = "4", features = ["derive", "color"] }
+
+# Error handling
+anyhow = "1"
+thiserror = "2"
+
+# Output formatting
+owo-colors = "4"
+
+# Testing
+insta = "1"

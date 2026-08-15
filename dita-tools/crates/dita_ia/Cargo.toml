@@ -1,0 +1,13 @@
+[package]
+name = "dita_ia"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+dita_ast.workspace = true
+dita_parser.workspace = true
+dita_diagnostics.workspace = true
+anyhow.workspace = true
+owo-colors.workspace = true
