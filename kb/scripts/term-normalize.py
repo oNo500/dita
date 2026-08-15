@@ -43,6 +43,9 @@ def build_alias_map(gloss_dir):
 # 引文标题 <xref>Claude Code, ...</xref> 也不该）。扫描时整体跳过。
 SKIP_TAGS = {
     'term', 'keyword',
+    # 标题是标签不是行文：keyref 会改变导航/TOC 的渲染，而"这篇讲的就是它"本身已由
+    # 标题表达，加引用的查询价值为零。
+    'title', 'navtitle',
     'filepath', 'codeph', 'codeblock', 'cmdname', 'varname', 'userinput',
     'systemoutput', 'msgph', 'msgnum', 'apiname', 'option', 'parmname', 'synph',
     'xmlelement', 'xmlatt', 'xmlnsname', 'xmlpi', 'markupname',
@@ -100,9 +103,12 @@ def main():
             continue
         chunks = text_outside_terms(root)
         rel = os.path.relpath(path, kb)
+        # 每篇首现标注即可：本篇已 keyref 过的术语，后文字面提及不再报——
+        # 否则一段 20 行的表格里每次提及都要包一层，报告很快沦为噪音而无人读。
+        already = {t.get('keyref') for t in root.iter('term') if t.get('keyref')}
         seen = set()
         for alias, key in aliases.items():
-            if alias in seen:
+            if alias in seen or key in already:
                 continue
             for ch in chunks:
                 if hits_in(ch, alias):
