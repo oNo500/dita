@@ -2,6 +2,12 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> **状态说明（2026-08-15 补）：** Task 1–5 的代码均已写出（`crates/` 与 `apps/` 下），
+> 但**未在本机验证**——VPS 缺 C 链接器（`build-essential`），cargo 无法链接产物，
+> 因此下方的 checkbox 一律保持未勾选。装上链接器、跑通 `cargo test --workspace`
+> 之后再逐项确认。另：`dita_validate` 已写进 workspace 依赖表，但 crate 尚未创建；
+> Phase 2 起的路线图只有一张表，没有任务分解——见 [架构与边界](../../../docs/架构与边界.md) 待定项 4。
+
 **Goal:** 构建一套 Rust monorepo DITA 工具链，从 IA 视图出发，逐步演进为完整的 DITA 预处理引擎，最终支持 Web 编辑器的实时解析能力。
 
 **Architecture:** 参照 OXC（oxc-project/oxc）的 monorepo 工程范式，以 `dita_ast`（共享 AST 类型）和 `dita_parser`（XML→AST）为核心基础，所有上层工具（IA 分析、校验、预处理）共享同一套解析层。发布端继续封装 DITA-OT 命令行（黑盒调用），编辑/分析端由 Rust 引擎承担。
@@ -24,7 +30,7 @@
 
 ### 问题起点
 
-`kb`（`~/code/kb`）是一个用 DITA 2.0 组织的个人知识库。DITA-OT 是官方发布引擎，但它：
+`kb`（本仓库 `../kb`）是一个用 DITA 2.0 组织的个人知识库。DITA-OT 是官方发布引擎，但它：
 
 1. **没有 IA 视角**：看不到整个知识树长什么样、哪些域是空的、哪些 Topic 是孤儿
 2. **无法实时预览**：基于 JVM 的批处理管道，启动开销 2-5 秒，不支持编辑时实时渲染
@@ -838,8 +844,8 @@ pub mod ia;
 ```bash
 cargo build -p dita-tools
 ./target/debug/dita-tools ia \
-  --map /Users/xiu/code/kb/maps/root.ditamap \
-  --topics /Users/xiu/code/kb/topics
+  --map ../kb/maps/root.ditamap \
+  --topics ../kb/topics
 ```
 
 期望输出类似：
@@ -882,7 +888,7 @@ git commit -m "feat(dita_cli): add ia subcommand for IA overview"
 ```bash
 # 保留 DITA-OT 中间文件作为黄金数据
 dita -f html5 \
-  --input=~/code/kb/maps/root.ditamap \
+  --input=../kb/maps/root.ditamap \
   --clean.temp=no \
   --temp=/tmp/kb-golden \
   -o /dev/null
@@ -898,4 +904,4 @@ diff /tmp/kb-golden/job.xml /tmp/kb-rust/job.xml
 - DITA-OT KeyrefModule.java（~800 行）
 - conrefImpl.xsl（~1500 行 XSLT）
 - roxmltree: `docs.rs/roxmltree`
-- kb 仓库: `~/code/kb`（本工具的第一个用户）
+- kb: 本仓库 `../kb`（本工具的第一个用户）

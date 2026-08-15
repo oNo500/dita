@@ -6,11 +6,14 @@
 
 | 路径 | 是什么 | 状态 |
 |---|---|---|
-| `~/code/notes` | 旧 Obsidian 库 | 只读矿场，永不迁移，重写时查原文用 |
-| `~/code/dita2` | DITA 2.0 研究笔记 + 分类法实践案例 | 方法论来源（本库的设计依据都在其 cases/） |
-| `~/code/kb`（本库） | 重塑后的知识体系正本 | 建设中（Phase 2 骨架） |
+| `~/ws/projects/notes` | 旧 Obsidian 库 | 只读矿场，永不迁移，重写时查原文用 |
+| [`../docs/`](../docs/README.md)（原 dita2） | DITA 2.0 研究笔记 + 分类法实践案例 | 方法论来源（本库的设计依据都在其 `cases/`） |
+| `../kb/`（本库） | 重塑后的知识体系正本 | 建设中 |
+| [`../dita-tools/`](../dita-tools/README.md) | Rust 工具链 | 消费本库的词表与内容，见下 |
 
-**dita2 是研究，kb 是成品。** 本库的分类树、角色分工、验证纪律全部承自 dita2 的笔记与 `cases/知识体系重塑/`。
+**docs 是研究，kb 是成品，dita-tools 是执行引擎。** 本库的分类树、角色分工、验证纪律全部承自 `../docs/` 的笔记与 `cases/知识体系重塑/`；三者的依赖方向与边界见 [架构与边界](../docs/架构与边界.md)。
+
+> 本库**不依赖 dita-tools 才能用**：`dita validate` + `scripts/` 就能跑完整条链。工具是加速器，不是必需品。
 
 ## 结构
 
@@ -24,7 +27,7 @@ kb/
 ├── topics/<领域>/                内容 topic，按领域分目录
 │   └── writing/                  写作规则（人读 concept）
 ├── glossary/                     术语 glossentry
-└── schema/                       DITA 架构师的零件（RNG 属性域 + shell + 约束，待造）
+└── schema/                       DITA 架构师的零件（四属性域 + concept/reference/glossentry shell）
 ```
 
 ## 两个角色（一人分饰）
@@ -32,9 +35,9 @@ kb/
 - **信息架构师**：内容怎么组织——词表、map。产物在 `vocab/`、`maps/`。
 - **DITA 架构师**：内容用什么语法——shell、模块、约束。产物在 `schema/`。
 
-切换帽子的判断表见 dita2 `cases/知识体系重塑/角色分工.md`。
+切换帽子的判断表见 [`../docs/cases/知识体系重塑/角色分工.md`](../docs/cases/知识体系重塑/角色分工.md)。
 
-## 纪律（承自 dita2）
+## 纪律（承自 `../docs/`）
 
 - **准入测试**：一篇内容进库，须自足（脱离原语境仍成立）+ 可归型（concept/task/reference/troubleshooting/glossentry 之一）。过不了的是噪音，不进。
 - **来源核对 + 日期戳**：volatile 内容无核对日期不得标 verified。
@@ -44,11 +47,13 @@ kb/
 ## 当前进度
 
 Phase 0 盘点 → 1 评审 → 2 骨架 → 3 试点重写 → 4 首个交付物，均已走通。
-- `schema/`：三属性域 + concept-kb shell（过审 + 校验闭环）
-- `topics/`：写作规则 4 篇 + agent 方法论 3 篇（Phase 3 试点）+ agent-rules-core（Phase 4）
+- `schema/`：四属性域（maturity/volatility/tool/dimension）+ concept/reference/glossentry 三个 shell
+- `topics/`：22 篇——术语 12 条、写作规则 4 篇、agent 方法论 3 篇、agent-rules-core、DITA 写作总纲、领域全景样板各 1
+- `maps/`：九个领域 map 中 7 个仍是空骨架，只有 ai 与 content-engineering 挂了内容
+- 机器兜底：`scripts/review.sh` 串结构校验 + R1–R10 + 覆盖度 + 术语扫描，当前全过
 - 交付物：`maps/deliverables/agent-rules.ditamap` + `filters/tool-*.ditaval`
 
-下一步 Phase 5 批量重写（前置见 dita2 `cases/知识体系重塑/Phase3-回顾.md`）。规划全貌见 dita2 `cases/知识体系重塑/`。
+下一步 Phase 5 批量重写（前置见 [`Phase3-回顾.md`](../docs/cases/知识体系重塑/Phase3-回顾.md)）。规划全貌见 [`../docs/cases/知识体系重塑/`](../docs/cases/知识体系重塑/README.md)；跨子项目的边界见 [架构与边界](../docs/架构与边界.md)。
 
 ## 构建 agent 规则集（Phase 4，单源 → 多工具变体）
 

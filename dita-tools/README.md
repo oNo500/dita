@@ -4,6 +4,10 @@
 
 工程范式参照 [OXC](https://github.com/oxc-project/oxc) monorepo。
 
+> **边界**：本工具是三层链条的执行层——上游 [`docs/`](../docs/README.md) 定规则、[`kb/`](../kb/README.md) 定合法值与内容，本工具只负责把规则跑起来，**不自带值集、不重新定义规则语义**。契约与规则归属见 [架构与边界](../docs/架构与边界.md)。
+>
+> **当前状态**：`dita-tools ia` 已可用；尚无 topic 解析器，因此读不到 `@dimension`/`@maturity`，还接不上业务规则。本机缺 C 链接器，暂时编译不了。
+
 ## 为什么做这个
 
 [DITA-OT](https://github.com/dita-ot/dita-ot) 是强大的发布引擎，但没有 IA（信息架构）视角——它无法告诉你知识树长什么样、哪些域是空的、哪些 Topic 是孤儿。Heretto、Paligo 等商业 CCMS 通过自己的解析引擎解决了这个问题，完全绕开 DITA-OT 来处理创作层的关切。
