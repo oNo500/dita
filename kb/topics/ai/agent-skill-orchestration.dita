@@ -2,11 +2,12 @@
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 重写自矿场 Rule与Skill分层"编排"节——原文该节是独立的原创判断，
      不属"加载判据"题域，故从 agent-rule-loading 分出独立成篇。 -->
-<concept id="agent-skill-orchestration" xml:lang="zh-CN" maturity="curated" volatility="stable">
+<concept id="agent-skill-orchestration" xml:lang="zh-CN" maturity="curated" volatility="stable" dimension="dim-agent-orchestration dim-decision">
   <title>skill 编排：skill 之间的衔接</title>
   <shortdesc>加载分层解决"单个 skill 何时进上下文"，但不解决 skill 之间的顺序与交接；编排有两种落法——写进 skill 正文，或独立成一个编排物。</shortdesc>
   <conbody>
-    <p>加载分层（见 <xref href="agent-rule-loading.dita">agent 规则的三层加载判据</xref>）回答的是"单个 skill 何时进上下文"，但不回答 skill 之间的顺序与交接——"先分诊再收集""先头脑风暴再定计划"这类先后关系，分层管不了。编排是补这一层的。</p>
+    <p>你有一个"头脑风暴"skill 和一个"写实施计划"skill，各自都好用。但它们之间有个默认的先后：风暴出方案，计划把选中的方案落成步骤。这层顺序写在哪？两个 skill 的描述里都不该写——描述是给触发用的，不是给排流程用的。</p>
+    <p>加载分层（见 <xref href="agent-rule-loading.dita">agent 规则的三层加载判据</xref>）回答的是"单个 skill 何时进上下文"，它管不了 skill 之间的顺序与交接。编排就是补这一层的：分层管<b>进不进来</b>，编排管<b>进来之后按什么次序接力</b>。</p>
 
     <section>
       <title>两种落法</title>
@@ -18,7 +19,14 @@
 
     <section>
       <title>怎么选</title>
-      <p>链路简单、交接少 → 写进正文，够用且零成本。链路多、需要保证完整性（不能有断裂的步骤）→ 独立成编排物，用单一事实源换取可对账。判据和加载分层一致：<b>能靠机制校验的完整性，值得为它付独立成物的成本；否则不值。</b></p>
+      <p>链路简单、交接少 → 写进正文，够用且零成本。链路多、需要保证完整性（不能有断裂的步骤）→ 独立成编排物，用单一事实源换取可对账。</p>
+      <p>分界线其实是一个很实际的问题：<b>某个 skill 被改名或删掉时，会不会有一条链悄悄断掉而没人发现？</b>链路少的时候不会——你就那么两三条，断了当场就撞上。链路多起来才会，那时候你需要的不是更自律，是一个能对账的清单。判据和加载分层是同一条：<b>能靠机制校验的完整性，才值得为它付独立成物的成本；否则不值。</b></p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>已核对</b>（2026-08-15）：本篇的前提——skill 是<b>按相关性单独触发的独立单元</b>，工具本身没给跨 skill 的顺序机制——依据 <xref href="https://code.claude.com/docs/en/skills" scope="external">Claude Code 的 skills 文档</xref>：Claude 在判断相关时使用某个 skill，或由用户用 <codeph>/skill-name</codeph> 直接调用。触发是逐个的，文档里没有"先 A 后 B"这种东西，所以"编排不是原生机制"这句话成立。</p>
+      <p><b>判断与通用实践</b>：两种落法的划分与各自代价、以及"能靠机制校验的完整性才值得独立成物"的取舍判据，都是原创判断，没有外部来源，可被反驳。特别是"独立成编排物"那条——它需要自建资产管线才立得住，成本估计因人而异。</p>
     </section>
   </conbody>
 </concept>

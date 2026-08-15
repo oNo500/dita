@@ -2,11 +2,12 @@
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 重写自矿场 30-05-ai/claude-code/AI-ClaudeCode-Rule与Skill分层（type:concept, growing）。
      volatile：rule/skill/paths 是 agent 工具当前机制，会随版本变——判据稳定，具体字段易腐。 -->
-<concept id="agent-rule-loading" xml:lang="zh-CN" maturity="curated" volatility="volatile">
+<concept id="agent-rule-loading" xml:lang="zh-CN" maturity="curated" volatility="volatile" dimension="dim-mechanism dim-decision">
   <title>agent 规则的三层加载判据</title>
   <shortdesc>规则按"为什么被加载"分三层——无条件常驻、按路径匹配、按意图语义触发；给一条内容选层（按意图层装的是 skill，不是规则），先判 glob 能否表达它的真实触发条件，再看内容体量。</shortdesc>
   <conbody>
-    <p>组织 agent 规则的第一刀，不是按"内容是什么"分，是按"它为什么进入上下文"分。分对了层，上下文才不会被常驻的长内容挤占。</p>
+    <p>规则文件是这样长胖的：先写三条原则，接着补一段 TypeScript 约定，然后是目录结构、命名、提交格式、测试放哪……每条单看都该写。半年后它八百行，每次会话开头无条件全量载入，而其中当天用得上的可能只有两条。</p>
+    <p>问题不在这些内容不该存在，在于它们<b>被混在了同一层</b>。组织 agent 规则的第一刀，不是按"内容是什么"分（前端规则 / 后端规则 / 通用规则），而是按"它为什么进入上下文"分。分对了层，八百行里的绝大部分就不必常驻了。</p>
 
     <section>
       <title>三个加载条件</title>
@@ -15,7 +16,7 @@
         <li><b>按路径</b> —— 文件作用域规则，模型读到匹配 glob 的文件时才加载。</li>
         <li><b>按意图</b> —— skill，靠描述的语义匹配，模型判断与任务相关时才加载。</li>
       </ul>
-      <p>大内容都放按意图层，所以前两层永远薄；skill 正文想写多长都行，不触发时只有描述常驻。</p>
+      <p>三层的成本结构完全不同，这才是分层的意义：无条件层每次会话都付全额，按路径层只在碰到那类文件时付，按意图层不触发时只付一行描述的钱。所以规则应该<b>尽量往下沉</b>——大内容都放按意图层，前两层永远薄；skill 正文想写多长都行，不触发时只有描述常驻。</p>
     </section>
 
     <section>
@@ -51,6 +52,14 @@
     <section>
       <title>工具能强制的，不写成规则</title>
       <p>依赖方向、循环依赖、feature 隔离这类静态可检查的约束，交给 CI 工具（如 <cmdname>dependency-cruiser</cmdname>），不写进规则文本。工具能强制的就该是检查而非文字——这能显著缩小规则与 skill 正文。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>已核对</b>（2026-08-15）。本篇 volatile：下面三条是各家工具当前的实际机制，会随版本变，复核时从这三处原文重新核起。</p>
+      <p>三个加载条件不是我归纳出来的抽象，它在产品里就是三个具体开关：<xref href="https://cursor.com/docs/rules" scope="external">Cursor 的 Rules 文档</xref>把规则分成四型——<codeph>alwaysApply</codeph> 为真就永远进上下文（此时 description 与 globs 都被忽略）；为假且给了 <codeph>globs</codeph>，则匹配文件进上下文时自动挂载；两者都没有，就交给 agent 按 <codeph>description</codeph> 判断相关性。这正好对应无条件 / 按路径 / 按意图。</p>
+      <p>"前两层必须薄"也不是洁癖。<xref href="https://code.claude.com/docs/en/memory" scope="external">Claude Code 的 memory 文档</xref>写明 <filepath>CLAUDE.md</filepath> 在每次会话开始时载入上下文窗口并消耗 token，且官方直接建议保持精简——超过 200 行会占更多上下文并可能<b>降低遵循度</b>（写得越多越不被遵守，这点尤其反直觉）。另一头，<xref href="https://code.claude.com/docs/en/skills" scope="external">skills 文档</xref>说明 skill 正文只在被使用时才加载，"长参考材料在你需要它之前几乎不花成本"——渐进披露的成本优势由此而来。</p>
+      <p><b>判断与通用实践</b>：官方文档只说了机制，没说该怎么用。本篇真正的主张全在判断这一侧——"先问 glob 能否表达真实触发条件、再看体量"这条分层判据，"glob 只是代理时必须按意图"的区分，防默认失效允许宽 glob 的例外，以及跨域入口用查询命令、域内归口直接点名的担保双轨。这些是实践归纳，没有权威出处，可以被反驳。</p>
     </section>
   </conbody>
 </concept>

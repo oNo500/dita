@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<concept id="writing-sourcing" xml:lang="zh-CN" maturity="curated" volatility="stable">
+<concept id="writing-sourcing" xml:lang="zh-CN" maturity="curated" volatility="stable" dimension="dim-criteria dim-governance">
   <title>来源与成熟度：让"可信到什么程度"可见</title>
   <shortdesc>每篇内容显式标注成熟度与时效；verified 必须有已核对的来源和日期，volatile 内容无日期不得升为 verified。</shortdesc>
   <conbody>
-    <p>旧库最痛的一点：分不清哪些还能信、哪些已过时。成熟度和时效两个维度把这件事变得可见，并用规则强制——让过期内容自动失去"可信"资格，而不是靠人记得它旧了。</p>
+    <p>你翻到一篇自己写的配置笔记，照着做，失败了。查了半天才发现：那个参数两个版本前就改名了。笔记没有错——它写的时候是对的，只是没有任何地方记着"它写于什么时候、依据是什么、还作不作数"。</p>
+    <p>这是旧库最痛的一点：<b>分不清哪些还能信、哪些已过时</b>，于是每一篇都要重新验一遍，等于每一篇都不能直接用。成熟度和时效两个维度就是来治它的——把"可信到什么程度"从读者的猜测变成内容自带的标注，再用规则强制，让过期内容自动失去"可信"资格，而不是靠人记得它旧了。</p>
 
     <section>
       <title>成熟度（maturity）</title>
       <ul>
-        <li><term>draft</term> —— 草稿，未审。<b>默认值</b>：没标注的一律视为 draft，未审内容无法冒充成品。</li>
-        <li><term>curated</term> —— 经整理，判断可靠，但来源未逐一核对。</li>
-        <li><term>verified</term> —— 来源已逐条核对且标注核对日期。最高等级。</li>
+        <li><keyword>draft</keyword> —— 草稿，未审。<b>默认值</b>：没标注的一律视为 draft，未审内容无法冒充成品。</li>
+        <li><keyword>curated</keyword> —— 经整理，判断可靠，但来源未逐一核对。</li>
+        <li><keyword>verified</keyword> —— 来源已逐条核对且标注核对日期。最高等级。</li>
       </ul>
       <p>喂给工具（如 agent 规则集）的交付物，构建时按成熟度过滤，只放 curated 以上——draft 进不了成品。</p>
     </section>
@@ -19,10 +20,32 @@
     <section>
       <title>时效（volatility）</title>
       <ul>
-        <li><term>stable</term> —— 内容基本不随时间变（协议、算法、原理）。</li>
-        <li><term>volatile</term> —— 内容依赖快变的生态（工具版本、模型、API）。</li>
+        <li><keyword>stable</keyword> —— 内容基本不随时间变（协议、算法、原理）。</li>
+        <li><keyword>volatile</keyword> —— 内容依赖快变的生态（工具版本、模型、API）。</li>
       </ul>
       <p><b>治理规则</b>：volatile 内容若没有核对日期，<b>不得</b>标为 verified。快变的东西没有"上次确认时间"就声称"已核实"，是自欺。</p>
+      <p>两个维度是<b>正交</b>的，四种组合都有实例，别把它们当成一个"新旧"轴：</p>
+      <table>
+        <tgroup cols="3">
+          <colspec colname="c1"/><colspec colname="c2"/><colspec colname="c3"/>
+          <thead>
+            <row><entry/><entry>stable</entry><entry>volatile</entry></row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>verified</entry>
+              <entry>最理想：原理类且已核对，几乎不用回头看</entry>
+              <entry>要维护：必须带核对日期，日期一旧就该复核</entry>
+            </row>
+            <row>
+              <entry>curated</entry>
+              <entry>常态：判断可靠，来源未逐条核；能用，引用时自己掂量</entry>
+              <entry>最危险的一格：既快变又没核过——读者最容易当真</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+      <p>右下那一格是这套标注真正的目标：它以前是隐形的，现在至少写在脸上。</p>
     </section>
 
     <section>
@@ -32,12 +55,23 @@
         <li><b>已核对</b> —— 逐条对照权威源确认，标注来源与日期。</li>
         <li><b>判断与通用实践</b> —— 来自经验的归纳，非事实转述，可以被反驳。</li>
       </ul>
-      <p>把这两类分开，读者（包括未来的自己）才知道哪些能当事实引用、哪些只是判断。</p>
+      <p>把这两类分开，读者（包括未来的自己）才知道哪些能当事实引用、哪些只是判断。分档还有一个副作用，比它的本意更值钱：<b>写来源节的时候，你会被迫发现自己哪些话其实没有依据</b>。一篇通篇讲得很笃定的内容，写到来源节才想起来第二档是空的——那说明它该降成 curated，或者该去补核对。</p>
+      <p>本篇自己的来源节就是个例子：第一档只有两条标准定义，其余全在第二档。</p>
     </section>
 
     <section>
       <title>系统能得出的信息，不让人填</title>
       <p>日期、版本、修订人这类信息交给 git 或构建管道注入，不要手填——手填的日期永远是错的。<codeph>git log</codeph> 就是比手写字段更真的修订记录。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>已核对</b>（2026-08-15）——只有两条，且都只支持"用什么字段记"，不支持本篇的治理主张：</p>
+      <ul>
+        <li>"来源"与"日期"是标准元数据字段而非自创，<xref href="https://www.dublincore.org/specifications/dublin-core/dcmi-terms/" scope="external">DCMI Metadata Terms</xref> 把 <codeph>source</codeph> 定义为"派生出本资源的相关资源"，<codeph>date</codeph> 定义为"与资源生命周期中某事件关联的时间点或时段"（建议按 ISO 8601-1 表达）。</li>
+        <li>DITA 里的对应物是 <xref href="https://dita-lang.org/dita/langref/base/source" scope="external">prolog 的 source 元素</xref>——"本 topic 全部或部分派生自的资源"，可直接写描述，也可用 <xmlatt>href</xmlatt> / <xmlatt>keyref</xmlatt> 指出去。</li>
+      </ul>
+      <p><b>判断与通用实践</b>：除此之外全是本库自定的治理设计——maturity 分三档、volatility 只取两值、"volatile 无核对日期不得 verified"、来源分两档。这些没有任何外部标准背书，也不需要有：它们的分量不来自出处，来自<b>被机器强制执行</b>（R3 查日期、R8 查来源，见机器兜底）。一条没人执行的写作规范，写得再有来头也会腐烂。</p>
     </section>
   </conbody>
 </concept>

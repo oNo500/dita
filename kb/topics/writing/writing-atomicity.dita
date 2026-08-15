@@ -6,13 +6,34 @@
   <title>准入测试：一篇内容能否进库</title>
   <shortdesc>内容进入知识库前必须过两道判据——自足性与可归型；两者都不过的是噪音，不进。</shortdesc>
   <conbody>
-    <p>知识库的价值不在收得多，在每一篇都用得上。旧库失守的教训是：什么都往里放，最后分不清高价值、slop 和噪音。准入测试把"要不要收"从模糊感觉变成两条可判定的判据。</p>
+    <p>三年后你搜到自己写的一条笔记，第一句是"所以还是得手动改一下"。改什么？在哪改？为什么？——你不记得了，这条笔记等于没写过。它当初写下来是有用的，因为当时那个语境还在你脑子里；语境一散，它就成了占位置的噪音。</p>
+    <p>知识库的价值不在收得多，在每一篇都用得上。旧库失守就失守在这里：什么都往里放，几百篇之后分不清哪些是高价值、哪些是 slop、哪些是上面那种残句。准入测试把"要不要收"从模糊感觉变成两条可判定的判据——判据的意义是，拿不准的时候有个东西替你决定，而不是靠当时心情。</p>
 
     <section>
       <title>判据一：自足性</title>
       <p>一篇内容脱离它原来的语境后，是否仍然正确、仍然可用。这是复用的前提——被复用的内容会出现在新地方，如果它依赖"上文说过""这个项目里"，换了地方就是错的。</p>
-      <p>检验方法：把这篇内容单独拿出来，想象一个不知道它出处的人读到它。如果需要补充背景才能理解，说明它没有自足，要么补全语境写成自足的，要么它本就不是一个独立单元。</p>
-      <note>自足性是尺寸中立的：短不等于自足，长不等于不自足。判据是"脱离原语境是否仍成立"，不是字数。</note>
+      <p>检验方法很土但有效：把这篇单独拿出来，想象一个不知道它出处的人读到它。需要你在旁边补一句背景才能理解，它就没自足。</p>
+      <p>同一个知识点，不自足和自足的写法差别是这样的：</p>
+      <table>
+        <tgroup cols="2">
+          <colspec colname="c1"/><colspec colname="c2"/>
+          <thead>
+            <row><entry>不自足</entry><entry>自足</entry></row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>"这个项目里不要用 pip，用上面说的那个。"</entry>
+              <entry>"Python 项目统一用 uv 管依赖：<codeph>uv add</codeph> 装、<codeph>uv run</codeph> 跑，不用裸 pip——理由是锁文件与虚拟环境由同一个工具接管，避免两套状态打架。"</entry>
+            </row>
+            <row>
+              <entry>"记得先跑一遍再提交，不然会报那个错。"</entry>
+              <entry>"提交前跑校验脚本：它串起结构校验与业务规则，有 error 时退出非零，可直接接 git hook 挡住入库。"</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+      <p>左边那列不是写得潦草，是<b>把语境留在了作者脑子里</b>——"上面说的那个""那个错"都指向一个当时在场、现在不在场的东西。右边把指代补成了内容本身。</p>
+      <note>自足性是尺寸中立的：短不等于自足，长不等于不自足。上面右列那条不长，但自足；一篇三千字的会议记录很长，仍然不自足。判据是"脱离原语境是否仍成立"，不是字数。</note>
     </section>
 
     <section>
@@ -25,7 +46,8 @@
         <li><xmlelement>troubleshooting</xmlelement> —— 症状、原因、处置</li>
         <li><xmlelement>glossentry</xmlelement> —— 一个术语的一个义项</li>
       </ul>
-      <p>归不进任何一类，通常说明它还不是"知识"，而是未成形的片段或过程记录。</p>
+      <p>归不进任何一类，通常说明它还不是"知识"，而是未成形的片段或过程记录。这条判据的实际作用是逼你把混装的东西拆开：一篇标题叫"OAuth 踩坑"的笔记，往往同时塞着授权流程的原理（concept）、配置客户端的步骤（task）、和一段报错处置（troubleshooting）——它归不进任何一类，不是因为它没价值，是因为它是三篇。</p>
+      <p>拆开之后每一篇都能独立被检索到、被引用、被单独更新；不拆，它只能被整篇打开、整篇读完、整篇过时。</p>
     </section>
 
     <section>
@@ -41,10 +63,8 @@
 
     <section>
       <title>来源</title>
-      <ul>
-        <li>自足性 / 原子化：Zettelkasten 方法（一条笔记只讲一件事、脱离语境仍成立），<xref href="https://zettelkasten.de/introduction/" scope="external">zettelkasten.de</xref></li>
-        <li>可归型 / 类型划分：<xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>（教程 / 操作 / 参考 / 解释四类）</li>
-      </ul>
+      <p>两道判据都不是本库发明的。自足性来自 <term keyref="term-zettelkasten">Zettelkasten</term> 的<term keyref="term-atomicity">原子化</term>原则——一条笔记只讲一件事、脱离语境仍成立（<xref href="https://zettelkasten.de/introduction/" scope="external">zettelkasten.de</xref>）；可归型来自 <xref href="https://diataxis.fr/" scope="external">Diátaxis</xref> 把文档按用户需求分成四类的做法。</p>
+      <p>本库自己加的部分只有一条：把这两者<b>并成准入门槛</b>——两者都不过即判定为噪音、不进库。这条是判断，可以被反驳。</p>
     </section>
   </conbody>
 </concept>

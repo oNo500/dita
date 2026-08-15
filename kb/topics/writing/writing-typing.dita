@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<concept id="writing-typing" xml:lang="zh-CN" maturity="curated" volatility="stable">
+<concept id="writing-typing" xml:lang="zh-CN" maturity="curated" volatility="stable" dimension="dim-classification">
   <title>类型化写作：先判类型，再动笔</title>
   <shortdesc>动笔前先确定这块内容是哪一类，一篇只写一类；类型服务于自足性，不是为分类而分类。</shortdesc>
   <conbody>
-    <p>类型化的收益是结构可预测：同一类内容形状一致，才能被统一地检索、复用、喂给工具。它也是对作者的强制——迫使你在动笔前想清"我这是在讲原理，还是在写步骤"，从源头阻止把概念和操作揉成一团。</p>
+    <p>一篇没定类型就动笔的内容，写着写着会变成这样：先讲了两段原理，中间插进四条命令，末尾又补了三个"如果报错就……"。读的人想查命令，得先跳过原理；想理解原理，又被命令打断。谁都没被服务好。</p>
+    <p>类型化的收益是结构可预测：同一类内容形状一致，才能被统一地检索、复用、喂给工具。但它更直接的作用是对作者的强制——动笔前先答一句"我这是在讲原理，还是在写步骤"，上面那种混装从源头就不会发生。</p>
 
     <section>
       <title>五种类型的选择</title>
@@ -15,30 +16,51 @@
             <row><entry>类型</entry><entry>回答</entry><entry>典型内容</entry></row>
           </thead>
           <tbody>
-            <row><entry><term>concept</term></entry><entry>是什么 / 为什么</entry><entry>原理、背景、术语、心智模型</entry></row>
-            <row><entry><term>task</term></entry><entry>怎么做</entry><entry>精确分步：前提、动作、顺序、结果</entry></row>
-            <row><entry><term>reference</term></entry><entry>查什么</entry><entry>参数、速查、API、错误码——用来查而非用来记</entry></row>
-            <row><entry><term>troubleshooting</term></entry><entry>出问题怎么办</entry><entry>症状 → 原因 → 处置</entry></row>
-            <row><entry><term>glossentry</term></entry><entry>某词何意</entry><entry>一个术语的一个义项</entry></row>
+            <row><entry><xmlelement>concept</xmlelement></entry><entry>是什么 / 为什么</entry><entry>原理、背景、术语、心智模型</entry></row>
+            <row><entry><xmlelement>task</xmlelement></entry><entry>怎么做</entry><entry>精确分步：前提、动作、顺序、结果</entry></row>
+            <row><entry><xmlelement>reference</xmlelement></entry><entry>查什么</entry><entry>参数、速查、API、错误码——用来查而非用来记</entry></row>
+            <row><entry><xmlelement>troubleshooting</xmlelement></entry><entry>出问题怎么办</entry><entry>症状 → 原因 → 处置</entry></row>
+            <row><entry><xmlelement>glossentry</xmlelement></entry><entry>某词何意</entry><entry>一个术语的一个义项</entry></row>
           </tbody>
         </tgroup>
       </table>
-      <p>拿不准 reference 还是 concept 时，问一句："这是用来查的，还是用来理解的？"用来查的进 reference。</p>
+      <p>拿不准 reference 还是 concept 时，问一句："这是用来查的，还是用来理解的？"用来查的进 reference。判据不在内容长短，在读者的动作——读者是<b>扫一眼找一个值</b>，还是<b>从头读完建立理解</b>。</p>
     </section>
 
     <section>
       <title>主题不是类型</title>
-      <p>主题（讲什么领域）和类型（是哪种信息）是两个正交的维度。同一个主题会自然产生多篇不同类型的内容——"OAuth"这个主题下，授权模型是 concept、如何配置客户端是 task、参数表是 reference。</p>
-      <p>按主题切、不按类型切，就会写出一篇把原理、步骤、参数全混在一起的东西——那正是类型化要消灭的。</p>
+      <p>主题（讲什么领域）和类型（是哪种信息）是两个正交的维度。这是最常被搞混的一点：人天然按主题攒东西，于是一个主题下的所有东西被攒进一篇。</p>
+      <p>"OAuth"这一个主题，正确的落法是四篇而不是一篇：</p>
+      <table>
+        <tgroup cols="3">
+          <colspec colname="c1"/><colspec colname="c2"/><colspec colname="c3"/>
+          <thead>
+            <row><entry>内容</entry><entry>类型</entry><entry>读者当时在干什么</entry></row>
+          </thead>
+          <tbody>
+            <row><entry>授权码模式为什么要有 code 这一步</entry><entry><xmlelement>concept</xmlelement></entry><entry>想搞懂，愿意读完</entry></row>
+            <row><entry>给本项目配一个 OAuth 客户端</entry><entry><xmlelement>task</xmlelement></entry><entry>照着做，要能一步步跟</entry></row>
+            <row><entry>各 grant type 与参数对照</entry><entry><xmlelement>reference</xmlelement></entry><entry>扫一眼，找一个值</entry></row>
+            <row><entry>回调报 redirect_uri_mismatch</entry><entry><xmlelement>troubleshooting</xmlelement></entry><entry>正卡着，要症状对得上</entry></row>
+          </tbody>
+        </tgroup>
+      </table>
+      <p>拆成四篇的好处不是整洁，是<b>四篇会各自被独立命中</b>：搜报错的人直接落到第四篇，不必先翻过前三篇的原理。合成一篇，这个人只能整篇打开、自己找。</p>
     </section>
 
     <section>
       <title>两种失败模式</title>
       <ul>
-        <li><b>全写成 concept</b>：等于没有类型化，却仍要承担一套体系的成本。</li>
-        <li><b>为凑类型硬拆</b>：拆出无法独立理解的碎片，违背了更根本的自足性（见 <xref href="writing-atomicity.dita">准入测试</xref>）。</li>
+        <li><b>全写成 concept</b> —— 最常见。因为 concept 什么都装得下，不用做判断。代价是等于没有类型化：读者永远不知道打开一篇会得到原理还是步骤，检索也没法按类型过滤，一套体系的成本照付、收益全无。</li>
+        <li><b>为凑类型硬拆</b> —— 反方向的失败。把一个完整的操作流程拆成五篇各三行的 task，每篇都得读上一篇才懂，于是违背了更根本的自足性（见 <xref href="writing-atomicity.dita">准入测试</xref>）。</li>
       </ul>
       <p>判断顺序：先问这块内容能否独立成立，再问它是哪一类。<b>类型化服务于自足性，不能反过来破坏它。</b></p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p>"按读者需求分类型"这件事有两个独立的出处，且它们的结论一致。<xref href="https://diataxis.fr/" scope="external">Diátaxis</xref> 从用户需求推出四种文档形态（教程 / 操作指南 / 技术参考 / 解释），主张按需求而非按主题组织；DITA 规范则直接把类型做进了语法——<xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/concept" scope="external">concept</xref>（回答"是什么"、提供动手前的背景）、<xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/troubleshooting" scope="external">troubleshooting</xref> 等都是从 <xmlelement>topic</xmlelement> 专门化出来的独立类型。两条链均于 2026-08-15 核对原文。</p>
+      <p>要注意的是两者并不一一对应：Diátaxis 的"解释"和"教程"都会落到 DITA 的 <xmlelement>concept</xmlelement> 与 <xmlelement>task</xmlelement> 上，本库按 DITA 的五类走。这个取舍，连同"用来查还是用来理解"的判别问句、上面两种失败模式、以及"先自足后类型"的判断顺序，都是经验归纳而非规范条文，可以被反驳。</p>
     </section>
   </conbody>
 </concept>

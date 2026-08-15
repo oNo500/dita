@@ -2,11 +2,12 @@
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 重写自矿场 20-02-ai-assistant/AI-资产与查证分层（type:concept, draft）。
      stable：做事/查证两条链是方法论，不随具体工具版本变。 -->
-<concept id="agent-context-verification" xml:lang="zh-CN" maturity="curated" volatility="stable">
+<concept id="agent-context-verification" xml:lang="zh-CN" maturity="curated" volatility="stable" dimension="dim-method dim-mechanism">
   <title>做事链与查证链：agent coding 的两条并行链</title>
   <shortdesc>做事与查证是两条并行的链——规则和 skill 管"怎么做"，文档链管"事实是什么"；排成一条优先级会绕路，查 API 时先翻 skill 是浪费。</shortdesc>
   <conbody>
-    <p>agent 写代码时需要两种东西：知道该怎么做，和知道事实是什么。这两者是<b>并行的两条链</b>，不是一条。混成一条优先级，查 API 时先去翻工作流，就绕了远路。</p>
+    <p>agent 写代码卡住，通常是两种卡法。一种是"这个库的这个方法到底收什么参数"——它需要的是<b>事实</b>。另一种是"这个项目里新增一个模块该放哪、要不要写测试"——它需要的是<b>你的约定</b>。</p>
+    <p>这两种需求走的是两条<b>并行</b>的链，不是一条有先后的链。把它们排成一条优先级，就会出现这种绕路：agent 要查一个 API 签名，却先去翻了三个 skill 的描述，确认都不相关，才想起来该去查文档。规则和 skill 管"怎么做"，文档链管"事实是什么"，两条各走各的。</p>
 
     <section>
       <title>做事链：规则与 skill</title>
@@ -14,7 +15,7 @@
         <li><b>规则</b> —— 姿态约束，回答"应该/不应该怎样"，是个人沉淀。</li>
         <li><b>skill</b> —— 可执行工作流，回答"怎么做一件事"，有输入有产物。</li>
       </ul>
-      <p>判据不是"有没有步骤"，而是<b>被执行还是被遵守</b>。纯参考型的 skill（只查、无步骤）形态上接近规则。</p>
+      <p>判据不是"有没有步骤"，而是<b>被执行还是被遵守</b>。"提交信息用英文"没有步骤，但它是一条要一直遵守的姿态，所以是规则；"发布一个版本"有五步，走完就结束，所以是 skill。纯参考型的 skill（只查、无步骤）形态上其实更接近规则。</p>
     </section>
 
     <section>
@@ -46,6 +47,13 @@
         <li><b>判断与约定</b> → 写成自己的规则。</li>
         <li>只有<b>官方自己维护</b>的 skill 才值得收录。</li>
       </ul>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>已核对</b>（2026-08-15）：查证链上两层各有出处。<xref href="https://llmstxt.org/" scope="external">llms.txt 提案</xref>（Jeremy Howard 于 2024-09-03 发布）说明了这层为什么值得单列——网页是为人建的，把它还原成干净文本"既困难又不精确"，而该文件给 agent 提供的是"集中在单一位置的、精炼的专家级信息"。这正是本篇说它"是官方编排、不同于抓取切片"的依据。第一层的统一检索入口也确有其物：<xref href="https://context7.com/" scope="external">Context7</xref>（Upstash）自述为"面向 LLM 与 AI 代码编辑器的最新文档"。</p>
+      <p>一处必须说明的边界：正文写的 <filepath>llms-full.txt</filepath> 是生态里流行起来的约定，<b>不在</b> llms.txt 提案本身之内——核对原文时确认了这一点，写在这里免得日后当成规范引用。</p>
+      <p><b>判断与通用实践</b>：四级查证链的排序与"命中即停"、做事/查证两链并行这个分层本身、"被执行还是被遵守"的规则与 skill 判据、第三方资产必验三件事、以及"只收官方自己维护的 skill"这条收录判据，全是实践归纳，无权威出处，可被反驳。</p>
     </section>
   </conbody>
 </concept>

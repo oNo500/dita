@@ -2,9 +2,18 @@
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 重写自矿场 infra-ai/rules/constitution + rc-rules。
      含通用规则 + 工具特有段（tool 条件属性），交付物构建时按 DITAVAL 过滤出各工具变体。 -->
-<concept id="agent-rules-core" xml:lang="zh-CN" maturity="curated" volatility="volatile">
+<concept id="agent-rules-core" xml:lang="zh-CN" maturity="curated" volatility="volatile" dimension="dim-principles">
   <title>Agent 规则集（核心）</title>
   <shortdesc>跨项目的 agent 规则——核心原则、不可违反的底线、代码约定，以及各 agent 工具特定的配置约定。</shortdesc>
+  <!-- 来源放 prolog 不放正文：本篇是交付物源（构建成 CLAUDE.md / AGENTS.md），
+       正文加"来源"节会整节进入常驻上下文——违背本库"无条件层必须薄"的判据
+       （见 ai/agent-rule-loading.dita）。实测 markdown_github 把 prolog source
+       输出为产物 frontmatter 的一行 source 字段（不进正文），代价可接受；R8 认 prolog source。
+       已核对 2026-08-15。 -->
+  <prolog>
+    <source href="https://www.conventionalcommits.org/en/v1.0.0/" scope="external"
+            format="html">Conventional Commits 1.0.0 —— commit 规范一条的来源：约定 <![CDATA[<type>[optional scope]: <description>]]> 结构，配合语义化版本。</source>
+  </prolog>
   <conbody>
     <section>
       <title>核心原则</title>
@@ -29,7 +38,7 @@
       <ul>
         <li>目录语义：<filepath>lib/</filepath> 第三方封装，<filepath>utils/</filepath> 纯工具函数，<filepath>e2e/</filepath> 端到端测试置于根。</li>
         <li>测试并置：<filepath>foo.ts</filepath> 与 <filepath>foo.test.ts</filepath> 同目录。</li>
-        <li>命名：文件与文件夹一律 kebab-case。</li>
+        <li>命名：文件与文件夹一律 <term keyref="term-kebab-case">kebab-case</term>。</li>
         <li>注释写 Why 不写 What——What 由命名表达。</li>
         <li>运行时数据（env、外部 API、用户输入）MUST 用 zod 校验。</li>
       </ul>
@@ -37,8 +46,8 @@
 
     <section>
       <title>工具特定</title>
-      <p tool="tool-claude-code">Claude Code：技能放 <filepath>.claude/skills/</filepath>，规则放 <filepath>.claude/rules/</filepath>；<filepath>CLAUDE.md</filepath> 是构建产物，禁止手改，只改 rules 源。</p>
-      <p tool="tool-codex">Codex：配置放 <filepath>.codex/</filepath>；<filepath>AGENTS.md</filepath> 是入口，同样是构建产物，禁止手改。</p>
+      <p tool="tool-claude-code"><term keyref="term-claude-code">Claude Code</term>：技能放 <filepath>.claude/skills/</filepath>，规则放 <filepath>.claude/rules/</filepath>；<filepath>CLAUDE.md</filepath> 是构建产物，禁止手改，只改 rules 源。</p>
+      <p tool="tool-codex"><term keyref="term-codex">Codex</term>：配置放 <filepath>.codex/</filepath>；<filepath>AGENTS.md</filepath> 是入口，同样是构建产物，禁止手改。</p>
     </section>
   </conbody>
 </concept>
