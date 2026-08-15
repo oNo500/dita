@@ -8,11 +8,15 @@ fn fixture() -> (dita_vocab::Vocabulary, dita_diagnostics::DiagnosticBag) {
 #[test]
 fn legal_values_come_from_the_scheme() {
     let (vocab, _) = fixture();
-    let dims = vocab.legal_values("dimension").expect("dimension enumeration");
+    let dims = vocab
+        .legal_values("dimension")
+        .expect("dimension enumeration");
     assert!(dims.contains("dim-concept"));
     assert!(!dims.contains("dim-nonexistent"));
 
-    let maturity = vocab.legal_values("maturity").expect("maturity enumeration");
+    let maturity = vocab
+        .legal_values("maturity")
+        .expect("maturity enumeration");
     assert_eq!(maturity.len(), 3);
     assert!(maturity.contains("verified"));
 }
@@ -22,16 +26,36 @@ fn group_keys_are_legal_but_not_leaves() {
     // a subject scheme is a taxonomy: binding an attribute to a subject makes
     // the whole subtree available, so a group key is a legal (if coarse) value
     let (vocab, _) = fixture();
-    assert!(vocab.legal_values("dimension").unwrap().contains("dim-common"));
-    assert!(!vocab.leaf_values("dimension").unwrap().contains("dim-common"));
-    assert!(vocab.leaf_values("dimension").unwrap().contains("dim-install"));
+    assert!(
+        vocab
+            .legal_values("dimension")
+            .unwrap()
+            .contains("dim-common")
+    );
+    assert!(
+        !vocab
+            .leaf_values("dimension")
+            .unwrap()
+            .contains("dim-common")
+    );
+    assert!(
+        vocab
+            .leaf_values("dimension")
+            .unwrap()
+            .contains("dim-install")
+    );
 }
 
 #[test]
 fn bound_subject_itself_is_not_a_value() {
     // @dimension="dimension" is the container's own key, never a valid tag
     let (vocab, _) = fixture();
-    assert!(!vocab.legal_values("dimension").unwrap().contains("dimension"));
+    assert!(
+        !vocab
+            .legal_values("dimension")
+            .unwrap()
+            .contains("dimension")
+    );
 }
 
 #[test]

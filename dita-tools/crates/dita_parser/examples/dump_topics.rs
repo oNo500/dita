@@ -37,7 +37,10 @@ fn main() -> anyhow::Result<()> {
     }
     paths.sort();
 
-    println!("{:<34} {:<14} {:<9} {:<9} 维度 / 规划", "文件", "类型", "成熟度", "时效");
+    println!(
+        "{:<34} {:<14} {:<9} {:<9} 维度 / 规划",
+        "文件", "类型", "成熟度", "时效"
+    );
     let mut warnings = 0;
     for path in &paths {
         let (m, diag) = dita_parser::parse_topic(path)?;

@@ -20,11 +20,17 @@ pub enum Diagnostic {
 
 impl Diagnostic {
     pub fn error(path: impl Into<PathBuf>, msg: impl Into<String>) -> Self {
-        Self::Error(DiagError { path: path.into(), message: msg.into() })
+        Self::Error(DiagError {
+            path: path.into(),
+            message: msg.into(),
+        })
     }
 
     pub fn warning(path: impl Into<PathBuf>, msg: impl Into<String>) -> Self {
-        Self::Warning(DiagWarning { path: path.into(), message: msg.into() })
+        Self::Warning(DiagWarning {
+            path: path.into(),
+            message: msg.into(),
+        })
     }
 
     pub fn is_error(&self) -> bool {

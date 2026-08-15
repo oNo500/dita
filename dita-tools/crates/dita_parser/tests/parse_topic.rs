@@ -36,7 +36,10 @@ fn reads_planned_dimensions_from_a_landscape() {
         ["dim-concept", "dim-usage", "dim-security"]
     );
     assert_eq!(meta.domain.as_deref(), Some("demo"));
-    assert!(meta.dimensions.is_empty(), "a landscape plans, it does not cover");
+    assert!(
+        meta.dimensions.is_empty(),
+        "a landscape plans, it does not cover"
+    );
 }
 
 #[test]

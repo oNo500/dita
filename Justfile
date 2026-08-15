@@ -9,8 +9,10 @@ review:
     cd kb && sh scripts/review.sh
 
 # IA 治理骨架：哪空、在做、算完（--details 展开细表，--depth N 限层）
+# 先现编再跑——保证看到的永远是当前代码的结果，不是上次 install 的旧二进制
 ia *args:
-    cd kb && dita-tools ia {{args}}
+    cd dita-tools && cargo build -q
+    cd kb && ../dita-tools/target/debug/dita-tools ia {{args}}
 
 # 单源 → 各工具变体（CLAUDE.md / AGENTS.md 雏形）
 build:
@@ -28,8 +30,15 @@ test:
 clippy:
     cd dita-tools && cargo clippy --workspace --all-targets
 
+fmt:
+    cd dita-tools && cargo fmt --all -- --check
+
 install:
     cd dita-tools && cargo install --path apps/dita_cli
 
+# 从零装齐全部依赖（幂等；版本 SSOT 在脚本顶部）
+setup:
+    sh scripts/setup-env.sh
+
 # 提交前全套（不含 links——它依赖网络）
-check: review test clippy
+check: review test clippy fmt

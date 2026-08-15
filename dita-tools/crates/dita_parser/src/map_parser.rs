@@ -47,7 +47,10 @@ fn parse_map_file(
     let xml = fs::read_to_string(&canonical)
         .with_context(|| format!("cannot read file: {}", canonical.display()))?;
     // DITA files always have `<!DOCTYPE ...>` declarations, so we must allow DTD.
-    let opts = roxmltree::ParsingOptions { allow_dtd: true, ..roxmltree::ParsingOptions::default() };
+    let opts = roxmltree::ParsingOptions {
+        allow_dtd: true,
+        ..roxmltree::ParsingOptions::default()
+    };
     let doc = roxmltree::Document::parse_with_options(&xml, opts)
         .with_context(|| format!("XML parse error in: {}", canonical.display()))?;
 
@@ -65,7 +68,12 @@ fn parse_map_file(
     let children = collect_children(root, &base, ancestors, diag);
     ancestors.pop();
 
-    Ok(DitaMap { title, path: canonical, lang, children })
+    Ok(DitaMap {
+        title,
+        path: canonical,
+        lang,
+        children,
+    })
 }
 
 fn collect_children(
@@ -124,10 +132,13 @@ fn collect_children(
                 }
             }
             "topichead" => {
-                let nav_title = extract_nav_title(&child)
-                    .unwrap_or_else(|| "(unnamed)".to_string());
+                let nav_title =
+                    extract_nav_title(&child).unwrap_or_else(|| "(unnamed)".to_string());
                 let children = collect_children(child, base, ancestors, diag);
-                result.push(MapNode::TopicHead(TopicHead { nav_title, children }));
+                result.push(MapNode::TopicHead(TopicHead {
+                    nav_title,
+                    children,
+                }));
             }
             "title" => {} // already captured at map level
             _ => {}       // unknown/unsupported elements are silently skipped

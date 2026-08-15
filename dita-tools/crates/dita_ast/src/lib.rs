@@ -2,7 +2,6 @@ pub mod map;
 pub mod topic;
 pub mod visit;
 
-
 pub use map::{DitaMap, MapNode, MapRef, ProcessingRole, TopicHead, TopicRef};
 pub use topic::{TopicMeta, TopicType};
 pub use visit::Visit;

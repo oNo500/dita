@@ -134,7 +134,9 @@ fn branch_note(label: &str, children: &[MapNode], ann: &Annotations) -> String {
 fn topic_note(path: &PathBuf, ann: &Annotations) -> String {
     let mut parts = Vec::new();
     if let Some(meta) = ann.topics.get(path) {
-        if meta.maturity.as_deref() != Some("curated") && meta.maturity.as_deref() != Some("verified") {
+        if meta.maturity.as_deref() != Some("curated")
+            && meta.maturity.as_deref() != Some("verified")
+        {
             parts.push(meta.maturity.clone().unwrap_or_else(|| "未标成熟度".into()));
         }
         if meta.volatility.is_none() {

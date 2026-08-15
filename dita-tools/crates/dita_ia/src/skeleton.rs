@@ -95,8 +95,11 @@ pub fn build(input: &Input) -> Vec<Node> {
                 .push(file_name(meta));
         }
     }
-    let coverage: BTreeMap<&str, &DomainCoverage> =
-        input.coverage.iter().map(|c| (c.domain.as_str(), c)).collect();
+    let coverage: BTreeMap<&str, &DomainCoverage> = input
+        .coverage
+        .iter()
+        .map(|c| (c.domain.as_str(), c))
+        .collect();
 
     let valid_keys: BTreeSet<String> = subject.all_keys().into_iter().collect();
     let mut nodes: Vec<Node> = subject
@@ -150,7 +153,10 @@ fn build_node(
     by_domain: &BTreeMap<&str, Vec<String>>,
     coverage: &BTreeMap<&str, &DomainCoverage>,
 ) -> Node {
-    let topics = by_domain.get(subject.keys.as_str()).cloned().unwrap_or_default();
+    let topics = by_domain
+        .get(subject.keys.as_str())
+        .cloned()
+        .unwrap_or_default();
     let cov = coverage
         .get(subject.keys.as_str())
         .map(|c| (c.covered.len(), c.planned.len()));
@@ -177,7 +183,12 @@ fn build_node(
 /// declaration the vocabulary tree has no idea where it belongs. Bucketing them
 /// visibly is the point — it is currently the largest structural gap in the
 /// library, and hiding it would hide exactly what this view exists to show.
-fn attach_unplaced(node: &mut Node, subject: &Subject, input: &Input, valid_keys: &BTreeSet<String>) {
+fn attach_unplaced(
+    node: &mut Node,
+    subject: &Subject,
+    input: &Input,
+    valid_keys: &BTreeSet<String>,
+) {
     let Some((label, paths)) = branch_topics(subject, input) else {
         return;
     };
@@ -208,8 +219,7 @@ fn branch_topics<'a>(
     input: &'a Input,
 ) -> Option<(String, &'a Vec<std::path::PathBuf>)> {
     let label = input.branches.source_map.iter().find_map(|(label, path)| {
-        (path.file_stem().and_then(|s| s.to_str()) == Some(subject.keys.as_str()))
-            .then_some(label)
+        (path.file_stem().and_then(|s| s.to_str()) == Some(subject.keys.as_str())).then_some(label)
     })?;
     Some((label.clone(), input.branches.topics.get(label)?))
 }
@@ -237,8 +247,8 @@ fn is_done(node: &Node) -> bool {
     // ...or every sub-topic it plans is itself done. An empty child is *not*
     // done — treating "all children empty" as satisfied would mark a branch
     // complete precisely when nothing under it had been written.
-    let children_done = !node.children.is_empty()
-        && node.children.iter().all(|c| c.state == State::Done);
+    let children_done =
+        !node.children.is_empty() && node.children.iter().all(|c| c.state == State::Done);
     (own || children_done) && node.unplaced.is_empty()
 }
 

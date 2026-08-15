@@ -1,9 +1,9 @@
 mod consistency;
 mod domain;
 mod governance;
+mod orphan;
 mod paint;
 mod skeleton;
-mod orphan;
 mod stats;
 mod tree;
 
@@ -127,17 +127,21 @@ pub fn build_report(
     let mut skeleton = Vec::new();
     if let Some(path) = vocab.filter(|p| p.exists()) {
         let (vocabulary, _) = dita_vocab::parse_vocab(path)?;
-        let benchmarks: std::collections::BTreeMap<String, String> = governance::benchmarks(&vocabulary)
-            .iter()
-            .filter_map(|b| {
-                let key = b.key.strip_prefix("bm-")?.to_string();
-                let date = b.last_benchmarked.clone()?;
-                Some((key, match b.due_months() {
-                    Some(m) => format!("对标 {date}+{m}mo"),
-                    None => format!("对标 {date}·触发"),
-                }))
-            })
-            .collect();
+        let benchmarks: std::collections::BTreeMap<String, String> =
+            governance::benchmarks(&vocabulary)
+                .iter()
+                .filter_map(|b| {
+                    let key = b.key.strip_prefix("bm-")?.to_string();
+                    let date = b.last_benchmarked.clone()?;
+                    Some((
+                        key,
+                        match b.due_months() {
+                            Some(m) => format!("对标 {date}+{m}mo"),
+                            None => format!("对标 {date}·触发"),
+                        },
+                    ))
+                })
+                .collect();
         skeleton = skeleton::build(&skeleton::Input {
             vocab: &vocabulary,
             topics: &topics,
@@ -247,16 +251,16 @@ pub fn print_report(report: &IaReport, details: bool, depth: Option<usize>) {
         let placed: usize = report.skeleton.iter().map(Node::total_topics).sum();
         let planned: usize = report.skeleton.iter().map(count_nodes).sum();
         let total = report.topics.len();
-        println!(
-            "知识体系   全库 {total} 篇（骨架内 {placed}）· 词表规划 {planned} 个主题节点\n"
-        );
+        println!("知识体系   全库 {total} 篇（骨架内 {placed}）· 词表规划 {planned} 个主题节点\n");
         let last = report.skeleton.len().saturating_sub(1);
         for (i, node) in report.skeleton.iter().enumerate() {
             print_node(node, "", i == last, paint, depth, 0);
         }
         println!(
             "\n{}",
-            paint.dim("○ 未建   ◐ 进行中   ● 完成（有全景且零盲区）   · 不适用   ⚠ 有问题   ⏰ 待复核")
+            paint.dim(
+                "○ 未建   ◐ 进行中   ● 完成（有全景且零盲区）   · 不适用   ⚠ 有问题   ⏰ 待复核"
+            )
         );
     }
 
@@ -336,16 +340,31 @@ fn print_node(
 
     for child in &node.children {
         printed += 1;
-        print_node(child, &child_prefix, printed == total, paint, depth, level + 1);
+        print_node(
+            child,
+            &child_prefix,
+            printed == total,
+            paint,
+            depth,
+            level + 1,
+        );
     }
     for name in &node.topics {
         printed += 1;
-        let conn = if printed == total { "└──" } else { "├──" };
+        let conn = if printed == total {
+            "└──"
+        } else {
+            "├──"
+        };
         println!("{child_prefix}{conn} {name}");
     }
     if !node.unplaced.is_empty() {
         printed += 1;
-        let conn = if printed == total { "└──" } else { "├──" };
+        let conn = if printed == total {
+            "└──"
+        } else {
+            "├──"
+        };
         println!(
             "{child_prefix}{conn} {} {} 篇未归子主题：{}",
             paint.red("⚠"),
@@ -355,7 +374,7 @@ fn print_node(
     }
 }
 
-fn annotations(report: &IaReport, details: bool)-> tree::Annotations<'_> {
+fn annotations(report: &IaReport, details: bool) -> tree::Annotations<'_> {
     let mut illegal: std::collections::BTreeMap<PathBuf, usize> = std::collections::BTreeMap::new();
     for d in &report.diagnostics.items {
         if d.is_error() && d.message().contains("不在词表中") {
@@ -383,10 +402,9 @@ fn annotations(report: &IaReport, details: bool)-> tree::Annotations<'_> {
             .coverage
             .iter()
             .filter_map(|c| {
-                let landscape = report
-                    .topics
-                    .iter()
-                    .find(|t| t.domain.as_deref() == Some(&c.domain) && !t.planned_dimensions.is_empty())?;
+                let landscape = report.topics.iter().find(|t| {
+                    t.domain.as_deref() == Some(&c.domain) && !t.planned_dimensions.is_empty()
+                })?;
                 Some((landscape.path.clone(), c))
             })
             .collect(),
@@ -422,7 +440,9 @@ fn print_exceptions(report: &IaReport) {
         .len()
         .saturating_sub(report.branch_stats.iter().map(|b| b.topics).sum::<usize>());
     if unplaced > 0 {
-        lines.push(format!("{unplaced} 篇不在任何分支下（只被交付物 map 引用）"));
+        lines.push(format!(
+            "{unplaced} 篇不在任何分支下（只被交付物 map 引用）"
+        ));
     }
     let blind: usize = report.coverage.iter().map(|c| c.blind.len()).sum();
     if blind > 0 {
@@ -471,7 +491,9 @@ fn print_branches(report: &IaReport) {
         return;
     }
     println!("\n── 按分支 ──");
-    println!("  每个分支手上有什么，用来决定下一批写哪里。「· 无全景」= 该分支尚无声明维度清单的全景 topic。");
+    println!(
+        "  每个分支手上有什么，用来决定下一批写哪里。「· 无全景」= 该分支尚无声明维度清单的全景 topic。"
+    );
     let width = report
         .branch_stats
         .iter()
@@ -490,7 +512,11 @@ fn print_branches(report: &IaReport) {
             render(&b.by_type),
             render(&b.by_maturity),
             render(&b.by_volatility),
-            if b.has_landscape { "" } else { "   · 无全景" }
+            if b.has_landscape {
+                ""
+            } else {
+                "   · 无全景"
+            }
         );
     }
 
@@ -558,7 +584,11 @@ fn print_plans(report: &IaReport) {
             );
             continue;
         };
-        let mark = if plan.built == 0 { "  ← 规划了但一篇没有" } else { "" };
+        let mark = if plan.built == 0 {
+            "  ← 规划了但一篇没有"
+        } else {
+            ""
+        };
         println!(
             "  {}  规划子主题 {sub}   实际 {:>2} 篇   （{branch}）{mark}",
             pad(&plan.key, width),
@@ -602,13 +632,11 @@ fn print_value_usage(report: &IaReport) {
         return;
     }
     println!("\n── 受控值使用情况 ──");
-    println!("  定义了却从未被用过的值，要么是规划过早，要么该清理——词表声称的区分，内容里并不存在。");
+    println!(
+        "  定义了却从未被用过的值，要么是规划过早，要么该清理——词表声称的区分，内容里并不存在。"
+    );
     for usage in &report.value_usage {
-        let used: Vec<String> = usage
-            .used
-            .iter()
-            .map(|(v, n)| format!("{v} {n}"))
-            .collect();
+        let used: Vec<String> = usage.used.iter().map(|(v, n)| format!("{v} {n}")).collect();
         println!(
             "  @{:<11} 已用 {:>2} 个：{}",
             usage.attribute,

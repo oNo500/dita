@@ -212,11 +212,7 @@ pub fn parse_vocab(path: &Path) -> anyhow::Result<(Vocabulary, DiagnosticBag)> {
     ))
 }
 
-fn read_subject(
-    node: roxmltree::Node,
-    source: &Path,
-    diag: &mut DiagnosticBag,
-) -> Option<Subject> {
+fn read_subject(node: roxmltree::Node, source: &Path, diag: &mut DiagnosticBag) -> Option<Subject> {
     let Some(keys) = node.attribute("keys") else {
         // a keyref-only subjectdef is a reference, not a definition
         if node.attribute("keyref").is_none() {

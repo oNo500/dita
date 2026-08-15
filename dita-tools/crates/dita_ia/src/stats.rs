@@ -123,7 +123,8 @@ pub fn domain_coverage(branches: &Branches, topics: &[TopicMeta]) -> Vec<DomainC
         .into_iter()
         .map(|(domain, planned)| {
             let all_covered = covered.remove(&domain).unwrap_or_default();
-            let covered_in_plan: BTreeSet<_> = all_covered.intersection(&planned).cloned().collect();
+            let covered_in_plan: BTreeSet<_> =
+                all_covered.intersection(&planned).cloned().collect();
             DomainCoverage {
                 blind: planned.difference(&covered_in_plan).cloned().collect(),
                 outside_plan: all_covered.difference(&planned).cloned().collect(),

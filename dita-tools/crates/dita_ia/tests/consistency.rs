@@ -4,8 +4,8 @@ use dita_parser::parse_map;
 use std::path::Path;
 
 fn check(fixture: &str) -> DiagnosticBag {
-    let (map, _) = parse_map(Path::new("tests/fixtures").join(fixture).as_path())
-        .expect("parse failed");
+    let (map, _) =
+        parse_map(Path::new("tests/fixtures").join(fixture).as_path()).expect("parse failed");
     let mut diag = DiagnosticBag::default();
     check_group_titles(&map, &mut diag);
     diag
@@ -22,7 +22,10 @@ fn drifted_wrapper_title_is_reported() {
         "the warning must name the stale copy: {}",
         diag.items[0].message()
     );
-    assert!(!diag.has_errors(), "drift is a warning, not a build breaker");
+    assert!(
+        !diag.has_errors(),
+        "drift is a warning, not a build breaker"
+    );
 }
 
 #[test]

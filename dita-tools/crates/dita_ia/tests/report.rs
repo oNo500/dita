@@ -38,7 +38,10 @@ fn coverage_counts_only_planned_dimensions() {
         .expect("demo domain");
     assert_eq!(demo.planned.len(), 3);
     assert_eq!(demo.covered.len(), 2, "dim-concept and dim-usage");
-    assert_eq!(demo.blind.iter().map(String::as_str).collect::<Vec<_>>(), ["dim-security"]);
+    assert_eq!(
+        demo.blind.iter().map(String::as_str).collect::<Vec<_>>(),
+        ["dim-security"]
+    );
     assert!(demo.outside_plan.contains("dim-nonexistent"));
     assert_eq!(demo.percent(), 66);
 }
@@ -121,7 +124,11 @@ fn plan_matches_branches_by_map_file_name() {
     // the scheme keys branches in English and the maps title them in Chinese;
     // domains/<key>.ditamap is the only thing carrying the correspondence
     let report = report();
-    let demo = report.plans.iter().find(|p| p.key == "demo").expect("demo plan");
+    let demo = report
+        .plans
+        .iter()
+        .find(|p| p.key == "demo")
+        .expect("demo plan");
     assert_eq!(demo.matched_branch.as_deref(), Some("演示分支"));
     assert_eq!(demo.built, 4);
     assert_eq!(demo.planned.len(), 2, "direct sub-topics");
@@ -133,7 +140,11 @@ fn unmatched_subject_key_is_not_counted_as_zero() {
     // silently reporting "0 built" for a key with no map would read as "nothing
     // written yet" when the truth is "nothing to compare against"
     let report = report();
-    let nomap = report.plans.iter().find(|p| p.key == "nomap").expect("nomap plan");
+    let nomap = report
+        .plans
+        .iter()
+        .find(|p| p.key == "nomap")
+        .expect("nomap plan");
     assert_eq!(nomap.matched_branch, None);
 }
 
@@ -150,8 +161,16 @@ fn benchmark_entries_carry_dates_and_cadence() {
     // anchors are element text, dates are @value — both forms must be read
     assert_eq!(demo.anchor.as_deref(), Some("某个外部对标锚点"));
 
-    let on_trigger = report.benchmarks.iter().find(|b| b.key == "bm-empty").unwrap();
-    assert_eq!(on_trigger.due_months(), None, "event-triggered has no calendar expiry");
+    let on_trigger = report
+        .benchmarks
+        .iter()
+        .find(|b| b.key == "bm-empty")
+        .unwrap();
+    assert_eq!(
+        on_trigger.due_months(),
+        None,
+        "event-triggered has no calendar expiry"
+    );
 }
 
 #[test]
@@ -181,17 +200,27 @@ fn unused_controlled_values_are_listed() {
 // ── 骨架（设计见 docs/plans/2026-08-15-skeleton-design.md）────────────────
 
 fn node<'a>(nodes: &'a [dita_ia::Node], key: &str) -> &'a dita_ia::Node {
-    nodes.iter().find(|n| n.key == key).unwrap_or_else(|| panic!("node {key}"))
+    nodes
+        .iter()
+        .find(|n| n.key == key)
+        .unwrap_or_else(|| panic!("node {key}"))
 }
 
 #[test]
 fn skeleton_is_the_subject_tree_with_content_hung_on_it() {
     let report = report();
     let demo = node(&report.skeleton, "demo");
-    assert_eq!(demo.children.len(), 2, "planned sub-topics are listed even when empty");
+    assert_eq!(
+        demo.children.len(),
+        2,
+        "planned sub-topics are listed even when empty"
+    );
     assert_eq!(demo.state, dita_ia::State::InProgress);
     // planned but unwritten sub-topics must be visible — that is the point
-    assert_eq!(node(&demo.children, "demo-a").state, dita_ia::State::Unbuilt);
+    assert_eq!(
+        node(&demo.children, "demo-a").state,
+        dita_ia::State::Unbuilt
+    );
 }
 
 #[test]
@@ -209,7 +238,9 @@ fn branch_without_a_vocabulary_key_is_not_applicable_not_unbuilt() {
     // an organisational branch (the glossary) is not a subject: it can never be
     // "done", and calling it unbuilt would be a permanent false alarm
     let mut report = report();
-    report.skeleton.retain(|n| n.state == dita_ia::State::NotApplicable);
+    report
+        .skeleton
+        .retain(|n| n.state == dita_ia::State::NotApplicable);
     assert!(
         report.skeleton.iter().all(|n| n.children.is_empty()),
         "unkeyed branches carry topics, not planned children"
@@ -219,9 +250,11 @@ fn branch_without_a_vocabulary_key_is_not_applicable_not_unbuilt() {
 #[test]
 fn an_empty_planned_branch_stays_unbuilt() {
     let report = report();
-    assert_eq!(node(&report.skeleton, "empty").state, dita_ia::State::Unbuilt);
+    assert_eq!(
+        node(&report.skeleton, "empty").state,
+        dita_ia::State::Unbuilt
+    );
 }
-
 
 #[test]
 fn a_typo_in_domain_falls_into_the_bucket_and_errors() {
