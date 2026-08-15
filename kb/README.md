@@ -11,7 +11,7 @@
 | `../kb/`（本库） | 重塑后的知识体系正本 | 建设中 |
 | [`../dita-tools/`](../dita-tools/README.md) | Rust 工具链 | 消费本库的词表与内容，见下 |
 
-**research 是研究，kb 是成品，dita-tools 是工具平台。** 本库的分类树、角色分工、验证纪律全部承自 `../research/` 的笔记与 `cases/知识体系重塑/`；三者的依赖方向与边界见 [架构与边界](../docs/架构与边界.md)。
+**research 是研究，kb 是成品，dita-tools 是工具平台。** 本库的分类树、角色分工、验证纪律全部承自 `../research/` 的笔记与 `cases/kb-redesign/`；三者的依赖方向与边界见 [架构与边界](../docs/architecture.md)。
 
 > 本库**不依赖 dita-tools 才能用**：`dita validate` + `scripts/` 就能跑完整条链。工具是加速器，不是必需品。
 
@@ -34,7 +34,7 @@ kb/
 - **信息架构师**：内容怎么组织——词表、map。产物在 `vocab/`、`maps/`。
 - **DITA 架构师**：内容用什么语法——shell、模块、约束。产物在 `schema/`。
 
-切换帽子的判断表见 [`../research/cases/知识体系重塑/角色分工.md`](../research/cases/知识体系重塑/角色分工.md)。
+切换帽子的判断表见 [`../research/cases/kb-redesign/role-division.md`](../research/cases/kb-redesign/role-division.md)。
 
 ## 纪律（承自 `../research/`）
 
@@ -52,7 +52,7 @@ Phase 0 盘点 → 1 评审 → 2 骨架 → 3 试点重写 → 4 首个交付�
 - 机器兜底：`scripts/review.sh` 串结构校验 + R1–R10 + 覆盖度 + 术语扫描，当前全过
 - 交付物：`maps/deliverables/agent-rules.ditamap` + `filters/tool-*.ditaval`
 
-下一步 Phase 5 批量重写（前置见 [`Phase3-回顾.md`](../research/cases/知识体系重塑/Phase3-回顾.md)）。规划全貌见 [`../research/cases/知识体系重塑/`](../research/cases/知识体系重塑/README.md)；跨子项目的边界见 [架构与边界](../docs/架构与边界.md)。
+下一步 Phase 5 批量重写（前置见 [`phase3-review.md`](../research/cases/kb-redesign/phase3-review.md)）。规划全貌见 [`../research/cases/kb-redesign/`](../research/cases/kb-redesign/README.md)；跨子项目的边界见 [架构与边界](../docs/architecture.md)。
 
 ## 检查
 

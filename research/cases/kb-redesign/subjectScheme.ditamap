@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subjectScheme PUBLIC "-//OASIS//DTD DITA 2.0 Subject Scheme Map//EN" "subjectScheme.dtd">
+<!-- 知识体系受控词表正本 v0.2（2026-08-08）
+     信息架构师产出。依据：cases/vault-inventory 的 422 篇实测 + 五路外部对标（差距报告）+ 用户评审裁定。
+     确切 DOCTYPE 字符串以所用 DITA-OT 的 catalog 为准（见 dita2 README）。
+     本文件是合法 DITA 文件，可先于工具链存在；校验依 beta03 语法文件。
+
+     v0.1→v0.2 变更（全部经评审通过）：
+     · 建 6 节点：db-fundamentals / vector-search（data）、concurrency（foundations）、
+       context-engineering（ai）、docs-as-code（content-eng）、reverse-eng（security）
+     · 改 5 处：code-style→coding-practices、sec-ops 拆分（威胁建模移 appsec）、
+       identity 显式分出 authz、agent-cli→coding-agents、evals 扩义含 observability
+     · content-engineering 重构为四组（B5）；transport 注释补 QUIC
+     · agent/memory 预留挂点；对标治理登记（benchmark-registry） -->
+<subjectScheme xml:lang="zh-CN">
+  <title>知识体系受控词表（正本 v0.2）</title>
+
+  <!-- ═══════ 主题维度 ═══════
+       供 @subjectrefs 引用做分类标引，不绑定过滤属性。
+       树按"排除父亲时儿子该消失"的过滤语义画（14 §4），不按学科从属画。
+       九个顶层分支互相正交，经五路对标确认无一需改动。 -->
+  <subjectdef keys="subject">
+
+    <subjectdef keys="lang">
+      <subjectdef keys="go"/>
+      <subjectdef keys="typescript"/>
+      <subjectdef keys="javascript"/>
+      <subjectdef keys="python"/>
+    </subjectdef>
+
+    <!-- nodejs 与 electron 归 web 而非 lang：运行时/平台知识，
+         排除 lang（语言本体）时不该消失，排除 web 技术栈时该消失 -->
+    <subjectdef keys="web">
+      <subjectdef keys="browsers"/>       <!-- 含 Web 平台 API：PWA/WASM/Web Components 落此 -->
+      <subjectdef keys="css"/>
+      <subjectdef keys="react"/>
+      <subjectdef keys="nextjs"/>
+      <subjectdef keys="nodejs"/>
+      <subjectdef keys="electron"/>
+    </subjectdef>
+
+    <subjectdef keys="data">
+      <subjectdef keys="postgresql"/>
+      <subjectdef keys="redis"/>
+      <subjectdef keys="sqlite-local-first"/>
+      <subjectdef keys="orm"/>
+      <subjectdef keys="db-fundamentals"/> <!-- 事务/隔离/一致性/索引原理/建模范式（跨库通论，v0.2 新增） -->
+      <subjectdef keys="vector-search"/>   <!-- pgvector/HNSW/FTS/hybrid；与 ai/rag 交叉标引（v0.2 新增） -->
+    </subjectdef>
+
+    <subjectdef keys="network">
+      <subjectdef keys="transport"/>       <!-- TCP/UDP/TLS/QUIC -->
+      <subjectdef keys="http"/>            <!-- 含 HTTP/3 -->
+      <subjectdef keys="dns"/>
+      <subjectdef keys="realtime"/>        <!-- WebSocket/SSE -->
+    </subjectdef>
+
+    <subjectdef keys="security">
+      <subjectdef keys="appsec"/>          <!-- XSS/SQLi/SSRF/反序列化/API 安全/威胁建模（v0.2 起含威胁建模） -->
+      <subjectdef keys="identity"/>        <!-- OAuth/OIDC/JWT/Session/MFA -->
+      <subjectdef keys="authz"/>           <!-- 授权/访问控制/IDOR/多租户（v0.2 从 identity 显式分出） -->
+      <subjectdef keys="crypto"/>          <!-- 密码学/哈希/传输安全 -->
+      <subjectdef keys="supply-chain"/>
+      <subjectdef keys="cloud-native-sec"/>
+      <subjectdef keys="sec-ops"/>         <!-- IR/检测/响应（v0.2 起只留运行期，威胁建模已移 appsec） -->
+      <subjectdef keys="reverse-eng"/>     <!-- 动态插桩/抓包分析/客户端拆解（v0.2 新增，有存量实践） -->
+    </subjectdef>
+
+    <subjectdef keys="ai">
+      <subjectdef keys="llm">
+        <subjectdef keys="llm-api"/>       <!-- 各家 API/SDK/结构化输出/multimodal 输入 -->
+        <subjectdef keys="inference"/>     <!-- 推理模型/token -->
+        <subjectdef keys="cost-caching"/>
+      </subjectdef>
+      <subjectdef keys="agent">
+        <subjectdef keys="agent-patterns"/> <!-- 范式/workflow 区分 -->
+        <subjectdef keys="rag"/>           <!-- 含 GraphRAG；与 data/vector-search 交叉标引 -->
+        <subjectdef keys="prompt"/>
+        <subjectdef keys="context-engineering"/> <!-- compaction/context editing/token 预算（v0.2 新增，收拢散落内容） -->
+        <subjectdef keys="evals"/>         <!-- 含 observability/生产 tracing（v0.2 扩义，不单开 llmops） -->
+        <subjectdef keys="sandboxing"/>
+        <subjectdef keys="mcp"/>           <!-- 出现 A2A/ACP 真实笔记时升 protocols 父节点 -->
+        <subjectdef keys="memory"/>        <!-- 预留挂点：agent 记忆/KG-as-memory（v0.2 预留） -->
+      </subjectdef>
+      <!-- coding-agents（原 agent-cli）：工具已不限 CLI 形态；产品名叶子接受高周转，
+           父节点稳定、叶子死了归档即可（如 Google 2026-06 砍 Gemini CLI） -->
+      <subjectdef keys="coding-agents">
+        <subjectdef keys="claude-code"/>
+        <subjectdef keys="codex"/>
+        <subjectdef keys="antigravity"/>
+      </subjectdef>
+      <subjectdef keys="ai-security"/>     <!-- prompt 注入/越狱；与 security 交叉标引 -->
+    </subjectdef>
+
+    <subjectdef keys="engineering">
+      <subjectdef keys="architecture"/>    <!-- 设计原则/架构模式/DDD/微前端/缓存/消息队列/扩展性 -->
+      <subjectdef keys="api-design"/>      <!-- 含 gRPC/protobuf（与 network/http 交叉） -->
+      <subjectdef keys="coding-practices"/> <!-- 风格/lint/惯用法/可读性/重构（v0.2 从 code-style 改名扩容） -->
+      <subjectdef keys="testing"/>
+      <subjectdef keys="tooling"/>         <!-- 开发工具链：构建/lint/包管理/Rust 工具链（与 devops 划界：运行时基础设施归 devops） -->
+      <subjectdef keys="git"/>             <!-- 含版本控制通识 -->
+      <subjectdef keys="devops"/>          <!-- CI/CD/容器/IaC/Secret/云 + observability -->
+      <subjectdef keys="terminal"/>        <!-- TUI/TTY/shell -->
+    </subjectdef>
+
+    <subjectdef keys="foundations">
+      <subjectdef keys="dsa"/>
+      <subjectdef keys="concurrency"/>     <!-- 跨运行时并发理论：事件循环/CSP/actor/内存模型（v0.2 新增，收散落内容） -->
+      <!-- 观察名单第一位：os（terminal/沙箱笔记重写出 OS 基底即建） -->
+    </subjectdef>
+
+    <!-- ═══ content-engineering：知识工程（v0.2 从 5 扁平叶子重构为四组，B5）═══
+         knowledge-organization = 知识"用什么结构"（静态形态，KOS）
+         knowledge-mgmt         = 知识"怎么运营"（动态过程，KM） -->
+    <subjectdef keys="content-engineering">
+
+      <subjectdef keys="structured-content">
+        <subjectdef keys="dita"/>
+        <subjectdef keys="s1000d"/>
+        <subjectdef keys="docs-as-code"/>  <!-- markdown/note-conventions（v0.2 新增，note-conventions 归此） -->
+      </subjectdef>
+
+      <subjectdef keys="knowledge-organization">
+        <subjectdef keys="terminology"/>   <!-- ISO 704/1087/25964/TBX（v0.1 原顶层叶子，升入此组） -->
+        <subjectdef keys="taxonomy"/>      <!-- 分类法/受控词表/facet（本体系自身的方法域） -->
+        <subjectdef keys="ontology"/>      <!-- 本体/RDF/语义网（理论侧；技术 KG 的 RDF 在此交叉） -->
+        <subjectdef keys="knowledge-graph"/> <!-- KG 作为知识结构形态（技术 KG 的图库归 data、GraphRAG 归 ai/rag、memory 归 agent） -->
+      </subjectdef>
+
+      <subjectdef keys="knowledge-mgmt">
+        <subjectdef keys="km-methodology"/>   <!-- SSoT/MECE/原子化/Zettelkasten -->
+        <subjectdef keys="km-maintenance"/>   <!-- 审计流程/生命周期 -->
+      </subjectdef>
+
+      <subjectdef keys="writing">
+        <subjectdef keys="writing-principles"/> <!-- 写作规范/原子化判据/Diátaxis -->
+        <subjectdef keys="doc-types"/>          <!-- ADR/README/API 文档 -->
+        <subjectdef keys="llm-friendly"/>       <!-- RAG 友好写作/语义分块 -->
+      </subjectdef>
+
+    </subjectdef>
+
+  </subjectdef>
+
+  <!-- ═══════ 对标治理登记 ═══════
+       把"跟上前沿"从愿望变成机制：分类树本身也会过时（内容层的 volatility
+       管不了结构层），这里给九个顶层分支登记对标锚点与复核纪律。
+
+       灵活性是设计核心——机制是"提示与登记"，不是"定期作业"：
+       · 触发以【事件】为主：某分支连续 ≥3 篇笔记无处安放、或外部锚点体系
+         大改版（如 SWEBOK 出新版、OWASP 重构），即触发对标——这才是"按需"。
+       · 【到期】只是兜底防遗忘，不是硬门：过期仅由工具 flag 提示，不阻塞
+         任何写作或构建。
+       · 到期复核【默认轻量】：花几分钟确认锚点体系有无大变即可续期
+         （更新 last-benchmarked）；只有轻量确认发现大变、或事件触发时，
+         才跑一次全量对标（即 2026-08-08 的五路调研规格）。
+       · cadence 是默认档，可按分支手动调；stable 分支基本靠事件触发。 -->
+  <subjectdef keys="benchmark-registry">
+    <topicmeta><navtitle>对标治理登记（不参与内容分类）</navtitle></topicmeta>
+    <data name="policy"
+          value="event-primary; date-fallback; lightweight-recheck-default; expiry-flags-not-blocks"/>
+
+    <subjectdef keys="bm-ai">
+      <data name="anchor">无稳定权威：Anthropic/OpenAI 官方文档结构 + AI-eng roadmaps（活文档交叉验证）</data>
+      <data name="last-benchmarked" value="2026-08-08"/>
+      <data name="cadence" value="volatile-6mo"/>
+      <data name="event-trigger">新子领域连续 ≥3 篇无处安放；官方文档大类重构；新 agent 协议出现真实笔记</data>
+    </subjectdef>
+    <subjectdef keys="bm-security">
+      <data name="anchor">OWASP ASVS 5.0 / WSTG / Top10 系列 / CWE Top25 / MITRE ATT&amp;CK</data>
+      <data name="last-benchmarked" value="2026-08-08"/>
+      <data name="cadence" value="annual"/>
+      <data name="event-trigger">OWASP 主体系新版；CWE Top25 年度更新引入新类别</data>
+    </subjectdef>
+    <subjectdef keys="bm-engineering">
+      <data name="anchor">IEEE SWEBOK v4 / roadmap.sh backend·devops</data>
+      <data name="last-benchmarked" value="2026-08-08"/>
+      <data name="cadence" value="annual"/>
+      <data name="event-trigger">SWEBOK 新版；连续多篇笔记归类困难</data>
+    </subjectdef>
+    <subjectdef keys="bm-web">
+      <data name="anchor">roadmap.sh frontend·full-stack / MDN Curriculum</data>
+      <data name="last-benchmarked" value="2026-08-08"/>
+      <data name="cadence" value="annual"/>
+      <data name="event-trigger">主框架换代；平台 API 出现装不下的笔记（PWA/WASM 观察项落地）</data>
+    </subjectdef>
+    <subjectdef keys="bm-data">
+      <data name="anchor">DB-Engines 模型分类 / CMU 15-445</data>
+      <data name="last-benchmarked" value="2026-08-08"/>
+      <data name="cadence" value="annual"/>
+      <data name="event-trigger">新存储范式进入工作流（如已发生的向量检索）</data>
+    </subjectdef>
+    <subjectdef keys="bm-network">
+      <data name="anchor">IETF/OSI 分层 / Modern HTTP Stack</data>
+      <data name="last-benchmarked" value="2026-08-08"/>
+      <data name="cadence" value="stable-on-trigger"/>
+      <data name="event-trigger">新传输/应用协议成为实践标配</data>
+    </subjectdef>
+    <subjectdef keys="bm-foundations">
+      <data name="anchor">ACM CCS 2012 / teachyourselfcs / CS2023</data>
+      <data name="last-benchmarked" value="2026-08-08"/>
+      <data name="cadence" value="stable-on-trigger"/>
+      <data name="event-trigger">观察项落地（os 第一顺位）；跨域理论笔记积累</data>
+    </subjectdef>
+    <subjectdef keys="bm-lang">
+      <data name="anchor">可枚举域，无外部锚点</data>
+      <data name="last-benchmarked" value="2026-08-08"/>
+      <data name="cadence" value="on-trigger"/>
+      <data name="event-trigger">新增语言进入技术栈；单语言超 ~20 篇需就地分裂</data>
+    </subjectdef>
+    <subjectdef keys="bm-content-engineering">
+      <data name="anchor">ISO 704/1087/25964/TBX（自有笔记即权威）/ DITA·S1000D / SIGDOC docs-as-code</data>
+      <data name="last-benchmarked" value="2026-08-08"/>
+      <data name="cadence" value="stable-on-trigger"/>
+      <data name="event-trigger">标准出新版；结构化内容领域新范式</data>
+    </subjectdef>
+  </subjectdef>
+
+  <!-- ═══════ 成熟度值集 ═══════ 绑定 @props/maturity（属性由 shell 声明） -->
+  <subjectdef keys="maturity-values">
+    <subjectdef keys="draft"/>
+    <subjectdef keys="curated"/>
+    <subjectdef keys="verified"/>          <!-- 晋级前提：来源已核对且标注日期 -->
+  </subjectdef>
+
+  <!-- ═══════ 时效值集 ═══════ 绑定 @props/volatility -->
+  <subjectdef keys="volatility-values">
+    <subjectdef keys="stable"/>
+    <subjectdef keys="volatile"/>          <!-- 治理规则：volatile 无核对日期不得标 verified -->
+  </subjectdef>
+
+  <!-- ═══════ 工具值集 ═══════ 绑定 @props/tool，用于按工具出变体（03 条件化） -->
+  <subjectdef keys="tool-values">
+    <subjectdef keys="tool-claude-code"/>
+    <subjectdef keys="tool-codex"/>
+    <subjectdef keys="tool-antigravity"/>
+  </subjectdef>
+
+  <!-- ═══════ 绑定 ═══════
+       注意规范语义（03/14）：被绑定的容器节点本身不是合法值；
+       defaultSubject 是五级优先级的第 4 级 -->
+  <enumerationdef>
+    <attributedef name="maturity"/>
+    <subjectdef keyref="maturity-values"/>
+    <defaultSubject keyref="draft"/>       <!-- 未标注即视为 draft，天然防"未审内容冒充成品" -->
+  </enumerationdef>
+
+  <enumerationdef>
+    <attributedef name="volatility"/>
+    <subjectdef keyref="volatility-values"/>
+    <!-- 不设默认：时效必须显式判断，漏标应报错而非静默取默认 -->
+  </enumerationdef>
+
+  <enumerationdef>
+    <attributedef name="tool"/>
+    <subjectdef keyref="tool-values"/>
+  </enumerationdef>
+
+</subjectScheme>

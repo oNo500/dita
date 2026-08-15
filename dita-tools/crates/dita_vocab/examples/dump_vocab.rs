@@ -1,7 +1,7 @@
 //! 把一份真实词表读出来打印，用于对着实际文件验证解析结果。
 //!
 //! fixture 是结构子集，过了不代表真文件能读——这个 example 就是"尽早跑在真实数据上"
-//! 的那一步（见 docs/架构与边界.md §五）。
+//! 的那一步（见 docs/architecture.md §五）。
 //!
 //! ```sh
 //! cargo run -p dita_vocab --example dump_vocab -- ../kb/vocab/subjectScheme.ditamap

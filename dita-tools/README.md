@@ -4,7 +4,7 @@
 
 工程范式参照 [OXC](https://github.com/oxc-project/oxc) monorepo。
 
-> **边界**：本工具是三层链条的执行层——上游 [`research/`](../research/README.md) 定规则、[`kb/`](../kb/README.md) 定合法值与内容，本工具只负责把规则跑起来，**不自带值集、不重新定义规则语义**。契约与规则归属见 [架构与边界](../docs/架构与边界.md)。
+> **边界**：本工具是三层链条的执行层——上游 [`research/`](../research/README.md) 定规则、[`kb/`](../kb/README.md) 定合法值与内容，本工具只负责把规则跑起来，**不自带值集、不重新定义规则语义**。契约与规则归属见 [架构与边界](../docs/architecture.md)。
 >
 > **当前状态**（2026-08-15，均在 kb 上实测）：`dita-tools ia` 是 **IA 治理**视图，覆盖治理的三面——
 > **现状**（知识树、分支统计、孤儿、非法值）、**应然**（词表主题树对照、维度盲区）、**时间**（对标登记到期、受控值使用情况）。
@@ -148,7 +148,7 @@ Mapref 展开 → Key Space 构建 → DITAVAL 过滤 → Conref 展开 → Topi
 ## 路线图
 
 2026-08-15 按「IA 视角优先」重排（原路线把 IA 当作已完成、直奔预处理引擎）。理由见
-[架构与边界](../docs/架构与边界.md) §八。
+[架构与边界](../docs/architecture.md) §八。
 
 | 阶段 | 内容 | 状态 |
 |---|---|---|
@@ -162,7 +162,7 @@ Mapref 展开 → Key Space 构建 → DITAVAL 过滤 → Conref 展开 → Topi
 | napi / Wasm | 有 Web 编辑器需求时再说 | 顺延 |
 
 R11（`@dimension` 枚举校验）的**能力**已具备（IA 视图会报非法值），但它是否取代
-`check-rules.xsl` 属治理决策，仍是[架构与边界](../docs/架构与边界.md)的待定项。
+`check-rules.xsl` 属治理决策，仍是[架构与边界](../docs/architecture.md)的待定项。
 
 实现计划：[topic 解析器与 IA 深化](docs/plans/2026-08-15-topic-parser-and-ia-depth.md)、
 [总架构（含规格更正）](docs/plans/2026-08-12-dita-tools-architecture.md)。

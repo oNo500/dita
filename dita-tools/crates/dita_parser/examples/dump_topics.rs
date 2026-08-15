@@ -1,7 +1,7 @@
 //! 把真实 topic 的自我声明读出来打印，用于对着实际文件验证解析结果。
 //!
 //! fixture 是人造的，真库里才有各种没预料到的写法（标题里嵌标记、prolog 结构差异、
-//! 属性缺失）。见 docs/架构与边界.md §五：尽早跑在真实数据上。
+//! 属性缺失）。见 docs/architecture.md §五：尽早跑在真实数据上。
 //!
 //! ```sh
 //! cargo run -p dita_parser --example dump_topics -- ../kb/topics

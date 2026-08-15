@@ -1,4 +1,4 @@
-# dita monorepo 统一入口。能力地图与工具生态终态见 docs/架构与边界.md §四。
+# dita monorepo 统一入口。能力地图与工具生态终态见 docs/architecture.md §四。
 # 过渡期里有的命令是脚本、有的是 dita-tools——用哪条不必关心，都从这里走。
 
 default:

@@ -2,11 +2,11 @@
 
 一条链的三段：**研究 DITA → 用它建知识库 → 造工具让规则跑起来**。
 
-四个目录承载三层一契约：`research` 定判据、`kb` 是资产正本、`dita-tools` 是工具平台（终态见能力地图），`docs` 放管全局的文档。这份 README 是仓库的入口；边界、契约与工具生态终态见 [docs/架构与边界.md](docs/架构与边界.md)。日常操作统一走根目录 `just`（`just --list` 看全部）。
+四个目录承载三层一契约：`research` 定判据、`kb` 是资产正本、`dita-tools` 是工具平台（终态见能力地图），`docs` 放管全局的文档。这份 README 是仓库的入口；边界、契约与工具生态终态见 [docs/architecture.md](docs/architecture.md)。日常操作统一走根目录 `just`（`just --list` 看全部）。
 
 | 目录 | 是什么 | 产出给下游的 | 状态 |
 |---|---|---|---|
-| [`docs/`](docs/架构与边界.md) | 仓库级文档 | 架构与边界、能力地图 | 正本 |
+| [`docs/`](docs/architecture.md) | 仓库级文档 | 架构与边界、能力地图 | 正本 |
 | [`research/`](research/README.md) | DITA 2.0 研究笔记 + 设计案例（原 dita2） | **判据与规则规格**（为什么这么定） | 笔记 16 篇，设计定案 |
 | [`kb/`](kb/README.md) | 知识体系正本 | **内容 + 唯一事实源**（`vocab/subjectScheme.ditamap`） | 建设中，22 篇 |
 | [`dita-tools/`](dita-tools/README.md) | Rust 工具链 | **规则的执行**（校验、IA 视图） | map 层 IA 视图可用；topic 层在建 |

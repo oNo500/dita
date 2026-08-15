@@ -3,7 +3,7 @@
 //! Legal values live in the subject scheme and nowhere else. This crate exists
 //! so that no Rust source has to carry a copy of them — a hand-kept second copy
 //! is exactly the defect this toolchain is meant to remove (see
-//! `docs/架构与边界.md`, 唯一事实源清单).
+//! `docs/architecture.md`, 唯一事实源清单).
 
 use std::{
     collections::{BTreeMap, HashMap, HashSet},

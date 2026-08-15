@@ -1,0 +1,88 @@
+# 主题树外部对标差距报告（2026-08-08）
+
+> 回答评审单 B4「树缺什么」——由调研而非直觉回答。五路并行，每路取该领域**活的**外部权威体系现行结构，与 v0.1 逐支比差距，用 [14](../../notes/14-metadata-and-classification.md) 准入标准过滤（有真实内容或明确重写计划才纳入，纯外部脚手架不纳入）。engineering / security 各得两份独立报告，结论互相印证。
+
+## 对标体系与访问记录（全部 2026-08-08 在线核对）
+
+| 分支 | 对标体系（现行版本） |
+|---|---|
+| engineering | IEEE **SWEBOK v4**（2024-10，18 知识域）、roadmap.sh backend/devops、ACM CCS 2012 |
+| security | OWASP **ASVS 5.0**（2025-05 重构）、WSTG v4.2、Top 10 / API Top 10 / **LLM Top 10 v2.0**、**CWE Top 25 (2025)**、**MITRE ATT&CK v19.2**（2026-04 删 Defense Evasion） |
+| ai | Anthropic/OpenAI 官方文档结构、O'Reilly AI Agents Stack 2026、多份 AI engineer roadmap 2026 |
+| web / data | roadmap.sh frontend/full-stack、MDN Curriculum、**DB-Engines**（向量 DBMS 已独立类目）、CMU 15-445 |
+| foundations / lang / network / content-eng | ACM CCS 2012、teachyourselfcs、CS2023、Modern HTTP Stack 2026、SIGDOC docs-as-code |
+
+**两个必须记入校准记录的版本事实**：OWASP ASVS 现行 5.0.0（勿再对标 4.x 章节）；MITRE ATT&CK 现行 v19.2（Defense Evasion 已并入 Stealth + Defense Impairment）。
+
+---
+
+## 差距裁定汇总（按处置分组）
+
+### A. 立即欠账——「内容已存在、节点缺失」（最高优先，非前瞻）
+
+| 新节点 | 归属 | 存量证据 | 依据 |
+|---|---|---|---|
+| **db-fundamentals** | data | `DB-事务与隔离级别`、`DB-索引与查询优化` 两篇 keep-core 是跨库通论，现被迫挂 postgresql 下名不副实 | CMU 15-445 将事务/并发/索引原理列为独立知识块 |
+| **concurrency** | foundations | 并发内容散落三处：nodejs 事件循环/中间件、browsers 事件循环、go CSP 视角——均高质量原创 | teachyourselfcs / CS2023 的并发与分布式域；只收跨运行时理论，运行时专属笔记留原位 |
+| **docs-as-code** | content-engineering | markdown 速查 4 篇 + note-conventions 2 篇（盘点已建议挪出 standards，正缺归处） | SIGDOC 2024 专文；同时解决 note-conventions 的安置 |
+| **reverse-eng** | security | frida/mitmproxy/UnityPy 清理记录（存量实践） | OWASP MASTG 的 MASVS-RESILIENCE 把逆向列为独立测试域；与六节点方法论正交 |
+
+### B. 前瞻预建——「工作流刚需、值得早建」
+
+| 新节点 | 归属 | 依据 |
+|---|---|---|
+| **vector-search** | data | AI 落地刚需；pgvector 是 PG 主线自然延伸；命名含"search"以兼容将来 FTS/hybrid，避免二次拆分；与 ai/rag 交叉标引（rag=应用工艺，vector-search=存储与索引） |
+| **context-engineering** | ai（agent 或 llm 下） | 2026 主流话语，Anthropic 官方文档独立大类；**收拢现有散落内容**（inference/prompt/agent-patterns 三处），不改 prompt 名 |
+
+### C. 结构修正——「已有节点，切分或命名需改」
+
+| 修正 | 内容 | 依据 |
+|---|---|---|
+| `code-style` → **coding-practices** | 字面只装 lint/格式，装不下重构/惯用法/可读性 | SWEBOK 对应域 Software Construction；两份 engineering 报告一致 |
+| `sec-ops` **拆分** | 威胁建模（设计期）移 appsec；sec-ops 只留 IR/检测/响应 | 两份 security 报告一致：外部体系无一将设计期与运行期并置 |
+| identity 下 **authz 显式化** | 授权从"认证"里分出（或 identity→iam） | 2025 CWE Top 25 授权类占 4 席、#4 位；ASVS 5.0 认证/会话/授权分设 |
+| `agent-cli` → **coding-agents** | 工具已不限 CLI 形态；社区通用词 | 佐证：Google 2026-06 砍 Gemini CLI 换 Antigravity——产品名叶子天生短命 |
+| `evals` **扩义** | 语义含 observability/生产 tracing，不单开 llmops 节点 | 评测与可观测在 2026 工具链已是同批产品（Langfuse/Braintrust） |
+| `network/transport` 注释 | 补 QUIC（QUIC 是传输层，HTTP/3 归 http） | Modern HTTP Stack 2026 |
+
+### D. 预留挂点——「正在成形、等首篇笔记落地再建」
+
+- `ai/agent/memory`（agent memory 抽象层未收敛）
+- `mcp` → 出现 A2A/ACP 真实笔记时升级为 `protocols` 父节点收编，不平铺新增
+
+### E. 观察名单——「真盲区但本地零内容，按准入标准不建」
+
+`foundations/os`（第一顺位，terminal/沙箱笔记重写出 OS 基底即建）、web `a11y`、CDN/边缘（落点可能在 web/devops）、`gRPC`（归 api-design）
+
+### F. 明确留空/不纳入——「外部有 ≠ 该纳入」（过滤纪律的体现）
+
+- **CS 理论全景**：分布式系统、编译/PLT、形式化方法、计算机体系结构、纯数学
+- **安全**：内存安全（go/ts/py 不产 C/C++ 内容）、攻击侧/red team（无笔记证据）、合规 GRC、硬件安全；ATT&CK tactics 不复制为节点（今年刚重构，照抄背跟版负担）
+- **AI 炒作项**：agent 支付协议（x402/AP2）、generative UI、fine-tuning（与工作流正交）、voice/realtime（非必然）、multimodal 与 vector-db 独立化（归 llm/rag）
+- **web/data**：PWA/WASM/Web Components、Vue/Svelte、消息队列、文档/图/时序 DB、content strategy、IA 单列
+- **SWEBOK 团队流程域**：requirements、management、process、economics、professional practice
+- **lang 统一子结构**：不做——体量不支持，切面需求用第二正交维度（aspect 枚举）交叉标引解决，不在 subject 树里复制四遍
+
+---
+
+## 交叉标引（不是树节点，是第二维度）
+
+对标反复指向同一模式：某些主题横跨多个技术宿主，**不该建树节点，该用 `@subjectrefs` 多值交叉标引**——
+
+- **性能**：browsers/react/electron 三处共 4 篇，随宿主技术走
+- **ai-security**：已在 ai 下，与 security 交叉
+- **vector-search ↔ rag**、**gRPC ↔ http/api-design**、**docs-as-code ↔ dita**
+
+这印证了 14 的判断：分类树管"内容属于哪个域"，交叉标引管"内容还与什么相关"——两者分工，不互相替代。
+
+---
+
+## v0.2 变更清单（供评审裁定）
+
+**建 6 节点**：db-fundamentals、vector-search（data）｜ concurrency（foundations）｜ context-engineering（ai）｜ docs-as-code（content-engineering）｜ reverse-eng（security）
+
+**改 5 处**：code-style→coding-practices ｜ sec-ops 拆分 + 威胁建模移 appsec ｜ identity 加 authz 子项 ｜ agent-cli→coding-agents ｜ evals 扩义 ｜ transport 注释补 QUIC
+
+**记 4 挂点/观察**：agent/memory、mcp→protocols 触发条件、foundations/os、a11y
+
+每一条都可在评审单上单独否决。全树骨架（九顶层分支）经五路对标**无一建议改动**——盘点实测的直觉分法通过了外部权威的完备性检查。

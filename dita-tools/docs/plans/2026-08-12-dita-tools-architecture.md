@@ -26,7 +26,7 @@
 >
 > 已更正为：`MapRef { href, processing_role, title, children }`，被引 map 保留为自己的
 > 节点，空的渲染成 `[空]`。见 commit `7f09ed9`。教训写入
-> [架构与边界](../../../docs/架构与边界.md)。
+> [架构与边界](../../../docs/architecture.md)。
 
 **Goal:** 构建一套 Rust monorepo DITA 工具链，从 IA 视图出发，逐步演进为完整的 DITA 预处理引擎，最终支持 Web 编辑器的实时解析能力。
 

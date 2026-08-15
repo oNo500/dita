@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """链接活性检查：提取外链，批量查活性，报失效。
 
-来源纪律的机器化配套（见 dita2 cases/知识体系重塑/来源与时效-设计.md）：
+来源纪律的机器化配套（见 dita2 cases/kb-redesign/sourcing-and-freshness-design.md）：
 R8 只保证"有来源"，本脚本保证"来源还在"。源没了是内容过时的硬信号之一。
 
 **不并入 review.sh**：外链查活性要联网、慢、且受网络波动影响，卡在每次入库前不合适
