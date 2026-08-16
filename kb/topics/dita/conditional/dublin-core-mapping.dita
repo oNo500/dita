@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/14-metadata-and-classification.md §2（别从空白页开始）。
+     题材 cheatsheet：以对应表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
+     术语规则（2026-08-16 用户门反馈后）：Dublin Core 与各 DITA 元素名一律用英文原名，
+     元素以 xmlelement、属性以 xmlatt 标记；不造中文字段名。
+     标题规则（2026-08-16 用户定稿）——本库自造，上游无对应节点，三道关记录如下：
+     ① 穷尽查证：OASIS 架构规范的 DITA metadata 章及其四个子页、langref 的 author 页
+        （笔记 14 已逐页核对，明确未提及 Dublin Core）均无 DITA 与 Dublin Core 的对应节点；
+        DITA-OT 文档只在发行说明里有「Dublin Core metadata removed from HTML5」一条，
+        讲的是 HTML 产物里的 meta 标签，不是字段对应；社区侧流行「DITA 元数据仿照
+        Dublin Core 建模」的说法，在 2.0 规范原文里找不到背书。故上游确无此节点。
+     ② 先怀疑切分：本篇的边界就是两套字段集之间的映射，重切只能并回元数据设计一篇，
+        而那一篇是流程、本篇是查表用的对照，合并后两种用法互相干扰，故保留独立。
+     ③ 只组合不发明：「Dublin Core」为 DCMI 的标准名，「DITA 元数据」取自 DITA metadata
+        节点，「对应」为普通词；题材后缀惯例保留，cheatsheet 以「速查」结尾。
+     volatility=stable 的依据：两套字段集各自稳定，对应关系不随发行版变动。
+     事实纪律：已逐页核对的只有 author 的 @type 取值 creator / contributor 与该页未提及
+     Dublin Core；十五个元素的清单属 DCMI 通识、对应表与「三项被架构吸收」的解读为本库分析，
+     在来源节判断段列明。 -->
+<reference id="dublin-core-mapping" xml:lang="zh-CN"
+           outputclass="cheatsheet"
+           maturity="draft" volatility="stable"
+           dimension="dim-reference dim-classification">
+  <title>Dublin Core 与 DITA 元数据对应速查</title>
+  <shortdesc>Dublin Core 的十五个核心元素是图书馆界用了三十年的最小描述集，拿它当检查单比从空白页列字段可靠。逐项对到 DITA 的落点之后会看到，其中三项在 DITA 里不是字段而是架构，真正要设计的字段比十五个少。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/dita/langref/base/author" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <refbody>
+    <section>
+      <title>定位</title>
+      <p>本篇是一张对照表，用途是当检查单：逐项问一句「这一项对我们有没有消费者」，比凭空想字段可靠。它不是建设清单，全部建起来是反例，取舍流程见 <xref href="metadata-two-kinds.dita">过滤用元数据与分类用元数据</xref>。</p>
+      <p>需要先说明的一处：2.0 规范原文没有提到 Dublin Core，<xmlelement>author</xmlelement> 的 <xmlatt>type</xmlatt> 取值与 Dublin Core 的用词一致是可见的，但「DITA 元数据仿照 Dublin Core 建模」这句流行说法在规范里找不到出处。下表是本库的对应分析，不是规范条文。</p>
+    </section>
+
+    <section>
+      <title>十五个元素的三组</title>
+      <simpletable relcolwidth="1* 3*">
+        <sthead><stentry>组</stentry><stentry>元素</stentry></sthead>
+        <strow><stentry>内容</stentry><stentry>Title、Subject、Description、Source、Language、Relation、Coverage</stentry></strow>
+        <strow><stentry>知识产权</stentry><stentry>Creator、Publisher、Contributor、Rights</stentry></strow>
+        <strow><stentry>实例</stentry><stentry>Date、Type、Format、Identifier</stentry></strow>
+      </simpletable>
+    </section>
+
+    <section>
+      <title>对应表</title>
+      <simpletable relcolwidth="1* 2* 2*">
+        <sthead><stentry>Dublin Core</stentry><stentry>DITA 落点</stentry><stentry>备注</stentry></sthead>
+        <strow><stentry>Title</stentry><stentry><xmlelement>title</xmlelement></stentry><stentry>另有一种标题变体元素可给出检索用的标题</stentry></strow>
+        <strow><stentry>Creator</stentry><stentry><xmlelement>author</xmlelement>，<xmlatt>type</xmlatt> 取 creator</stentry><stentry>取值用词与 Dublin Core 一致</stentry></strow>
+        <strow><stentry>Contributor</stentry><stentry><xmlelement>author</xmlelement>，<xmlatt>type</xmlatt> 取 contributor</stentry><stentry>同上</stentry></strow>
+        <strow><stentry>Subject</stentry><stentry><xmlelement>keywords</xmlelement> 与 <xmlelement>category</xmlelement>；受控分类走指向主题的属性</stentry><stentry>受控值的组织见 <term keyref="term-subject-scheme">subject scheme</term> 一篇</stentry></strow>
+        <strow><stentry>Description</stentry><stentry><xmlelement>shortdesc</xmlelement> 或 <xmlelement>abstract</xmlelement></stentry><stentry>作者本来就要写，不是额外字段</stentry></strow>
+        <strow><stentry>Publisher</stentry><stentry><xmlelement>publisher</xmlelement></stentry><stentry></stentry></strow>
+        <strow><stentry>Date</stentry><stentry><xmlelement>critdates</xmlelement> 下的创建与修订日期</stentry><stentry>由系统注入才可信</stentry></strow>
+        <strow><stentry>Rights</stentry><stentry><xmlelement>copyright</xmlelement> 与 <xmlelement>permissions</xmlelement></stentry><stentry></stentry></strow>
+        <strow><stentry>Source</stentry><stentry><xmlelement>source</xmlelement></stentry><stentry></stentry></strow>
+        <strow><stentry>Language</stentry><stentry><xmlatt>xml:lang</xmlatt></stentry><stentry>规则见本地化属性一篇</stentry></strow>
+        <strow><stentry>Identifier</stentry><stentry><xmlatt>id</xmlatt> 与 <xmlelement>resourceid</xmlelement></stentry><stentry>发布后不再修改才可作深链</stentry></strow>
+        <strow><stentry>Relation</stentry><stentry><xmlelement>related-links</xmlelement> 与关系表</stentry><stentry>已由架构承担</stentry></strow>
+        <strow><stentry>Type</stentry><stentry>信息类型本身，即 concept、task、reference 之分</stentry><stentry>已由架构承担</stentry></strow>
+        <strow><stentry>Format</stentry><stentry>交付物是构建产物；引用一侧另有格式属性</stentry><stentry>已由架构承担</stentry></strow>
+        <strow><stentry>Coverage</stentry><stentry>条件属性或产品信息元素</stentry><stentry>对应最弱的一项</stentry></strow>
+      </simpletable>
+    </section>
+
+    <section>
+      <title>三项已由架构承担</title>
+      <p>Type、Format、Relation 在 Dublin Core 里是要人工填写的字段，在 DITA 里是机制：类型由 topic 的信息类型给出，格式由构建决定，关系由关系表与链接声明。在 DITA 里做元数据设计，实际要设计的字段因此比十五项少，架构已经管掉了一部分。</p>
+      <p>反过来读也成立：这三项若在自家的元数据方案里仍以人工字段存在，说明该处的架构能力没有用上。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：<xmlelement>author</xmlelement> 的 <xmlatt>type</xmlatt> 取值为 creator 与 contributor、该页未提及 Dublin Core，转自 <xref href="https://dita-lang.org/dita/langref/base/author" scope="external">author 语言参考</xref>，已逐页核对。</p>
+      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中十五个元素的清单与三组划分为 DCMI 标准的通识内容，本库未另行核对；对应表各行的落点、Type 与 Format 与 Relation 三项被架构承担的解读、由此得出的「要设计的字段比十五项少」、把清单当检查单而非建设清单的用法，为本库归纳。各落点元素在规范中的确切内容模型与可用位置，本篇未逐条核对。</p>
+    </section>
+  </refbody>
+</reference>
