@@ -1,5 +1,7 @@
 # 维度完整性：方法与约束（设计，待审）
 
+> **已吸收为 kb topic（2026-08-16）**：正本已迁 kb（`kb/topics/content-engineering/domain-dimension-method.dita` ←「方法」「三步」「两个产物」「三层约束」「维度怎么落进词表和全景」「机器管不到的部分」全部小节）。三层框架的形状见 `kb/topics/content-engineering/dimension-type-genre.dita`；防腐机制的对称两层并入 `kb/topics/content-engineering/writing-sourcing.dita`。不迁小节：「落地（并入第一批工具链）」三件的实现状态归工具链任务，规则与值集正本在 `kb/schema/rules.sch` 与 `kb/vocab/subjectScheme.ditamap`；「待审」四条已随方法定稿失效。本文冻结为调研档案，不再更新。
+
 > 梳理一个知识领域时,先对标建立完整的维度框架,再在完整框架上按 80/20 取舍,写出快速上手。本文说明这条方法,以及怎么约束它——事前用 agent 规则、事后用机器校验,人只审内容对错。
 
 ## 方法
