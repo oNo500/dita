@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/05-specialization.md §1（structural specialization）。
+     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     术语规则（2026-08-16 用户门反馈后，含同日紧急更正）：specialization /
+     generalization / constraint / domain / class / shell 等机制名一律英文原名——
+     「专门化」「泛化」「约束」是本库自造译名，OASIS 无官方中文版，不得作首选词；
+     中文解释每篇首现随行注一次，此后全用英文名。
+     标题规则（2026-08-16 第二次纠偏）：标题即该节点在领域知识树上的标准叫法，照架构规范
+     子树标题 Structural specialization 命名，不拼副标题、不加定位词。
+     volatility=stable 的依据：@class 的构造规则出自架构规范，不随发行版变动。
+     事实纪律：笔记已逐页核对的只有 @class 构造规则四条（前缀 -/+、完整祖先链含未改名的
+     中间层、结尾至少一个空格、默认值不得为 fixed）；RNG 模块示例为示意结构，模块名与
+     元素名之分、catalog 注册步骤、未写 XSLT 也按基类渲染，均按判断呈现并在来源节列明。 -->
+<concept id="structural-specialization" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="stable"
+         dimension="dim-internals dim-structure-template">
+  <title>structural specialization</title>
+  <shortdesc>从已有 topic 类型或 map 类型派生新类型，把一类内容的固定信息结构写进语法文件。落地要三样：新元素到基类的映射表、引入基类模块的语法模块、把语法文件接进工具链的 catalog；派生链记在 <xmlatt>class</xmlatt> 里，不认识新类型的处理器据此按基类处理。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>一类内容的信息结构是固定的：API 端点有路径、请求方法、参数与返回值，硬件手册的每个部件有型号、接口与规格。用通用的 <xmlelement>reference</xmlelement> 写，这套结构只存在于作者的记性里，校验器不管缺没缺，下游要按结构取值时只能按标题文字猜。</p>
+      <p>扩展 vocabulary（词汇表）的传统做法是另造一套格式，代价是全部下游工具重写一遍。DITA 给扩展加了一条硬性要求换掉这笔代价：每个新元素一对一映射回一个已有元素，并在 <xmlatt>class</xmlatt> 上记录从最通用到最具体的整条派生链。specialization（专门化）指的就是这条要求下的扩展，structural specialization 是其中派生整个 topic 类型或 map 类型的一种；要的只是一个跨类型可用的标记而不是一整篇的骨架时，用的是另一种，见 <xref href="domain-specialization.dita">domain specialization</xref>。</p>
+    </section>
+
+    <section>
+      <title>背景：映射表与语法模块</title>
+      <p>派生从映射表开始。为 API 文档造 apiref 类型时，先把打算新增的元素逐个对到基类：</p>
+      <simpletable relcolwidth="1* 1*">
+        <sthead><stentry>新元素</stentry><stentry>派生自</stentry></sthead>
+        <strow><stentry>apiref</stentry><stentry><xmlelement>reference</xmlelement></stentry></strow>
+        <strow><stentry>apirefbody</stentry><stentry><xmlelement>refbody</xmlelement></stentry></strow>
+        <strow><stentry>endpoint</stentry><stentry><xmlelement>section</xmlelement></stentry></strow>
+        <strow><stentry>params</stentry><stentry><xmlelement>simpletable</xmlelement></stentry></strow>
+      </simpletable>
+      <p>某一行的基类填不出来，说明这部分结构还没想清楚，这一步不能跳过。映射的方向也有硬性要求：<b>派生出的元素，其内容模型须是基类内容模型的子集，属性须是基类属性的子集或从基类属性派生出的属性</b>，只能收紧不能放宽。派生链因此永远可逆，降级与 generalization 都建立在这条性质上。</p>
+      <p>语法文件一侧的推荐路线是 RNG 模块。模块引入的是基类的结构模块而不是外壳：模块只依赖模块，domain 与 constraint 的装配由使用方的 document-type shell 负责。</p>
+      <codeblock>&lt;!-- apiref.rng（示意结构，非官方模板逐行抄录） --&gt;
+&lt;grammar xmlns="http://relaxng.org/ns/structure/1.0"
+         xmlns:dita="http://dita.oasis-open.org/architecture/2005/"&gt;
+
+  &lt;!-- 引入基类的结构模块 referenceMod.rng，不是外壳 reference.rng --&gt;
+  &lt;include href="referenceMod.rng"/&gt;
+
+  &lt;define name="apiref.content"&gt;
+    &lt;ref name="title"/&gt;
+    &lt;optional&gt;&lt;ref name="shortdesc"/&gt;&lt;/optional&gt;
+    &lt;optional&gt;&lt;ref name="prolog"/&gt;&lt;/optional&gt;
+    &lt;optional&gt;&lt;ref name="apirefbody"/&gt;&lt;/optional&gt;
+  &lt;/define&gt;
+
+  &lt;define name="apiref.element"&gt;
+    &lt;element name="apiref"&gt;
+      &lt;ref name="apiref.attributes"/&gt;
+      &lt;ref name="apiref.content"/&gt;
+    &lt;/element&gt;
+  &lt;/define&gt;
+
+  &lt;!-- 声明 class 的默认值。dita:defaultValue 来自 RELAX NG DTD Compatibility：
+       RNG 本身没有默认属性值的概念，DITA 靠这个扩展提供 --&gt;
+  &lt;define name="apiref.attributes"&gt;
+    &lt;ref name="id-atts"/&gt;
+    &lt;ref name="localization-atts"/&gt;
+    &lt;optional&gt;
+      &lt;attribute name="class"
+        dita:defaultValue="- topic/topic reference/reference apiref/apiref "/&gt;
+    &lt;/optional&gt;
+  &lt;/define&gt;
+&lt;/grammar&gt;</codeblock>
+    </section>
+
+    <section>
+      <title>分析：<xmlatt>class</xmlatt> 的构造与注册</title>
+      <p>派生链的字面形态是一串以空格分隔的「模块名/元素名」，从最通用排到最具体：</p>
+      <codeblock>class="- topic/topic reference/reference apiref/apiref "
+       ↑ ↑            ↑                  ↑              ↑
+     前缀 最通用      中间层          本次派生的元素   结尾空格</codeblock>
+      <ul>
+        <li>前缀 <codeph>-</codeph> 表示这是 structural specialization，domain specialization 的前缀是 <codeph>+</codeph>。</li>
+        <li>祖先链须完整，从最通用列到最具体，中间层即便没有改名也要列出。</li>
+        <li>结尾至少留一个空格，首尾各留一个是通行写法；按派生链匹配的代码连同空格一起比对，靠它避免误命中同前缀的名字。</li>
+        <li>该默认值不得声明为 fixed，实例上的取值须可被 generalization 处理改写。</li>
+      </ul>
+      <p>斜杠前的一段通常是模块的名字而不是元素名，两者同名只是常见巧合，读派生链时按模块理解不易出错。</p>
+      <p>剩下的一步是让工具链认识这份语法文件。DITA-OT 一侧用一个 <term keyref="term-plugin">plugin</term>（插件）承载：<filepath>plugin.xml</filepath> 声明 specialization 用的 catalog，catalog 文件把 public ID 与 system ID 映射到本地的 RNG 或 DTD，随后执行安装命令。</p>
+      <codeblock>&lt;!-- plugin.xml --&gt;
+&lt;plugin id="com.example.apiref"&gt;
+  &lt;feature extension="dita.specialization.catalog.relative"
+           file="catalog-dita.xml"/&gt;
+&lt;/plugin&gt;</codeblock>
+      <p>装上之后，一行 XSLT 都不写也能得到正确输出：输出模板按 <xmlatt>class</xmlatt> 匹配而不按元素名匹配，apiref 于是走 <xmlelement>reference</xmlelement> 的模板渲染。想要专属版式再另写模板覆盖，那是可选的第二步，不是可用的前提。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>次序是映射表、语法模块、注册与验证，三步的失败症状各不相同：映射列不全，问题要到内容评审时才暴露；模块引成外壳，冲突出现在使用方装配 shell 的时候；<xmlatt>class</xmlatt> 写错则校验照样通过，症状是处理器把新元素当成不认识的元素，输出里少一块。</p>
+      <p>最后一类症状的排查手段是 generalization：把样例文档还原成基类文档，还原得无损即说明整条派生链都写对了，见 <xref href="constraints-generalization.dita">constraints 与 generalization</xref>。要不要走到这一步本身是一道判断题，判据见 <xref href="specialization-practice.dita">specialization 的启用判据</xref>。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：<xmlatt>class</xmlatt> 的构造规则，即 structural specialization 用 <codeph>-</codeph> 而 domain specialization 用 <codeph>+</codeph>、须列出从最通用到最具体的完整祖先链且含未改名的中间层、结尾至少一个空格、该默认值不得声明为 fixed，转自 <xref href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external">class 属性规则与语法</xref>，已逐页核对。</p>
+      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中内容模型只能收紧不能放宽这条性质、RNG 模块示例的写法（示意结构，非官方模板逐行抄录）、引模块而不引外壳的理由、斜杠前一段是模块名、plugin 与 catalog 的注册步骤、未写 XSLT 也按基类模板渲染，来自通用 DITA 实践与 DITA-OT 实现观察，未逐页核对；先画映射表的要求、三步次序与三类失败症状、以 generalization 验证派生链的建议，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>
