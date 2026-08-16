@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 权威资源（curated-resources 题材）：dita 域。
+     迁自 research/README.md「权威资源」节。链接活性由 just links 定期核；
+     入口收录标准见「定位」节，产品与教程类链接不收。 -->
+<reference id="dita-resources" xml:lang="zh-CN"
+           outputclass="curated-resources"
+           maturity="draft" volatility="volatile"
+           dimension="dim-ecosystem">
+  <title>DITA 权威资源入口</title>
+  <shortdesc>规范正文、语言参考与架构规范的直达入口，加 DITA-OT 的 2.0 支持说明、扩展点清单与插件注册表；两组入口的可信度不同，取用规则一并给出。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/specifications" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <refbody>
+    <section>
+      <title>定位</title>
+      <p>本表只收两类入口：OASIS 一侧的规范正文，与 DITA-OT 一侧的实现文档。教程、博客与商业产品页不收，它们的结论需要回到这两类入口核验才能引用。</p>
+      <p>取用时按三条规则读：其一，规范入口回答规范要求什么，实现文档回答这一版工具做到了什么，两者的结论不可互相替代；其二，dita-lang.org 的无版本号路径指向 2.0，带版本号的路径才是旧版本，引用时留意路径里有没有版本段；其三，语言参考与架构规范都是单页可直达，路径末段即元素名或规则名，按名拼接比逐层点开快。</p>
+    </section>
+
+    <section>
+      <title>规范</title>
+      <simpletable relcolwidth="1.4* 2*">
+        <sthead><stentry>入口</stentry><stentry>用它查什么</stentry></sthead>
+        <strow>
+          <stentry><xref href="https://dita-lang.org/specifications" scope="external">规范总入口</xref></stentry>
+          <stentry>草案预览的落点，2.0 有哪几份文档、各自处于什么阶段</stentry>
+        </strow>
+        <strow>
+          <stentry><xref href="https://dita-lang.org/dita/langref/base/shortdesc" scope="external">语言参考（base 包）</xref></stentry>
+          <stentry>基础元素的内容模型与属性，路径末段替换成元素名即到该元素页</stentry>
+        </strow>
+        <strow>
+          <stentry><xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/concept" scope="external">语言参考（技术内容包）</xref></stentry>
+          <stentry>concept、task、reference、troubleshooting 四个类型的定义，它们不在 base 包里</stentry>
+        </strow>
+        <strow>
+          <stentry><xref href="https://dita-lang.org/dita/archspec/base/topicstructure" scope="external">架构规范</xref></stentry>
+          <stentry>专门化、寻址、处理模型与一致性的规则正文，自研处理逻辑的判据来源</stentry>
+        </strow>
+        <strow>
+          <stentry><xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">属性专门化记录规则</xref></stentry>
+          <stentry>属性派生链的语法与由外壳注入默认值的规定</stentry>
+        </strow>
+        <strow>
+          <stentry><xref href="https://dita-lang.org/2.0/dita/resources/oasis-cover" scope="external">规范封面</xref></stentry>
+          <stentry>版本标识、编辑与状态声明，引用规范时的题名依据</stentry>
+        </strow>
+        <strow>
+          <stentry><xref href="https://github.com/oasis-tcs/dita/releases" scope="external">TC 源码与 beta 发布</xref></stentry>
+          <stentry>版本号、发布时间与语法文件本身，判断规范阶段状态的一手来源</stentry>
+        </strow>
+      </simpletable>
+    </section>
+
+    <section>
+      <title>工具链</title>
+      <simpletable relcolwidth="1.4* 2*">
+        <sthead><stentry>入口</stentry><stentry>用它查什么</stentry></sthead>
+        <strow>
+          <stentry><xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA-OT 的 2.0 支持说明</xref></stentry>
+          <stentry>preview 覆盖到哪些 2.0 特性、所依据的草案基线是哪一版</stentry>
+        </strow>
+        <strow>
+          <stentry><xref href="https://www.dita-ot.org/dev/" scope="external">DITA-OT 文档</xref></stentry>
+          <stentry>安装、命令、项目文件、preprocess 流水线与输出格式</stentry>
+        </strow>
+        <strow>
+          <stentry><xref href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external">扩展点清单</xref></stentry>
+          <stentry>写插件时可挂的全部扩展点，覆盖 XSLT 与 Ant 两侧</stentry>
+        </strow>
+        <strow>
+          <stentry><xref href="https://www.dita-ot.org/plugins" scope="external">插件注册表</xref></stentry>
+          <stentry>已发布插件的检索与安装标识，选材前先看维护状态</stentry>
+        </strow>
+      </simpletable>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：两组入口逐条转自 <xref href="https://dita-lang.org/specifications" scope="external">DITA 规范列表</xref>与 <xref href="https://www.dita-ot.org/dev/" scope="external">DITA-OT 文档</xref>，链接可达性经调研期核对，核对日期见 prolog。无版本号路径指向 2.0 一条来自站点结构本身。</p>
+      <p><b>判断</b>：收录范围限于规范与实现两类、教程与产品页不收，以及三条取用规则，均为本库判断。各入口「用它查什么」一栏是按用途归纳的说明，非原页面的自我描述。</p>
+    </section>
+  </refbody>
+</reference>
