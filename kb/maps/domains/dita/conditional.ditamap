@@ -3,4 +3,5 @@
 <!-- dita 分支簇 map：条件与元数据（笔记 03/14）。topicref 由迁移任务逐篇追加。 -->
 <map xml:lang="zh-CN">
   <title>条件与元数据</title>
+  <topicref href="../../../topics/dita/conditional/profiling-ditaval.dita"/>
 </map>

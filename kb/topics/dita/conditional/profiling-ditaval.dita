@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/03-profiling-and-chunking.md §1（条件属性）与 §2（DITAVAL 文件）。
+     题材 how-to，用模板 A（concept）：问题 → 做法 → 判定规则 → 退出点 → 来源。
+     术语规则（2026-08-16 用户门反馈后）：DITAVAL、prop、action、flag、passthrough 等
+     一律用英文原名，中文解释每篇首现随行注一次；action 的四个取值在表里用平实文字，不造类目名词。
+     标题规则（2026-08-16 用户定稿）：上游有节点，直接用其类目名——OASIS 架构规范
+     「DITA processing」章下有 Conditional processing 一节（子页含 About the DITAVAL document、
+     Conditional processing attribute values、Filtering based on metadata attributes、
+     Flagging based on metadata attributes），本篇即该节点，故不自造、不加定位词。
+     volatility=stable 的依据：过滤与标记的判定语义出自架构规范，不随发行版变动。
+     事实纪律：已逐页核对的是条件处理的定义、取值的两种形态、过滤的三条判定、标记的三条
+     优先级与 @add-outputclass、prop 的三个属性与四种 action 语义；七个条件属性的清单、
+     @rev 只能标记不能排除、排除向后代传播、必需子元素被排空的后果、构建选项写法均未核对，
+     按判断呈现并在来源节判断段逐条列明。 -->
+<concept id="profiling-ditaval" xml:lang="zh-CN"
+         outputclass="how-to"
+         maturity="draft" volatility="stable"
+         dimension="dim-mechanism dim-usage">
+  <title>conditional processing</title>
+  <shortdesc>同一批 topic 产出多个变体的机制：差异标在内容上，取舍写在单独的规则文件里，构建时指定用哪一份。留还是删由三条判定规则决定，其中「任一维度判了排除，整段就被排除」一条最常被误判成「还有别的维度放行就能留下」。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/2.0/dita/archspec/base/condproc" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>一份安装手册要同时覆盖 Linux 与 Windows、基础版与企业版、纸质版与在线版。为每个组合各存一套文件，改一处通用说明就要找齐全部副本；把差异写在正文里由读者自行跳过，读者拿到的是别人的内容。</p>
+      <p>规范给的做法是把两件事分开：内容一侧只标注某段属于哪些维度的哪些取值，取舍一侧写成独立的规则文件，由处理器在处理期按规则过滤或标记。规范对这套机制的定义就是一句话，即按处理期的条件对信息做过滤或标记。</p>
+    </section>
+
+    <section>
+      <title>做法一：在内容上标条件属性</title>
+      <p>条件属性可出现在任意元素上，常用的几个各管一个维度。</p>
+      <simpletable relcolwidth="1* 2.2*">
+        <sthead><stentry>属性</stentry><stentry>维度</stentry></sthead>
+        <strow><stentry><xmlatt>audience</xmlatt></stentry><stentry>受众，如管理员、开发者、初学者</stentry></strow>
+        <strow><stentry><xmlatt>platform</xmlatt></stentry><stentry>平台，如 Linux、Windows、macOS</stentry></strow>
+        <strow><stentry><xmlatt>product</xmlatt></stentry><stentry>产品或版本线</stentry></strow>
+        <strow><stentry><xmlatt>deliveryTarget</xmlatt></stentry><stentry>交付目标，如网页、PDF、EPUB；2.0 用它取代了 1.x 的 <xmlatt>print</xmlatt></stentry></strow>
+        <strow><stentry><xmlatt>otherprops</xmlatt></stentry><stentry>不属于上述维度的其他条件</stentry></strow>
+        <strow><stentry><xmlatt>props</xmlatt></stentry><stentry>通用条件属性，自有维度从它派生</stentry></strow>
+        <strow><stentry><xmlatt>rev</xmlatt></stentry><stentry>修订标识，用于标记而不用于排除</stentry></strow>
+      </simpletable>
+      <p>取值有两种形态：空格分隔的多个值，以及给取值再分一层组的分组形态。多值之间是或的关系，分组形态让规则可以按组名或组内的单个值书写。</p>
+      <codeblock>&lt;p&gt;通用说明，不带条件属性，进入全部变体。&lt;/p&gt;
+&lt;p platform="linux"&gt;Linux 上的命令。&lt;/p&gt;
+&lt;p platform="linux macos"&gt;两个类 Unix 平台都适用。&lt;/p&gt;
+
+&lt;!-- 两个维度同时标注：企业版的开发者才会看到 --&gt;
+&lt;section audience="developer" product="enterprise"&gt;
+  &lt;title&gt;内部扩展点&lt;/title&gt;
+  &lt;p&gt;仅企业版开发者可见。&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;!-- 分组形态：platform 维度下再分一层 database 组 --&gt;
+&lt;p platform="linux database(oracle mysql)"&gt;Linux 且用 Oracle 或 MySQL 时适用。&lt;/p&gt;</codeblock>
+      <p>内置维度不够用时，从 <xmlatt>props</xmlatt> 派生自有的条件属性，而不是把多个维度挤进 <xmlatt>otherprops</xmlatt>，写法见 <xref href="../architecture/attribute-specialization.dita">attribute specialization</xref>。</p>
+    </section>
+
+    <section>
+      <title>做法二：把取舍写进 DITAVAL，构建时指定</title>
+      <p><term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）是一份独立的 XML 文件，每条 <xmlelement>prop</xmlelement> 用三个属性表达一条规则：<xmlatt>att</xmlatt> 写属性名，<xmlatt>val</xmlatt> 写取值，<xmlatt>action</xmlatt> 写动作。</p>
+      <codeblock>&lt;val&gt;
+  &lt;!-- 不带 val：这一条是 platform 维度的整体默认 --&gt;
+  &lt;prop att="platform" action="exclude"/&gt;
+  &lt;prop att="platform" val="linux" action="include"/&gt;
+
+  &lt;prop att="audience" val="internal" action="exclude"/&gt;
+
+  &lt;!-- 保留内容并加视觉标记 --&gt;
+  &lt;prop att="product" val="enterprise" action="flag" backcolor="#fff3cd"&gt;
+    &lt;startflag imageref="images/ent.png"&gt;&lt;alt-text&gt;企业版&lt;/alt-text&gt;&lt;/startflag&gt;
+  &lt;/prop&gt;
+&lt;/val&gt;</codeblock>
+      <p>一条 <xmlelement>prop</xmlelement> 不写 <xmlatt>val</xmlatt> 时，它是该属性的整体默认；两个属性都不写时，它是全局默认。<xmlatt>action</xmlatt> 有四种取值。</p>
+      <simpletable relcolwidth="1* 3*">
+        <sthead><stentry>动作</stentry><stentry>语义</stentry></sthead>
+        <strow><stentry>include</stentry><stentry>保留，未被任何规则命中的取值也按此处理</stentry></strow>
+        <strow><stentry>exclude</stentry><stentry>删除</stentry></strow>
+        <strow><stentry>passthrough</stentry><stentry>保留内容，并把属性值一并留在输出中供下游使用</stentry></strow>
+        <strow><stentry>flag</stentry><stentry>保留内容并加视觉标记</stentry></strow>
+      </simpletable>
+      <p>passthrough 的用处在于把过滤推迟到运行时：属性值进入产物之后，网页一侧可以由脚本按读者选择的平台即时切换，一次构建服务多个变体。</p>
+      <p>构建时以过滤选项指定用哪一份规则文件，同一批源产出不同的输出目录。</p>
+      <codeblock>dita -i root.ditamap -f html5 -o out-linux --filter=linux.ditaval
+dita -i root.ditamap -f html5 -o out-win   --filter=windows.ditaval</codeblock>
+    </section>
+
+    <section>
+      <title>留还是删：三条判定规则</title>
+      <p>一个元素带多个条件属性、每个属性又带多个取值时，按以下三条判定。</p>
+      <ol>
+        <li>未被任何规则命中的属性或取值，处理默认为保留。</li>
+        <li>同一个属性内部，只要有一个取值被保留，该属性就判保留；全部取值都被排除，该属性才判排除。分组形态按组独立套用这一条，任一组判排除即该属性判排除。</li>
+        <li>属性之间取交集，任何一个属性判了排除，元素就被排除。</li>
+      </ol>
+      <p>规范用一个例子说明第三条：一个段落标了三个产品，出版方把这三个产品全部排除，段落随之被排除，<b>即使它同时标注的受众与平台并没有被排除</b>。记法是留下来需要每个维度都放行，而每个维度内部只需一个取值放行。</p>
+      <p>元素被排除时其后代一并消失，这一条属通用实践，过滤一节未见对后代行为的明文规定。由它引出的一处风险同样是判断：排除若使文档不再合法，例如某个要求至少一个子元素的容器，其子元素被规则全部排除，构建会报错或产出无效的中间结果。条件属性因此标在能整体去掉的层级上，不标在必需的子元素上。</p>
+    </section>
+
+    <section>
+      <title>标记的优先级</title>
+      <ul>
+        <li>多个标记命中同一元素时，各个标记都渲染，通常按遇到的顺序。</li>
+        <li>不同层级给出冲突的标记样式时，最低层级即离内容最近的那一层生效。</li>
+        <li>同一元素既判标记又判排除时，按排除处理。</li>
+        <li>2.0 的 DITAVAL 支持给命中元素追加一个输出用的 class 名，把样式交给 CSS，比逐条指定颜色与图片更便于统一维护。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>退出点</title>
+      <p>取值拼错不会报错，只会静默地什么都不匹配。把可选值变成受控词表并让处理器校验，见 <xref href="subjectscheme-taxonomy.dita">subject scheme map</xref>。</p>
+      <p>本篇是一次构建产出一个变体。一次构建同时产出多个变体，见 <xref href="branch-filtering.dita">branch filtering</xref>。输出文件的切分与合并与条件无关，见 <xref href="chunking.dita">chunking 速查</xref>。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：条件处理指按处理期的条件对信息做过滤或标记、属性取值支持空格分隔与分组两种形态，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/condproc" scope="external">条件处理</xref>；未被规则列出的属性或取值默认保留、同一属性内全部取值被排除才判排除、分组值按组独立判定、任一属性判排除则元素被排除及其三产品原例，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/filtering" scope="external">过滤</xref>；多个标记按遇到顺序都渲染、样式冲突时最低层级生效、同时命中标记与排除时按排除处理、追加输出 class 名的属性，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/flagging" scope="external">标记</xref>；<xmlelement>prop</xmlelement> 的三个属性、四种动作的语义（含 passthrough 为保留内容且把属性值留在输出中供下游使用）、不写取值时为该属性的整体默认而两者都不写时为全局默认，转自 <xref href="https://dita-lang.org/dita/langref/ditaval/prop" scope="external">prop 语言参考</xref>；1.x 的 <xmlatt>print</xmlatt> 由 <xmlatt>deliveryTarget</xmlatt> 取代，转自 <xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref>。五处均已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中七个条件属性的清单与各自的维度、<xmlatt>rev</xmlatt> 用于标记而不用于排除、排除向后代传播、必需子元素被排空导致文档不合法这一风险、把条件标在能整体去掉的层级上这条建议、构建时以过滤选项指定规则文件的写法、passthrough 用于运行时切换的用法，来自通用 DITA 实践与 DITA-OT 实现观察，未逐页核对；三条判定规则的记法与各退出点的划分，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>
