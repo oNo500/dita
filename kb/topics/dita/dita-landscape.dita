@@ -83,7 +83,7 @@
       <p>这组是自研处理逻辑的判据所在。DITA 的多数能力不在元素本身，而在解析规则：一段被引内容带进来哪些属性、一个键在哪个作用域里解析、过滤发生在流水线的哪一段。自研逻辑与规范不一致时症状往往出现在很远的地方，先立规则再写代码比事后对齐便宜。</p>
       <simpletable relcolwidth="1* 3*">
         <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>复用、条件化与属性解析（dim-mechanism）</stentry><stentry>内容引用的拉与推、键引用与变量文本、条件属性与分支过滤在什么时机解析、属性有效值的优先级与元数据级联按什么规则算、这些解析各自落在 preprocess 的哪一阶段</stentry></strow>
+        <strow><stentry>复用、条件化与属性解析（dim-mechanism）</stentry><stentry><term keyref="term-conref">内容引用</term>的拉与推、<term keyref="term-keyref">键引用</term>与变量文本、条件属性与分支过滤在什么时机解析、属性有效值的优先级与元数据级联按什么规则算、这些解析各自落在 preprocess 的哪一阶段</stentry></strow>
         <strow><stentry>寻址与关系（dim-relations）</stentry><stentry>直接与间接寻址的分工、键空间与作用域嵌套、跨交付物引用、导航与链接的生成</stentry></strow>
         <strow><stentry>一致性与降级（dim-consistency）</stentry><stentry>泛化算法怎么把专门化还原、规范意义上的一致性怎么判定、处理器不认识自定义元素时会发生什么</stentry></strow>
       </simpletable>

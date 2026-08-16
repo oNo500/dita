@@ -28,11 +28,12 @@
       <simpletable relcolwidth="1.2* 2*">
         <sthead><stentry>绑定形态</stentry><stentry>写法要点</stentry></sthead>
         <strow><stentry>键到 topic 文件</stentry><stentry><xmlatt>keys</xmlatt> 加 <xmlatt>href</xmlatt>，键的基本形态</stentry></strow>
-        <strow><stentry>键到外部地址</stentry><stentry>另标 <xmlatt>scope</xmlatt>="external" 与 <xmlatt>format</xmlatt>；链接文字由 <xmlelement>keytext</xmlelement> 提供</stentry></strow>
+        <strow><stentry>键到外部地址</stentry><stentry>另标 <xmlatt>scope</xmlatt>="external" 与 <xmlatt>format</xmlatt>，地址写在 <xmlatt>href</xmlatt> 上</stentry></strow>
         <strow><stentry>键到一段文本</stentry><stentry>不写 <xmlatt>href</xmlatt>，只在 <xmlelement>topicmeta</xmlelement> 内写 <xmlelement>keytext</xmlelement>，即变量文本</stentry></strow>
         <strow><stentry>键到图片</stentry><stentry><xmlatt>href</xmlatt> 指向图片文件并标 <xmlatt>format</xmlatt>；<xmlelement>keytext</xmlelement> 在此充当替代文本</stentry></strow>
         <strow><stentry>一个定义绑多个键</stentry><stentry><xmlatt>keys</xmlatt> 内空格分隔即别名，各键等价</stentry></strow>
       </simpletable>
+      <p>五种形态的划分与逐条写法归纳自通用实践，已逐页核对的是其中 <xmlelement>keytext</xmlelement> 与 <xmlelement>keydef</xmlelement> 两个元素本身的规定（见来源节）。</p>
       <codeblock>&lt;map&gt;
   &lt;keydef keys="install-guide" href="topics/install.dita"/&gt;
 
@@ -49,6 +50,9 @@
   &lt;/keydef&gt;
 
   &lt;keydef keys="app appname product" href="topics/app.dita"/&gt;
+
+  &lt;!-- 供 conkeyref 使用的内容仓库，形态同第一种 --&gt;
+  &lt;keydef keys="warehouse" href="warehouse/notes.dita"/&gt;
 &lt;/map&gt;</codeblock>
       <p><xmlelement>keydef</xmlelement> 的 <xmlatt>processing-role</xmlatt> 默认值为 resource-only，键定义因此只提供资源，不产出页面、不进目录。规范未把 <xmlatt>toc</xmlatt> 列为它的显式默认属性。</p>
     </section>
@@ -58,11 +62,12 @@
       <simpletable relcolwidth="1.2* 2*">
         <sthead><stentry>写法</stentry><stentry>取到什么</stentry></sthead>
         <strow><stentry><xmlelement>ph</xmlelement> 加 <xmlatt>keyref</xmlatt></stentry><stentry>行内插入该键的 <xmlelement>keytext</xmlelement>，即变量文本</stentry></strow>
-        <strow><stentry><xmlelement>xref</xmlelement> 加 <xmlatt>keyref</xmlatt></stentry><stentry>链接到键绑定的文件或外部地址，链接文字取自 <xmlelement>keytext</xmlelement></stentry></strow>
+        <strow><stentry><xmlelement>xref</xmlelement> 加 <xmlatt>keyref</xmlatt></stentry><stentry>链接到键绑定的文件或外部地址</stentry></strow>
         <strow><stentry><xmlelement>image</xmlelement> 加 <xmlatt>keyref</xmlatt></stentry><stentry>插入键绑定的图片，<xmlelement>keytext</xmlelement> 充当替代文本</stentry></strow>
         <strow><stentry><xmlatt>conkeyref</xmlatt></stentry><stentry>以键定位的内容引用，寻址方式改为键，引用语义不变</stentry></strow>
         <strow><stentry><xmlatt>keyref</xmlatt> 与 <xmlatt>href</xmlatt> 并存</stentry><stentry>键可解析时以键为准，解析不到时回落到 <xmlatt>href</xmlatt>（未逐页核对）</stentry></strow>
       </simpletable>
+      <p>五种写法的划分同属归纳，规范的键解析章节尚未逐页核对。</p>
       <codeblock>&lt;p&gt;欢迎使用 &lt;ph keyref="product-name"/&gt;。&lt;/p&gt;
 &lt;p&gt;详见 &lt;xref keyref="install-guide"/&gt; 与 &lt;xref keyref="ot-site"/&gt;。&lt;/p&gt;
 &lt;image keyref="logo" placement="break"/&gt;
@@ -97,7 +102,7 @@
     <section>
       <title>来源</title>
       <p><b>事实</b>：<xmlelement>keytext</xmlelement> 的出现位置、内容模型与两种用途转自 <xref href="https://dita-lang.org/dita/langref/base/keytext" scope="external">keytext 元素</xref>；<xmlatt>processing-role</xmlatt> 默认 resource-only 与 <xmlatt>toc</xmlatt> 不在显式默认属性之列转自 <xref href="https://dita-lang.org/dita/langref/base/keydef" scope="external">keydef 元素</xref>；<xmlatt>keys</xmlatt> 收紧为 NMTOKENS 与 <xmlelement>linktext</xmlelement> 由 <xmlelement>linktitle</xmlelement> 取代转自 <xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref>。三份页面均已逐页核对。</p>
-      <p><b>判断</b>：先定义者胜、覆盖的写法、<xmlatt>keyref</xmlatt> 与 <xmlatt>href</xmlatt> 并存时的取舍、<xmlatt>keyscope</xmlatt> 的用法来自通用 DITA 实践，规范的键空间一章尚未逐页核对，表内已逐条标注。两项用途的归纳与实测建议为本库判断，可被反驳。</p>
+      <p><b>判断</b>：除事实段所列三份页面的内容外，正文其余陈述均属判断，可被反驳。其中定义侧五种绑定形态、引用侧五种写法的划分与逐条写法、先定义者胜、覆盖的写法、<xmlatt>keyref</xmlatt> 与 <xmlatt>href</xmlatt> 并存时的取舍、<xmlatt>keyscope</xmlatt> 的用法来自通用 DITA 实践，规范的键定义与键解析章节尚未逐页核对，表内已逐条标注；键作为间接层的定位、两项用途的归纳与实测建议为本库归纳。</p>
     </section>
   </refbody>
 </reference>

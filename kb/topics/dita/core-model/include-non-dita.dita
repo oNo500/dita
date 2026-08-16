@@ -10,7 +10,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-interop">
   <title>include 元素与非 DITA 内容的引入</title>
-  <shortdesc>配置样例、README 与代码片段可以由文档直接引用源码仓库里的原文件，不再手工同步；引入按纯文本或 XML 两种方式解析，后者限于 <xmlelement>foreign</xmlelement> 内，取不到时由 <xmlelement>fallback</xmlelement> 兜底。</shortdesc>
+  <shortdesc>配置样例、README 与代码片段可以由文档直接引用源码仓库里的原文件，不再手工同步；引入按纯文本或 XML 两种方式解析，后者限于 <xmlelement>foreign</xmlelement> 内，取不到时由 <xmlelement>fallback</xmlelement> 给出兜底内容。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/langref/base/include" scope="external"/>
     <data name="domain" value="dita"/>
@@ -25,11 +25,11 @@
 
     <section>
       <title>做法：三种引入形态</title>
-      <p>第一种是纯文本，用于 README 一类的整段文字。<xmlatt>parse</xmlatt>="text" 表示按纯文本处理，其中的 XML 字符原样显示而不被当作标记；<xmlelement>fallback</xmlelement> 给出取不到资源时的替代内容。</p>
+      <p>第一种是纯文本，用于 README 一类的整段文字。<xmlatt>parse</xmlatt>="text" 表示按纯文本处理，其中的 XML 字符原样显示而不被当作标记；<xmlelement>fallback</xmlelement> 给出取不到资源时的兜底内容。</p>
       <codeblock>&lt;include href="../src/README.txt" parse="text" encoding="UTF-8"&gt;
   &lt;fallback&gt;见源码包里的 README.txt。&lt;/fallback&gt;
 &lt;/include&gt;</codeblock>
-      <p>第二种是代码，把引入放进 <xmlelement>pre</xmlelement> 一类的预格式化容器，保留原文的换行与缩进。<xmlatt>format</xmlatt> 声明被引资源的格式，供下游按语言着色。</p>
+      <p>第二种是代码，把引入放进 <xmlelement>pre</xmlelement> 一类的预格式化容器，保留原文的换行与缩进。<xmlatt>format</xmlatt> 声明被引资源的格式。</p>
       <codeblock>&lt;pre&gt;
   &lt;include href="../src/config.json" format="json" parse="text" encoding="UTF-8"/&gt;
 &lt;/pre&gt;</codeblock>
@@ -60,14 +60,14 @@
 
     <section>
       <title>退出点</title>
-      <p>构建产出里出现的是源文件的内容而非 <xmlelement>fallback</xmlelement> 的替代文本，这一步即完成。<xmlelement>fallback</xmlelement> 出现在产出里说明资源没有取到，路径与构建时的可见性都要复查：被引资源自此成为构建的输入之一，源码仓库的目录调整会让文档构建随之变化。</p>
+      <p>构建产出里出现的是源文件的内容而非 <xmlelement>fallback</xmlelement> 的兜底内容，这一步即完成。<xmlelement>fallback</xmlelement> 出现在产出里说明资源没有取到，路径与构建时的可见性都要复查：被引资源自此成为构建的输入之一，源码仓库的目录调整会让文档构建随之变化。</p>
       <p>不适用的场合有两类。其一，内容需要语义标记与条件化，例如要按产品线过滤的一段说明——那属于 DITA 内容，应写成 DITA 并用内容引用。其二，只引入预格式化的代码：<xmlelement>coderef</xmlelement> 是 <xmlelement>include</xmlelement> 的专门化，为此用途而设，用它比用通用元素更贴切。<b><xmlelement>coderef</xmlelement> 与 <xmlelement>include</xmlelement> 的这层关系也是规范自带的专门化范例</b>，可作为写自定义专门化时的对照。</p>
     </section>
 
     <section>
       <title>来源</title>
       <p><b>事实</b>：用途、<xmlatt>parse</xmlatt> 的两种取值及 xml 限于 <xmlelement>foreign</xmlelement> 内、<xmlatt>encoding</xmlatt> 的探测行为、<xmlatt>keyref</xmlatt> 支持、内容模型、可出现位置、与内容引用及 <xmlelement>coderef</xmlelement> 的区别，以及三个示例的写法，均转自 <xref href="https://dita-lang.org/dita/langref/base/include" scope="external">include 元素</xref>，已逐页核对。</p>
-      <p><b>判断</b>：把配置与代码样例改为引用源文件以消除副本漂移，以及两类不适用场合的划分，为本库判断，可被反驳。被引资源成为构建输入的推论同属判断。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳：把配置与代码样例改为引用源文件以消除副本漂移、三种形态的划分与四个示例的用途说明、两类不适用场合的界线、被引资源成为构建输入及其对目录调整的敏感性，均为本库归纳。</p>
     </section>
   </conbody>
 </concept>
