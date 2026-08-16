@@ -1,5 +1,7 @@
 # 内容类型框架（收敛版，待审）
 
+> **已吸收为 kb topic（2026-08-16）**：正本已迁 kb（`kb/topics/content-engineering/dimension-type-genre.dita` ←「核心区分」「全貌（四维度）」「维度 1 展开」「维度 2：可复用工件」「完整性怎么判断」全部小节；题材的必需节清单不随文迁入，正本在 `kb/vocab/subjectScheme.ditamap` 的 `genre-values`；不迁小节：「待你审」的四条问题，已随框架定稿失效）。方法层面「先建完整维度框架再取舍」另迁 `kb/topics/content-engineering/domain-dimension-method.dita`（见 dimension-completeness.md）。本文冻结为调研档案，不再更新。
+
 > 替换之前"九类平铺"的清单。平铺的问题:看不出层次,容易"水多加面"(发现装不下就加)。
 > 这版用**框架驱动**:先立维度(判断完整性),再分类型(结构骨架),题材是细分(灵活)。
 
