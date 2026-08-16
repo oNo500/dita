@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<concept id="claim" outputclass="best-practice" maturity="draft" volatility="stable">
+  <title>上下文是预算，不是容器</title>
+  <shortdesc>论断式标题样例。</shortdesc>
+  <conbody><p>正文。</p></conbody>
+</concept>

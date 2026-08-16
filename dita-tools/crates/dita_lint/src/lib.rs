@@ -69,12 +69,36 @@ pub fn lint_topic(path: &Path, vocab: &Vocabulary) -> anyhow::Result<DiagnosticB
         }
     };
 
+    check_title(root, &mut push);
     check_genre(root, root_name, vocab, &mut push);
     check_source_section(root, &mut push);
     check_register(root, &mut push);
     check_split_threshold(root, root_name, &mut push);
 
     Ok(diag)
+}
+
+/// Title proxies for rule seven: a title is a name, not a claim. Full
+/// judgement (locating term, upstream category alignment) stays human.
+fn check_title(root: roxmltree::Node, push: &mut impl FnMut(String)) {
+    let title: String = root
+        .children()
+        .find(|c| c.has_tag_name("title"))
+        .map(|t| {
+            t.descendants()
+                .filter(roxmltree::Node::is_text)
+                .filter_map(|n| n.text())
+                .collect()
+        })
+        .unwrap_or_default();
+    for (pat, why) in [("？", "问句"), ("，不是", "论断句式"), ("——", "悬念破折号")]
+    {
+        if title.contains(pat) {
+            push(format!(
+                "标题「{title}」含{why}——标题是专业命名（writing-style 规则七）"
+            ));
+        }
+    }
 }
 
 /// R12 + R13: genre present where required, legal, type-matched, structure complete.

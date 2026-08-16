@@ -74,3 +74,9 @@ fn concept_over_split_threshold_is_flagged() {
             .collect::<Vec<_>>()
     );
 }
+
+#[test]
+fn claim_shaped_titles_are_flagged() {
+    let d = lint("claim-title.dita");
+    assert!(d.items.iter().any(|i| i.message().contains("论断句式")));
+}
