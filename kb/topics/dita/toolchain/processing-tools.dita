@@ -6,13 +6,16 @@
      LwDITA / XDITA 等一律用工具与规范的原名。
      volatility=volatile 的依据：库的维护状态与覆盖范围随时间变动。
      事实纪律：已核对的只有 LwDITA 的 TypeScript 实现一行（活跃维护、npm 发布、
-     兼容 LwDITA v0.3、仅覆盖 XDITA）；其余各行属通用实践，已在篇内与来源节标注。 -->
+     兼容 LwDITA v0.3、仅覆盖 XDITA）；其余各行属通用实践，已在篇内与来源节标注。
+     本库自造：上游无对应节点。表内工具（Saxon-HE、Jing、xmllint、lxml、org.lwdita）分属各自
+     项目，OASIS 规范与 DITA-OT 4.4 文档 docsrc 均无跨项目的工具清单节点，社区亦无通行名。
+     标题由领域既有词素「程序化处理」「工具」组合，「速查」是本库 cheatsheet 题材的固定后缀。 -->
 <reference id="processing-tools" xml:lang="zh-CN"
            outputclass="cheatsheet"
            maturity="draft" volatility="volatile"
            dimension="dim-reference dim-ecosystem">
-  <title>DITA 程序化处理工具速查：Saxon、Jing 与 lxml</title>
-  <shortdesc>按需求选工具：转换用 XSLT 处理器，校验分 RNG 与 DTD 与 DITA 三层，解析看语言侧的库。以下列出各需求的常用选择与取用时的注意事项，其中 Node.js 一行的结论与其他行不同，须留意覆盖范围。</shortdesc>
+  <title>程序化处理工具速查</title>
+  <shortdesc>按需求选工具：转换用 XSLT 处理器 Saxon-HE，校验分 RNG、DTD 与 DITA 三层，各由 Jing、xmllint 与 dita validate 承担，解析看语言侧的库，Python 一侧是 lxml。以下列出各需求的常用选择与取用时的注意事项，其中 Node.js 一行的结论与其他行不同，须留意覆盖范围。</shortdesc>
   <prolog>
     <source href="https://github.com/evolvedbinary/lwdita" scope="external"/>
     <data name="domain" value="dita"/>
@@ -86,8 +89,8 @@
       <title>取用之前</title>
       <ul>
         <li>先定输入形态。多数用途要的是解析后的内容，见<xref href="parsed-vs-source.dita">程序化处理的输入选择</xref>。</li>
-        <li>解析源文件时确认默认属性已补齐，否则派生链属性为空，见<xref href="programming-by-class.dita">按 @class 编程</xref>。</li>
-        <li>自研管道在输出阶段过滤不属于目标版本的属性与元素，见<xref href="dita-ot-as-library.dita">DITA-OT 作为库调用</xref>。</li>
+        <li>解析源文件时确认默认属性已补齐，否则派生链属性为空，见<xref href="programming-by-class.dita">@class 与派生链解析</xref>。</li>
+        <li>自研管道在输出阶段过滤不属于目标版本的属性与元素，见<xref href="dita-ot-as-library.dita">DITA-OT Java API</xref>。</li>
       </ul>
     </section>
 

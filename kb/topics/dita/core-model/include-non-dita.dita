@@ -6,13 +6,15 @@
      术语规则（2026-08-16 用户门反馈后）：include / fallback / foreign / conref / keyref
      等一律用英文原名，中文解释只在首现随行给一次。
      结构按「问题 → 做法 → 退出点」骨架。正文事实全部取自已逐页核对的 include 元素页；
-     「文档与代码同源」的工程论证属判断，已在来源节标明。 -->
+     「文档与代码同源」的工程论证属判断，已在来源节标明。
+     标题依据上游节点名：OASIS DITA 2.0 语言参考的元素页 <include>；非 DITA 内容一侧对应
+     架构规范的「Specializing to include non-DITA content」，归 shortdesc 交代。 -->
 <concept id="include-non-dita" xml:lang="zh-CN"
          outputclass="how-to"
          maturity="draft" volatility="stable"
          dimension="dim-interop">
-  <title>include 元素与非 DITA 内容的引入</title>
-  <shortdesc>配置样例、README 与代码片段可以由文档直接引用源码仓库里的原文件，不再手工同步；引入按纯文本或 XML 两种方式解析，后者限于 <xmlelement>foreign</xmlelement> 内，取不到时由 <xmlelement>fallback</xmlelement> 给出替代的内容。</shortdesc>
+  <title>include 元素</title>
+  <shortdesc>配置样例、README 与代码片段这类非 DITA 内容可以由文档直接引用源码仓库里的原文件，不再手工同步；引入按纯文本或 XML 两种方式解析，后者限于 <xmlelement>foreign</xmlelement> 内，取不到时由 <xmlelement>fallback</xmlelement> 给出替代的内容。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/langref/base/include" scope="external"/>
     <data name="domain" value="dita"/>

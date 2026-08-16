@@ -6,13 +6,17 @@
      不自造分类框架，编辑器与 PDF 路线按平实短语列，不造类目名词。
      volatility=volatile 的依据：各家工具的 2.0 支持程度随版本推进。
      事实纪律：笔记 04 已核对清单只覆盖 DITA-OT 的 2.0 preview 基线一条，
-     编辑器与 PDF 的全部对比与取舍属判断，已在来源节判断段穷尽列明。 -->
+     编辑器与 PDF 的全部对比与取舍属判断，已在来源节判断段穷尽列明。
+     本库自造：上游无对应节点。OASIS 规范不涉工具，DITA-OT 4.4 文档 docsrc 只到
+     topics/pdf-customization-approaches「PDF customization approaches」，无编辑器选型节点；
+     社区有「DITA editors」这一通行类目，故保留 DITA 前缀。标题由领域既有词素「DITA 编辑器」
+     「PDF 输出」「选型」组合，不造新分类框架。 -->
 <concept id="editors-pdf-reality" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="volatile"
          dimension="dim-ecosystem dim-decision">
-  <title>DITA 编辑器与 PDF 输出选型：Oxygen、CCMS 与 XSL-FO</title>
-  <shortdesc>2.0 期间的工具选择受同一条约束支配：规范之外的每一环，支持程度都由厂商而非规范决定。编辑器按团队构成选，PDF 按团队已有的排版经验选，两处都优先留在自己能控制的那一段工具链上。</shortdesc>
+  <title>DITA 编辑器与 PDF 输出选型</title>
+  <shortdesc>2.0 期间的工具选择受同一条约束支配：规范之外的每一环，支持程度都由厂商而非规范决定。编辑器按团队构成在文本编辑器、Oxygen 与 CCMS 之间选，PDF 按团队已有的排版经验在 XSL-FO 与 CSS 两条路线之间选，两处都优先留在自己能控制的那一段工具链上。</shortdesc>
   <prolog>
     <source href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external"/>
     <data name="domain" value="dita"/>

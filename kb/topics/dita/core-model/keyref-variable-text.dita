@@ -6,12 +6,14 @@
      原名，中文解释只在首现随行给一次；不自造分类框架（原「定义侧五种绑定」「引用侧五种写法」
      「先定义者胜」已降级为平实说明）。
      volatility=volatile 的依据：@keyscope 的实现差异随 DITA-OT 版本变动。
-     笔记标注「未逐页核对」的条目在表内与列表内逐条标注，并在来源节判断段列明。 -->
+     笔记标注「未逐页核对」的条目在表内与列表内逐条标注，并在来源节判断段列明。
+     标题依据上游节点名：OASIS DITA 2.0 的 @keyref 属性与 <keytext> 元素；结尾的「速查」
+     是本库 cheatsheet 题材的固定后缀。 -->
 <reference id="keyref-variable-text" xml:lang="zh-CN"
            outputclass="cheatsheet"
            maturity="draft" volatility="volatile"
            dimension="dim-mechanism dim-reference">
-  <title>DITA keyref 与 keytext 速查</title>
+  <title>keyref 与 keytext 速查</title>
   <shortdesc>keyref 把「引用什么」与「它在哪」分开：正文只写键名，绑定由 map 里的 keydef 声明，一个键可绑 topic 文件、外部地址、一段文本或一张图片。以下列出 keydef 的写法、keyref 的写法、keytext 的内容模型与键的解析规则。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/langref/base/keytext" scope="external"/>

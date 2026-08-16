@@ -8,12 +8,16 @@
      volatility=volatile 的依据：扩展点清单随 DITA-OT 版本增删。
      事实纪律：已逐页核对的是扩展点的声明方式、官方分组、XSLT 覆盖靠安装时追加 import、
      ${transtype} 可限定生效范围、catalog 扩展点用途；其余（完整示例的组合写法、
-     命令行为、现成插件推荐）按判断呈现，并在来源节判断段列明。 -->
+     命令行为、现成插件推荐）按判断呈现，并在来源节判断段列明。
+     标题依据上游节点名：DITA-OT 4.4 文档 extension-points/extension-points.ditamap
+     「DITA-OT extension points」。plugin.xml 一节对应上游 topics/plugin-configfile
+     「Plug-in descriptor file」，安装一节对应 topics/plugins-installing「Installing plug-ins」，
+     两者并入本篇，故不进标题。 -->
 <reference id="plugin-extension-points" xml:lang="zh-CN"
            outputclass="cheatsheet"
            maturity="draft" volatility="volatile"
            dimension="dim-reference dim-integration">
-  <title>plugin.xml 与 DITA-OT 扩展点</title>
+  <title>DITA-OT 扩展点</title>
   <shortdesc>一个 DITA-OT plugin 就是一个含 plugin.xml 的目录，它在该文件里声明若干 feature，安装时被合并进工具箱的构建配置。以下列出目录形态、plugin.xml 的各条声明、扩展点按官方分组的用途，以及安装命令与可参照的现成 plugin。</shortdesc>
   <prolog>
     <source href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external"/>

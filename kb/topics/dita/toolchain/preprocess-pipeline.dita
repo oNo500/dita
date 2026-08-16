@@ -6,12 +6,15 @@
      chunk / conrefpush…），便于与调试模式保留的中间产物目录逐一对照。
      volatility=volatile 的依据：阶段名与顺序取自实现观察，随发行版变动。
      笔记标注「未逐页核对」的条目（全部阶段名与顺序、.job.xml 的作用、preprocess2 的
-     兼容性）在正文按判断呈现，并在来源节判断段列明；已核对的只有 dita 命令的选项。 -->
+     兼容性）在正文按判断呈现，并在来源节判断段列明；已核对的只有 dita 命令的选项。
+     标题依据上游节点名：DITA-OT 4.4 文档 reference/preprocessing「Pre-processing modules」，
+     「流水线」取自同套文档的 topics/plugin-antpreprocess「Adding an Ant target to the
+     pre-processing pipeline」。 -->
 <concept id="preprocess-pipeline" xml:lang="zh-CN"
          outputclass="deep-dive"
          maturity="draft" volatility="volatile"
          dimension="dim-mechanism dim-internals">
-  <title>DITA-OT preprocess 流水线</title>
+  <title>preprocess 流水线</title>
   <shortdesc>preprocess 是发布之前把源文件解析成单一形态的一串阶段：清单扫描、条件过滤、mapref 展开、keyref 与 conref 解析、标题回填、分块。自写的扩展接在哪一阶段之后，决定它看得见什么，也决定输出与预期不符时该从哪一份中间产物查起。</shortdesc>
   <prolog>
     <source href="https://www.dita-ot.org/dev/topics/build-using-dita-command" scope="external"/>

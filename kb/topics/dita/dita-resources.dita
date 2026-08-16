@@ -2,7 +2,10 @@
 <?xml-model href="../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 权威资源（curated-resources 题材）：dita 域。
      迁自 research/README.md「权威资源」节。链接活性由 just links 定期核；
-     入口收录标准见「定位」节，产品与教程类链接不收。 -->
+     入口收录标准见「定位」节，产品与教程类链接不收。
+     本库自造（半）：上游有同类目节点，DITA-OT 4.4 文档 topics/dita-resources.ditamap
+     「DITA and DITA-OT resources」；本篇按可信度分层收录，故取「权威资源入口」而非直译。
+     词素均为领域既有，未造新分类框架。 -->
 <reference id="dita-resources" xml:lang="zh-CN"
            outputclass="curated-resources"
            maturity="draft" volatility="volatile"

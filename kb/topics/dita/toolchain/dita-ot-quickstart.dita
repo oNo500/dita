@@ -9,7 +9,11 @@
      一律用英文原名，中文解释只在首现随行给出一次。
      volatility=volatile 的依据：版本号、基线日期与命令选项随发行版变动。
      笔记标注「未逐页核对」的条目（dita init 的模板名、plugin 命令行为）在正文按判断呈现。
-     R16：实现层标记控制在上限内，公共标识符与 URN 的格式串并入 doctype 样例。 -->
+     R16：实现层标记控制在上限内，公共标识符与 URN 的格式串并入 doctype 样例。
+     本库自造（聚合）：标题由两个上游节点合成——DITA-OT 4.4 文档的安装一组
+     （topics/installing-client、topics/installing-via-homebrew 等，类目名 Installing DITA-OT）
+     与 reference/dita-v2-0-support「DITA 2.0 preview support」；上游无把二者合并的节点，
+     合并出自本库 quickstart 题材。词素均为领域既有，未造新词。 -->
 <concept id="dita-ot-quickstart" xml:lang="zh-CN"
          outputclass="quickstart"
          maturity="draft" volatility="volatile"

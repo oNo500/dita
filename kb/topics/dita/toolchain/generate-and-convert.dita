@@ -6,12 +6,17 @@
      DOCTYPE 等一律用英文原名；映射难点表的列头用描述性短语，不造名词。
      volatility=volatile 的依据：org.lwdita 对 2.0 元素的支持程度随版本推进。
      事实纪律：已核对的只有 DOCTYPE 公共标识符的写法；生成代码、transtype 名称、
-     Markdown 引用约定与映射难点表按判断呈现，来源节判断段穷尽列明。 -->
+     Markdown 引用约定与映射难点表按判断呈现，来源节判断段穷尽列明。
+     本库自造（半）：Markdown 一侧有上游节点，DITA-OT 4.4 文档 topics/markdown-input
+     「Markdown input」与 topics/dita2markdown「Generating Markdown output」；生成一侧
+     （从结构化数据生成 topic）在 OASIS 规范与 DITA-OT docsrc 中均无对应节点，社区亦无通行名。
+     标题由领域既有词素「DITA 生成」「Markdown 互转」组合。本篇跨两个节点，边界待复核：
+     建议后续把生成一侧单独成篇（见 retitle-report 的边界建议）。 -->
 <concept id="generate-and-convert" xml:lang="zh-CN"
          outputclass="how-to"
          maturity="draft" volatility="volatile"
          dimension="dim-interop dim-boundary-pitfalls">
-  <title>生成 DITA 与 org.lwdita 的 Markdown 互转</title>
+  <title>DITA 生成与 Markdown 互转</title>
   <shortdesc>接口描述、数据库表、代码注释这类结构化数据可以直接生成 reference topic，代价是生成的 <xmlatt>id</xmlatt> 必须稳定，否则每次重新生成都会断掉引用。Markdown 方向由 org.lwdita <term keyref="term-plugin">plugin</term>（插件）双向打通：转出去有损，转进来则可把 Markdown 文件当作 topic 参与构建。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/non-normative/dtd-public-identifiers" scope="external"/>
@@ -54,7 +59,7 @@ def make_api_topic(endpoint):
 
     return etree.tostring(ref, xml_declaration=True, encoding="UTF-8",
                           doctype=DOCTYPE, pretty_print=True)</codeblock>
-      <p>两条纪律决定生成结果可不可用。其一，<xmlatt>id</xmlatt> 从源数据派生而非按序号编号：序号会随源数据增删整体平移，指向这些 topic 的引用与外链随之全部失效。其二，不手写派生链属性，让语法文件注入，理由与自研管道那一侧相同，见<xref href="programming-by-class.dita">按 @class 编程</xref>。</p>
+      <p>两条纪律决定生成结果可不可用。其一，<xmlatt>id</xmlatt> 从源数据派生而非按序号编号：序号会随源数据增删整体平移，指向这些 topic 的引用与外链随之全部失效。其二，不手写派生链属性，让语法文件注入，理由与自研管道那一侧相同，见<xref href="programming-by-class.dita">@class 与派生链解析</xref>。</p>
     </section>
 
     <section>

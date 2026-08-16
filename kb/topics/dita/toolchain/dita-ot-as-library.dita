@@ -8,13 +8,15 @@
      volatility=volatile 的依据：Java API 与中间产物的字段随 DITA-OT 版本变动。
      事实纪律：已核对的只有 @specializations 由 doctype shell 注入且属 2.0；
      org.dita.normalize 混入该属性一事仅部分核对（未打开 issue 逐条核对），
-     Java API 示例未逐版本核对，均在来源节判断段列明。 -->
+     Java API 示例未逐版本核对，均在来源节判断段列明。
+     标题依据上游节点名：DITA-OT 4.4 文档 reference/java-api「Using the Java API」；
+     .job.xml 与输出过滤两节归 shortdesc 交代。 -->
 <concept id="dita-ot-as-library" xml:lang="zh-CN"
          outputclass="how-to"
          maturity="draft" volatility="volatile"
          dimension="dim-integration dim-boundary-pitfalls">
-  <title>DITA-OT 作为库调用：ProcessorFactory 与 .job.xml</title>
-  <shortdesc>服务里反复构建文档时，命令行方式的代价是每次构建启动一个新的 JVM 进程。DITA-OT 提供 Java API，可在同一进程内配置并执行构建，并读取构建期的文件清单。写自己的管道时另有一条须守的纪律：输出阶段过滤掉不属于目标版本的属性与元素。</shortdesc>
+  <title>DITA-OT Java API</title>
+  <shortdesc>服务里反复构建文档时，命令行方式的代价是每次构建启动一个新的 JVM 进程。DITA-OT 提供 Java API，可在同一进程内配置并执行构建，并从 <filepath>.job.xml</filepath> 读取构建期的文件清单。写自己的管道时另有一条须守的纪律：输出阶段过滤掉不属于目标版本的属性与元素。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external"/>
     <data name="domain" value="dita"/>
