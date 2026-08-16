@@ -4,5 +4,6 @@
 <map xml:lang="zh-CN">
   <title>工程实践</title>
   <topicref href="../../../topics/dita/practice/pitfalls.dita"/>
+  <topicref href="../../../topics/dita/practice/adoption-criteria.dita"/>
   <topicref href="../../../topics/dita/practice/customization-cost-ladder.dita"/>
 </map>

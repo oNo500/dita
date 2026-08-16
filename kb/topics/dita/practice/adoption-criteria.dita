@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/08-practical-advice.md §用 DITA 2.0 的现实判断、§什么时候 DITA 是对的、
+     §什么时候 DITA 是错的；并入 research/README.md「四个招牌特性」的框架句
+     （四个 2.0 新增机制最能划出工具链的支持边界，2026-08-16 控制器裁定：不单独成篇，
+     框架句归本篇，四个机制各归其 topic）。
+     题材 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
+     术语规则（2026-08-16 用户门反馈后）：keytext / titlealt / include / chunk 等机制名
+     与 DITA-OT / Oxygen / CCMS / org.lwdita 等工具名一律用原名；判据表列头用描述性短语。
+     volatility=volatile 的依据：判据的前提是 2.0 的 beta 状态与各家工具的支持进度。
+     事实纪律：笔记 08 已核对清单里与本篇相关的是版本状态三条（2.0 列为 draft、
+     beta03 的发布与 pre-release 性质、DITA-OT 4.4 的基线），采用与否的全部判据属判断，
+     已在来源节判断段穷尽列明。 -->
+<concept id="adoption-criteria" xml:lang="zh-CN"
+         outputclass="best-practice"
+         maturity="draft" volatility="volatile"
+         dimension="dim-adoption dim-decision">
+  <title>DITA 采用判据：多变体、多语言与 DITA-OT 版本锁定</title>
+  <shortdesc>是否值得上 DITA，看的是内容有没有多个变体、量有多大、有没有人长期维护、要不要翻译、要不要审计追溯；2.0 期间还要多问一句这一环的支持由谁决定。两个问题的答案分别决定要不要用、能不能现在就用。</shortdesc>
+  <prolog>
+    <source href="https://www.dita-lang.org/specifications" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>场景</title>
+      <p>要为一批文档选内容架构，候选是 DITA 与 Markdown 加静态站生成器。DITA 的固定成本可见：语法文件、工具链、写作规范、维护者。收益却不在第一份交付物上，而在第二个变体、第三种语言、第五年的一次全库改名上。选错的代价对称：该用而没用，同步错误随内容量增长；不该用而用了，团队把时间花在与内容无关的地方。</p>
+      <p>2.0 期间还有第二个问题。规范本身仍是 beta，尚未成为 OASIS Standard，各环节的支持进度由不同的人决定。</p>
+    </section>
+
+    <section>
+      <title>做法</title>
+      <p>先按下列条件判断要不要用。多数条件成立才成立，逐条打钩不必求全。</p>
+      <simpletable relcolwidth="1* 2.4*">
+        <sthead><stentry>倾向</stentry><stentry>条件</stentry></sthead>
+        <strow><stentry>该用</stentry><stentry>同一批内容要产出多个变体：多产品线、多受众、多平台、多渠道</stentry></strow>
+        <strow><stentry>该用</stentry><stentry>内容量大到人工同步会出错，量级在几百篇以上</stentry></strow>
+        <strow><stentry>该用</stentry><stentry>有专职或半专职的内容维护者，愿意学一套体系</stentry></strow>
+        <strow><stentry>该用</stentry><stentry>有多语言翻译需求，模块化按 topic 只重翻改动部分</stentry></strow>
+        <strow><stentry>该用</stentry><stentry>有合规或审计要求，需要版本追溯与结构一致性</stentry></strow>
+        <strow><stentry>不该用</stentry><stentry>一个产品、一份文档、一个渠道</stentry></strow>
+        <strow><stentry>不该用</stentry><stentry>团队全是工程师、文档跟着代码走，门槛本身就是判据</stentry></strow>
+        <strow><stentry>不该用</stentry><stentry>内容变化快、结构尚未稳定，类型化此时是阻力</stentry></strow>
+        <strow><stentry>不该用</stentry><stentry>没有人愿意维护工具链</stentry></strow>
+      </simpletable>
+      <p>两侧各占一半时走中间路线：需要复用与多变体的核心手册用 DITA，周边内容用 Markdown，靠 org.lwdita 归到一套 map 里构建。</p>
+      <p>再按下表判断现在能不能上 2.0。</p>
+      <simpletable relcolwidth="1.2* 2.2*">
+        <sthead><stentry>处境</stentry><stentry>建议</stentry></sthead>
+        <strow><stentry>研究与学习</stentry><stentry>直接学 2.0，被移除的历史特性不必先学一遍</stentry></strow>
+        <strow><stentry>新项目，工具链自己掌握</stentry><stentry>可以上，锁定 DITA-OT 版本并记录所依据的 beta 号</stentry></strow>
+        <strow><stentry>新项目，依赖商业编辑器或内容管理系统</stentry><stentry>先验证这些工具的 2.0 支持，进度不由使用方决定</stentry></strow>
+        <strow><stentry>做二次开发</stentry><stentry>可以上，派生链架构与专门化方法不随 beta 状态变动</stentry></strow>
+      </simpletable>
+      <p>验证工具链支持时，最小样例覆盖四个 2.0 新增机制即可划出边界：<xmlelement>keytext</xmlelement> 的变量文本、<xmlelement>titlealt</xmlelement> 的多标题、<xmlelement>include</xmlelement> 引入非 DITA 内容、<xmlatt>chunk</xmlatt> 的合并取值。四者分布在键、标题、外部内容、输出分块四条不同的处理路径上，一个都不落地的工具链，支持程度也就到此为止。前两者的写法见<xref href="../core-model/keyref-variable-text.dita">keyref 与 keytext</xref>与<xref href="../core-model/include-non-dita.dita">include 引入非 DITA 内容</xref>。</p>
+      <p>决定上 2.0 之后，把三件事写进项目约定：规范还会变，做专门化时锁定版本；DITA-OT 的语法文件基线滞后于规范草案；生态支持参差，编辑器、内容管理系统与第三方 <term keyref="term-plugin">plugin</term>（插件）逐个验证。相应地，从不太可能再变的基类派生（<xmlelement>div</xmlelement>、<xmlelement>ph</xmlelement>、<xmlelement>section</xmlelement>、<xmlelement>simpletable</xmlelement>、<xmlelement>data</xmlelement>、<xmlelement>foreign</xmlelement>），避开仍在讨论中的区域，先用最小样例把工具链跑通再投入内容，并把 DITA-OT 版本写进持续集成的镜像或版本声明文件。</p>
+    </section>
+
+    <section>
+      <title>理由</title>
+      <p>采用判据的五条其实是同一条：固定成本要靠重复摊平。变体数、语言数、内容量都是这个乘数的因子，任何一项为一，成本就没有出口。合规审计是另一类收益，它买的不是效率而是可追溯性，因此单独成条。</p>
+      <p>2.0 那张表的分界线是支持进度由谁决定。<b>DITA-OT 加文本编辑器这条组合里，升级时机自己掌握</b>；商业编辑器与内容管理系统的排期不由使用方决定，而内容一旦投入，再发现某个特性不被支持时退路很窄。二次开发不受影响，是因为它依赖的是派生链与专门化方法，这两者在 1.x 与 2.0 之间保持一致。</p>
+    </section>
+
+    <section>
+      <title>反例</title>
+      <ul>
+        <li>为一个产品、一份文档上 DITA。复用与多变体是收益的来源，两者都不存在时，剩下的只有成本。</li>
+        <li>把「全面 DITA 化」当作目标。中间路线在实践中更常见，核心手册用 DITA、周边内容用 Markdown 并不损害单源性质。</li>
+        <li>内容结构尚未稳定就先做类型化。类型化把结构固定下来，而此时结构本身还在变，每次调整都要连带改语法文件与模板。</li>
+        <li>按功能清单选定商业工具，跳过 2.0 支持的实测。功能齐备与语法文件支持是两件事，后者只能用最小样例验证。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>边界</title>
+      <p>本篇给的是要不要用与能不能现在用，不含用起来之后的两类选择：改造深度到哪一级见<xref href="customization-cost-ladder.dita">二次开发的成本阶梯</xref>，编辑器与 PDF 一路的取舍见<xref href="../toolchain/editors-pdf-reality.dita">DITA 编辑器与 PDF 输出选型</xref>。</p>
+      <p>2.0 一表的前提是它仍处 beta。转正之后生态跟进，商业工具一栏的建议须重新判断，本篇的采用判据则不随之变动。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：DITA 2.0 在规范列表中列为 draft、1.3 及更早版本为 OASIS Standard，转自 <xref href="https://www.dita-lang.org/specifications" scope="external">DITA 规范列表</xref>；v2.0-beta03 发布于 2026-07-02 且标记为 pre-release，转自 <xref href="https://github.com/oasis-tcs/dita/releases" scope="external">oasis-tcs/dita 发布页</xref>；DITA-OT 4.4 的 2.0 preview 支持基于 2026-01-25 的草案语法文件，转自 <xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA 2.0 preview 支持</xref>。三处均已逐页核对。</p>
+      <p><b>判断</b>：除事实段三条外，正文其余陈述均属判断，可被反驳。其中九条采用与否的条件、中间路线的可行性、四类处境的建议、上 2.0 要接受的三件事、从稳定基类派生与避开讨论中区域等四条降低风险的做法，来自通用实践，未逐页核对；四个 2.0 新增机制最能划出工具链支持边界这一判断，出自本库调研笔记的学习路径，未经实测；固定成本靠重复摊平的解释、按支持进度归属划分 2.0 处境的分界线、四条反例，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>
