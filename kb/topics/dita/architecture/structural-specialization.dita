@@ -11,7 +11,10 @@
      volatility=stable 的依据：@class 的构造规则出自架构规范，不随发行版变动。
      事实纪律：笔记已逐页核对的只有 @class 构造规则四条（前缀 -/+、完整祖先链含未改名的
      中间层、结尾至少一个空格、默认值不得为 fixed）；RNG 模块示例为示意结构，模块名与
-     元素名之分、catalog 注册步骤、未写 XSLT 也按基类渲染，均按判断呈现并在来源节列明。 -->
+     元素名之分、catalog 注册步骤、未写 XSLT 也按基类渲染，均按判断呈现并在来源节列明。
+     去重（2026-08-16，Task 10b 执行控制器裁定）：上述四条规则原在「分析」节逐条罗列，与
+     同簇 class-derivation 重复，现改为 xref 指向该篇，正文只留本例读得出的前缀一项；
+     来源节的事实认领相应改为「规则见 xref 篇」。其余论述与来源归属未动。 -->
 <concept id="structural-specialization" xml:lang="zh-CN"
          outputclass="deep-dive"
          maturity="draft" volatility="stable"
@@ -83,12 +86,7 @@
       <codeblock>class="- topic/topic reference/reference apiref/apiref "
        ↑ ↑            ↑                  ↑              ↑
      前缀 最通用      中间层          本次派生的元素   结尾空格</codeblock>
-      <ul>
-        <li>前缀 <codeph>-</codeph> 表示这是 structural specialization，domain specialization 的前缀是 <codeph>+</codeph>。</li>
-        <li>祖先链须完整，从最通用列到最具体，中间层即便没有改名也要列出。</li>
-        <li>结尾至少留一个空格，首尾各留一个是通行写法；按派生链匹配的代码连同空格一起比对，靠它避免误命中同前缀的名字。</li>
-        <li>该默认值不得声明为 fixed，实例上的取值须可被 generalization 处理改写。</li>
-      </ul>
+      <p>取值的构造规则由规范逐条规定，含前缀取值、祖先链的完整性、结尾空格与默认值不得为 fixed，规则本身与各条挡住的处理错误见 <xref href="class-derivation.dita">@class 与 @specializations 属性规则与语法</xref>，本篇不重述。落到本例上只需读出一处：前缀 <codeph>-</codeph> 对应 structural specialization，domain specialization 用的是另一个前缀。</p>
       <p>斜杠前的一段通常是模块的名字而不是元素名，两者同名只是常见巧合，读派生链时按模块理解不易出错。</p>
       <p>剩下的一步是让工具链认识这份语法文件。DITA-OT 一侧用一个 <term keyref="term-plugin">plugin</term>（插件）承载：<filepath>plugin.xml</filepath> 声明 specialization 用的 catalog，catalog 文件把 public ID 与 system ID 映射到本地的 RNG 或 DTD，随后执行安装命令。</p>
       <codeblock>&lt;!-- plugin.xml --&gt;
@@ -107,7 +105,7 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：<xmlatt>class</xmlatt> 的构造规则，即 structural specialization 用 <codeph>-</codeph> 而 domain specialization 用 <codeph>+</codeph>、须列出从最通用到最具体的完整祖先链且含未改名的中间层、结尾至少一个空格、该默认值不得声明为 fixed，转自 <xref href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external">class 属性规则与语法</xref>，已逐页核对。</p>
+      <p><b>事实</b>：本篇引用的规范条文只有 <xmlatt>class</xmlatt> 的构造规则一条，其事实认领已归 <xref href="class-derivation.dita">@class 与 @specializations 属性规则与语法</xref>，本篇不重述规则、不重复认领。正文用到的是其中前缀一项，即 structural specialization 用 <codeph>-</codeph> 而 domain specialization 用 <codeph>+</codeph>，来源同为 <xref href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external">class 属性规则与语法</xref>，已逐页核对。</p>
       <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中内容模型只能收紧不能放宽这条性质、RNG 模块示例的写法（示意结构，非官方模板逐行抄录）、引模块而不引外壳的理由、斜杠前一段是模块名、plugin 与 catalog 的注册步骤、未写 XSLT 也按基类模板渲染，来自通用 DITA 实践与 DITA-OT 实现观察，未逐页核对；先画映射表的要求、三步次序与三类失败症状、以 generalization 验证派生链的建议，为本库归纳。</p>
     </section>
   </conbody>

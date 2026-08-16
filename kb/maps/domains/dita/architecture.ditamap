@@ -3,6 +3,9 @@
 <!-- dita 分支簇 map：架构机理（笔记 05/09/10/11）。topicref 由迁移任务逐篇追加。 -->
 <map xml:lang="zh-CN">
   <title>架构机理</title>
+  <!-- 笔记 05（specialization）：规则先于用法，故 class-derivation 领起——它是 @class 与
+       @specializations 两个属性的规则与语法，2026-08-16 由 core-model 簇归位至此 -->
+  <topicref href="../../../topics/dita/architecture/class-derivation.dita"/>
   <topicref href="../../../topics/dita/architecture/structural-specialization.dita"/>
   <topicref href="../../../topics/dita/architecture/domain-specialization.dita"/>
   <topicref href="../../../topics/dita/architecture/attribute-specialization.dita"/>

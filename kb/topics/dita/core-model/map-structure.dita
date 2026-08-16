@@ -98,7 +98,7 @@
     <section>
       <title>reltable 与 bookmap</title>
       <p>相关链接在多数轻量格式里要在每篇底部手写，且维护量随篇数平方增长。<xmlelement>reltable</xmlelement> 把关系声明在一处矩阵里，同一 <xmlelement>relrow</xmlelement> 内的 topic 自动互链；换一条产品线只换这张表，正文一字不动。这是结构与内容分离带来的直接收益。精确的链接规则（同行不同格才互链、同格默认不链、单向列）属处理模型主题。</p>
-      <p><xmlelement>bookmap</xmlelement> 是 map 的结构 specialization（专门化），把 <xmlelement>chapter</xmlelement>、<xmlelement>appendix</xmlelement>、<xmlelement>frontmatter</xmlelement> 一类书籍结构元素补进来。<b><xmlelement>chapter</xmlelement> 的派生链是 <codeph>- map/topicref bookmap/chapter </codeph></b>，对不认识 bookmap 的处理器，它就是一个 <xmlelement>topicref</xmlelement>。specialization 的兑现方式在这里可以直接看见，构造规则见 <xref href="class-derivation.dita">@class 与 @specializations 属性规则与语法</xref>。</p>
+      <p><xmlelement>bookmap</xmlelement> 是 map 的结构 specialization（专门化），把 <xmlelement>chapter</xmlelement>、<xmlelement>appendix</xmlelement>、<xmlelement>frontmatter</xmlelement> 一类书籍结构元素补进来。<b><xmlelement>chapter</xmlelement> 的派生链是 <codeph>- map/topicref bookmap/chapter </codeph></b>，对不认识 bookmap 的处理器，它就是一个 <xmlelement>topicref</xmlelement>。specialization 的兑现方式在这里可以直接看见，构造规则见 <xref href="../architecture/class-derivation.dita">@class 与 @specializations 属性规则与语法</xref>。</p>
     </section>
 
     <section>
