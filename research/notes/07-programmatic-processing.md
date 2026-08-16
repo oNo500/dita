@@ -1,5 +1,7 @@
 # 07 · 程序化处理
 
+> **已迁移（2026-08-16）**：正本已迁 kb（`kb/topics/dita/toolchain/parsed-vs-source.dita` ← §1；`kb/topics/dita/toolchain/programming-by-class.dita` ← §2–3；`kb/topics/dita/toolchain/dita-ot-as-library.dita` ← §4，并入 §7 的中间产物版本污染；`kb/topics/dita/toolchain/generate-and-convert.dita` ← §5–6；`kb/topics/dita/toolchain/processing-tools.dita` ← §8；不迁小节：无），本文冻结为调研档案，不再更新。
+
 > 二次开发的第三条路：**不用 DITA-OT，自己写代码消费 / 生产 DITA**。
 
 ---

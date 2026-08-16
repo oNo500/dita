@@ -1,5 +1,7 @@
 # 04 · 工具链与构建
 
+> **已迁移（2026-08-16）**：正本已迁 kb（`kb/topics/dita/toolchain/dita-ot-quickstart.dita` ← §1–2，并吸收 README「30 秒上手」；`kb/topics/dita/toolchain/preprocess-pipeline.dita` ← §3；`kb/topics/dita/toolchain/validation-schematron.dita` ← §4；`kb/topics/dita/toolchain/editors-pdf-reality.dita` ← §5–6；不迁小节：§2 的「项目文件（`--project`）」，多交付物构建留待 practice 簇 engineering-ci 承接），本文冻结为调研档案，不再更新。
+
 ## 1. 现实前提
 
 **DITA 2.0 仍是 beta（v2.0-beta03，2026-07-02），尚未成为 OASIS 正式标准。**

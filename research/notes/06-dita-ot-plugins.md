@@ -1,5 +1,7 @@
 # 06 · DITA-OT 插件开发
 
+> **已迁移（2026-08-16）**：正本已迁 kb（`kb/topics/dita/toolchain/plugin-extension-points.dita` ← 插件是什么、plugin.xml 结构、主要扩展点分类、现成插件参考；`kb/topics/dita/toolchain/xslt-override.dita` ← 完整示例、覆盖机制的关键、处理 2.0 特有元素；`kb/topics/dita/toolchain/custom-transtype.dita` ← 写全新的 transtype、挂 Ant target、界面字符串本地化；`kb/topics/dita/toolchain/plugin-debugging.dita` ← 调试插件的工作流；不迁小节：无），本文冻结为调研档案，不再更新。
+
 > 二次开发的第二条路：**改变输出**。
 
 ## 插件是什么
