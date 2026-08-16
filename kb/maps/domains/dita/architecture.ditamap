@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE map PUBLIC "-//OASIS//DTD DITA 2.0 Map//EN" "map.dtd">
-<!-- dita 分支簇 map：架构机理（笔记 05/09/10/11）。topicref 由迁移任务逐篇追加。 -->
+<!-- dita 分支簇 map：架构机理（笔记 01§4–5/05/09/10/11）。topicref 由迁移任务逐篇追加。 -->
 <map xml:lang="zh-CN">
   <title>架构机理</title>
-  <!-- 笔记 05（specialization）：规则先于用法，故 class-derivation 领起——它是 @class 与
-       @specializations 两个属性的规则与语法，2026-08-16 由 core-model 簇归位至此 -->
+  <!-- 笔记 01§4–5 与 05（specialization）：规则先于用法，故 class-derivation 领起，它给出
+       @class 与 @specializations 两个属性的规则与语法（2026-08-16 由 core-model 簇归位至此），
+       其后依次是三种 specialization 形态、constraint 与启用判据 -->
   <topicref href="../../../topics/dita/architecture/class-derivation.dita"/>
   <topicref href="../../../topics/dita/architecture/structural-specialization.dita"/>
   <topicref href="../../../topics/dita/architecture/domain-specialization.dita"/>
