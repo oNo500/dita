@@ -3,4 +3,5 @@
 <!-- dita 分支簇 map：工具链与二开（笔记 04/06/07）。topicref 由迁移任务逐篇追加。 -->
 <map xml:lang="zh-CN">
   <title>工具链与二开</title>
+  <topicref href="../../../topics/dita/toolchain/dita-ot-quickstart.dita"/>
 </map>

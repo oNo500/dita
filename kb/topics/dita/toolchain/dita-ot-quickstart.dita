@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/task-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/04-toolchain-and-build.md §1（现实前提）与 §2（DITA-OT：安装、
+     触发 2.0、常用命令），并吸收 research/README.md「30 秒上手」节。
+     题材 quickstart，全计划唯一的 task 外壳（模板 B）。
+     结构：taskbody 模型允许 section 出现在 steps 之前而不允许其后（见 task-kb.rng 头注释），
+     R13 的必需节「步骤」因此由 section 承载，四节全部写成 section，不使用 <steps>。
+     术语规则（2026-08-16 用户门反馈后）：transtype / preprocess / doctype / catalog 等
+     一律用英文原名，中文解释只在首现随行给出一次。
+     volatility=volatile 的依据：版本号、基线日期与命令选项随发行版变动。
+     笔记标注「未逐页核对」的条目（dita init 的模板名、插件命令行为）在正文按判断呈现。 -->
+<task id="dita-ot-quickstart" xml:lang="zh-CN"
+      outputclass="quickstart"
+      maturity="draft" volatility="volatile"
+      dimension="dim-install dim-usage">
+  <title>DITA-OT 安装与 2.0 doctype 触发</title>
+  <shortdesc>装上 DITA-OT 4.4 之后，文档并不自动按 DITA 2.0 处理：走哪套语法文件由文档自己的 doctype 声明决定，DITA-OT 经 XML catalog 解析到对应版本。以下给出从安装到产出第一份 HTML5 的最短路径，以及触发 2.0 处理的两种声明写法。</shortdesc>
+  <prolog>
+    <source href="https://www.dita-ot.org/dev/release-notes/" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <taskbody>
+    <section>
+      <title>目标</title>
+      <p>在本机装好 DITA-OT，确认它按 DITA 2.0 的语法文件处理文档，并从一份 map 产出 HTML5。完成后即可继续用它跑校验、条件过滤与其他 transtype（输出类型）。</p>
+      <p>DITA 的问题域分六类，本篇只覆盖工具链支持这一类的入口部分，其余见 <xref href="../dita-landscape.dita">DITA 领域全景</xref>。</p>
+    </section>
+
+    <section>
+      <title>前置</title>
+      <ul>
+        <li>Java 17 或更高版本。DITA-OT 4.4 要求该版本下限。</li>
+        <li>接受一项现实：DITA 2.0 尚未成为 OASIS 正式标准，仍在 beta 阶段。DITA-OT 4.4 提供的是 preview 支持，基线是 2026-01-25 的 2.0 草案语法文件，比目前最新的 beta 发布旧数月，两者可能有出入。</li>
+        <li>由此得到的做法：投入内容之前，先用最小样例把实际要用的工具跑一遍。规范支持与工具链支持是两件事，商业编辑器与内容管理系统的 2.0 支持程度须逐个验证。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：DITA-OT 4.4 的发布日期与 Java 17 的版本下限转自 <xref href="https://www.dita-ot.org/dev/release-notes/" scope="external">DITA-OT 发布说明</xref>；2.0 preview 支持基于 2026-01-25 的草案语法文件转自 <xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA 2.0 preview 支持</xref>；DITA 2.0 处于 draft 阶段转自 <xref href="https://www.dita-lang.org/specifications" scope="external">DITA 规范列表</xref>与 <xref href="https://github.com/oasis-tcs/dita/releases" scope="external">TC 发布页</xref>；公共标识符的格式、版本号可为具体号或 2.x 或整个省略、RNG 走 URN，转自 <xref href="https://dita-lang.org/dita/non-normative/dtd-public-identifiers" scope="external">DTD 公共标识符</xref>；<xmlatt>input</xmlatt>、<xmlatt>format</xmlatt> 为必需选项及 <xmlatt>output</xmlatt> 等可选项转自 <xref href="https://www.dita-ot.org/dev/topics/build-using-dita-command" scope="external">使用 dita 命令构建</xref>。以上页面均已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 <codeph>dita init</codeph> 与 <codeph>dita validate</codeph> 为 4.3 引入的预览特性来自发布说明的检索结果，模板名称未经验证，故正文写作占位形式；安装方式与环境变量的配置、插件命令的行为来自通用 DITA-OT 实践；先用最小样例验证工具链、以及 catalog 条目应以本机随附文件为准这两条建议为本库归纳。</p>
+    </section>
+
+    <section>
+      <title>步骤</title>
+      <p>第一步，安装并确认版本。包管理器与手动解压两条路等价，后者便于同时留住多个版本。</p>
+      <codeblock># 包管理器
+brew install dita-ot
+
+# 或手动解压后把 bin 目录加入 PATH
+curl -LO https://github.com/dita-ot/dita-ot/releases/download/4.4/dita-ot-4.4.zip
+unzip dita-ot-4.4.zip -d ~/tools
+export PATH="$HOME/tools/dita-ot-4.4/bin:$PATH"
+
+dita --version</codeblock>
+      <p>第二步，取一份可用的输入。脚手架命令可生成样例工程，模板名先用列表命令查出实际取值再填。</p>
+      <codeblock>dita init --list
+dita init --template=&lt;模板名&gt; --output=sample</codeblock>
+      <p>第三步，在文档里声明 doctype。这是让 DITA-OT 按 2.0 处理的开关：它经 XML catalog 把公共标识符解析到 2.0 的语法文件，据此识别版本并走对应的处理分支。公共标识符的格式为 <codeph>-//OASIS//DTD DITA &lt;版本&gt; &lt;信息类型&gt;//EN</codeph>，版本可以写具体号，可以写 <codeph>2.x</codeph> 表示最新的 2.x，也可以整个省略，省略等价于最新的 2.x。</p>
+      <codeblock>&lt;!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 2.0 Topic//EN" "topic.dtd"&gt;
+&lt;!DOCTYPE task  PUBLIC "-//OASIS//DTD DITA 2.0 Task//EN"  "task.dtd"&gt;
+&lt;!DOCTYPE map   PUBLIC "-//OASIS//DTD DITA 2.0 Map//EN"   "map.dtd"&gt;</codeblock>
+      <p>用 RNG 的文档走 URN 形式的标识符，格式为 <codeph>urn:pubid:oasis:names:tc:dita:rng:&lt;信息类型&gt;.rng:&lt;版本&gt;</codeph>。确切字符串以本机 DITA-OT 随附的语法文件与 <filepath>catalog-dita.xml</filepath> 为准：草案期间这些取值会变，装好后去插件目录下查实际的 catalog 条目最可靠。</p>
+      <p>第四步，校验与构建。<codeph>--input</codeph> 与 <codeph>--format</codeph> 是必需选项，输出目录、条件过滤、临时目录等由可选项给出。</p>
+      <codeblock>dita validate --input=sample/root.ditamap
+dita --input=sample/root.ditamap --format=html5 --output=out</codeblock>
+      <p>产出目录里出现可打开的 HTML 即完成。此后按需换 transtype：<codeph>pdf</codeph> 出 PDF，<codeph>markdown</codeph> 需先装对应插件，<codeph>dita</codeph> 只跑 preprocess（发布前的解析阶段）并产出解析后的 DITA 文件，便于逐阶段核对引用是否解析正确。</p>
+    </section>
+  </taskbody>
+</task>
