@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/11-processing-model.md §4（排序）。
+     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     标题依据上游节点名（非自造，两个上游词并列）：OASIS DITA 2.0 架构规范「DITA processing」
+     章下的子节点「Sorting」（dita-lang.org/2.0/dita/archspec/base/sort-as-processing，
+     2026-08 逐页核对节点名，其下无子页），与语言参考的 <sort-as> 元素。单以 Sorting 作标题
+     取不到本篇的另一半即那个元素本身，故按同簇 constraints 与 generalization、
+     key space 与 key scope 的并列形制以「与」连接。
+     术语规则（2026-08-16 用户门反馈后，含译名禁令补充）：sorting / sort-as / collation /
+     locale / indexterm 一律英文原名；「基础排序短语」「有效排序短语」是规范原文
+     base sort phrase / effective sort phrase 的随行直译，首现随行注一次。
+     volatility=stable 的依据：sort-as 的前置规则与「collation 由实现决定」这一条同出自
+     架构规范，不随发行版变动；随版本变动的是具体处理器的 collation 行为，不是本篇的规则。
+     事实纪律：笔记已逐页核对的是基础排序短语的确定方式、处理器必须以前置方式构造有效排序
+     短语、24 Hour Support Hotline 示例、规范不定义 collation 与 locale、处理器应文档化基础
+     排序短语的确定方式、中文与日文需手工提供注音排序键。四条中文场景建议属判断，
+     来源节判断段列明。 -->
+<concept id="sorting-sort-as" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="stable"
+         dimension="dim-internals dim-mechanism">
+  <title>sorting 与 sort-as</title>
+  <shortdesc>规范在排序上只规定了一件事：<xmlelement>sort-as</xmlelement> 的内容前置到基础排序短语上，构造出有效排序短语。排序规则本身与区域设置留给实现，同一份标记在不同处理器下排出不同顺序是允许的行为。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/2.0/dita/archspec/base/sort-as-processing" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>索引项与术语表要按某个顺序排列，而排列所依据的字符串未必是标题本身。以数字开头的标题按字面排会落在字母之前，中文标题按码位排出来的顺序与读者预期的读音顺序无关。</p>
+      <p>DITA 给这件事的机制只有一个元素，且它的作用方式与「指定排序键」的直觉有出入。</p>
+    </section>
+
+    <section>
+      <title>背景：基础排序短语与前置规则</title>
+      <p>每个可排序的元素有一个基础排序短语（base sort phrase），通常取 <xmlelement>title</xmlelement> 的内容；没有标题的元素则由属性值生成或另行构造。<xmlelement>sort-as</xmlelement> 修改的就是它。</p>
+      <p>规范用的是必须：处理器必须把 <xmlelement>sort-as</xmlelement> 的内容前置到基础排序短语上，由此构造出有效排序短语（effective sort phrase）。规范给的例子是标题为 <q>24 Hour Support Hotline</q> 的 topic 加上一个内容为 <q>twenty-four hour</q> 的 <xmlelement>sort-as</xmlelement>，得到的有效排序短语是两段拼接的结果。</p>
+      <p><b>拼接不是替换</b>。基础排序短语仍在有效排序短语里，只是被挤到了后面。前缀相同时，后半段继续参与比较，这一点在为一批同前缀的条目指定同一个排序键时会显出来。</p>
+    </section>
+
+    <section>
+      <title>分析：collation 是规范不管的那一半</title>
+      <p>规范不定义排序规则与区域设置。原文把排序与分组的细节归给实现，处理器可以提供各自的机制来配置 collation 与分组，只被要求应当文档化它如何确定基础排序短语。</p>
+      <p>由此得到一个后果：同样的标记，不同处理器可能排出不同顺序，这是规范允许的结果而不是缺陷。跨处理器迁移时，排序结果属于要重新实测的那一类行为。</p>
+      <p>对需要注音排序键的语言，<xmlelement>sort-as</xmlelement> 就是那个机制，作者手工提供拼音或假名：</p>
+      <codeblock>&lt;topic id="zhangsan"&gt;
+  &lt;title&gt;张三&lt;/title&gt;
+  &lt;prolog&gt;
+    &lt;sort-as&gt;zhangsan&lt;/sort-as&gt;
+  &lt;/prolog&gt;
+&lt;/topic&gt;</codeblock>
+      <p>DITA 本身不生成这个值。拼音由人写或由工具生成，规范与处理器都不承担这件事。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>中文内容要用到索引或术语表时，有四条落在作者一侧：</p>
+      <ul>
+        <li>索引与术语表要事先规划 <xmlelement>sort-as</xmlelement> 策略，否则顺序由处理器的默认 collation 决定，而那不受本方控制。</li>
+        <li>拼音可以批量生成，多音字须人工复核。地名与姓氏是复核的重点。</li>
+        <li>按笔画排序同样走 <xmlelement>sort-as</xmlelement>，自己构造排序键，机制没有第二个。</li>
+        <li>在选型阶段就实测目标处理器的中文 collation 行为，这是规范不管的地方，没有可以依赖的一致性。</li>
+      </ul>
+      <p>四条均为本库建议。<xmlelement>sort-as</xmlelement> 与索引项配合使用的位置见 <xref href="nav-generation.dita">navigation、indexes 与 generated links</xref>。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：基础排序短语通常取 <xmlelement>title</xmlelement> 的内容而无标题元素另行构造、处理器必须把 <xmlelement>sort-as</xmlelement> 的内容前置到基础排序短语以构造有效排序短语、<q>24 Hour Support Hotline</q> 示例、规范不定义 collation 与 locale 且排序与分组的细节是实现相关的、处理器应当文档化其确定基础排序短语的方式、中文与日文需由作者手工提供注音排序键，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/sort-as-processing" scope="external">排序</xref>，已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中拼接后前缀相同时后半段继续参与比较这一推论、样例的写法、跨处理器迁移要实测排序行为，来自对规则的推导与实现观察，未逐页核对；结论节的四条中文场景建议为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>

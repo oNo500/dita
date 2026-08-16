@@ -1,5 +1,7 @@
 # 11 · 处理模型
 
+> **已迁移（2026-08-16）**：正本已迁 kb（`kb/topics/dita/architecture/effective-attribute-values.dita` ← §1；`kb/topics/dita/architecture/metadata-cascade.dita` ← §2；`kb/topics/dita/architecture/conref-attribute-rules.dita` ← §3；`kb/topics/dita/architecture/sorting-sort-as.dita` ← §4；`kb/topics/dita/architecture/nav-generation.dita` ← §5、§5.5、§5.7、§5.9；`kb/topics/dita/architecture/processing-checklist.dita` ← §6，与 [10](10-addressing-and-key-space.md) §7「给程序化处理的启示」合并为一篇；不迁小节：无），本文冻结为调研档案，不再更新。
+
 > 规范定义的**处理期望**，不是 DITA-OT 的实现。[04](04-toolchain-and-build.md) 讲的 preprocess 流水线是某个实现怎么做；这一篇讲规范要求怎么做。
 >
 > **自研处理逻辑若不遵循本篇的规则，结果会与 DITA-OT 不一致，且不符合规范。**

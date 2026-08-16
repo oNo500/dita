@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE map PUBLIC "-//OASIS//DTD DITA 2.0 Map//EN" "map.dtd">
-<!-- dita 分支簇 map：核心模型与复用（笔记 01/02）。topicref 由迁移任务逐篇追加。 -->
+<!-- dita 分支簇 map：核心模型与复用（笔记 01/02）。topicref 由迁移任务逐篇追加。
+     class-derivation（笔记 01§4–5）于 2026-08-16 归位到 architecture 簇：@class 与
+     @specializations 的规则出自架构规范的 specialization 章，与该簇三篇 specialization 同域，
+     且 structural-specialization 曾逐条重述这些规则。见 maps/domains/dita/architecture.ditamap。 -->
 <map xml:lang="zh-CN">
   <title>核心模型与复用</title>
   <topicref href="../../../topics/dita/core-model/topic-typing.dita"/>
@@ -8,7 +11,6 @@
   <topicref href="../../../topics/dita/core-model/titlealt-system.dita"/>
   <topicref href="../../../topics/dita/core-model/table-model-choice.dita"/>
   <topicref href="../../../topics/dita/core-model/images-multimedia.dita"/>
-  <topicref href="../../../topics/dita/core-model/class-derivation.dita"/>
   <topicref href="../../../topics/dita/core-model/conref-pull-push.dita"/>
   <topicref href="../../../topics/dita/core-model/keyref-variable-text.dita"/>
   <topicref href="../../../topics/dita/core-model/include-non-dita.dita"/>

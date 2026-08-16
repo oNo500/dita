@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/11-processing-model.md §6（给程序化处理的检查清单）与
+     research/notes/10-addressing-and-key-space.md §7（给程序化处理的启示），两处合并成一篇。
+     笔记 10 的冻结声明已写明 §7 留给本篇，本篇落地后两处均已处置完毕。
+     题材 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
+     标题（本库自造：上游无对应节点，依据如下查证结果）：
+     一、穷尽查证。OASIS DITA 2.0 架构规范「DITA processing」章只逐项规定各处理主题
+     （Navigation / Indexes / Content reference (conref) / Conditional processing /
+     Metadata cascading / Chunking / Branch filtering / Sorting / Determining effective
+     attribute values），不给这些主题之间的执行次序，无「处理顺序」这一节点；DITA-OT 4.4
+     docsrc 侧最近的是 reference/preprocess「Pre-processing modules」，讲的是某一个实现的
+     阶段划分而非规范要求的次序，同样不是本篇的节点。社区通行说法亦无。
+     二、先怀疑切分。本篇的边界即「规范约束下自研处理逻辑的执行次序」，这是规范未设节点
+     而实现方必须面对的一处空缺，不是切分错位，重切无从落。
+     三、只组合，不发明。DITA processing 直取上游章名，「顺序」与「速查」均为领域与本库
+     既有词素，不造新概念名、不造新分类框架。「速查」是本库 cheatsheet 题材的固定后缀。
+     术语规则（2026-08-16 用户门反馈后，含译名禁令补充）：conref / keyref / conkeyref /
+     keydef / key space / DITAVAL / preprocess 一律英文原名。
+     volatility=stable 的依据：次序两端的规范约束（分支过滤先于 key space 构造、有效值后于
+     conref 与 keyref 解析）出自架构规范，不随发行版变动。
+     事实纪律：笔记明写第 6 节检查清单整体为基于已核对规则推导的判断性内容，已核对的只有
+     两端的两条规范约束，正文与来源节按此归属，中间各步一律标为本库归纳。 -->
+<reference id="processing-checklist" xml:lang="zh-CN"
+           outputclass="cheatsheet"
+           maturity="draft" volatility="stable"
+           dimension="dim-internals dim-process">
+  <title>DITA processing 顺序速查</title>
+  <shortdesc>自研处理逻辑要按一个特定的次序做，否则结果与规范不一致。规范只显式约束了这条次序的两端，中间怎么排是实现的自由；以下给出一份满足两端约束的次序、拆步的理由与三处高频错误。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/2.0/dita/archspec/base/branch-filtering" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <refbody>
+    <section>
+      <title>定位</title>
+      <p>规范定义的是处理期望，不是某个实现的流水线。DITA-OT 的 <term keyref="term-preprocess">preprocess</term>（预处理）阶段划分是一种实现，本篇是规范要求的次序，两者不必逐阶段对应。</p>
+      <p>次序错了不会报错，症状是键解析到错误的目标、拉进来的内容带错属性、条件化在深层嵌套时静默失效。</p>
+    </section>
+
+    <section>
+      <title>七步次序</title>
+      <simpletable relcolwidth="0.4* 1.6* 2*">
+        <sthead><stentry>步</stentry><stentry>做什么</stentry><stentry>为什么在这个位置</stentry></sthead>
+        <strow><stentry>1</stentry><stentry>分支过滤求值，以及 map 层的条件过滤</stentry><stentry>两者都会改变 key space，必须在构造之前</stentry></strow>
+        <strow><stentry>2</stentry><stentry>构造 key space</stentry><stentry>后续全部键解析的依据</stentry></strow>
+        <strow><stentry>3</stentry><stentry>解析 <xmlatt>keyref</xmlatt> 与 <xmlatt>conkeyref</xmlatt></stentry><stentry>键要先有绑定才能取到目标</stentry></strow>
+        <strow><stentry>4</stentry><stentry>解析 <xmlatt>conref</xmlatt>，含两边属性的合成</stentry><stentry>内容与属性到位之后才谈得上求有效值</stentry></strow>
+        <strow><stentry>5</stentry><stentry>求属性有效值，五级优先级，含级联</stentry><stentry>规范要求它排在 <term keyref="term-conref">conref</term>（内容引用）与 <term keyref="term-keyref">keyref</term>（键引用）之后</stentry></strow>
+        <strow><stentry>6</stentry><stentry>topic 内容的条件过滤</stentry><stentry>过滤判定读的是第 5 步算出的值</stentry></strow>
+        <strow><stentry>7</stentry><stentry>其余处理</stentry><stentry>目录、索引、链接、分块等产出</stentry></strow>
+      </simpletable>
+      <p>规范显式约束的是第 1 步先于第 2 步、第 5 步后于第 3 与第 4 步。中间怎么排属实现自由，违反这两端则一定错。</p>
+    </section>
+
+    <section>
+      <title>条件过滤为什么拆成两步</title>
+      <ul>
+        <li>map 层的过滤必须先于 key space 构造：一个 <xmlelement>keydef</xmlelement> 若被 <term keyref="term-ditaval">DITAVAL</term> 排除，它就不该进入 key space。用条件化去掉一个 <xmlelement>keydef</xmlelement>、让某个变体走另一份键绑定，这一用法成立的前提即在此。</li>
+        <li>topic 内容的过滤可以晚：过滤 topic 里的一个段落不影响 key space，放在引用解析之后做是安全的。</li>
+        <li>这里有一个依赖环。过滤判定用的是属性的有效值，含从 map 级联下来的值，而完整的五级求值又排在引用解析之后。解法是分两次，先用 map 级联后的属性做过滤，引用全部解析完再做完整求值与内容过滤。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>key 解析一侧的五条</title>
+      <simpletable relcolwidth="1.4* 2.2*">
+        <sthead><stentry>条</stentry><stentry>要点</stentry></sthead>
+        <strow><stentry>次序</stentry><stentry>先做分支过滤，再建 key space，颠倒则键解析全部出错</stentry></strow>
+        <strow><stentry>取舍</stentry><stentry>同名定义取遍历中最先遇到的那个，不是后写的那个</stentry></strow>
+        <strow><stentry>形状</stentry><stentry>key space 有层级，由 <xmlatt>keyscope</xmlatt> 切分，不是扁平字典</stentry></strow>
+        <strow><stentry>结果</stentry><stentry>同一个 key 在不同引用上下文解析成不同东西，取 <xmlatt>href</xmlatt> 还是取文本要看引用方</stentry></strow>
+        <strow><stentry>建议</stentry><stentry>不必自己实现，用 <codeph>dita -f dita</codeph> 取 DITA-OT 解析好的结果</stentry></strow>
+      </simpletable>
+      <p>五条中除第一条外均属本库归纳，模型本身见 <xref href="key-space-model.dita">key space 与 key scope</xref>，取解析后产物的做法见 <xref href="../toolchain/parsed-vs-source.dita">程序化处理的输入选择</xref>。</p>
+    </section>
+
+    <section>
+      <title>最容易错的三处</title>
+      <simpletable relcolwidth="1.6* 2*">
+        <sthead><stentry>错法</stentry><stentry>症状</stentry></sthead>
+        <strow><stentry>分支过滤或 map 层过滤放在构造 key space 之后</stentry><stentry>键全部解析到错误的目标</stentry></strow>
+        <strow><stentry>在 conref 解析前就求属性有效值</stentry><stentry>拉进来的内容带着错误的属性</stentry></strow>
+        <strow><stentry>忘了多值属性默认是加性级联</stentry><stentry>条件化在深层嵌套时静默失效</stentry></strow>
+      </simpletable>
+      <p>三处的规则依据分别见 <xref href="branch-filter-key-space.dita">branch filtering 与 key space</xref>、<xref href="conref-attribute-rules.dita">conref 解析时的属性处理</xref>、<xref href="metadata-cascade.dita">metadata cascading</xref>。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：分支过滤必须先于 root map 的 key space 构造，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/branch-filtering" scope="external">分支过滤</xref>；属性有效值的求解发生在 <xmlatt>conref</xmlatt> 与 <xmlatt>keyref</xmlatt> 解析之后，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/determining-effective-attribute-values" scope="external">确定属性的有效值</xref>。两处均已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列两条外，本篇其余内容均属判断，可被反驳。七步次序中间各步的排法、条件过滤拆成两步的理由与依赖环的解法、key 解析一侧除次序外的四条、三处高频错误及其症状，为本库基于上述两条规范约束与实现观察的归纳，笔记明确列为未逐页核对。</p>
+    </section>
+  </refbody>
+</reference>

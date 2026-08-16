@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/11-processing-model.md §3（conref 解析时的属性规则）。
+     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     标题依据上游节点名（非自造）：OASIS DITA 2.0 架构规范「Content reference (conref)」
+     章下的子节点「Processing attributes when resolving conrefs」（dita-lang.org/2.0/dita/
+     archspec/base/conref-attributes-specified-on-elements，2026-08 逐页核对节点名）。
+     动名词 Processing 不入标题——标题规则禁动词短语，改为「conref 解析时的属性处理」这一
+     名词化写法，机制名 conref 保留英文原名。
+     与 core-model/conref-pull-push 的分工：那篇讲 conref 与 conref push 的写法与取舍，本篇
+     只讲解析时两边属性如何合成这一个规范节点，不重复展开引用写法。
+     术语规则（2026-08-16 用户门反馈后，含译名禁令补充）：conref / keyref / conref push 一律
+     英文原名；-dita-use-conref-target 是规范定义的属性取值，原样照写不译。
+     volatility=stable 的依据：两级优先级与 -dita-use-conref-target 的语义出自架构规范，
+     不随发行版变动。
+     事实纪律：笔记已逐页核对的是两级优先级、@id 不随引用带过来、属性值从不合并、
+     @xml:lang 另有特殊处理、-dita-use-conref-target 的保留条件与残留时视同未指定。
+     必填属性场景的说明与两套规则的对照属判断，来源节判断段列明。 -->
+<concept id="conref-attribute-rules" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="stable"
+         dimension="dim-internals dim-mechanism">
+  <title>conref 解析时的属性处理</title>
+  <shortdesc>内容被 conref 拉过来时，最终元素的属性由引用方与被引用方两边合成，规则是引用方的全部属性优先、被引用方的 <xmlatt>id</xmlatt> 不跟过来。属性值在这里从不取并集，与 map 上多值属性的合并行为相反。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/2.0/dita/archspec/base/conref-attributes-specified-on-elements" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p><term keyref="term-conref">conref</term>（内容引用）把另一处的元素拉到当前位置。被拉过来的元素带着自己的属性，写 <xmlatt>conref</xmlatt> 的那个元素上通常也写了属性，两套属性要合成一套。合成规则决定了一件很实际的事：在引用方标一个条件属性，究竟能不能覆盖片段库里那份内容自带的条件。</p>
+    </section>
+
+    <section>
+      <title>背景：两级优先级</title>
+      <p>规范给的次序只有两级。第一级是引用方元素上指定的全部属性，取值为 <codeph>-dita-use-conref-target</codeph> 的除外；第二级是被引用方元素上指定的全部属性，<xmlatt>id</xmlatt> 除外。</p>
+      <p>引用方赢，<xmlatt>id</xmlatt> 永远不跟着走。后一条的必要性是结构性的：<xmlatt>id</xmlatt> 若随内容复制过来，同一份文档里立刻出现重复的标识符，而 conref 的用途正是把同一段内容拉到多处。</p>
+      <p>另有两条与直觉有出入。属性值从不合并，即使 <xmlatt>audience</xmlatt> 这类多值属性，最终值也是整体取一边，不做并集。<xmlatt>xml:lang</xmlatt> 不完全走上面两级，规范为它留了特殊处理，语言标注要与内容本身保持一致。</p>
+    </section>
+
+    <section>
+      <title>分析：<codeph>-dita-use-conref-target</codeph> 解决必填属性的冲突</title>
+      <p>两级优先级留下一个空档。某个元素有一个必填属性，而这个属性的值本应跟着被引用的内容走：不写会校验失败，写了又按第一级压过目标的值。规范为此定义了一个特殊取值。</p>
+      <codeblock>&lt;someElement requiredAttr="-dita-use-conref-target" conref="..."/&gt;</codeblock>
+      <p>它的语义是「这个属性别用我的，用目标的」。保留下来的条件是双向的：被引用方也把该属性写成这个值，且引用方要么没写该属性、要么写的也是这个值，解析后的元素才会带着它。</p>
+      <p>整条 conref 链解析完之后，最终元素上若还有属性停在这个取值，处理器必须视同该属性未指定。这条收尾规则是这套设计闭合的地方，特殊取值不会漏进产出，成为下游读到的字面值。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>合成发生在属性有效值求解之前。完整的次序是先解析 conref 与 <term keyref="term-keyref">keyref</term>（键引用）、其中含本篇这套属性合成，再按五级优先级求有效值，见 <xref href="effective-attribute-values.dita">effective attribute values 的确定</xref>。</p>
+      <p>两套合并规则的方向相反，值得对着记一次：map 上的多值属性沿包含层级级联时取并集，conref 合成时整体取一边。用同一套直觉去推另一套，得到的结论必错，级联一侧见 <xref href="metadata-cascade.dita">metadata cascading</xref>。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：解析 conref 时属性按两级优先级合成，即引用方元素上指定的全部属性优先而取值为 <codeph>-dita-use-conref-target</codeph> 的除外、其次是被引用方元素上指定的全部属性而 <xmlatt>id</xmlatt> 除外；属性值从不合并，多值属性亦整体取一边；<xmlatt>xml:lang</xmlatt> 另有特殊处理；<codeph>-dita-use-conref-target</codeph> 的保留条件，以及整条链解析后仍残留该值时必须视同该属性未指定。转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/conref-attributes-specified-on-elements" scope="external">解析 conref 时的属性处理</xref>，已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 <xmlatt>id</xmlatt> 被排除是为避免重复标识符这一解释、必填属性与 conref 冲突的场景描述、样例的写法，来自通用 DITA 实践与对规则的推导，未逐页核对；把级联的并集与 conref 的整体取一边对照着记的建议，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>

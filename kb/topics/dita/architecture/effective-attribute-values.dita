@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/11-processing-model.md §1（确定属性的有效值）。
+     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     标题依据上游节点名（非自造）：OASIS DITA 2.0 架构规范「DITA processing」章下的
+     子节点「Determining effective attribute values」（dita-lang.org/2.0/dita/archspec/
+     base/determining-effective-attribute-values，2026-08 逐页核对节点名）。动名词
+     Determining 不入标题——标题规则禁动词短语，改为「…的确定」这一名词化写法；同簇先例为
+     extension-facilities 舍去 Overview of。核心词组 effective attribute values 保留英文原名。
+     术语规则（2026-08-16 用户门反馈后，含译名禁令补充）：conref / keyref / cascade /
+     subjectScheme / document-type shell 等一律英文原名；「有效值」「级联值」是规范原文
+     effective value / cascading value 的随行解释，非首选词。
+     volatility=stable 的依据：五级优先级出自架构规范的处理章，不随发行版变动。
+     事实纪律：笔记已逐页核对的是五级优先级的次序、该次序发生在 conref 与 keyref 解析之后、
+     多值属性的加性与非加性行为遵循 @cascade 规则。三条推论、各级的举例、与自研实现的关系
+     均属判断，来源节判断段列明。 -->
+<concept id="effective-attribute-values" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="stable"
+         dimension="dim-internals dim-mechanism">
+  <title>effective attribute values 的确定</title>
+  <shortdesc>一个属性在处理时取到什么值，有五个可能的来源，规范规定了它们的先后。这条次序还带一个前置条件：它在 <xmlatt>conref</xmlatt> 与 <xmlatt>keyref</xmlatt> 解析完之后才成立，颠倒过来算出的值是错的。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/2.0/dita/archspec/base/determining-effective-attribute-values" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>元素上没写某个属性，不等于这个属性没有值。它可能由语法文件声明的默认值补上，可能从 map 的祖先节点级联下来，可能由 subjectScheme 指定的受控值默认提供，也可能由处理器自行决定。同一个属性因此有多个候选来源，取哪一个是有规定的。</p>
+      <p>这条规定是处理模型里最先要掌握的一条，因为条件过滤、链接生成、目录生成全部读属性值，读到的都是这里算出来的结果。</p>
+    </section>
+
+    <section>
+      <title>背景：五级优先级</title>
+      <p>规范给出的解析次序是显式值、语法默认或固定值、级联值、受控值默认、处理器提供的默认，前者优先于后者。</p>
+      <simpletable relcolwidth="0.5* 1.4* 1.6* 1.4*">
+        <sthead><stentry>级</stentry><stentry>来源</stentry><stentry>值从哪里来</stentry><stentry>例</stentry></sthead>
+        <strow>
+          <stentry>1</stentry>
+          <stentry>显式值</stentry>
+          <stentry>作者在这个元素上写的</stentry>
+          <stentry><xmlelement>p</xmlelement> 上写了 <xmlatt>platform</xmlatt></stentry>
+        </strow>
+        <strow>
+          <stentry>2</stentry>
+          <stentry>语法默认或固定值</stentry>
+          <stentry>document-type shell 与语法模块声明的默认属性</stentry>
+          <stentry><xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt></stentry>
+        </strow>
+        <strow>
+          <stentry>3</stentry>
+          <stentry>级联值</stentry>
+          <stentry>从 map 的祖先节点传下来</stentry>
+          <stentry>map 根上设的 <xmlatt>audience</xmlatt></stentry>
+        </strow>
+        <strow>
+          <stentry>4</stentry>
+          <stentry>受控值默认</stentry>
+          <stentry>subjectScheme 里指定的默认主题</stentry>
+          <stentry>未标 <xmlatt>platform</xmlatt> 时的默认平台</stentry>
+        </strow>
+        <strow>
+          <stentry>5</stentry>
+          <stentry>处理器提供的默认</stentry>
+          <stentry>实现自行决定</stentry>
+          <stentry>未标 <xmlatt>toc</xmlatt> 时按进目录处理</stentry>
+        </strow>
+      </simpletable>
+      <p>第 4、5 两级的举例来自通用实践，规范只规定了这五级的次序本身。</p>
+      <p>规范另有一句限定：多值属性的加性与非加性行为遵循 <xmlatt>cascade</xmlatt> 的规则。也就是说第 3 级并不总是「取一个值」，多值属性在那一级可能是合并的结果，规则见 <xref href="metadata-cascade.dita">metadata cascading</xref>。</p>
+    </section>
+
+    <section>
+      <title>分析：三条推论</title>
+      <p><b>解析次序不能颠倒。</b> 这五级要在 <xmlatt>conref</xmlatt> 与 <xmlatt>keyref</xmlatt> 解析完之后才求。<term keyref="term-conref">conref</term>（内容引用）会把别处的元素连同属性拉进来，<term keyref="term-keyref">keyref</term>（键引用）会带来 map 上的绑定，两步之前算出的有效值对应的是一份还没成形的文档。这一条与 conref 自身的属性合成规则接续，合成的规则见 <xref href="conref-attribute-rules.dita">conref 解析时的属性处理</xref>。</p>
+      <p><b><xmlatt>class</xmlatt> 属于第 2 级。</b> 派生链不是作者写的，是语法文件声明的默认值，解析时补上。由此得到一个实现层面的后果：不带语法文件裸解析源文件，第 2 级整级缺失，<xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt> 都取不到，按派生链匹配的代码全部落空。取得它们的两条路见 <xref href="../toolchain/parsed-vs-source.dita">程序化处理的输入选择</xref>。</p>
+      <p>级联值排在显式值之后，是这三条里唯一符合直觉的一条：元素上自己写了什么，压过从 map 传下来的。但对多值属性，「压过」的实际行为要看上一节末尾那句限定，不能按单值属性的直觉推。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>排查「我设了这个属性，为什么没生效」这类问题，按五级从高到低逐级问一遍：有没有更高一级的来源提供了值。多数情况下答案落在第 1 级与第 2 级，元素上或语法文件里已经有值，级联下来的那个根本没有机会生效。</p>
+      <p>自研处理逻辑要把这五级排在引用解析之后，完整的步骤次序见 <xref href="processing-checklist.dita">DITA processing 顺序速查</xref>。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：属性有效值按显式值、XML 语法默认或固定值、级联值、受控值默认、处理器提供的默认这一次序解析，且该次序发生在 <xmlatt>conref</xmlatt> 与 <xmlatt>keyref</xmlatt> 解析之后；多值属性的加性与非加性行为遵循 <xmlatt>cascade</xmlatt> 的规则。转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/determining-effective-attribute-values" scope="external">确定属性的有效值</xref>，已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中表内第 4 级与第 5 级的举例、<xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt> 由语法文件声明为默认属性因而属第 2 级、裸解析取不到这两个属性，来自通用 DITA 实践与实现观察，未逐页核对；解析次序颠倒后的后果、按五级逐级排查的做法、这条次序在处理模型里的位置，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>
