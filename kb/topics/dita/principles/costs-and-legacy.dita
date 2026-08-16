@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/12-philosophy-and-principles.md §三（代价 1–4）、
+     §四（哪些是必然，哪些是历史包袱）、§五（为什么是文件，不是数据库）。
+     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     ⚠ 事实纪律：源笔记是论证篇而非规范转述。四笔代价、必然与包袱的划分、
+     把 conref push 判为包袱、文件形态优于数据库的论证，全部属推导与判断，可被反驳；
+     来源节事实段只列本篇引用到的两条规范条文出处，判断段如实标注其余归属。
+     术语规则：conref push / keyref / DITAVAL / @class 等一律用英文原名，
+     中文解释只在首现随行给一次。
+     标题规则（2026-08-16 收紧）：名词短语，不带冒号副标题。
+     volatility=stable 的依据：代价来自公理本身，不随发行版或 beta 修订变动。 -->
+<concept id="costs-and-legacy" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="stable"
+         dimension="dim-boundary-pitfalls dim-evolution">
+  <title>DITA 的晚绑定代价与 conref push 等历史包袱</title>
+  <shortdesc>晚绑定让源文件不再是完整的真相，付出成本的人与受益的组织也不是同一批，这两笔代价与 topic、map、<xmlatt>class</xmlatt> 出自同一条公理，无法靠更好的工具消除。另有一类代价不来自公理而来自历史：XML 语法、DTD 起家、concept 与 task 与 reference 的三分、以及 conref push。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/2.0/dita/conformance/conformance" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>只推导优点不算分析。若 DITA 的机制可以从「同一个事实只应存在于一处」推出来，那么它的代价同样可以，而且出自同一条公理，因此不是实现缺陷，换一套工具也消不掉。</p>
+      <p>与之并列的还有另一类负担：不来自公理，来自二十年间的历史选择。两类混在一起谈，会把可以改的当成必须忍的，也会把必须忍的当成工具没做好。以下的划分与全部代价分析为原笔记与本库的推导，可被反驳。</p>
+    </section>
+
+    <section>
+      <title>背景：四笔从公理长出来的代价</title>
+      <dl>
+        <dlentry>
+          <dt>源文件不再是完整的真相</dt>
+          <dd>晚绑定的必然后果是读源文件无法知道读者会看到什么：某段内容会不会出现取决于 DITAVAL，某个变量的文本取决于哪个 map，某个链接指向哪里取决于键空间，而某处会不会凭空多出一段内容取决于有没有别的文件用 <term keyref="term-conref">conref</term> push（内容推送）送进来。最后一条尤其难查，内容出现在输出里，在生成它的源文件里却检索不到。数据库的范式化有同样的性质，范式化的数据必须连接才有意义；散文多一个属性——<b>源码的可读性对作者本人有价值</b>，而数据库的范式化不伤害任何人的阅读体验。这笔代价只能缓解，不能消除。</dd>
+        </dlentry>
+        <dlentry>
+          <dt>付出的人与受益的人不是同一批</dt>
+          <dd>作者付出的是学类型化、忌讳语境引用、标注条件、维护 key、遵守约束；组织收到的是维护成本、翻译成本与变体产出成本的下降。这种错配比任何技术批评都更能解释 DITA 的实际口碑：它在自上而下推行的组织里活得好，在作者自主选择工具的地方少有成功。一条可检验的推论是，DITA 在软件工程师群体里推不动的原因不是他们不懂结构化，而是在他们的场景里付出和收益都归自己，且收益很小——单产品、单渠道、变化快。</dd>
+        </dlentry>
+        <dlentry>
+          <dt>收益随场景形状变化，成本不随</dt>
+          <dd>收益大致正比于内容规模乘变体数乘变更频率乘语言数，而学习成本、工具链成本与晚绑定的认知负担基本固定。任何一项乘数趋近于一，整笔投资即转负。工具支持的粒度也计入成本一侧：规范的一致性以特性为单位，处理器可以只支持其中一部分，因此「支持 DITA」并不等于支持全部特性，选型时要看的是具体特性而非标签。</dd>
+        </dlentry>
+        <dlentry>
+          <dt>降级保证合法，不保证保义</dt>
+          <dd><xmlatt>class</xmlatt> 保证泛化后的内容结构合法，不保证语义不丢。<xmlelement>sensor-id</xmlelement> 泛化成 <xmlelement>ph</xmlelement> 之后，「这是个传感器编号」这条信息没有了。降级是安全的，不是无损的。这划定了 <xmlatt>class</xmlatt> 机制的能力边界：它解决互操作问题，不解决语义保全问题。</dd>
+        </dlentry>
+      </dl>
+    </section>
+
+    <section>
+      <title>分析：必然与历史包袱的分界</title>
+      <p>从公理推得出来的部分，换一套设计仍然会保留：内容单元以自足性定义边界、结构与内容分离、间接寻址、正交的条件维度、派生链写在数据里并可不查 schema 读出、专门化只能收紧、永不修改共享模块、由依赖关系决定的解析顺序。这些的推导见<xref href="first-principles.dita">公理推导</xref>一篇。</p>
+      <p>另一类不是必然，是当年的选择：</p>
+      <simpletable relcolwidth="1.2* 2.4*">
+        <sthead><stentry>历史选择</stentry><stentry>说明</stentry></sthead>
+        <strow><stentry>XML 作为语法</stentry><stentry>上述思想都不要求 XML，同样的架构可以建在别的语法上</stentry></strow>
+        <strow><stentry>DTD 作为起始的 schema 语言</stentry><stentry>DTD 的表达力不足以完整表达专门化，早期模块、实体与 shell 三件套的复杂度大半来自这一限制，后来转向 RNG 是纠偏</stentry></strow>
+        <strow><stentry>concept / task / reference 的三分</stentry><stentry>「要有类型」是推论，「是这三种」是选择</stentry></strow>
+        <strow><stentry>词汇表的规模</stentry><stentry>数百个元素，其中有多少是必要的可以争论</stentry></strow>
+        <strow><stentry>conref push</stentry><stentry>能力强，但把「读源码能知道有什么」这个性质破坏得最彻底；它是在既有架构上打的补丁，不是从公理长出来的</stentry></strow>
+      </simpletable>
+      <p>据此可得一条判断方法：一个特性若不能从公理推出来，且它加深了源文件不是真相的程度，那它多半属于包袱。conref push 两条都占。这条方法本身也是判断，用它给某个特性定性之前，先确认它确实推不出来。</p>
+      <p>区分的实际收益在学习顺序与改造顺序：必然的部分值得先学且不必怀疑，包袱的部分只需要知道它为何存在，并在自研或选型时优先绕开。</p>
+    </section>
+
+    <section>
+      <title>结论：文件形态是为长期存活付的另一笔账</title>
+      <p>既然做的是范式化，直接上数据库或内容管理系统似乎更省事。文档比数据多一个需求：它要比生产它的工具活得久。产品手册、合规文档、航空与医疗资料的生命周期以十年计，而软件工具的生命周期以年计；内容绑定在某个厂商的数据库里，工具停止维护之后内容就成了考古对象。</p>
+      <p>纯文本、开放 schema、公开规范三者合起来是对这个时间尺度的应对，不是技术上的保守。同一条理由也解释了 DITA 为何是 OASIS 标准而非某家公司的产品，以及 <xmlatt>class</xmlatt> 为何必须写在实例里：规范确认派生链属性由 shell 默认注入并随实例携带，文档因此能被完全不持有你的 schema 的处理器读懂。自描述性是为长期存活服务的。</p>
+      <p>这笔账与前面四笔并列：源码可读性、作者的付出、固定的学习与工具成本、语义在泛化中的损失，加上为跨越十年而接受的文件形态。愿不愿意付，取决于内容规模、变体数、变更频率与语言数这四项乘数在你的场景里是多少。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：本篇引用的规范条文出处有两处，均在前序笔记中逐页核对——<xref href="https://dita-lang.org/2.0/dita/conformance/conformance" scope="external">一致性</xref>（一致性以特性为单位）、<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref>（派生链属性由 shell 默认注入、随实例携带）。</p>
+      <p><b>判断</b>：除事实段所列条文外，本篇正文整体为原笔记与本库的推导，可被反驳，不得当作规范条文引用。其中四笔代价的推导（源文件不再是完整真相、付出者与受益者错配、收益随场景形状变化而成本不变、降级保证合法不保证保义）、与数据库范式化的类比及「散文的范式化伤害作者」这一差别、DITA 在工程师群体推不动的成因、必然与历史选择的划分表五行、把 conref push 判为包袱、以及据此提出的判断方法，均属判断；文件形态优于数据库的论证、十年与年的生命周期对比、以及自描述性为长期存活服务的结论，同属推理。</p>
+    </section>
+  </conbody>
+</concept>
