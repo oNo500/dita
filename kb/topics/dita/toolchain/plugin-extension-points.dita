@@ -14,7 +14,7 @@
            maturity="draft" volatility="volatile"
            dimension="dim-reference dim-integration">
   <title>plugin.xml 与 DITA-OT 扩展点</title>
-  <shortdesc>一个 DITA-OT 插件就是一个含 plugin.xml 的目录，它在该文件里声明若干 feature，安装时被合并进工具箱的构建配置。以下列出目录形态、plugin.xml 的各条声明、扩展点按官方分组的用途，以及安装命令与可参照的现成插件。</shortdesc>
+  <shortdesc>一个 DITA-OT plugin 就是一个含 plugin.xml 的目录，它在该文件里声明若干 feature，安装时被合并进工具箱的构建配置。以下列出目录形态、plugin.xml 的各条声明、扩展点按官方分组的用途，以及安装命令与可参照的现成 plugin。</shortdesc>
   <prolog>
     <source href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external"/>
     <data name="domain" value="dita"/>
@@ -23,8 +23,8 @@
   <refbody>
     <section>
       <title>定位</title>
-      <p>改变 DITA-OT 的输出有一条正式通道：写插件。插件是一个目录，其中必须有 <filepath>plugin.xml</filepath>；该文件里的每个 <xmlelement>feature</xmlelement> 声明用一个扩展点标识符指明「往哪里加」，用文件或值指明「加什么」。</p>
-      <p>扩展点在官方文档里分五组：通用扩展点、preprocess 扩展点、XSLT import 扩展点、XSLT 参数扩展点，以及版本与支持信息。本篇按这五组罗列常用项，完整清单以官方页面为准。</p>
+      <p>改变 DITA-OT 的输出有一条正式通道：写 <term keyref="term-plugin">plugin</term>（插件）。plugin 是一个目录，其中必须有 <filepath>plugin.xml</filepath>；该文件里的每个 <xmlelement>feature</xmlelement> 声明用一个扩展点标识符指明「往哪里加」，用文件或值指明「加什么」。</p>
+      <p>扩展点在官方文档里分五组：通用扩展点、<term keyref="term-preprocess">preprocess</term>（预处理）扩展点、XSLT import 扩展点、XSLT 参数扩展点，以及版本与支持信息。本篇按这五组罗列常用项，完整清单以官方页面为准。</p>
     </section>
 
     <section>
@@ -39,7 +39,7 @@
 ├── resource/
 │   └── custom.css
 └── catalog-dita.xml     带专门化 schema 时使用</codeblock>
-      <p>目录名通常即插件 ID，采用反向域名形式，与 <xmlatt>id</xmlatt> 保持一致便于排查。此约定未逐页核对。</p>
+      <p>目录名通常即 plugin ID，采用反向域名形式，与 <xmlatt>id</xmlatt> 保持一致便于排查。此约定未逐页核对。</p>
     </section>
 
     <section>
@@ -103,7 +103,7 @@
         <strow>
           <stentry>通用</stentry>
           <stentry><codeph>dita.conductor.target.relative</codeph>、<codeph>dita.conductor.transtype.check</codeph></stentry>
-          <stentry>追加 Ant target、注册 transtype 的校验</stentry>
+          <stentry>追加 Ant target、注册 <term keyref="term-transtype">transtype</term>（输出类型）的校验</stentry>
         </strow>
         <strow>
           <stentry>通用</stentry>
@@ -118,7 +118,7 @@
         <strow>
           <stentry>版本与支持信息</stentry>
           <stentry><codeph>package.version</codeph>、<codeph>package.support.name</codeph></stentry>
-          <stentry>声明插件版本与支持方</stentry>
+          <stentry>声明 plugin 版本与支持方</stentry>
         </strow>
       </simpletable>
       <p>自定义代码的生效范围可用 Ant 属性 <codeph>${transtype}</codeph> 限定，即只在某个输出格式下执行。完整清单见 <xref href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external">插件扩展点</xref>。</p>
@@ -132,29 +132,29 @@
         <strow><stentry><codeph>dita install ./myplugin.zip</codeph></stentry><stentry>从压缩包安装</stentry></strow>
         <strow><stentry><codeph>dita install https://…/plugin.zip</codeph></stentry><stentry>从地址安装</stentry></strow>
         <strow><stentry><codeph>dita install org.lwdita</codeph></stentry><stentry>从官方注册表按 ID 安装</stentry></strow>
-        <strow><stentry><codeph>dita plugins</codeph></stentry><stentry>列出已安装插件</stentry></strow>
+        <strow><stentry><codeph>dita plugins</codeph></stentry><stentry>列出已安装 plugin</stentry></strow>
         <strow><stentry><codeph>dita uninstall com.example.myplugin</codeph></stentry><stentry>卸载</stentry></strow>
-        <strow><stentry><codeph>dita install</codeph>（无参数）</stentry><stentry>重建集成配置，改动插件文件后须执行</stentry></strow>
+        <strow><stentry><codeph>dita install</codeph>（无参数）</stentry><stentry>重建集成配置，改动 plugin 文件后须执行</stentry></strow>
       </simpletable>
-      <p>表内命令行为来自通用实践，未逐页核对。最后一行对应最常见的失效原因：插件配置在安装时被编译进生成的配置与 XSL import 链，不在每次构建时重新读取，因此改完文件不重新安装就不会生效。</p>
+      <p>表内命令行为来自通用实践，未逐页核对。最后一行对应最常见的失效原因：plugin 配置在安装时被编译进生成的配置与 XSL import 链，不在每次构建时重新读取，因此改完文件不重新安装就不会生效。</p>
     </section>
 
     <section>
-      <title>可参照的现成插件</title>
+      <title>可参照的现成 plugin</title>
       <simpletable relcolwidth="1.2* 2.4*">
-        <sthead><stentry>插件</stentry><stentry>看点</stentry></sthead>
+        <sthead><stentry>plugin</stentry><stentry>看点</stentry></sthead>
         <strow><stentry>org.lwdita</stentry><stentry>Markdown 与 DITA 双向转换，自定义 transtype 加 Java 解析器的完整范例</stentry></strow>
         <strow><stentry>org.dita.html5</stentry><stentry>官方 HTML5 输出，标准的 XSLT 组织方式</stentry></strow>
         <strow><stentry>com.elovirta.pdf、dita-ot-pdf-css</stentry><stentry>以 CSS 出 PDF，绕开 XSL-FO</stentry></strow>
-        <strow><stentry>DITA-OT 随附的 2.0 语法插件</stentry><stentry>catalog 如何把 2.0 的公共标识符映射到语法文件</stentry></strow>
+        <strow><stentry>DITA-OT 随附的 2.0 语法 plugin</stentry><stentry>catalog 如何把 2.0 的公共标识符映射到语法文件</stentry></strow>
       </simpletable>
-      <p>本表为推荐，属判断。插件注册表见 <xref href="https://www.dita-ot.org/plugins" scope="external">DITA-OT 插件注册表</xref>。</p>
+      <p>本表为推荐，属判断。plugin 注册表见 <xref href="https://www.dita-ot.org/plugins" scope="external">DITA-OT 插件注册表</xref>。</p>
     </section>
 
     <section>
       <title>来源</title>
       <p><b>事实</b>：扩展点在 <filepath>plugin.xml</filepath> 中以 <xmlelement>feature</xmlelement> 的 <xmlatt>extension</xmlatt> 声明、官方分为通用与 preprocess 与 XSLT import 与 XSLT 参数与版本支持信息五组、XSLT 覆盖靠安装时自动追加 import 语句、<codeph>${transtype}</codeph> 可限定自定义代码的生效范围、<codeph>depend.preprocess.post</codeph> 等标识符，转自 <xref href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external">插件扩展点</xref>；catalog 扩展点用于注册专门化 schema，转自 <xref href="https://www.dita-ot.org/dev/topics/plugin-xmlcatalog" scope="external">扩展 XML catalog 文件</xref>。两份页面均已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中目录形态与命名约定、plugin.xml 完整示例中各条 feature 的组合写法、安装与卸载命令的行为及「改动插件后须重新安装」、现成插件推荐表来自通用 DITA-OT 实践，未逐页核对；插件配置在安装时被编译进配置与 import 链因而不重新安装即不生效这一解释，为本库归纳。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中目录形态与命名约定、plugin.xml 完整示例中各条 feature 的组合写法、安装与卸载命令的行为及「改动 plugin 后须重新安装」、现成 plugin 推荐表来自通用 DITA-OT 实践，未逐页核对；plugin 配置在安装时被编译进配置与 import 链因而不重新安装即不生效这一解释，为本库归纳。</p>
     </section>
   </refbody>
 </reference>

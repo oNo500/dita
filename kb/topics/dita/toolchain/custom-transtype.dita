@@ -27,13 +27,13 @@
 
     <section>
       <title>做法：注册 transtype 并给出同名 target</title>
-      <p>plugin.xml 里声明新的 transtype，注册它的校验，并指向带有 Ant target 的构建文件。不写继承关系即表示不继承任何已有格式。</p>
+      <p>plugin.xml 里声明新的 <term keyref="term-transtype">transtype</term>（输出类型），注册它的校验，并指向带有 Ant target 的构建文件。不写继承关系即表示不继承任何已有格式。</p>
       <codeblock>&lt;plugin id="com.example.searchindex"&gt;
   &lt;transtype name="searchindex" desc="生成全文检索 JSON 索引"/&gt;
   &lt;feature extension="dita.conductor.transtype.check" value="searchindex"/&gt;
   &lt;feature extension="dita.conductor.target.relative" file="build.xml"/&gt;
 &lt;/plugin&gt;</codeblock>
-      <p>构建文件里给出承担该格式的 target。命名有一条约定：transtype 名为 X 时，target 必须叫 <codeph>dita2X</codeph>。target 的依赖链先跑初始化与 preprocess，再执行自己的生成步骤，因此拿到的是引用已全部解析的文档。</p>
+      <p>构建文件里给出承担该格式的 target。命名有一条约定：transtype 名为 X 时，target 必须叫 <codeph>dita2X</codeph>。target 的依赖链先执行初始化与 <term keyref="term-preprocess">preprocess</term>（预处理），再执行自己的生成步骤，因此拿到的是引用已全部解析的文档。</p>
       <codeblock>&lt;project name="com.example.searchindex"&gt;
   &lt;target name="dita2searchindex"
           depends="build-init, preprocess, searchindex.generate"/&gt;
@@ -54,7 +54,7 @@
         <strow><stentry>args.input</stentry><stentry>输入 map 的路径</stentry></strow>
         <strow><stentry>transtype</stentry><stentry>当前输出格式</stentry></strow>
         <strow><stentry>dita.dir</stentry><stentry>DITA-OT 的安装目录</stentry></strow>
-        <strow><stentry>dita.plugin.&lt;插件 ID&gt;.dir</stentry><stentry>指定插件自身的目录</stentry></strow>
+        <strow><stentry>dita.plugin.&lt;plugin ID&gt;.dir</stentry><stentry>指定 plugin 自身的目录</stentry></strow>
       </simpletable>
       <p>整表来自通用实践，未逐页核对。</p>
     </section>
@@ -85,7 +85,7 @@
 
     <section>
       <title>界面字符串本地化</title>
-      <p>输出里的固定文本，如相关概念、上级主题，来自一套字符串配置而非模板硬编码。插件提供自己的字符串文件并用对应扩展点注册，即可替换这些文本。</p>
+      <p>输出里的固定文本，如相关概念、上级主题，来自一套字符串配置而非模板硬编码。<term keyref="term-plugin">plugin</term>（插件）提供自己的字符串文件并用对应扩展点注册，即可替换这些文本。</p>
       <codeblock>&lt;!-- cfg/common/vars/zh-CN.xml --&gt;
 &lt;vars xmlns="http://www.oasis-open.org/architecture/2005/"&gt;
   &lt;variable id="Related concepts"&gt;相关概念&lt;/variable&gt;
@@ -97,7 +97,7 @@
 
     <section>
       <title>退出点</title>
-      <p>重新安装插件后以新格式构建，输出目录里出现目标文件即完成。报错提示找不到 target 时，先核对 target 名与 transtype 名是否满足命名约定，再确认构建文件确实由扩展点声明。</p>
+      <p>重新安装 plugin 后以新格式构建，输出目录里出现目标文件即完成。报错提示找不到 target 时，先核对 target 名与 transtype 名是否满足命名约定，再确认构建文件确实由扩展点声明。</p>
       <p>不适用的场合是只想改已有格式的样式或个别元素的呈现，那条路是覆盖 XSLT 模板，不必注册新格式。</p>
     </section>
 

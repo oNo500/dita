@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-preprocess" xml:lang="zh-CN" maturity="draft" volatility="stable">
+  <glossterm>preprocess</glossterm>
+  <glossdef>DITA-OT 在各输出格式的模板执行之前依次完成的一串阶段：扫描文件清单、按 DITAVAL 过滤条件、展开 mapref、解析 keyref 与 conref、回填标题、按 chunk 合并或拆分。它把源文件解析成引用已展开、条件已裁定的单一形态；阶段名与顺序属实现细节，随发行版变动。</glossdef>
+  <glossBody>
+    <glossAlt>
+      <glossSynonym xml:lang="en">preprocess</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

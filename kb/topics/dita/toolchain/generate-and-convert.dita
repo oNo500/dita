@@ -12,7 +12,7 @@
          maturity="draft" volatility="volatile"
          dimension="dim-interop dim-boundary-pitfalls">
   <title>生成 DITA 与 org.lwdita 的 Markdown 互转</title>
-  <shortdesc>接口描述、数据库表、代码注释这类结构化数据可以直接生成 reference topic，代价是生成的 <xmlatt>id</xmlatt> 必须稳定，否则每次重新生成都会断掉引用。Markdown 方向由 org.lwdita 插件双向打通：转出去有损，转进来则可把 Markdown 文件当作 topic 参与构建。</shortdesc>
+  <shortdesc>接口描述、数据库表、代码注释这类结构化数据可以直接生成 reference topic，代价是生成的 <xmlatt>id</xmlatt> 必须稳定，否则每次重新生成都会断掉引用。Markdown 方向由 org.lwdita <term keyref="term-plugin">plugin</term>（插件）双向打通：转出去有损，转进来则可把 Markdown 文件当作 topic 参与构建。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/non-normative/dtd-public-identifiers" scope="external"/>
     <data name="domain" value="dita"/>
@@ -59,7 +59,7 @@ def make_api_topic(endpoint):
 
     <section>
       <title>做法二：转出 Markdown</title>
-      <p>安装 org.lwdita 插件后，DITA 到 Markdown 由三个 transtype（输出类型）承担，分别对应通用写法、GitHub 风味与带目录文件的 GitBook 形态。</p>
+      <p>安装 org.lwdita plugin 后，DITA 到 Markdown 由三个 <term keyref="term-transtype">transtype</term>（输出类型）承担，分别对应通用写法、GitHub 风味与带目录文件的 GitBook 形态。</p>
       <codeblock>dita install org.lwdita
 
 dita -i root.ditamap -f markdown         -o out   # 通用
@@ -70,16 +70,16 @@ dita -i root.ditamap -f markdown_gitbook -o out   # GitBook，带目录文件</c
 
     <section>
       <title>做法三：把 Markdown 当作 topic 引用</title>
-      <p>反方向不需要先转换。map 里直接引用 Markdown 文件并声明格式，DITA-OT 在 preprocess 期间把它转成 topic 参与构建。</p>
+      <p>反方向不需要先转换。map 里直接引用 Markdown 文件并声明格式，DITA-OT 在 <term keyref="term-preprocess">preprocess</term>（预处理）期间把它转成 topic 参与构建。</p>
       <codeblock>&lt;map&gt;
   &lt;topicref href="notes/quickstart.md" format="markdown"/&gt;
 &lt;/map&gt;</codeblock>
-      <p>约定是：第一个一级标题成为标题，紧随其后的一段成为摘要，YAML front matter 可提供标识符等元数据。这条路的用法明确：核心内容用 DITA 以保证复用与条件化，边缘内容用 Markdown 降低门槛，一套 map 统一构建。插件对 2.0 新元素的支持程度须实测，它的映射表按既有词汇表编写，新元素不一定都覆盖到。</p>
+      <p>约定是：第一个一级标题成为标题，紧随其后的一段成为摘要，YAML front matter 可提供标识符等元数据。这条路的用法明确：核心内容用 DITA 以保证复用与条件化，边缘内容用 Markdown 降低门槛，一套 map 统一构建。plugin 对 2.0 新元素的支持程度须实测，它的映射表按既有词汇表编写，新元素不一定都覆盖到。</p>
     </section>
 
     <section>
       <title>自写转换器时的映射难点</title>
-      <p>不用现成插件而自己写转换时，难点集中在语义落差上。</p>
+      <p>不用现成 plugin 而自己写转换时，难点集中在语义落差上。</p>
       <simpletable relcolwidth="1.3* 1* 2*">
         <sthead><stentry>DITA 一侧</stentry><stentry>Markdown 一侧</stentry><stentry>难点</stentry></sthead>
         <strow><stentry><xmlelement>steps</xmlelement></stentry><stentry>有序列表</stentry><stentry>命令、说明、结果的层级信息丢失</stentry></strow>
@@ -105,7 +105,7 @@ dita -i root.ditamap -f markdown_gitbook -o out   # GitBook，带目录文件</c
     <section>
       <title>来源</title>
       <p><b>事实</b>：DOCTYPE 公共标识符的格式与版本号写法，转自 <xref href="https://dita-lang.org/dita/non-normative/dtd-public-identifiers" scope="external">DTD 公共标识符</xref>，已逐页核对。</p>
-      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中生成 topic 的示例代码、org.lwdita 的三个 transtype 名称、把 Markdown 文件当作 topic 引用的写法与其标题和摘要约定、front matter 提供元数据、映射难点表各行，来自通用实践，未逐项验证；插件对 2.0 新元素的覆盖须实测这一提示同属判断；标识符须从源数据派生的理由、把转出方向定位为单向发布通道、不做双向同步这条边界，为本库归纳。</p>
+      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中生成 topic 的示例代码、org.lwdita 的三个 transtype 名称、把 Markdown 文件当作 topic 引用的写法与其标题和摘要约定、front matter 提供元数据、映射难点表各行，来自通用实践，未逐项验证；plugin 对 2.0 新元素的覆盖须实测这一提示同属判断；标识符须从源数据派生的理由、把转出方向定位为单向发布通道、不做双向同步这条边界，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

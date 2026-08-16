@@ -47,7 +47,7 @@
         </strow>
       </simpletable>
       <p>判据按团队构成落位：只有工程师写文档，VS Code 足够；有专职技术写作团队，Oxygen 合适；上百人协作且涉及多语言与合规审计，才需要 CCMS。</p>
-      <p>PDF 按已有的排版经验选。DITA-OT 默认的 pdf transtype（输出类型）走 Apache FOP，即 XSL-FO 一路，中文排版效果一般且字体配置繁琐。三条路线的取舍如下。</p>
+      <p>PDF 按已有的排版经验选。DITA-OT 默认的 pdf <term keyref="term-transtype">transtype</term>（输出类型）走 Apache FOP，即 XSL-FO 一路，中文排版效果一般且字体配置繁琐。三条路线的取舍如下。</p>
       <ul>
         <li>FOP 加自配中文字体：免费，须编写字体注册配置，排版效果有限。</li>
         <li>商业 FO 引擎，如 Antenna House 或 RenderX XEP：排版质量高，DITA-OT 有对接。</li>

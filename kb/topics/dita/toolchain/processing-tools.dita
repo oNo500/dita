@@ -31,7 +31,7 @@
         <strow>
           <stentry>XSLT 3.0 转换</stentry>
           <stentry>Saxon-HE</stentry>
-          <stentry>DITA-OT 随附，写插件时无须另装</stentry>
+          <stentry>DITA-OT 随附，写 <term keyref="term-plugin">plugin</term> 时无须另装</stentry>
         </strow>
         <strow>
           <stentry>RNG 校验</stentry>

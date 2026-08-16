@@ -12,7 +12,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-troubleshooting dim-process">
   <title>DITA-OT plugin 调试：dita install 与 --debug 中间产物</title>
-  <shortdesc>插件的改动不在构建时读取，而在安装时编译进配置，因此调试循环必须以重新安装开头。固定临时目录并开启调试之后，每个 preprocess 阶段的中间产物都留在盘上，模板没命中还是内容不对可以就地分辨。</shortdesc>
+  <shortdesc><term keyref="term-plugin">plugin</term>（插件）的改动不在构建时读取，而在安装时编译进配置，因此调试循环必须以重新安装开头。固定临时目录并开启调试之后，每个 <term keyref="term-preprocess">preprocess</term>（预处理）阶段的中间产物都留在盘上，模板没命中还是内容不对可以就地分辨。</shortdesc>
   <prolog>
     <source href="https://www.dita-ot.org/dev/topics/build-using-dita-command" scope="external"/>
     <data name="domain" value="dita"/>
@@ -21,14 +21,14 @@
   <conbody>
     <section>
       <title>问题</title>
-      <p>写插件时最常见的困惑是改动看起来没有生效。原因通常不在改动本身：插件的配置在安装时被合并进生成的配置与 XSL import 链，构建时读取的是合并后的结果，源文件改了而没有重新安装，构建用的仍是上一次的版本。</p>
+      <p>写 plugin 时最常见的困惑是改动看起来没有生效。原因通常不在改动本身：plugin 的配置在安装时被合并进生成的配置与 XSL import 链，构建时读取的是合并后的结果，源文件改了而没有重新安装，构建用的仍是上一次的版本。</p>
       <p>第二类困惑是改动确实生效了，但产出与预期不符，而错误信息只指向最终输出。这时需要的是中间产物：把每个阶段之后的文档留在盘上，逐份查看，判断是模板没有命中，还是模板拿到的内容本就不对。</p>
     </section>
 
     <section>
       <title>做法：四步循环</title>
       <p>改动、重新安装、带调试构建、查看中间产物，四步一轮。第二步不可省，它是这条循环与普通开发循环的唯一差别。</p>
-      <codeblock># 1. 改插件文件
+      <codeblock># 1. 改 plugin 文件
 $EDITOR xsl/custom.xsl
 
 # 2. 重新安装（不可省）
@@ -49,7 +49,7 @@ ls /tmp/dita-temp</codeblock>
         <sthead><stentry>症状</stentry><stentry>先查什么</stentry></sthead>
         <strow>
           <stentry>改动完全没有反映</stentry>
-          <stentry>是否重新安装；再确认改的目录就是已安装的那个插件目录</stentry>
+          <stentry>是否重新安装；再确认改的目录就是已安装的那个 plugin 目录</stentry>
         </strow>
         <strow>
           <stentry>模板没有命中</stentry>
@@ -61,7 +61,7 @@ ls /tmp/dita-temp</codeblock>
         </strow>
         <strow>
           <stentry>提示找不到 target</stentry>
-          <stentry>target 名与 transtype 名是否满足命名约定，构建文件是否由扩展点声明</stentry>
+          <stentry>target 名与 <term keyref="term-transtype">transtype</term> 名是否满足命名约定，构建文件是否由扩展点声明</stentry>
         </strow>
         <strow>
           <stentry>只在某个输出格式下异常</stentry>
@@ -74,13 +74,13 @@ ls /tmp/dita-temp</codeblock>
     <section>
       <title>退出点</title>
       <p>最小样例上产出符合预期，换真实文档集再验证一轮，即可结束调试。临时目录在确认之后清理：它按构建保留全量中间产物，长期累积会占用可观的磁盘空间。</p>
-      <p>本篇覆盖的是插件本身的调试。内容侧的引用与条件化问题用的是同一套中间产物，但判断依据不同，见<xref href="preprocess-pipeline.dita">DITA-OT preprocess 流水线</xref>。</p>
+      <p>本篇覆盖的是 plugin 本身的调试。内容侧的引用与条件化问题用的是同一套中间产物，但判断依据不同，见<xref href="preprocess-pipeline.dita">DITA-OT preprocess 流水线</xref>。</p>
     </section>
 
     <section>
       <title>来源</title>
       <p><b>事实</b>：临时目录、调试与详细输出三个选项由 dita 命令提供，转自 <xref href="https://www.dita-ot.org/dev/topics/build-using-dita-command" scope="external">使用 dita 命令构建</xref>，已逐页核对。</p>
-      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中插件安装命令的行为、「改动插件后须重新安装」及其解释、调试选项保留临时目录与堆栈的具体表现，来自通用 DITA-OT 实践，未逐页核对；四步循环、最小测试输入的建议、症状与查法的对应表、临时目录的清理建议，为本库归纳。</p>
+      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中 plugin 安装命令的行为、「改动 plugin 后须重新安装」及其解释、调试选项保留临时目录与堆栈的具体表现，来自通用 DITA-OT 实践，未逐页核对；四步循环、最小测试输入的建议、症状与查法的对应表、临时目录的清理建议，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

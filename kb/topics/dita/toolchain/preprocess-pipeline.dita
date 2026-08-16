@@ -21,8 +21,8 @@
   <conbody>
     <section>
       <title>问题</title>
-      <p>DITA 源文件不能直接渲染。一份 topic 里写着 <term keyref="term-conref">conref</term>（内容引用）指向别处、<term keyref="term-keyref">keyref</term>（键引用）等待 map 给出绑定、条件属性等待过滤规则裁定，这些都要先落定，输出格式的模板才有确定的内容可处理。落定这件事由 preprocess 承担。</p>
-      <p>对只写内容的人，这条流水线是透明的。对要写插件或自研处理逻辑的人，它是必须先看清的地形：代码接在某个阶段之前还是之后，决定它拿到的是引用还是引用解析后的内容。位置选错的症状是拿到的文档与预期不符，而不是报错。</p>
+      <p>DITA 源文件不能直接渲染。一份 topic 里写着 <term keyref="term-conref">conref</term>（内容引用）指向别处、<term keyref="term-keyref">keyref</term>（键引用）等待 map 给出绑定、条件属性等待过滤规则裁定，这些都要先落定，输出格式的模板才有确定的内容可处理。落定这件事由 <term keyref="term-preprocess">preprocess</term>（预处理）承担。</p>
+      <p>对只写内容的人，这条流水线是透明的。对要写 <term keyref="term-plugin">plugin</term>（插件）或自研处理逻辑的人，它是必须先看清的地形：代码接在某个阶段之前还是之后，决定它拿到的是引用还是引用解析后的内容。位置选错的症状是拿到的文档与预期不符，而不是报错。</p>
     </section>
 
     <section>
@@ -44,13 +44,13 @@
         <li>move-meta-entries：把 map 上的元数据下沉到 topic。</li>
         <li>flag-module：处理 DITAVAL 的标记动作。</li>
       </ol>
-      <p>这一串之后才轮到各 transtype（输出类型）自己的 XSLT，HTML5 与 PDF 由此分道。顺序本身解释了几处日常现象：条件过滤在 conref 之前先做一次，因此被排除的片段拉不回来；keyref 早于 conref，以键定位的 conref 因此可用；标题回填在引用解析之后，因此它看到的是最终内容。</p>
-      <p>DITA-OT 3.x 起另有一套以纯 XSLT 重写的实现，减少 Java 与 Ant 之间的往返以提速，4.x 的部分 transtype 默认走它。行为大体兼容，代价落在依赖具体 Ant target 的插件：升级时须确认那个 target 还在。</p>
+      <p>这一串之后才轮到各 <term keyref="term-transtype">transtype</term>（输出类型）自己的 XSLT，HTML5 与 PDF 由此分道。顺序本身解释了几处日常现象：条件过滤在 conref 之前先做一次，因此被排除的片段拉不回来；keyref 早于 conref，以键定位的 conref 因此可用；标题回填在引用解析之后，因此它看到的是最终内容。</p>
+      <p>DITA-OT 3.x 起另有一套以纯 XSLT 重写的实现，减少 Java 与 Ant 之间的往返以提速，4.x 的部分 transtype 默认走它。行为大体兼容，代价落在依赖具体 Ant target 的 plugin：升级时须确认那个 target 还在。</p>
     </section>
 
     <section>
       <title>分析：挂载点的选择与可核对的中间产物</title>
-      <p>挂载点的选择归结为一个问题，即代码要看到解析前还是解析后的文档。要分析复用关系、统计引用了谁，须接在 conref 之前；要做检索索引、格式转换、内容分析，须接在全部解析完成之后，此时文档已是自足的单一形态。这个取舍在自研处理逻辑上同样成立，不限于插件。</p>
+      <p>挂载点的选择归结为一个问题，即代码要看到解析前还是解析后的文档。要分析复用关系、统计引用了谁，须接在 conref 之前；要做检索索引、格式转换、内容分析，须接在全部解析完成之后，此时文档已是自足的单一形态。这个取舍在自研处理逻辑上同样成立，不限于 plugin。</p>
       <p>阶段之间的产物可以留下来查。指定临时目录并开启调试后，每个阶段之后的中间 XML 都保留在目录里，逐份打开即可确定是哪一步没按预期走。</p>
       <codeblock>dita -i root.ditamap -f html5 -o out \
   --temp=/tmp/dita-temp \
@@ -63,7 +63,7 @@
     <section>
       <title>结论</title>
       <p>先确定代码要看的是解析前还是解析后的文档，再从阶段清单里选挂载点，最后用保留下来的中间产物验证位置选得对。三步的次序不能颠倒：清单只给出大致地形，可采信的依据是本机这一版产出的中间产物。</p>
-      <p>本篇的阶段名与顺序均无规范页面支撑，且随发行版变动。把它们写进插件的依赖关系或自研管道之前，在目标版本上执行一次带调试的构建逐一核对。</p>
+      <p>本篇的阶段名与顺序均无规范页面支撑，且随发行版变动。把它们写进 plugin 的依赖关系或自研管道之前，在目标版本上执行一次带调试的构建逐一核对。</p>
     </section>
 
     <section>

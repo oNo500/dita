@@ -12,7 +12,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-decision dim-interop">
   <title>程序化处理的输入选择：源文件与 preprocess 输出</title>
-  <shortdesc>自己写代码读 DITA 时，第一个决定是读创作时的源文件还是 preprocess 之后的中间产物。两者的差别不是格式而是完成度：引用是否已展开、条件是否已过滤、派生链是否已写进文件。多数用途要的是后者。</shortdesc>
+  <shortdesc>自己写代码读 DITA 时，第一个决定是读创作时的源文件还是 <term keyref="term-preprocess">preprocess</term>（预处理）之后的中间产物。两者的差别不是格式而是完成度：引用是否已展开、条件是否已过滤、派生链是否已写进文件。多数用途要的是后者。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external"/>
     <data name="domain" value="dita"/>

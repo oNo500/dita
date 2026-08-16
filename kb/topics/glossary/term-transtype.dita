@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-transtype" xml:lang="zh-CN" maturity="draft" volatility="stable">
+  <glossterm>transtype</glossterm>
+  <glossdef>DITA-OT 的输出类型标识：构建时以它指定产出什么，如 html5、pdf、markdown。插件可注册新的 transtype，继承已有格式或从 preprocess 结果自行生成；名为 X 的 transtype 由同名的 Ant target dita2X 承担。</glossdef>
+  <glossBody>
+    <glossAlt>
+      <glossSynonym xml:lang="en">transformation type</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

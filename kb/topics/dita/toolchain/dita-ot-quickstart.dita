@@ -23,7 +23,7 @@
   <taskbody>
     <section>
       <title>目标</title>
-      <p>在本机安装 DITA-OT，确认它按 DITA 2.0 的语法文件处理文档，并从一份 map 产出 HTML5。完成后即可继续用它执行校验、条件过滤与其他 transtype（输出类型）。</p>
+      <p>在本机安装 DITA-OT，确认它按 DITA 2.0 的语法文件处理文档，并从一份 map 产出 HTML5。完成后即可继续用它执行校验、条件过滤与其他 <term keyref="term-transtype">transtype</term>（输出类型）。</p>
       <p>DITA 的问题域分六类，本篇只覆盖工具链支持这一类的入口部分，其余见 <xref href="../dita-landscape.dita">DITA 领域全景</xref>。</p>
     </section>
 
@@ -39,7 +39,7 @@
     <section>
       <title>来源</title>
       <p><b>事实</b>：DITA-OT 4.4 的发布日期与 Java 17 的版本下限转自 <xref href="https://www.dita-ot.org/dev/release-notes/" scope="external">DITA-OT 发布说明</xref>；2.0 preview 支持基于 2026-01-25 的草案语法文件转自 <xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA 2.0 preview 支持</xref>；DITA 2.0 处于 draft 阶段转自 <xref href="https://www.dita-lang.org/specifications" scope="external">DITA 规范列表</xref>与 <xref href="https://github.com/oasis-tcs/dita/releases" scope="external">TC 发布页</xref>；公共标识符的格式、版本号可为具体号或 2.x 或整个省略、RNG 走 URN，转自 <xref href="https://dita-lang.org/dita/non-normative/dtd-public-identifiers" scope="external">DTD 公共标识符</xref>；<xmlatt>input</xmlatt>、<xmlatt>format</xmlatt> 为必需选项及 <xmlatt>output</xmlatt> 等可选项转自 <xref href="https://www.dita-ot.org/dev/topics/build-using-dita-command" scope="external">使用 dita 命令构建</xref>。以上页面均已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 <codeph>dita init</codeph> 与 <codeph>dita validate</codeph> 为 4.3 引入的预览特性来自发布说明的检索结果，模板名称未经验证，故正文写作占位形式；安装方式与环境变量的配置、插件命令的行为来自通用 DITA-OT 实践；先用最小样例验证工具链、以及 catalog 条目应以本机随附文件为准这两条建议为本库归纳。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 <codeph>dita init</codeph> 与 <codeph>dita validate</codeph> 为 4.3 引入的预览特性来自发布说明的检索结果，模板名称未经验证，故正文写作占位形式；安装方式与环境变量的配置、plugin 命令的行为来自通用 DITA-OT 实践；先用最小样例验证工具链、以及 catalog 条目应以本机随附文件为准这两条建议为本库归纳。</p>
     </section>
 
     <section>
@@ -61,11 +61,11 @@ dita init --template=&lt;模板名&gt; --output=sample</codeblock>
       <codeblock>&lt;!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 2.0 Topic//EN" "topic.dtd"&gt;
 &lt;!DOCTYPE task  PUBLIC "-//OASIS//DTD DITA 2.0 Task//EN"  "task.dtd"&gt;
 &lt;!DOCTYPE map   PUBLIC "-//OASIS//DTD DITA 2.0 Map//EN"   "map.dtd"&gt;</codeblock>
-      <p>用 RNG 的文档走 URN 形式的标识符，格式为 <codeph>urn:pubid:oasis:names:tc:dita:rng:&lt;信息类型&gt;.rng:&lt;版本&gt;</codeph>。确切字符串以本机 DITA-OT 随附的语法文件与 <filepath>catalog-dita.xml</filepath> 为准：草案期间这些取值会变，安装后在插件目录下查实际的 catalog 条目最可靠。</p>
+      <p>用 RNG 的文档走 URN 形式的标识符，格式为 <codeph>urn:pubid:oasis:names:tc:dita:rng:&lt;信息类型&gt;.rng:&lt;版本&gt;</codeph>。确切字符串以本机 DITA-OT 随附的语法文件与 <filepath>catalog-dita.xml</filepath> 为准：草案期间这些取值会变，安装后在 <term keyref="term-plugin">plugin</term>（插件）目录下查实际的 catalog 条目最可靠。</p>
       <p>第四步，校验与构建。<codeph>--input</codeph> 与 <codeph>--format</codeph> 是必需选项，输出目录、条件过滤、临时目录等由可选项给出。</p>
       <codeblock>dita validate --input=sample/root.ditamap
 dita --input=sample/root.ditamap --format=html5 --output=out</codeblock>
-      <p>产出目录里出现可打开的 HTML 即完成。此后按需换 transtype：<codeph>pdf</codeph> 出 PDF，<codeph>markdown</codeph> 需先安装对应插件，<codeph>dita</codeph> 只执行 preprocess（发布前的解析阶段）并产出解析后的 DITA 文件，便于逐阶段核对引用是否解析正确。</p>
+      <p>产出目录里出现可打开的 HTML 即完成。此后按需换 transtype：<codeph>pdf</codeph> 出 PDF，<codeph>markdown</codeph> 需先安装对应 plugin，<codeph>dita</codeph> 只执行 <term keyref="term-preprocess">preprocess</term>（预处理，发布前的解析阶段）并产出解析后的 DITA 文件，便于逐阶段核对引用是否解析正确。</p>
     </section>
   </taskbody>
 </task>
