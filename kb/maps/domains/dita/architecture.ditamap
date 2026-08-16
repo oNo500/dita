@@ -4,4 +4,5 @@
 <map xml:lang="zh-CN">
   <title>架构机理</title>
   <topicref href="../../../topics/dita/architecture/structural-specialization.dita"/>
+  <topicref href="../../../topics/dita/architecture/domain-specialization.dita"/>
 </map>
