@@ -30,10 +30,10 @@ kb/maps/domains/dita/<簇>.ditamap   簇 map ×6
 ```
 
 - mapref 合并语义：被引 map 的 title 不产生导航节点，**六簇的导航标题由域 map 内的 topichead 提供**，簇 map 不再自带包装层。
-- `maps/root.ditamap` 挂 dita.ditamap；`maps/glossary.ditamap` 随新词条增量修改。
+- 挂载点：root map 是九顶层分支的定稿结构，dita 不进 root——`maps/domains/content-engineering.ditamap` 内以 topichead 包 mapref 挂 dita.ditamap（与主题树挂点一致；navtitle 须与 dita.ditamap 的 title 逐字一致，dita-tools 一致性检查兜底）。`maps/glossary.ditamap` 随新词条增量修改。
 - 主题树挂点：DITA 属 content-engineering / structured-content 一系。骨架阶段核实 subjectScheme 现有节点，在正确挂点登记 `dita` 主题节点与 `domain` 受控值——**目录分支（存储）与主题树挂点（分类）允许不同层级，以词表为准**。
 
-## 三、产出清单（65 篇 topic）
+## 三、产出清单（67 篇 topic）
 
 命名 ASCII kebab，id = 文件名去后缀，全库唯一。题材即 `@outputclass`，按 R12/R13 带固定结构。表中标题为暂定，落笔时按写作规则七定稿（名词短语、定位词、对齐 OASIS 规范/DITA-OT 文档的类目命名）。
 
@@ -46,10 +46,12 @@ kb/maps/domains/dita/<簇>.ditamap   簇 map ×6
 | dita-landscape | DITA 领域全景 | tech-landscape | README 版本现状 + 全笔记编排 |
 | dita-resources | DITA 权威资源 | curated-resources | README 权威资源节 |
 
-### principles/（3，笔记 12）
+### principles/（5，笔记 00、12）
 
 | 文件 | 标题（暂定） | 题材 |
 |---|---|---|
+| roles-and-boundaries | DITA 的角色分工与阅读边界 | deep-dive |
+| schema-authority | schema 定义权与 @class 权限边界 | deep-dive |
 | first-principles | DITA 的第一性原理推导 | deep-dive |
 | costs-and-legacy | DITA 的代价与历史包袱 | deep-dive |
 | portable-principles | 脱离 DITA 可迁移的原则 | deep-dive |
