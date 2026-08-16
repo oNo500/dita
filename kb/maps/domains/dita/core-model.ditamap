@@ -3,6 +3,7 @@
 <!-- dita 分支簇 map：核心模型与复用（笔记 01/02）。topicref 由迁移任务逐篇追加。 -->
 <map xml:lang="zh-CN">
   <title>核心模型与复用</title>
+  <topicref href="../../../topics/dita/core-model/topic-typing.dita"/>
   <topicref href="../../../topics/dita/core-model/conref-pull-push.dita"/>
   <topicref href="../../../topics/dita/core-model/keyref-variable-text.dita"/>
   <topicref href="../../../topics/dita/core-model/include-non-dita.dita"/>
