@@ -102,7 +102,7 @@
     <section>
       <title>来源</title>
       <p><b>事实</b>：<xmlelement>keytext</xmlelement> 的出现位置、内容模型与两种用途转自 <xref href="https://dita-lang.org/dita/langref/base/keytext" scope="external">keytext 元素</xref>；<xmlatt>processing-role</xmlatt> 默认 resource-only 与 <xmlatt>toc</xmlatt> 不在显式默认属性之列转自 <xref href="https://dita-lang.org/dita/langref/base/keydef" scope="external">keydef 元素</xref>；<xmlatt>keys</xmlatt> 收紧为 NMTOKENS 与 <xmlelement>linktext</xmlelement> 由 <xmlelement>linktitle</xmlelement> 取代转自 <xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref>。三份页面均已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列三份页面的内容外，正文其余陈述均属判断，可被反驳。两张表内的逐条写法、第一个定义生效、覆盖的写法、<xmlatt>keyref</xmlatt> 与 <xmlatt>href</xmlatt> 并存时的取舍、<xmlatt>keyscope</xmlatt> 的用法来自通用 DITA 实践，规范的键定义与键解析章节尚未逐页核对，正文已逐条标注；键作为间接层的定位、两项用途的归纳与实测建议为本库归纳。</p>
+      <p><b>判断</b>：除事实段所列三份页面的内容外，正文其余陈述均属判断，可被反驳。两张表内的逐条写法、第一个定义生效、覆盖的写法、<xmlatt>keyref</xmlatt> 与 <xmlatt>href</xmlatt> 并存时的取舍、<xmlatt>keyscope</xmlatt> 的用法来自通用 DITA 实践，规范的 keydef 定义与 key resolution 章节尚未逐页核对，正文已逐条标注；键作为间接层的定位、两项用途的归纳与实测建议为本库归纳。</p>
     </section>
   </refbody>
 </reference>
