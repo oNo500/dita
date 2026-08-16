@@ -83,7 +83,7 @@
       <p>这组是自研处理逻辑的判据所在。DITA 的多数能力不在元素本身，而在解析规则：一段被引内容带进来哪些属性、一个键在哪个作用域里解析、过滤发生在流水线的哪一段。自研逻辑与规范不一致时症状往往出现在很远的地方，先立规则再写代码比事后对齐便宜。</p>
       <simpletable relcolwidth="1* 3*">
         <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>复用、条件化与属性解析（dim-mechanism）</stentry><stentry><term keyref="term-conref">conref</term> 的拉取与推送、<term keyref="term-keyref">keyref</term> 与 keytext、条件属性与分支过滤在什么时机解析、属性有效值的优先级与元数据级联按什么规则算、这些解析各自落在 preprocess 的哪一阶段</stentry></strow>
+        <strow><stentry>复用、条件化与属性解析（dim-mechanism）</stentry><stentry><term keyref="term-conref">conref</term> 的拉取与推送、<term keyref="term-keyref">keyref</term> 与 keytext、条件属性与分支过滤在什么时机解析、属性有效值的优先级与元数据级联按什么规则算、这些解析各自落在 <term keyref="term-preprocess">preprocess</term> 的哪一阶段</stentry></strow>
         <strow><stentry>寻址与关系（dim-relations）</stentry><stentry>直接与间接寻址的分工、键空间与作用域嵌套、跨交付物引用、导航与链接的生成</stentry></strow>
         <strow><stentry>一致性与降级（dim-consistency）</stentry><stentry>泛化算法怎么把专门化还原、规范意义上的一致性怎么判定、处理器不认识自定义元素时会发生什么</stentry></strow>
       </simpletable>
@@ -95,7 +95,7 @@
       <simpletable relcolwidth="1* 3*">
         <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
         <strow><stentry>扩展设施内部构造（dim-internals）</stentry><stentry><xmlatt>class</xmlatt> 派生链怎么构造、三大扩展设施如何分工、文档类型外壳与词汇模块、约束与扩展模块的差别</stentry></strow>
-        <strow><stentry>插件与程序化处理（dim-integration）</stentry><stentry>DITA-OT 扩展点与插件结构、XSLT 覆盖机制、自定义 transtype、把工具当库调用</stentry></strow>
+        <strow><stentry>插件与程序化处理（dim-integration）</stentry><stentry>DITA-OT 扩展点与插件结构、XSLT 覆盖机制、自定义 <term keyref="term-transtype">transtype</term>、把工具当库调用</stentry></strow>
         <strow><stentry>跨格式互通（dim-interop）</stentry><stentry>引用非 DITA 的外部内容、与 Markdown 互转、翻译交换格式在流程里的定位</stentry></strow>
         <strow><stentry>检索用途（dim-retrieval）</stentry><stentry>topic 自足性与检索切块的吻合度、切块粒度与检索元数据怎么定、送进检索的应当是解析前还是解析后的内容</stentry></strow>
       </simpletable>
