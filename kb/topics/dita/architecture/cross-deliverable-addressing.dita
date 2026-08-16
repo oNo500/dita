@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/10-addressing-and-key-space.md §5（跨交付物寻址）。
+     标题规则（2026-08-16 用户定稿）：上游有对应节点，直接用其类目名——架构规范
+     "Indirect key-based addressing" 下的 "Cross-deliverable addressing and linking"
+     子页；尾部的 and linking 是同一机制的用途并列，按「不拼装」一条不入标题。非自造。
+     题材 how-to：模板 B 已作废（Task 6 裁定），how-to 改绑 concept，过程写成讲解式散文
+     加 codeblock，来源节收尾。
+     术语规则（2026-08-16 用户门反馈后，含译名禁令补充）：key / keyscope / keyref /
+     mapref / peer 一律英文原名，中文解释首现随行注一次；deliverable 在正文按「交付物」
+     这一普通语义词使用，它不是规范的术语条目。
+     volatility=volatile 的依据：笔记明写实现成熟度需按工具链实测，各家支持程度随版本变动。
+     事实纪律：笔记已逐页核对的只有一条——跨交付物寻址使不同 root map 之间的链接可用
+     （基于 key 的寻址页）。具体配置方式为推断，@scope="peer" 的精确语义表述亦未核对，
+     正文与来源节均已标明，落地前须实测。 -->
+<concept id="cross-deliverable-addressing" xml:lang="zh-CN"
+         outputclass="how-to"
+         maturity="draft" volatility="volatile"
+         dimension="dim-integration dim-relations">
+  <title>cross-deliverable addressing</title>
+  <shortdesc>两套分开构建、分开发布的文档要互相链接时，把对方的 root map 作为 <codeph>peer</codeph> 引用进来并给它一个作用域名，引用方写限定 key 名。处理器据此生成指向对方发布位置的链接，而不把对方拉进本次构建。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/2.0/dita/archspec/base/key-based-addressing" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>场景</title>
+      <p>《用户手册》要链接到《API 参考》里的某个 topic，两者是两套交付物：各有 root map，各自构建，各自发布到不同的位置。直接写 URI 的话，链接指向的是构建产物的路径，而那个路径由对方的构建决定，本方无从写死；把对方整本拉进本次构建则会连带产出一份重复的副本。</p>
+      <p>规范给这类链接留了一条路：跨交付物寻址使不同 root map 之间的链接可用。它把 <xmlatt>keyscope</xmlatt> 与 <xmlatt>scope</xmlatt> 的 <codeph>peer</codeph> 取值组合起来用，两者的基础分别见 <xref href="key-space-model.dita">key space 与 key scope</xref> 与 <xref href="addressing-modes.dita">DITA addressing</xref>。</p>
+    </section>
+
+    <section>
+      <title>做法</title>
+      <p>做法分三步，配置全部落在引用方的 root map 与引用处。</p>
+      <ol>
+        <li>在本方 root map 里引用对方的 root map，标 <codeph>peer</codeph>，并给它一个作用域名。<codeph>peer</codeph> 的含义是属于同一套交付物、但不在本次构建范围内，处理器据此不把对方拉进构建。</li>
+        <li>对方 map 里的 key 于是进入本方 key space，名字带作用域前缀。</li>
+        <li>引用处照常写 <xmlatt>keyref</xmlatt>，键名用限定形式。</li>
+      </ol>
+      <codeblock>&lt;!-- 用户手册的 root map --&gt;
+&lt;map&gt;
+  &lt;title&gt;用户手册&lt;/title&gt;
+  &lt;mapref href="../api-ref/api.ditamap" format="ditamap"
+          scope="peer" keyscope="apiref"/&gt;
+  …
+&lt;/map&gt;
+
+&lt;!-- 手册内某个 topic 里的引用 --&gt;
+&lt;xref keyref="apiref.auth-endpoint"/&gt;</codeblock>
+      <p>处理器在构建手册时读到这条引用，知道这个 key 属于名为 apiref 的 peer 作用域，对应的资源会在别处发布，于是生成一条指向对方发布位置的链接，本次构建的输出里不含 API 参考的任何页面。</p>
+    </section>
+
+    <section>
+      <title>边界</title>
+      <p>上面三步的具体写法是按已核对的机制描述推断出来的，不是规范原文的配置示例，属未核对内容。两处尤其要实测：对方发布位置怎么告诉处理器（各工具的做法不同，通常另有一处配置指定 peer 交付物的基地址），以及对方 map 没有构建产物时本方构建是报错还是降级成纯文本。</p>
+      <p>验证的路数与其他 key 问题一致：先出一次中间结果，看限定 key 名有没有进本方的 key space、解析成了什么，再决定是否把这套写法铺开，见 <xref href="../toolchain/parsed-vs-source.dita">程序化处理的输入选择</xref>。</p>
+      <p>两套交付物之间还有一层组织约定要先定：谁的 key 名对外稳定。跨交付物引用一旦铺开，对方改 key 名就等于改本方的链接，key 名因此要当成对外接口来维护。这条为本库归纳。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：跨交付物寻址使不同 root map 之间的链接可用、<xmlatt>keyscope</xmlatt> 控制作用域边界且跨作用域引用需以作用域名限定，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/key-based-addressing" scope="external">基于 key 的寻址</xref>，已逐页核对。</p>
+      <p><b>判断</b>：除事实段两条外，正文其余陈述均属判断，可被反驳。其中三步做法与样例、<codeph>peer</codeph> 表示属于同一套交付物但不在本次构建范围内这一语义表述、处理器生成指向对方发布位置的链接这一行为描述，笔记列在未逐页核对，本篇按其表述转录并在边界一节标明须实测；两处实测点与 key 名当作对外接口维护的约定，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>
