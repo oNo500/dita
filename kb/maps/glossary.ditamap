@@ -29,4 +29,7 @@
   <topicref href="../topics/glossary/term-agentic-harness.dita" keys="term-agentic-harness"/>
   <topicref href="../topics/glossary/term-tool-search.dita" keys="term-tool-search"/>
   <topicref href="../topics/glossary/term-progressive-disclosure.dita" keys="term-progressive-disclosure"/>
+  <!-- 2026-08-16 第三批：dita 域 core-model 簇引入的跨篇术语（两条各出现于本簇三篇，过第二篇门槛）-->
+  <topicref href="../topics/glossary/term-conref.dita" keys="term-conref"/>
+  <topicref href="../topics/glossary/term-keyref.dita" keys="term-keyref"/>
 </map>

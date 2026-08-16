@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-conref" xml:lang="zh-CN" maturity="draft" volatility="stable">
+  <glossterm>内容引用</glossterm>
+  <glossdef>DITA 内容之间的元素级引用：本地元素声明指向另一处的元素，该处内容在处理时进入本地位置，内容因此只维护一份。作用范围限于 DITA 内容，非 DITA 的外部内容由 include 元素引入。</glossdef>
+  <glossBody>
+    <glossSurfaceForm>内容引用（conref）</glossSurfaceForm>
+    <glossAlt>
+      <glossSynonym xml:lang="en">content reference</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>
