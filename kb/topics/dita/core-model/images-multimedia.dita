@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/01-core-model.md §3.6（图像与多媒体）。
+     题材 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
+     标题依据上游节点名（非自造，两个节点并列）：<image> 的语言参考页
+     （dita-lang.org/dita/langref/base/image，父节点 Body elements）与容器节点
+     Multimedia elements（dita-lang.org/dita/langref/containers/multimedia-elements，
+     含 audio / video / media-source / media-track / video-poster 五个元素页）。
+     上游没有把 image 与多媒体合并的单一节点，故并列两个节点名；「速查」为本库
+     cheatsheet 题材的后缀惯例，先例见同簇 keyref-variable-text。
+     术语规则（2026-08-16 用户门反馈 + 同日译名禁令）：image / fallback / keytext /
+     media-source / media-track / video-poster 等一律英文原名。
+     volatility=stable 的依据：元素的子元素顺序与属性集出自规范，不随发行版变动。
+     事实纪律：<video> 的子元素顺序、两种给源方式、四个播放属性为笔记已逐页核对项；
+     <image> 的属性细节、空 <alt> 的无障碍做法、<audio> 与 <video> 同族的推断均未核对，
+     正文逐条标注并在来源节判断段列明。 -->
+<reference id="images-multimedia" xml:lang="zh-CN"
+           outputclass="cheatsheet"
+           maturity="draft" volatility="stable"
+           dimension="dim-structure-template dim-reference">
+  <title>image 与 multimedia elements 速查</title>
+  <shortdesc>图片走 <xmlelement>image</xmlelement>，声音与视频走 2.0 新增的 multimedia elements。两侧共享同一套设计：资源可以按键引用，替代内容由 <xmlelement>fallback</xmlelement> 与 <xmlelement>alt</xmlelement> 承担，静态输出取不到媒体时靠它们仍能成句。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/dita/langref/base/video" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <refbody>
+    <section>
+      <title>定位</title>
+      <p>非文字资源在 DITA 里分两处：<xmlelement>image</xmlelement> 属 body elements，随正文出现；<xmlelement>audio</xmlelement> 与 <xmlelement>video</xmlelement> 属 multimedia elements 这个 domain，是 2.0 新增的一组元素，模型仿照 HTML5 的同名元素。</p>
+      <p>两侧都要回答同一个问题：这份内容进了取不到媒体的输出格式（例如印刷版 PDF）时，读者看到什么。答案分别是 <xmlelement>alt</xmlelement> 与 <xmlelement>fallback</xmlelement>。</p>
+    </section>
+
+    <section>
+      <title>image 的要点</title>
+      <simpletable relcolwidth="1* 2.4*">
+        <sthead><stentry>项</stentry><stentry>说明</stentry></sthead>
+        <strow><stentry>引用方式</stentry><stentry><xmlatt>href</xmlatt> 直接指向文件，或 <xmlatt>keyref</xmlatt> 按键引用；按键时键定义里的 <xmlelement>keytext</xmlelement> 相当于写出 <xmlelement>alt</xmlelement></stentry></strow>
+        <strow><stentry><xmlatt>placement</xmlatt></stentry><stentry>inline 随文（默认），break 独立成块（未逐页核对）</stentry></strow>
+        <strow><stentry>缩放</stentry><stentry><xmlatt>width</xmlatt> 与 <xmlatt>height</xmlatt> 带单位，或 <xmlatt>scale</xmlatt> 给百分比（未逐页核对）</stentry></strow>
+        <strow><stentry>适配宽度</stentry><stentry><xmlatt>scalefit</xmlatt> 让图适配可用宽度（未逐页核对）</stentry></strow>
+        <strow><stentry>替代文本</stentry><stentry>行内写 <xmlelement>alt</xmlelement>；纯装饰图显式写一个空的 <xmlelement>alt</xmlelement>，否则读屏器会读文件名（未逐页核对）</stentry></strow>
+      </simpletable>
+      <p>按键引用的收益与其他 <term keyref="term-keyref">keyref</term>（键引用）一致：图片换文件只改 map 的一处绑定，正文不动。写法见 <xref href="keyref-variable-text.dita">keyref 与 keytext 速查</xref>。</p>
+    </section>
+
+    <section>
+      <title>video 的结构</title>
+      <codeblock>&lt;video width="640" height="360" controls="true"&gt;
+  &lt;video-poster href="media/demo-cover.png"/&gt;
+  &lt;media-source href="media/demo.webm"/&gt;
+  &lt;media-source href="media/demo.mp4"/&gt;
+  &lt;media-track href="media/demo-zh.vtt" kind="subtitles" srclang="zh-CN"/&gt;
+  &lt;fallback&gt;&lt;p&gt;当前输出格式不支持视频，见随附的 demo.mp4。&lt;/p&gt;&lt;/fallback&gt;
+&lt;/video&gt;</codeblock>
+      <simpletable relcolwidth="1* 2.4*">
+        <sthead><stentry>项</stentry><stentry>规定</stentry></sthead>
+        <strow><stentry>子元素顺序</stentry><stentry><xmlelement>desc</xmlelement>、<xmlelement>longdescref</xmlelement>、<xmlelement>fallback</xmlelement>、<xmlelement>video-poster</xmlelement>、<xmlelement>media-source</xmlelement>、<xmlelement>media-track</xmlelement>、<xmlelement>foreign</xmlelement></stentry></strow>
+        <strow><stentry>给源方式一</stentry><stentry>单一来源直接写在 <xmlatt>href</xmlatt> 上</stentry></strow>
+        <strow><stentry>给源方式二</stentry><stentry>多格式候选写多个 <xmlelement>media-source</xmlelement>，由处理器或浏览器挑第一个能播的</stentry></strow>
+        <strow><stentry>播放行为</stentry><stentry><xmlatt>autoplay</xmlatt>、<xmlatt>controls</xmlatt>、<xmlatt>loop</xmlatt>、<xmlatt>muted</xmlatt></stentry></strow>
+        <strow><stentry><xmlelement>media-track</xmlelement></stentry><stentry>挂字幕一类基于文本的补充数据</stentry></strow>
+        <strow><stentry><xmlelement>video-poster</xmlelement></stentry><stentry>加载前显示的封面帧</stentry></strow>
+      </simpletable>
+      <p><xmlelement>audio</xmlelement> 属同一个 domain，结构与 <xmlelement>video</xmlelement> 同族，差别在没有画面相关的子元素与属性。该篇未单独逐页核对。</p>
+    </section>
+
+    <section>
+      <title>fallback 与无障碍</title>
+      <ul>
+        <li>视频一律写 <xmlelement>fallback</xmlelement>。PDF 一类静态输出无法内嵌视频，规范允许处理器此时改用 <xmlelement>fallback</xmlelement> 的内容。</li>
+        <li>这与 <xmlelement>include</xmlelement> 用 <xmlelement>fallback</xmlelement> 兜取不到的外部资源是同一个设计，见 <xref href="include-non-dita.dita">include 元素</xref>。</li>
+        <li><xmlelement>fallback</xmlelement> 里写得出替代信息才有价值：给出资源的去处或它要传达的结论，而不是一句「此处有视频」。这条属本库约定。</li>
+        <li>图片一侧的对应项是 <xmlelement>alt</xmlelement>。装饰性图片写空的 <xmlelement>alt</xmlelement> 与不写 <xmlelement>alt</xmlelement> 是两种不同的信号，前者表示无需朗读，后者会让读屏器退回读文件名。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：<xmlelement>video</xmlelement> 的子元素顺序、单一来源走 <xmlatt>href</xmlatt> 与多格式候选走 <xmlelement>media-source</xmlelement> 两种给源方式、四个播放属性、<xmlelement>media-track</xmlelement> 与 <xmlelement>video-poster</xmlelement> 的用途，转自 <xref href="https://dita-lang.org/dita/langref/base/video" scope="external">video 元素</xref>，已逐页核对；multimedia elements 作为一个 domain 及其包含的五个元素，见 <xref href="https://dita-lang.org/dita/langref/containers/multimedia-elements" scope="external">Multimedia elements</xref>；<xmlelement>image</xmlelement> 归在 body elements 下，见 <xref href="https://dita-lang.org/dita/langref/base/image" scope="external">image 元素</xref>。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 <xmlelement>image</xmlelement> 的 <xmlatt>placement</xmlatt>、<xmlatt>scale</xmlatt>、<xmlatt>scalefit</xmlatt> 与空 <xmlelement>alt</xmlelement> 的无障碍做法未逐页核对，正文已逐条标注；<xmlelement>audio</xmlelement> 与 <xmlelement>video</xmlelement> 同族为推断，未单独核对；键定义的 <xmlelement>keytext</xmlelement> 用于图片时相当于 <xmlelement>alt</xmlelement> 来自通用实践；<xmlelement>fallback</xmlelement> 该写什么、它与 <xmlelement>include</xmlelement> 属同一设计的说法，为本库归纳。</p>
+    </section>
+  </refbody>
+</reference>
