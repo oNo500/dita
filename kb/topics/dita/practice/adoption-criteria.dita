@@ -15,8 +15,8 @@
          outputclass="best-practice"
          maturity="draft" volatility="volatile"
          dimension="dim-adoption dim-decision">
-  <title>DITA 采用判据：多变体、多语言与 DITA-OT 版本锁定</title>
-  <shortdesc>是否值得上 DITA，看的是内容有没有多个变体、量有多大、有没有人长期维护、要不要翻译、要不要审计追溯；2.0 期间还要多问一句这一环的支持由谁决定。两个问题的答案分别决定要不要用、能不能现在就用。</shortdesc>
+  <title>DITA 采用判据</title>
+  <shortdesc>是否值得上 DITA，看的是内容有没有多个变体、量有多大、有没有人长期维护、要不要多语言翻译、要不要审计追溯；2.0 期间还要多问一句这一环的支持由谁决定，并把 DITA-OT 的版本锁定下来。两个问题的答案分别决定要不要用、能不能现在就用。</shortdesc>
   <prolog>
     <source href="https://www.dita-lang.org/specifications" scope="external"/>
     <data name="domain" value="dita"/>

@@ -13,8 +13,8 @@
          outputclass="deep-dive"
          maturity="draft" volatility="stable"
          dimension="dim-process dim-interop">
-  <title>DITA 模块化的翻译收益与 XLIFF 流程的架构位置</title>
-  <shortdesc>多语言是 DITA 收益最集中的场景，收益来自三处：改动以 topic 为单位、复用片段只需一份译文、变体在构建时产生而非在译文里复制。翻译的交换与回填不在规范范围内，它接在源标记与各语言构建之间，由工具层承担。</shortdesc>
+  <title>DITA 模块化的翻译收益</title>
+  <shortdesc>多语言是 DITA 收益最集中的场景，收益来自三处：改动以 topic 为单位、复用片段只需一份译文、变体在构建时产生而非在译文里复制。翻译的交换与回填不在规范范围内，以 XLIFF 为主的这段流程接在源标记与各语言构建之间，由工具层承担。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/2.0/dita/archspec/base/translation" scope="external"/>
     <data name="domain" value="dita"/>

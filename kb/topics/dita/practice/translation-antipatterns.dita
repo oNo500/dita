@@ -17,8 +17,8 @@
          outputclass="best-practice"
          maturity="draft" volatility="stable"
          dimension="dim-boundary-pitfalls">
-  <title>DITA 复用机制在翻译下的反模式：keyref 拼句与句子以下的 conref</title>
-  <shortdesc>复用能省翻译成本，前提是复用单元在目标语言里仍然成立。两种写法不满足这个前提：用变量拼接句子，以及引用半句话。两者在单语言下只是别扭，在多语言下产出的是错误译文。</shortdesc>
+  <title>DITA 复用机制在翻译下的反模式</title>
+  <shortdesc>复用能省翻译成本，前提是复用单元在目标语言里仍然成立。两种写法不满足这个前提：用 keyref 的变量文本拼接句子，以及用 conref 引用句子以下的片段。两者在单语言下只是别扭，在多语言下产出的是错误译文。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/2.0/dita/archspec/base/the-translate-attribute" scope="external"/>
     <data name="domain" value="dita"/>
@@ -65,7 +65,7 @@
 
     <section>
       <title>边界</title>
-      <p>本篇只管复用单元的粒度与可译性。三个本地化属性的取值与规则见<xref href="localization-attributes.dita">DITA 本地化属性速查</xref>，翻译流程与工具链的核对项见<xref href="translation-modularity.dita">DITA 模块化的翻译收益与 XLIFF 流程的架构位置</xref>。中日文索引的排序策略属处理模型一侧，另篇处置。</p>
+      <p>本篇只管复用单元的粒度与可译性。三个本地化属性的取值与规则见<xref href="localization-attributes.dita">DITA 本地化属性速查</xref>，翻译流程与工具链的核对项见<xref href="translation-modularity.dita">DITA 模块化的翻译收益</xref>。中日文索引的排序策略属处理模型一侧，另篇处置。</p>
       <p>只出一种语言且确定不会增加语言的内容库，这两条降为风格建议：半句复用仍然增加维护负担，但不会产出错误。判据是问一句，这批内容将来会不会被翻译。</p>
     </section>
 

@@ -12,7 +12,7 @@
            outputclass="cheatsheet"
            maturity="draft" volatility="stable"
            dimension="dim-reference dim-mechanism">
-  <title>DITA 本地化属性速查：@xml:lang、@dir 与 @translate</title>
+  <title>DITA 本地化属性速查</title>
   <shortdesc>规范的翻译与本地化一节只定义三个属性：内容是什么语言、按哪个方向排、该不该翻。三者的取值、继承规则与默认值列在下面，其中 <xmlatt>xml:lang</xmlatt> 在 <xmlelement>topicref</xmlelement> 上的作用范围一条最容易误用。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/2.0/dita/archspec/base/translation" scope="external"/>
@@ -22,7 +22,7 @@
   <refbody>
     <section>
       <title>定位</title>
-      <p>本篇只列这三个属性的规则。翻译流程接在哪一段、模块化省下哪块支出见<xref href="translation-modularity.dita">DITA 模块化的翻译收益与 XLIFF 流程的架构位置</xref>；复用机制在翻译下的反模式见<xref href="translation-antipatterns.dita">DITA 复用机制在翻译下的反模式</xref>。</p>
+      <p>本篇只列这三个属性的规则。翻译流程接在哪一段、模块化省下哪块支出见<xref href="translation-modularity.dita">DITA 模块化的翻译收益</xref>；复用机制在翻译下的反模式见<xref href="translation-antipatterns.dita">DITA 复用机制在翻译下的反模式</xref>。</p>
     </section>
 
     <section>

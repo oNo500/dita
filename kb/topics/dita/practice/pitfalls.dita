@@ -12,8 +12,8 @@
            outputclass="cheatsheet"
            maturity="draft" volatility="volatile"
            dimension="dim-troubleshooting dim-reference">
-  <title>DITA 2.0 故障速查：@class、DITA-OT 构建与 conref</title>
-  <shortdesc>按症状查原因的三张表：派生链属性取不到与 XSLT 模板不生效归一类，构建与工具链归一类，引用与条件过滤归一类。表内多数条目来自使用经验，其中两条有规范与发行说明支撑，已在来源节分开。</shortdesc>
+  <title>DITA 2.0 故障速查</title>
+  <shortdesc>按症状查原因的三张表：<xmlatt>class</xmlatt> 取不到与 XSLT 模板不生效一张，DITA-OT 构建与工具链一张，conref、key 与条件过滤一张。表内多数条目来自使用经验，其中两条有规范与发行说明支撑，已在来源节分开。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external"/>
     <data name="domain" value="dita"/>

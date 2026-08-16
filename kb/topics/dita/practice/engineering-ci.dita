@@ -14,8 +14,8 @@
          outputclass="best-practice"
          maturity="draft" volatility="volatile"
          dimension="dim-process dim-integration">
-  <title>DITA 工程化与 CI：目录布局、@id 契约与 dita --project</title>
-  <shortdesc>内容进版本库之后要定三件事：目录按角色分开、<xmlatt>id</xmlatt> 发布后不再改、持续集成里把每个变体都构建一遍。变体矩阵长大之后，逐个变体的循环换成项目文件，交付物声明一次。</shortdesc>
+  <title>DITA 工程化与 CI</title>
+  <shortdesc>内容进版本库之后要定三件事：目录按角色布局、<xmlatt>id</xmlatt> 发布后不再改这一条契约、持续集成里把每个变体都构建一遍。变体矩阵长大之后，逐个变体的循环换成 DITA-OT 的项目文件，交付物声明一次，构建只留一条带 project 选项的命令。</shortdesc>
   <prolog>
     <source href="https://www.dita-ot.org/dev/topics/using-project-files" scope="external"/>
     <data name="domain" value="dita"/>

@@ -14,7 +14,7 @@
          outputclass="deep-dive"
          maturity="draft" volatility="volatile"
          dimension="dim-retrieval dim-decision">
-  <title>DITA topic 的自足性与 RAG 切块的对应关系</title>
+  <title>DITA topic 自足性与 RAG 切块的对应关系</title>
   <shortdesc>RAG 在内容一侧要的是语义完整的块与可信的结构化元数据，而这两样是 DITA 为复用与多变体付出成本换来的副产品。已经在 DITA 里的内容做检索时它们全部现成；不在的，这不构成迁移的理由。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/specifications" scope="external"/>
@@ -65,7 +65,7 @@
     <section>
       <title>结论</title>
       <p>压缩成一句：RAG 需要语义完整的块与可信的结构化元数据，而这两样是 DITA 为复用与多变体付出成本换来的副产品。已经在 DITA 里的内容，切块、元数据、溯源、关系图全部现成；不在的，这不是迁移的理由。</p>
-      <p>顺着这个结论只剩一个工程决定要做：用解析后的内容，并想清楚条件过滤发生在入库前还是检索时，见<xref href="rag-parsed-content.dita">RAG 入库内容的选择</xref>。切块粒度与元数据的逐项对应见<xref href="rag-chunking-metadata.dita">RAG 的切块粒度与检索元数据</xref>。</p>
+      <p>顺着这个结论只剩一个工程决定要做：用解析后的内容，并想清楚条件过滤发生在入库前还是检索时，见<xref href="rag-parsed-content.dita">RAG 入库内容的解析形态选择</xref>。切块粒度与元数据的逐项对应见<xref href="rag-chunking-metadata.dita">RAG 切块粒度与检索元数据</xref>。</p>
       <p>本篇全部内容为分析，无外部权威来源可核对。三个难题的归纳与反面清单均可被反驳，不应当作事实引用。</p>
     </section>
 

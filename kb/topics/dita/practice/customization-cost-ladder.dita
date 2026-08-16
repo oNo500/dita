@@ -13,7 +13,7 @@
          outputclass="best-practice"
          maturity="draft" volatility="stable"
          dimension="dim-decision dim-comparison">
-  <title>DITA 二次开发的成本阶梯：从 @outputclass 到结构专门化</title>
+  <title>DITA 二次开发的成本阶梯</title>
   <shortdesc>改造 DITA 有六级手段，从只改外观的 <xmlatt>outputclass</xmlatt> 加样式，到自造 topic 类型的结构专门化。六级的成本差一个数量级，选级的判据只有一条：能用前面的就不用后面的。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/specifications" scope="external"/>
