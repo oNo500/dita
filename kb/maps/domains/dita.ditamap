@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map PUBLIC "-//OASIS//DTD DITA 2.0 Map//EN" "map.dtd">
+<!-- 领域 map：DITA（subjectScheme 挂点：content-engineering/structured-content/dita）
+     六簇结构见 docs/superpowers/specs/2026-08-16-notes-to-kb-migration-design.md。
+     navtitle 必须与被引簇 map 的 <title> 逐字一致（dita-tools 一致性检查兜底）。 -->
+<map xml:lang="zh-CN">
+  <title>DITA</title>
+  <topicref href="../../topics/dita/dita-landscape.dita"/>
+  <topicref href="../../topics/dita/dita-resources.dita"/>
+  <topichead>
+    <topicmeta><navtitle>原理</navtitle></topicmeta>
+    <mapref href="dita/principles.ditamap"/>
+  </topichead>
+  <topichead>
+    <topicmeta><navtitle>核心模型与复用</navtitle></topicmeta>
+    <mapref href="dita/core-model.ditamap"/>
+  </topichead>
+  <topichead>
+    <topicmeta><navtitle>条件与元数据</navtitle></topicmeta>
+    <mapref href="dita/conditional.ditamap"/>
+  </topichead>
+  <topichead>
+    <topicmeta><navtitle>架构机理</navtitle></topicmeta>
+    <mapref href="dita/architecture.ditamap"/>
+  </topichead>
+  <topichead>
+    <topicmeta><navtitle>工具链与二开</navtitle></topicmeta>
+    <mapref href="dita/toolchain.ditamap"/>
+  </topichead>
+  <topichead>
+    <topicmeta><navtitle>工程实践</navtitle></topicmeta>
+    <mapref href="dita/practice.ditamap"/>
+  </topichead>
+</map>

@@ -17,4 +17,9 @@
   </topichead>
 
   <!-- structured-content / knowledge-organization / knowledge-mgmt：待 Phase 3+ 重写填入 -->
+
+  <topichead>
+    <topicmeta><navtitle>DITA</navtitle></topicmeta>
+    <mapref href="dita.ditamap"/>
+  </topichead>
 </map>
