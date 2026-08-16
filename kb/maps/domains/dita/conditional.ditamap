@@ -4,4 +4,5 @@
 <map xml:lang="zh-CN">
   <title>条件与元数据</title>
   <topicref href="../../../topics/dita/conditional/profiling-ditaval.dita"/>
+  <topicref href="../../../topics/dita/conditional/branch-filtering.dita"/>
 </map>
