@@ -19,15 +19,15 @@
   <refbody>
     <section>
       <title>定位</title>
-      <p><term keyref="term-keyref">键引用</term>解决的是路径写死的问题：<term keyref="term-conref">内容引用</term>与 <xmlelement>xref</xmlelement> 把目标位置写在引用方，文件移动即失效。键在两者之间加一层，绑定集中在 map，正文只留键名。</p>
-      <p>由此得到两项用途。其一，同一份 topic 挂在不同 map 下产出不同结果，topic 文件不改动；其二，产品名一类的重复成分成为变量文本，改名只改 map 的一处绑定。两项用途共用同一套机制，变量文本不是另一套。</p>
+      <p><term keyref="term-keyref">键引用</term>在引用方与目标之间加一层间接。<term keyref="term-conref">内容引用</term>与 <xmlelement>xref</xmlelement> 把目标位置直接写在引用方，文件移动即失效；键把绑定集中到 map，正文只留键名。</p>
+      <p>由此得到两项用途。其一，同一份 topic 由不同 map 引用时产出不同结果，topic 文件不改动；其二，产品名一类的重复成分成为变量文本，改名只改 map 的一处绑定。两项用途共用同一套机制，变量文本是它的一种用法。</p>
     </section>
 
     <section>
       <title>定义侧：map 里的五种绑定</title>
       <simpletable relcolwidth="1.2* 2*">
         <sthead><stentry>绑定形态</stentry><stentry>写法要点</stentry></sthead>
-        <strow><stentry>键到 topic 文件</stentry><stentry><xmlatt>keys</xmlatt> 加 <xmlatt>href</xmlatt>，最常见的一种</stentry></strow>
+        <strow><stentry>键到 topic 文件</stentry><stentry><xmlatt>keys</xmlatt> 加 <xmlatt>href</xmlatt>，键的基本形态</stentry></strow>
         <strow><stentry>键到外部地址</stentry><stentry>另标 <xmlatt>scope</xmlatt>="external" 与 <xmlatt>format</xmlatt>；链接文字由 <xmlelement>keytext</xmlelement> 提供</stentry></strow>
         <strow><stentry>键到一段文本</stentry><stentry>不写 <xmlatt>href</xmlatt>，只在 <xmlelement>topicmeta</xmlelement> 内写 <xmlelement>keytext</xmlelement>，即变量文本</stentry></strow>
         <strow><stentry>键到图片</stentry><stentry><xmlatt>href</xmlatt> 指向图片文件并标 <xmlatt>format</xmlatt>；<xmlelement>keytext</xmlelement> 在此充当替代文本</stentry></strow>
@@ -90,7 +90,7 @@
         <strow><stentry><xmlatt>keys</xmlatt> 的取值形状</stentry><stentry>类型为 NMTOKENS，只能空格分隔，不接受逗号一类的分隔符</stentry></strow>
         <strow><stentry>作用域</stentry><stentry><xmlatt>keyscope</xmlatt> 划出独立键空间，域内直接用键名，域外用「域名.键名」限定（未逐页核对）</stentry></strow>
       </simpletable>
-      <p><b>先定义者胜与「后定义覆盖前定义」的直觉相反</b>，覆盖的写法由它推出：要让自己的绑定生效，位置须在被覆盖的 map 引用之前，而不是之后。</p>
+      <p><b>先定义者胜与「后定义覆盖前定义」的直觉相反</b>，覆盖的写法由它推出：要让自己的绑定生效，位置须在被覆盖的 map 引用之前。</p>
       <p><xmlatt>keyscope</xmlatt> 用于同一份 submap 在一本书里出现两次而两次须绑不同值的场合。它的实现差异较大，用前在目标 DITA-OT 版本上实测。键空间与作用域嵌套的完整模型属寻址与关系主题，不在此展开。</p>
     </section>
 

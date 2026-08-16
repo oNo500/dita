@@ -33,11 +33,11 @@
       <codeblock>&lt;pre&gt;
   &lt;include href="../src/config.json" format="json" parse="text" encoding="UTF-8"/&gt;
 &lt;/pre&gt;</codeblock>
-      <p>第三种是 XML。<xmlatt>parse</xmlatt>="xml" 表示按 XML 插入，此时被引入的元素来自 DITA 之外的词汇，只能出现在 <xmlelement>foreign</xmlelement> 内——该元素正是为容纳非 DITA 词汇而设。</p>
+      <p>第三种是 XML。<xmlatt>parse</xmlatt>="xml" 表示按 XML 插入，此时被引入的元素来自 DITA 之外的词汇，只能出现在 <xmlelement>foreign</xmlelement> 内——该元素为容纳非 DITA 词汇而设。</p>
       <codeblock>&lt;foreign outputclass="tld"&gt;
   &lt;include href="../src/jsp-tag-library.tld" parse="xml" format="tld"/&gt;
 &lt;/foreign&gt;</codeblock>
-      <p>三种形态的落点相同：把文档里的样例改写成对源文件的引用。下例中的配置节随源码仓库的文件变动，文档不必跟改。</p>
+      <p>三种形态的落点相同：把文档里的样例改写成对源文件的引用。下例中的配置节随源码仓库的文件变动，文档不必随之修改。</p>
       <codeblock>&lt;section&gt;
   &lt;title&gt;默认配置&lt;/title&gt;
   &lt;pre&gt;&lt;include href="../../src/main/resources/application.yml"
@@ -60,7 +60,7 @@
 
     <section>
       <title>退出点</title>
-      <p>构建产出里出现的是源文件的当前内容而非 <xmlelement>fallback</xmlelement> 的替代文本，这一步即完成。<xmlelement>fallback</xmlelement> 出现在产出里说明资源没有取到，路径与构建时的可见性都要复查：被引资源自此成为构建的输入之一，源码仓库的目录调整会让文档构建随之变化。</p>
+      <p>构建产出里出现的是源文件的内容而非 <xmlelement>fallback</xmlelement> 的替代文本，这一步即完成。<xmlelement>fallback</xmlelement> 出现在产出里说明资源没有取到，路径与构建时的可见性都要复查：被引资源自此成为构建的输入之一，源码仓库的目录调整会让文档构建随之变化。</p>
       <p>不适用的场合有两类。其一，内容需要语义标记与条件化，例如要按产品线过滤的一段说明——那属于 DITA 内容，应写成 DITA 并用内容引用。其二，只引入预格式化的代码：<xmlelement>coderef</xmlelement> 是 <xmlelement>include</xmlelement> 的专门化，为此用途而设，用它比用通用元素更贴切。<b><xmlelement>coderef</xmlelement> 与 <xmlelement>include</xmlelement> 的这层关系也是规范自带的专门化范例</b>，可作为写自定义专门化时的对照。</p>
     </section>
 
