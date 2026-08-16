@@ -353,6 +353,9 @@
     <subjectdef keys="deep-dive">
       <data name="dita-type" value="concept"/>
     </subjectdef>
+    <subjectdef keys="artifact">
+      <data name="dita-type" value="reference"/>
+    </subjectdef>
   </subjectdef>
 
   <!-- ═══════ 时效值集 ═══════ 绑定 @props/volatility -->

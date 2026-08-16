@@ -1,85 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
-     结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
-     整改后按实际情况重新定级。 -->
-<concept id="writing-sourcing" xml:lang="zh-CN" maturity="draft" volatility="stable" dimension="dim-criteria dim-governance">
-  <title>来源与成熟度：让"可信到什么程度"可见</title>
-  <shortdesc>每篇内容显式标注成熟度与时效；verified 必须有已核对的来源和日期，volatile 内容无日期不得升为 verified。</shortdesc>
+<!-- 批量重写（2026-08-16）：按写作规则七条与 R12–R16 重构。 -->
+<concept id="writing-sourcing" xml:lang="zh-CN"
+         outputclass="best-practice"
+         maturity="draft" volatility="stable"
+         dimension="dim-criteria dim-governance">
+  <title>kb 来源与成熟度标注</title>
+  <shortdesc>每篇内容显式标注成熟度与时效；verified 须完成来源逐条核对并在 prolog 记录核对日期；volatile 内容无核对日期不得标 verified。</shortdesc>
   <prolog>
     <data name="domain" value="writing-principles"/>
   </prolog>
   <conbody>
-    <p>你翻到一篇自己写的配置笔记，照着做，失败了。查了半天才发现：那个参数两个版本前就改名了。笔记没有错——它写的时候是对的，只是没有任何地方记着"它写于什么时候、依据是什么、还作不作数"。</p>
-    <p>这是旧库最痛的一点：<b>分不清哪些还能信、哪些已过时</b>，于是每一篇都要重新验一遍，等于每一篇都不能直接用。成熟度和时效两个维度就是来治它的——把"可信到什么程度"从读者的猜测变成内容自带的标注，再用规则强制，让过期内容自动失去"可信"资格，而不是靠人记得它旧了。</p>
-
     <section>
-      <title>成熟度（maturity）</title>
-      <ul>
-        <li><keyword>draft</keyword> —— 草稿，未审。<b>默认值</b>：没标注的一律视为 draft，未审内容无法冒充成品。</li>
-        <li><keyword>curated</keyword> —— 经整理，判断可靠，但来源未逐一核对。</li>
-        <li><keyword>verified</keyword> —— 来源已逐条核对且标注核对日期。最高等级。</li>
-      </ul>
-      <p>喂给工具（如 agent 规则集）的交付物，构建时按成熟度过滤，只放 curated 以上——draft 进不了成品。</p>
+      <title>场景</title>
+      <p>旧笔记按写下时的正确状态留存，参数改名、机制变更后并无任何标记提示失效。读者无法区分可信内容与过时内容，等于每篇都须重新验证。成熟度与时效两个维度将"可信到什么程度"变为内容自带的标注，并以规则强制维护。</p>
     </section>
 
     <section>
-      <title>时效（volatility）</title>
-      <ul>
-        <li><keyword>stable</keyword> —— 内容基本不随时间变（协议、算法、原理）。</li>
-        <li><keyword>volatile</keyword> —— 内容依赖快变的生态（工具版本、模型、API）。</li>
-      </ul>
-      <p><b>治理规则</b>：volatile 内容若没有核对日期，<b>不得</b>标为 verified。快变的东西没有"上次确认时间"就声称"已核实"，是自欺。</p>
-      <p>两个维度是<b>正交</b>的，四种组合都有实例，别把它们当成一个"新旧"轴：</p>
-      <table>
-        <tgroup cols="3">
-          <colspec colname="c1"/><colspec colname="c2"/><colspec colname="c3"/>
-          <thead>
-            <row><entry/><entry>stable</entry><entry>volatile</entry></row>
-          </thead>
-          <tbody>
-            <row>
-              <entry>verified</entry>
-              <entry>最理想：原理类且已核对，几乎不用回头看</entry>
-              <entry>要维护：必须带核对日期，日期一旧就该复核</entry>
-            </row>
-            <row>
-              <entry>curated</entry>
-              <entry>常态：判断可靠，来源未逐条核；能用，引用时自己掂量</entry>
-              <entry>最危险的一格：既快变又没核过——读者最容易当真</entry>
-            </row>
-          </tbody>
-        </tgroup>
-      </table>
-      <p>右下那一格是这套标注真正的目标：它以前是隐形的，现在至少写在脸上。</p>
+      <title>做法</title>
+      <p>成熟度（maturity）三档：draft 为未审草稿（默认值，未标注即视为 draft）；curated 为经整理、判断可靠但来源未逐条核对；verified 为来源已逐条核对。晋级 curated 须通过 lint（R12–R16 由 warning 转 error）；晋级 verified 须完成核对并在 prolog 记录 <codeph>reviewed</codeph> 日期。</p>
+      <p>时效（volatility）两值：stable 为不随时间变化的内容（协议、算法、原理）；volatile 为依赖快变生态的内容（工具版本、模型、API）。治理规则：volatile 且无核对日期者不得标 verified（R3 强制）。</p>
+      <p>来源节固定两段（格式见 <xref href="writing-style.dita">文体与结构规范</xref>）：事实段逐条附外链，判断段声明可被反驳的归纳。区分的作用在读者侧：明确哪些可作为事实引用、哪些仅为作者判断。</p>
+      <p>核对日期唯一存放于 prolog 的 <codeph>reviewed</codeph> 字段，正文不写。该字段与 git 记录的是两个事件：git 记文件何时被改，reviewed 记来源何时被核；修正错别字使 git 更新而无核对发生，重新核对而无改动则 git 无痕迹。除此之外，系统能得出的信息（修订时间、版本、作者）一律交给 git 与构建管道，不手填。</p>
     </section>
 
     <section>
-      <title>来源分档</title>
-      <p>每篇内容末尾区分两类来源，这是可信度的凭据：</p>
-      <ul>
-        <li><b>事实</b> —— 转述自权威源，逐条附外链。</li>
-        <li><b>判断</b> —— 来自经验的归纳，非事实转述，可以被反驳。</li>
-      </ul>
-      <p>把这两类分开，读者（包括未来的自己）才知道哪些能当事实引用、哪些只是判断。分档还有一个副作用，比它的本意更值钱：<b>写来源节的时候，你会被迫发现自己哪些话其实没有依据</b>。一篇通篇讲得很笃定的内容，写到来源节才想起来第二档是空的——那说明它该降成 curated，或者该去补核对。</p>
-      <p>本篇自己的来源节就是个例子：第一档只有两条标准定义，其余全在第二档。</p>
-      <p><b>核对日期不写在这里</b>，写在 prolog 的 <xmlelement>data</xmlelement> <xmlatt>name</xmlatt>="reviewed"——它是机读字段，R3 认它、复核提醒读它。正文再手写一遍就成了第二份副本，与下一节的规矩冲突。</p>
+      <title>理由</title>
+      <p>标注只有被强制才不腐化：maturity 默认 draft 使未审内容无法冒充成品；volatility 无默认值使时效必须显式判断（R2 强制）；日期入机读字段使复核提醒可自动化。写作约定的分量不来自出处，来自被机器执行。</p>
     </section>
 
     <section>
-      <title>系统能得出的信息，不让人填</title>
-      <p>日期、版本、修订人这类信息交给 git 或构建管道注入，不要手填——手填的日期永远是错的。<codeph>git log</codeph> 就是比手写字段更真的修订记录。</p>
-      <p>唯一的例外是<codeph>reviewed</codeph>（来源核对日期），理由是它记的<b>不是 git 记的那件事</b>：git 记文件何时被改，它记来源何时被核。改个错别字会让 git 显得新鲜，重新核对却什么都没改则在 git 里毫无痕迹——两个事件不重合，所以这个字段不是冗余。它仍然只存一份，在 prolog 里，不在正文。</p>
+      <title>反例</title>
+      <ul>
+        <li>curated 与 volatile 的组合被读者误当作可信：内容快变且未经核对，却无任何标记提示。标注的意义正在于让这一格可见。</li>
+        <li>正文手写核对日期。与 prolog 字段构成两份副本，必然漂移。</li>
+        <li>写来源节时发现判断段为空而事实段单薄，仍标 curated。该状态应降回 draft 或补核对。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>边界</title>
+      <p>本篇管标注与晋级条件。来源存在性由 R8 强制，链接活性由定期检查覆盖，来源内容的正确性归人审。</p>
     </section>
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>——只有两条，且都只支持"用什么字段记"，不支持本篇的治理主张：</p>
-      <ul>
-        <li>"来源"与"日期"是标准元数据字段而非自创，<xref href="https://www.dublincore.org/specifications/dublin-core/dcmi-terms/" scope="external">DCMI Metadata Terms</xref> 把 <codeph>source</codeph> 定义为"派生出本资源的相关资源"，<codeph>date</codeph> 定义为"与资源生命周期中某事件关联的时间点或时段"（建议按 ISO 8601-1 表达）。</li>
-        <li>DITA 里的对应物是 <xref href="https://dita-lang.org/dita/langref/base/source" scope="external">prolog 的 source 元素</xref>——"本 topic 全部或部分派生自的资源"，可直接写描述，也可用 <xmlatt>href</xmlatt> / <xmlatt>keyref</xmlatt> 指出去。</li>
-      </ul>
-      <p><b>判断</b>：除此之外全是本库自定的治理设计——maturity 分三档、volatility 只取两值、"volatile 无核对日期不得 verified"、来源分两档。这些没有任何外部标准背书，也不需要有：它们的分量不来自出处，来自<b>被机器强制执行</b>（R3 查日期、R8 查来源，见机器兜底）。一条没人执行的写作规范，写得再有来头也会腐烂。</p>
+      <p><b>事实</b>：来源与日期为标准元数据字段，<xref href="https://www.dublincore.org/specifications/dublin-core/dcmi-terms/" scope="external">DCMI Metadata Terms</xref> 定义 <codeph>source</codeph> 为"派生出本资源的相关资源"、<codeph>date</codeph> 为"与资源生命周期事件关联的时间"；DITA 的对应机制为 <xref href="https://dita-lang.org/dita/langref/base/source" scope="external">prolog source 元素</xref>。</p>
+      <p><b>判断</b>：三档成熟度、两值时效、volatile 无日期不得 verified、来源两段分档，均为本库治理设计，无外部标准背书，效力来自机器强制（R2/R3/R8 与 lint 晋级门）。</p>
     </section>
   </conbody>
 </concept>

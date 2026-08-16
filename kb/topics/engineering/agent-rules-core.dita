@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
-     结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
-     整改后按实际情况重新定级。 -->
+<?xml-model href="../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 批量重写（2026-08-16）：转 reference/artifact（框架维度2：可复用工件）。 -->
 <!-- 重写自矿场 infra-ai/rules/constitution + rc-rules。
      含通用规则 + 工具特有段（tool 条件属性），交付物构建时按 DITAVAL 过滤出各工具变体。 -->
-<concept id="agent-rules-core" xml:lang="zh-CN" maturity="draft" volatility="volatile" dimension="dim-principles">
-  <title>Agent 规则集（核心）</title>
+<reference id="agent-rules-core" xml:lang="zh-CN"
+           outputclass="artifact"
+           maturity="draft" volatility="volatile" dimension="dim-principles">
+  <title>agent 规则集</title>
   <shortdesc>跨项目的 agent 规则——核心原则、不可违反的底线、代码约定，以及各 agent 工具特定的配置约定。</shortdesc>
   <!-- 来源放 prolog 不放正文：本篇是交付物源（构建成 CLAUDE.md / AGENTS.md），
        正文加"来源"节会整节进入常驻上下文——违背本库"无条件层必须薄"的判据
@@ -18,13 +18,13 @@
             format="html">Conventional Commits 1.0.0 —— commit 规范一条的来源：约定 <![CDATA[<type>[optional scope]: <description>]]> 结构，配合语义化版本。</source>
     <data name="domain" value="coding-practices"/>
   </prolog>
-  <conbody>
+  <refbody>
     <section>
       <title>核心原则</title>
       <ul>
-        <li><b>Library-First</b>：优先成熟的第三方库，引入新依赖前先确认没有等效库已在项目中。</li>
-        <li><b>MVP-First</b>：只做当前需求必须的部分，禁止为假设的未来预建抽象或配置开关。</li>
-        <li><b>Functional-First</b>：优先纯函数与不可变数据，禁止在不必要处引入副作用与可变状态。</li>
+        <li>Library-First：优先成熟的第三方库，引入新依赖前先确认没有等效库已在项目中。</li>
+        <li>MVP-First：只做当前需求必须的部分，禁止为假设的未来预建抽象或配置开关。</li>
+        <li>Functional-First：优先纯函数与不可变数据，禁止在不必要处引入副作用与可变状态。</li>
       </ul>
     </section>
 
@@ -50,8 +50,8 @@
 
     <section>
       <title>工具特定</title>
-      <p tool="tool-claude-code"><term keyref="term-claude-code">Claude Code</term>：技能放 <filepath>.claude/skills/</filepath>，规则放 <filepath>.claude/rules/</filepath>；<filepath>CLAUDE.md</filepath> 是构建产物，禁止手改，只改 rules 源。</p>
+      <p tool="tool-claude-code"><term keyref="term-claude-code">Claude Code</term>：<term keyref="term-skill">技能</term>放 <filepath>.claude/skills/</filepath>，规则放 <filepath>.claude/rules/</filepath>；<filepath>CLAUDE.md</filepath> 是构建产物，禁止手改，只改 rules 源。</p>
       <p tool="tool-codex"><term keyref="term-codex">Codex</term>：配置放 <filepath>.codex/</filepath>；<filepath>AGENTS.md</filepath> 是入口，同样是构建产物，禁止手改。</p>
     </section>
-  </conbody>
-</concept>
+  </refbody>
+</reference>

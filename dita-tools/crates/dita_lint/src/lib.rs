@@ -231,10 +231,20 @@ fn check_register(root: roxmltree::Node, push: &mut impl FnMut(String)) {
         }
     }
 
+    // mention is not use: a rule quoting the words it bans (inside codeph and
+    // similar markup contexts) is not violating itself
     let body: String = root
         .descendants()
         .filter(|n| matches!(n.tag_name().name(), "conbody" | "refbody" | "taskbody"))
         .flat_map(|b| b.descendants().filter(roxmltree::Node::is_text))
+        .filter(|t| {
+            !t.ancestors().any(|a| {
+                matches!(
+                    a.tag_name().name(),
+                    "codeph" | "codeblock" | "xmlelement" | "xmlatt" | "term" | "keyword"
+                )
+            })
+        })
         .filter_map(|n| n.text())
         .collect();
     for word in DEGREE_WORDS {

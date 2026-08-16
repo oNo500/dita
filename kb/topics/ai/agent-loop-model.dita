@@ -1,66 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
-     结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
-     整改后按实际情况重新定级。 -->
-<!-- coding-agents 域 · dim-concept。全景第一行，本域的心智模型底座。
-     事实当日核对 Claude Code「How Claude Code works」官方文档。
-     刻意只以 Claude Code 为实证对象：另两家未逐节核，不替它们下断言（见来源节）。 -->
+<!-- 批量重写（2026-08-16）：按写作规则七条与 R12–R16 重构。事实沿用 2026-08-15 核对结果。 -->
 <concept id="agent-loop-model" xml:lang="zh-CN"
+         outputclass="best-practice"
          maturity="draft" volatility="volatile"
          dimension="dim-concept">
-  <title>agent CLI 的心智模型：循环，不是问答</title>
-  <shortdesc>它不是"你问一句它答一句"，是"取上下文 → 动手 → 验证"三相不断循环，模型据上一步所得决定下一步。由此推出三件事：工具决定能力上限、可验证的目标是最强的加速器、你随时可以插手而不必推倒重来。</shortdesc>
+  <title>agent CLI 的执行循环</title>
+  <shortdesc>agent CLI 以"取上下文、执行、验证"三相循环工作，模型依据上一步结果决定下一步。据此使用的要点：工具决定能力上限，可验证的目标作用于每一轮，用户可随时介入而无需重新开始。</shortdesc>
   <prolog>
     <source href="https://code.claude.com/docs/en/how-claude-code-works" scope="external"/>
     <data name="domain" value="coding-agents"/>
     <data name="reviewed" value="2026-08-15"/>
   </prolog>
   <conbody>
-    <p>把 agent CLI 当"更强的补全"用的人，会把力气花在把提示词写完美上。把它当循环用的人，会把力气花在<b>让循环能自己收敛</b>上——给它可运行的测试、让它跑得起来、在跑偏时喊停。后者的产出稳定得多，而差别只在心智模型。</p>
-
     <section>
-      <title>三相循环</title>
-      <p>接到任务后，它走三个阶段：<b>取上下文 → 动手 → 验证结果</b>，然后按需重复。三相是交融的，不是流水线——找文件、改代码、跑测试都在用工具，而<b>每一步用什么工具，是模型根据上一步学到的东西现决定的</b>，可以串起几十个动作并中途纠偏。</p>
-      <p>循环的形状随任务而变：问一句代码库的事，可能只需要取上下文；修一个 bug 会把三相反复走；重构则可能大部分时间在验证。</p>
-      <p>驱动它的是两个部件：<b>会推理的模型</b>与<b>能行动的工具</b>。官方把 Claude Code 自身称作<b>agentic harness</b>——提供工具、上下文管理与执行环境，<b>把一个语言模型变成能干活的编码 agent</b>。这个分工解释了很多现象：模型决定判断质量，harness 决定它够不够得着。</p>
+      <title>场景</title>
+      <p>将 agent CLI 当作增强版补全使用时，投入集中在完善单次提示词上。该用法与工具的实际工作方式不符：它按循环运行，产出质量取决于循环能否收敛，而非首条指令是否完善。</p>
     </section>
 
     <section>
-      <title>推论一：没有工具就只剩说话</title>
-      <p>官方的表述很直白——<b>工具是它之所以 agentic 的原因；没有工具，模型只能回复文本</b>。内置工具分五类：文件操作、检索、执行、Web、代码智能（类型错误、跳转定义等）。每次工具调用的返回都回喂进循环，决定下一步。</p>
-      <p>所以"它能做什么"这个问题，答案不在模型那一侧，在工具那一侧——这也是扩展机制（skill / MCP / hook / 子 agent）真正的意义：它们是往这一层加东西。选哪种见 <xref href="agent-extension-choice.dita">扩展机制怎么选</xref>。</p>
-    </section>
-
-    <section>
-      <title>推论二：给它能验证的东西</title>
-      <p>三相里最容易被忽略的是<b>验证</b>——而它恰恰是循环能不能自己收敛的关键。官方给的建议是一句可操作的话：<b>让 Claude 有东西可以对照检查自己的工作</b>——给测试用例、贴期望 UI 的截图、把想要的输出定义清楚。</p>
-      <p>这条比"把提示词写得更精确"更有杠杆：精确的提示只影响第一步，可验证的目标影响<b>每一轮</b>。"实现 validateEmail，测试用例：…，写完跑测试"——循环有了自动的收敛信号，不必你每轮去判断对不对。</p>
-    </section>
-
-    <section>
-      <title>推论三：你在循环里，不在循环外</title>
-      <p>它自主工作，但对你的输入始终有响应。两种插手方式语义不同：</p>
+      <title>做法</title>
+      <p>按循环的结构使用它。接到任务后，agent 经历三个相互交融的阶段：取上下文、执行、验证结果，按需重复。每一步使用哪个工具由模型依据上一步所得决定，可连续串起数十个动作并中途纠偏。循环形态随任务而变：询问代码库可能仅需取上下文，修复缺陷会反复经过三相。</p>
+      <p>循环由两个部件驱动：负责推理的模型，与负责行动的工具。官方文档将 Claude Code 本身称为 <term keyref="term-agentic-harness">agentic harness</term>：提供工具、上下文管理与执行环境，使语言模型成为可行动的 agent。</p>
+      <p>由此有三条使用要点：</p>
       <ul>
-        <li><b>按 <codeph>Esc</codeph></b> —— 立刻停下，正在跑的工具调用被取消，等你的下一句。</li>
-        <li><b>直接打字回车</b> —— 不打断正在跑的工具；当前动作一结束它就读到，并在决定下一步前调整。</li>
+        <li>能力上限在工具侧。没有工具，模型只能返回文本；内置工具分五类（文件操作、检索、执行、Web、代码智能），扩展机制向这一层添加能力，选择见<xref href="agent-extension-choice.dita">扩展机制选型</xref>。</li>
+        <li>提供可验证的目标：测试用例、期望输出的定义、界面截图。精确的提示只作用于第一步，可验证的目标作用于每一轮，循环由此获得收敛信号。</li>
+        <li>在循环内介入。按 <codeph>Esc</codeph> 立即停止并取消当前工具调用；直接输入文字则不打断当前动作，模型在其完成后读取并调整下一步。首次结果不符时给出修正即可，无需重新提问。</li>
       </ul>
-      <p>推论是：<b>第一次没对不必推倒重来</b>。"这个方向不对，问题在会话处理那块"——它接着调整，这是对话式迭代，不是重新提问。</p>
-      <p>安全网也在循环内：改文件前会快照，出错可回退（连按两次 <codeph>Esc</codeph>）；但<b>影响外部系统的动作（数据库、API、部署）没法快照</b>——这正是它在跑有外部副作用的命令前要问你的原因。</p>
     </section>
 
     <section>
-      <title>与补全式助手的分界</title>
-      <p>差别不在"更聪明"，在<b>视野与行动力</b>：它看得见整个项目并能跨文件协同改动、跑测试验证、按需提交，而行内代码助手<b>只看得见当前文件</b>。所以"修复认证 bug"这种跨文件的任务对它是常规，对补全式助手则不成立。</p>
-      <p>另一处结构性差别：<b>会话之间互相独立</b>，每个新会话都是全新的上下文窗口，不带上一轮的对话历史。要跨会话留住东西，靠的是自动记忆与 <filepath>CLAUDE.md</filepath>，不是指望它"记得"。上下文预算的账见 <xref href="agent-context-budget.dita">上下文是预算，不是容器</xref>。</p>
+      <title>理由</title>
+      <p>三相循环与行内补全助手的差别是结构性的：agent 可见整个项目，能跨文件协同修改、运行测试验证、按需提交；行内助手仅见当前文件。跨文件任务对前者是常规操作，对后者不成立。</p>
+      <p>会话之间相互独立，每个新会话的上下文窗口为空。跨会话保留信息依赖自动记忆与 <filepath>CLAUDE.md</filepath>，其上下文开销见<xref href="agent-context-budget.dita">上下文预算</xref>。文件修改前有快照，可回退；影响外部系统的操作（数据库、API、部署）无法快照，agent 因此在执行前询问。</p>
+    </section>
+
+    <section>
+      <title>反例</title>
+      <ul>
+        <li>反复打磨首条提示词，期望一次成功。循环允许迭代，修正的成本低于预先穷举。</li>
+        <li>结果不符即新开会话重新提问。会话内的修正保留已有上下文，重开则全部重建。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>边界</title>
+      <p>本篇事实全部来自 <term keyref="term-claude-code">Claude Code</term> 文档。<term keyref="term-codex">Codex</term> 与 <term keyref="term-antigravity">Antigravity</term> 的循环结构未逐节核对，本篇不对其下断言；该问题在<xref href="coding-agents-comparison.dita">结构对比</xref>中同样保持开放。</p>
     </section>
 
     <section>
       <title>来源</title>
-      <p><b>已核对</b>（2026-08-15，逐条对照 <xref href="https://code.claude.com/docs/en/how-claude-code-works" scope="external">Claude Code, How Claude Code works</xref>）：三相循环及其"交融而非流水线"、模型按上一步所得决定下一步并可串起几十个动作、模型与工具两部件、agentic harness 的定义与作用、"没有工具只能回复文本"、内置工具五类、"给它可对照验证的东西"这条建议、<codeph>Esc</codeph> 与直接输入两种插手方式的语义差别、改文件前快照与外部副作用无法快照、"行内助手只看得见当前文件"的对照、会话彼此独立且上下文窗口全新。</p>
-      <p><b>判断与通用实践</b>：把三条"推论"组织成因果链（工具决定上限 / 可验证目标是杠杆 / 你在循环内）是本篇的归纳；"可验证目标比精确提示更有杠杆"是本篇论断，官方只并列给出两条建议、未作强弱比较。</p>
-      <p><b>适用范围的诚实边界</b>：本篇事实全部来自 Claude Code 的文档。<term keyref="term-codex">Codex</term> 与 <term keyref="term-antigravity">Antigravity</term> 的循环结构<b>未逐节核对</b>，因此本篇不替它们下断言——三相循环是否为本类工具的通用形态，留待本域 dim-comparison 补写时验证。</p>
-      <p><b>时效</b>：volatile。快捷键、权限模式、工具分类随版本变；三相循环与 harness/模型分工属结构性描述，相对稳。</p>
+      <p><b>事实</b>：三相循环、模型与工具两部件、agentic harness 的定义、内置工具五类、可验证目标的建议、两种介入方式的语义、快照与外部副作用的边界、会话独立性、与行内助手的对照，均见 <xref href="https://code.claude.com/docs/en/how-claude-code-works" scope="external">Claude Code, How Claude Code works</xref>。</p>
+      <p><b>判断</b>：将三条使用要点组织为因果链，以及"可验证目标的作用范围大于精确提示"的比较，为本库归纳，可被反驳。</p>
     </section>
   </conbody>
 </concept>

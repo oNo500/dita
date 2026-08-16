@@ -1,68 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
-     结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
-     整改后按实际情况重新定级。 -->
-<!-- coding-agents 域 · dim-comparison。
-     只比可核对的结构差异，不评优劣——优劣依赖使用场景与时点，写进 volatile 内容会最先腐烂。
-     三家文档当日各自取原文核对；抓取过程中的一次失败见来源节（诚实记录，不掩盖）。 -->
+<!-- 批量重写（2026-08-16）：按写作规则七条与 R12–R16 重构。事实沿用 2026-08-15 核对结果。 -->
 <concept id="coding-agents-comparison" xml:lang="zh-CN"
+         outputclass="best-practice"
          maturity="draft" volatility="volatile"
          dimension="dim-comparison">
-  <title>三家 agent 工具的结构差异</title>
-  <shortdesc>Claude Code / Codex / Antigravity 在指令文件的合并语义、形态覆盖面上有实质差异，扩展机制反而趋同；选型该看这些结构事实，而不是功能清单谁更长。</shortdesc>
+  <title>agent CLI 结构对比：Claude Code、Codex、Antigravity</title>
+  <shortdesc>三款工具的选型依据是结构差异——指令文件的合并语义、形态覆盖面、并行任务的归属——而非功能清单；扩展机制已趋同。</shortdesc>
   <prolog>
     <source href="https://code.claude.com/docs/en/how-claude-code-works" scope="external"/>
     <data name="domain" value="coding-agents"/>
     <data name="reviewed" value="2026-08-15"/>
   </prolog>
   <conbody>
-    <p>横向比较最容易写成功能清单对照——但功能表几周就变，且长度不代表适配。更耐用的是<b>结构差异</b>：指令怎么被读取、能力从哪来、跑在什么形态上。这三条决定了你的工作方式要不要改。</p>
-
     <section>
-      <title>指令文件：合并语义不同，这是最实质的差别</title>
-      <p>三家都有"把项目约定持久化告诉 agent"的文件，但读法不一样，直接影响你该怎么组织它们。</p>
-      <ul>
-        <li><b><term keyref="term-codex">Codex</term>（AGENTS.md）—— 沿路径拼接，近者优先。</b> 先读 Codex 主目录（默认 <filepath>~/.codex</filepath>，有 <filepath>AGENTS.override.md</filepath> 则优先于 <filepath>AGENTS.md</filepath>），再从 git 根逐级走到当前目录，每级同样先看 override。<b>各级文件是拼接而非替换</b>——越靠近当前目录的越靠后出现，因而覆盖先前指导。合并后有上限：<codeph>project_doc_max_bytes</codeph>，默认 32 KiB，超出即停止追加；空文件跳过；每次运行重建，无需清缓存。</li>
-        <li><b><term keyref="term-claude-code">Claude Code</term>（CLAUDE.md）—— 分作用域，且是"上下文而非强制配置"。</b> 详见 <xref href="claude-code-settings.dita">配置与权限速查</xref>；与本域另一条判据的关系见 <xref href="agent-rule-loading.dita">三层加载判据</xref>。</li>
-        <li><b><term keyref="term-antigravity">Antigravity</term> —— 规则与工作流列在「customizations」下</b>，其具体合并语义本篇未核（见来源节的边界声明）。</li>
-      </ul>
-      <note>实用推论：在 Codex 下，<b>子目录放一份更具体的 AGENTS.md 是官方支持的覆盖手段</b>（近者优先）；而"全局 + 项目"两层都写满时要留意 32 KiB 的合并上限——超限是静默截断，不报错。</note>
+      <title>场景</title>
+      <p>横向比较通常做成功能清单对照。功能表数周即过期，条目多寡也不反映适配度。耐用的比较对象是结构差异：指令如何被读取、能力覆盖哪些形态、并行任务由谁管理。这三项决定使用方式是否需要改变。</p>
     </section>
 
     <section>
-      <title>形态覆盖面：谁只在终端，谁不止在终端</title>
-      <simpletable relcolwidth="1* 2*">
+      <title>做法</title>
+      <p>按三项结构差异比较，选型时对照自身需求逐项回答。</p>
+      <p>指令文件的合并语义。<term keyref="term-codex">Codex</term> 沿路径拼接：先读主目录（默认 <filepath>~/.codex</filepath>，<filepath>AGENTS.override.md</filepath> 优先于 <filepath>AGENTS.md</filepath>），再自 git 根逐级读至当前目录；各级拼接而非替换，靠近当前目录者后出现因而覆盖在前的指导；合并上限由 <codeph>project_doc_max_bytes</codeph> 控制（默认 32 KiB），超出静默截断。<term keyref="term-claude-code">Claude Code</term> 按作用域取值且定位为上下文而非强制配置，见<xref href="claude-code-settings.dita">配置速查</xref>。因此在 Codex 下，子目录放置更具体的指令文件是受支持的覆盖手段；两层写满时须留意合并上限。</p>
+      <p>形态覆盖面：</p>
+      <simpletable relcolwidth="1* 3*">
         <sthead><stentry>工具</stentry><stentry>已核实的形态</stentry></sthead>
-        <strow><stentry>Claude Code</stentry><stentry>终端、桌面应用、IDE 扩展、claude.ai/code、Remote Control、Slack、CI/CD；执行环境分本地 / 云端 / Remote Control（浏览器操控但代码在本地跑）。<b>循环与能力在各形态一致，变的只是执行位置与交互方式</b></stentry></strow>
+        <strow><stentry>Claude Code</stentry><stentry>终端、桌面应用、IDE 扩展、Web、Remote Control、Slack、CI/CD；执行环境分本地、云端与 Remote Control，循环与能力在各形态一致</stentry></strow>
         <strow><stentry>Codex</stentry><stentry>CLI、IDE 扩展、桌面应用、云端、Web</stentry></strow>
-        <strow><stentry>Antigravity</stentry><stentry>IDE、CLI、SDK 三个面；agent 在「Projects」边界内工作，可选本地模式或新建 worktree 模式；CLI 侧强调 headless、沙箱执行与后台任务</stentry></strow>
+        <strow><stentry><term keyref="term-antigravity">Antigravity</term></stentry><stentry>IDE、CLI、SDK；agent 在 Projects 边界内工作，可选本地模式或新建 worktree 模式；CLI 侧提供 headless、沙箱执行与后台任务</stentry></strow>
       </simpletable>
-      <p>值得注意的是 Antigravity 的<b>项目边界</b>与<b>新建 worktree 模式</b>是产品内建概念，而在 Claude Code 里并行会话靠 git worktree 自己开——同一需求，一个做进了产品，一个交给既有工具。</p>
+      <p>并行任务的归属：Antigravity 将 worktree 模式内建为产品概念；Claude Code 的并行会话由用户以 git worktree 自行组织。同一需求，一为产品内建，一交给既有工具。</p>
+      <p>扩展机制不构成差异：三家均支持 <term keyref="term-mcp">MCP</term>，Claude Code 与 Antigravity 均提供 <term keyref="term-skill">skill</term> 与 <term keyref="term-hook">hook</term> 类扩展。机制间的选择见<xref href="agent-extension-choice.dita">扩展机制选型</xref>；跨工具规则复用的开放格式见 <xref href="https://agents.md/" scope="external">AGENTS.md</xref>。</p>
     </section>
 
     <section>
-      <title>扩展机制：反而趋同</title>
-      <p>三家都支持 <b>MCP</b>；Claude Code 与 Antigravity 都提供 skill、hook 一类的扩展（Antigravity 另有 plugins、sidecars）。<b>差异不在有没有，而在各机制的触发语义</b>——那是选机制而非选工具的问题，见 <xref href="agent-extension-choice.dita">扩展机制怎么选</xref>。</p>
-      <p>跨工具复用规则的现成落点是 <xref href="https://agents.md/" scope="external">AGENTS.md</xref> 这个开放格式（Codex 原生读它，二十余家工具支持）。本库自己的做法是把规则写成单一 DITA 源、按工具过滤出各自变体——见交付物构建。</p>
+      <title>理由</title>
+      <p>结构差异改变使用方式，功能差异多可由扩展补齐。指令合并语义决定规则文件的组织方式，形态覆盖决定入口，并行归属决定工作流搭建——三者均无法靠安装插件改变。</p>
     </section>
 
     <section>
-      <title>选型该问的三个问题</title>
-      <ol>
-        <li><b>你的规则要不要按目录分层？</b> 要，Codex 的沿路径拼接是原生支持；不要，这条不构成差异。</li>
-        <li><b>你需要终端之外的形态吗？</b> 三家都不止终端，但覆盖面不同：要 IM / CI 入口看 Claude Code，要 SDK 编程集成看 Antigravity。</li>
-        <li><b>并行任务由谁管？</b> 产品内建（Antigravity 的 worktree 模式）还是自己用 git worktree（Claude Code 的做法）。</li>
-      </ol>
-      <p>刻意不比的：模型能力、生成质量、价格。前两者随版本与模型档位变化，且缺可复现的个人测法；价格不属本域范围。</p>
+      <title>反例</title>
+      <ul>
+        <li>按功能清单长度选型。清单随版本变动，长度不等于适配。</li>
+        <li>比较模型能力、生成质量与价格。前两者随版本与档位变化且缺乏可复现的个人测法，价格不属本域，本篇不作比较。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>边界</title>
+      <p>Antigravity 指令文件的合并语义未核对；三家执行循环是否同构未验证（<xref href="agent-loop-model.dita">执行循环</xref>一篇仅以 Claude Code 为实证对象）。两个问题保持开放，待各家内容重写时补足。</p>
     </section>
 
     <section>
       <title>来源</title>
-      <p><b>已核对</b>（2026-08-15）：Codex 的指令链取自 <xref href="https://learn.chatgpt.com/docs/agent-configuration/agents-md" scope="external">Codex, AGENTS.md 文档</xref>——主目录与项目级的读取顺序、<filepath>AGENTS.override.md</filepath> 的优先、拼接而非替换、近者覆盖、<codeph>project_doc_max_bytes</codeph> 默认 32 KiB、空文件跳过、每次运行重建。Antigravity 的形态与定位取自 <xref href="https://antigravity.google/docs/getting-started" scope="external">Antigravity 入门文档</xref>——IDE / CLI / SDK 三面、Projects 边界、本地与新建 worktree 模式、MCP 与 skills/plugins/hooks/sidecars、CLI 侧的 headless 与沙箱。Claude Code 的形态与"各形态循环一致"取自 <xref href="https://code.claude.com/docs/en/how-claude-code-works" scope="external">How Claude Code works</xref>。跨工具格式见 <xref href="https://agents.md/" scope="external">AGENTS.md</xref>。</p>
-      <p><b>抓取过程中的一次失败，如实记录</b>：Codex 文档入口 <codeph>developers.openai.com/codex</codeph> 会 308 跳转到 <codeph>learn.chatgpt.com</codeph>，而对跳转后的<b>索引页</b>取摘要时，返回内容把 Codex 说成"Claude 的官方 CLI"——明显失真，已弃用，改取具体文档页重新核对。教训：索引页的机器摘要不可作为事实来源，要落到讲具体机制的那一页。</p>
-      <p><b>本篇不断言的</b>：Antigravity 指令文件的合并语义、三家的循环结构是否同形（<xref href="agent-loop-model.dita">心智模型</xref>一篇只以 Claude Code 为实证对象，本篇未能补上另两家的对应描述，故该问题<b>仍然开放</b>）。maturity 因此定 curated 而非 verified——本篇有已核事实，但比较的完整性不足以称"逐条核对"。</p>
-      <p><b>判断与通用实践</b>："该看结构差异而非功能清单"、以及选型三问，是本篇的主张，可被反驳。</p>
+      <p><b>事实</b>：Codex 指令链的读取顺序、override 优先、拼接语义、合并上限，见 <xref href="https://learn.chatgpt.com/docs/agent-configuration/agents-md" scope="external">Codex, AGENTS.md</xref>；Antigravity 的三形态、Projects 边界、worktree 模式与 CLI 特性，见 <xref href="https://antigravity.google/docs/getting-started" scope="external">Antigravity, Getting started</xref>；Claude Code 的形态与循环一致性，见 <xref href="https://code.claude.com/docs/en/how-claude-code-works" scope="external">How Claude Code works</xref>；跨工具格式见 <xref href="https://agents.md/" scope="external">AGENTS.md</xref>。</p>
+      <p><b>判断</b>：以结构差异而非功能清单为选型依据，及三项差异的选取，为本库归纳，可被反驳。</p>
     </section>
   </conbody>
 </concept>

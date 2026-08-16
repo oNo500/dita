@@ -49,7 +49,7 @@
           <stentry>状态</stentry>
         </sthead>
         <strow><stentry>概念（dim-concept）</stentry><stentry>agent CLI 是什么、agent 循环的心智模型、它与补全式助手的本质差异</stentry><stentry>已覆盖：agent-loop-model</stentry></strow>
-        <strow><stentry>加载机制（dim-mechanism）</stentry><stentry>规则 / skill / hook 何时进上下文、三层加载语义</stentry><stentry>已覆盖：agent-rule-loading、agent-context-verification</stentry></strow>
+        <strow><stentry>加载机制（dim-mechanism）</stentry><stentry>规则 / <term keyref="term-skill">skill</term> / <term keyref="term-hook">hook</term> 何时进上下文、三层加载语义</stentry><stentry>已覆盖：agent-rule-loading、agent-context-verification</stentry></strow>
         <strow><stentry>选层判据（dim-decision）</stentry><stentry>一条内容装进哪层、编排独立成物还是写进正文的取舍</stentry><stentry>已覆盖：agent-rule-loading、agent-skill-orchestration</stentry></strow>
         <strow><stentry>工作方法（dim-method）</stentry><stentry>做事链与查证链、第三方资产验收、收录判据</stentry><stentry>已覆盖：agent-context-verification</stentry></strow>
         <strow><stentry>选型对比（dim-comparison）</stentry><stentry>Claude Code vs Codex vs Antigravity 及终端工具生态的取舍依据</stentry><stentry>已覆盖：coding-agents-comparison（部分：Antigravity 合并语义未核）</stentry></strow>
@@ -60,11 +60,11 @@
         <strow><stentry>配置（dim-config）</stentry><stentry>settings 体系、权限配置、模型与上下文配置</stentry><stentry>已覆盖：claude-code-settings</stentry></strow>
         <strow><stentry>日常用法（dim-usage）</stentry><stentry>会话管理、常用工作流、并行会话与 worktree</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>速查参考（dim-reference）</stentry><stentry>命令 / 快捷键 / 设置项速查表</stentry><stentry>已覆盖：claude-code-settings、claude-code-hooks</stentry></strow>
-        <strow><stentry>集成（dim-integration）</stentry><stentry>MCP 服务器、hooks、IDE / CI / 浏览器 / IM 接入、headless</stentry><stentry>已覆盖：agent-extension-choice</stentry></strow>
+        <strow><stentry>集成（dim-integration）</stentry><stentry><term keyref="term-mcp">MCP</term> 服务器、hooks、IDE / CI / 浏览器 / IM 接入、headless</stentry><stentry>已覆盖：agent-extension-choice</stentry></strow>
         <strow><stentry>安全基线（dim-security）</stentry><stentry>权限模型、沙箱、密钥与数据面</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>排障（dim-troubleshooting）</stentry><stentry>安装失败、认证异常、会话卡死等常见症状与处置</stentry><stentry>盲区</stentry></strow>
         <strow><stentry><term keyref="term-context-engineering">上下文工程</term>（dim-context-engineering）</stentry><stentry>上下文窗口管理、CLAUDE.md 瘦身、压缩与记忆</stentry><stentry>已覆盖：agent-context-budget</stentry></strow>
-        <strow><stentry>编排（dim-agent-orchestration）</stentry><stentry>子 agent、workflow、skill 之间的衔接</stentry><stentry>已覆盖：agent-skill-orchestration</stentry></strow>
+        <strow><stentry>编排（dim-agent-orchestration）</stentry><stentry><term keyref="term-subagent">子 agent</term>、workflow、skill 之间的衔接</stentry><stentry>已覆盖：agent-skill-orchestration</stentry></strow>
         <strow><stentry>资产设计（dim-tool-design）</stentry><stentry>怎么写好一个 skill / MCP 工具 / 规则集——给 agent 用的资产的设计规范</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>成本与延迟（dim-cost-latency）</stentry><stentry>模型档位选择、token 预算、缓存与 fast mode 的取舍</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>注入安全（dim-injection-safety）</stentry><stentry>联网 / 读第三方内容时的 prompt 注入面与挡板</stentry><stentry>盲区</stentry></strow>
@@ -85,16 +85,16 @@
       <title>对标依据</title>
       <p>三路对标，缺一会偏：</p>
       <ul>
-        <li><b>官方文档结构</b>——Claude Code 文档索引（2026-08-15 取原文）的十个大类逐一映射到上表：Extensibility → 加载机制/生态/编排/资产设计，Configuration → 配置，Integrations → 集成，Security → 安全/注入安全，Developer Experience → 排障/速查，等。企业与 SDK 两类按上节理由排除。</li>
-        <li><b>矿场实据</b>——旧库 20+ 篇 Claude Code / agent 笔记的实际分布：安装问题、settings 模板、权限配置、速查、MCP 服务器、Hooks、Chrome 集成、插件市场、Skills 生态、ContextEngineering、资产与查证分层。实据确认了官方结构之外的个人视角维度（工作方法、选层判据）确实高频。</li>
-        <li><b>维度框架族</b>——本域 = A 技术制品 ×  C AI 构建交叉：A 族取七维（install/config/usage/reference/integration/security/troubleshooting），C 族取五维（context-engineering/agent-orchestration/tool-design/cost-latency/injection-safety），加通用核心与 dim-method。</li>
+        <li>官方文档结构——Claude Code 文档索引的十个大类逐一映射到上表：Extensibility → 加载机制/生态/编排/资产设计，Configuration → 配置，Integrations → 集成，Security → 安全/注入安全，Developer Experience → 排障/速查，等。企业与 SDK 两类按上节理由排除。</li>
+        <li>矿场实据——旧库 20+ 篇 Claude Code / agent 笔记的实际分布：安装问题、settings 模板、权限配置、速查、MCP 服务器、Hooks、Chrome 集成、插件市场、Skills 生态、ContextEngineering、资产与查证分层。实据确认了官方结构之外的个人视角维度（工作方法、选层判据）确实高频。</li>
+        <li>维度框架族——本域为 A 技术制品与 C AI 构建交叉：A 族取七维（install/config/usage/reference/integration/security/troubleshooting），C 族取五维（context-engineering/agent-orchestration/tool-design/cost-latency/injection-safety），加通用核心与 dim-method。</li>
       </ul>
     </section>
 
     <section>
       <title>来源</title>
-      <p><b>已核对</b>（2026-08-15）：对标主锚是 <xref href="https://code.claude.com/docs/" scope="external">Claude Code 官方文档</xref>——其完整索引（llms.txt）当日取回，上表官方结构映射以它为据。<xref href="https://developers.openai.com/codex" scope="external">Codex 文档</xref>与 <xref href="https://antigravity.google/docs" scope="external">Antigravity 文档</xref>入口已验证存在，但<b>只验了在、未逐节读</b>——两家的结构对标留待其内容重写时补，届时若顶出新维度按"子类按需再加"处理。跨工具规则的开放格式见 <xref href="https://agents.md/" scope="external">AGENTS.md</xref>（本会话读过原文）。</p>
-      <p><b>判断与通用实践</b>：二十维的取舍、两项刻意排除、"volatile 优先"的填写顺序，均为本库判断，可被反驳——维度齐不齐是人审事项，<b>清单已于 2026-08-15 经人审通过，maturity 随之由 draft 升 curated</b>。</p>
+      <p><b>事实</b>：对标主锚为 <xref href="https://code.claude.com/docs/" scope="external">Claude Code 官方文档</xref>，其完整索引已取回，官方结构映射以此为据。<xref href="https://developers.openai.com/codex" scope="external">Codex 文档</xref>与 <xref href="https://antigravity.google/docs" scope="external">Antigravity 文档</xref>入口已验证存在，内容未逐节读，其结构对标待各自内容重写时补足。跨工具规则格式见 <xref href="https://agents.md/" scope="external">AGENTS.md</xref>。</p>
+      <p><b>判断</b>：二十维的取舍、两项刻意排除、volatile 优先的填写顺序，均为本库判断，可被反驳。维度清单是否齐全属人审事项。</p>
     </section>
   </conbody>
 </concept>

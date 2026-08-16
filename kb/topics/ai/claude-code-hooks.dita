@@ -6,7 +6,7 @@
            maturity="draft" volatility="volatile"
            dimension="dim-reference dim-integration">
   <title>Claude Code hook 速查</title>
-  <shortdesc>hook 事件按触发频率分层、事件到裁决的解析链、阻断的表达语法。机制选择的判据见另一篇，本篇仅供查阅。</shortdesc>
+  <shortdesc><term keyref="term-hook">hook</term> 事件按触发频率分层、事件到裁决的解析链、阻断的表达语法。机制选择的判据见另一篇，本篇仅供查阅。</shortdesc>
   <prolog>
     <source href="https://code.claude.com/docs/en/hooks" scope="external"/>
     <data name="domain" value="claude-code"/>
@@ -35,7 +35,7 @@
         <strow>
           <stentry>其他</stentry>
           <stentry><codeph>FileChanged</codeph> / <codeph>ConfigChange</codeph> / <codeph>CwdChanged</codeph> / <codeph>Elicitation</codeph> / <codeph>MessageDisplay</codeph></stentry>
-          <stentry>监视的文件变更 / 配置变更 / 工作目录变更 / MCP 请求用户输入 / 文本展示期间</stentry>
+          <stentry>监视的文件变更 / 配置变更 / 工作目录变更 / <term keyref="term-mcp">MCP</term> 请求用户输入 / 文本展示期间</stentry>
         </strow>
       </simpletable>
     </section>
@@ -58,7 +58,7 @@
         <li><codeph>matcher</codeph> 按工具名筛选，如 <codeph>Bash</codeph></li>
         <li><codeph>if</codeph> 按模式进一步筛选，如 <codeph>Bash(rm *)</codeph></li>
         <li>处理器执行：shell 命令、HTTP 端点、LLM 提示或 agent</li>
-        <li>Claude Code 执行裁决：阻断、放行或继续</li>
+        <li><term keyref="term-claude-code">Claude Code</term> 执行裁决：阻断、放行或继续</li>
       </ol>
     </section>
 

@@ -1,65 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
-     结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
-     整改后按实际情况重新定级。 -->
-<!-- 重写自矿场 20-02-ai-assistant/AI-资产与查证分层（type:concept, draft）。
-     stable：做事/查证两条链是方法论，不随具体工具版本变。 -->
-<concept id="agent-context-verification" xml:lang="zh-CN" maturity="draft" volatility="stable" dimension="dim-method dim-mechanism">
-  <title>做事链与查证链：agent coding 的两条并行链</title>
-  <shortdesc>做事与查证是两条并行的链——规则和 skill 管"怎么做"，文档链管"事实是什么"；排成一条优先级会绕路，查 API 时先翻 skill 是浪费。</shortdesc>
+<!-- 批量重写（2026-08-16）：按写作规则七条与 R12–R16 重构。事实沿用 2026-08-15 核对结果。
+     原始出处为矿场 资产与查证分层笔记，判断层为原创归纳。 -->
+<concept id="agent-context-verification" xml:lang="zh-CN"
+         outputclass="best-practice"
+         maturity="draft" volatility="stable"
+         dimension="dim-method dim-mechanism">
+  <title>agent 的做事链与查证链</title>
+  <shortdesc>agent 编码需要两类输入：行为约定与事实。二者由并行的两条链提供——规则与 skill 承载约定，文档链提供事实；排成单一优先级会产生绕路。</shortdesc>
   <prolog>
     <data name="domain" value="coding-agents"/>
+    <data name="reviewed" value="2026-08-15"/>
   </prolog>
   <conbody>
-    <p>agent 写代码卡住，通常是两种卡法。一种是"这个库的这个方法到底收什么参数"——它需要的是<b>事实</b>。另一种是"这个项目里新增一个模块该放哪、要不要写测试"——它需要的是<b>你的约定</b>。</p>
-    <p>这两种需求走的是两条<b>并行</b>的链，不是一条有先后的链。把它们排成一条优先级，就会出现这种绕路：agent 要查一个 API 签名，却先去翻了三个 skill 的描述，确认都不相关，才想起来该去查文档。规则和 skill 管"怎么做"，文档链管"事实是什么"，两条各走各的。</p>
-
     <section>
-      <title>做事链：规则与 skill</title>
-      <ul>
-        <li><b>规则</b> —— 姿态约束，回答"应该/不应该怎样"，是个人沉淀。</li>
-        <li><b>skill</b> —— 可执行工作流，回答"怎么做一件事"，有输入有产物。</li>
-      </ul>
-      <p>判据不是"有没有步骤"，而是<b>被执行还是被遵守</b>。"提交信息用英文"没有步骤，但它是一条要一直遵守的姿态，所以是规则；"发布一个版本"有五步，走完就结束，所以是 skill。纯参考型的 skill（只查、无步骤）形态上其实更接近规则。</p>
+      <title>场景</title>
+      <p>agent 编码受阻分两类：一类缺事实，如某方法的参数；一类缺约定，如新模块的放置位置。两类需求来源不同，若排成单一优先级链，查询 API 签名前会先遍历 skill 描述，确认无关后才转向文档。</p>
     </section>
 
     <section>
-      <title>查证链：按可信度递进，命中即停</title>
+      <title>做法</title>
+      <p>维护并行两条链，按需求类型直接进入对应链。</p>
+      <p>做事链承载约定：规则为姿态约束（回答应当与否），<term keyref="term-skill">skill</term> 为可执行工作流（有输入与产出）。区分判据是被执行还是被遵守，而非有无步骤："提交信息用英文"无步骤但需持续遵守，属规则；"发布版本"有五步且执行完毕即结束，属 skill。</p>
+      <p>查证链提供事实，按可信度递进、命中即止：</p>
       <ol>
-        <li><b>统一检索入口</b>（如 context7）—— 覆盖最广，查单点 API 用。</li>
-        <li><b>llms.txt / llms-full.txt</b> —— 官方编排的"AI 应该知道这些"，与抓取切片不同，用来建立整体理解。</li>
-        <li><b>仓库文档 / 抓官方页</b> —— 唯一能拿到<b>最新未索引内容</b>的途径。</li>
-        <li><b>读源码</b> —— 文档回答"怎么用"，源码回答"实际怎么跑"；文档写错时的唯一权威。</li>
+        <li>统一检索入口（如 Context7），覆盖广，适用单点 API 查询。</li>
+        <li>llms.txt——官方编排的面向 LLM 的内容，用于建立整体理解。</li>
+        <li>仓库文档与官方页面——获取最新未索引内容的途径。</li>
+        <li>源码——文档描述用法，源码给出实际行为；文档有误时的最终依据。</li>
       </ol>
-      <note type="warning">所有索引都有延迟。近期变更只能直接读仓库——凭训练数据描述 API，是最常见的失效来源。配套一条纪律：某个 API 第一次用时查证，之后看代码里已有的实现。</note>
+      <p>索引均有延迟，近期变更只能直接读仓库。配套纪律：API 首次使用时查证，此后参照代码中的既有用法。</p>
+      <p>引入第三方资产前验证三项：读正文而非描述；查与现有资产的主题重叠（同主题两份会争夺触发）；查隐含依赖（可能依赖同仓库的初始化流程，单独摘出后静默失效）。</p>
     </section>
 
     <section>
-      <title>第三方资产必验三件事</title>
-      <p>官方资产优先；引入第三方 skill/资产前，必验：</p>
-      <ol>
-        <li><b>读正文，不看描述</b> —— 描述是营销面，正文才是实际行为。</li>
-        <li><b>查与现有资产的重叠</b> —— 同主题两份会争夺触发。</li>
-        <li><b>看隐含依赖</b> —— 最易漏。可能依赖同仓的 setup 流程，单独摘出来会静默失效。</li>
-      </ol>
+      <title>理由</title>
+      <p>两条链的更新节奏与可信来源不同：约定由使用者沉淀，事实由上游权威更新。合并为单链后，任一侧的查询都要付出另一侧的遍历成本；分开后各链内部可独立按可信度排序。</p>
     </section>
 
     <section>
-      <title>什么该收、什么不该收</title>
-      <p>"常用技术栈"不等于"有官方 skill"——多数库官方不维护 skill，搜到的多是个人仓。按类型分流：</p>
+      <title>反例</title>
       <ul>
-        <li><b>API 用法</b> → 查证链已覆盖且更新更快，不必收。</li>
-        <li><b>判断与约定</b> → 写成自己的规则。</li>
-        <li>只有<b>官方自己维护</b>的 skill 才值得收录。</li>
+        <li>为常用库收录第三方 skill 承载 API 用法。查证链已覆盖且更新更快；值得收录的是官方自行维护的 skill。</li>
+        <li>凭训练数据描述 API。索引延迟之外，训练数据的滞后更大，这是最常见的失效来源。</li>
       </ul>
+    </section>
+
+    <section>
+      <title>边界</title>
+      <p>本篇划分两条链的职责。约定侧的加载层选择见<xref href="agent-rule-loading.dita">规则加载分层</xref>；机制类型的选择见<xref href="agent-extension-choice.dita">扩展机制选型</xref>。</p>
     </section>
 
     <section>
       <title>来源</title>
-      <p><b>已核对</b>（2026-08-15）：查证链上两层各有出处。<xref href="https://llmstxt.org/" scope="external">llms.txt 提案</xref>（Jeremy Howard 于 2024-09-03 发布）说明了这层为什么值得单列——网页是为人建的，把它还原成干净文本"既困难又不精确"，而该文件给 agent 提供的是"集中在单一位置的、精炼的专家级信息"。这正是本篇说它"是官方编排、不同于抓取切片"的依据。第一层的统一检索入口也确有其物：<xref href="https://context7.com/" scope="external">Context7</xref>（Upstash）自述为"面向 LLM 与 AI 代码编辑器的最新文档"。</p>
-      <p>一处必须说明的边界：正文写的 <filepath>llms-full.txt</filepath> 是生态里流行起来的约定，<b>不在</b> llms.txt 提案本身之内——核对原文时确认了这一点，写在这里免得日后当成规范引用。</p>
-      <p><b>判断与通用实践</b>：四级查证链的排序与"命中即停"、做事/查证两链并行这个分层本身、"被执行还是被遵守"的规则与 skill 判据、第三方资产必验三件事、以及"只收官方自己维护的 skill"这条收录判据，全是实践归纳，无权威出处，可被反驳。</p>
+      <p><b>事实</b>：llms.txt 的定位（网页为人而建，还原为文本既困难又不精确；为 agent 提供集中的精炼信息）见 <xref href="https://llmstxt.org/" scope="external">llms.txt 提案</xref>；统一检索入口的实例见 <xref href="https://context7.com/" scope="external">Context7</xref>。llms-full.txt 是生态惯例，不属提案本身。</p>
+      <p><b>判断</b>：两链并行的划分、四级递进与命中即止、被执行还是被遵守的判据、第三方资产三项验证、仅收官方 skill 的收录标准，均为实践归纳，可被反驳。</p>
     </section>
   </conbody>
 </concept>

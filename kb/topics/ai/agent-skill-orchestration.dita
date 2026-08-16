@@ -1,38 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
-     结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
-     整改后按实际情况重新定级。 -->
-<!-- 重写自矿场 Rule与Skill分层"编排"节——原文该节是独立的原创判断，
-     不属"加载判据"题域，故从 agent-rule-loading 分出独立成篇。 -->
-<concept id="agent-skill-orchestration" xml:lang="zh-CN" maturity="draft" volatility="stable" dimension="dim-agent-orchestration dim-decision">
-  <title>skill 编排：skill 之间的衔接</title>
-  <shortdesc>加载分层解决"单个 skill 何时进上下文"，但不解决 skill 之间的顺序与交接；编排有两种落法——写进 skill 正文，或独立成一个编排物。</shortdesc>
+<!-- 批量重写（2026-08-16）：按写作规则七条与 R12–R16 重构。
+     原始出处为矿场 Rule与Skill分层的编排节，独立成篇；判断层为原创归纳。 -->
+<concept id="agent-skill-orchestration" xml:lang="zh-CN"
+         outputclass="best-practice"
+         maturity="draft" volatility="stable"
+         dimension="dim-agent-orchestration dim-decision">
+  <title>agent skill 编排</title>
+  <shortdesc>加载分层决定单个 skill 何时进入上下文，不决定 skill 之间的顺序与交接。编排有两种承载方式：写入 skill 正文，或独立为编排物；取舍看链路是否需要机制化校验。</shortdesc>
   <prolog>
     <data name="domain" value="coding-agents"/>
+    <data name="reviewed" value="2026-08-15"/>
   </prolog>
   <conbody>
-    <p>你有一个"头脑风暴"skill 和一个"写实施计划"skill，各自都好用。但它们之间有个默认的先后：风暴出方案，计划把选中的方案落成步骤。这层顺序写在哪？两个 skill 的描述里都不该写——描述是给触发用的，不是给排流程用的。</p>
-    <p>加载分层（见 <xref href="agent-rule-loading.dita">agent 规则的三层加载判据</xref>）回答的是"单个 skill 何时进上下文"，它管不了 skill 之间的顺序与交接。编排就是补这一层的：分层管<b>进不进来</b>，编排管<b>进来之后按什么次序接力</b>。</p>
+    <section>
+      <title>场景</title>
+      <p>两个 <term keyref="term-skill">skill</term> 之间存在固定的先后关系，例如方案设计完成后进入实施计划。该顺序无处安放：skill 的描述面向触发判定，不承载流程；官方机制中触发是逐个的，不存在跨 skill 的顺序声明。</p>
+    </section>
 
     <section>
-      <title>两种落法</title>
+      <title>做法</title>
+      <p>两种承载方式，按链路复杂度选择：</p>
+      <simpletable relcolwidth="1* 2* 2*">
+        <sthead><stentry>方式</stentry><stentry>做法</stentry><stentry>代价</stentry></sthead>
+        <strow>
+          <stentry>写入正文</stentry>
+          <stentry>每个 skill 在正文声明前置与完成后的交接对象</stentry>
+          <stentry>零机制成本；链路散落各篇，无全局视图</stentry>
+        </strow>
+        <strow>
+          <stentry>独立编排物</stentry>
+          <stentry>以专门文件按步骤引用 skill，链路有单一事实源</stentry>
+          <stentry>可校验步骤引用的存在性；非原生机制，需自建资产管线</stentry>
+        </strow>
+      </simpletable>
+      <p>取舍判据：链路少、交接简单时写入正文；链路多、须保证无断裂步骤时独立成物。</p>
+    </section>
+
+    <section>
+      <title>理由</title>
+      <p>分界的实际含义是：某个 skill 被改名或删除时，依赖它的链路是否会静默断裂。链路少时断裂当场暴露；链路多则需要可对账的清单，而清单只有独立成物才可校验。判据与加载分层一致：值得机制化校验的完整性，才值得支付独立成物的成本。</p>
+    </section>
+
+    <section>
+      <title>反例</title>
       <ul>
-        <li><b>写进 skill 正文</b> —— 每个 skill 在自己正文里声明前置和终态交接（如某个头脑风暴 skill 的终态是调用"写计划"skill）。零机制成本；代价是链路散落在各 skill 正文里，没有全局视图。</li>
-        <li><b>独立成编排物</b> —— 一个专门的 <filepath>workflow</filepath> 文件按步骤引用 skill，链路有单一事实源、可校验（步骤引用的 skill 是否存在，可以对账）。代价：这不是 agent 工具的原生机制，需要自建资产管线支撑。</li>
+        <li>把顺序写进 skill 描述。描述面向触发判定，混入流程会干扰相关性匹配。</li>
+        <li>为两三条简单链路搭建编排管线。校验收益低于维护成本。</li>
       </ul>
     </section>
 
     <section>
-      <title>怎么选</title>
-      <p>链路简单、交接少 → 写进正文，够用且零成本。链路多、需要保证完整性（不能有断裂的步骤）→ 独立成编排物，用单一事实源换取可对账。</p>
-      <p>分界线其实是一个很实际的问题：<b>某个 skill 被改名或删掉时，会不会有一条链悄悄断掉而没人发现？</b>链路少的时候不会——你就那么两三条，断了当场就撞上。链路多起来才会，那时候你需要的不是更自律，是一个能对账的清单。判据和加载分层是同一条：<b>能靠机制校验的完整性，才值得为它付独立成物的成本；否则不值。</b></p>
+      <title>边界</title>
+      <p>本篇处理 skill 之间的衔接。单个 skill 何时进入上下文见<xref href="agent-rule-loading.dita">规则加载分层</xref>；skill 与其他机制的选择见<xref href="agent-extension-choice.dita">扩展机制选型</xref>。</p>
     </section>
 
     <section>
       <title>来源</title>
-      <p><b>已核对</b>（2026-08-15）：本篇的前提——skill 是<b>按相关性单独触发的独立单元</b>，工具本身没给跨 skill 的顺序机制——依据 <xref href="https://code.claude.com/docs/en/skills" scope="external">Claude Code 的 skills 文档</xref>：Claude 在判断相关时使用某个 skill，或由用户用 <codeph>/skill-name</codeph> 直接调用。触发是逐个的，文档里没有"先 A 后 B"这种东西，所以"编排不是原生机制"这句话成立。</p>
-      <p><b>判断与通用实践</b>：两种落法的划分与各自代价、以及"能靠机制校验的完整性才值得独立成物"的取舍判据，都是原创判断，没有外部来源，可被反驳。特别是"独立成编排物"那条——它需要自建资产管线才立得住，成本估计因人而异。</p>
+      <p><b>事实</b>：skill 按相关性逐个触发、可由用户直接调用，无跨 skill 顺序机制，见 <xref href="https://code.claude.com/docs/en/skills" scope="external">Claude Code, Skills</xref>。</p>
+      <p><b>判断</b>：两种承载方式的划分与取舍判据为原创归纳，可被反驳；独立编排物的成本估计因人而异。</p>
     </section>
   </conbody>
 </concept>

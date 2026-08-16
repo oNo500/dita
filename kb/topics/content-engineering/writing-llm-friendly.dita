@@ -1,52 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
-     结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
-     整改后按实际情况重新定级。 -->
-<concept id="writing-llm-friendly" xml:lang="zh-CN" maturity="draft" volatility="stable" dimension="dim-criteria dim-retrieval">
-  <title>LLM 友好写作：为检索与复用而写</title>
-  <shortdesc>写成自足、语义完整、带摘要的块，让内容既能被人查、也能被检索器和 agent 直接取用。</shortdesc>
+<!-- 批量重写（2026-08-16）：按写作规则七条与 R12–R16 重构。 -->
+<concept id="writing-llm-friendly" xml:lang="zh-CN"
+         outputclass="best-practice"
+         maturity="draft" volatility="stable"
+         dimension="dim-criteria dim-retrieval">
+  <title>kb 的 LLM 友好写作</title>
+  <shortdesc>检索系统按块取回内容，模型读到的是截取的片段而非整篇。为检索而写即回答一个问题：这段被单独截出后是否仍然成立。</shortdesc>
   <prolog>
     <data name="domain" value="llm-friendly"/>
   </prolog>
   <conbody>
-    <p>检索系统不会整篇读你的内容。它把内容切成块、嵌入、按相似度取回其中几块塞给模型——模型看到的从来不是"你写的那篇"，而是<b>从中间截出来的一段</b>。所以为检索而写，本质上是在问一个问题：这段话被单独截出来放到别处，还站得住吗？</p>
-    <p>好消息是这个问题的答案和"对人清晰"的答案是同一个。两者要的都是自足的语义单元，不需要为机器另写一套。</p>
-
     <section>
-      <title>自足的块就是好的检索单元</title>
-      <p>一篇自足的内容（见 <xref href="writing-atomicity.dita">准入测试</xref>）天然是一个语义完整的检索块——切出来仍然成立，不是断头内容。这不是额外要求，就是自足性在检索场景里的同一个性质。</p>
-      <p>反过来，不自足的块被切出来是什么样，有一个很典型的例子：一段写着"营收环比增长了 3%"的文字，单独取回时既不知道是哪家公司、也不知道是哪个季度——它在原文里明明白白，切出来就成了废话。你写的内容里，每一句"如前所述""这个项目里""上面那个参数"，都会在切块之后变成同样的废话。</p>
+      <title>场景</title>
+      <p>知识库同时供人阅读与供检索系统、agent 取用。检索的工作方式是切块、嵌入、按相似度取回若干块：模型看到的不是整篇，是从中间截出的片段。截出后不成立的内容，在检索场景下等于不存在。</p>
     </section>
 
     <section>
-      <title>摘要要写，别让机器猜</title>
-      <p>每篇开头写一句准确的摘要（DITA 里是 <xmlelement>shortdesc</xmlelement>）。写它的性价比高在<b>一次投入、三处兑现</b>：人扫一眼决定要不要读、检索结果列表里显示它、重排序时它是权重不低的信号。</p>
-      <p>不写的话，这三处会各自拿模型现生成的摘要顶上——生成得未必错，但它只能复述你写了什么，说不出你为什么写这篇。作者两秒钟能写准的一句话，模型要靠猜。</p>
+      <title>做法</title>
+      <ul>
+        <li>以自足的块为单位写作。通过<xref href="writing-atomicity.dita">准入判据</xref>的内容天然是语义完整的检索块；反面样例是"营收环比增长百分之三"——原文中明确，截出后既无公司也无季度。</li>
+        <li>每篇开头写作者摘要（<xmlelement>shortdesc</xmlelement>）。一次投入三处生效：读者决定是否细读、检索结果展示、重排序信号。缺失时三处由模型生成的摘要顶替，后者只能复述内容，无法给出写作动机。</li>
+        <li>章节自包含，不用跨节指代。"如上所述""下一节会讲"在块被截出后失去指向；改法是将指代补为内容，如"如上所述的三条判据"写作"自足、可归型、有来源三条判据"。该约束同样适用于翻译：跨节指代在目标语言中同样无处落脚。</li>
+        <li>关键术语用 <xmlelement>term</xmlelement> 加 <xmlatt>keyref</xmlatt> 指向术语库，不靠字面。同一概念由此获得全库唯一身份：中英叫法命中同一处，改名只改术语库，消歧有明确对象。</li>
+        <li>维护元数据的真实性。类型、主题、成熟度、时效在检索时分别充当过滤器、分面与排序信号；失真的元数据使检索器自信地给出错误过滤，损害大于缺失。</li>
+      </ul>
     </section>
 
     <section>
-      <title>章节自包含，不靠外部指代</title>
-      <p>每个章节尽量能独立理解，少用"如上所述""下一节会讲"这类跨节指代。理由同上：语义分块常常正好在章节边界切开，跨节指代一断，块就残了。</p>
-      <p>改法通常很轻——把"如上所述的三条判据"改成"自足性、可归型、有来源这三条判据"，多写六个字，块就自足了。</p>
-      <note>这条对翻译同样成立：跨节指代和"如上所述"在目标语言里往往无处落脚。为检索而写和为翻译而写，约束是同一条——这不是巧合，两者都是在把内容从原位置搬走。</note>
+      <title>理由</title>
+      <p>对人清晰与对机器友好指向同一要求：自足的语义单元。无需为机器另写一套；反过来，依赖上下文的写法对人与机器同时失效，只是人的容忍度更高、失效更隐蔽。</p>
     </section>
 
     <section>
-      <title>术语显式化</title>
-      <p>关键术语用显式标记并指向术语库（DITA 里是 <xmlelement>term</xmlelement> 加 <xmlatt>keyref</xmlatt>），而不是靠字面。这让"同一个概念"在全库有唯一身份：检索时 <keyword>上下文工程</keyword> 和 <keyword>context engineering</keyword> 两种写法能命中同一处，改名时改一处而不是全库替换，消歧时机器知道你说的是哪个义项。</p>
-      <p>靠字面的代价要到很后面才显形——库小的时候两种叫法都能搜到，库大了才发现同一个概念散成了三份，而那时候已经不知道该合并哪些。</p>
+      <title>反例</title>
+      <ul>
+        <li>靠字面维持术语一致。库小时多种叫法均可命中，库大后同一概念散为数处且无从合并。</li>
+        <li>省略摘要，由检索系统生成。生成的摘要不含写作动机，重排序信号质量下降。</li>
+      </ul>
     </section>
 
     <section>
-      <title>结构化元数据是免费的检索维度</title>
-      <p>内容带的类型、主题、成熟度、时效，做检索时全部现成可用——类型可做过滤器（"how 类问题优先查 task"），主题做分面，成熟度做排序。前提是这些标注真的在维护：失真的元数据喂给检索器，比没有更糟——它会自信地用错误信息过滤和排序。</p>
+      <title>边界</title>
+      <p>本篇管写法对检索的影响。切块策略与检索管线属工具侧；术语库的建设见术语主线；结构化内容与检索结合尚无标准文献，本篇判断段的依据均为实践归纳。</p>
     </section>
 
     <section>
       <title>来源</title>
-      <p><b>已核对</b>（2026-08-15）：正文里"营收增长 3%"那个例子不是编的，取自 <xref href="https://www.anthropic.com/news/contextual-retrieval" scope="external">Anthropic 的 Contextual Retrieval</xref>——该文把"单个块缺少足够上下文"点名为检索失效的核心问题，本篇"自足的块才是好的检索单元"与"章节不靠外部指代"两条都是冲着它去的。摘要那条则有规范背书：DITA 的 <xref href="https://dita-lang.org/dita/langref/base/shortdesc" scope="external">shortdesc</xref> 明确说短描述"也可用于悬停文本、链接预览、搜索结果等"，"一次投入三处兑现"不是我的推销词。</p>
-      <p><b>判断与通用实践</b>：其余都是经验归纳——作者写的摘要比模型生成的准、术语显式化的长期收益、元数据是免费的检索维度、失真的元数据比没有更糟。需要说明的是，这不是"还没来得及找来源"：结构化内容与 RAG 的结合<b>目前就没有标准文献</b>可依（dita2 笔记 15 的结论也是如此），所以这一层只能是判断，且应当被当作判断来读。</p>
+      <p><b>事实</b>：块缺少上下文导致检索失效及"营收增长"例，见 <xref href="https://www.anthropic.com/news/contextual-retrieval" scope="external">Anthropic, Contextual Retrieval</xref>；shortdesc 用于悬停文本、链接预览与搜索结果，见 <xref href="https://dita-lang.org/dita/langref/base/shortdesc" scope="external">DITA, shortdesc</xref>。</p>
+      <p><b>判断</b>：作者摘要优于生成摘要、术语显式化的长期收益、元数据失真损害大于缺失，均为经验归纳，可被反驳。</p>
     </section>
   </conbody>
 </concept>

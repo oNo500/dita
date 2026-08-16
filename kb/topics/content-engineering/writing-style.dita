@@ -23,7 +23,7 @@
 
     <section>
       <title>做法：四条</title>
-      <p><b>一、题材必标，结构随题材。</b>每篇在根元素标 <xmlatt>outputclass</xmlatt>，并按该题材的固定结构写：</p>
+      <p>一、题材必标，结构随题材。每篇在根元素标 <xmlatt>outputclass</xmlatt>，并按该题材的固定结构写：</p>
       <simpletable relcolwidth="1* 1* 2*">
         <sthead><stentry>题材</stentry><stentry>DITA 类型</stentry><stentry>固定结构</stentry></sthead>
         <strow><stentry>quickstart</stentry><stentry>task</stentry><stentry>目标 → 前置 → 步骤 → 下一步</stentry></strow>
@@ -37,7 +37,7 @@
       </simpletable>
       <p>没有哪个题材装得下的内容，先怀疑它是两篇（见 <xref href="writing-atomicity.dita">准入测试</xref>），而不是造新题材。</p>
 
-      <p><b>二、章节标题是标签，不是论点。</b>标题的职责是让人扫一眼知道这节讲什么、决定跳过还是细读。写成完整论断会重复正文、变长、且检索时无法当锚点。</p>
+      <p>二、章节标题是标签，不是论点。标题的职责是让人扫一眼知道这节讲什么、决定跳过还是细读。写成完整论断会重复正文、变长、且检索时无法当锚点。</p>
       <simpletable relcolwidth="1* 1*">
         <sthead><stentry>不写</stentry><stentry>写</stentry></sthead>
         <strow><stentry>为什么是预算：注意力会随长度衰减</stentry><stentry>注意力衰减</stentry></strow>
@@ -46,43 +46,43 @@
       </simpletable>
       <p>论断写进正文首句，那里才是它的位置。</p>
 
-      <p><b>三、来源节格式统一。</b>末尾一节，标题就叫「来源」，两段固定，标签描述<b>内容的性质</b>而非作者的动作：</p>
+      <p>三、来源节格式统一。末尾一节，标题就叫「来源」，两段固定，标签描述内容的性质而非作者的动作：</p>
       <ul>
         <li><b>事实</b> —— 转述自权威源的内容，逐条附外链。</li>
         <li><b>判断</b> —— 经验归纳，可被反驳。</li>
       </ul>
       <p>两段可以为空但不省略标签：判断为空说明这篇全是转述，事实为空说明它还没有外部支撑。</p>
-      <p><b>正文里不写核对日期。</b>核对时间是机读元数据，写在 prolog 的 <xmlelement>data</xmlelement> <xmlatt>name</xmlatt>="reviewed" 上（R3 认它、复核提醒读它）；正文再手写一遍就是第二份副本，且会与那一份漂移。理由同 <xref href="writing-sourcing.dita">来源与成熟度</xref>的「系统能得出的信息，不让人填」。也不写"核对日期见 prolog"一类指引：元数据的呈现归渲染层，正文不解释存储位置。</p>
-      <note>为什么不干脆用 git 时间：git 记的是<b>文件何时被改</b>，不是<b>来源何时被核</b>。改错别字会让 git 显得新鲜，重新核对了却什么都没改则在 git 里毫无痕迹——两个事件不重合，所以 <codeph>reviewed</codeph> 这个字段有独立存在的理由。</note>
+      <p>正文里不写核对日期。核对时间是机读元数据，写在 prolog 的 <xmlelement>data</xmlelement> <xmlatt>name</xmlatt>="reviewed" 上（R3 认它、复核提醒读它）；正文再手写一遍就是第二份副本，且会与那一份漂移。理由同 <xref href="writing-sourcing.dita">来源与成熟度</xref>的「系统能得出的信息，不让人填」。也不写"核对日期见 prolog"一类指引：元数据的呈现归渲染层，正文不解释存储位置。</p>
+      <note>为什么不干脆用 git 时间：git 记的是文件何时被改，不是来源何时被核。改错别字会让 git 显得新鲜，重新核对了却什么都没改则在 git 里毫无痕迹——两个事件不重合，所以 <codeph>reviewed</codeph> 这个字段有独立存在的理由。</note>
 
-      <p><b>四、正文只放知识，不放过程与心得。</b>下列内容不进 topic：抓取失败的经过、"我一开始以为…后来发现"、"这个教训值得记"、对自己判断的表扬或检讨。它们是工作日志，属于 commit 说明或设计文档。</p>
+      <p>四、正文只放知识，不放过程与心得。下列内容不进 topic：抓取失败的经过、"我一开始以为…后来发现"、"这个教训值得记"、对自己判断的表扬或检讨。它们是工作日志，属于 commit 说明或设计文档。</p>
 
-      <p><b>五、平实。</b>默认语气是说明，不是说服。禁则：</p>
+      <p>五、平实。默认语气是说明，不是说服。禁则：</p>
       <ul>
         <li>开头直接进主题。不造场景（"三年后你搜到自己的笔记…"）、不先立一个错误做法再推翻它。</li>
         <li>一个意思说一遍。不排比，不在段尾用更响亮的话复述段首。</li>
         <li>"不是 A，是 B"只用于纠正真实存在的误解，不作默认句式。</li>
         <li>粗体只标判据与警示，每节至多两处。粗体不承担语气。</li>
-        <li>删程度词与断言词：特别、极其、恰恰、真正的、最危险的。判断的强度由理由撑，不由副词撑。</li>
+        <li>删程度词与断言词：<keyword>特别</keyword>、<keyword>极其</keyword>、<keyword>恰恰</keyword>、<keyword>真正的</keyword>、<keyword>最危险的</keyword>。判断的强度由理由撑，不由副词撑。</li>
         <li>删格言句：不新增事实或判据、只把前文说得更漂亮的句子。</li>
         <li>破折号插入语一段至多一处，多了改成独立句。</li>
       </ul>
       <p>检验：逐句问"删掉它，读者少知道什么"。答案是"没少什么"的句子都删。</p>
 
-      <p><b>六、用词书面。</b>平实不等于口语，文档语体是书面的克制：</p>
+      <p>六、用词书面。平实不等于口语，文档语体是书面的克制：</p>
       <ul>
-        <li>技术动作用规范动词：阻断、执行、加载、校验、迁移。不用口语替身：拦、装、挂、塞、跑、凑合。</li>
+        <li>技术动作用规范动词：阻断、执行、加载、校验、迁移。不用口语替身：<keyword>拦</keyword>、<keyword>装</keyword>、<keyword>挂</keyword>、<keyword>塞</keyword>、<keyword>跑</keyword>、<keyword>凑合</keyword>。</li>
         <li>表格列头与定义处用名词短语（"适用内容"，非"装什么"）。</li>
-        <li>不用口语成分："个"（挂个）、"就该"、"来点"、"出事"。</li>
+        <li>不用口语成分：<keyword>个</keyword>（<keyword>挂个</keyword>）、<keyword>就该</keyword>、<keyword>来点</keyword>、<keyword>出事</keyword>。</li>
         <li>同一概念全篇同一词，不混用近义（阻断不与拦下混用）。</li>
         <li>比喻限于该篇主题本身（"上下文预算"是主题可用；顺手把开销写成"账"不可）。</li>
       </ul>
 
-      <p><b>七、标题是专业命名。</b>topic 会脱离上下文被检索与复用，标题必须独立可识别：</p>
+      <p>七、标题是专业命名。topic 会脱离上下文被检索与复用，标题必须独立可识别：</p>
       <ul>
         <li>名词短语（task 用动宾），不作论断、不设悬念、不用问句。"上下文是预算，不是容器"是论断；"agent 的上下文预算"是命名。</li>
-        <li>含定位词：写谁的什么，系统或域名入题（Claude Code、agent CLI、DITA）。"扩展机制的选择"不知所指；"agent CLI 扩展机制选型"可对号入座。</li>
-        <li>类目词对齐上游权威分类：写某产品的内容，用其官方文档的类目命名（Extensibility→扩展机制、Settings→配置、Hooks→hook），不自造同义词。</li>
+        <li>含定位词：写谁的什么，系统或域名入题（<keyword>Claude Code</keyword>、<keyword>agent CLI</keyword>、<keyword>DITA</keyword>）。"扩展机制的选择"不知所指；"agent CLI 扩展机制选型"可对号入座。</li>
+        <li>类目词对齐上游权威分类：写某产品的内容，用其官方文档的类目命名（<keyword>Extensibility</keyword>→扩展机制、<keyword>Settings</keyword>→配置、<keyword>Hooks</keyword>→<keyword>hook</keyword>），不自造同义词。</li>
         <li>题材后缀从惯例：cheatsheet 以"速查"结尾，tech-landscape 以"领域全景"结尾；其余不加装饰。</li>
         <li>全库唯一。</li>
       </ul>

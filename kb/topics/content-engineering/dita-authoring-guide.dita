@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
-     结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
-     整改后按实际情况重新定级。 -->
+<?xml-model href="../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 批量重写（2026-08-16）：转 reference/artifact（交付物源，构建进 CLAUDE.md/AGENTS.md）。 -->
 <!-- 给 AI 的 DITA 写作规则总纲。层0：AI 主笔质量事前靠本篇、事后靠 review.sh。
      本篇是操作手册，串起内容类型框架/维度方法/术语双语，只补 DITA 操作层；
      写作原则不重写，引 topics/content-engineering/writing-*。并入 agent-rules 交付物，AI 读它来写 kb。 -->
-<concept id="dita-authoring-guide" xml:lang="zh-CN"
-         maturity="draft" volatility="stable" dimension="dim-criteria dim-process">
-  <title>给 AI 的 DITA 写作规则（总纲）</title>
+<reference id="dita-authoring-guide" xml:lang="zh-CN"
+         maturity="draft" volatility="stable" dimension="dim-criteria dim-process" outputclass="artifact">
+  <title>kb DITA 写作规则总纲</title>
   <shortdesc>AI 主笔 DITA 时照此决策。本集与 review.sh 机器兜底一一对应——事前照做，事后必过。写作原则见 topics/content-engineering/writing-*，选型见《内容类型框架》，本篇只给 DITA 操作层的流程与规则。</shortdesc>
   <prolog>
     <!-- 原链接 docs.oasis-open.org/dita/dita/v2.0/ 已 404（link-check.py 于 2026-08-15 查出）：
@@ -17,17 +15,20 @@
     <data name="reviewed" value="2026-08-15"/>
     <data name="domain" value="dita"/>
   </prolog>
-  <conbody>
-    <p>你（AI）是 kb 的主笔。这篇是你写每一篇 DITA 前照着走的流程与规则。它不讲写作原则（那些在 <filepath>topics/content-engineering/</filepath>），只讲 DITA 操作：选类型、用标签、标属性、挂术语与来源。每条规则都对应机器兜底 <cmdname>review.sh</cmdname> 的一条检查，事前照做就不会被事后拦。</p>
+  <refbody>
+    <section>
+      <title>定位</title>
+      <p>你（AI）是 kb 的主笔。这篇是写每一篇 DITA 前照着走的流程与规则。它不含写作原则（在 <filepath>topics/content-engineering/</filepath>），只含 DITA 操作：选类型、用标签、标属性、挂术语与来源。每条规则对应机器兜底 <cmdname>review.sh</cmdname> 的一条检查，事前照做即不被事后拦截。</p>
+    </section>
 
     <section>
       <title>写一篇的决策流程</title>
       <ol>
-        <li>定<b>维度</b>——这篇讲主题的哪个方面（安装/机制/对比/调优…，见词表 dimension 值集）。</li>
-        <li>选<b>类型与题材</b>——按《内容类型框架》：DITA 类型（concept/task/reference/troubleshooting）＋题材（<xmlatt>outputclass</xmlatt>）。</li>
-        <li>写正文——用<b>精细行内语义</b>，不糊成一个 <xmlelement>codeph</xmlelement>。</li>
-        <li>标<b>元数据</b>——<xmlatt>maturity</xmlatt>、<xmlatt>volatility</xmlatt>（必标）、<xmlatt>dimension</xmlatt>（覆盖的维度，可多值）。</li>
-        <li>挂<b>术语与来源</b>——关键术语走 <xmlelement>term</xmlelement> <xmlatt>keyref</xmlatt>；concept/reference 必有来源。</li>
+        <li>定维度——这篇讲主题的哪个方面（安装/机制/对比/调优…，见词表 dimension 值集）。</li>
+        <li>选类型与题材——按《内容类型框架》：DITA 类型（concept/task/reference/troubleshooting）＋题材（<xmlatt>outputclass</xmlatt>）。</li>
+        <li>写正文——用精细行内语义，不糊成一个 <xmlelement>codeph</xmlelement>。</li>
+        <li>标元数据——<xmlatt>maturity</xmlatt>、<xmlatt>volatility</xmlatt>（必标）、<xmlatt>dimension</xmlatt>（覆盖的维度，可多值）。</li>
+        <li>挂术语与来源——关键术语走 <xmlelement>term</xmlelement> <xmlatt>keyref</xmlatt>；concept/reference 必有来源。</li>
         <li>建新领域时——先建全景 topic、标维度清单与盲区；内容按 80/20 从完整图上切。</li>
         <li>写完跑 <cmdname>review.sh</cmdname>——结构＋业务规则＋覆盖度，有 error 按报告自修再跑。</li>
       </ol>
@@ -43,7 +44,7 @@
         <li>症状→原因→处置 → <xmlelement>troubleshooting</xmlelement>。</li>
       </ul>
       <p>题材用 <xmlatt>outputclass</xmlatt> 标，遵守该题材的固定结构（见《内容类型框架》题材表：如 quickstart＝目标→前置→步骤→next）。</p>
-      <p><b>拆分阈值（R16）</b>：concept 里实现层行内标记（<xmlelement>codeph</xmlelement>/<xmlelement>cmdname</xmlelement> 等）合计超 8 处即拆——判据留 concept，事件清单、字段表、命令语法迁成 reference。</p>
+      <p>拆分阈值（R16）：concept 里实现层行内标记（<xmlelement>codeph</xmlelement>/<xmlelement>cmdname</xmlelement> 等）合计超 8 处即拆——判据留 concept，事件清单、字段表、命令语法迁成 reference。</p>
     </section>
 
     <section>
@@ -63,9 +64,9 @@
       <title>组3 元数据标注（→ R2/R4/R5，构建期 enumerationdef）</title>
       <ul>
         <li><xmlatt>maturity</xmlatt>：draft/curated/verified。不标默认 draft。verified 前提：来源已核对且标了 <xmlelement>data</xmlelement> <xmlatt>name</xmlatt>="reviewed"（→ R3）。</li>
-        <li><xmlatt>volatility</xmlatt>：stable/volatile，<b>必须显式标</b>（漏标 R2 报错）。生态易变的内容标 volatile。</li>
+        <li><xmlatt>volatility</xmlatt>：stable/volatile，必须显式标（漏标 R2 报错）。生态易变的内容标 volatile。</li>
         <li><xmlatt>dimension</xmlatt>：标这篇覆盖的维度（dim-*，可空格分隔多值），值必须在词表 dimension 值集内。</li>
-        <li><b>domain</b>（prolog <xmlelement>data</xmlelement> <xmlatt>name</xmlatt>="domain"）：这篇内容<b>讲的是哪个主题</b>，值必须是词表 subject 树里的键。它是 topic 与分类树之间唯一的链接——不声明就进不了骨架与覆盖度。优先叶子键（如 <codeph>doc-types</codeph>），内容确实横跨一整组才用组键（如 <codeph>coding-agents</codeph>）。目录与主题两级对应词表同一棵树：<b>目录 = 所属分支键</b>（一级，如 <filepath>topics/content-engineering/</filepath>），<b>domain = 主题键</b>（细粒度）。新建 topic 先按 domain 推出分支，放进同名目录。glossentry 豁免（术语库是组织节点）。填错键 <cmdname>dita-tools ia</cmdname> 报 error 并落回未归桶。</li>
+        <li>domain（prolog <xmlelement>data</xmlelement> <xmlatt>name</xmlatt>="domain"）：这篇内容讲的是哪个主题，值必须是词表 subject 树里的键。它是 topic 与分类树之间唯一的链接——不声明就进不了骨架与覆盖度。优先叶子键（如 <codeph>doc-types</codeph>），内容确实横跨一整组才用组键（如 <codeph>coding-agents</codeph>）。目录与主题两级对应词表同一棵树：<b>目录 = 所属分支键</b>（一级，如 <filepath>topics/content-engineering/</filepath>），<b>domain = 主题键</b>（细粒度）。新建 topic 先按 domain 推出分支，放进同名目录。glossentry 豁免（术语库是组织节点）。填错键 <cmdname>dita-tools ia</cmdname> 报 error 并落回未归桶。</li>
       </ul>
     </section>
 
@@ -92,17 +93,17 @@
     <section>
       <title>组5 双语 · 组7 维度 · 组8 结构模板（引用已有，不重复）</title>
       <ul>
-        <li><b>双语</b>：正文中文单源；术语库双语条目；英文按需翻不预填。详见《术语与双语-设计》。</li>
-        <li><b>维度完整性</b>：建域先对标建完整维度框架、标盲区，再 80/20 切快速上手；quickstart 挂全景。详见《维度完整性-方法与约束》。</li>
-        <li><b>结构模板</b>：<b>题材必标</b>——每篇在根元素标 <xmlatt>outputclass</xmlatt>，并按该题材的固定骨架写（quickstart＝目标→前置→步骤→next，best-practice＝场景→做法→理由→反例→边界，等）。骨架表与文体规则见 <xref href="writing-style.dita">文体与结构</xref>：章节标题作标签不作论点、来源节固定两段、过程与心得不进正文、语气平实（开头不造场景、粗体每节至多两处、修辞不携带信息就删）。标题是专业命名：名词短语、含系统或域定位词、类目词对齐上游官方分类。不标题材＝没有结构可依，每篇会自创一套。</li>
+        <li>双语：正文中文单源；术语库双语条目；英文按需翻不预填。详见《术语与双语-设计》。</li>
+        <li>维度完整性：建域先对标建完整维度框架、标盲区，再 80/20 切快速上手；quickstart 挂全景。详见《维度完整性-方法与约束》。</li>
+        <li>结构模板：<b>题材必标</b>——每篇在根元素标 <xmlatt>outputclass</xmlatt>，并按该题材的固定骨架写（quickstart＝目标→前置→步骤→next，best-practice＝场景→做法→理由→反例→边界，等）。骨架表与文体规则见 <xref href="writing-style.dita">文体与结构</xref>：章节标题作标签不作论点、来源节固定两段、过程与心得不进正文、语气平实（开头不造场景、粗体每节至多两处、修辞不携带信息就删）。标题是专业命名：名词短语、含系统或域定位词、类目词对齐上游官方分类。不标题材＝没有结构可依，每篇会自创一套。</li>
       </ul>
     </section>
 
     <section>
       <title>组9 改 map 结构（引 map 必须包 topichead）</title>
-      <p><b>规范定义的 <xmlelement>mapref</xmlelement> 处理是：被引 map 的层级并入容器 map，被引 map 的 <xmlelement>title</xmlelement> 不产生导航节点。</b>所以裸写 <codeph>&lt;mapref href="domains/web.ditamap"/&gt;</codeph> 会让该域的 topic 直接摊到上一层，"Web 技术栈"这个名字在产物里消失。</p>
+      <p>规范定义的 <xmlelement>mapref</xmlelement> 处理：<b>被引 map 的层级并入容器 map，其 <xmlelement>title</xmlelement> 不产生导航节点</b>。所以裸写 <codeph>&lt;mapref href="domains/web.ditamap"/&gt;</codeph> 会让该域的 topic 直接摊到上一层，"Web 技术栈"这个名字在产物里消失。</p>
       <ul>
-        <li>在 <filepath>maps/root.ditamap</filepath> 引任何领域 map / 术语库 map，<b>一律包一层 <xmlelement>topichead</xmlelement></b>，其 <xmlelement>navtitle</xmlelement> 与被引 map 的 <xmlelement>title</xmlelement> <b>逐字一致</b>。</li>
+        <li>在 <filepath>maps/root.ditamap</filepath> 引任何领域 map / 术语库 map，一律包一层 <xmlelement>topichead</xmlelement>，其 <xmlelement>navtitle</xmlelement> 与被引 map 的 <xmlelement>title</xmlelement> <b>逐字一致</b>。</li>
         <li>该分支若已有真实落地 topic，改用指向它的 <xmlelement>topicref</xmlelement> 更好——分组节点从空壳变成真实页面，且不再有标题副本。</li>
         <li>别把 <xmlelement>topicgroup</xmlelement> 当替代：它只做分组，自身不进导航，救不了这个问题。</li>
       </ul>
@@ -123,5 +124,5 @@
         <strow><stentry>引 map 包 topichead、navtitle 与被引 map 标题一致</stentry><stentry>dita-tools ia 一致性检查</stentry></strow>
       </simpletable>
     </section>
-  </conbody>
-</concept>
+  </refbody>
+</reference>

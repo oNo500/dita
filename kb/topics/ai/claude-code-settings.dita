@@ -63,20 +63,20 @@
 
     <section>
       <title>权限规则的合并规则（与普通设置不同）</title>
-      <p>普通设置按优先级<b>覆盖</b>：高层赢，低层被丢弃。权限规则<b>不是</b>——它们跨层<b>合并</b>：</p>
+      <p>普通设置按优先级覆盖：高层取值，低层弃用。权限规则跨层<b>合并</b>：</p>
       <ul>
-        <li>各层的 <codeph>allow</codeph> 取并集：任一层放行即放行。</li>
+        <li>各层 <codeph>allow</codeph> 取并集：任一层放行即放行。</li>
         <li>各层的 <codeph>deny</codeph> 取并集：任一层阻断即阻断。</li>
         <li><b><codeph>deny</codeph> 优先于 <codeph>allow</codeph></b>：同一动作两边都命中时，阻断生效。</li>
       </ul>
       <p>由此得到一条实用推论：想彻底禁掉某个动作，把它写进 <codeph>deny</codeph> 即可，不必去清理别处的 <codeph>allow</codeph>；反过来，在低层加 <codeph>allow</codeph> 无法解除高层的 <codeph>deny</codeph>。</p>
-      <p>MCP 相关键另有特殊合并：<codeph>deniedMcpServers</codeph> 跨层合并且任一 deny 即生效；<codeph>allowedMcpServers</codeph> 的黑名单优先于白名单；<codeph>sandbox.credentials</codeph> 的掩码/拒绝也按特殊规则合并。</p>
+      <p><term keyref="term-mcp">MCP</term> 相关键另有特殊合并：<codeph>deniedMcpServers</codeph> 跨层合并且任一 deny 即生效；<codeph>allowedMcpServers</codeph> 的黑名单优先于白名单；<codeph>sandbox.credentials</codeph> 的掩码/拒绝也按特殊规则合并。</p>
     </section>
 
     <section>
       <title>改完是否要重启</title>
       <ul>
-        <li><b>会话内即时生效</b>：权限、hooks、凭据 helper 等多数设置。</li>
+        <li>会话内即时生效：权限、hooks、凭据 helper 等多数设置。</li>
         <li><b>启动时读取一次</b>：<codeph>model</codeph>、<codeph>outputStyle</codeph>——改了要重启才作数。</li>
       </ul>
       <p>排查"设置好像没生效"时，先用 <codeph>/status</codeph> 看 <codeph>Setting sources</codeph>：它列出实际加载的每个设置文件，<b>一个文件只有在至少含一个有效设置时才会出现</b>——文件不在列表里，通常意味着路径错了或整份 JSON 无效。Managed 层的无效条目会被剥离并告警，用 <codeph>/doctor</codeph> 查。</p>
@@ -84,9 +84,9 @@
 
     <section>
       <title>来源</title>
-      <p><b>已核对</b>（2026-08-15，逐条对照 <xref href="https://code.claude.com/docs/en/settings" scope="external">Claude Code 官方 settings 文档</xref>）：四层作用域及其位置与共享范围、五级优先级顺序、<codeph>allow</codeph>/<codeph>deny</codeph>/<codeph>ask</codeph> 三种规则与未命中默认走 ask、两种通配符语义、权限规则跨层合并且 deny 优先、MCP 键的特殊合并、即时生效与需重启的设置之分、<codeph>/status</codeph> 的 Setting sources 与"至少一个有效设置才显示"、<codeph>/doctor</codeph> 查被剥离条目。本篇事实<b>仅限</b>该页所载；未核对的（如具体 settings 键的完整清单、各 CLI flag）一律未写入。</p>
-      <p><b>判断与通用实践</b>：只有一处——"想彻底禁掉某动作就写 deny，不必清理别处 allow"是从合并规则推出的用法建议，非官方原文。</p>
-      <p><b>时效</b>：本篇 volatile。设置键与合并语义随版本变，日期一旧，先回官方页复核再引用。</p>
+      <p><b>事实</b>：四层作用域与位置、五级优先级、三种权限规则与未命中默认询问、通配符语义、权限规则跨层合并且 deny 优先、MCP 键的特殊合并、即时生效与需重启之分、<codeph>/status</codeph> 的加载来源列表、<codeph>/doctor</codeph> 检查被剥离条目，均逐条对照 <xref href="https://code.claude.com/docs/en/settings" scope="external">Claude Code, Settings</xref>。本篇仅收录该页所载内容；settings 键全表与 CLI 参数未核对，未写入。</p>
+      <p><b>判断</b>：仅一处——"彻底禁用某动作写 deny 即可，无需清理各处 allow"由合并规则推出，非官方原文。</p>
+      <p>本篇 volatile：设置键与合并语义随版本变动，日期一旧，先回官方页复核再引用。</p>
     </section>
   </refbody>
 </reference>

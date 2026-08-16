@@ -1,77 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
-     结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
-     整改后按实际情况重新定级。 -->
-<!-- coding-agents 域 · dim-context-engineering。
-     选题参考矿场 30-05-ai/claude-code/AI-ClaudeCode-ContextEngineering.md——
-     该篇本身是链接索引（type: reference），其价值在指向的权威源，正文不迁移。
-     事实两路当日核对：Anthropic 工程博客（原理）＋ Claude Code 上下文窗口文档（机制）。 -->
+<!-- 批量重写（2026-08-16）：按写作规则七条与 R12–R16 重构。事实沿用 2026-08-15 核对结果。 -->
 <concept id="agent-context-budget" xml:lang="zh-CN"
+         outputclass="best-practice"
          maturity="draft" volatility="volatile"
          dimension="dim-context-engineering dim-decision">
-  <title>上下文是预算，不是容器</title>
-  <shortdesc>上下文窗口越大越该省着用——注意力随 token 数衰减，所以目标是"能达成结果的最小高信号 token 集"，而不是把相关材料都塞进去。四种省法（按需取用 / 压缩 / 外部笔记 / 子 agent）各解决不同的溢出。</shortdesc>
+  <title>agent 的上下文预算</title>
+  <shortdesc>注意力随 token 数衰减，上下文应按预算管理：目标是达成结果的最小高信号 token 集。四种控制策略各对应一种超支形态，节流前先用工具查看实际占用。</shortdesc>
   <prolog>
     <source href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" scope="external"/>
     <data name="domain" value="coding-agents"/>
     <data name="reviewed" value="2026-08-15"/>
   </prolog>
   <conbody>
-    <p>把上下文当容器的人，会尽量把相关材料都塞进去——反正窗口有 20 万 token。把它当预算的人，会问每一段材料值不值得占那个位置。两种心智模型给出的操作截然相反，而后者才是对的。</p>
-
     <section>
-      <title>为什么是预算：注意力会随长度衰减</title>
-      <p><term keyref="term-context-engineering">上下文工程</term>与提示工程的分界在这里：提示工程是<b>写好一次指令</b>，上下文工程是<b>在推理全过程中策展该有哪些 token</b>——系统指令、工具、外部数据、历史消息全在管辖内。</p>
-      <p>它之所以必要，是因为 <b>context rot</b>：token 越多，准确率越低。原因在 transformer 的结构——n² 的两两 token 关系在长序列上被稀释，加上模型见过的超长序列训练样本本来就少。要紧的是它<b>不是一道断崖，是一条性能梯度</b>：没有"超过多少就失效"的红线，只有"越长越钝"的连续退化。所以没有"还没满就不用管"这回事。</p>
-      <p>由此得到目标函数：<b>能让期望结果发生的、最小的那组高信号 token</b>。注意两个词——"最小"不是越少越好，是在达成结果的前提下最小；"高信号"意味着筛选标准是密度，不是相关性。相关但稀薄的材料，是预算的主要浪费项。</p>
+      <title>场景</title>
+      <p>上下文窗口容量大，于是把可能相关的材料尽数放入。该做法的问题在 <term keyref="term-context-rot">context rot</term>：token 越多，准确率越低，源于 transformer 的两两 token 关系在长序列上被稀释。衰减是连续的性能梯度而非阈值断崖，因此不存在"未满即无需管理"的余地。</p>
     </section>
 
     <section>
-      <title>四种省法，各治一种溢出</title>
-      <p>官方给的四条策略不是并列备选，是针对不同溢出形态的：</p>
+      <title>做法</title>
+      <p><term keyref="term-context-engineering">上下文工程</term>的目标：能达成期望结果的最小高信号 token 集。筛选标准是信息密度而非相关性；相关但稀薄的材料是预算的主要浪费项。四种控制策略各对应一种超支形态：</p>
       <simpletable relcolwidth="1* 2* 2*">
-        <sthead><stentry>策略</stentry><stentry>做法</stentry><stentry>治的是哪种溢出</stentry></sthead>
+        <sthead><stentry>策略</stentry><stentry>做法</stentry><stentry>对应的超支</stentry></sthead>
         <strow>
           <stentry>按需取用</stentry>
-          <stentry>只留轻量标识（路径、ID），用工具在需要时才把内容拉进来</stentry>
-          <stentry><b>预加载浪费</b>：一次性把可能用到的都读进来，多数没用上</stentry>
+          <stentry>仅保留轻量标识（路径、ID），需要时经工具载入内容</stentry>
+          <stentry>预加载浪费：一次读入全部候选，多数未被使用</stentry>
         </strow>
         <strow>
           <stentry>压缩</stentry>
-          <stentry>把对话历史总结成结构化摘要，用它重开一个窗口</stentry>
-          <stentry><b>历史堆积</b>：任务还没完，窗口已被过程记录占满</stentry>
+          <stentry>将对话历史总结为结构化摘要，以摘要重开窗口</stentry>
+          <stentry>历史堆积：任务未完成，窗口已被过程记录占满</stentry>
         </strow>
         <strow>
           <stentry>外部笔记</stentry>
-          <stentry>把状态写进持久文件，跨窗口重置仍能接上</stentry>
-          <stentry><b>长任务失忆</b>：压缩本身有损，跨多次重置后早期决策丢失</stentry>
+          <stentry>将状态写入持久文件，跨窗口重置后继续</stentry>
+          <stentry>长任务失忆：压缩有损，多次重置后早期决策丢失</stentry>
         </strow>
         <strow>
-          <stentry>子 agent</stentry>
-          <stentry>专门任务交给独立上下文的子 agent，只回传浓缩结论</stentry>
-          <stentry><b>探索污染</b>：翻找过程的中间产物挤占主线</stentry>
+          <stentry><term keyref="term-subagent">子 agent</term></stentry>
+          <stentry>专项任务交给独立上下文执行，仅回传浓缩结论</stentry>
+          <stentry>探索污染：检索过程的中间产物挤占主线</stentry>
         </strow>
       </simpletable>
-      <p>压缩那条有个容易忽略的要求：摘要要<b>刻意保住架构决策、未解决的 bug、实现细节</b>。这三类正是"看起来像过程、其实是状态"的东西——按"保留结论、丢弃过程"的直觉压缩，丢的恰好是它们。</p>
+      <p>压缩的注意事项：摘要须保留架构决策、未解决的缺陷与实现细节。这三类内容形似过程、实为状态，按"保留结论、丢弃过程"压缩恰好将其丢失。</p>
+      <p>在 <term keyref="term-claude-code">Claude Code</term> 中的对应操作：<codeph>/context</codeph> 查看当前会话的分类占用与已加载的 CLAUDE.md、自动记忆文件；<codeph>/compact</codeph> 执行压缩，可附加聚焦指令；<codeph>/clear</codeph> 用于切换到不相关工作；<codeph>/autocompact</codeph> 以 token 数设定自动压缩阈值。</p>
     </section>
 
     <section>
-      <title>落到 Claude Code：先看账，再省</title>
-      <p>省之前得先知道钱花在哪。<codeph>/context</codeph> 给出当前会话的实时分类明细与优化建议，<b>包括哪些 CLAUDE.md 与自动记忆文件被加载了</b>——这是把"我猜上下文很满"变成"这几项占了多少"的唯一途径。</p>
+      <title>理由</title>
+      <p>常驻层内容每次会话从预算中扣除，因此"写入常驻还是按需加载"本质是预算分配问题，判据见<xref href="agent-rule-loading.dita">规则加载分层</xref>。节流前先查看占用：管理依据是分类明细，不是对窗口余量的估计。</p>
+    </section>
+
+    <section>
+      <title>反例</title>
       <ul>
-        <li><codeph>/compact</codeph> —— 把对话替换成结构化摘要；可带指令聚焦（如只保留某个问题的线索）。</li>
-        <li><codeph>/clear</codeph> —— 切换到<b>不相关</b>的工作时用；与压缩的区别是它不试图保留任何东西。</li>
-        <li><codeph>/autocompact</codeph> 带 token 数（如 <codeph>/autocompact 500k</codeph>）—— 设定窗口占到多满才自动压缩。</li>
+        <li>以窗口未满为由不做管理。衰减是梯度，未满时已在发生。</li>
+        <li>按"保留结论"的直觉压缩，丢失未解决缺陷与架构决策，重开窗口后重复已完成的探索。</li>
       </ul>
-      <p>与本域另一条判据的接口：常驻层（<filepath>CLAUDE.md</filepath>）每次会话都从预算里扣，所以"该写进常驻还是按需加载"本质是预算问题——分层判据见 <xref href="agent-rule-loading.dita">agent 规则的三层加载判据</xref>。</p>
+    </section>
+
+    <section>
+      <title>边界</title>
+      <p>本篇给出预算框架与策略对应关系。命令与阈值的当前语法见 <xref href="claude-code-settings.dita">Claude Code 配置速查</xref>；原理层相对稳定，复核时以命令一侧为先。</p>
     </section>
 
     <section>
       <title>来源</title>
-      <p><b>已核对</b>（2026-08-15）：原理一路取自 <xref href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" scope="external">Anthropic, Effective context engineering for AI agents</xref>——上下文工程与提示工程之分、"最小高信号 token 集"的目标函数、context rot 及其 n² 与训练分布的成因、"性能梯度而非断崖"的表述、四种策略及压缩须保住的三类信息。机制一路取自 <xref href="https://code.claude.com/docs/en/context-window" scope="external">Claude Code, Explore the context window</xref>——<codeph>/context</codeph> 的实时分类明细（含列出已加载的 CLAUDE.md 与自动记忆）、<codeph>/compact</codeph> 可带聚焦指令、<codeph>/clear</codeph> 用于切换不相关工作、<codeph>/autocompact</codeph> 以 token 数设定触发阈值。</p>
-      <p><b>判断与通用实践</b>：把四种策略对应到四种"溢出形态"是本篇的归纳，官方只并列给出策略、未作此分类；"容器 vs 预算"的对照框架同为本篇表述。两者可被反驳。</p>
-      <p><b>时效</b>：volatile。命令与阈值随版本变，原理层相对稳；复核时机制一路必查，原理一路可略。</p>
+      <p><b>事实</b>：上下文工程的定义、最小高信号 token 集、context rot 的成因与梯度性质、四种策略、压缩须保留的三类信息，见 <xref href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" scope="external">Anthropic, Effective context engineering for AI agents</xref>；四条命令的行为见 <xref href="https://code.claude.com/docs/en/context-window" scope="external">Claude Code, Explore the context window</xref>。</p>
+      <p><b>判断</b>：四种策略与四种超支形态的对应为本库归纳，官方仅并列给出策略。</p>
     </section>
   </conbody>
 </concept>
