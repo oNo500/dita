@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/08-practical-advice.md §高频踩坑清单（三张症状表）。
+     题材 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
+     术语规则（2026-08-16 用户门反馈后）：conref / keyref / keytext / conref push /
+     DITAVAL / subjectScheme / catalog 等一律用英文原名；表格列头用描述性短语「症状」
+     「原因」，不造类目名词；笔记里的「先定义者胜」「内容仓库」两个自造标签已降级为平实句子。
+     volatility=volatile 的依据：构建一栏的多数条目绑 DITA-OT 版本与基线日期。
+     事实纪律：笔记 08 已核对清单里与本篇相关的只有两条（@keys 的值类型为 NMTOKENS、
+     DITA-OT 4.4 的基线比 beta03 旧），其余各行属使用经验，已在来源节判断段列明。 -->
+<reference id="pitfalls" xml:lang="zh-CN"
+           outputclass="cheatsheet"
+           maturity="draft" volatility="volatile"
+           dimension="dim-troubleshooting dim-reference">
+  <title>DITA 2.0 故障速查：@class、DITA-OT 构建与 conref</title>
+  <shortdesc>按症状查原因的三张表：派生链属性取不到与 XSLT 模板不生效归一类，构建与工具链归一类，引用与条件过滤归一类。表内多数条目来自使用经验，其中两条有规范与发行说明支撑，已在来源节分开。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <refbody>
+    <section>
+      <title>定位</title>
+      <p>本篇只回答「看到这个症状先查什么」。机制本身另见各簇对应篇：派生链与默认属性见<xref href="../toolchain/programming-by-class.dita">按 @class 编程</xref>，阶段顺序与中间产物见<xref href="../toolchain/preprocess-pipeline.dita">DITA-OT preprocess 流水线</xref>，引用方向见<xref href="../core-model/conref-pull-push.dita">conref 与 conref push</xref>。</p>
+    </section>
+
+    <section>
+      <title>派生链属性与 XSLT 匹配</title>
+      <simpletable relcolwidth="1.6* 2*">
+        <sthead><stentry>症状</stentry><stentry>原因</stentry></sthead>
+        <strow>
+          <stentry>Python 或 JavaScript 解析取不到 <xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt></stentry>
+          <stentry>两者的值由语法文件的默认属性声明提供。须开启解析器的默认属性补齐，或改读 <term keyref="term-preprocess">preprocess</term>（预处理）之后的文件</stentry>
+        </strow>
+        <strow>
+          <stentry>自定义 XSLT 模板对专门化元素不生效</stentry>
+          <stentry>模板按元素名匹配。须改为按派生链匹配，即 <codeph>contains(@class, ' topic/x ')</codeph></stentry>
+        </strow>
+        <strow>
+          <stentry><codeph>contains(@class,'topic/li')</codeph> 命中了不该命中的元素</stentry>
+          <stentry>匹配串前后少了空格，<codeph>topic/lines</codeph> 一类随之命中</stentry>
+        </strow>
+        <strow>
+          <stentry>泛化之后元素名不对</stentry>
+          <stentry><xmlatt>class</xmlatt> 的祖先链漏写中间层，或结尾少一个空格</stentry>
+        </strow>
+        <strow>
+          <stentry>重写文档之后派生链错乱</stentry>
+          <stentry>转换时保留了原有 <xmlatt>class</xmlatt>。应当丢弃，由目标语法文件重新注入</stentry>
+        </strow>
+      </simpletable>
+    </section>
+
+    <section>
+      <title>构建与工具链</title>
+      <simpletable relcolwidth="1.6* 2*">
+        <sthead><stentry>症状</stentry><stentry>原因</stentry></sthead>
+        <strow>
+          <stentry>改了 <term keyref="term-plugin">plugin</term>（插件）但输出没变</stentry>
+          <stentry>DITA-OT 在安装时编译配置，不在运行时读取。改动后须重新执行一次安装</stentry>
+        </strow>
+        <strow>
+          <stentry>DITA-OT 不按 2.0 处理文档</stentry>
+          <stentry>doctype 声明没有解析到 2.0 的语法文件。检查 catalog 与公共标识符</stentry>
+        </strow>
+        <strow>
+          <stentry>构建报错但看不出是哪个文件</stentry>
+          <stentry>加 <codeph>--debug</codeph> 与 <codeph>-v</codeph></stentry>
+        </strow>
+        <strow>
+          <stentry>中间结果不对，但不知道是哪一步</stentry>
+          <stentry><codeph>--temp</codeph> 配合 <codeph>--debug</codeph>，逐阶段查看临时目录里的中间产物</stentry>
+        </strow>
+        <strow>
+          <stentry>语法文件解析慢，或构建时要联网</stentry>
+          <stentry><codeph>XML_CATALOG_FILES</codeph> 未指向本地 catalog</stentry>
+        </strow>
+        <strow>
+          <stentry>实现的行为与规范文档对不上</stentry>
+          <stentry>DITA-OT 4.4 的语法文件基线是 2026-01-25 的草案，比 v2.0-beta03 旧</stentry>
+        </strow>
+        <strow>
+          <stentry>PDF 里的中文显示为方块</stentry>
+          <stentry>FOP 未注册中文字体，须配置 <filepath>fop.xconf</filepath>；或改走 CSS 一路出 PDF</stentry>
+        </strow>
+      </simpletable>
+    </section>
+
+    <section>
+      <title>引用、键与条件过滤</title>
+      <simpletable relcolwidth="1.6* 2*">
+        <sthead><stentry>症状</stentry><stentry>原因</stentry></sthead>
+        <strow>
+          <stentry><term keyref="term-conref">conref</term>（内容引用）拉过来是空的</stentry>
+          <stentry>目标元素已被 DITAVAL 排除。存放可复用片段的 topic 不做条件化</stentry>
+        </strow>
+        <strow>
+          <stentry>key 的覆盖不生效</stentry>
+          <stentry>key 解析取最先定义的那一个。要覆盖就把 keydef 放在被覆盖的 mapref 之前</stentry>
+        </strow>
+        <strow>
+          <stentry><xmlatt>keys</xmlatt> 报校验错</stentry>
+          <stentry>该属性的值类型是 NMTOKENS，只能以空格分隔，不能用逗号</stentry>
+        </strow>
+        <strow>
+          <stentry>条件过滤之后构建报内容不合法</stentry>
+          <stentry>必需的子元素被整批排除，例如 <xmlelement>steps</xmlelement> 下的全部 <xmlelement>step</xmlelement>，而内容模型要求至少一个。条件要打在能整体去掉的层级</stentry>
+        </strow>
+        <strow>
+          <stentry>输出里有一段内容，源文件里搜不到</stentry>
+          <stentry>由 conref push 从别的文件推入，见 <xmlatt>conaction</xmlatt></stentry>
+        </strow>
+        <strow>
+          <stentry>条件值拼错却不报错</stentry>
+          <stentry>条件值按裸字符串匹配。要挡住拼写错误，用 subjectScheme 建受控值</stentry>
+        </strow>
+        <strow>
+          <stentry>同一 topic 在两份 map 里表现不同</stentry>
+          <stentry>两份 map 的 key 定义不同所致，属预期行为</stentry>
+        </strow>
+        <strow>
+          <stentry>变量文本没有被替换</stentry>
+          <stentry>检查文本是否写在 <xmlelement>keytext</xmlelement> 内，以及所用工具链版本是否支持该元素</stentry>
+        </strow>
+      </simpletable>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：<xmlatt>keys</xmlatt> 的值类型为 NMTOKENS、只能以空格分隔，转自 <xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref>；DITA-OT 4.4 提供的 2.0 preview 支持基于 2026-01-25 的草案语法文件，而 v2.0-beta03 发布于其后，转自 <xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA 2.0 preview 支持</xref>与 <xref href="https://github.com/oasis-tcs/dita/releases" scope="external">oasis-tcs/dita 发布页</xref>。三处均已逐页核对。</p>
+      <p><b>判断</b>：除事实段两条外，三张表其余各行均属判断，可被反驳。其中默认属性补齐、按派生链匹配的写法与空格陷阱、泛化后的祖先链要求、安装时编译配置、catalog 与公共标识符、调试选项、字体配置、DITAVAL 排除导致引用落空、key 取最先定义者、条件打在能整体去掉的层级、conref push 的来处、subjectScheme 作受控值、<xmlelement>keytext</xmlelement> 的工具链支持，来自 DITA 与 DITA-OT 使用经验，非规范条文，未逐条核对；三张表的分组方式与「先查什么」的排列顺序为本库归纳。</p>
+    </section>
+  </refbody>
+</reference>
