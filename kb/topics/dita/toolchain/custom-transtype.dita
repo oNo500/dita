@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/06-dita-ot-plugins.md（写全新的 transtype、挂 Ant target、
+     界面字符串本地化）。题材 how-to：按 2026-08-16 裁定用 concept 外壳与 conbody（模板 A）。
+     术语规则（2026-08-16 用户门反馈后）：transtype / Ant target / preprocess /
+     feature 等一律用英文原名，dita2X 命名约定保留原形。
+     volatility=stable 的依据：注册方式与 target 命名约定跨版本未变；
+     具体属性名与 target 名仍随版本调整，正文已就此加提示。
+     事实纪律：已核对的是扩展点的声明方式、${transtype} 可限定生效范围、
+     depend.preprocess.post 等标识符；dita2X 约定、内置属性表、本地化配置按判断呈现。 -->
+<concept id="custom-transtype" xml:lang="zh-CN"
+         outputclass="how-to"
+         maturity="draft" volatility="stable"
+         dimension="dim-integration dim-usage">
+  <title>自定义 transtype 与 dita2X 的 Ant target</title>
+  <shortdesc>输出格式不在自带清单里时，可注册一个新的 transtype：plugin.xml 声明它的名字，build.xml 给出同名的 Ant target 承担生成动作，输入取 preprocess 之后的中间产物。同一套机制也用于在流水线的指定位置插入自己的处理步骤。</shortdesc>
+  <prolog>
+    <source href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>要产出的东西不是 HTML 或 PDF 的某个变体，而是另一种格式，例如供前端检索引擎使用的 JSON 索引。这类需求没有可继承的模板链，覆盖 XSLT 那条路用不上，需要的是一个自己的输出格式，从解析完成的 DITA 直接生成目标文件。</p>
+    </section>
+
+    <section>
+      <title>做法：注册 transtype 并给出同名 target</title>
+      <p>plugin.xml 里声明新的 transtype，注册它的校验，并指向带有 Ant target 的构建文件。不写继承关系即表示不继承任何已有格式。</p>
+      <codeblock>&lt;plugin id="com.example.searchindex"&gt;
+  &lt;transtype name="searchindex" desc="生成全文检索 JSON 索引"/&gt;
+  &lt;feature extension="dita.conductor.transtype.check" value="searchindex"/&gt;
+  &lt;feature extension="dita.conductor.target.relative" file="build.xml"/&gt;
+&lt;/plugin&gt;</codeblock>
+      <p>构建文件里给出承担该格式的 target。命名有一条约定：transtype 名为 X 时，target 必须叫 <codeph>dita2X</codeph>。target 的依赖链先跑初始化与 preprocess，再执行自己的生成步骤，因此拿到的是引用已全部解析的文档。</p>
+      <codeblock>&lt;project name="com.example.searchindex"&gt;
+  &lt;target name="dita2searchindex"
+          depends="build-init, preprocess, searchindex.generate"/&gt;
+
+  &lt;target name="searchindex.generate"&gt;
+    &lt;xslt basedir="${dita.temp.dir}" destdir="${output.dir}"
+          includes="**/*.dita" extension=".json"
+          style="${dita.plugin.com.example.searchindex.dir}/xsl/to-json.xsl"&gt;
+      &lt;param name="OUTPUTDIR" expression="${output.dir}"/&gt;
+    &lt;/xslt&gt;
+  &lt;/target&gt;
+&lt;/project&gt;</codeblock>
+      <p>示例里用到的内置属性如下，取值由 DITA-OT 在构建时注入。属性名与可用范围随版本调整，用前在目标版本上确认。</p>
+      <simpletable relcolwidth="1.4* 2*">
+        <sthead><stentry>属性</stentry><stentry>含义</stentry></sthead>
+        <strow><stentry>dita.temp.dir</stentry><stentry>临时目录，中间产物在其中</stentry></strow>
+        <strow><stentry>output.dir</stentry><stentry>最终输出目录</stentry></strow>
+        <strow><stentry>args.input</stentry><stentry>输入 map 的路径</stentry></strow>
+        <strow><stentry>transtype</stentry><stentry>当前输出格式</stentry></strow>
+        <strow><stentry>dita.dir</stentry><stentry>DITA-OT 的安装目录</stentry></strow>
+        <strow><stentry>dita.plugin.&lt;插件 ID&gt;.dir</stentry><stentry>指定插件自身的目录</stentry></strow>
+      </simpletable>
+      <p>整表来自通用实践，未逐页核对。</p>
+    </section>
+
+    <section>
+      <title>在流水线的指定位置插入自己的步骤</title>
+      <p>不需要新格式、只需要在解析前后做一件事时，用 preprocess 的前后置扩展点把自己的 target 接进去，例如 <codeph>depend.preprocess.post</codeph> 对应解析完成之后。</p>
+      <codeblock>&lt;project name="com.example.myhtml"&gt;
+  &lt;target name="my.after.preprocess"&gt;
+    &lt;echo message="preprocess 完成，临时目录：${dita.temp.dir}"/&gt;
+    &lt;!-- 只对特定输出格式生效：用 Ant 原生的 condition 加 target 的 if 属性。
+         if 与 then 是 ant-contrib 的任务而非 Ant 原生，
+         是否随 DITA-OT 分发因版本而异，不要依赖。 --&gt;
+    &lt;condition property="run.my.analyzer"&gt;
+      &lt;equals arg1="${transtype}" arg2="myhtml"/&gt;
+    &lt;/condition&gt;
+    &lt;antcall target="my.analyzer"/&gt;
+  &lt;/target&gt;
+
+  &lt;target name="my.analyzer" if="run.my.analyzer"&gt;
+    &lt;java classname="com.example.Analyzer" fork="false"&gt;
+      &lt;arg value="${dita.temp.dir}"/&gt;
+    &lt;/java&gt;
+  &lt;/target&gt;
+&lt;/project&gt;</codeblock>
+      <p>限定生效范围靠判断当前的输出格式，官方文档也是这样建议的。插入位置的选择取决于代码要看到解析前还是解析后的文档，见<xref href="preprocess-pipeline.dita">DITA-OT preprocess 流水线</xref>。</p>
+    </section>
+
+    <section>
+      <title>界面字符串本地化</title>
+      <p>输出里的固定文本，如相关概念、上级主题，来自一套字符串配置而非模板硬编码。插件提供自己的字符串文件并用对应扩展点注册，即可替换这些文本。</p>
+      <codeblock>&lt;!-- cfg/common/vars/zh-CN.xml --&gt;
+&lt;vars xmlns="http://www.oasis-open.org/architecture/2005/"&gt;
+  &lt;variable id="Related concepts"&gt;相关概念&lt;/variable&gt;
+  &lt;variable id="Parent topic"&gt;上级主题&lt;/variable&gt;
+  &lt;variable id="Note"&gt;注意&lt;/variable&gt;
+&lt;/vars&gt;</codeblock>
+      <p>注册用的扩展点是 <codeph>dita.xsl.strings</codeph>，指向汇总文件而非单个语言文件。该配置方式来自通用实践，未逐页核对。</p>
+    </section>
+
+    <section>
+      <title>退出点</title>
+      <p>重新安装插件后以新格式构建，输出目录里出现目标文件即完成。报错提示找不到 target 时，先核对 target 名与 transtype 名是否满足命名约定，再确认构建文件确实由扩展点声明。</p>
+      <p>不适用的场合是只想改已有格式的样式或个别元素的呈现，那条路是覆盖 XSLT 模板，不必注册新格式。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：扩展点在 plugin.xml 中以 feature 的 extension 声明、可用当前输出格式限定自定义代码的生效范围、preprocess 前后置扩展点的标识符，转自 <xref href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external">插件扩展点</xref>，已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中新格式的 plugin.xml 与构建文件示例、<codeph>dita2X</codeph> 命名约定、依赖链里的初始化与 preprocess 两个 target 名、内置属性表、ant-contrib 任务不随发行版保证提供、界面字符串本地化的配置方式，来自通用 DITA-OT 实践，未逐页核对；插入位置按解析前后取舍、报错时的两步排查次序、与覆盖 XSLT 的分工，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>

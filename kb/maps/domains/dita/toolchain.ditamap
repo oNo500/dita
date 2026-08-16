@@ -9,4 +9,5 @@
   <topicref href="../../../topics/dita/toolchain/editors-pdf-reality.dita"/>
   <topicref href="../../../topics/dita/toolchain/plugin-extension-points.dita"/>
   <topicref href="../../../topics/dita/toolchain/xslt-override.dita"/>
+  <topicref href="../../../topics/dita/toolchain/custom-transtype.dita"/>
 </map>
