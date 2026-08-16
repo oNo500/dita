@@ -7,4 +7,5 @@
   <topicref href="../../../topics/dita/toolchain/preprocess-pipeline.dita"/>
   <topicref href="../../../topics/dita/toolchain/validation-schematron.dita"/>
   <topicref href="../../../topics/dita/toolchain/editors-pdf-reality.dita"/>
+  <topicref href="../../../topics/dita/toolchain/plugin-extension-points.dita"/>
 </map>
