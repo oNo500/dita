@@ -11,4 +11,5 @@
   <topicref href="../../../topics/dita/toolchain/xslt-override.dita"/>
   <topicref href="../../../topics/dita/toolchain/custom-transtype.dita"/>
   <topicref href="../../../topics/dita/toolchain/plugin-debugging.dita"/>
+  <topicref href="../../../topics/dita/toolchain/parsed-vs-source.dita"/>
 </map>
