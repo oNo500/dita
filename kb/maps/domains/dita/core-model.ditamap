@@ -5,4 +5,5 @@
   <title>核心模型与复用</title>
   <topicref href="../../../topics/dita/core-model/conref-pull-push.dita"/>
   <topicref href="../../../topics/dita/core-model/keyref-variable-text.dita"/>
+  <topicref href="../../../topics/dita/core-model/include-non-dita.dita"/>
 </map>
