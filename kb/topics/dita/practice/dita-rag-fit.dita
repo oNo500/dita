@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/15-dita-and-rag.md §1（RAG 的内容侧难题与 DITA 的现成答案）、
+     §5（反面）与 §6（结论）。
+     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     术语规则（2026-08-16 用户门反馈后）：RAG / conref / keyref / preprocess /
+     shortdesc / DITAVAL 等一律用英文原名；不为「语义边界」「切块单元」造类目名词。
+     volatility=volatile 的依据：RAG 一侧的管线做法与嵌入效果随模型与工具演进。
+     事实纪律：笔记 15 无外部权威来源，全篇为从前序笔记已核对机制出发的分析，
+     故来源节事实段写明「无」并给出原因（照 writing-style「事实为空说明它还没有外部支撑」），
+     prolog 不写 reviewed（笔记 15 未核对任何页面，补日期是捏造），
+     source 用规范总入口作元数据（照 conref-pull-push 的 2026-08-16 裁定）。 -->
+<concept id="dita-rag-fit" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="volatile"
+         dimension="dim-retrieval dim-decision">
+  <title>DITA topic 的自足性与 RAG 切块的对应关系</title>
+  <shortdesc>RAG 在内容一侧要的是语义完整的块与可信的结构化元数据，而这两样是 DITA 为复用与多变体付出成本换来的副产品。已经在 DITA 里的内容做检索时它们全部现成；不在的，这不构成迁移的理由。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/specifications" scope="external"/>
+    <data name="domain" value="dita"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>把一批文档接进检索增强生成的管线时，模型一侧的问题之外还有内容一侧的问题：块该怎么切、每块附带什么信息可供过滤与排序、答案怎么指回出处。通用文档在这三处都缺现成的依据，于是按字数切、按标题猜、把元数据从文件名里抠出来。</p>
+      <p>DITA 的内容在这三处看起来占便宜。要回答的是两件事：便宜到底来自哪里，以及反过来说，为了做检索而把内容迁进 DITA 是否划算。</p>
+    </section>
+
+    <section>
+      <title>背景：内容一侧的三个难题</title>
+      <simpletable relcolwidth="1.1* 1.7* 1.7*">
+        <sthead><stentry>难题</stentry><stentry>通用文档的处境</stentry><stentry>DITA 的现成机制</stentry></sthead>
+        <strow>
+          <stentry>切块。边界切错，检索到的就是断头内容</stentry>
+          <stentry>没有语义边界标记，只能按字数或标题启发式切</stentry>
+          <stentry>topic 本身就是语义完整的最小单元</stentry>
+        </strow>
+        <strow>
+          <stentry>检索元数据。过滤与排序要求每块附带结构化信息</stentry>
+          <stentry>没有，或散落在文件名与目录名里</stentry>
+          <stentry><xmlatt>class</xmlatt>、<xmlatt>subjectrefs</xmlatt>、条件属性、prolog</stentry>
+        </strow>
+        <strow>
+          <stentry>溯源。答案要能指回出处</stentry>
+          <stentry>块与源文档的对应关系在切块时就断了</stentry>
+          <stentry><xmlatt>id</xmlatt> 加 map 路径，可直接深链</stentry>
+        </strow>
+      </simpletable>
+      <p>三行里第一行值得单独展开，另两行的机制在本库各有对应篇，本篇不重复。</p>
+    </section>
+
+    <section>
+      <title>分析：同一条约束的两个场景</title>
+      <p>topic 的边界由自足性定义，即能被独立理解的最小内容块。而「能被独立检索、单独喂给模型之后仍然成立」与「能被独立理解」是同一个性质：两者都要求内容脱离原语境后依然正确。因此 topic 作为切块单元不是权宜的映射，是同一条约束在复用与检索两个场景下的表现。为复用划的边界，检索一侧直接可用。</p>
+      <p><xmlelement>shortdesc</xmlelement> 是第二样现成之物。每个 topic 自带一段作者写的摘要，可直接用于检索结果展示与重排序，而通用管线里这一步要靠模型生成，生成结果未必比作者写的准。</p>
+      <p>反过来的一面同样要说清，它决定这笔账怎么算。</p>
+      <ul>
+        <li>解析会抹掉复用标识。<term keyref="term-conref">conref</term>（内容引用）展开之后，同一片段在产物里是普通文本，按变体分库时它在每个库里各存一份，向量重复且更新时要全部重新嵌入。产物默认不携带「这段来自哪个源片段」的标记，要就得在构建一侧自己注入。复用省下的翻译支出，在嵌入成本上没有对应的节省。</li>
+        <li>结构化内容的嵌入效果是通用难题。表格、语法图、步骤序列的向量表示质量差，精细标记在这里帮不上忙，它能做的只是让人按派生链识别出这些块并单独处理。</li>
+        <li>投入判断不因检索而改变。内容本来就在 DITA 里，检索一侧的收益是白拿的；内容不在，为做检索而结构化迁移的成本远超收益，通用切块管线虽然粗糙，但便宜得多。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>压缩成一句：RAG 需要语义完整的块与可信的结构化元数据，而这两样是 DITA 为复用与多变体付出成本换来的副产品。已经在 DITA 里的内容，切块、元数据、溯源、关系图全部现成；不在的，这不是迁移的理由。</p>
+      <p>顺着这个结论只剩一个工程决定要做：用解析后的内容，并想清楚条件过滤发生在入库前还是检索时，见<xref href="rag-parsed-content.dita">RAG 入库内容的选择</xref>。切块粒度与元数据的逐项对应见<xref href="rag-chunking-metadata.dita">RAG 的切块粒度与检索元数据</xref>。</p>
+      <p>本篇全部内容为分析，无外部权威来源可核对。三个难题的归纳与反面清单均可被反驳，不应当作事实引用。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：无。检索增强生成与结构化内容的结合尚无标准文献，笔记 15 未核对任何外部页面，本篇因此没有可转述的权威内容。</p>
+      <p><b>判断</b>：正文全部陈述均属判断，可被反驳。其中三个内容侧难题的归纳、通用文档在这三处的处境、结构化内容嵌入效果差、解析产物不携带源片段标记，来自检索管线的通用实践，未逐页核对；自足性与可独立检索是同一条约束、<xmlelement>shortdesc</xmlelement> 可省掉摘要生成、三条反面清单与「检索是已用 DITA 者的额外收益而非采用理由」的结论，为本库归纳。分析所依据的 DITA 机制分别见本库对应篇，其核对状态以那些篇的来源节为准，本篇未重复核对。</p>
+    </section>
+  </conbody>
+</concept>
