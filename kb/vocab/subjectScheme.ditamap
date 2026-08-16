@@ -126,7 +126,9 @@
     <subjectdef keys="content-engineering">
 
       <subjectdef keys="structured-content">
-        <subjectdef keys="dita"/>
+        <subjectdef keys="dita">
+          <!-- DITA 标准知识（2026-08 迁自 research/notes，见 docs/superpowers/specs/2026-08-16-notes-to-kb-migration-design.md） -->
+        </subjectdef>
         <subjectdef keys="s1000d"/>
         <subjectdef keys="docs-as-code"/>  <!-- markdown/note-conventions（v0.2 新增，note-conventions 归此） -->
       </subjectdef>
