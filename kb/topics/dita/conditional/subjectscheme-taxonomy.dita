@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/03-profiling-and-chunking.md §4（给条件值上类型）与
+     research/notes/14-metadata-and-classification.md §4（内建的分类法机制）——两节讲的是
+     同一个节点的两种用法，合并为一篇，不按笔记的篇次切分。
+     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     术语规则（2026-08-16 用户门反馈后）：subject scheme / subjectdef / enumerationdef /
+     defaultSubject / DITAVAL 等一律用英文原名，中文解释每篇首现随行注一次。
+     标题规则（2026-08-16 用户定稿）：上游有节点，直接用其类目名——OASIS 架构规范章节页
+     「Subject scheme maps and their usage」的首个子页即「Subject scheme maps」，
+     DITA-OT 文档的对应节点为「Subject schemes」。故用 subject scheme map，不自造。
+     volatility=stable 的依据：绑定语法与向上查找算法出自架构规范，不随发行版变动。
+     事实纪律：向上查找、容器节点非合法值、空枚举、defaultSubject 的求值位置、三条 SHOULD、
+     键引用不产生链接与变量文本，均已逐页核对；树按过滤语义画、一棵树一个维度、
+     引入门槛三条为分析与实践建议，在来源节判断段列明。 -->
+<concept id="subjectscheme-taxonomy" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="stable"
+         dimension="dim-classification dim-mechanism">
+  <title>subject scheme map</title>
+  <shortdesc>把条件属性与分类属性的可选值定义成一棵受控树，并绑定到具体属性：处理器据此校验取值，过滤时按层级向上查找最近命中的规则。层级不是装饰，它决定排除父节点时哪些子节点跟着消失，因此树该按过滤语义画，而不按学科上的从属关系画。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/2.0/dita/archspec/base/subjectschema" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>条件属性的取值是裸字符串。把 <xmlatt>platform</xmlatt> 写成 linu 不会报错，只会静默地什么都不匹配，症状是某个平台的输出少了一段，而源文件看上去毫无问题。团队一大，同一个概念还会长出多个写法。</p>
+      <p>DITA 给出的答案不止是一份拼写检查表。<term keyref="term-subject-scheme">subject scheme</term>（受控值与分类树）把可选值组织成一棵树并绑定到属性，校验只是它最小的用法，层级本身参与过滤的判定。</p>
+    </section>
+
+    <section>
+      <title>背景：定义受控值并绑定到属性</title>
+      <p>subject scheme 是一种 map 类型，用与 keydef 相同的机制描述主题：每个 <xmlelement>subjectdef</xmlelement> 既是一个键，也是分类树上的一个节点，嵌套即成层级。这里解析的 <term keyref="term-keyref">keyref</term>（键引用）不产生链接，也不产生变量文本，它在此处的语义是绑定与关联，同一套键的基础设施换了一种用途。</p>
+      <p><xmlelement>enumerationdef</xmlelement> 把其中一棵子树绑定到一个属性：<xmlelement>attributedef</xmlelement> 指定属性名，<xmlelement>subjectdef</xmlelement> 以 keyref 指定值集，<xmlelement>defaultSubject</xmlelement> 可选地给出默认值。</p>
+      <codeblock>&lt;subjectScheme&gt;
+  &lt;subjectdef keys="platform"&gt;
+    &lt;subjectdef keys="linux"&gt;
+      &lt;subjectdef keys="ubuntu"/&gt;
+      &lt;subjectdef keys="rhel"/&gt;
+    &lt;/subjectdef&gt;
+    &lt;subjectdef keys="windows"/&gt;
+    &lt;subjectdef keys="macos"/&gt;
+  &lt;/subjectdef&gt;
+
+  &lt;enumerationdef&gt;
+    &lt;attributedef name="platform"/&gt;
+    &lt;subjectdef keyref="platform"/&gt;
+    &lt;defaultSubject keyref="linux"/&gt;
+  &lt;/enumerationdef&gt;
+&lt;/subjectScheme&gt;</codeblock>
+      <p>绑定之后有四条规则值得单独记住。</p>
+      <ul>
+        <li>被绑定的容器节点自身不是合法值。上例的合法值是 linux、ubuntu、rhel、windows、macos，不含 platform。</li>
+        <li>绑定一个没有子节点的 <xmlelement>subjectdef</xmlelement>，该属性就没有任何合法值。「本团队不使用 <xmlatt>otherprops</xmlatt>」这类约定因此有了语法一级的写法，不必靠人记得。</li>
+        <li><xmlelement>defaultSubject</xmlelement> 提供的默认值在取值优先级里排第四级，位于显式取值、语法文件的默认值、级联而来的值之后，处理器自定的默认之前。</li>
+        <li>处理器应当校验 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）里列出的值也在受控集内。过滤规则本身写错取值，同样会被查出来。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>分析：向上查找决定了树该怎么画</title>
+      <p>处理器判定一个属性值时，先找该值本身的 DITAVAL 规则；没有，就沿树逐级向上找祖先的规则，用最近命中的那一条。内容标了 ubuntu 而规则只写了排除 linux，ubuntu 随之被排除；标记沿同一条路径向下继承。规范用治疗师的例子说明这一点，排除父节点则两个子节点默认一并被排除。</p>
+      <p>与之配套的是三条对处理器的期望：感知层级、校验属性值在受控集内、校验 DITAVAL 里列出的值确实被绑定过。三条都是应当而非必须，落到具体处理器上以实测为准。</p>
+      <p>向上查找这条算法直接决定了树的形状该由什么定。<b>两个主题该不该是父子，判据是排除父亲时儿子是否也该消失</b>，而不是它们在学科上是否从属。把「云平台」当父节点、下挂「AWS」与「从本地部署迁移的指南」，分类学上讲得通；排除云平台时那份迁移指南多半仍应保留，于是它们不该是父子。想把两者放在一起阅读是目录的诉求，目录由 map 编排，与分类树无关。</p>
+      <p>同一条判据的另一面是一棵树只管一个正交维度：平台一棵、受众一棵、产品一棵。把多个维度编进同一棵树，节点数按维度取值的乘积增长，而增长出来的多数节点没有内容挂靠。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>引入的时机可以用两个数当粗略门槛：条件维度超过三个，或参与标注的人超过三个。低于这个规模，拼写错误还能靠通读发现；高于它，静默不匹配成为最难排查的一类缺陷。</p>
+      <p>树本身是一个 map 文件，进版本库、有差异、可评审，词表治理因此与代码评审同一套流程。演进走版本化的树变更，不走作者临时发明新取值，这是它与裸字符串取值的分别所在。</p>
+      <p>受控值的另一半用途是分类而非过滤，即用属性把 topic 关联到主题上做分面导航与检索。两类元数据的分工见 <xref href="metadata-two-kinds.dita">过滤用元数据与分类用元数据</xref>，各自该落在哪个机制上见 <xref href="metadata-placement.dita">DITA 元数据的放置位置</xref>。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：subject scheme 为一种 map 类型、受控值与主题经键定义机制组织、分类与子分类构成树、树内解析的键引用不产生变量文本与链接而语义为绑定与关联，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/subjectschema" scope="external">subject scheme map</xref>；<xmlelement>enumerationdef</xmlelement> 与 <xmlelement>attributedef</xmlelement>、<xmlelement>subjectdef</xmlelement>、<xmlelement>defaultSubject</xmlelement> 的分工、容器节点自身不是合法值、空枚举使属性无合法值、受控值默认在显式值与语法默认及级联值之后而在处理器默认之前求值，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/binding-controlled-values-to-attribute" scope="external">绑定受控值到属性</xref>；向上查找算法（先精确匹配，无则沿层级上溯至命中）、排除与标记沿层级向下继承及其治疗师原例、三条对处理器的期望，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/processing-controlled-attribute-values" scope="external">处理受控属性值</xref>。三处均已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中「排除父亲时儿子是否也该消失」这条画树判据、云平台与迁移指南的例子、一棵树只管一个正交维度、多维度合树导致节点数按乘积增长，是从事实段所列的向上查找规则推出的分析，规范未如此表述；三个维度与三个人的引入门槛、把树当作可评审的版本化文件治理、演进走版本化变更而非临时发明取值，为本库归纳的实践建议。</p>
+    </section>
+  </conbody>
+</concept>
