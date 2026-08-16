@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/04-toolchain-and-build.md §5（编辑器）与 §6（输出 PDF 的现实）。
+     题材 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
+     术语规则（2026-08-16 用户门反馈后）：XSL-FO / CCMS / transtype 等一律用英文原名；
+     不自造分类框架，编辑器与 PDF 路线按平实短语列，不造类目名词。
+     volatility=volatile 的依据：各家工具的 2.0 支持程度随版本推进。
+     事实纪律：笔记 04 已核对清单只覆盖 DITA-OT 的 2.0 preview 基线一条，
+     编辑器与 PDF 的全部对比与取舍属判断，已在来源节判断段穷尽列明。 -->
+<concept id="editors-pdf-reality" xml:lang="zh-CN"
+         outputclass="best-practice"
+         maturity="draft" volatility="volatile"
+         dimension="dim-ecosystem dim-decision">
+  <title>DITA 编辑器与 PDF 输出选型：Oxygen、CCMS 与 XSL-FO</title>
+  <shortdesc>2.0 期间的工具选择受同一条约束支配：规范之外的每一环，支持程度都由厂商而非规范决定。编辑器按团队构成选，PDF 按团队已有的排版技能选，两处都优先留在自己能控制的那一段工具链上。</shortdesc>
+  <prolog>
+    <source href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>场景</title>
+      <p>决定用 DITA 之后，两处选择随即到来：内容用什么写，PDF 用什么出。两处都容易按功能清单比价，而在 2.0 期间真正起作用的判据是另一个——这一环的 2.0 支持由谁决定。DITA-OT 的 preview 支持已相当完整，商业编辑器与内容管理系统的支持程度参差，且不由使用方掌握。</p>
+    </section>
+
+    <section>
+      <title>做法</title>
+      <p>编辑器按团队构成选。四类工具的取舍如下。</p>
+      <simpletable relcolwidth="1.3* 2.2*">
+        <sthead><stentry>工具</stentry><stentry>取舍</stentry></sthead>
+        <strow>
+          <stentry>Oxygen XML Editor / Author</stentry>
+          <stentry>商业产品，行业内的事实标准。所见即所得、引用补全、DITA-OT 集成、差异合并齐备。用 2.0 之前须确认该版本对 2.0 语法文件的支持</stentry>
+        </strow>
+        <strow>
+          <stentry>VS Code 与社区 DITA 扩展</stentry>
+          <stentry>语法高亮、片段与构建任务。够写，不够管，适合开发者自行维护文档</stentry>
+        </strow>
+        <strow>
+          <stentry>Emacs nXML、vim</stentry>
+          <stentry>由 RNG 驱动补全，够用</stentry>
+        </strow>
+        <strow>
+          <stentry>CCMS（内容管理系统）</stentry>
+          <stentry>管版本、工作流、翻译与复用追踪。2.0 支持是其中最不确定的一项</stentry>
+        </strow>
+      </simpletable>
+      <p>判据按团队构成落位：只有工程师写文档，VS Code 足够；有专职技术写作团队，Oxygen 合适；上百人协作且涉及多语言与合规审计，才需要 CCMS。</p>
+      <p>PDF 按已有的排版技能选。DITA-OT 默认的 pdf transtype（输出类型）走 Apache FOP，即 XSL-FO 一路，中文排版效果一般且字体配置繁琐。三条路线的取舍如下。</p>
+      <ul>
+        <li>FOP 加自配中文字体：免费，须编写字体注册配置，排版效果有限。</li>
+        <li>商业 FO 引擎，如 Antenna House 或 RenderX XEP：排版质量高，DITA-OT 有对接。</li>
+        <li>从 HTML 与 CSS 出 PDF，如 Prince、WeasyPrint、Paged.js：对熟悉 CSS 的团队成本最低，中文支持也最好。</li>
+      </ul>
+      <p>PDF 是主要交付物而团队没有 XSL-FO 经验时，第三条优先评估。</p>
+    </section>
+
+    <section>
+      <title>理由</title>
+      <p>两处选择服从同一条判据：把不由自己决定的依赖降到最少。<b>DITA-OT 加文本编辑器这条组合，2.0 支持进度由开源实现与本机版本决定，升级时机自己掌握</b>；商业编辑器与内容管理系统的支持进度由厂商排期决定，内容已经投入之后再发现某个特性不支持，退路很窄。</p>
+      <p>PDF 一路的理由同构。XSL-FO 是一套独立的排版语言，团队若没有这项技能，每次样式调整都要先补技能再动手；而 CSS 排版的技能在多数团队里已经存在，从 HTML 出 PDF 把排版问题移到团队已有能力覆盖的范围内。</p>
+    </section>
+
+    <section>
+      <title>反例</title>
+      <ul>
+        <li>把采购内容管理系统当作采用 DITA 的第一步。工作流与复用追踪的价值在内容规模起来之后才显现，而 2.0 支持恰在此类系统上最不确定，两者叠加使早期投入难以回收。</li>
+        <li>默认沿用 pdf transtype，把时间耗在中文字体配置上。字体配置本身可行，但如果排版要求持续增加，而团队没有 XSL-FO 经验，成本会一路上升。</li>
+        <li>按功能清单选编辑器而不验证 2.0 支持。功能齐备与语法文件支持是两件事，后者须用最小样例实测。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>边界</title>
+      <p>本篇给的是选型判断，不含任一工具的配置步骤。DITA-OT 自身的安装与首次构建见 <xref href="dita-ot-quickstart.dita">DITA-OT 安装与 2.0 doctype 触发</xref>。</p>
+      <p>产品清单与支持程度随时间变动，本篇的对比是判断而非核对结果。做决定之前，以候选工具当前版本的文档为准，并用最小样例验证 2.0 语法文件确实可用。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：DITA-OT 4.4 基于 2026-01-25 的 2.0 草案语法文件提供 preview 支持，转自 <xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA 2.0 preview 支持</xref>，已逐页核对。</p>
+      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中四类编辑器的能力与定位、内容管理系统的职责、默认 pdf transtype 走 Apache FOP、三条 PDF 路线的成本与效果，来自通用实践，未逐页核对，产品清单也未逐项验证；按团队构成选编辑器的判据、把不由自己决定的依赖降到最少这条理由、三条反例与其中的成本推断，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>
