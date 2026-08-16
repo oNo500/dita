@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 迁自 research/notes/02-reuse.md §2（键引用与间接寻址）。
+<!-- 迁自 research/notes/02-reuse.md §2（keyref 与间接寻址）。
      题材 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
+     术语规则（2026-08-16 用户门反馈后）：keyref / keydef / keytext / keyscope 等一律用英文
+     原名，中文解释只在首现随行给一次；不自造分类框架（原「定义侧五种绑定」「引用侧五种写法」
+     「先定义者胜」已降级为平实说明）。
      volatility=volatile 的依据：@keyscope 的实现差异随 DITA-OT 版本变动。
-     笔记标注「未逐页核对」的条目（先定义者胜、覆盖技巧、@keyref 与 @href 并存时的取舍、
-     @keyscope 用法）在表内标注并于来源节判断段列明，不写成规范断言。 -->
+     笔记标注「未逐页核对」的条目在表内与列表内逐条标注，并在来源节判断段列明。 -->
 <reference id="keyref-variable-text" xml:lang="zh-CN"
            outputclass="cheatsheet"
            maturity="draft" volatility="volatile"
            dimension="dim-mechanism dim-reference">
-  <title>DITA 键引用与变量文本速查</title>
-  <shortdesc>键把「引用什么」与「它在哪」分开：正文只写键名，绑定写在 map 里，一个键可绑文件、外部地址、一段文本或一张图片。以下按定义侧、引用侧、<xmlelement>keytext</xmlelement> 内容模型与解析规则四组列出可查条目。</shortdesc>
+  <title>DITA keyref 与 keytext 速查</title>
+  <shortdesc>keyref 把「引用什么」与「它在哪」分开：正文只写键名，绑定由 map 里的 keydef 声明，一个键可绑 topic 文件、外部地址、一段文本或一张图片。以下列出 keydef 的写法、keyref 的写法、keytext 的内容模型与键的解析规则。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/langref/base/keytext" scope="external"/>
     <data name="domain" value="dita"/>
@@ -19,21 +21,21 @@
   <refbody>
     <section>
       <title>定位</title>
-      <p><term keyref="term-keyref">键引用</term>在引用方与目标之间加一层间接。<term keyref="term-conref">内容引用</term>与 <xmlelement>xref</xmlelement> 把目标位置直接写在引用方，文件移动即失效；键把绑定集中到 map，正文只留键名。</p>
-      <p>由此得到两项用途。其一，同一份 topic 由不同 map 引用时产出不同结果，topic 文件不改动；其二，产品名一类的重复成分成为变量文本，改名只改 map 的一处绑定。两项用途共用同一套机制，变量文本是它的一种用法。</p>
+      <p><term keyref="term-keyref">keyref</term>（键引用）在引用方与目标之间加一层间接。<term keyref="term-conref">conref</term>（内容引用）与 <xmlelement>xref</xmlelement> 把目标位置直接写在引用方，文件移动即失效；键把绑定集中到 map，正文只留键名。</p>
+      <p>由此得到两项用途。其一，同一份 topic 由不同 map 引用时产出不同结果，topic 文件不改动；其二，产品名这类会重复出现、可能改动的文本由 keytext 提供，改名只改 map 的一处绑定。两项用途用的是同一套机制。</p>
     </section>
 
     <section>
-      <title>定义侧：map 里的五种绑定</title>
+      <title>map 里的 keydef 写法</title>
       <simpletable relcolwidth="1.2* 2*">
-        <sthead><stentry>绑定形态</stentry><stentry>写法要点</stentry></sthead>
-        <strow><stentry>键到 topic 文件</stentry><stentry><xmlatt>keys</xmlatt> 加 <xmlatt>href</xmlatt>，键的基本形态</stentry></strow>
-        <strow><stentry>键到外部地址</stentry><stentry>另标 <xmlatt>scope</xmlatt>="external" 与 <xmlatt>format</xmlatt>，地址写在 <xmlatt>href</xmlatt> 上</stentry></strow>
-        <strow><stentry>键到一段文本</stentry><stentry>不写 <xmlatt>href</xmlatt>，只在 <xmlelement>topicmeta</xmlelement> 内写 <xmlelement>keytext</xmlelement>，即变量文本</stentry></strow>
-        <strow><stentry>键到图片</stentry><stentry><xmlatt>href</xmlatt> 指向图片文件并标 <xmlatt>format</xmlatt>；<xmlelement>keytext</xmlelement> 在此充当替代文本</stentry></strow>
-        <strow><stentry>一个定义绑多个键</stentry><stentry><xmlatt>keys</xmlatt> 内空格分隔即别名，各键等价</stentry></strow>
+        <sthead><stentry>写法</stentry><stentry>要点</stentry></sthead>
+        <strow><stentry>键指向 topic 文件</stentry><stentry><xmlatt>keys</xmlatt> 加 <xmlatt>href</xmlatt></stentry></strow>
+        <strow><stentry>键指向外部地址</stentry><stentry>另标 <xmlatt>scope</xmlatt>="external" 与 <xmlatt>format</xmlatt>，地址写在 <xmlatt>href</xmlatt> 上</stentry></strow>
+        <strow><stentry>键绑一段文本</stentry><stentry>不写 <xmlatt>href</xmlatt>，只在 <xmlelement>topicmeta</xmlelement> 内写 <xmlelement>keytext</xmlelement></stentry></strow>
+        <strow><stentry>键绑图片</stentry><stentry><xmlatt>href</xmlatt> 指向图片文件并标 <xmlatt>format</xmlatt>；<xmlelement>keytext</xmlelement> 在此相当于写出 <xmlelement>alt</xmlelement></stentry></strow>
+        <strow><stentry>一个 <xmlelement>keydef</xmlelement> 定义多个键</stentry><stentry><xmlatt>keys</xmlatt> 内空格分隔即别名，各键等价</stentry></strow>
       </simpletable>
-      <p>五种形态的划分与逐条写法归纳自通用实践，已逐页核对的是其中 <xmlelement>keytext</xmlelement> 与 <xmlelement>keydef</xmlelement> 两个元素本身的规定（见来源节）。</p>
+      <p>表内写法归纳自通用实践；已逐页核对的是 <xmlelement>keytext</xmlelement> 与 <xmlelement>keydef</xmlelement> 两个元素本身的规定（见来源节）。</p>
       <codeblock>&lt;map&gt;
   &lt;keydef keys="install-guide" href="topics/install.dita"/&gt;
 
@@ -51,23 +53,22 @@
 
   &lt;keydef keys="app appname product" href="topics/app.dita"/&gt;
 
-  &lt;!-- 供 conkeyref 使用的内容仓库，形态同第一种 --&gt;
+  &lt;!-- 供 conkeyref 使用的片段库，形态同第一条 --&gt;
   &lt;keydef keys="warehouse" href="warehouse/notes.dita"/&gt;
 &lt;/map&gt;</codeblock>
       <p><xmlelement>keydef</xmlelement> 的 <xmlatt>processing-role</xmlatt> 默认值为 resource-only，键定义因此只提供资源，不产出页面、不进目录。规范未把 <xmlatt>toc</xmlatt> 列为它的显式默认属性。</p>
     </section>
 
     <section>
-      <title>引用侧：topic 里的五种写法</title>
+      <title>topic 里的 keyref 写法</title>
       <simpletable relcolwidth="1.2* 2*">
         <sthead><stentry>写法</stentry><stentry>取到什么</stentry></sthead>
-        <strow><stentry><xmlelement>ph</xmlelement> 加 <xmlatt>keyref</xmlatt></stentry><stentry>行内插入该键的 <xmlelement>keytext</xmlelement>，即变量文本</stentry></strow>
+        <strow><stentry><xmlelement>ph</xmlelement> 加 <xmlatt>keyref</xmlatt></stentry><stentry>行内插入该键的 <xmlelement>keytext</xmlelement></stentry></strow>
         <strow><stentry><xmlelement>xref</xmlelement> 加 <xmlatt>keyref</xmlatt></stentry><stentry>链接到键绑定的文件或外部地址</stentry></strow>
-        <strow><stentry><xmlelement>image</xmlelement> 加 <xmlatt>keyref</xmlatt></stentry><stentry>插入键绑定的图片，<xmlelement>keytext</xmlelement> 充当替代文本</stentry></strow>
-        <strow><stentry><xmlatt>conkeyref</xmlatt></stentry><stentry>以键定位的内容引用，寻址方式改为键，引用语义不变</stentry></strow>
+        <strow><stentry><xmlelement>image</xmlelement> 加 <xmlatt>keyref</xmlatt></stentry><stentry>插入键绑定的图片，<xmlelement>keytext</xmlelement> 相当于 <xmlelement>alt</xmlelement></stentry></strow>
+        <strow><stentry><xmlatt>conkeyref</xmlatt></stentry><stentry>以键定位的 conref，寻址方式改为键，引用语义不变</stentry></strow>
         <strow><stentry><xmlatt>keyref</xmlatt> 与 <xmlatt>href</xmlatt> 并存</stentry><stentry>键可解析时以键为准，解析不到时回落到 <xmlatt>href</xmlatt>（未逐页核对）</stentry></strow>
       </simpletable>
-      <p>五种写法的划分同属归纳，规范的键解析章节尚未逐页核对。</p>
       <codeblock>&lt;p&gt;欢迎使用 &lt;ph keyref="product-name"/&gt;。&lt;/p&gt;
 &lt;p&gt;详见 &lt;xref keyref="install-guide"/&gt; 与 &lt;xref keyref="ot-site"/&gt;。&lt;/p&gt;
 &lt;image keyref="logo" placement="break"/&gt;
@@ -80,29 +81,28 @@
         <sthead><stentry>项</stentry><stentry>规定</stentry></sthead>
         <strow><stentry>出现位置</stentry><stentry><xmlelement>topicmeta</xmlelement> 内</stentry></strow>
         <strow><stentry>内容模型</stentry><stentry>零或多个文本，可含 <xmlelement>cite</xmlelement>、<xmlelement>data</xmlelement>、<xmlelement>keyword</xmlelement>、<xmlelement>ph</xmlelement>、<xmlelement>q</xmlelement>、<xmlelement>term</xmlelement>、<xmlelement>text</xmlelement>、<xmlelement>tm</xmlelement></stentry></strow>
-        <strow><stentry>两种用途</stentry><stentry>作变量文本；用于图片时充当替代文本，等同显式写出 <xmlelement>alt</xmlelement></stentry></strow>
+        <strow><stentry>两种用途</stentry><stentry>作正文里可替换的文本；用于图片时相当于写出 <xmlelement>alt</xmlelement></stentry></strow>
       </simpletable>
-      <p>内容模型允许行内元素，变量文本因此可以带商标符、术语标记与条件属性，不限于一串纯字符。</p>
+      <p>内容模型允许行内元素，<xmlelement>keytext</xmlelement> 因此可以带商标符、术语标记与条件属性，不限于一串纯字符。</p>
       <p>同在 <xmlelement>topicmeta</xmlelement> 内的链接文字元素在 DITA 2.0 有变动：map 中的 <xmlelement>linktext</xmlelement> 由 <xmlelement>linktitle</xmlelement> 取代。</p>
     </section>
 
     <section>
       <title>解析规则</title>
-      <simpletable relcolwidth="1* 2.4*">
-        <sthead><stentry>规则</stentry><stentry>内容</stentry></sthead>
-        <strow><stentry>先定义者胜</stentry><stentry>按深度优先的文档顺序，第一个定义有效，其后的同名定义被忽略（未逐页核对）</stentry></strow>
-        <strow><stentry>覆盖的写法</stentry><stentry>把自己的定义放在被覆盖的 map 引用之前，其中的同名键随即失效（未逐页核对）</stentry></strow>
-        <strow><stentry><xmlatt>keys</xmlatt> 的取值形状</stentry><stentry>类型为 NMTOKENS，只能空格分隔，不接受逗号一类的分隔符</stentry></strow>
-        <strow><stentry>作用域</stentry><stentry><xmlatt>keyscope</xmlatt> 划出独立键空间，域内直接用键名，域外用「域名.键名」限定（未逐页核对）</stentry></strow>
-      </simpletable>
-      <p><b>先定义者胜与「后定义覆盖前定义」的直觉相反</b>，覆盖的写法由它推出：要让自己的绑定生效，位置须在被覆盖的 map 引用之前。</p>
+      <ul>
+        <li>第一个定义生效：按深度优先的文档顺序，先出现的 <xmlelement>keydef</xmlelement> 有效，其后的同名定义被忽略（未逐页核对）。</li>
+        <li>要覆盖某个键，把自己的 <xmlelement>keydef</xmlelement> 放在被覆盖的 map 引用之前，那份 map 里的同名键随即失效（未逐页核对）。</li>
+        <li><xmlatt>keys</xmlatt> 的类型是 NMTOKENS，只能空格分隔，不接受逗号一类的分隔符。</li>
+        <li><xmlatt>keyscope</xmlatt> 划出独立的键空间，域内直接用键名，域外用「域名.键名」限定（未逐页核对）。</li>
+      </ul>
+      <p><b>先出现的定义生效，与「后定义覆盖前定义」的直觉相反</b>，覆盖的写法由此而来：要让自己的绑定生效，位置须在被覆盖的 map 引用之前。</p>
       <p><xmlatt>keyscope</xmlatt> 用于同一份 submap 在一本书里出现两次而两次须绑不同值的场合。它的实现差异较大，用前在目标 DITA-OT 版本上实测。键空间与作用域嵌套的完整模型属寻址与关系主题，不在此展开。</p>
     </section>
 
     <section>
       <title>来源</title>
       <p><b>事实</b>：<xmlelement>keytext</xmlelement> 的出现位置、内容模型与两种用途转自 <xref href="https://dita-lang.org/dita/langref/base/keytext" scope="external">keytext 元素</xref>；<xmlatt>processing-role</xmlatt> 默认 resource-only 与 <xmlatt>toc</xmlatt> 不在显式默认属性之列转自 <xref href="https://dita-lang.org/dita/langref/base/keydef" scope="external">keydef 元素</xref>；<xmlatt>keys</xmlatt> 收紧为 NMTOKENS 与 <xmlelement>linktext</xmlelement> 由 <xmlelement>linktitle</xmlelement> 取代转自 <xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref>。三份页面均已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列三份页面的内容外，正文其余陈述均属判断，可被反驳。其中定义侧五种绑定形态、引用侧五种写法的划分与逐条写法、先定义者胜、覆盖的写法、<xmlatt>keyref</xmlatt> 与 <xmlatt>href</xmlatt> 并存时的取舍、<xmlatt>keyscope</xmlatt> 的用法来自通用 DITA 实践，规范的键定义与键解析章节尚未逐页核对，表内已逐条标注；键作为间接层的定位、两项用途的归纳与实测建议为本库归纳。</p>
+      <p><b>判断</b>：除事实段所列三份页面的内容外，正文其余陈述均属判断，可被反驳。两张表内的逐条写法、第一个定义生效、覆盖的写法、<xmlatt>keyref</xmlatt> 与 <xmlatt>href</xmlatt> 并存时的取舍、<xmlatt>keyscope</xmlatt> 的用法来自通用 DITA 实践，规范的键定义与键解析章节尚未逐页核对，正文已逐条标注；键作为间接层的定位、两项用途的归纳与实测建议为本库归纳。</p>
     </section>
   </refbody>
 </reference>

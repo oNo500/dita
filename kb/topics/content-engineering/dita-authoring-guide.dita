@@ -74,8 +74,8 @@
       <title>组4 术语一致性（→ R7）</title>
       <p>关键术语不打字面词：查术语库（<filepath>maps/glossary.ditamap</filepath>），有则 <xmlelement>term</xmlelement> <xmlatt>keyref</xmlatt>="term-x"，没有则先建 glossentry（双语条目）再引。改叫法只改术语库，正文不动。</p>
       <ul>
-        <li><b>每篇首现标注即可</b>——同一篇里已 keyref 过的术语，后文字面提及不必再包。全标会让一段长表格每行都套一层标签，收益为零。</li>
-        <li><b>标题不标</b>——标题是标签不是行文，keyref 会改变导航与 TOC 的渲染，而"这篇讲的就是它"已由标题本身表达。</li>
+        <li><b>每篇首现标注即可</b>——同一篇里已用 <xmlatt>keyref</xmlatt> 标注过的术语，后文字面提及不必再包。全标会让一段长表格每行都套一层标签，收益为零。</li>
+        <li><b>标题不标</b>——标题是标签不是行文，<xmlatt>keyref</xmlatt> 会改变导航与 TOC 的渲染，而"这篇讲的就是它"已由标题本身表达。</li>
         <li>引文标题、路径、代码里的字面同样不标（那是标记语境，不是行文）。<cmdname>review.sh</cmdname> 的术语扫描已按这三条豁免，报出来的都是真该改的。</li>
       </ul>
     </section>
@@ -118,7 +118,7 @@
         <strow><stentry>每篇写非空 shortdesc</stentry><stentry>R1</stentry></strow>
         <strow><stentry>显式标 volatility / maturity、只用受控值</stentry><stentry>R2/R4/R5</stentry></strow>
         <strow><stentry>verified 内容标核对日期 data name="reviewed"</stentry><stentry>R3</stentry></strow>
-        <strow><stentry>关键术语用 term keyref</stentry><stentry>R7</stentry></strow>
+        <strow><stentry>关键术语用 <xmlelement>term</xmlelement> 加 <xmlatt>keyref</xmlatt></stentry><stentry>R7</stentry></strow>
         <strow><stentry>concept/reference 必有来源</stentry><stentry>R8</stentry></strow>
         <strow><stentry>建域先全景、quickstart 挂全景</stentry><stentry>R10 + dita-tools ia（R9 观测与覆盖度）</stentry></strow>
         <strow><stentry>引 map 包 topichead、navtitle 与被引 map 标题一致</stentry><stentry>dita-tools ia 一致性检查</stentry></strow>

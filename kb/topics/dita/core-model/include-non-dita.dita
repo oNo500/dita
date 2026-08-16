@@ -3,6 +3,8 @@
 <!-- 迁自 research/notes/02-reuse.md §3（include 引用非 DITA 内容）。
      题材 how-to：按 2026-08-16 裁定改绑 concept，用 concept-kb.rng 外壳与 conbody，
      过程写成讲解式散文加 codeblock，来源节照常收尾（模板 A）。
+     术语规则（2026-08-16 用户门反馈后）：include / fallback / foreign / conref / keyref
+     等一律用英文原名，中文解释只在首现随行给一次。
      结构按「问题 → 做法 → 退出点」骨架。正文事实全部取自已逐页核对的 include 元素页；
      「文档与代码同源」的工程论证属判断，已在来源节标明。 -->
 <concept id="include-non-dita" xml:lang="zh-CN"
@@ -10,7 +12,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-interop">
   <title>include 元素与非 DITA 内容的引入</title>
-  <shortdesc>配置样例、README 与代码片段可以由文档直接引用源码仓库里的原文件，不再手工同步；引入按纯文本或 XML 两种方式解析，后者限于 <xmlelement>foreign</xmlelement> 内，取不到时由 <xmlelement>fallback</xmlelement> 给出兜底内容。</shortdesc>
+  <shortdesc>配置样例、README 与代码片段可以由文档直接引用源码仓库里的原文件，不再手工同步；引入按纯文本或 XML 两种方式解析，后者限于 <xmlelement>foreign</xmlelement> 内，取不到时由 <xmlelement>fallback</xmlelement> 给出替代的内容。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/langref/base/include" scope="external"/>
     <data name="domain" value="dita"/>
@@ -19,13 +21,13 @@
   <conbody>
     <section>
       <title>问题</title>
-      <p><term keyref="term-conref">内容引用</term>只作用于 DITA 内容，而文档要用到的原文往往不是 DITA：源码仓库里的配置文件、README、接口描述文件。把它们复制进文档，副本与原文各自演进，文档里的样例与实际配置不再一致。</p>
+      <p><term keyref="term-conref">conref</term>（内容引用）只作用于 DITA 内容，而文档要用到的原文往往不是 DITA：源码仓库里的配置文件、README、接口描述文件。把它们复制进文档，副本与原文各自演进，文档里的样例与实际配置不再一致。</p>
       <p><xmlelement>include</xmlelement> 补上这条链路。它引用非 DITA 的外部资源，由处理器在构建时取回内容，文档侧只保留一处声明。</p>
     </section>
 
     <section>
-      <title>做法：三种引入形态</title>
-      <p>第一种是纯文本，用于 README 一类的整段文字。<xmlatt>parse</xmlatt>="text" 表示按纯文本处理，其中的 XML 字符原样显示而不被当作标记；<xmlelement>fallback</xmlelement> 给出取不到资源时的兜底内容。</p>
+      <title>做法：文本、代码与 XML 三种引入</title>
+      <p>第一种是纯文本，用于 README 一类的整段文字。<xmlatt>parse</xmlatt>="text" 表示按纯文本处理，其中的 XML 字符原样显示而不被当作标记；<xmlelement>fallback</xmlelement> 给出取不到资源时的内容。</p>
       <codeblock>&lt;include href="../src/README.txt" parse="text" encoding="UTF-8"&gt;
   &lt;fallback&gt;见源码包里的 README.txt。&lt;/fallback&gt;
 &lt;/include&gt;</codeblock>
@@ -37,7 +39,7 @@
       <codeblock>&lt;foreign outputclass="tld"&gt;
   &lt;include href="../src/jsp-tag-library.tld" parse="xml" format="tld"/&gt;
 &lt;/foreign&gt;</codeblock>
-      <p>三种形态的落点相同：把文档里的样例改写成对源文件的引用。下例中的配置节随源码仓库的文件变动，文档不必随之修改。</p>
+      <p>三者的落点相同：把文档里的样例改写成对源文件的引用。下例中的配置节随源码仓库的文件变动，文档不必随之修改。</p>
       <codeblock>&lt;section&gt;
   &lt;title&gt;默认配置&lt;/title&gt;
   &lt;pre&gt;&lt;include href="../../src/main/resources/application.yml"
@@ -52,7 +54,7 @@
         <strow><stentry><xmlatt>href</xmlatt></stentry><stentry>外部资源的 URI</stentry></strow>
         <strow><stentry><xmlatt>parse</xmlatt></stentry><stentry>text 按纯文本处理，XML 字符原样显示；xml 按 XML 插入，限 <xmlelement>foreign</xmlelement> 内</stentry></strow>
         <strow><stentry><xmlatt>encoding</xmlatt></stentry><stentry>被引资源的字符编码；未指定时处理器可自行探测</stentry></strow>
-        <strow><stentry><xmlatt>keyref</xmlatt></stentry><stentry>以键定位被引资源，写法与其他<term keyref="term-keyref">键引用</term>一致</stentry></strow>
+        <strow><stentry><xmlatt>keyref</xmlatt></stentry><stentry>以键定位被引资源，写法与其他 <term keyref="term-keyref">keyref</term>（键引用）一致</stentry></strow>
         <strow><stentry><xmlatt>format</xmlatt>、<xmlatt>scope</xmlatt>、<xmlatt>type</xmlatt></stentry><stentry>链接关系属性，声明被引资源的格式、位置与类型</stentry></strow>
       </simpletable>
       <p>内容模型为 <xmlelement>data</xmlelement> 零或多个、<xmlelement>fallback</xmlelement> 至多一个、<xmlelement>foreign</xmlelement> 零或多个。可出现的位置包括段落、列表项、表格单元、图与章节，也包括行内元素之中，因此整段引入与行内引入用的是同一个元素。</p>
@@ -60,14 +62,14 @@
 
     <section>
       <title>退出点</title>
-      <p>构建产出里出现的是源文件的内容而非 <xmlelement>fallback</xmlelement> 的兜底内容，这一步即完成。<xmlelement>fallback</xmlelement> 出现在产出里说明资源没有取到，路径与构建时的可见性都要复查：被引资源自此成为构建的输入之一，源码仓库的目录调整会让文档构建随之变化。</p>
-      <p>不适用的场合有两类。其一，内容需要语义标记与条件化，例如要按产品线过滤的一段说明——那属于 DITA 内容，应写成 DITA 并用内容引用。其二，只引入预格式化的代码：<xmlelement>coderef</xmlelement> 是 <xmlelement>include</xmlelement> 的专门化，为此用途而设，用它比用通用元素更贴切。<b><xmlelement>coderef</xmlelement> 与 <xmlelement>include</xmlelement> 的这层关系也是规范自带的专门化范例</b>，可作为写自定义专门化时的对照。</p>
+      <p>构建产出里出现的是源文件的内容而非 <xmlelement>fallback</xmlelement> 里写的内容，这一步即完成。<xmlelement>fallback</xmlelement> 出现在产出里说明资源没有取到，路径与构建时的可见性都要复查：被引资源自此成为构建的输入之一，源码仓库的目录调整会让文档构建随之变化。</p>
+      <p>不适用的场合有两类。其一，内容需要语义标记与条件化，例如要按产品线过滤的一段说明——那属于 DITA 内容，应写成 DITA 并用 conref。其二，只引入预格式化的代码：<xmlelement>coderef</xmlelement> 是 <xmlelement>include</xmlelement> 的专门化，为此用途而设，用它比用通用元素更贴切。<b><xmlelement>coderef</xmlelement> 与 <xmlelement>include</xmlelement> 的这层关系也是规范自带的专门化范例</b>，可作为写自定义专门化时的对照。</p>
     </section>
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：用途、<xmlatt>parse</xmlatt> 的两种取值及 xml 限于 <xmlelement>foreign</xmlelement> 内、<xmlatt>encoding</xmlatt> 的探测行为、<xmlatt>keyref</xmlatt> 支持、内容模型、可出现位置、与内容引用及 <xmlelement>coderef</xmlelement> 的区别，以及三个示例的写法，均转自 <xref href="https://dita-lang.org/dita/langref/base/include" scope="external">include 元素</xref>，已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳：把配置与代码样例改为引用源文件以消除副本漂移、三种形态的划分与四个示例的用途说明、两类不适用场合的界线、被引资源成为构建输入及其对目录调整的敏感性，均为本库归纳。</p>
+      <p><b>事实</b>：用途、<xmlatt>parse</xmlatt> 的两种取值及 xml 限于 <xmlelement>foreign</xmlelement> 内、<xmlatt>encoding</xmlatt> 的探测行为、<xmlatt>keyref</xmlatt> 支持、内容模型、可出现位置、与 conref 及 <xmlelement>coderef</xmlelement> 的区别，以及三个示例的写法，均转自 <xref href="https://dita-lang.org/dita/langref/base/include" scope="external">include 元素</xref>，已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳：把配置与代码样例改为引用源文件以消除副本漂移、三个写法的取舍与四个示例的用途说明、两类不适用场合的界线、被引资源成为构建输入及其对目录调整的敏感性，均为本库归纳。</p>
     </section>
   </conbody>
 </concept>
