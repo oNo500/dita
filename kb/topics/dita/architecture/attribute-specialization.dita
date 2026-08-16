@@ -51,7 +51,7 @@
       <title>分析：过滤一侧与 generalization 一侧</title>
       <p>派生出的属性在内容里与内置维度写法相同：</p>
       <codeblock>&lt;p region="cn" licenseTier="enterprise"&gt;仅国内企业版可见。&lt;/p&gt;</codeblock>
-      <p>DITAVAL 一侧不需要为它开特例。<xmlelement>prop</xmlelement> 的 <xmlatt>att</xmlatt> 写属性名、<xmlatt>val</xmlatt> 写取值、<xmlatt>action</xmlatt> 写动作，属性名直接填 region 即可，条件处理的其余规则照旧。</p>
+      <p><term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）一侧不需要为它开特例。<xmlelement>prop</xmlelement> 的 <xmlatt>att</xmlatt> 写属性名、<xmlatt>val</xmlatt> 写取值、<xmlatt>action</xmlatt> 写动作，属性名直接填 region 即可，条件处理的其余规则照旧。</p>
       <p>generalization 一侧是这套设计的收束点。处理器不认识 hardwarePlatform 时不会丢掉这个条件，而是沿派生链逐级退回：</p>
       <codeblock>hardwarePlatform="x86"  →  platform="x86"  →  props="platform(x86)"</codeblock>
       <p><b>「名称(值)」是属性 generalization 的落地语法</b>，派生出的属性最终都以这种形式落回 <xmlatt>props</xmlatt>。</p>
