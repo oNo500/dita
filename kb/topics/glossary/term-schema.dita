@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-schema" xml:lang="zh-CN" maturity="draft" volatility="stable">
+  <glossterm>schema</glossterm>
+  <glossdef>声明一类文档允许出现哪些元素与属性、如何嵌套的语法文件。DITA 一侧它不是单个文件，而是一份 document-type shell 加它引入的一组模块，写成 RNG 或 DTD；管的是结构与取值范围，不管内容对不对、排版长什么样。定义权分两层：标准模块由 OASIS 出，自有模块与 shell 由使用方的 DITA architect 出。</glossdef>
+</glossentry>

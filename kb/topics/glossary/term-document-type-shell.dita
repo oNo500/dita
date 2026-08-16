@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-document-type-shell" xml:lang="zh-CN" maturity="draft" volatility="stable">
+  <glossterm>document-type shell</glossterm>
+  <glossdef>把一个 document type 实际用到的模块装配到一起的语法文件：引入基类的结构模块、需要的 domain 模块与 constraint 模块，并声明 class、specializations 一类属性的默认值。这些默认值由 shell 在解析时注入，作者不手写。同一批模块可装配出多份 shell，各自允许的元素集合不同。</glossdef>
+  <glossBody>
+    <glossAlt>
+      <glossSynonym xml:lang="en">document type shell</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

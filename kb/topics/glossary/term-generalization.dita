@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-generalization" xml:lang="zh-CN" maturity="draft" volatility="stable">
+  <glossterm>generalization</glossterm>
+  <glossdef>把 specialization 派生出的内容还原成基类形态的处理：沿 class 记录的派生链逐级向上，元素改用祖先链上某一层的名字，派生属性退回它派生自的属性并以「名称(值)」的形式保留原取值。派生链完整、内容模型只收紧不放宽，还原因此不丢信息，可用来验证派生链是否写对，也用来把内容交给不认识新类型的处理器。</glossdef>
+  <glossBody>
+    <glossAlt>
+      <glossSynonym xml:lang="en">DITA generalization</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>
