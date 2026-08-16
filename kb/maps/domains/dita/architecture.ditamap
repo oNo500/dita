@@ -3,4 +3,9 @@
 <!-- dita 分支簇 map：架构机理（笔记 05/09/10/11）。topicref 由迁移任务逐篇追加。 -->
 <map xml:lang="zh-CN">
   <title>架构机理</title>
+  <topicref href="../../../topics/dita/architecture/structural-specialization.dita"/>
+  <topicref href="../../../topics/dita/architecture/domain-specialization.dita"/>
+  <topicref href="../../../topics/dita/architecture/attribute-specialization.dita"/>
+  <topicref href="../../../topics/dita/architecture/constraints-generalization.dita"/>
+  <topicref href="../../../topics/dita/architecture/specialization-practice.dita"/>
 </map>

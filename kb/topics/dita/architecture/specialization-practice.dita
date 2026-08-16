@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/05-specialization.md §核心思想（一对一映射、优雅降级、无损
+     generalization、subset relationship）与 §6（实战建议四条）。
+     题材 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
+     术语规则（2026-08-16 用户门反馈后，含同日紧急更正）：specialization /
+     generalization / constraint / vocabulary / outputclass / RNG / DTD / shell 一律
+     英文原名——「专门化」「泛化」「词汇表」是本库自造译名，不得作首选词；不自造分类框架。
+     标题规则（2026-08-16 第二次纠偏）：名词短语，不拼副标题。本篇不对应架构规范的某个
+     子树标题（判断题材），故以核心机制名 specialization 加判据落点命名。
+     volatility=volatile 的依据：判据本身稳定，但依赖 2.0 beta 的版本状态与 RNG→DTD
+     工具的维护状态，两者随时间变动。
+     事实纪律：笔记已逐页核对的只有 oasis-tcs/dita v2.0-beta03 发行包含语法文件；成本
+     论证、@outputclass 优先建议、RNG→DTD 工具链、subset relationship 的表述均属未核对
+     或判断性内容，按判断呈现并在来源节列明。 -->
+<concept id="specialization-practice" xml:lang="zh-CN"
+         outputclass="best-practice"
+         maturity="draft" volatility="volatile"
+         dimension="dim-decision dim-adoption dim-evolution">
+  <title>specialization 的启用判据</title>
+  <shortdesc>扩展 vocabulary（词汇表）之前先确认 specialization（专门化）是不是这个问题的答案：多数需求止步于 <xmlatt>outputclass</xmlatt> 加样式表，只有需要语义校验或语义驱动的处理时，一套自维护的语法文件才收得回成本。往下走时的四条落地建议是优先 RNG、从 OASIS 模板起步、锁定语法文件版本、从稳定基类派生。</shortdesc>
+  <prolog>
+    <source href="https://github.com/oasis-tcs/dita/releases" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>场景</title>
+      <p>手上一类内容需要更贴切的标记：给一段文字换个版式、给一类内容固定信息结构、给条件化加一个维度。可选项从改一个属性到造一套语法文件都有，投入相差一个量级以上，而三者在编辑器里看起来同样可行。判断题出现在动手之前。</p>
+    </section>
+
+    <section>
+      <title>做法</title>
+      <p>第一步先试 <xmlatt>outputclass</xmlatt>。它是通用属性，任何元素都能带；输出一侧按原样传给 HTML 的 class，样式由样式表接管。</p>
+      <codeblock>&lt;p outputclass="warning-box"&gt;……&lt;/p&gt;
+&lt;div outputclass="feature-grid"&gt;……&lt;/div&gt;</codeblock>
+      <p>这条路不改语法文件、不装 <term keyref="term-plugin">plugin</term>（插件）、不影响内容与外部的交换性，多数外观类需求到此为止。</p>
+      <p>第二步问需求里有没有这两样：需要机器校验语义，例如强制每个 API 端点必须写明请求方法；或者需要按语义驱动处理，例如从接口参考页直接生成接口描述文件。有其一，扩展 vocabulary 才收得回成本；两样都没有，回到第一步。</p>
+      <p>第三步选形态。三种形态各有落点，判据在本库另有专篇：</p>
+      <ul>
+        <li>一类内容有固定的信息结构，派生新的 topic 类型或 map 类型，见 <xref href="structural-specialization.dita">structural specialization</xref>。</li>
+        <li>一个标记要跨 topic 类型使用，派生 domain 元素，见 <xref href="domain-specialization.dita">domain specialization</xref>。</li>
+        <li>需要一个可独立过滤的条件维度，派生属性，见 <xref href="attribute-specialization.dita">attribute specialization</xref>。</li>
+      </ul>
+      <p>第四步落到语法文件上，四条建议：语法文件优先写 RNG，需要 DTD 时用现成的转换管道生成，不并行手写两套；从 OASIS 发行包里的模块结构起步，不从零写；记录所基于的语法文件版本号；派生自不易变动的基类，例如通用的块级容器、行内容器、章节与简单表格。</p>
+    </section>
+
+    <section>
+      <title>理由</title>
+      <p>specialization 的成本是一条持续支出的清单：语法文件要随规范演进维护，编辑器要配置才能补全新元素，DITA-OT 要装插件才能校验与发布，团队里得有人读得懂模块与 shell 的分层。这些支出与内容量无关，扩一个元素与扩十个元素的固定成本差不多。</p>
+      <p>收益则只在两处兑现。语义校验把「作者记得写」变成「不写就不合法」，语义驱动的处理把内容变成可被程序消费的数据。两处都不需要时，付出的是固定成本而拿不到对应收益。</p>
+      <p>降级与交换之所以成立，靠的是一条设计性质：<b>派生出的元素，其内容模型是基类内容模型的子集</b>，因此每个新元素都能一对一映射回一个已有元素。不认识它的处理器按基类处理，输出仍然正确；需要交给外部时按派生链 generalize 回标准 DITA，不丢内容。这条性质也是「值不值得」这道题的前提，扩展的代价里不含「输出会坏掉」这一项。</p>
+      <p>RNG 优先的理由是可读性与来源地位：模块化写法比 DTD 的参数实体清楚，且规范以它为规范性版本。需要 DTD 的下游仍可从 RNG 生成，前提是 RNG 不使用无法翻译成 DTD 构造的特性，照 OASIS 模块的写法自然满足。</p>
+    </section>
+
+    <section>
+      <title>反例</title>
+      <ul>
+        <li>用 specialization 实现纯外观差异。一个带边框的提示块不需要新元素，它需要的是一个 <xmlatt>outputclass</xmlatt> 取值与几行样式。</li>
+        <li>为「将来也许用得上」的语义预先造一套 vocabulary 模块。语义没有消费方时，校验与处理两项收益都不存在，留下的是纯支出。</li>
+        <li>从零手写语法模块。OASIS 发行包里有完整的模块结构可抄，自写的版本要重新趟一遍命名与装配的坑。</li>
+        <li>不记录所基于的语法文件版本。规范仍在 beta 阶段，语法文件还会变动，回头对不上基线时无从判断是自己写错还是上游改了。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>边界</title>
+      <p><xmlatt>outputclass</xmlatt> 的替代范围止于外观：取值原样传到输出，样式表据此选中元素，到此为止。它不参与校验，处理器不因它改变行为，也不进入派生链，因而不承担类型判定与 generalization。需要机器判断「这段内容是什么」时，它不够用。</p>
+      <p>本篇只给启用判据，不覆盖 constraint 与 expansion module 的取舍（见 <xref href="constraints-generalization.dita">constraints 与 generalization</xref>），也不覆盖 document-type shell 的装配，后者是全部定制的汇合点，另属文档类型配置这一 extension facility。</p>
+      <p>两条时效提醒。其一，DITA 2.0 仍是 beta，语法文件与本篇引用的发行版本随时间前移。其二，RNG 到 DTD 的转换工具来自社区通识，本库未核对其当前维护状态与对 2.0 语法的支持程度，纳入流水线之前先在自己的模块上实测一遍。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：OASIS 的 DITA 技术委员会发行包 v2.0-beta03 内含语法文件，可作为自建模块的起点，转自 <xref href="https://github.com/oasis-tcs/dita/releases" scope="external">oasis-tcs/dita 发行页</xref>，已逐页核对。</p>
+      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中 <xmlatt>outputclass</xmlatt> 为通用属性且被原样输出为 HTML 的 class、内容模型的子集关系与由此得到的降级与无损 generalization、RNG 相对 DTD 的可读性与规范性地位、RNG 到 DTD 的转换管道及其前提，来自通用 DITA 实践与社区通识，未逐页核对；四步做法的次序、成本与收益的对照、四条反例、<xmlatt>outputclass</xmlatt> 替代范围的界线，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>
