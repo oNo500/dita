@@ -7,12 +7,15 @@
      volatility=stable 的依据：注册方式与 target 命名约定跨版本未变；
      具体属性名与 target 名仍随版本调整，正文已就此加提示。
      事实纪律：已核对的是扩展点的声明方式、${transtype} 可限定生效范围、
-     depend.preprocess.post 等标识符；dita2X 约定、内置属性表、本地化配置按判断呈现。 -->
+     depend.preprocess.post 等标识符；dita2X 约定、内置属性表、本地化配置按判断呈现。
+     标题依据上游节点名：DITA-OT 4.4 文档 topics/plugin-newtranstype「Adding a new
+     transformation type」。Ant target 一节对应 topics/plugin-anttarget「Adding a new target
+     to the Ant build process」，并入本篇，故不进标题。 -->
 <concept id="custom-transtype" xml:lang="zh-CN"
          outputclass="how-to"
          maturity="draft" volatility="stable"
          dimension="dim-integration dim-usage">
-  <title>自定义 transtype 与 dita2X 的 Ant target</title>
+  <title>自定义 transtype</title>
   <shortdesc>输出格式不在自带清单里时，可注册一个新的 transtype：plugin.xml 声明它的名字，build.xml 给出同名的 Ant target 承担生成动作，输入取 preprocess 之后的中间产物。同一套机制也用于在流水线的指定位置插入自己的处理步骤。</shortdesc>
   <prolog>
     <source href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external"/>
@@ -80,7 +83,7 @@
     &lt;/java&gt;
   &lt;/target&gt;
 &lt;/project&gt;</codeblock>
-      <p>限定生效范围靠判断当前的输出格式，官方文档也是这样建议的。插入位置的选择取决于代码要看到解析前还是解析后的文档，见<xref href="preprocess-pipeline.dita">DITA-OT preprocess 流水线</xref>。</p>
+      <p>限定生效范围靠判断当前的输出格式，官方文档也是这样建议的。插入位置的选择取决于代码要看到解析前还是解析后的文档，见<xref href="preprocess-pipeline.dita">preprocess 流水线</xref>。</p>
     </section>
 
     <section>

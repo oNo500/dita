@@ -7,12 +7,16 @@
      一律用英文原名；不自造分类框架，四种校验按「查什么」平实罗列，不造层级名词。
      volatility=volatile 的依据：语法文件与命令随 2.0 草案和发行版变动。
      事实纪律：笔记 04 的已核对清单不含校验与 Schematron 任何条目，
-     故正文除 2.0 处于 draft 一条外全部按判断呈现，并在来源节判断段穷尽列明。 -->
+     故正文除 2.0 处于 draft 一条外全部按判断呈现，并在来源节判断段穷尽列明。
+     本库自造：上游无「校验」总节点。已查 OASIS DITA 2.0 规范、DITA-OT 4.4 文档 docsrc
+     （只有 dita validate 子命令与各 transtype 的处理节点）、ISO Schematron（独立标准，
+     非 DITA 节点），四层校验的合并视角为本篇自己的组织。标题由领域既有词素「校验」与上游
+     标准名 Schematron 组合；前缀按上游用语省去（子命令即 dita validate，无「DITA 校验」页）。 -->
 <concept id="validation-schematron" xml:lang="zh-CN"
          outputclass="how-to"
          maturity="draft" volatility="volatile"
          dimension="dim-consistency dim-process">
-  <title>DITA 校验与 Schematron</title>
+  <title>校验与 Schematron</title>
   <shortdesc>语法文件判定结构是否合法，判定不了团队自己的规则。校验分四种：语法有效性、DITA 的引用完整性、业务规则，以及构建本身。Schematron 承担其中的业务规则一种，用 XPath 断言表达，按 <xmlatt>class</xmlatt> 匹配因而自动覆盖专门化元素。</shortdesc>
   <prolog>
     <source href="https://www.dita-lang.org/specifications" scope="external"/>

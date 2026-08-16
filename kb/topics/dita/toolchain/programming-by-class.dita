@@ -6,12 +6,15 @@
      preprocess 等一律用英文原名，属性名用 xmlatt。
      volatility=stable 的依据：按派生链匹配是 DITA 架构的稳定机制，不随 2.0 草案变动。
      事实纪律：已核对的是 @specializations 由 doctype shell 默认注入及其形式语法；
-     lxml 的解析器行为、RNG 默认值不被注入、catalog 环境变量按判断呈现，来源节逐条列明。 -->
+     lxml 的解析器行为、RNG 默认值不被注入、catalog 环境变量按判断呈现，来源节逐条列明。
+     标题依据上游节点名：OASIS DITA 2.0 架构规范「The class attribute rules and syntax」与
+     「The specializations attribute rules and syntax」（同属 Specialization 章）。
+     「派生链」是本库既用词素，对应规范中 @class 记录的 specialization 派生关系，非新造概念。 -->
 <concept id="programming-by-class" xml:lang="zh-CN"
          outputclass="how-to"
          maturity="draft" volatility="stable"
          dimension="dim-interop dim-mechanism">
-  <title>按 @class 编程：类型判定与 @specializations 解析</title>
+  <title>@class 与派生链解析</title>
   <shortdesc>元素的派生链写在 <xmlatt>class</xmlatt> 里，属性的派生链写在 <xmlatt>specializations</xmlatt> 里，两者都由语法文件提供默认值，创作时不写进源文件。取到它们有两条路；取到之后，按派生链匹配的代码自动覆盖全部专门化元素。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external"/>

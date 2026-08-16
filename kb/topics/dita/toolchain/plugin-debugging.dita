@@ -6,13 +6,18 @@
      等一律用英文原名；症状表的列头用描述性短语，不造名词。
      volatility=stable 的依据：调试循环与选项跨版本未变。
      事实纪律：已核对的只有 dita 命令的临时目录、调试与详细输出三个选项；
-     插件命令行为、重新安装的必要性与症状表按判断呈现，来源节判断段穷尽列明。 -->
+     插件命令行为、重新安装的必要性与症状表按判断呈现，来源节判断段穷尽列明。
+     本库自造：上游无对应节点。已查 OASIS DITA 2.0 规范（无工具链节点）、DITA-OT 4.4 文档
+     docsrc 全部节点标题、社区通行说法，最接近的是三个分立节点 topics/enabling-debug-mode
+     「Enabling debug mode」、topics/plugins-installing「Installing plug-ins」、
+     topics/troubleshooting-overview「Error messages and troubleshooting」，无合并节点。
+     标题由领域既有词素 plugin 与「调试」组合，不引入新概念。 -->
 <concept id="plugin-debugging" xml:lang="zh-CN"
          outputclass="how-to"
          maturity="draft" volatility="stable"
          dimension="dim-troubleshooting dim-process">
-  <title>DITA-OT plugin 调试：dita install 与 --debug 中间产物</title>
-  <shortdesc><term keyref="term-plugin">plugin</term>（插件）的改动不在构建时读取，而在安装时编译进配置，因此调试循环必须以重新安装开头。固定临时目录并开启调试之后，每个 <term keyref="term-preprocess">preprocess</term>（预处理）阶段的中间产物都留在盘上，模板没命中还是内容不对可以就地分辨。</shortdesc>
+  <title>plugin 调试</title>
+  <shortdesc><term keyref="term-plugin">plugin</term>（插件）的改动不在构建时读取，而在安装时编译进配置，因此调试循环必须以 <codeph>dita install</codeph> 开头。固定临时目录并加上 <codeph>--debug</codeph> 之后，每个 <term keyref="term-preprocess">preprocess</term>（预处理）阶段的中间产物都留在盘上，模板没命中还是内容不对可以就地分辨。</shortdesc>
   <prolog>
     <source href="https://www.dita-ot.org/dev/topics/build-using-dita-command" scope="external"/>
     <data name="domain" value="dita"/>
@@ -68,13 +73,13 @@ ls /tmp/dita-temp</codeblock>
           <stentry>限定生效范围的条件是否写对，详细输出里该 target 是否被调用</stentry>
         </strow>
       </simpletable>
-      <p>症状指向内容而非模板时，另有一条不必在临时目录里翻找的路径，即把解析结果直接当作输出，该用法见<xref href="preprocess-pipeline.dita">DITA-OT preprocess 流水线</xref>。</p>
+      <p>症状指向内容而非模板时，另有一条不必在临时目录里翻找的路径，即把解析结果直接当作输出，该用法见<xref href="preprocess-pipeline.dita">preprocess 流水线</xref>。</p>
     </section>
 
     <section>
       <title>退出点</title>
       <p>最小样例上产出符合预期，换真实文档集再验证一轮，即可结束调试。临时目录在确认之后清理：它按构建保留全量中间产物，长期累积会占用可观的磁盘空间。</p>
-      <p>本篇覆盖的是 plugin 本身的调试。内容侧的引用与条件化问题用的是同一套中间产物，但判断依据不同，见<xref href="preprocess-pipeline.dita">DITA-OT preprocess 流水线</xref>。</p>
+      <p>本篇覆盖的是 plugin 本身的调试。内容侧的引用与条件化问题用的是同一套中间产物，但判断依据不同，见<xref href="preprocess-pipeline.dita">preprocess 流水线</xref>。</p>
     </section>
 
     <section>

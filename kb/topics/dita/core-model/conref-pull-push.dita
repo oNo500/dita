@@ -8,12 +8,15 @@
      笔记标注「未逐页核对」的条目（三条约束、@conrefend、@conaction 四值语义、解析顺序）
      在正文按判断呈现、并在来源节判断段逐条列明，不写成规范断言。
      prolog source 用规范总入口（2026-08-16 审查裁定）：本篇的具体页面出处见来源节，
-     事实段只有一条（conref 与 include 的分工，出自 include 元素页）。 -->
+     事实段只有一条（conref 与 include 的分工，出自 include 元素页）。
+     标题依据上游节点名：OASIS DITA 2.0 的 conref 与 conref push 机制名；DITA-OT 4.4 文档
+     reference/preprocess-conref「Resolve content references (conref)」与
+     reference/preprocess-conrefpush「Conref push (conrefpush)」。 -->
 <concept id="conref-pull-push" xml:lang="zh-CN"
          outputclass="deep-dive"
          maturity="draft" volatility="volatile"
          dimension="dim-mechanism dim-boundary-pitfalls">
-  <title>conref 与 conref push：DITA 内容引用</title>
+  <title>conref 与 conref push</title>
   <shortdesc>conref 由引用方把目标内容拉取到本地，conref push 反向把本地内容推送进被引用文件的指定位置；两个方向的语法与约束不同，改动落在谁身上、输出与预期不符时从哪个文件查起也随之不同。按 DITA-OT 的实现观察，两者还分处 preprocess 的两个阶段。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/specifications" scope="external"/>

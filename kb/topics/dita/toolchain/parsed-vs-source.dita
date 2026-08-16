@@ -6,12 +6,16 @@
      DITAVAL 等一律用英文原名；对比表列头用描述性短语，不造名词。
      volatility=stable 的依据：两类输入的差别源自处理模型本身，不随发行版变动。
      事实纪律：已核对的只有「@specializations 由 doctype shell 默认注入而非作者手写」；
-     对比表其余各行与两条取得方式按判断呈现，来源节判断段穷尽列明。 -->
+     对比表其余各行与两条取得方式按判断呈现，来源节判断段穷尽列明。
+     本库自造：上游无对应节点。已查 OASIS DITA 2.0 规范、DITA-OT 4.4 文档 docsrc 全部节点标题
+     （最近的是 reference/preprocessing「Pre-processing modules」，只讲阶段本身，不讲消费方
+     该取哪一份输入）、社区通行说法，均无「输入选择」这个节点。标题由领域既有词素
+     「程序化处理」与「输入选择」组合，不造新概念、不造新分类。 -->
 <concept id="parsed-vs-source" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="stable"
          dimension="dim-decision dim-interop">
-  <title>程序化处理的输入选择：源文件与 preprocess 输出</title>
+  <title>程序化处理的输入选择</title>
   <shortdesc>自己写代码读 DITA 时，第一个决定是读创作时的源文件还是 <term keyref="term-preprocess">preprocess</term>（预处理）之后的中间产物。两者的差别不是格式而是完成度：引用是否已展开、条件是否已过滤、派生链是否已写进文件。多数用途要的是后者。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external"/>
@@ -43,7 +47,7 @@ dita -i root.ditamap -f dita -o ./resolved
 
 # 方式 B：正常构建，把临时目录保留下来
 dita -i root.ditamap -f html5 -o /tmp/out --temp=./tmp --debug</codeblock>
-      <p>方式 A 的产出是一份份正常的 DITA 文件，直接作为管道输入；方式 B 留下的是逐阶段的中间产物，适合需要看某个阶段之前状态的场合，各阶段的分工见<xref href="preprocess-pipeline.dita">DITA-OT preprocess 流水线</xref>。</p>
+      <p>方式 A 的产出是一份份正常的 DITA 文件，直接作为管道输入；方式 B 留下的是逐阶段的中间产物，适合需要看某个阶段之前状态的场合，各阶段的分工见<xref href="preprocess-pipeline.dita">preprocess 流水线</xref>。</p>
     </section>
 
     <section>

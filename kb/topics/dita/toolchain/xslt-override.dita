@@ -6,12 +6,15 @@
      transtype 等一律用英文原名；元素名用 xmlelement，属性名用 xmlatt。
      volatility=volatile 的依据：2.0 草案期间 @class 里的模块名可能变动。
      事实纪律：已核对的只有「覆盖靠安装时自动追加 import」与「2.0 新元素的可用性与版本下限」
-     两条，示例代码与 priority / next-match 的用法按判断呈现，来源节判断段穷尽列明。 -->
+     两条，示例代码与 priority / next-match 的用法按判断呈现，来源节判断段穷尽列明。
+     标题依据上游节点名：DITA-OT 4.4 文档 topics/plugin-overridestyle「Overriding an
+     XSLT-processing step」，另见 extension-points/plugin-extension-points-xslt-import
+     「XSLT-import extension points」。 -->
 <concept id="xslt-override" xml:lang="zh-CN"
          outputclass="how-to"
          maturity="draft" volatility="volatile"
          dimension="dim-integration dim-mechanism">
-  <title>DITA-OT 的 XSLT 覆盖：import 顺序与 @class 匹配</title>
+  <title>XSLT 覆盖</title>
   <shortdesc>改变某个元素的渲染不必改动 DITA-OT 自带的样式表：plugin 声明一份自己的 XSLT，安装时它被追加到该输出格式的 import 链末尾，后导入者优先，模板因而覆盖内置模板。模板匹配写成 <xmlatt>class</xmlatt> 判断，专门化元素随之一并覆盖。</shortdesc>
   <prolog>
     <source href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external"/>
