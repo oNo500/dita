@@ -69,7 +69,7 @@
         </dlentry>
         <dlentry>
           <dt>扩展必须自描述</dt>
-          <dd>面向广泛领域的 schema 对某个具体领域一定不够用。做得宽松则什么都校验不了，让人改 schema 则工具失效、内容无法交换。第三条路是：任何扩展都必须声明自己的派生链，且派生链必须能在不查 schema 的情况下读出来。要求分两半——每个新元素能一对一映射回一个已有元素，且这条链写在数据里而非 schema 里，因为接收文档的处理器未必持有你的 schema。产物是 <xmlatt>class</xmlatt>，形如 <codeph>- topic/li task/step </codeph>；规范也确认派生链属性由 shell 默认注入、随实例携带。</dd>
+          <dd>面向广泛领域的 schema 对某个具体领域一定不够用。做得宽松则什么都校验不了，让人改 schema 则工具失效、内容无法交换。第三条路是：任何扩展都必须声明自己的派生链，且派生链必须能在不查 schema 的情况下读出来。要求分两半——每个新元素能一对一映射回一个已有元素，且这条链写在数据里而非 schema 里，因为接收文档的处理器未必持有你的 schema。产物是 <xmlatt>class</xmlatt>，形如 <codeph>- topic/li task/step </codeph>；规范的 specializations 属性一章也确认，这类属性由 shell 声明的默认值注入而非作者手写，随实例一起携带。</dd>
         </dlentry>
         <dlentry>
           <dt>扩展设施的分工来自同一条不变量</dt>
