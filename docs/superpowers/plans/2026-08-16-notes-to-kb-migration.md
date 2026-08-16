@@ -463,6 +463,38 @@ git commit -m "docs(research): freeze note 02 — migrated to three core-model t
 - [ ] **Step 4: 冻结两份 kb-redesign 设计稿**（加"已吸收为 kb topic"头，指向新 topic）
 - [ ] **Step 5: Commit + 🛑 停点**
 
+### Task 13b: 规则归并——术语与命名两篇正本 + writing-style 瘦身
+
+**背景**：执行中累积的规则散在三处（writing-style 七条、rules.sch R12–R17、workspace 的 authoring-standards），且分属五个学科被混称「写作规则」。用户三次纠偏（译名、自造、标题）暴露两个学科无正本。writing-style 自身还与 writing-typing / writing-sourcing 规则重复，违反 SSOT。
+
+**Files:**
+- Create: `kb/topics/content-engineering/terminology-rules.dita`（best-practice，域 writing-principles）
+- Create: `kb/topics/content-engineering/naming-rules.dita`（best-practice，域 writing-principles）
+- Modify: `kb/topics/content-engineering/writing-style.dita`（瘦身 + 改标题）、`kb/topics/content-engineering/dita-authoring-guide.dita`（升为路由总纲）、`kb/schema/rules.sch`（每条 R 标注归属正本）、`kb/maps/domains/content-engineering.ditamap`
+- Modify（存量清理）：含自造译名的 8 篇 dita topic
+
+**学科归属表**（本任务的设计依据）
+
+| 学科 | 正本 | 机器规则 |
+|---|---|---|
+| 内容类型化 | writing-typing | R12/R13 |
+| 切分与准入 | writing-atomicity | R16 |
+| 来源与成熟度 | writing-sourcing | R14 |
+| 术语治理 | **terminology-rules（新建）** | term-normalize |
+| 命名与归属 | **naming-rules（新建）** | R17 |
+| 写作文体 | writing-style（瘦身后） | R15 |
+| LLM 友好 | writing-llm-friendly | — |
+
+- [ ] **Step 1: terminology-rules**——判据「规范/官方文档有对应条目的概念一律英文原名，不依赖词是否像术语」；glossentry 形制（英文 glossterm、中文入 glossdef 或别名）；第二篇测试；禁自造译名（specialization/generalization/constraint 等案例）；自造三道关（穷尽查证→先怀疑切分→只组合不发明）；首现随行注一次。走工作循环，单独 commit。
+- [ ] **Step 2: naming-rules**——标题即该节点在领域知识树上的标准叫法（用领域事实标准决定，不拼装、不加副标题、不用动词短语）；自造聚合的三道关与头注释标注；domain / dimension 归属（R17 的人读面）；文件名与 id 约定（ASCII kebab、id = 文件名去后缀、全库唯一）。走工作循环，单独 commit。
+- [ ] **Step 3: writing-style 瘦身**——只留文体与语体（原规则二、四、五、六）；原规则一（题材结构）与规则三（来源节）改为一句话 + xref 指向 writing-typing / writing-sourcing；原规则七（标题）整条迁入 naming-rules，留 xref；标题《文体与结构：一篇长什么样，不由作者当场决定》违反自身规则（论断式 + 冒号副标题），改名词短语。
+- [ ] **Step 4: dita-authoring-guide 升为路由总纲**——不装规则，只给「哪类问题看哪篇」的路由表（按上面的学科归属表），已有的重复条款改 xref。
+- [ ] **Step 5: rules.sch 每条 R 标注归属正本**（注释一行，如 `<!-- 归属：术语治理 / terminology-rules -->`）。
+- [ ] **Step 6: 存量译名清理**——8 篇 35 处「专门化 / 泛化 / 约束（模块）/ 扩展设施 / 词汇模块」改英文原名（含 practice、toolchain、core-model、landscape），首现随行注一次。
+- [ ] **Step 7: 挂 map、全库验证**（just review / ia / links 三绿；lint 0/0）、commit、🛑 停点。
+
+---
+
 ### Task 14: 收尾——README 冻结 + 全库终验
 
 **Files:**
