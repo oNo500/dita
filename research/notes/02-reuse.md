@@ -1,5 +1,7 @@
 # 02 · 复用
 
+> **已迁移（2026-08-16）**：正本已迁 kb（`kb/topics/dita/core-model/conref-pull-push.dita` ← §1，并入 §4 的三者解析顺序；`kb/topics/dita/core-model/keyref-variable-text.dita` ← §2；`kb/topics/dita/core-model/include-non-dita.dita` ← §3；不迁小节：无），本文冻结为调研档案，不再更新。
+
 DITA 2.0 的三套复用机制：
 
 | 机制 | 复用什么 | 粒度 |
