@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/04-toolchain-and-build.md §4（校验、Schematron、CI 里的最小校验）。
+     题材 how-to：按 2026-08-16 裁定用 concept 外壳与 conbody（模板 A），
+     过程写成讲解式散文加 codeblock，来源节收尾。
+     术语规则（2026-08-16 用户门反馈后）：Schematron / DITAVAL / preprocess 等机制名
+     一律用英文原名；不自造分类框架，四种校验按「查什么」平实罗列，不造层级名词。
+     volatility=volatile 的依据：语法文件与命令随 2.0 草案和发行版变动。
+     事实纪律：笔记 04 的已核对清单不含校验与 Schematron 任何条目，
+     故正文除 2.0 处于 draft 一条外全部按判断呈现，并在来源节判断段穷尽列明。 -->
+<concept id="validation-schematron" xml:lang="zh-CN"
+         outputclass="how-to"
+         maturity="draft" volatility="volatile"
+         dimension="dim-consistency dim-process">
+  <title>DITA 校验与 Schematron</title>
+  <shortdesc>语法文件判定结构是否合法，判定不了团队自己的规则。四种校验各查一层：XML 良构与语法有效性、DITA 层面的引用完整性、业务规则、以及构建本身；Schematron 承担其中的业务规则一层，用 XPath 断言表达，按 <xmlatt>class</xmlatt> 匹配因而自动覆盖专门化元素。</shortdesc>
+  <prolog>
+    <source href="https://www.dita-lang.org/specifications" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>语法文件回答的是「这份文档的元素嵌套合不合法」。团队真正想拦的往往是另一类问题：某类 topic 必须写摘要、外部链接必须标明格式、某个元素在本项目里禁止使用。这类规则跨元素、带条件，语法文件表达不了，而它们出错的代价与结构出错相当。</p>
+      <p>另有一类问题连语法文件都看不见：引用指向了不存在的文件。这类断链只有在真正解析引用时才暴露，校验因此不能只做一层。</p>
+    </section>
+
+    <section>
+      <title>做法：四种校验各查一层</title>
+      <simpletable relcolwidth="1.2* 1.6* 2*">
+        <sthead><stentry>查什么</stentry><stentry>怎么跑</stentry><stentry>能发现</stentry></sthead>
+        <strow>
+          <stentry>DTD 有效性</stentry>
+          <stentry><codeph>xmllint --noout --valid</codeph></stentry>
+          <stentry>良构性与元素嵌套是否符合 DTD</stentry>
+        </strow>
+        <strow>
+          <stentry>RNG 有效性</stentry>
+          <stentry><codeph>java -jar jing.jar</codeph></stentry>
+          <stentry>同上，判定依据换成 RNG 语法文件</stentry>
+        </strow>
+        <strow>
+          <stentry>DITA 层面</stentry>
+          <stentry><codeph>dita validate</codeph></stentry>
+          <stentry>比通用 XML 工具多懂 DITA，可查出断链</stentry>
+        </strow>
+        <strow>
+          <stentry>业务规则</stentry>
+          <stentry>Schematron</stentry>
+          <stentry>语法文件表达不了的跨元素约束与条件约束</stentry>
+        </strow>
+      </simpletable>
+      <p>DITA 2.0 的 OASIS 发行同时提供 RNG 与 DTD 两种语法文件，两者有出入时以 RNG 为准，2.0 不再随发行提供 XSD，需要时可自行从 RNG 生成。做专门化时优先基于 RNG，语法可读得多，也能生成另外两种格式给下游用。以上四句尚未逐页核对。</p>
+      <p>DITA 层面的校验命令是 DITA-OT 4.3 引入的预览特性，与之同批的还有工程脚手架命令。预览特性的行为在后续版本可能调整，跑之前先确认本机版本。</p>
+    </section>
+
+    <section>
+      <title>Schematron 的写法</title>
+      <p>Schematron 用 XPath 断言表达规则，一条规则由匹配上下文与断言组成。以下两条分别表达「task 必须有摘要」与「外部链接应标明格式」。</p>
+      <codeblock>&lt;schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2"&gt;
+  &lt;pattern&gt;
+    &lt;rule context="*[contains(@class, ' task/task ')]"&gt;
+      &lt;assert test="*[contains(@class, ' topic/shortdesc ')]
+                    | *[contains(@class, ' topic/abstract ')]"&gt;
+        task 必须有 shortdesc 或 abstract（用于搜索摘要）。
+      &lt;/assert&gt;
+    &lt;/rule&gt;
+    &lt;rule context="*[contains(@class, ' topic/xref ')]"&gt;
+      &lt;report test="@scope='external' and not(@format)"&gt;
+        外部链接应显式标注 @format。
+      &lt;/report&gt;
+    &lt;/rule&gt;
+  &lt;/pattern&gt;
+&lt;/schema&gt;</codeblock>
+      <p>两条规则的上下文都按 <xmlatt>class</xmlatt> 匹配而非按元素名。这样写的收益是规则自动覆盖专门化元素，代价是规则只能跑在拿得到 <xmlatt>class</xmlatt> 的文档上。该属性由语法文件声明为默认值，创作时通常不写进源文件，因此要么让解析器经 DTD 校验补齐它，要么改跑在 preprocess 之后的中间产物上。</p>
+      <p>运行位置有三处。编辑器内由 Oxygen 原生支持，可关联到框架配置边写边报。持续集成里把它编译成 XSLT 执行，SchXslt 与 ph-schematron 一类实现即为此用。DITA-OT 自身没有内置支持，需要的话自写插件在 preprocess 之后挂一步。</p>
+    </section>
+
+    <section>
+      <title>与约束模块的分工</title>
+      <p>能用约束模块表达的规则优先用约束：禁用某个元素、把某个可选子元素改为必填，这类结构性收紧写进语法文件后，编辑器在输入时就会拦下来，反馈比事后校验早一整轮。跨元素的、带条件的规则留给 Schematron。</p>
+      <p>两者的边界随规则形态定，不随规则重要程度定。一条规则表达得了就归约束，表达不了才归 Schematron。</p>
+    </section>
+
+    <section>
+      <title>把校验接进构建</title>
+      <p>持续集成里的最小组合是四步，前三步逐层加严，第四步覆盖条件化带来的组合。</p>
+      <codeblock>#!/usr/bin/env bash
+set -e
+# 1. XML 良构 + DTD 有效性
+find . -name '*.dita' -o -name '*.ditamap' | xargs -n1 xmllint --noout --valid
+# 2. DITA 层面校验
+dita validate --input=root.ditamap
+# 3. 构建：最严的一层，暴露断链与条件化后不合法
+dita -i root.ditamap -f html5 -o /tmp/ci-out
+# 4. 每个变体各构建一遍
+for f in filters/*.ditaval; do
+  dita -i root.ditamap -f html5 -o "/tmp/ci-$(basename "$f" .ditaval)" --filter="$f"
+done</codeblock>
+      <p>第三步不可省：语法校验查不出 <term keyref="term-conref">conref</term>（内容引用）指向不存在的文件，只有真正构建才会报。第四步常被略过，后果是某个条件组合下内容变得不合法，而默认变体一直正常。</p>
+    </section>
+
+    <section>
+      <title>退出点</title>
+      <p>四步全绿即完成。此后规则的增补落在 Schematron 一侧，语法文件不必随之改动。</p>
+      <p>需要留意的是版本变动：DITA 2.0 在规范列表中仍列为 draft，随发行更新的语法文件会让原本通过的文档报出新问题。把校验固定进持续集成，正是为了让这类变动在升级当天暴露，而不是在发布当天。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：DITA 2.0 在规范列表中列为 draft、1.3 及更早版本为 OASIS Standard，转自 <xref href="https://www.dita-lang.org/specifications" scope="external">DITA 规范列表</xref>，已逐页核对。</p>
+      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中四种校验的命令与各自能发现的问题、RNG 与 DTD 的关系及 2.0 不再提供 XSD、Schematron 的示例规则与三处运行位置、Oxygen 的原生支持、DITA-OT 无内置 Schematron 支持，均来自通用实践，未逐页核对；DITA 层面校验命令属 4.3 预览特性来自发布说明的检索结果，未打开页面逐条核对；与约束模块的分工建议、持续集成四步的组合与第三步第四步不可省的理由为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>
