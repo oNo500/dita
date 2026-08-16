@@ -68,7 +68,7 @@ ls /tmp/dita-temp</codeblock>
           <stentry>限定生效范围的条件是否写对，详细输出里该 target 是否被调用</stentry>
         </strow>
       </simpletable>
-      <p>另一条省事的路径是把解析结果直接当作输出：以 dita 为输出格式构建一次，产出的是正常的 DITA 文件，可用编辑器打开逐处核对引用是否解析正确，不必在临时目录里翻找。</p>
+      <p>症状指向内容而非模板时，另有一条不必在临时目录里翻找的路径，即把解析结果直接当作输出，该用法见<xref href="preprocess-pipeline.dita">DITA-OT preprocess 流水线</xref>。</p>
     </section>
 
     <section>

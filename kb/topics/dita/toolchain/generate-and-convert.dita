@@ -82,7 +82,7 @@ dita -i root.ditamap -f markdown_gitbook -o out   # GitBook，带目录文件</c
       <p>不用现成 plugin 而自己写转换时，难点集中在语义落差上。</p>
       <simpletable relcolwidth="1.3* 1* 2*">
         <sthead><stentry>DITA 一侧</stentry><stentry>Markdown 一侧</stentry><stentry>难点</stentry></sthead>
-        <strow><stentry><xmlelement>steps</xmlelement></stentry><stentry>有序列表</stentry><stentry>命令、说明、结果的层级信息丢失</stentry></strow>
+        <strow><stentry><xmlelement>steps</xmlelement></stentry><stentry>有序列表</stentry><stentry><xmlelement>cmd</xmlelement>、<xmlelement>info</xmlelement>、<xmlelement>stepresult</xmlelement> 的层级信息丢失</stentry></strow>
         <strow><stentry>嵌套 <xmlelement>steps</xmlelement></stentry><stentry>嵌套列表</stentry><stentry>能转，语义降级</stentry></strow>
         <strow><stentry><term keyref="term-conref">conref</term> 与 <xmlelement>include</xmlelement></stentry><stentry>无对应</stentry><stentry>只能展开，复用关系随之消失</stentry></strow>
         <strow><stentry><term keyref="term-keyref">keyref</term> 与 keytext</stentry><stentry>无对应</stentry><stentry>只能展开成字面量</stentry></strow>

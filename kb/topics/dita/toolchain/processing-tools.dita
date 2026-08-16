@@ -31,7 +31,7 @@
         <strow>
           <stentry>XSLT 3.0 转换</stentry>
           <stentry>Saxon-HE</stentry>
-          <stentry>DITA-OT 随附，写 <term keyref="term-plugin">plugin</term> 时无须另装</stentry>
+          <stentry>DITA-OT 随附，写 <term keyref="term-plugin">plugin</term>（插件）时无须另装</stentry>
         </strow>
         <strow>
           <stentry>RNG 校验</stentry>
@@ -46,7 +46,7 @@
         <strow>
           <stentry>DITA 层面校验</stentry>
           <stentry><codeph>dita validate</codeph></stentry>
-          <stentry>DITA-OT 4.3 引入的预览特性，可查出断链</stentry>
+          <stentry>可查出断链；属 DITA-OT 4.3 引入的预览特性，该出处未逐条核对</stentry>
         </strow>
         <strow>
           <stentry>Python 解析</stentry>
@@ -94,7 +94,7 @@
     <section>
       <title>来源</title>
       <p><b>事实</b>：LwDITA 的 TypeScript 实现处于活跃维护、在 npm 发布、兼容 LwDITA v0.3、仅覆盖 XDITA 而非完整 DITA，转自 <xref href="https://github.com/evolvedbinary/lwdita" scope="external">evolvedbinary/lwdita</xref>，已核实。</p>
-      <p><b>判断</b>：除事实段那一条外，表内与正文其余陈述均属判断，可被反驳。其中各需求对应的工具选择、Saxon-HE 随 DITA-OT 分发、lxml 须开启默认属性补齐、DITA 层面校验属 4.3 预览特性、完整 DITA 在 Node.js 侧无成熟库，来自通用实践，未逐项核对；「链接检查直接执行构建即可」与「转出 Markdown 宜定位为单向通道」两条取舍，为本库归纳。</p>
+      <p><b>判断</b>：除事实段那一条外，表内与正文其余陈述均属判断，可被反驳。其中各需求对应的工具选择、Saxon-HE 随 DITA-OT 分发、lxml 须开启默认属性补齐、完整 DITA 在 Node.js 侧无成熟库，来自通用实践，未逐项核对；DITA 的引用完整性校验命令属 4.3 预览特性来自发布说明的检索结果，未打开页面逐条核对；「链接检查直接执行构建即可」与「转出 Markdown 宜定位为单向通道」两条取舍，为本库归纳。</p>
     </section>
   </refbody>
 </reference>

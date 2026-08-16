@@ -45,7 +45,7 @@
         <li>flag-module：处理 DITAVAL 的标记动作。</li>
       </ol>
       <p>这一串之后才轮到各 <term keyref="term-transtype">transtype</term>（输出类型）自己的 XSLT，HTML5 与 PDF 由此分道。顺序本身解释了几处日常现象：条件过滤在 conref 之前先做一次，因此被排除的片段拉不回来；keyref 早于 conref，以键定位的 conref 因此可用；标题回填在引用解析之后，因此它看到的是最终内容。</p>
-      <p>DITA-OT 3.x 起另有一套以纯 XSLT 重写的实现，减少 Java 与 Ant 之间的往返以提速，4.x 的部分 transtype 默认走它。行为大体兼容，代价落在依赖具体 Ant target 的 plugin：升级时须确认那个 target 还在。</p>
+      <p>DITA-OT 3.x 起另有一套以纯 XSLT 重写的实现，名为 preprocess2，减少 Java 与 Ant 之间的往返以提速，4.x 的部分 transtype 默认走它。行为大体兼容，代价落在依赖具体 Ant target 的 plugin：升级时须确认那个 target 还在。</p>
     </section>
 
     <section>
@@ -69,7 +69,7 @@
     <section>
       <title>来源</title>
       <p><b>事实</b>：临时目录、调试与详细输出等选项由 dita 命令提供，转自 <xref href="https://www.dita-ot.org/dev/topics/build-using-dita-command" scope="external">使用 dita 命令构建</xref>，已逐页核对。</p>
-      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中十四个阶段的名称、顺序与各自的动作，以及由顺序推出的三处现象，来自对 DITA-OT 实现的观察，非规范定义；纯 XSLT 重写的那套实现及其对 Ant target 的影响、<filepath>.job.xml</filepath> 的作用与内容，同样来自实现观察，未逐版本核对；挂载点按解析前后取舍的判据、三步次序的建议为本库归纳。</p>
+      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中十四个阶段的名称、顺序与各自的动作，以及由顺序推出的三处现象，来自对 DITA-OT 实现的观察，非规范定义；preprocess2 及其对 Ant target 的影响、<filepath>.job.xml</filepath> 的作用与内容，同样来自实现观察，未逐版本核对；挂载点按解析前后取舍的判据、三步次序的建议为本库归纳。</p>
     </section>
   </conbody>
 </concept>

@@ -2,10 +2,5 @@
 <?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <glossentry id="term-plugin" xml:lang="zh-CN" maturity="draft" volatility="stable">
   <glossterm>plugin</glossterm>
-  <glossdef>DITA-OT 的扩展单位：一个含 plugin.xml 的目录，在该文件里以 feature 声明扩展点与对应的文件或取值。安装时这些声明被合并进工具箱的构建配置与 XSLT 的 import 链，因此改动插件文件后须重新安装才生效。</glossdef>
-  <glossBody>
-    <glossAlt>
-      <glossSynonym xml:lang="en">plugin</glossSynonym>
-    </glossAlt>
-  </glossBody>
+  <glossdef>DITA-OT 的扩展单位：一个含 plugin.xml 的目录，在该文件里以 feature 声明扩展点与对应的文件或取值。安装时这些声明被合并进工具箱的构建配置与 XSLT 的 import 链，因此改动 plugin 文件后须重新安装才生效。</glossdef>
 </glossentry>
