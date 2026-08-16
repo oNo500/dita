@@ -18,4 +18,7 @@
   <topicref href="../../../topics/dita/architecture/key-space-model.dita"/>
   <topicref href="../../../topics/dita/architecture/cross-deliverable-addressing.dita"/>
   <topicref href="../../../topics/dita/architecture/branch-filter-key-space.dita"/>
+  <!-- 笔记 11（处理模型）：属性有效值 → 级联 → conref 属性合成 → 排序 → 导航与链接生成 →
+       自研实现的次序速查，先规则后产出，速查收尾 -->
+  <topicref href="../../../topics/dita/architecture/effective-attribute-values.dita"/>
 </map>

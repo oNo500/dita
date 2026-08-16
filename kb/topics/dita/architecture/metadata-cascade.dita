@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/11-processing-model.md §2（元数据级联）。
+     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     标题依据上游节点名（非自造，直接用其类目名）：OASIS DITA 2.0 架构规范「DITA processing」
+     章下的子节点「Metadata cascading」（dita-lang.org/2.0/dita/archspec/base/map-cascading，
+     2026-08 逐页核对节点名，其四个子页为 Cascading of metadata attributes in a DITA map /
+     Reconciling topic and map metadata elements / Map-to-map cascading behaviors /
+     Examples of metadata cascading）。
+     术语规则（2026-08-16 用户门反馈后，含译名禁令补充）：cascade / merge / nomerge /
+     reltable / relcolspec 一律英文原名；「级联」是规范节点名 Metadata cascading 的随行解释，
+     首现随行注一次后正文用 metadata cascading 或直呼属性名。不自造分类框架——
+     「加性」「非加性」按规范原文 additive / non-additive 的直译使用，不升格为本库标签。
+     volatility=stable 的依据：会级联的属性清单与 @cascade 的语义出自架构规范，不随发行版变动。
+     事实纪律：笔记已逐页核对的是级联的定义、作用于包含层级而非 specialization 层级、
+     会级联的属性完整清单、多值加性与单值取最近祖先、@cascade 的 merge 与 nomerge 语义及
+     nomerge 只阻止累积、reltable 的级联路径。根上显式写 nomerge 的建议与踩坑症状属判断，
+     来源节判断段列明。 -->
+<concept id="metadata-cascade" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="stable"
+         dimension="dim-internals dim-mechanism">
+  <title>metadata cascading</title>
+  <shortdesc>map 或 topicref 上的元数据会沿包含层级往下传，能传的属性是一份有限的清单。多值属性传下去的行为是合并而不是覆盖，写在子节点上的值与祖先的值取并集，<xmlatt>cascade</xmlatt> 是关掉这种累积的唯一开关。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/2.0/dita/archspec/base/map-cascading" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>在 map 根上设一个 <xmlatt>audience</xmlatt>，让整本书的内容都带上这个受众，是 map 元数据最常见的用法。随后在某个 topicref 上写一个不同的值，期待它覆盖掉根上那个，得到的却是两个值同时生效。</p>
+      <p>这不是实现的偏差，是规范规定的行为。metadata cascading（元数据级联）对多值属性做的是合并，不是覆盖。</p>
+    </section>
+
+    <section>
+      <title>背景：级联沿包含层级传，且只传清单内的属性</title>
+      <p>规范给的定义是：为一个 map 或一个 topicref 指定的元数据元素与属性，向下级联到嵌套的引用。其中有一处限定值得单独记：级联作用于包含层级，不是 specialization 层级。它沿 map 的树形嵌套往下走，与元素的 <xmlatt>class</xmlatt> 派生链无关。</p>
+      <p>能级联的属性是一份有限清单：</p>
+      <simpletable relcolwidth="1* 2.2*">
+        <sthead><stentry>组</stentry><stentry>属性</stentry></sthead>
+        <strow>
+          <stentry>修订标记</stentry>
+          <stentry><xmlatt>rev</xmlatt></stentry>
+        </strow>
+        <strow>
+          <stentry>条件化</stentry>
+          <stentry><xmlatt>props</xmlatt> 及其全部 specialization，含 <xmlatt>audience</xmlatt>、<xmlatt>deliveryTarget</xmlatt>、<xmlatt>platform</xmlatt>、<xmlatt>product</xmlatt>、<xmlatt>otherprops</xmlatt></stentry>
+        </strow>
+        <strow>
+          <stentry>导航与链接</stentry>
+          <stentry><xmlatt>linking</xmlatt>、<xmlatt>toc</xmlatt>、<xmlatt>search</xmlatt></stentry>
+        </strow>
+        <strow>
+          <stentry>资源描述</stentry>
+          <stentry><xmlatt>format</xmlatt>、<xmlatt>scope</xmlatt>、<xmlatt>type</xmlatt></stentry>
+        </strow>
+        <strow>
+          <stentry>语言</stentry>
+          <stentry><xmlatt>xml:lang</xmlatt>、<xmlatt>dir</xmlatt>、<xmlatt>translate</xmlatt></stentry>
+        </strow>
+        <strow>
+          <stentry>处理</stentry>
+          <stentry><xmlatt>processing-role</xmlatt>、<xmlatt>cascade</xmlatt>、<xmlatt>subjectrefs</xmlatt></stentry>
+        </strow>
+      </simpletable>
+      <p>清单之外的属性不级联。「在 map 上设了某个属性，topic 里没生效」这一类问题的第一步排查，是看它在不在这张表里。<xmlatt>cascade</xmlatt> 自己也在表里，控制级联的那个属性本身也会级联下去。</p>
+    </section>
+
+    <section>
+      <title>分析：多值合并与 <xmlatt>cascade</xmlatt></title>
+      <p>传下去时的行为按属性是单值还是多值分成两种。单值属性取距离最近的那个已指定值，符合覆盖的直觉。多值属性是加性的，祖先与后代的值合并。</p>
+      <codeblock>&lt;map audience="admin"&gt;
+  &lt;topicref href="a.dita" audience="developer"/&gt;
+&lt;/map&gt;</codeblock>
+      <p>这份 map 里 <filepath>a.dita</filepath> 的有效 <xmlatt>audience</xmlatt> 是两个值，不是子节点上写的那一个。<b>子节点上写的是追加，不是覆盖</b>。后果具体而安静：本该只给一类受众看的内容，因为继承了祖先的值而在另一类受众的产出里照常出现，校验不报错，条件过滤也没有做错任何事。</p>
+      <p><xmlatt>cascade</xmlatt> 有两个取值。<codeph>merge</codeph> 是默认值，行为即上面的合并；<codeph>nomerge</codeph> 停止累积，后代不再把祖先的值收进来。改成后一个取值之后，同一份 map 里的有效值就只剩子节点上写的那一个：</p>
+      <codeblock>&lt;map audience="admin" cascade="nomerge"&gt;
+  &lt;topicref href="a.dita" audience="developer"/&gt;
+&lt;/map&gt;</codeblock>
+      <p>有一处限定容易读漏：nomerge 阻止的是累积，不是全部继承。它并不把级联整个关掉，没有在后代上指定值的地方，祖先的值照常传下来。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>多产品线或多受众的大型 map，在根上把 <xmlatt>cascade</xmlatt> 显式写成 nomerge 是一条值得默认采用的做法：子节点的条件属性由此表现得与覆盖的直觉一致，深层嵌套时不会累积出难以预料的组合。这条属本库建议，规范只规定行为不给取舍。</p>
+      <p>关系表的级联另有一条路径，沿 <xmlelement>reltable</xmlelement>、<xmlelement>relcolspec</xmlelement>、<xmlelement>relrow</xmlelement>、<xmlelement>relcell</xmlelement> 到 <xmlelement>topicref</xmlelement> 逐层传。在 <xmlelement>relcolspec</xmlelement> 上设一次条件属性或 <xmlatt>type</xmlatt>，整列的 topicref 都拿到，这是给一列统一打标的位置。这条路径在链接生成一侧的用法见 <xref href="nav-generation.dita">navigation、indexes 与 generated links</xref>。</p>
+      <p>级联值在属性有效值的五级优先级里排第 3 级，与其余四级的关系见 <xref href="effective-attribute-values.dita">effective attribute values 的确定</xref>。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：级联的定义、其作用于包含层级而非 specialization 层级，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/map-cascading" scope="external">元数据级联</xref>；会级联的属性完整清单、多值属性加性而单值属性取最近祖先、<xmlatt>cascade</xmlatt> 的 merge 与 nomerge 两个取值的语义及 nomerge 阻止累积而非完全关闭级联、关系表沿 <xmlelement>reltable</xmlelement> 到 <xmlelement>topicref</xmlelement> 的级联路径，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/cascading-in-a-ditamap" scope="external">DITA map 中元数据属性的级联</xref>。两处均已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中两段样例按上述规则构造，非从规范抄录；追加而非覆盖所导致的症状、在根上显式写 nomerge 的建议、在 <xmlelement>relcolspec</xmlelement> 上给整列打标的用法、排查时先查清单的做法，为本库归纳。map 到 map 的级联另有规则，本篇未展开。</p>
+    </section>
+  </conbody>
+</concept>

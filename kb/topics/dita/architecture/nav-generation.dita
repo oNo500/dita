@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/11-processing-model.md §5（目录的生成规则）、§5.5（索引）、
+     §5.7（链接生成）与 §5.9（其余处理主题的覆盖对照）。
+     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     标题（本库自造：上游无单一对应节点，为三个上游类目的组合，依据如下查证结果）：
+     一、穷尽查证。OASIS DITA 2.0 架构规范「DITA processing」章下与本篇对应的是三处而非
+     一处——「Navigation」（其子页仅 Table of contents 与 Alternative titles）、「Indexes」，
+     以及散在语言参考 topicref 与 reltable 页的 @collection-type / @linking / reltable 链接
+     规则；DITA-OT 4.4 docsrc 全部节点标题亦无覆盖这三者的上位节点（最近的是
+     reference/preprocess-maplink「Map-based linking (maplink)」，只讲一个 preprocess 阶段）。
+     二、先怀疑切分。本篇边界由迁移计划固定为「map 结构驱动的三类处理产出」，重切须动整簇
+     篇目，故不重切，改为在标题里如实列出三个上游类目。
+     三、只组合，不发明。navigation 与 indexes 直取上游节点名；generated links 为 DITA-OT
+     文档既有说法（release-notes/rel3.0「generated links」，migrating-to-1.8「Link
+     generation」），不造新概念名、不造新分类框架。
+     术语规则（2026-08-16 用户门反馈后，含译名禁令补充）：TOC / indexterm / collection-type /
+     linking / reltable / relcolspec / relcell / topicgroup / topichead 一律英文原名。
+     volatility=volatile 的依据：索引与链接是否生成、渲染成什么由实现决定，随处理器版本变动。
+     事实纪律：笔记已逐页核对的是 TOC 节点的默认生成规则与四种例外、@toc 级联且后代可改回、
+     map 引 map 时导航树在引用点并入、节点显示文本取有效导航标题、Navigation 节仅两个子页、
+     索引设施的六项、@collection-type 与 @linking 各四个取值的定义原文、reltable 的四条链接
+     规则。topichead 靠导航标题生成节点为推论，索引的三条实践要点与层级链接的生成属实现
+     观察，均在正文标注并在来源节判断段列明。 -->
+<concept id="nav-generation" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="volatile"
+         dimension="dim-internals dim-relations">
+  <title>navigation、indexes 与 generated links</title>
+  <shortdesc>map 的结构不只决定内容的先后，还决定处理器生成哪些 TOC 节点、哪些索引条目、哪些链接。三者当中 TOC 的规则规定得最死，索引与链接的规范只给语义约定，生成什么、渲染成什么由实现决定。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/2.0/dita/archspec/base/table-of-contents" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>map 写完之后，产出里会多出源文件中没有的东西：一棵目录树、一份索引、每篇 topic 末尾的一组相关链接。它们由处理器从 map 结构算出来，作者能施加的控制分散在若干个属性上。</p>
+      <p>这三样的规范化程度并不相同，把它们当成同一类东西来预期，会在跨处理器时得到不同的结果。</p>
+    </section>
+
+    <section>
+      <title>背景：TOC 节点的生成规则</title>
+      <p>默认规则是：map 里每个引用了 topic 或指定了导航标题的 <xmlelement>topicref</xmlelement>，生成一个 TOC 节点。规范列了四种例外，命中任一种就不生成：</p>
+      <ul>
+        <li>该 <xmlelement>topicref</xmlelement> 或其祖先上的 <xmlatt>processing-role</xmlatt> 取值为 resource-only。<xmlelement>keydef</xmlelement> 不进目录的原因即在此，它的这个属性默认就是这个值。</li>
+        <li>该节点或其祖先节点被条件处理过滤掉。</li>
+        <li>没有可供构造条目的信息，既没有引用资源也没有导航标题。</li>
+        <li>该节点是 <xmlelement>topicgroup</xmlelement>，即使为它写了导航标题也不生成。</li>
+      </ul>
+      <p>最后一条是 <xmlelement>topicgroup</xmlelement> 与 <xmlelement>topichead</xmlelement> 在处理层面的分别：后者靠导航标题生成节点，前者只做分组而不在目录里留下自己。这条对比是对上述规则的推论，笔记未逐页核对。</p>
+      <p><xmlatt>toc</xmlatt> 在级联清单里。把它设为 no 会让整棵子树退出目录，除非某个后代显式改回 yes，级联的一般规则见 <xref href="metadata-cascade.dita">metadata cascading</xref>。map 引 map 时，被引 map 的导航树在引用点并入引用方的导航树，多份 map 拼成一本书的处理依据就是这一条。</p>
+      <p>节点显示的文本取有效导航标题，其确定规则见 <xref href="../core-model/titlealt-system.dita">titlealt 速查</xref>。规范的 Navigation 一节只覆盖 TOC 与替代标题两个子页，链接生成的规范内容不在这一节里。</p>
+    </section>
+
+    <section>
+      <title>分析：索引设施与链接生成</title>
+      <p>索引一侧，规范定义的是标记设施，生成与否、渲染成什么留给实现。</p>
+      <simpletable relcolwidth="1* 2.2*">
+        <sthead><stentry>设施</stentry><stentry>语义</stentry></sthead>
+        <strow><stentry><xmlelement>indexterm</xmlelement></stentry><stentry>索引项。可出现在 topic 的 <xmlelement>prolog</xmlelement>、正文任意处、map 的 <xmlelement>topicmeta</xmlelement> 三类位置</stentry></strow>
+        <strow><stentry>嵌套的 <xmlelement>indexterm</xmlelement></stentry><stentry>多级索引，内层是外层的次级条目</stentry></strow>
+        <strow><stentry><xmlatt>start</xmlatt> 与 <xmlatt>end</xmlatt></stentry><stentry>成对使用，把一段跨度而非一个点标为索引范围</stentry></strow>
+        <strow><stentry><xmlelement>index-see</xmlelement></stentry><stentry>重定向到另一个索引项</stentry></strow>
+        <strow><stentry><xmlelement>index-see-also</xmlelement></stentry><stentry>补充参照</stentry></strow>
+        <strow><stentry><xmlelement>sort-as</xmlelement></stentry><stentry>指定排序短语，规则见 <xref href="sorting-sort-as.dita">sorting 与 sort-as</xref></stentry></strow>
+      </simpletable>
+      <p>放在 <xmlelement>prolog</xmlelement> 里的索引项指向整个 topic，放在正文里的指向具体位置，两者在分页输出下有页码差异而在线输出下通常都落到 topic。map 的 <xmlelement>topicmeta</xmlelement> 里也能打索引项，适合在不改 topic 的前提下给一批内容补索引。这几条属实现观察，笔记未逐页核对。</p>
+      <p>链接一侧由两个属性承担语义。<xmlatt>collection-type</xmlatt> 设在 <xmlelement>topicref</xmlelement> 或 <xmlelement>relcell</xmlelement> 上，声明其子节点彼此是什么关系；<xmlatt>linking</xmlatt> 控制一个节点参与链接的方向。</p>
+      <simpletable relcolwidth="1* 1* 2.4*">
+        <sthead><stentry>属性</stentry><stentry>取值</stentry><stentry>语义</stentry></sthead>
+        <strow><stentry><xmlatt>collection-type</xmlatt></stentry><stentry>unordered</stentry><stentry>子 topic 的顺序无意义</stentry></strow>
+        <strow><stentry/><stentry>sequence</stentry><stentry>顺序有意义，处理器通常在子 topic 之间按序生成链接</stentry></strow>
+        <strow><stentry/><stentry>choice</stentry><stentry>子项中应选择其一</stentry></strow>
+        <strow><stentry/><stentry>family</stentry><stentry>子 topic 不仅与当前 topic 相关，彼此之间也互相关联</stentry></strow>
+        <strow><stentry><xmlatt>linking</xmlatt></stentry><stentry>normal</stentry><stentry>可链出也可被链入，用于覆盖上层设置</stentry></strow>
+        <strow><stentry/><stentry>sourceonly</stentry><stentry>只能链出，不能被链入</stentry></strow>
+        <strow><stentry/><stentry>targetonly</stentry><stentry>只能被链入，不能链出</stentry></strow>
+        <strow><stentry/><stentry>none</stentry><stentry>不参与链接生成</stentry></strow>
+      </simpletable>
+      <p>两个属性都在级联清单里，在 <xmlelement>relcolspec</xmlelement> 上设一次即沿列、行、单元格的路径整列生效。</p>
+      <p>关系表自身的链接规则有四条：链接加给同一行、不同单元格里的 topic；同一单元格内默认不互链，同格的 topic 确实相关时在 <xmlelement>relcell</xmlelement> 上把 <xmlatt>collection-type</xmlatt> 设为 family；某列只作被参考资料、不需要回链的，在 <xmlelement>relcell</xmlelement> 或 <xmlelement>relcolspec</xmlelement> 上把 <xmlatt>linking</xmlatt> 设为 targetonly；关系表的 <xmlatt>toc</xmlatt> 默认为 no，它天生不进目录。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>三类产出的可预期程度递减。TOC 的生成规则与四种例外是规范条文，跨处理器可以指望；索引的标记设施是规范条文，但处理器只是「可以」据此生成索引；链接一侧规范给的是语义约定，map 层级本身产生的父、子、兄弟链接没有单列的生成算法，具体生成哪些、渲染成什么由实现决定。跨处理器迁移时，链接部分的行为要实测。</p>
+      <p>处理模型的其余主题不在本篇：分支过滤见 <xref href="branch-filter-key-space.dita">branch filtering 与 key space</xref>，条件处理的规范语义与分块另属条件化与分块主题。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：TOC 节点的默认生成规则与四种例外、<xmlatt>toc</xmlatt> 级联到子节点且后代可显式改回、map 引 map 时导航树在引用点并入、节点显示文本取有效导航标题、Navigation 一节仅含 TOC 与替代标题两个子页，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/table-of-contents" scope="external">目录</xref>；索引设施六项的语义转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/indexes" scope="external">索引</xref>；<xmlatt>collection-type</xmlatt> 与 <xmlatt>linking</xmlatt> 各四个取值的定义转自 <xref href="https://dita-lang.org/dita/langref/base/topicref" scope="external">topicref 语言参考</xref>；关系表的四条链接规则转自 <xref href="https://dita-lang.org/dita/langref/base/reltable" scope="external">reltable 语言参考</xref>。四处均已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 <xmlelement>topichead</xmlelement> 靠导航标题生成节点为对 TOC 规则的推论、索引项放 <xmlelement>prolog</xmlelement> 与放正文的页码差异及在 map 上补索引的用法属实现观察、map 层级链接的具体生成为实现惯例而规范未单列算法，均已在正文逐处标注，笔记列为未逐页核对；三类产出可预期程度递减的排序与跨处理器实测的建议，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>
