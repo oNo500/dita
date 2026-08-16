@@ -5,4 +5,5 @@
   <title>架构机理</title>
   <topicref href="../../../topics/dita/architecture/structural-specialization.dita"/>
   <topicref href="../../../topics/dita/architecture/domain-specialization.dita"/>
+  <topicref href="../../../topics/dita/architecture/attribute-specialization.dita"/>
 </map>
