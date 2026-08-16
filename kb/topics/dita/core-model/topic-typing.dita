@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/01-core-model.md §1（Topic：最小可寻址单元）与 §1.5（信息类型化）。
+     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     标题依据上游节点名（非自造）：OASIS DITA 2.0 架构规范章节「DITA topics」
+     （dita-lang.org/dita/archspec/base/topicover）下列六个子节点，本篇覆盖其中的
+     「Topic structure」与「Information typing」两个，故以 topic 与 information typing
+     两个节点名并列命名；「A 与 B」的并列形制沿用同簇 conref-pull-push 与 keyref-variable-text。
+     术语规则（2026-08-16 用户门反馈 + 同日译名禁令）：information typing / specialization /
+     document-type shell / constraint module / base 包 / technical content 包等一律英文原名，
+     中文解释只在首现随行给一次；不写「专门化」「信息类型化」作正文首选词。
+     volatility=volatile 的依据：2.0 内置类型清单与两个包的发布状态随草案版本变动。
+     事实纪律：内容模型、类型清单、2.0 移除项、仓库实况为笔记已逐页核对项；类型与主题正交的
+     示例表、三种失败模式、内置类型自身即 specialization 产物按判断呈现，来源节判断段列明。 -->
+<concept id="topic-typing" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="volatile"
+         dimension="dim-concept dim-structure-template">
+  <title>topic 与 information typing</title>
+  <shortdesc>一个 topic 是一份可独立阅读、可被任意 map 引用的文件，内容模型规定它由哪几块按什么顺序组成。information typing 再给这些文件分类：分类依据是内容回答哪一类问题，不是它讲哪个主题，两者是正交的两个维度。DITA 2.0 内置七个 topic 类型与三个 map 类型，且这个集合按规范是无界的。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/dita/archspec/base/information-typing" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>内容按什么切分，决定了它以后能不能被复用。按章节切，一段内容的位置就固定在某本手册的目录里；按篇幅切，切出来的块单独读不成立。DITA 的答案写在它自己的名字里：Darwin Information Typing Architecture，中间两个词就是 information typing（信息类型化）。它不是附加特性，是这套架构自我命名时选中的那一项。</p>
+      <p>规范给出的定义是：识别 topic 的类型（如 concept、reference、task），用以清晰区分不同种类的信息。理由是让文档保持聚焦且模块化，从而对读者更清晰、更易检索导航，也更适合复用。</p>
+    </section>
+
+    <section>
+      <title>背景：topic 的边界与内容模型</title>
+      <p>一个 topic 等于一个文件，也等于一个可被任意 map 引用的内容块。它的内容模型是严格有序的：<codeph>title, (shortdesc | abstract)?, prolog?, body?, related-links?, topic*</codeph>。</p>
+      <codeblock>&lt;topic id="intro"&gt;
+  &lt;title&gt;产品简介&lt;/title&gt;
+  &lt;shortdesc&gt;一句话说明这个 topic 讲什么。&lt;/shortdesc&gt;
+  &lt;prolog&gt;
+    &lt;titlealt title-role="navigation"&gt;简介&lt;/titlealt&gt;
+    &lt;author&gt;xiu&lt;/author&gt;
+  &lt;/prolog&gt;
+  &lt;body&gt;
+    &lt;p&gt;正文。&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/topic&gt;</codeblock>
+      <p>四条规定值得单记。<xmlatt>id</xmlatt> 是必需的，它是 <term keyref="term-conref">conref</term>（内容引用）与 <xmlelement>xref</xmlelement> 的寻址锚点；<xmlelement>shortdesc</xmlelement> 与 <xmlelement>abstract</xmlelement> 互斥，二选一；内容模型末尾允许嵌套 topic；替代标题写在 <xmlelement>prolog</xmlelement> 里的 <xmlelement>titlealt</xmlelement>，而 <xmlelement>prolog</xmlelement> 的内容模型把 <xmlelement>titlealt</xmlelement> 排在 <xmlelement>author</xmlelement> 之前，顺序写反即不合法。替代标题的完整体系见 <xref href="titlealt-system.dita">titlealt 速查</xref>。</p>
+    </section>
+
+    <section>
+      <title>分析：类型与主题是正交的两个维度</title>
+      <p>最常见的误解是把类型当成主题的同义词。同一个主题会自然产生多篇不同类型的 topic，两者各自成一维。</p>
+      <simpletable relcolwidth="1* 1.6* 1.6* 1.6*">
+        <sthead><stentry>主题</stentry><stentry>concept</stentry><stentry>task</stentry><stentry>reference</stentry></sthead>
+        <strow><stentry>打印队列</stentry><stentry>队列是什么、怎么工作</stentry><stentry>如何清空队列</stentry><stentry>队列状态码一览</stentry></strow>
+        <strow><stentry>认证</stentry><stentry>OAuth 的授权模型</stentry><stentry>如何配置 OAuth 客户端</stentry><stentry>认证 API 参数表</stentry></strow>
+      </simpletable>
+      <p>按主题组织会写出「打印机」这样一篇，概念、步骤、参数表混在一起。<b>类型化要消灭的正是这一篇</b>。三个最常用的类型各自回答一类问题：concept 回答这是什么，body 是 <xmlelement>conbody</xmlelement>，装背景、原理与术语；task 回答怎么做，body 是 <xmlelement>taskbody</xmlelement>，装前提、动作与顺序；reference 回答查什么，body 是 <xmlelement>refbody</xmlelement>，装规格、参数与错误码。</p>
+      <p>reference 的判据「用来查而不是用来记」相当好用。拿不准一段内容该不该进 reference 时，问这一句即可。</p>
+      <p>由此有三种常见的失败模式，以下判断来自实践归纳。其一，全写成 concept 或全用泛型 <xmlelement>topic</xmlelement>，等于没有类型化，成本却照付；其二，按主题切而不按类型切，产出上面那篇「打印机」；其三，为凑类型硬拆，拆出无法独立理解的碎片。</p>
+      <p>第三种违背的是更根本的约束，即复用单元的边界是自足性。判断顺序因此是：先问这块内容能否独立成立，再问它属于哪一类。类型化服务于自足性，不应反过来破坏它。</p>
+    </section>
+
+    <section>
+      <title>DITA 2.0 提供的类型集合</title>
+      <p>OASIS 按分委员会分仓开发 2.0，实际有产出的是两个包。base 包给出 <xmlelement>topic</xmlelement>（泛型 topic，全部类型的根基类）、<xmlelement>map</xmlelement> 与 <xmlelement>subjectScheme</xmlelement>；technical content 包给出 <xmlelement>concept</xmlelement>、<xmlelement>task</xmlelement>、<xmlelement>reference</xmlelement>、<xmlelement>glossentry</xmlelement>、<xmlelement>glossgroup</xmlelement>、<xmlelement>troubleshooting</xmlelement> 与 <xmlelement>bookmap</xmlelement>。合计 topic 类型七个，map 类型三个（<xmlelement>map</xmlelement>、<xmlelement>subjectScheme</xmlelement>、<xmlelement>bookmap</xmlelement>）。</p>
+      <p>2.0 移除了 machinery task 与 classification map 两套域及其 document-type shell，并以 <codeph>glossentry.dtd</codeph> 取代 <codeph>glossary.dtd</codeph>。后者是一个 document-type shell，被移除的是它而不是 <xmlelement>glossgroup</xmlelement> 本身，该元素在 2.0 的语法文件目录里仍在。</p>
+      <p>information type 与 document-type shell 是两个层级，容易混。strict task 与 general task 不是两个 information type，是同一个 <xmlelement>task</xmlelement> 类型的两个 shell，且 strict 的那一个由 constraint module（约束模块）实现。同一个 <xmlelement>topic</xmlelement> 也可被不同 shell 配置出完全不同的允许范围。<b>数类型时数的是结构模块，不是 shell</b>。</p>
+      <simpletable relcolwidth="1* 1.4* 1.4*">
+        <sthead><stentry>项</stentry><stentry>strict task</stentry><stentry>general task</stentry></sthead>
+        <strow><stentry>内容模型</stentry><stentry>顺序固定，各元素至多一次</stentry><stentry>顺序灵活，元素可重复</stentry></strow>
+        <strow><stentry>通用 <xmlelement>section</xmlelement></stentry><stentry>不允许</stentry><stentry>允许</stentry></strow>
+        <strow><stentry><xmlelement>steps-informal</xmlelement></stentry><stentry>不在模型内</stentry><stentry>可用</stentry></strow>
+        <strow><stentry>选用</stentry><stentry>默认选它（判断）</stentry><stentry>结构不规整的过程性内容（判断）</stentry></strow>
+      </simpletable>
+      <p>strict 一侧的 <xmlelement>taskbody</xmlelement> 内容模型是 <codeph>prereq?, context?, (steps | steps-unordered)?, result?, tasktroubleshooting?, example?, postreq?</codeph>，全部可选而顺序固定。<xmlelement>steps</xmlelement> 的内容模型是 <codeph>data*, stepsection?, step+</codeph>，子步骤靠 <xmlelement>steps</xmlelement> 直接嵌套在 <xmlelement>step</xmlelement> 内，2.0 已无单独的子步骤元素。<xmlelement>steps-informal</xmlelement> 从 <xmlelement>section</xmlelement> specialize 而来，定义在 task 模块内。</p>
+      <p>类型集合本身是无界的，这是规范的原话。新类型经 specialization（专门化）产生，或从 <xmlelement>topic</xmlelement> 派生，或在既有类型上再细化。内置的那些类型本身就是这个机制的产物：<xmlelement>concept</xmlelement> 的派生链是 <codeph>- topic/topic concept/concept </codeph>，与自造类型在架构上同一等级，区别只在前者写进了规范、有生态支持。这正是 Darwin 一词的含义，即类型从类型繁衍而来。构造规则见 <xref href="class-derivation.dita">@class 与 @specializations 属性规则与语法</xref>。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>规范配套给出的务实建议是：已有类型能匹配你的内容时，直接用它，或以它为 specialization 的基类，以此保证内容的顺畅交换与互操作。别为独特而独特。</p>
+      <p>落到日常，两条判断可以先用起来。切内容时先确认自足性再定类型；数类型与选 shell 是两件事，前者问内容回答哪类问题，后者问这份文档允许写到什么范围。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：information typing 的定义、给出的理由、「可能的信息类型集合是无界的」、新类型经 specialization 产生、以及已有类型匹配时应直接用或作为基类，转自 <xref href="https://dita-lang.org/dita/archspec/base/information-typing" scope="external">Information typing</xref>；<xmlelement>topic</xmlelement> 的内容模型、<xmlatt>id</xmlatt> 必需、<xmlelement>shortdesc</xmlelement> 与 <xmlelement>abstract</xmlelement> 互斥转自 <xref href="https://dita-lang.org/dita/langref/base/topic" scope="external">topic 元素</xref>；<xmlelement>prolog</xmlelement> 的内容模型与 <xmlelement>titlealt</xmlelement> 居首转自 <xref href="https://dita-lang.org/dita/langref/base/prolog" scope="external">prolog 元素</xref>；<xmlelement>concept</xmlelement> 属 technical content 包及其回答的问题转自 <xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/concept" scope="external">concept 元素</xref>，该包结构模块的完整清单转自 <xref href="https://dita-lang.org/dita-techcomm/langref/containers/task-elements" scope="external">技术内容包元素分组</xref>；strict <xmlelement>taskbody</xmlelement> 的内容模型与 strict/general 由 document-type shell 决定转自 <xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/taskbody" scope="external">taskbody 元素</xref>；<xmlelement>steps</xmlelement> 的内容模型与子步骤嵌套写法转自 <xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/steps" scope="external">steps 元素</xref>；<xmlelement>steps-informal</xmlelement> 从 <xmlelement>section</xmlelement> specialize 而来转自 <xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/steps-informal" scope="external">steps-informal 元素</xref>；machinery task、classification map 与 glossary 一侧 shell 的移除、以及子步骤元素的退役转自 <xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref>。以上页面均已逐页核对。两个包各有哪些语法文件、<xmlelement>glossgroup</xmlelement> 仍在、strict task 由 constraint module 实现三条，依据为 <xref href="https://github.com/oasis-tcs/dita" scope="external">base 仓库</xref>与 <xref href="https://github.com/oasis-tcs/dita-techcomm" scope="external">technical content 仓库</xref>在 v2.0-beta03 的语法文件目录实况，已逐文件核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 base 包结构模块的清单未找到与 technical content 包等价的分组页面逐条核对；类型与主题正交的示例表、三个常用类型的典型内容、reference 的判据用法、三种失败模式、默认选 strict task 与 general task 的适用场合，来自通用 DITA 实践；<xmlelement>concept</xmlelement> 派生链的具体取值按 <xmlatt>class</xmlatt> 规则推导，未从语法文件逐字核对；先自足性后类型的判断顺序、数结构模块而不数 shell 的说法为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/01-core-model.md §3（标题体系：titlealt）。
+     题材 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
+     标题依据上游节点名（非自造）：OASIS DITA 2.0 语言参考元素 <titlealt>
+     （dita-lang.org/dita/langref/base/titlealt，父节点 Basic topic elements）；
+     「速查」为本库 cheatsheet 题材的后缀惯例，先例见同簇 keyref-variable-text
+     「keyref 与 keytext 速查」。
+     术语规则（2026-08-16 用户门反馈 + 同日译名禁令）：titlealt / title-role /
+     alternative titles domain 等一律英文原名，不译作「替代标题域」作首选词。
+     volatility=stable 的依据：@title-role 的取值集与合并规则出自规范，不随发行版变动。
+     事实纪律：五个取值、多值、可出现位置、topicref 优先的合并规则、domain 简写元素
+     均取自已逐页核对的 titlealt 元素页；linking 作为 navigation/search 兜底的说法
+     与写作建议按判断呈现，来源节判断段列明。 -->
+<reference id="titlealt-system" xml:lang="zh-CN"
+           outputclass="cheatsheet"
+           maturity="draft" volatility="stable"
+           dimension="dim-structure-template dim-reference">
+  <title>titlealt 速查</title>
+  <shortdesc>目录里显示的标题、搜索结果里显示的标题、链接文字与副标题，在 DITA 2.0 里由同一个元素加一个必填的 <xmlatt>title-role</xmlatt> 承担。以下列出五个取值的用途、可出现的位置、多值写法、与 topic 内标题的合并规则，以及 alternative titles domain 提供的简写元素。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/dita/langref/base/titlealt" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <refbody>
+    <section>
+      <title>定位</title>
+      <p>一篇内容常需要不止一个标题：正文用全称，目录里放不下要用简称，搜索结果里又是另一种写法。DITA 2.0 把这类需求收进一个元素，<xmlelement>titlealt</xmlelement> 加一个必填的 <xmlatt>title-role</xmlatt> 说明这个标题给谁用。</p>
+      <p>1.x 的 <xmlelement>titlealts</xmlelement> 容器与 <xmlatt>navtitle</xmlatt> 属性已在 2.0 退役，写法只剩这一套。</p>
+    </section>
+
+    <section>
+      <title>title-role 的五个取值</title>
+      <simpletable relcolwidth="1* 2.6*">
+        <sthead><stentry>取值</stentry><stentry>用途</stentry></sthead>
+        <strow><stentry>linking</stentry><stentry>由 map 结构生成的引用所用的标题，例如层级的父子兄弟链接</stentry></strow>
+        <strow><stentry>navigation</stentry><stentry>目录与其他导航辅助所用的标题</stentry></strow>
+        <strow><stentry>search</stentry><stentry>支持内容检索的系统在搜索结果里显示的标题</stentry></strow>
+        <strow><stentry>subtitle</stentry><stentry>文档的副标题</stentry></strow>
+        <strow><stentry>hint</stentry><stentry>关于被引资源的提示，给 map 作者看，不参与输出</stentry></strow>
+      </simpletable>
+      <p><xmlatt>title-role</xmlatt> 支持多值，空格分隔；处理器也可以定义自己的取值。</p>
+    </section>
+
+    <section>
+      <title>可出现的位置与合并规则</title>
+      <simpletable relcolwidth="1* 2.6*">
+        <sthead><stentry>项</stentry><stentry>规定</stentry></sthead>
+        <strow><stentry>位置一</stentry><stentry>map 根元素的 <xmlelement>topicmeta</xmlelement> 内</stentry></strow>
+        <strow><stentry>位置二</stentry><stentry><xmlelement>topicref</xmlelement> 的 <xmlelement>topicmeta</xmlelement> 内</stentry></strow>
+        <strow><stentry>位置三</stentry><stentry>topic 的 <xmlelement>prolog</xmlelement> 内，且须排在 <xmlelement>author</xmlelement> 之前</stentry></strow>
+        <strow><stentry>合并</stentry><stentry><xmlelement>topicref</xmlelement> 上的替代标题与 topic 内的合并，<xmlelement>topicref</xmlelement> 一侧优先</stentry></strow>
+      </simpletable>
+      <codeblock>&lt;topicref keys="about" href="about.dita"&gt;
+  &lt;topicmeta&gt;
+    &lt;titlealt title-role="linking navigation"&gt;关于本产品&lt;/titlealt&gt;
+    &lt;titlealt title-role="search"&gt;关于&lt;/titlealt&gt;
+    &lt;titlealt title-role="hint"&gt;这里指 Acme TextMax 5000&lt;/titlealt&gt;
+  &lt;/topicmeta&gt;
+&lt;/topicref&gt;</codeblock>
+      <p>合并方向决定了改写的落点：同一篇 topic 在两份 map 里要用不同的导航标题时，改的是各自 map 的 <xmlelement>topicref</xmlelement>，topic 文件不动。</p>
+    </section>
+
+    <section>
+      <title>alternative titles domain 的简写元素</title>
+      <simpletable relcolwidth="1* 2.6*">
+        <sthead><stentry>简写元素</stentry><stentry>等价写法</stentry></sthead>
+        <strow><stentry><xmlelement>linktitle</xmlelement></stentry><stentry><xmlatt>title-role</xmlatt> 取 linking 的 <xmlelement>titlealt</xmlelement></stentry></strow>
+        <strow><stentry><xmlelement>navtitle</xmlelement></stentry><stentry><xmlatt>title-role</xmlatt> 取 navigation 的 <xmlelement>titlealt</xmlelement></stentry></strow>
+        <strow><stentry><xmlelement>searchtitle</xmlelement></stentry><stentry><xmlatt>title-role</xmlatt> 取 search 的 <xmlelement>titlealt</xmlelement></stentry></strow>
+        <strow><stentry><xmlelement>subtitle</xmlelement></stentry><stentry><xmlatt>title-role</xmlatt> 取 subtitle 的 <xmlelement>titlealt</xmlelement></stentry></strow>
+        <strow><stentry><xmlelement>titlehint</xmlelement></stentry><stentry><xmlatt>title-role</xmlatt> 取 hint 的 <xmlelement>titlealt</xmlelement></stentry></strow>
+      </simpletable>
+      <p>简写元素是便捷写法，语义与带对应 <xmlatt>title-role</xmlatt> 的 <xmlelement>titlealt</xmlelement> 相同。一份内容里两种写法混用不会出错，统一其中一种便于检索与批量改写，这条属本库约定。</p>
+    </section>
+
+    <section>
+      <title>用法要点</title>
+      <ul>
+        <li>只在替代标题与正文标题确实不同时才写。两者相同时省去，处理器回落到 <xmlelement>title</xmlelement>，少一份会漂移的副本。</li>
+        <li>hint 一项不进任何输出，用途是在 map 里给作者留一句说明，指出这个 <xmlelement>topicref</xmlelement> 指的是什么。</li>
+        <li>linking 常被当作 navigation 与 search 的兜底来用，写一条 linking 即覆盖多数场合。该行为未逐页核对，依赖它之前在目标处理器上实测。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：<xmlatt>title-role</xmlatt> 五个取值及各自语义、多值与处理器自定义取值、三处可出现的位置、<xmlelement>topicref</xmlelement> 一侧优先的合并规则、alternative titles domain 的五个简写元素，均转自 <xref href="https://dita-lang.org/dita/langref/base/titlealt" scope="external">titlealt 元素</xref>；<xmlelement>titlealt</xmlelement> 在 <xmlelement>prolog</xmlelement> 内须排在 <xmlelement>author</xmlelement> 之前转自 <xref href="https://dita-lang.org/dita/langref/base/prolog" scope="external">prolog 元素</xref>；<xmlelement>titlealts</xmlelement> 容器与 <xmlatt>navtitle</xmlatt> 属性的退役转自 <xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref>。三份页面均已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 linking 作为 navigation 与 search 兜底的说法未逐页核对，正文已标注；相同则不写、统一简写与完整写法二选一、合并方向决定改写落点，为本库归纳。</p>
+    </section>
+  </refbody>
+</reference>

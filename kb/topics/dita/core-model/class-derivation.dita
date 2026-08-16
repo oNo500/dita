@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/01-core-model.md §4（@class：元素的派生链）与 §5（@specializations：
+     属性专门化的派生链）。题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     标题依据上游节点名（非自造，两个节点并列）：OASIS DITA 2.0 架构规范
+     「The @class attribute rules and syntax」（dita-lang.org/dita/archspec/base/
+     specialization-class-attribute）与同章的「The specializations attribute rules and syntax」
+     （…/specialization-specializations-attribute）。两个节点共用「attribute rules and syntax」
+     词尾，故并列后共用一次词尾；「A 与 B」的并列形制沿用同簇 conref-pull-push。
+     切分说明（复核用）：本篇只讲两个属性的取值构成与规则，即上述两个规范节点本身。
+     怎么在代码里取到并匹配它们见 kb/topics/dita/toolchain/programming-by-class.dita；
+     怎么用它们做 specialization 见 kb/topics/dita/architecture/ 下 structural / domain /
+     attribute specialization 三篇。三处与本篇的边界是「规则」与「用法」之分，不重复展开。
+     术语规则（2026-08-16 用户门反馈 + 同日译名禁令）：specialization / generalization /
+     domain / document-type shell / constraint module 等一律英文原名，不写「专门化」「泛化」。
+     volatility=stable 的依据：两个属性的构造规则出自架构规范，不随发行版变动。
+     事实纪律：@class 的六条构造规则与 @specializations 的形式语法为笔记已逐页核对项；
+     裸解析取不到默认属性、域元素降级示例的具体取值按判断呈现，来源节判断段列明。 -->
+<concept id="class-derivation" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="stable"
+         dimension="dim-internals dim-consistency">
+  <title>@class 与 @specializations 属性规则与语法</title>
+  <shortdesc>每个 DITA 元素都带一条从最泛化到最特化排列的派生链，写在 <xmlatt>class</xmlatt> 里；属性一侧的对应物写在根元素的 <xmlatt>specializations</xmlatt> 里。两者的取值形状都由规范规定得很死，其中几条看似排版洁癖的要求，各自挡住一类具体的处理错误。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>扩展一套标记语言，通常意味着下游工具要跟着改一遍。DITA 换了个办法：新元素在语法文件里声明自己从哪个已有元素派生而来，并把整条派生路径记在元素上。处理器不认识这个元素时，沿路径退到它认识的那一层照常处理。</p>
+      <p>这条路径靠两个属性承载，元素一侧是 <xmlatt>class</xmlatt>，属性一侧是 <xmlatt>specializations</xmlatt>。它们的取值形状是整套机制能否可靠工作的前提，规范因此把语法规定得相当细。</p>
+    </section>
+
+    <section>
+      <title>背景：@class 的取值构成</title>
+      <p>一个 <xmlatt>class</xmlatt> 取值由一个前缀和一串 token 组成，token 之间以空格分隔。</p>
+      <codeblock>class="- topic/li task/step "
+       │  └──┬──┘ └───┬──┘  └ 结尾必须有空格
+       │     │        └ 最特化的一层
+       │     └ 最泛化的一层
+       └ 前缀</codeblock>
+      <p>规范给出的规定有六条。前缀取 <codeph>-</codeph> 表示这是结构模块派生的元素，取 <codeph>+</codeph> 表示 domain 模块派生的元素，前缀之后跟一个或多个空格。每个 token 的形状是模块名加斜杠加元素名。token 从最泛化到最特化排列。派生链必须列出完整的祖先链，包含那些没有改名的中间层。取值必须以至少一个空格结尾。除 ditabase 的根元素外，每个 DITA 元素都必须有 <xmlatt>class</xmlatt>，且语法文件声明的这个默认值不得是 fixed。</p>
+      <p>作者不写 <xmlatt>class</xmlatt>。它由 DTD 或 RNG 声明为默认属性，解析时补上。</p>
+    </section>
+
+    <section>
+      <title>分析：三条规定各挡住什么</title>
+      <p>结尾空格挡的是前缀误命中。匹配时把 token 连同前后空格一起找，<codeph>' topic/li '</codeph> 才不会命中 <codeph>topic/link</codeph>。取值末尾若不留空格，最后一个 token 就没有右边界，最特化的那一层反而成了最容易匹配错的一层。</p>
+      <p>完整祖先链挡的是 generalization 失真。把一份文档退回基础词汇时，算法逐级读派生链找可以退到的层；中间层若因为没有改名而被省略，退回就少了一站，该层的处理规则随之落空。</p>
+      <p>默认值不得为 fixed 挡的是 generalization 之后的回不去。已经 generalize 的文档里，元素名已经换成基类的名字，而它需要继续携带原来那条完整派生链，以便之后还原。属性若被声明为 fixed，实例上就写不进与声明不同的值，这条路径被堵死。</p>
+      <p><b>三条规定都不是排版偏好，各自对应一类会真实发生的处理错误</b>。这也解释了为什么规范把它们写成硬性要求而不是建议。</p>
+    </section>
+
+    <section>
+      <title>@specializations：属性一侧的派生链</title>
+      <p>topic 与 map 的根元素上另有一个 <xmlatt>specializations</xmlatt>，记录本文档用到了哪些属性 specialization（专门化）。</p>
+      <codeblock>&lt;task specializations="@props/deliveryTarget @props/platform @props/product"&gt;</codeblock>
+      <p>它的形式语法是一个 <codeph>@</codeph> 起头、接 props 或 base、再以斜杠逐级追加属性名。与 <xmlatt>class</xmlatt> 一样，值由 document-type shell 的默认值注入，作者不手写。两处不同值得记：它只记录属性 specialization，元素 domain 不在其中；它写在根元素上而不是逐元素携带。</p>
+      <p>层级路径的用处同样在 generalization：处理器不认识某个派生属性时，沿链逐级退回它派生自的属性。这一侧的完整机制与落地步骤见 <xref href="../architecture/attribute-specialization.dita">attribute specialization</xref>。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>由这两个属性得出的处理规则只有一条：处理 DITA 的代码按派生链匹配，不按元素名匹配。按元素名写的模板，任何人做一次 specialization 就会失效；按派生链写的模板自动覆盖全部派生物。domain 元素同理，不认识 UI domain 的处理器把 <xmlelement>uicontrol</xmlelement> 当作它派生自的 <xmlelement>ph</xmlelement> 渲染，结果仍然正确，只是丢了样式。降级是内建的。</p>
+      <p>有一处容易踩空：这两个属性都是语法文件提供的默认值，不做校验地裸解析源文件时，它们全部取不到。取到它们的两条路与匹配写法见 <xref href="../toolchain/programming-by-class.dita">@class 与派生链解析</xref>。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：<xmlatt>class</xmlatt> 的前缀分结构模块与 domain 模块两种取值并后跟一个或多个空格、token 形如模块名加元素名、从最泛化到最特化排列、须含未改名的中间模块、取值必须以至少一个空格结尾、除 ditabase 根元素外每个 DITA 元素都必须有该属性、语法声明的默认值不得为 fixed，转自 <xref href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external">class 属性规则与语法</xref>；<xmlatt>specializations</xmlatt> 的形式语法、仅记录属性 specialization 而不含元素 domain、值由 document-type shell 的默认值注入，转自 <xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref>。两份页面均已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中三条规定各自挡住哪类处理错误、属性沿链逐级退回的过程、示例中派生链与 <xmlelement>uicontrol</xmlelement> 降级的具体取值，来自通用 DITA 实践与实现观察，未从语法文件逐字核对；裸解析取不到默认属性属实现观察；按派生链匹配而不按元素名匹配这条处理规则，以及本篇与 specialization 三篇、与派生链解析一篇的边界划法，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>
