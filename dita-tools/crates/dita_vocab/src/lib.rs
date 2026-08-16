@@ -22,7 +22,11 @@ pub struct Subject {
     /// `<data>` children, by `@name`. The value is `@value` when present and
     /// the element text otherwise — the benchmark registry uses both forms
     /// (`last-benchmarked` carries an attribute, `anchor` carries prose).
+    /// Repeated names collapse here (last wins); use [`Subject::data_all`] for
+    /// multi-valued names such as `required-section`.
     pub data: BTreeMap<String, String>,
+    /// Every `<data>` pair in document order, repeats preserved.
+    pub data_list: Vec<(String, String)>,
     pub children: Vec<Subject>,
 }
 
@@ -45,6 +49,16 @@ impl Subject {
         for child in &self.children {
             child.collect_keys(out);
         }
+    }
+
+    /// All values for a repeated `<data>` name, in document order.
+    #[must_use]
+    pub fn data_all(&self, name: &str) -> Vec<&String> {
+        self.data_list
+            .iter()
+            .filter(|(n, _)| n == name)
+            .map(|(_, v)| v)
+            .collect()
     }
 
     /// Keys of subjects with no children — the most specific values available.
@@ -232,15 +246,16 @@ fn read_subject(node: roxmltree::Node, source: &Path, diag: &mut DiagnosticBag) 
     Some(Subject {
         keys: keys.to_string(),
         nav_title: nav_title(node),
-        data: read_data(node),
+        data: read_data(node).into_iter().collect(),
+        data_list: read_data(node),
         children,
     })
 }
 
 /// Direct `<data>` children only: a nested subject's data belongs to it, not
-/// to its parent.
-fn read_data(node: roxmltree::Node) -> BTreeMap<String, String> {
-    let mut out = BTreeMap::new();
+/// to its parent. Returned as pairs so repeated names survive.
+fn read_data(node: roxmltree::Node) -> Vec<(String, String)> {
+    let mut out = Vec::new();
     for data in node
         .children()
         .filter(roxmltree::Node::is_element)
@@ -259,7 +274,7 @@ fn read_data(node: roxmltree::Node) -> BTreeMap<String, String> {
             (!trimmed.is_empty()).then_some(trimmed)
         });
         if let Some(value) = value {
-            out.insert(name.to_string(), value);
+            out.push((name.to_string(), value));
         }
     }
     out

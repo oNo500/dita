@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<concept id="clean" outputclass="best-practice" maturity="curated" volatility="stable">
+  <title>合规样例</title>
+  <shortdesc>各节齐全，来源两段，语气平实。</shortdesc>
+  <conbody>
+    <section><title>场景</title><p>说明。</p></section>
+    <section><title>做法：三条</title><p>说明。</p></section>
+    <section><title>边界</title><p>说明。</p></section>
+    <section><title>来源</title>
+      <p><b>事实</b>：无。</p>
+      <p><b>判断</b>：全篇为判断。</p>
+    </section>
+  </conbody>
+</concept>

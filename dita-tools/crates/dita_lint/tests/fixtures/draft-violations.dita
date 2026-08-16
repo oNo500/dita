@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<concept id="draft-bad" maturity="draft" volatility="stable">
+  <title>草稿违规</title>
+  <shortdesc>无题材，但 draft 只记 warning。</shortdesc>
+  <conbody><p>正文。</p></conbody>
+</concept>

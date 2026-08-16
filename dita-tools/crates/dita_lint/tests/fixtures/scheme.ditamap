@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<subjectScheme xml:lang="zh-CN">
+  <title>lint 测试词表</title>
+  <subjectdef keys="genre-values">
+    <subjectdef keys="best-practice">
+      <data name="dita-type" value="concept"/>
+      <data name="required-section" value="场景"/>
+      <data name="required-section" value="做法"/>
+      <data name="required-section" value="边界"/>
+    </subjectdef>
+    <subjectdef keys="cheatsheet">
+      <data name="dita-type" value="reference"/>
+    </subjectdef>
+  </subjectdef>
+  <enumerationdef>
+    <attributedef name="outputclass"/>
+    <subjectdef keyref="genre-values"/>
+  </enumerationdef>
+</subjectScheme>

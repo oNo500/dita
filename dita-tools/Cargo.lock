@@ -134,6 +134,8 @@ dependencies = [
  "anyhow",
  "clap",
  "dita_ia",
+ "dita_lint",
+ "dita_vocab",
 ]
 
 [[package]]
@@ -157,6 +159,16 @@ dependencies = [
  "dita_parser",
  "dita_vocab",
  "owo-colors",
+]
+
+[[package]]
+name = "dita_lint"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "dita_diagnostics",
+ "dita_vocab",
+ "roxmltree",
 ]
 
 [[package]]

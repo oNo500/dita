@@ -317,6 +317,44 @@
     <subjectdef keys="verified"/>          <!-- 晋级前提：来源已核对且标注日期 -->
   </subjectdef>
 
+  <!-- ═══════ 题材值集 ═══════ 绑定 @outputclass（2026-08-16 加，随 writing-style 规则落地）。
+       题材承载"一篇的固定结构"；每个题材以 data 携带机读元数据：
+       dita-type＝所属 DITA 类型（lint 校验题材与类型匹配）；
+       required-section＝必需节标题（按前缀匹配，如"做法：四条"匹配"做法"）。
+       键不加前缀：outputclass 的字面值即键（与 tool-/dim- 前缀先例不同，接受撞键风险）。
+       值来源：research/cases/kb-redesign/content-type-framework.md 定稿表。 -->
+  <subjectdef keys="genre-values">
+    <subjectdef keys="quickstart">
+      <data name="dita-type" value="task"/>
+      <data name="required-section" value="目标"/>
+      <data name="required-section" value="前置"/>
+      <data name="required-section" value="步骤"/>
+    </subjectdef>
+    <subjectdef keys="how-to">
+      <data name="dita-type" value="task"/>
+    </subjectdef>
+    <subjectdef keys="cheatsheet">
+      <data name="dita-type" value="reference"/>
+    </subjectdef>
+    <subjectdef keys="curated-resources">
+      <data name="dita-type" value="reference"/>
+    </subjectdef>
+    <subjectdef keys="best-practice">
+      <data name="dita-type" value="concept"/>
+      <data name="required-section" value="场景"/>
+      <data name="required-section" value="做法"/>
+      <data name="required-section" value="理由"/>
+      <data name="required-section" value="反例"/>
+      <data name="required-section" value="边界"/>
+    </subjectdef>
+    <subjectdef keys="tech-landscape">
+      <data name="dita-type" value="concept"/>
+    </subjectdef>
+    <subjectdef keys="deep-dive">
+      <data name="dita-type" value="concept"/>
+    </subjectdef>
+  </subjectdef>
+
   <!-- ═══════ 时效值集 ═══════ 绑定 @props/volatility -->
   <subjectdef keys="volatility-values">
     <subjectdef keys="stable"/>
@@ -343,6 +381,13 @@
     <attributedef name="volatility"/>
     <subjectdef keyref="volatility-values"/>
     <!-- 不设默认：时效必须显式判断，漏标应报错而非静默取默认 -->
+  </enumerationdef>
+
+  <!-- 题材：绑 @outputclass 到题材值集。不设默认——
+       concept/task 必标（结构靠它），reference/troubleshooting 素体可不标（R12 管）。 -->
+  <enumerationdef>
+    <attributedef name="outputclass"/>
+    <subjectdef keyref="genre-values"/>
   </enumerationdef>
 
   <enumerationdef>

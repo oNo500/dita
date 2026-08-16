@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<concept id="bad" outputclass="best-practice" maturity="curated" volatility="stable">
+  <title>违规样例</title>
+  <shortdesc>缺节、旧标签、手写日期、粗体超限、程度词。</shortdesc>
+  <conbody>
+    <section><title>场景</title>
+      <p>这<b>特别</b>重要——<b>真正的</b>关键——<b>极其</b>要紧——不能漏。</p>
+    </section>
+    <section><title>来源</title>
+      <p><b>已核对</b>（2026-08-15）：某处。</p>
+    </section>
+  </conbody>
+</concept>

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 机器兜底：一条命令串全套——RNG 结构校验 + 业务规则 R1–R10 + 术语扫描。
+# 机器兜底：一条命令串全套——RNG 结构校验 + 业务规则 R1–R10 + 题材文体 R12–R15 + 术语扫描。
 # 依赖：DITA-OT（dita validate + 自带 Saxon）与 uv（跑 kb/scripts 下的 .py）。
 # 两者缺任何一个都不会静默放行——缺什么就少跑什么，且结果不得当作通过。
 # 有 error 则退出非零，可挡入库 / 接 git hook / CI。
@@ -30,6 +30,7 @@ else
 fi
 
 term_skipped=0
+lint_skipped=0
 if ! command -v uv >/dev/null 2>&1; then
   echo "找不到 uv，术语扫描跳过（装：scripts/setup-env.sh）。" >&2
   term_skipped=1
@@ -58,7 +59,16 @@ done
 # 脚本 dimension-coverage.py 于 2026-08-15 走完吸收五关退役。
 
 echo
-echo "== 2. 术语规整建议（报告版，不阻断入库）=="
+echo "== 2. 题材与文体 R12–R15（dita-tools lint；draft 记 warning，晋级门）=="
+if command -v dita-tools >/dev/null 2>&1; then
+  dita-tools lint --vocab "$KB/vocab/subjectScheme.ditamap" "$KB/topics" || fail=1
+else
+  echo "找不到 dita-tools，R12–R15 未执行（装：scripts/setup-env.sh）" >&2
+  lint_skipped=1
+fi
+
+echo
+echo "== 3. 术语规整建议（报告版，不阻断入库）=="
 if [ "$term_skipped" -eq 0 ]; then
   uv run --script "$KB/scripts/term-normalize.py"
 else
@@ -74,11 +84,14 @@ fi
 if [ "$term_skipped" -ne 0 ]; then
   echo "⚠️  术语扫描未执行（找不到 uv）"
 fi
+if [ "$lint_skipped" -ne 0 ]; then
+  echo "⚠️  R12–R15 未执行（找不到 dita-tools）"
+fi
 if [ "$fail" -ne 0 ]; then
   echo "❌ 有 error（见上），阻断入库"
   exit 1
 fi
-if [ "$skipped" -ne 0 ] || [ "$term_skipped" -ne 0 ]; then
+if [ "$skipped" -ne 0 ] || [ "$term_skipped" -ne 0 ] || [ "$lint_skipped" -ne 0 ]; then
   exit 2
 fi
 if [ "$fail" -eq 0 ]; then

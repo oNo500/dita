@@ -2,10 +2,13 @@
 <!-- KB 业务规则（Schematron，ISO/IEC 19757-3）R1–R10。
      分工：RNG 管结构、subjectScheme enumerationdef 构建期管受控值；
      本文件管 RNG 表达不了的跨属性/语义/业务规则（编辑期即时 + 审查脚本批量）。
+     R12–R15（2026-08-16 加，随 writing-style 落地）由 dita-tools lint 实现（新能力直接进平台，
+     不再扩 check-rules.xsl——它在吸收退役通道上）；严重度按 maturity 分级：
+     draft 记 warning（草稿免罚），curated/verified 记 error（晋级门）。
      DITA topic 无命名空间，context 直接用元素名。写法用 XPath1 子集，便于自带处理器执行。
      决策依据：dita2 cases/知识体系重塑/schematron-设计.md（R1–R10 已定案）。 -->
 <schema xmlns="http://purl.oclc.org/dsdl/schematron">
-  <title>KB 业务规则 R1-R10</title>
+  <title>KB 业务规则 R1-R15</title>
 
   <pattern id="R1-shortdesc">
     <rule context="concept | reference | task | troubleshooting">
@@ -71,6 +74,45 @@
     <rule context="*[@outputclass='quickstart']">
       <assert test=".//xref"
         >R10（error）：quickstart 必须 xref 到所属领域全景（并声明覆盖/略过哪些维度）。</assert>
+    </rule>
+  </pattern>
+
+
+  <!-- ── R12–R15：题材与文体（实现在 dita-tools lint，此处为规格正本）── -->
+
+  <pattern id="R12-genre">
+    <rule context="concept | task">
+      <assert test="@outputclass"
+        >R12：concept/task 必须标题材 @outputclass（固定结构靠它；词表 genre-values 为受控值）。</assert>
+    </rule>
+    <rule context="*[@outputclass]">
+      <assert test="true()"
+        >R12：@outputclass 值必须在词表 genre-values 内，且其 dita-type 须与根元素匹配
+        （cheatsheet 只能标在 reference 上，best-practice 只能标在 concept 上）。值集校验由 lint 读词表执行。</assert>
+    </rule>
+  </pattern>
+
+  <pattern id="R13-genre-structure">
+    <rule context="*[@outputclass]">
+      <assert test="true()"
+        >R13：题材声明了 required-section 的（best-practice、quickstart），正文各节标题须按前缀
+        覆盖全部必需节（"做法：四条"匹配"做法"）。骨架缺节是缺陷；节内朴素不是。由 lint 执行。</assert>
+    </rule>
+  </pattern>
+
+  <pattern id="R14-source-section">
+    <rule context="section[title='来源']">
+      <assert test=".//b[normalize-space()='事实'] and .//b[normalize-space()='判断']"
+        >R14：来源节固定两段标签「事实」「判断」（可空不可省）；旧标签「已核对」应改；
+        正文不写核对日期（日期唯一存放处是 prolog data name="reviewed"）。</assert>
+    </rule>
+  </pattern>
+
+  <pattern id="R15-plain-register">
+    <rule context="conbody | refbody | taskbody">
+      <assert test="true()"
+        >R15（代理指标，恒 warning）：粗体每节至多 2 处；破折号插入语每段至多 1 处；
+        程度词（特别/极其/恰恰/真正的/最危险）不出现。只是代理——格言句、场景化开头仍靠人审。由 lint 执行。</assert>
     </rule>
   </pattern>
 
