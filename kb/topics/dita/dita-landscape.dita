@@ -10,7 +10,7 @@
          maturity="draft" volatility="volatile"
          dimension="dim-comparison dim-evolution">
   <title>DITA 领域全景</title>
-  <shortdesc>理解 DITA 要分开回答六类问题：这套架构为什么推导成这样、规范定义了哪些模型、机制按什么规则解析、扩展点开在何处、工具链能跑到什么程度、什么条件下不该用它。维度按这六类切分，与规范和工具文档的编排逐条对得上。</shortdesc>
+  <shortdesc>理解 DITA 要分开回答六类问题：这套架构为什么推导成这样、规范定义了哪些模型、机制按什么规则解析、扩展点开在何处、工具链支持到什么程度、什么条件下不该用它。维度按这六类切分，与规范和工具文档的编排逐条对得上。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/specifications" scope="external"/>
     <data name="domain" value="dita"/>
@@ -44,7 +44,7 @@
   </prolog>
   <conbody>
     <section>
-      <title>维度从哪里来</title>
+      <title>维度的来源</title>
       <p>DITA 有两重身份：一份 OASIS 规范，和一套以 DITA-OT 为参考实现的处理工具链。按单一身份切维度都会漏掉一半：只读规范会把实现约定误当规范约定，只读工具文档则永远说不清某个行为是规范要求还是这一版实现的选择。</p>
       <p>因此维度取自三路对标，三路各补一块别处没有的问题域：</p>
       <ul>
@@ -56,12 +56,14 @@
     </section>
 
     <section>
-      <title>一、立场与权限</title>
-      <p>学一门标准之前先定两件事：它为什么长成这样，以及你有没有权限改它。DITA 的元素清单是推导结果而非约定清单，跳过推导，后面每条规则都退化成需要背诵的条目；权限则划定阅读边界，定义词汇与外壳是架构师的职责，写内容的人读到外壳为止。</p>
+      <title>一、立场、权限与自用规矩</title>
+      <p>学一门标准之前先定三件事：它为什么长成这样、你有没有权限改它、你自己按什么规矩写。DITA 的元素清单是推导结果而非约定清单，跳过推导，后面每条规则都退化成需要背诵的条目；权限划定阅读边界，定义词汇与外壳是架构师的职责，写内容的人读到外壳为止；自用规矩把前两条落到日常，判据管一篇该不该建，流程管它从起草到复核怎么走。</p>
       <simpletable relcolwidth="1* 3*">
         <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>原理与推导（dim-principles）</stentry><stentry>同一个事实只存在于一处这条公理推得出哪些结构、又要付出哪几笔代价；哪些设计是必然，哪些只是历史选择</stentry></strow>
+        <strow><stentry>原理与推导（dim-principles）</stentry><stentry><term keyref="term-ssot">同一个事实只存在于一处</term>这条公理推得出哪些结构、又要付出哪几笔代价；哪些设计是必然，哪些只是历史选择</stentry></strow>
         <strow><stentry>角色与权限（dim-roles）</stentry><stentry>规范写给哪几种角色看、各角色该读哪部分、谁有权定义 schema 与文档类型外壳</stentry></strow>
+        <strow><stentry>写作与收录判据（dim-criteria）</stentry><stentry>一条内容该不该单独成篇、拆分与合并的界线、元数据标到什么程度算够</stentry></strow>
+        <strow><stentry>写作与维护流程（dim-process）</stentry><stentry>一篇内容从起草、校验到入库走哪几步，已入库的内容按什么节奏复核与维护</stentry></strow>
       </simpletable>
     </section>
 
@@ -78,12 +80,11 @@
 
     <section>
       <title>三、解析机制与可预测性</title>
-      <p>这组是自研处理逻辑的必修课。DITA 的多数能力不在元素本身，而在解析规则：一段被引内容带进来哪些属性、一个键在哪个作用域里解析、过滤发生在流水线的哪一段。自研逻辑与规范不一致时症状往往出现在很远的地方，先立规则再写代码比事后对齐便宜。</p>
+      <p>这组是自研处理逻辑的判据所在。DITA 的多数能力不在元素本身，而在解析规则：一段被引内容带进来哪些属性、一个键在哪个作用域里解析、过滤发生在流水线的哪一段。自研逻辑与规范不一致时症状往往出现在很远的地方，先立规则再写代码比事后对齐便宜。</p>
       <simpletable relcolwidth="1* 3*">
         <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>复用与条件化机制（dim-mechanism）</stentry><stentry>内容引用的拉与推、键引用与变量文本、条件属性与分支过滤各自在什么时机解析</stentry></strow>
+        <strow><stentry>复用、条件化与属性解析（dim-mechanism）</stentry><stentry>内容引用的拉与推、键引用与变量文本、条件属性与分支过滤在什么时机解析、属性有效值的优先级与元数据级联按什么规则算、这些解析各自落在 preprocess 的哪一阶段</stentry></strow>
         <strow><stentry>寻址与关系（dim-relations）</stentry><stentry>直接与间接寻址的分工、键空间与作用域嵌套、跨交付物引用、导航与链接的生成</stentry></strow>
-        <strow><stentry>处理顺序（dim-process）</stentry><stentry>属性有效值的优先级、元数据级联的完整清单、preprocess 各阶段的先后与可插入点</stentry></strow>
         <strow><stentry>一致性与降级（dim-consistency）</stentry><stentry>泛化算法怎么把专门化还原、规范意义上的一致性怎么判定、处理器不认识自定义元素时会发生什么</stentry></strow>
       </simpletable>
     </section>
@@ -102,10 +103,10 @@
 
     <section>
       <title>五、工具链落地</title>
-      <p>规范支持与工具链支持是两件事，这组维度问的是在你的机器上能跑到什么程度。答案随发行版变动，本组内容一律标为易失，核对日期随之更新。生态与选材放在这里而不是放在判断那组，因为编辑器与插件的可用性同样属于能不能跑起来的问题。</p>
+      <p>规范支持与工具链支持是两件事，这组维度问的是在你的机器上支持到什么程度。答案随发行版变动。生态与选材放在这里而不是放在判断那组，因为编辑器与插件的可用性同样决定内容能否产出。</p>
       <simpletable relcolwidth="1* 3*">
         <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>安装与触发（dim-install）</stentry><stentry>DITA-OT 怎么装、运行时依赖是什么、doctype 声明与 catalog 怎么让它按 2.0 处理文档</stentry></strow>
+        <strow><stentry>安装与触发（dim-install）</stentry><stentry>DITA-OT 的安装方式、运行时依赖是什么、doctype 声明与 catalog 怎么让它按 2.0 处理文档</stentry></strow>
         <strow><stentry>日常构建（dim-usage）</stentry><stentry>常用命令与项目文件、输出格式的选择、校验与 Schematron 怎么接进构建</stentry></strow>
         <strow><stentry>排障与调试（dim-troubleshooting）</stentry><stentry>高频报错的症状与处置、插件调试工作流、中间产物在哪一步被改坏</stentry></strow>
         <strow><stentry>速查（dim-reference）</stentry><stentry>扩展点清单、属性优先级表、本地化属性这类需要查而不需要通读的内容</stentry></strow>
@@ -118,11 +119,10 @@
       <p>前五组默认已经决定要用 DITA，这组质疑该前提。判断题不能由前面几组的知识自动推出答案，因为成本落在写内容的人身上，收益落在维护多变体的人身上，两者往往不是同一批人。失效边界与判断放在同一组：知道它在哪儿不成立，才谈得上判断它值不值得。</p>
       <simpletable relcolwidth="1* 3*">
         <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>定位对比（dim-comparison）</stentry><stentry>与 DocBook、Markdown、AsciiDoc 在语义粒度、内建复用、条件化、可扩展性上的差别，下文承载</stentry></strow>
+        <strow><stentry>定位对比（dim-comparison）</stentry><stentry>与 DocBook、Markdown、AsciiDoc 在语义粒度、内建复用、条件化、可扩展性上的差别</stentry></strow>
         <strow><stentry>判断与取舍（dim-decision）</stentry><stentry>上不上 2.0、表格选哪套体系、处理解析前还是解析后的内容，这类需要给出判据的问题</stentry></strow>
-        <strow><stentry>写作与收录判据（dim-criteria）</stentry><stentry>一条内容该不该单独成篇、拆分与合并的界线、元数据标到什么程度算够；写 DITA 内容时的自用规矩</stentry></strow>
         <strow><stentry>采用与成本（dim-adoption）</stentry><stentry>二次开发的成本阶梯、投入产出的成立条件、工程化与持续集成的门槛</stentry></strow>
-        <strow><stentry>版本演进（dim-evolution）</stentry><stentry>规范的阶段状态、工具链基线与规范版本的差距、做专门化时锁版本的做法，下文承载</stentry></strow>
+        <strow><stentry>版本演进（dim-evolution）</stentry><stentry>规范的阶段状态、工具链基线与规范版本的差距、做专门化时锁版本的做法</stentry></strow>
         <strow><stentry>边界与反模式（dim-boundary-pitfalls）</stentry><stentry>用变量拼句子、低于句子粒度的内容引用、把未解析内容送进检索这类已知会出错的做法</stentry></strow>
       </simpletable>
     </section>
@@ -131,12 +131,12 @@
       <title>版本现状</title>
       <simpletable relcolwidth="1* 3*">
         <sthead><stentry>项</stentry><stentry>状况</stentry></sthead>
-        <strow><stentry>规范状态</stentry><stentry>DITA 2.0 处于 beta，尚未成为 OASIS Standard，最新发布为 v2.0-beta03</stentry></strow>
-        <strow><stentry>参考实现</stentry><stentry>DITA-OT 4.4 提供 2.0 的 preview 支持，运行要求 Java 17 及以上</stentry></strow>
-        <strow><stentry>基线差</stentry><stentry>DITA-OT 4.4 的语法文件取自比 beta03 早约五个月的 2.0 草案，两者可能有差异</stentry></strow>
+        <strow><stentry>规范状态</stentry><stentry>DITA 2.0 处于 beta，尚未成为 OASIS Standard，最新发布为 v2.0-beta03（2026-07-02）</stentry></strow>
+        <strow><stentry>参考实现</stentry><stentry>DITA-OT 4.4（2026-01-31）提供 2.0 的 preview 支持，运行要求 Java 17 及以上</stentry></strow>
+        <strow><stentry>基线差</stentry><stentry>DITA-OT 4.4 的语法文件取自 2026-01-25 的 2.0 草案，比 beta03 早约五个月，两者可能有差异</stentry></strow>
         <strow><stentry>主线信号</stentry><stentry>dita-lang.org 的无版本号路径指向 2.0，1.3 的内容移到带版本号的路径下</stentry></strow>
       </simpletable>
-      <p>由此得到三条实践含义。其一，规范支持不等于工具链支持：DITA-OT 的 preview 已相当完整，编辑器与各家内容管理系统的 2.0 支持程度参差，投入内容之前先用最小样例把实际要用的工具跑一遍。其二，规范还会变，做专门化时锁定所基于的 beta 版本号，并尽量从稳定基类派生。其三，元素派生链的记录机制是架构的地基且保持稳定，按派生链匹配的模板、专门化方法与泛化算法都不受 beta 状态影响，二次开发可以照常进行。</p>
+      <p>由此得到三条实践含义。其一，规范支持不等于工具链支持：DITA-OT 的 preview 已相当完整，编辑器与各家内容管理系统的 2.0 支持程度参差，投入内容之前先在最小样例上运行一遍实际要用的工具。其二，规范还会变，做专门化时锁定所基于的 beta 版本号，并尽量从稳定基类派生。其三，元素派生链的记录机制是架构的地基且保持稳定，按派生链匹配的模板、专门化方法与泛化算法都不受 beta 状态影响，二次开发可以照常进行。</p>
     </section>
 
     <section>
@@ -167,8 +167,8 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：版本现状四项与三条实践含义的依据为 <xref href="https://www.dita-lang.org/specifications" scope="external">DITA 规范列表</xref>、<xref href="https://github.com/oasis-tcs/dita/releases" scope="external">OASIS TC 发布页</xref>、<xref href="https://www.dita-ot.org/dev/release-notes/" scope="external">DITA-OT 发布说明</xref>与 <xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA-OT 的 2.0 支持说明</xref>，均已逐页核对；核对日期见 prolog。维度对标所引的规范编排取自 <xref href="https://dita-lang.org/specifications" scope="external">规范总入口</xref>与 <xref href="https://www.dita-ot.org/dev/" scope="external">DITA-OT 文档</xref>的现有类目。</p>
-        <p><b>判断</b>：二十四个维度的取舍与六组划分、三项刻意排除、把检索归入扩展与外接而非工程实践，均为本库判断，可被反驳。与其他方案的定位差一表为判断性内容，未逐页核对各方案的规范原文；该表的量级词表达的是相对位置，不是可测量的指标。维度清单是否齐全属人审事项。</p>
+      <p><b>事实</b>：版本现状四项与三条实践含义的依据为 <xref href="https://dita-lang.org/specifications" scope="external">规范总入口</xref>、<xref href="https://github.com/oasis-tcs/dita/releases" scope="external">OASIS TC 发布页</xref>、<xref href="https://www.dita-ot.org/dev/release-notes/" scope="external">DITA-OT 发布说明</xref>与 <xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA-OT 的 2.0 支持说明</xref>，均已逐页核对。刻意排除一节里两条独立版本线的状态，依据是 <xref href="https://github.com/oasis-tcs/dita-learning-training" scope="external">学习培训仓库</xref>无 release 且长期未推送、<xref href="https://github.com/oasis-tcs/dita-lwdita" scope="external">轻量版仓库</xref>自成版本线，两处仓库实况已在调研笔记核对。维度对标所引的规范编排取自规范总入口与 <xref href="https://www.dita-ot.org/dev/" scope="external">DITA-OT 文档</xref>的现有类目。</p>
+      <p><b>判断</b>：二十四个维度的取舍与六组划分、三项刻意排除、把检索归入扩展与外接而非工程实践，均为本库判断，可被反驳。与其他方案的定位差一表为判断性内容，未逐页核对各方案的规范原文；该表的量级词表达的是相对位置，不是可测量的指标。维度清单是否齐全属人审事项。</p>
     </section>
   </conbody>
 </concept>
