@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 由 agent-extension-choice 按 R16 拆出的实现层：hook 的事件、解析链、裁决语法。 -->
+<reference id="claude-code-hooks" xml:lang="zh-CN"
+           outputclass="cheatsheet"
+           maturity="draft" volatility="volatile"
+           dimension="dim-reference dim-integration">
+  <title>Claude Code hook 速查</title>
+  <shortdesc>hook 事件按触发频率分层、事件到裁决的解析链、阻断的表达语法。选不选 hook 的判据在另一篇，这里只管查。</shortdesc>
+  <prolog>
+    <source href="https://code.claude.com/docs/en/hooks" scope="external"/>
+    <data name="domain" value="claude-code"/>
+    <data name="reviewed" value="2026-08-15"/>
+  </prolog>
+  <refbody>
+    <section>
+      <title>事件按频率分层</title>
+      <simpletable relcolwidth="1* 2* 2*">
+        <sthead><stentry>频率</stentry><stentry>事件</stentry><stentry>说明</stentry></sthead>
+        <strow>
+          <stentry>每会话一次</stentry>
+          <stentry><codeph>SessionStart</codeph> / <codeph>SessionEnd</codeph></stentry>
+          <stentry>会话开始（含恢复）与终止</stentry>
+        </strow>
+        <strow>
+          <stentry>每轮一次</stentry>
+          <stentry><codeph>UserPromptSubmit</codeph> / <codeph>Stop</codeph> / <codeph>StopFailure</codeph></stentry>
+          <stentry>处理提示之前 / 回复结束 / 因 API 错误结束</stentry>
+        </strow>
+        <strow>
+          <stentry>每次工具调用</stentry>
+          <stentry><codeph>PreToolUse</codeph> / <codeph>PostToolUse</codeph> / <codeph>PostToolUseFailure</codeph> / <codeph>PermissionRequest</codeph> / <codeph>PermissionDenied</codeph></stentry>
+          <stentry>执行前（可阻断）/ 成功后 / 失败后 / 需要权限裁决 / 被自动拒绝</stentry>
+        </strow>
+        <strow>
+          <stentry>其他</stentry>
+          <stentry><codeph>FileChanged</codeph> / <codeph>ConfigChange</codeph> / <codeph>CwdChanged</codeph> / <codeph>Elicitation</codeph> / <codeph>MessageDisplay</codeph></stentry>
+          <stentry>盯文件 / 配置变更 / 换目录 / MCP 请求用户输入 / 文本展示中</stentry>
+        </strow>
+      </simpletable>
+    </section>
+
+    <section>
+      <title>能阻断的三个事件</title>
+      <simpletable relcolwidth="1* 2*">
+        <sthead><stentry>事件</stentry><stentry>阻断什么</stentry></sthead>
+        <strow><stentry><codeph>PreToolUse</codeph></stentry><stentry>工具调用，执行前</stentry></strow>
+        <strow><stentry><codeph>PermissionRequest</codeph></stentry><stentry>直接给出允许或拒绝的裁决</stentry></strow>
+        <strow><stentry><codeph>UserPromptSubmit</codeph></stentry><stentry>提示，在 Claude 处理之前驳回</stentry></strow>
+      </simpletable>
+    </section>
+
+    <section>
+      <title>解析链</title>
+      <p>调试时按这个顺序找断点：</p>
+      <ol>
+        <li>事件触发</li>
+        <li><codeph>matcher</codeph> 按工具名筛，如 <codeph>Bash</codeph></li>
+        <li><codeph>if</codeph> 按模式细筛，如 <codeph>Bash(rm *)</codeph></li>
+        <li>处理器执行：shell 命令、HTTP 端点、LLM 提示或 agent</li>
+        <li>Claude Code 执行裁决：阻断、放行或继续</li>
+      </ol>
+    </section>
+
+    <section>
+      <title>裁决的表达</title>
+      <p>裁决靠输出，不靠退出码：</p>
+      <codeblock>{ "hookSpecificOutput": {
+    "hookEventName": "PreToolUse",
+    "permissionDecision": "deny",
+    "permissionDecisionReason": "Destructive command blocked"
+} }</codeblock>
+      <simpletable relcolwidth="1* 2*">
+        <sthead><stentry>行为</stentry><stentry>效果</stentry></sthead>
+        <strow><stentry>输出 <codeph>permissionDecision: "deny"</codeph> 且退出码 0</stentry><stentry>阻断</stentry></strow>
+        <strow><stentry>直接 <codeph>exit 0</codeph>，不给裁决</stentry><stentry>走正常权限流程</stentry></strow>
+      </simpletable>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：全部转述自 <xref href="https://code.claude.com/docs/en/hooks" scope="external">Claude Code, Hooks</xref>，核对日期见 prolog。事件清单为该页所列主要事件，非穷尽。</p>
+      <p><b>判断</b>：无，本篇全为转述。</p>
+    </section>
+  </refbody>
+</reference>

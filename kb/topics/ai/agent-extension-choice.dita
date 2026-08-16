@@ -1,83 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
-     结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
-     整改后按实际情况重新定级。 -->
-<!-- coding-agents 域 · dim-integration + dim-decision。
-     选题参考矿场 30-05-ai/claude-code 的 MCP服务器 / Hooks实现参考 两篇（均为 reference 型）。
-     两篇的结论各有一条经核对后未采信，见正文与来源节——矿场只作选题参考，不作事实来源。
-     事实当日核对 Claude Code 的 hooks / mcp / skills / memory 四页官方文档。 -->
+<!-- 重写样张（2026-08-16）：原稿按 R16 拆分——判据留本篇，hook 事件与语法迁 claude-code-hooks.dita。 -->
 <concept id="agent-extension-choice" xml:lang="zh-CN"
+         outputclass="best-practice"
          maturity="draft" volatility="volatile"
          dimension="dim-integration dim-decision">
-  <title>扩展机制怎么选：谁来触发，能不能拦</title>
-  <shortdesc>hook / MCP / skill / 规则不是四种做同一件事的方式，它们在"由谁触发"和"能否阻断"上根本不同；选错的典型症状是把必须发生的事托付给了模型的判断。</shortdesc>
+  <title>扩展机制怎么选</title>
+  <shortdesc>hook、MCP、skill、规则的选择判据是两个问题：谁触发，能不能拦。必须发生的事只能交给 hook，其余三种按内容形态选。</shortdesc>
   <prolog>
     <source href="https://code.claude.com/docs/en/hooks" scope="external"/>
     <data name="domain" value="coding-agents"/>
     <data name="reviewed" value="2026-08-15"/>
   </prolog>
   <conbody>
-    <p>"每次提交前跑格式化"这件事，可以写进规则，可以做成 skill，也可以挂个 hook。三种都"能实现"，但只有一种能保证它<b>真的发生</b>——差别不在功能，在触发权归谁。</p>
+    <section>
+      <title>场景</title>
+      <p>同一件事，比如"提交前必须跑格式化"，写进规则、做成 skill、挂个 hook 都能实现。四种机制的功能高度重叠，选错的代价集中在一处：把必须发生的事，交给了由模型决定是否触发的机制。</p>
+    </section>
 
     <section>
-      <title>两个轴就够分清</title>
-      <p>把四种机制放进两个问题里，选择基本自明：<b>谁来触发它</b>，以及<b>它能不能拦住一个动作</b>。</p>
+      <title>做法</title>
+      <p>问两个问题：谁来触发它，它能不能拦住一个动作。</p>
       <simpletable relcolwidth="1* 1* 1* 2*">
         <sthead>
-          <stentry>机制</stentry><stentry>谁触发</stentry><stentry>能否阻断</stentry><stentry>适合装什么</stentry>
+          <stentry>机制</stentry><stentry>谁触发</stentry><stentry>能否阻断</stentry><stentry>装什么</stentry>
         </sthead>
         <strow>
-          <stentry>hook</stentry><stentry><b>进程</b></stentry><stentry>能</stentry>
-          <stentry>必须发生、不容跳过的事：策略强制、危险命令拦截、自动注入</stentry>
+          <stentry><term keyref="term-hook">hook</term></stentry><stentry>进程</stentry><stentry>能</stentry>
+          <stentry>必须发生的事：策略强制、危险命令拦截、自动注入</stentry>
         </strow>
         <strow>
-          <stentry>MCP</stentry><stentry>模型（按需检索）</stentry><stentry>否</stentry>
-          <stentry>外部系统的数据与动作：工单、监控、数据库、设计稿</stentry>
+          <stentry><term keyref="term-mcp">MCP</term></stentry><stentry>模型，按需检索</stentry><stentry>否</stentry>
+          <stentry>外部系统的数据与动作：工单、监控、数据库</stentry>
         </strow>
         <strow>
-          <stentry>skill</stentry><stentry>模型（按描述判相关）</stentry><stentry>否</stentry>
-          <stentry>成套的工作流：有输入有产物、按需展开的长内容</stentry>
+          <stentry><term keyref="term-skill">skill</term></stentry><stentry>模型，按描述判相关</stentry><stentry>否</stentry>
+          <stentry>成套工作流：有输入有产物，按需展开的长内容</stentry>
         </strow>
         <strow>
-          <stentry>规则</stentry><stentry>无需触发（常驻）</stentry><stentry>否</stentry>
+          <stentry>规则</stentry><stentry>常驻，无需触发</stentry><stentry>否</stentry>
           <stentry>一直要在场的姿态与红线，一句话级</stentry>
         </strow>
       </simpletable>
-      <p>只有第一行的触发权不在模型手里。官方文档对 hook 的定位就是<b>确定性的策略执行</b>而非引导：<codeph>PreToolUse</codeph> 能在工具调用执行前阻断，<codeph>PermissionRequest</codeph> 能直接给出允许/拒绝的裁决，<codeph>UserPromptSubmit</codeph> 能在 Claude 处理之前驳回提示。规则则相反——官方明说 <filepath>CLAUDE.md</filepath> 是<b>上下文而非强制配置</b>，它引导行为，不是压倒一切的硬规矩。</p>
-      <note>所以判据很短：<b>"这件事漏了会出事"→ hook；"这件事漏了只是次优"→ 其余三种。</b>把前者写进规则，等于把确定性需求交给概率性机制。</note>
+      <p>判据一句话：漏了会出事的装 hook；漏了只是次优的，按内容形态在其余三种里选。hook 的事件清单与裁决语法见<xref href="claude-code-hooks.dita">hook 速查</xref>。</p>
     </section>
 
     <section>
-      <title>hook 的解析顺序</title>
-      <p>hook 不是"挂上就会跑"，它有一条固定的收敛链，调试时按这个顺序找断点：</p>
-      <ol>
-        <li><b>事件触发</b> —— 三十余个事件按频率分层：每会话一次（<codeph>SessionStart</codeph>/<codeph>SessionEnd</codeph>）、每轮一次（<codeph>UserPromptSubmit</codeph>/<codeph>Stop</codeph>）、每次工具调用（<codeph>PreToolUse</codeph>/<codeph>PostToolUse</codeph>/<codeph>PermissionRequest</codeph>），以及文件变动、配置变更等。</li>
-        <li><b>matcher 过滤</b> —— 按工具名筛（如 <codeph>Bash</codeph>）。</li>
-        <li><b>if 条件再筛</b> —— 按模式细化（如 <codeph>Bash(rm *)</codeph>）。</li>
-        <li><b>处理器执行</b> —— shell 命令、HTTP 端点、LLM 提示或 agent。</li>
-        <li><b>Claude Code 执行裁决</b> —— 阻断、放行或继续。</li>
-      </ol>
-      <p>裁决靠输出表达而非退出码：返回 <codeph>permissionDecision: "deny"</codeph> 并以退出码 0 结束即阻断；直接 <codeph>exit 0</codeph> 不给裁决则走正常权限流程。</p>
+      <title>理由</title>
+      <p>触发权与阻断力是机制之间不可互换的差别。功能可以凑合实现，确定性不能事后补：官方文档把 hook 定位为确定性的策略执行，可在工具调用执行前阻断；而 <filepath>CLAUDE.md</filepath> 被明确定义为上下文而非强制配置，它引导行为，模型可以不遵循。</p>
+      <p>MCP 的上下文成本已不构成反对理由。<term keyref="term-tool-search">tool search</term> 默认开启，工具定义延迟加载，官方文档说明增加 MCP 服务器对上下文窗口影响甚微。选 MCP 的判据回到它的本义：发现自己在从别的系统往对话里粘数据时，就该把那个系统接进来。</p>
     </section>
 
     <section>
-      <title>一条过时的常识：MCP 不再是上下文大户</title>
-      <p>"能用 CLI 或 skill 解决的就别上 MCP，因为它占上下文"——这条判据曾经成立，<b>现在不成立了</b>。官方现行文档说明：<b>tool search 默认开启</b>，MCP 工具定义被<b>延迟加载</b>，会话开始只载入工具名与服务器说明，因此"增加 MCP 服务器对上下文窗口影响甚微"；没有固定的每服务器工具数上限，实际约束是上下文预算本身。</p>
-      <p>所以选 MCP 的理由回到它本来的定位：<b>当你发现自己在从另一个系统往对话里粘数据时</b>（工单、监控面板、数据库），就该把那个系统接进来，让模型直接读写，而不是靠粘贴。上下文成本不再是反对理由。</p>
-      <note type="caution">这类"曾经对、现在错"的判据最危险——它听起来仍然合理，且没有任何报错提醒你它过期了。本篇 volatile，复核时优先重查这一节。</note>
+      <title>反例</title>
+      <ul>
+        <li>把"禁止破坏性命令"写进规则。规则是引导，长上下文里模型可能不遵循；这类事属于 hook 的阻断。</li>
+        <li>因"占上下文"拒用 MCP。这条判据在 tool search 之前成立，现在依据已消失，但它听起来仍然合理，也没有报错提醒它过期。</li>
+      </ul>
     </section>
 
     <section>
-      <title>与分层判据的接口</title>
-      <p>本篇选的是<b>机制</b>，<xref href="agent-rule-loading.dita">三层加载判据</xref>选的是<b>规则装在哪一层</b>，两者串起来是一条完整决策：先问"要不要确定性"（本篇），落到非确定性的三种后，再问"它为什么进入上下文"（分层判据）。而无论选哪种，常驻的部分都从上下文预算里扣——见 <xref href="agent-context-budget.dita">上下文是预算，不是容器</xref>。</p>
+      <title>边界</title>
+      <p>本篇只选机制。选定规则后装进哪一层，见<xref href="agent-rule-loading.dita">三层加载判据</xref>；常驻内容的上下文账，见<xref href="agent-context-budget.dita">上下文预算</xref>；hook 的具体事件与语法，见<xref href="claude-code-hooks.dita">hook 速查</xref>。</p>
     </section>
 
     <section>
       <title>来源</title>
-      <p><b>已核对</b>（2026-08-15）：hook 一路取自 <xref href="https://code.claude.com/docs/en/hooks" scope="external">Claude Code, Hooks</xref>——确定性策略执行的定位、<codeph>PreToolUse</codeph> 可阻断、<codeph>PermissionRequest</codeph> 可裁决、<codeph>UserPromptSubmit</codeph> 可驳回、三十余事件的频率分层、事件→matcher→if→处理器→裁决的解析链、以 <codeph>permissionDecision</codeph> 输出表达裁决而非退出码。MCP 一路取自 <xref href="https://code.claude.com/docs/en/mcp" scope="external">Claude Code, MCP</xref>——tool search 默认开启与延迟加载、"增加服务器对上下文影响甚微"、无固定每服务器工具上限、"发现自己在粘贴数据时就该接入"的适用判据。规则的"是上下文而非强制配置"取自 <xref href="https://code.claude.com/docs/en/memory" scope="external">Claude Code, Memory</xref>；skill 按描述相关性触发取自 <xref href="https://code.claude.com/docs/en/skills" scope="external">Claude Code, Skills</xref>。</p>
-      <p><b>判断与通用实践</b>："谁触发 × 能否阻断"这个二轴框架、以及"漏了会出事 → hook"的判据，是本篇的归纳，官方未作此对照。</p>
-      <p><b>未采信的旧结论</b>（矿场只作选题参考，不作事实来源）：矿场 MCP 篇的"能用 CLI 或 Skill 解决的不要上 MCP——它占上下文"已被现行文档推翻，见上文；矿场 Hooks 篇引用的"某测试发现 56% 的 skill 调用被跳过"未能在权威源核实，故不写入——skill 触发不确定是事实，但具体比例需要可核对的出处。</p>
+      <p><b>事实</b>：hook 的定位与可阻断，见 <xref href="https://code.claude.com/docs/en/hooks" scope="external">Claude Code, Hooks</xref>；CLAUDE.md 是上下文而非强制配置，见 <xref href="https://code.claude.com/docs/en/memory" scope="external">Memory</xref>；tool search 默认开启、延迟加载、影响甚微，见 <xref href="https://code.claude.com/docs/en/mcp" scope="external">MCP</xref>；skill 按描述相关性触发，见 <xref href="https://code.claude.com/docs/en/skills" scope="external">Skills</xref>。核对日期见 prolog。</p>
+      <p><b>判断</b>："谁触发 × 能否阻断"的二轴框架，与"漏了会出事则 hook"的判据，是本库归纳，可被反驳。</p>
     </section>
   </conbody>
 </concept>
