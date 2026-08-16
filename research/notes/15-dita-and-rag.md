@@ -1,5 +1,7 @@
 # 15 · DITA 与检索增强生成（RAG）
 
+> **已迁移（2026-08-16）**：正本已迁 kb（`kb/topics/dita/practice/dita-rag-fit.dita` ← §1 + §5 + §6；`kb/topics/dita/practice/rag-parsed-content.dita` ← §2；`kb/topics/dita/practice/rag-chunking-metadata.dita` ← §3 + §4；不迁小节：无），本文冻结为调研档案，不再更新。
+
 > 论证篇，与 [12](12-philosophy-and-principles.md) 同类：**全部内容为从前序各篇已核对机制出发的分析**。这个领域没有权威文献可核对，凡是给不出机制依据的话题（嵌入模型选型、切块参数调优）本篇一概不碰。
 >
 > 结论先行：**DITA 对 RAG 的价值，是它三十年前为"复用"付出的成本恰好换来了 RAG 需要的东西 —— 语义边界和结构化元数据。** 反过来不成立：为了 RAG 而上 DITA，不划算（第 5 节）。

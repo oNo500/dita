@@ -1,5 +1,7 @@
 # 13 · 翻译与本地化
 
+> **已迁移（2026-08-16）**：正本已迁 kb（`kb/topics/dita/practice/translation-modularity.dita` ← §1 + §3；`kb/topics/dita/practice/localization-attributes.dita` ← §2；`kb/topics/dita/practice/translation-antipatterns.dita` ← §4 + §5；不迁小节：无），本文冻结为调研档案，不再更新。
+
 > [08](08-practical-advice.md) 的选型表里，"多语言翻译"是 DITA 的核心收益项 —— 本篇交代这个论断的机制依据，以及复用机制在翻译场景下的反面。
 
 ---
