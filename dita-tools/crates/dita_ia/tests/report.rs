@@ -342,34 +342,39 @@ fn r17_an_unregistered_domain_value_errors_with_a_fix_hint() {
 }
 
 #[test]
-fn r17_empty_subject_leaves_lists_registered_but_unclaimed_leaves() {
+fn r17_empty_leaves_by_branch_counts_unclaimed_leaves_per_branch() {
     // the reverse report: demo-a, empty-a and nomap are registered leaves no
-    // topic ever names as domain — the tree's empty leaves. demo-b1 is a leaf
-    // too but nested.dita claims it, so it must not appear; demo and empty
-    // are registered but are not leaves (they have children), so they must
-    // not appear either even though nothing claims them directly.
+    // topic ever names as domain — the tree's empty leaves, counted per
+    // top-level branch. demo-b1 is a leaf too but nested.dita claims it, so
+    // "demo" must count only demo-a (1), not demo-b1 as well (would be 2).
+    // "nomap" has no children of its own, so it is simultaneously a
+    // top-level branch and the one leaf under it.
     let report = report();
-    let leaves = &report.empty_subject_leaves;
-    for expected in ["demo-a", "empty-a", "nomap"] {
-        assert!(
-            leaves.iter().any(|k| k == expected),
-            "{expected} is a registered, unclaimed leaf and must be listed: {leaves:?}"
-        );
-    }
-    assert!(
-        !leaves.iter().any(|k| k == "demo-b1"),
-        "demo-b1 is claimed by nested.dita and must not appear: {leaves:?}"
+    let by_branch = &report.empty_leaves_by_branch;
+    let count = |branch: &str| by_branch.iter().find(|(b, _)| b == branch).map(|(_, n)| *n);
+    assert_eq!(
+        count("demo"),
+        Some(1),
+        "demo-b1 is claimed, so only demo-a should count: {by_branch:?}"
     );
-    assert!(
-        !leaves.iter().any(|k| k == "demo" || k == "empty"),
-        "non-leaf keys must not appear even when nothing claims them directly: {leaves:?}"
+    assert_eq!(
+        count("empty"),
+        Some(1),
+        "empty-a is unclaimed: {by_branch:?}"
     );
+    assert_eq!(
+        count("nomap"),
+        Some(1),
+        "nomap is a leaf and a branch at once: {by_branch:?}"
+    );
+    let total: usize = by_branch.iter().map(|(_, n)| n).sum();
+    assert_eq!(total, 3);
 }
 
 #[test]
-fn r17_empty_subject_leaves_is_empty_without_a_vocabulary() {
+fn r17_empty_leaves_by_branch_is_empty_without_a_vocabulary() {
     // no vocabulary means no "ought" to compare against — silence, not a
     // false claim that everything is covered.
     let report = report_without_vocab();
-    assert!(report.empty_subject_leaves.is_empty());
+    assert!(report.empty_leaves_by_branch.is_empty());
 }

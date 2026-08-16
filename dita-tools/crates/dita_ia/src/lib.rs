@@ -47,9 +47,11 @@ pub struct IaReport {
     pub value_usage: Vec<ValueUsage>,
     /// The subject tree with content hung on it — the view itself.
     pub skeleton: Vec<Node>,
-    /// R17's reverse report: leaf subject keys the scheme registers that no
-    /// topic names as its domain — the tree's empty leaves, sorted by key.
-    pub empty_subject_leaves: Vec<String>,
+    /// R17's reverse report: registered leaves no topic names as its domain —
+    /// the tree's empty leaves — counted per top-level branch and sorted by
+    /// count descending (ties broken by branch key). A `--details`-only view:
+    /// the flat key list is too long for the default summary.
+    pub empty_leaves_by_branch: Vec<(String, usize)>,
 }
 
 /// Build the IA report.
@@ -133,10 +135,10 @@ pub fn build_report(
     } = read_governance(vocab, &topics, &branch_map, &branch_stats, &mut diagnostics)?;
 
     let mut skeleton = Vec::new();
-    let mut empty_subject_leaves = Vec::new();
+    let mut empty_leaves = Vec::new();
     if let Some(path) = vocab.filter(|p| p.exists()) {
         let (vocabulary, _) = dita_vocab::parse_vocab(path)?;
-        empty_subject_leaves = empty_leaves(&vocabulary, &topics);
+        empty_leaves = empty_leaves_by_branch(&vocabulary, &topics);
         let benchmarks: std::collections::BTreeMap<String, String> =
             governance::benchmarks(&vocabulary)
                 .iter()
@@ -179,7 +181,7 @@ pub fn build_report(
         benchmarks,
         value_usage,
         skeleton,
-        empty_subject_leaves,
+        empty_leaves_by_branch: empty_leaves,
     })
 }
 
@@ -280,24 +282,44 @@ fn check_values(vocab: &dita_vocab::Vocabulary, topics: &[TopicMeta], diag: &mut
 }
 
 /// R17's reverse report: leaf subject keys the scheme registers but no topic
-/// has claimed as its domain — the taxonomy's empty leaves.
+/// has claimed as its domain — the taxonomy's empty leaves — counted per
+/// top-level branch (`lang`, `web`, `ai`, …) rather than listed individually:
+/// a flat key list runs into the dozens for a taxonomy this size, while the
+/// branch a gap sits under is what a planner actually acts on.
 ///
 /// Only leaves, not every empty node: an interior key such as `writing` is
-/// empty exactly when every one of its children is, so listing it too would
-/// just repeat the same gap under two names. The leaves are where a planner
-/// decides whether to write, retire, or fold a key.
-fn empty_leaves(vocab: &dita_vocab::Vocabulary, topics: &[TopicMeta]) -> Vec<String> {
+/// empty exactly when every one of its children is, so counting it too would
+/// double the same gap under two names.
+fn empty_leaves_by_branch(
+    vocab: &dita_vocab::Vocabulary,
+    topics: &[TopicMeta],
+) -> Vec<(String, usize)> {
     let Some(subject) = vocab.subject("subject") else {
         return Vec::new();
     };
     let claimed: HashSet<&str> = topics.iter().filter_map(|t| t.domain.as_deref()).collect();
-    let mut out: Vec<String> = subject
-        .leaf_keys()
-        .into_iter()
-        .filter(|key| !claimed.contains(key.as_str()))
+    let mut out: Vec<(String, usize)> = subject
+        .children
+        .iter()
+        .filter_map(|branch| {
+            let count = count_empty_leaves(branch, &claimed);
+            (count > 0).then(|| (branch.keys.clone(), count))
+        })
         .collect();
-    out.sort();
+    out.sort_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.cmp(&b.0)));
     out
+}
+
+/// Empty leaves in this subject's own subtree, recursively.
+fn count_empty_leaves(subject: &dita_vocab::Subject, claimed: &HashSet<&str>) -> usize {
+    if subject.children.is_empty() {
+        return usize::from(!claimed.contains(subject.keys.as_str()));
+    }
+    subject
+        .children
+        .iter()
+        .map(|child| count_empty_leaves(child, claimed))
+        .sum()
 }
 
 /// A technology domain spread across several branches usually means a topic is

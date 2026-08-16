@@ -40,7 +40,7 @@ pub fn print_report(report: &IaReport, details: bool, depth: Option<usize>) {
         );
     }
 
-    print_exceptions(report);
+    print_exceptions(report, details);
 
     if details {
         print_branches(report);
@@ -193,7 +193,7 @@ fn has_details(report: &IaReport) -> bool {
 }
 
 /// Only what needs acting on, one line each. Silence means nothing is wrong.
-fn print_exceptions(report: &IaReport) {
+fn print_exceptions(report: &IaReport, details: bool) {
     let mut lines = Vec::new();
     if !report.orphans.is_empty() {
         lines.push(format!(
@@ -233,21 +233,19 @@ fn print_exceptions(report: &IaReport) {
             ));
         }
     }
-    // R17 反向报表：已注册但没有 topic 挂靠的 subject key（树的空叶子）
-    if !report.empty_subject_leaves.is_empty() {
-        let keys: Vec<&str> = report
-            .empty_subject_leaves
+    // R17 反向报表：已注册但没有 topic 挂靠的 subject key（树的空叶子）。
+    // 按分支归并，仅 --details 展示——扁平列出个别 key 在这规模的词表下太长，
+    // 分支才是真正拿去决策"下一批写哪里"的粒度。
+    if details && !report.empty_leaves_by_branch.is_empty() {
+        let total: usize = report.empty_leaves_by_branch.iter().map(|(_, n)| n).sum();
+        let groups: Vec<String> = report
+            .empty_leaves_by_branch
             .iter()
-            .map(String::as_str)
+            .map(|(branch, n)| format!("{branch}({n})"))
             .collect();
-        let shown = if keys.len() > 8 {
-            format!("{} …（共 {}）", keys[..8].join("、"), keys.len())
-        } else {
-            keys.join("、")
-        };
         lines.push(format!(
-            "词表空叶子 {} 个（已注册但零 topic 挂靠）：{shown}",
-            keys.len()
+            "词表空叶子（已注册但零 topic 挂靠）合计 {total} 个：{}",
+            groups.join("、")
         ));
     }
     let errs = report.diagnostics.error_count();
