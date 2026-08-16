@@ -17,4 +17,5 @@
   <topicref href="../../../topics/dita/architecture/addressing-modes.dita"/>
   <topicref href="../../../topics/dita/architecture/key-space-model.dita"/>
   <topicref href="../../../topics/dita/architecture/cross-deliverable-addressing.dita"/>
+  <topicref href="../../../topics/dita/architecture/branch-filter-key-space.dita"/>
 </map>
