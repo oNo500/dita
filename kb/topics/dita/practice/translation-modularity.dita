@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/13-translation-and-localization.md §1（为什么模块化能降翻译成本）
+     与 §3（翻译流程的架构位置）。
+     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     术语规则（2026-08-16 用户门反馈后）：conref / keyref / keytext / XLIFF / ITS /
+     TM / CCMS 等一律用英文原名；不为「翻译单元」「交换格式」一类说法造类目名词。
+     volatility=stable 的依据：收益来自 topic 粒度与单源机制，流程分工不随发行版变动。
+     事实纪律：笔记 13 已逐页核对的只有规范翻译一节的构成（三个属性子页），
+     即规范只覆盖源标记一侧；成本构成、XLIFF 流程、目录布局均属判断，
+     已在来源节判断段穷尽列明。 -->
+<concept id="translation-modularity" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="stable"
+         dimension="dim-process dim-interop">
+  <title>DITA 模块化的翻译收益与 XLIFF 流程的架构位置</title>
+  <shortdesc>多语言是 DITA 收益最集中的场景，收益来自三处：改动以 topic 为单位、复用片段只需一份译文、变体在构建时产生而非在译文里复制。翻译的交换与回填不在规范范围内，它接在源标记与各语言构建之间，由工具层承担。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/2.0/dita/archspec/base/translation" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>采用判据把多语言列为倾向使用 DITA 的条件之一，理由通常一句带过：模块化能降翻译成本。这句话不解释成本降在哪里，也不说明翻译这件事在整条链路的哪一段发生。翻开规范同样得不到答案，规范的翻译与本地化一节只定义三个属性，交换格式与译文回填一个字都没有。</p>
+      <p>两个缺口要分别补上。收益的来源决定这条判据在什么条件下成立，流程的位置决定评估工具链时该核对什么。</p>
+    </section>
+
+    <section>
+      <title>背景：翻译成本的构成与三处对应机制</title>
+      <p>翻译支出的大头不是首次翻译，是重复翻译与版本同步。副本制的内容库里，同一段话出现在多处就要各翻一次，源语言改一处就要在多份译文里找回对应位置。DITA 的三个机制分别对应其中一块。</p>
+      <simpletable relcolwidth="1.4* 2.2*">
+        <sthead><stentry>机制</stentry><stentry>省掉的支出</stentry></sthead>
+        <strow>
+          <stentry>topic 是改动与跟踪的单位</stentry>
+          <stentry>改了哪个 topic 只重翻哪个。翻译记忆与内容管理系统按文件跟踪，未改动的 topic 直接沿用旧译文</stentry>
+        </strow>
+        <strow>
+          <stentry><term keyref="term-conref">conref</term>（内容引用）与 <term keyref="term-keyref">keyref</term>（键引用）</stentry>
+          <stentry>被引用的片段只有一份源，也就只需一份译文；副本制下同一段话出现 N 次即翻 N 次、同步 N 次</stentry>
+        </strow>
+        <strow>
+          <stentry>变体在构建时按条件产生</stentry>
+          <stentry>N 个变体乘 M 种语言，副本制要维护 N×M 份内容；单源只维护一份源加 M 份译文</stentry>
+        </strow>
+      </simpletable>
+      <p>三条合起来解释了为什么语言数是收益侧的乘数：固定成本一次付清，每多一种语言，被省掉的重复翻译与同步就多一份。这也是采用判据把多语言与多变体并列的原因，两者在成本模型里占同一个位置。</p>
+    </section>
+
+    <section>
+      <title>分析：流程的位置与四个核对项</title>
+      <p>规范管的是源标记，翻译的交换与回填由工具层承担。典型链路是：源语言写作，冻结版本，按 map 收集 topic 打成翻译包，转为交换格式送出，译文回填成平行的 DITA 文件，各语言各自构建。</p>
+      <p>这条链路上有四处要落实到具体决定。</p>
+      <ul>
+        <li>交换格式不属于 DITA。XLIFF 是业界主流，配合 ITS 规则声明可译性，两者都由翻译管理系统或内容管理系统提供。是否支持、分段质量如何，是评估这类系统时的核对项，不是 DITA 自带的能力。</li>
+        <li>变量文本天然是翻译点。按语言各绑一套 <xmlelement>keytext</xmlelement> 的做法，本质上就是翻译场景的最小形态：key 定义所在的 map 按语言分份，引用它的 topic 一个字都不动。</li>
+        <li>先翻译还是先过滤。默认是全量翻译，一份译文源服务所有变体，译文侧因此保持单源性质。只有按字数计费且变体之间差异极大时才考虑先过滤再翻，代价是译文按变体分裂。</li>
+        <li>文件名与 <xmlatt>id</xmlatt> 不随语言变化。各语言目录平行同构，工具靠路径对应源文与译文。</li>
+      </ul>
+      <codeblock>docs/
+├── zh-CN/topics/install.dita
+├── en-US/topics/install.dita     # 同名同 id，只有内容语言不同
+└── maps/                         # 每语言一份，或共用 map 加按语言分份的 keydef</codeblock>
+      <p>冻结那一步容易被跳过。源在翻译期间继续改动时，译文对应的是哪一版取决于打包时刻，回填之后各语言的内容版本互不相同，而这类偏差不会有任何工具报错。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>模块化降低翻译成本的说法可以拆成一句可验证的话：省下的是重复翻译与版本同步，省下的量与语言数、变体数成正比。内容只有一种语言、或译文本来就按变体各自维护时，这条收益不成立。</p>
+      <p>流程一侧的判断同样明确。规范只到源标记为止，交换、分段、译文回填、翻译记忆的复用粒度全部由工具决定，因此选型时要核对的是这些工具是否理解 DITA 的结构，而不是 DITA 是否支持翻译。</p>
+      <p>本篇的流程与目录布局来自行业通行做法，规范未作规定。用于合同或工具选型之前，以候选系统的文档为准逐项确认。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：规范的翻译与本地化一节由 <xmlatt>xml:lang</xmlatt>、<xmlatt>dir</xmlatt>、<xmlatt>translate</xmlatt> 三个属性子页构成，即规范覆盖的是源标记一侧，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/translation" scope="external">翻译与本地化</xref>，已逐页核对。</p>
+      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中翻译支出以重复翻译与同步为主、翻译记忆与内容管理系统按文件跟踪、XLIFF 与 ITS 的工具层分工、先翻译还是先过滤的取舍、各语言目录平行同构，来自行业通行做法，未逐页核对；三个机制各对应一块支出的归纳、语言数作为收益乘数的解释、四个核对项的选取、冻结源版本的必要性，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>
