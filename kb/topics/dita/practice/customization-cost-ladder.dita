@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/08-practical-advice.md §二次开发的成本阶梯。
+     题材 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
+     术语规则（2026-08-16 用户门反馈后）：outputclass / plugin / XSLT / constraint /
+     specialization 等一律用英文原名，中文解释首现随行给一次；阶梯各级用平实短语命名，
+     不造类目名词。
+     volatility=stable 的依据：六级的次序出自各机制牵动的产物范围，不随发行版变动。
+     prolog source 用规范总入口（元数据非事实断言，照 conref-pull-push 的 2026-08-16 裁定）：
+     笔记 08 逐页核对过的条目只覆盖版本状态与 @keys 值类型，与本篇内容无交集，
+     故来源节事实段为空并写明原因（照 writing-style「事实为空说明它还没有外部支撑」）。 -->
+<concept id="customization-cost-ladder" xml:lang="zh-CN"
+         outputclass="best-practice"
+         maturity="draft" volatility="stable"
+         dimension="dim-decision dim-comparison">
+  <title>DITA 二次开发的成本阶梯：从 @outputclass 到结构专门化</title>
+  <shortdesc>改造 DITA 有六级手段，从只改外观的 <xmlatt>outputclass</xmlatt> 加样式，到自造 topic 类型的结构专门化。六级的成本差一个数量级，选级的判据只有一条：能用前面的就不用后面的。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/specifications" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>场景</title>
+      <p>默认输出不合要求，或内容里有一类信息想让机器认出来。DITA 为此开了多个口子，它们看起来平行，实则处在不同的层：有的只改渲染，有的改内容模型，有的要新建一整套语法文件。从最贵的一级起步是常见的开局，因为它在文档里显得最正式，而代价在半年后才显现。</p>
+    </section>
+
+    <section>
+      <title>做法</title>
+      <p>按下表从上往下找第一个够用的手段，找到就停。</p>
+      <simpletable relcolwidth="0.4* 1.6* 2*">
+        <sthead><stentry>级</stentry><stentry>手段</stentry><stentry>动到哪一层</stentry></sthead>
+        <strow>
+          <stentry>一</stentry>
+          <stentry><xmlatt>outputclass</xmlatt> 加样式</stentry>
+          <stentry>只改外观，语法文件零改动</stentry>
+        </strow>
+        <strow>
+          <stentry>二</stentry>
+          <stentry>DITA-OT 的 <term keyref="term-plugin">plugin</term>（插件），以 XSLT 覆盖模板</stentry>
+          <stentry>改输出逻辑，不动内容模型</stentry>
+        </strow>
+        <strow>
+          <stentry>三</stentry>
+          <stentry>constraint（约束）</stentry>
+          <stentry>收紧内容模型，禁用不该用的元素</stentry>
+        </strow>
+        <strow>
+          <stentry>四</stentry>
+          <stentry>属性专门化</stentry>
+          <stentry>加一个条件化维度</stentry>
+        </strow>
+        <strow>
+          <stentry>五</stentry>
+          <stentry>域专门化</stentry>
+          <stentry>加跨类型可用的语义标记</stentry>
+        </strow>
+        <strow>
+          <stentry>六</stentry>
+          <stentry>结构专门化</stentry>
+          <stentry>造新的 topic 类型，成本最高</stentry>
+        </strow>
+      </simpletable>
+      <p>第六级的真实成本是一份清单，而不是一次改动：一套 RNG 或 DTD 模块、一个提供 catalog 的 plugin、编辑器一侧的配置、各输出格式的 XSLT 模板、团队培训，以及规范演进时的逐项跟进。<b>只有当语义校验或语义驱动的自动化能带来明确回报时，这份清单才划算</b>。</p>
+    </section>
+
+    <section>
+      <title>理由</title>
+      <p>次序不是按难度排的，是按牵动的产物范围排的。前两级的产物只有样式与模板，删掉即回到默认状态；第三级起改的是内容模型，已写的内容随之受约束；第四级起新增了词汇，泛化、条件过滤、编辑器补全、渲染模板都要跟着补齐。范围一旦扩大就很难缩回去，因为内容已经按新词汇写完了。</p>
+      <p>还有一层理由在回报侧。前两级解决的是「看起来不对」，这类问题的回报当场可见；第五、六级解决的是「机器认不出来」，回报要等到有程序真的去消费这层语义时才出现。没有那个程序，新造的元素与用 <xmlatt>outputclass</xmlatt> 标一下的差别只在文档的正式程度上。</p>
+    </section>
+
+    <section>
+      <title>反例</title>
+      <ul>
+        <li>为了让某类段落显示成别的样子而造新 topic 类型。这是把第一级的问题交给第六级解决，代价是从此维护一套自己的语法文件。</li>
+        <li>用结构专门化表达只有渲染差别的区分。判据是问一句：除了显示，还有谁会读这个区分。答不上来就停在第一级。</li>
+        <li>跳过 constraint 直接做专门化。要禁用几个元素时，收紧内容模型的成本远低于新造词汇，而两者对写作端的效果一致。</li>
+        <li>专门化完成而渲染模板没跟上。新元素落到默认模板里，输出与泛化后的基类元素没有区别，这层语义在交付物上不可见。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>边界</title>
+      <p>本篇只排成本次序，不含各级的做法。第二级的落地见<xref href="../toolchain/plugin-extension-points.dita">DITA-OT plugin 的扩展点</xref>与<xref href="../toolchain/xslt-override.dita">XSLT 模板覆盖</xref>；第三级至第六级的机制、写法与一致性要求属架构层，另篇处置。</p>
+      <p>成本高低是相对判断，不是绝对量。已有成熟 plugin 与专门化经验的团队，第五级的边际成本会明显低于本表的排序所暗示的差距。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：本篇无转自权威源的内容。笔记 08 逐页核对过的条目只覆盖版本状态与 <xmlatt>keys</xmlatt> 的值类型，与成本阶梯无交集。</p>
+      <p><b>判断</b>：正文全部陈述均属判断，可被反驳。其中六级手段各自动到哪一层、结构专门化的成本清单，来自通用 DITA 实践，未逐页核对；按牵动的产物范围解释次序、回报出现时机的分层、四条反例与「除了显示还有谁会读这个区分」的判据，为本库归纳。规范的配置与专门化一章尚未逐页核对，六级的名称与规范用语可能有出入。</p>
+    </section>
+  </conbody>
+</concept>
