@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/13-translation-and-localization.md §2（三个本地化属性）。
+     题材 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
+     术语规则（2026-08-16 用户门反馈后）：属性名一律用英文原名并以 xmlatt 标记；
+     BiDi、XLIFF 等保留原名，不译成自造中文词。
+     volatility=stable 的依据：三个属性的取值与规则由规范定义。
+     事实纪律：本篇四组条目全部出自笔记 13 的已逐页核对清单（翻译一节的构成、
+     xml:lang、dir、translate 三页），属规范转述；判断只有「每个 topic 文件显式声明」
+     一条实践建议与元素分类的举例，已在来源节判断段列明。 -->
+<reference id="localization-attributes" xml:lang="zh-CN"
+           outputclass="cheatsheet"
+           maturity="draft" volatility="stable"
+           dimension="dim-reference dim-mechanism">
+  <title>DITA 本地化属性速查：@xml:lang、@dir 与 @translate</title>
+  <shortdesc>规范的翻译与本地化一节只定义三个属性：内容是什么语言、按哪个方向排、该不该翻。三者的取值、继承规则与默认值列在下面，其中 <xmlatt>xml:lang</xmlatt> 在 <xmlelement>topicref</xmlelement> 上的作用范围一条最容易误用。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/2.0/dita/archspec/base/translation" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <refbody>
+    <section>
+      <title>定位</title>
+      <p>本篇只列这三个属性的规则。翻译流程接在哪一段、模块化省下哪块支出见<xref href="translation-modularity.dita">DITA 模块化的翻译收益与 XLIFF 流程的架构位置</xref>；复用机制在翻译下的反模式见<xref href="translation-antipatterns.dita">DITA 复用机制在翻译下的反模式</xref>。</p>
+    </section>
+
+    <section>
+      <title>三个属性</title>
+      <simpletable relcolwidth="1* 1.5* 2.4*">
+        <sthead><stentry>属性</stentry><stentry>取值</stentry><stentry>规则</stentry></sthead>
+        <strow>
+          <stentry><xmlatt>xml:lang</xmlatt></stentry>
+          <stentry>语言与区域标识，如 <codeph>zh-CN</codeph>、<codeph>en-US</codeph></stentry>
+          <stentry>沿包含层级为未指定的下层元素供值，下层写了即覆盖；未指定时由处理器自定默认值</stentry>
+        </strow>
+        <strow>
+          <stentry><xmlatt>dir</xmlatt></stentry>
+          <stentry><codeph>ltr</codeph>、<codeph>rtl</codeph>、<codeph>lro</codeph>、<codeph>rlo</codeph>、<codeph>-dita-use-conref-target</codeph></stentry>
+          <stentry>前两值声明书写方向；<codeph>lro</codeph> 与 <codeph>rlo</codeph> 是对 Unicode 双向算法的覆盖，强制左到右或右到左</stentry>
+        </strow>
+        <strow>
+          <stentry><xmlatt>translate</xmlatt></stentry>
+          <stentry><codeph>yes</codeph>、<codeph>no</codeph>、<codeph>-dita-use-conref-target</codeph></stentry>
+          <stentry>多数元素没有默认值；为承载非发布内容而设的元素默认取 <codeph>no</codeph></stentry>
+        </strow>
+      </simpletable>
+    </section>
+
+    <section>
+      <title>作用范围的两条边界</title>
+      <p>在 <xmlelement>topicref</xmlelement> 上指定的 <xmlatt>xml:lang</xmlatt> 不作用于被引用的资源。map 不替 topic 声明语言，每个 topic 文件在根元素上自己声明。</p>
+      <codeblock>&lt;topic id="intro" xml:lang="zh-CN"&gt;
+  …
+&lt;/topic&gt;</codeblock>
+      <p>处理器若完整支持 Unicode 双向算法，在最高层元素上设对 <xmlatt>xml:lang</xmlatt> 即可正确渲染双向文本，不必逐处写 <xmlatt>dir</xmlatt>；覆盖值留给算法判断不符预期的局部，例如混排的代号与号码。</p>
+    </section>
+
+    <section>
+      <title>可译性的两处出处</title>
+      <p>默认取 <codeph>no</codeph> 的是那些为承载非发布内容而设计的元素，草稿批注与待清理标记属于此类。需要成段排除翻译时显式写出该属性。</p>
+      <p>规范另附一个非规范性附录，逐元素给出译者建议：哪些内容不宜翻译，哪些元素的属性值可能需要本地化。给翻译供应商做 DITA 配置时，这份附录是底稿。</p>
+      <p>本篇未逐条核对该附录的具体内容，仅确认其存在与定位。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：翻译与本地化一节由三个属性子页构成，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/translation" scope="external">翻译与本地化</xref>；<xmlatt>xml:lang</xmlatt> 指定内容的语言与区域、沿包含层级为未指定的下层元素供值且下层可覆盖、未指定时处理器自定默认、在 <xmlelement>topicref</xmlelement> 上指定时不作用于被引用的资源，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/xmllang" scope="external">xml:lang 属性</xref>；<xmlatt>dir</xmlatt> 的五个取值、<codeph>lro</codeph> 与 <codeph>rlo</codeph> 为对 Unicode 双向算法的覆盖、完整支持该算法的处理器在最高层设 <xmlatt>xml:lang</xmlatt> 即可，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/diratt" scope="external">dir 属性</xref>；<xmlatt>translate</xmlatt> 的三个取值、多数元素无默认、面向非发布内容的元素默认取 <codeph>no</codeph>、存在逐元素译者建议的非规范性附录，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/the-translate-attribute" scope="external">translate 属性</xref>。四处均已逐页核对。</p>
+      <p><b>判断</b>：每个 topic 文件在根元素显式声明 <xmlatt>xml:lang</xmlatt>、覆盖值留给双向算法判断不符预期的局部、非规范性附录可作翻译供应商配置的底稿，为本库归纳的实践建议。该附录的具体内容与 <xmlatt>translate</xmlatt> 的继承行为未逐条核对，本篇不作断言。</p>
+    </section>
+  </refbody>
+</reference>
