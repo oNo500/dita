@@ -8,7 +8,7 @@
      DITA topic 无命名空间，context 直接用元素名。写法用 XPath1 子集，便于自带处理器执行。
      决策依据：dita2 cases/知识体系重塑/schematron-设计.md（R1–R10 已定案）。 -->
 <schema xmlns="http://purl.oclc.org/dsdl/schematron">
-  <title>KB 业务规则 R1-R16</title>
+  <title>KB 业务规则 R1-R17</title>
 
   <pattern id="R1-shortdesc">
     <rule context="concept | reference | task | troubleshooting">
@@ -127,6 +127,17 @@
         合计不得超过 8 处——超过即说明判据与配置并存，按 phase3-review 约定 3 拆成
         concept（判据）＋ reference（配置）。xmlelement/xmlatt/filepath 不计
         （前两者是本库讲 DITA 写作时的主题词汇，后者多为示意）。由 dita-tools lint 执行。</assert>
+    </rule>
+  </pattern>
+
+  <pattern id="R17-domain-registered">
+    <rule context="*[prolog/data[@name='domain']]">
+      <assert test="true()"
+        >R17（2026-08-16 定）：prolog data name="domain" 的 value 必须是 subjectScheme
+        主题树里已注册的 subject key——domain 是全库唯一未受控的元数据字段（enumerationdef
+        绑不了 data 元素，值域没有别处能管），已实际碎化出一篇一域的孤儿值。未注册的值报
+        error，并提示在 subjectScheme 注册该键或改用已注册值；顺带反向报表：已注册但零
+        topic 挂靠的 subject key（树的空叶子），归入 ia「需要处理」段。由 dita-tools ia 执行。</assert>
     </rule>
   </pattern>
 

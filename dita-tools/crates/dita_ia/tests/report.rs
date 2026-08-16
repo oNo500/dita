@@ -295,3 +295,86 @@ fn coverage_rolls_up_the_subject_tree() {
     // bogus-domain 的 domain 不是词表键，不计入任何域
     assert_eq!(demo.topics, 4, "rolled-up topics are counted too");
 }
+
+// ── R17: domain 必须是 subjectScheme 已注册的 subject key ──────────────────
+
+#[test]
+fn r17_a_registered_domain_value_is_not_flagged() {
+    // good.dita / landscape.dita declare domain="demo", and nested.dita
+    // declares the grandchild key "demo-b1" — both are registered subject
+    // keys, so none of these three files should ever carry an R17 error.
+    // (bogus-domain.dita is the deliberate counter-example, covered below.)
+    let report = report();
+    let r17_paths: Vec<String> = report
+        .diagnostics
+        .items
+        .iter()
+        .filter(|d| d.is_error() && d.message().contains("R17"))
+        .map(|d| d.path().display().to_string())
+        .collect();
+    for clean in ["good.dita", "landscape.dita", "nested.dita"] {
+        assert!(
+            !r17_paths.iter().any(|p| p.ends_with(clean)),
+            "{clean} declares a registered domain and must not raise R17: {r17_paths:?}"
+        );
+    }
+}
+
+#[test]
+fn r17_an_unregistered_domain_value_errors_with_a_fix_hint() {
+    // bogus-domain.dita declares domain="not-a-subject-key", which names no
+    // subjectdef anywhere in the scheme. The message must name the offending
+    // value and point at the fix (register it, or use a registered value) —
+    // a bare "illegal" tells the author nothing about what to do next.
+    let report = report();
+    let message = report
+        .diagnostics
+        .items
+        .iter()
+        .find(|d| d.is_error() && d.message().contains("not-a-subject-key"))
+        .map(dita_diagnostics::Diagnostic::message)
+        .expect("bogus domain must be reported");
+    assert!(message.contains("R17"), "message must cite R17: {message}");
+    assert!(
+        message.contains("注册"),
+        "message must hint at registering the key or using a registered one: {message}"
+    );
+}
+
+#[test]
+fn r17_empty_leaves_by_branch_counts_unclaimed_leaves_per_branch() {
+    // the reverse report: demo-a, empty-a and nomap are registered leaves no
+    // topic ever names as domain — the tree's empty leaves, counted per
+    // top-level branch. demo-b1 is a leaf too but nested.dita claims it, so
+    // "demo" must count only demo-a (1), not demo-b1 as well (would be 2).
+    // "nomap" has no children of its own, so it is simultaneously a
+    // top-level branch and the one leaf under it.
+    let report = report();
+    let by_branch = &report.empty_leaves_by_branch;
+    let count = |branch: &str| by_branch.iter().find(|(b, _)| b == branch).map(|(_, n)| *n);
+    assert_eq!(
+        count("demo"),
+        Some(1),
+        "demo-b1 is claimed, so only demo-a should count: {by_branch:?}"
+    );
+    assert_eq!(
+        count("empty"),
+        Some(1),
+        "empty-a is unclaimed: {by_branch:?}"
+    );
+    assert_eq!(
+        count("nomap"),
+        Some(1),
+        "nomap is a leaf and a branch at once: {by_branch:?}"
+    );
+    let total: usize = by_branch.iter().map(|(_, n)| n).sum();
+    assert_eq!(total, 3);
+}
+
+#[test]
+fn r17_empty_leaves_by_branch_is_empty_without_a_vocabulary() {
+    // no vocabulary means no "ought" to compare against — silence, not a
+    // false claim that everything is covered.
+    let report = report_without_vocab();
+    assert!(report.empty_leaves_by_branch.is_empty());
+}
