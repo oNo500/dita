@@ -12,7 +12,7 @@
          maturity="draft" volatility="volatile"
          dimension="dim-ecosystem dim-decision">
   <title>DITA 编辑器与 PDF 输出选型：Oxygen、CCMS 与 XSL-FO</title>
-  <shortdesc>2.0 期间的工具选择受同一条约束支配：规范之外的每一环，支持程度都由厂商而非规范决定。编辑器按团队构成选，PDF 按团队已有的排版技能选，两处都优先留在自己能控制的那一段工具链上。</shortdesc>
+  <shortdesc>2.0 期间的工具选择受同一条约束支配：规范之外的每一环，支持程度都由厂商而非规范决定。编辑器按团队构成选，PDF 按团队已有的排版经验选，两处都优先留在自己能控制的那一段工具链上。</shortdesc>
   <prolog>
     <source href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external"/>
     <data name="domain" value="dita"/>
@@ -47,7 +47,7 @@
         </strow>
       </simpletable>
       <p>判据按团队构成落位：只有工程师写文档，VS Code 足够；有专职技术写作团队，Oxygen 合适；上百人协作且涉及多语言与合规审计，才需要 CCMS。</p>
-      <p>PDF 按已有的排版技能选。DITA-OT 默认的 pdf transtype（输出类型）走 Apache FOP，即 XSL-FO 一路，中文排版效果一般且字体配置繁琐。三条路线的取舍如下。</p>
+      <p>PDF 按已有的排版经验选。DITA-OT 默认的 pdf transtype（输出类型）走 Apache FOP，即 XSL-FO 一路，中文排版效果一般且字体配置繁琐。三条路线的取舍如下。</p>
       <ul>
         <li>FOP 加自配中文字体：免费，须编写字体注册配置，排版效果有限。</li>
         <li>商业 FO 引擎，如 Antenna House 或 RenderX XEP：排版质量高，DITA-OT 有对接。</li>
@@ -59,7 +59,7 @@
     <section>
       <title>理由</title>
       <p>两处选择服从同一条判据：把不由自己决定的依赖降到最少。<b>DITA-OT 加文本编辑器这条组合，2.0 支持进度由开源实现与本机版本决定，升级时机自己掌握</b>；商业编辑器与内容管理系统的支持进度由厂商排期决定，内容已经投入之后再发现某个特性不支持，退路很窄。</p>
-      <p>PDF 一路的理由同构。XSL-FO 是一套独立的排版语言，团队若没有这项技能，每次样式调整都要先补技能再动手；而 CSS 排版的技能在多数团队里已经存在，从 HTML 出 PDF 把排版问题移到团队已有能力覆盖的范围内。</p>
+      <p>PDF 一路的理由同构。XSL-FO 是一套独立的排版语言，团队若不具备这项经验，每次样式调整都要先补上再动手；而 CSS 排版的经验在多数团队里已经具备，从 HTML 出 PDF 把排版问题移到团队已有能力覆盖的范围内。</p>
     </section>
 
     <section>
