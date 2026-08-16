@@ -8,7 +8,7 @@
          outputclass="tech-landscape"
          maturity="curated" volatility="volatile">
   <title>Coding Agents 领域全景</title>
-  <shortdesc>agent CLI 工具（<term keyref="term-claude-code">Claude Code</term> / <term keyref="term-codex">Codex</term> / <term keyref="term-antigravity">Antigravity</term>）该从哪些维度理解——本域完整维度清单与当前覆盖状态。二十个维度已覆盖八个，其余为盲区；全景先立、内容按 volatile 优先逐篇填。</shortdesc>
+  <shortdesc>agent CLI 工具（<term keyref="term-claude-code">Claude Code</term> / <term keyref="term-codex">Codex</term> / <term keyref="term-antigravity">Antigravity</term>）该从哪些维度理解——本域完整维度清单与当前覆盖状态。二十个维度已覆盖九个，其余为盲区；全景先立、内容按 volatile 优先逐篇填。</shortdesc>
   <prolog>
     <source href="https://code.claude.com/docs/" scope="external"/>
     <data name="domain" value="coding-agents"/>
@@ -49,7 +49,7 @@
         <strow><stentry>加载机制（dim-mechanism）</stentry><stentry>规则 / skill / hook 何时进上下文、三层加载语义</stentry><stentry>已覆盖：agent-rule-loading、agent-context-verification</stentry></strow>
         <strow><stentry>选层判据（dim-decision）</stentry><stentry>一条内容装进哪层、编排独立成物还是写进正文的取舍</stentry><stentry>已覆盖：agent-rule-loading、agent-skill-orchestration</stentry></strow>
         <strow><stentry>工作方法（dim-method）</stentry><stentry>做事链与查证链、第三方资产验收、收录判据</stentry><stentry>已覆盖：agent-context-verification</stentry></strow>
-        <strow><stentry>选型对比（dim-comparison）</stentry><stentry>Claude Code vs Codex vs Antigravity 及终端工具生态的取舍依据</stentry><stentry>盲区</stentry></strow>
+        <strow><stentry>选型对比（dim-comparison）</stentry><stentry>Claude Code vs Codex vs Antigravity 及终端工具生态的取舍依据</stentry><stentry>已覆盖：coding-agents-comparison（部分：Antigravity 合并语义未核）</stentry></strow>
         <strow><stentry>生态与资产（dim-ecosystem）</stentry><stentry>skills / 插件市场、社区资产的分布与选材门槛</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>版本演进（dim-evolution）</stentry><stentry>changelog 跟读、特性迭代节奏、旧知识的失效周期</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>边界与反模式（dim-boundary-pitfalls）</stentry><stentry>bypass 权限的风险面、不该交给 agent 的操作、常见误用</stentry><stentry>盲区</stentry></strow>
@@ -66,7 +66,7 @@
         <strow><stentry>成本与延迟（dim-cost-latency）</stentry><stentry>模型档位选择、token 预算、缓存与 fast mode 的取舍</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>注入安全（dim-injection-safety）</stentry><stentry>联网 / 读第三方内容时的 prompt 注入面与挡板</stentry><stentry>盲区</stentry></strow>
       </simpletable>
-      <p>当前覆盖度：8 / 20。每重写一篇本域笔记，在其根元素标 <codeph>dimension="dim-…"</codeph>（可多值）并声明 <codeph>domain="coding-agents"</codeph>，此处对应格转为"已覆盖"，<cmdname>dita-tools ia</cmdname> 的覆盖度随之更新。</p>
+      <p>当前覆盖度：9 / 20。每重写一篇本域笔记，在其根元素标 <codeph>dimension="dim-…"</codeph>（可多值）并声明 <codeph>domain="coding-agents"</codeph>，此处对应格转为"已覆盖"，<cmdname>dita-tools ia</cmdname> 的覆盖度随之更新。</p>
     </section>
 
     <section>
