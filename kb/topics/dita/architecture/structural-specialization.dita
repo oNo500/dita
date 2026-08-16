@@ -49,6 +49,7 @@
   &lt;!-- 引入基类的结构模块 referenceMod.rng，不是外壳 reference.rng --&gt;
   &lt;include href="referenceMod.rng"/&gt;
 
+  &lt;!-- apirefbody、endpoint、params 按同一形式各写一组 define，此处从略 --&gt;
   &lt;define name="apiref.content"&gt;
     &lt;ref name="title"/&gt;
     &lt;optional&gt;&lt;ref name="shortdesc"/&gt;&lt;/optional&gt;
