@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/12-philosophy-and-principles.md §六（剥离 DITA 之后剩下什么，八条）
+     与 §七（结论）。题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     ⚠ 事实纪律：源笔记是论证篇而非规范转述。八条原则与结论整体为原笔记与本库的推导，
+     可被反驳；来源节事实段只列这八条各自引用到的三条规范条文出处，
+     判断段如实标注其余归属，不得把推导结论写成规范断言。
+     术语规则：@class / keyref / shell / conref push 等一律用英文原名，
+     中文解释只在首现随行给一次；不自造术语口吻的分类标签。
+     标题规则（2026-08-16 收紧）：名词短语，不带冒号副标题。
+     volatility=stable 的依据：八条原则与具体语法无关，不随发行版变动。 -->
+<concept id="portable-principles" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="stable"
+         dimension="dim-principles dim-criteria"><!-- 与 first-principles 的分界：那篇推 DITA 内的机制，本篇取与语法无关的部分 -->
+  <title>DITA 之外可迁移的 @class 自描述与晚绑定原则</title>
+  <shortdesc>不采用 DITA 的项目仍会遇到同样的约束：复用要求先给东西起名字，可复用性取决于自足性而非尺寸，扩展的语义必须能在数据里检视而不是藏在 schema 里，子类型只能收紧，定制要在升级中存活就只能配置而不修改，而晚绑定每次都以可读性换灵活性。八条原则各自对应 DITA 里的一处机制，也各自在别的系统里出现过。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>DITA 的投资门槛在<xref href="costs-and-legacy.dita">代价</xref>一篇里已经算过：内容规模、变体数、变更频率、语言数四项乘数任一趋近于一，整笔投资即转负。多数项目落在这一侧，因此不会采用它。</p>
+      <p>但推导过程里用到的约束与 XML 无关，也与 OASIS 无关。若某条约束只在 DITA 的语法下成立，它就是实现细节；若它在任何要处理复用、扩展与变体的系统里都成立，它就可以带走。以下八条按后一个判据挑出，判据与挑选均为原笔记与本库所作，可被反驳。</p>
+    </section>
+
+    <section>
+      <title>背景：可迁移的判据</title>
+      <p>一条原则要算可迁移，需要满足两点：它的论证不引用 DITA 的具体语法，且能在 DITA 之外找到独立的对应物。前一点排除掉「<xmlatt>class</xmlatt> 的值写成派生链字符串」这类形态约定，后一点排除掉只在文档场景成立的说法。</p>
+      <p>按这个判据筛过之后剩下的八条，来自<xref href="first-principles.dita">公理推导</xref>的九步与四笔代价，每一条都能追到它在 DITA 里的出处。</p>
+    </section>
+
+    <section>
+      <title>分析：八条原则与它们的对应物</title>
+      <dl>
+        <dlentry>
+          <dt>复用要求身份</dt>
+          <dd>不能复用一个没有名字的东西。任何消除重复的努力，第一步都是给对象起名字。在 DITA 里这是 <xmlatt>id</xmlatt> 与后续的全部寻址机制；在别处这是变量名、函数名、包坐标、主键。</dd>
+        </dlentry>
+        <dlentry>
+          <dt>可复用性的本质是自足性</dt>
+          <dd>拆得小不等于能复用。判据是脱离原语境之后是否仍然正确，而不是块有多大。在 DITA 里这决定了 topic 的边界；在代码里，一个依赖调用方私有状态的小函数同样不可复用。</dd>
+        </dlentry>
+        <dlentry>
+          <dt>约束即价值</dt>
+          <dd>一个格式的能力不只在于允许什么，更在于禁止什么。允许写「如上所述」，就是允许内容被钉死在位置上。在 DITA 里这是 topic 不得假设自己所在位置；在别处这是类型系统、lint 规则与不可变数据结构在做的事。</dd>
+        </dlentry>
+        <dlentry>
+          <dt>扩展的派生链必须能在数据里检视</dt>
+          <dd>若扩展的语义只存在于 schema、文档或口头约定里，接收方就无法安全处理它。自描述的数据强于需要外部知识的数据。在 DITA 里这是 <xmlatt>class</xmlatt>，规范的 specializations 属性一章确认这类属性由 shell 声明的默认值注入、随实例一起携带；在别处这是消息里带类型标签、序列化格式自带模式标识。</dd>
+        </dlentry>
+        <dlentry>
+          <dt>只收紧才能安全降级</dt>
+          <dd>任何子类型设计若允许放宽，就失去了向下兼容的可能，因为还原成基类之后会产出基类不允许的内容。规范的扩展模块一章要求泛化后受影响元素的内容模型必须与原内容模型一致，是这条在 DITA 里的形态；在别处它就是里氏替换原则，以及协议演进中「新字段可选、旧字段不删」这类规约。</dd>
+        </dlentry>
+        <dlentry>
+          <dt>配置与修改是两件事</dt>
+          <dd>想让定制在升级中存活，可靠的办法是从不修改被共享的东西，只组装和配置它。规范的文档类型配置一章把这条写成了硬约束：shell 只装配与配置，不自行定义元素类型。在别处这是不改上游依赖源码而用配置与插件点，是容器镜像的分层，也是覆盖文件优先于就地编辑。</dd>
+        </dlentry>
+        <dlentry>
+          <dt>晚绑定以可读性换灵活性</dt>
+          <dd>这个权衡在配置系统、依赖注入、模板引擎与特性开关里反复出现，每次的形态相同：绑定推迟到运行期或构建期，源码里就读不出最终行为。DITA 把它推到了极致，因此代价在 DITA 上表现得格外清楚。判断某个设计是否值得晚绑定，看的是灵活性的收益能否抵掉读者与维护者的推断成本。</dd>
+        </dlentry>
+        <dlentry>
+          <dt>付出者与受益者错配则推行受阻</dt>
+          <dd>这是社会技术约束而非技术约束，但它比技术约束更常决定成败。推一项规范之前先问付出的人是谁、受益的人是谁；两者不重合时，要么补上激励，要么承认它只能自上而下推行。DITA 的实际口碑是这条的一个样本，代码规范、测试覆盖与安全基线的推行是另一些样本。</dd>
+        </dlentry>
+      </dl>
+    </section>
+
+    <section>
+      <title>结论：公理的两面</title>
+      <p>把八条合起来看，DITA 是把「同一个事实只应存在于一处」这条公理不做妥协地贯彻到散文上的结果。topic、map、key、条件化、<xmlatt>class</xmlatt>、shell、构建流水线都是推论。</p>
+      <p>它的代价来自同一条公理：当事实只存在于一处，任何一处就都不再是完整的真相。收益与代价不是可以分别取舍的两项，而是同一个决定的两面；接受前者就得接受后者，不接受后者就得放弃前者带来的全部机制。</p>
+      <p>这一层判断可以反驳，反驳的方式是给出一个既保留单一来源、又不牺牲源码完整性的设计。在此之前，上面八条是不采用 DITA 也能带走的部分。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：本篇八条原则引用到的规范条文出处有三处，均在前序笔记中逐页核对——<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref>（派生链属性由 shell 默认注入、随实例携带）、<xref href="https://dita-lang.org/2.0/dita/archspec/base/expansion-modules" scope="external">扩展模块</xref>（泛化后受影响元素的内容模型必须与原内容模型一致）、<xref href="https://dita-lang.org/2.0/dita/archspec/base/configuration" scope="external">文档类型配置</xref>（shell 只装配与配置，不自行定义元素类型）。</p>
+      <p><b>判断</b>：除事实段所列条文外，本篇正文整体为原笔记与本库的推导，可被反驳，不得当作规范条文引用。其中八条原则的挑选与表述、可迁移的两点判据、每条在 DITA 之外的对应物（变量名与主键、依赖私有状态的函数、类型系统与 lint、消息自带类型标签、协议演进规约、插件点与镜像分层、依赖注入与特性开关、规范推行的激励结构）、与里氏替换原则的对应、以及「收益与代价是同一个决定的两面」这一结论，均属判断；把 DITA 的实际口碑当作激励错配的样本，是社会技术层面的推测，未经系统验证。</p>
+    </section>
+  </conbody>
+</concept>

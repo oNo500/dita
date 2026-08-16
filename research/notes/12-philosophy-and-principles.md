@@ -1,5 +1,7 @@
 # 12 · DITA 的哲学与原理
 
+> **已迁移（2026-08-16）**：正本已迁 kb（`kb/topics/dita/principles/first-principles.dita` ← §一–二；`kb/topics/dita/principles/costs-and-legacy.dita` ← §三–五；`kb/topics/dita/principles/portable-principles.dita` ← §六–七；不迁小节：无），本文冻结为调研档案，不再更新。本篇是推导与论证，迁入的三篇一律把推理与判断留在来源节的判断段，不写成规范断言。
+
 > 这一篇不讲怎么用，讲**为什么它必须长成这样**。
 >
 > 方法是从一条公理出发往下推。凡是能被推导出来的，就不是"设计选择"，而是**约束的必然结果** —— 理解了这一点，DITA 的大部分怪异之处会从"要背的规则"变成"想想就知道"。

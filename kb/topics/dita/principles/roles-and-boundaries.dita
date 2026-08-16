@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/00-roles-and-boundaries.md §1（五种角色）、§2（规范写给谁）、
+     §3（各角色该读什么，并入本篇结论节的阅读边界论述）、§4（processor 尚未定义）。
+     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     术语规则：角色名用规范里的英文原名（author / information architect /
+     DITA architect / implementer / processor），中文解释只在首现随行给一次。
+     标题规则（2026-08-16 收紧）：名词短语，不带冒号副标题。
+     volatility=volatile 的依据：processor 的定义仍是规范源码里未解决的编辑批注，
+     角色词频次取自 v2.0-beta03 源码检索，两者都随版本变动。
+     事实纪律：五种角色的划分与职责表、两类 architect 的侧重差异、
+     「看是否求值 DITA 特性」的判据、阅读边界表均为归纳，已在来源节判断段逐条列明。 -->
+<concept id="roles-and-boundaries" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="volatile"
+         dimension="dim-roles dim-terminology">
+  <title>DITA 规范中的角色分工与 processor 边界</title>
+  <shortdesc>规范明写自己只为 implementer 与开发专门化的 XML 架构师而写，其余角色各有别的材料；而它最常当主语的 processor 至今没有定义条目，某个工具是否受规范约束因此只能按它是否求值 DITA 特性来判断。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/dita/archspec/base/basic-dita-terminology" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>规范、DITA-OT 文档、组织内部的写作指南面向的不是同一批人。拿规范当写作教材会很吃力，因为它通篇是「processor MUST/SHOULD……」这样的句子，回答的不是写内容的人的问题。规范对此并不含糊，它写明了自己的读者是 DITA 标准的实现者，包括工具开发者和开发专门化的 XML 架构师。</p>
+      <p>麻烦在于另一头：规范大量使用角色词，却基本不定义它们。术语章定义的十个术语全部是文档与语法构件，角色类术语里只有 <codeph>user agent</codeph> 有定义条目。于是「我是哪个角色」这个问题，只能从规范正文的实际用法反推。</p>
+    </section>
+
+    <section>
+      <title>背景：从规范用法归纳出的五种角色</title>
+      <p>下表按职责与产出物划分，规范本身未给出这样一份清单。</p>
+      <simpletable relcolwidth="1* 1.4* 2*">
+        <sthead><stentry>角色</stentry><stentry>职责</stentry><stentry>产出物</stentry></sthead>
+        <strow><stentry>author（作者）</stentry><stentry>写内容</stentry><stentry>topic、map</stentry></strow>
+        <strow><stentry>information architect（信息架构师）</stentry><stentry>设计信息架构</stentry><stentry>root map、subject scheme 受控值、新文档类型的规划</stentry></strow>
+        <strow><stentry>DITA architect（DITA 架构师）</stentry><stentry>定义词汇与文档类型</stentry><stentry>词汇模块、约束模块、扩展模块、document-type shell</stentry></strow>
+        <strow><stentry>implementer（实现者）</stentry><stentry>开发工具</stentry><stentry>处理器、编辑器、CCMS、插件</stentry></strow>
+        <strow><stentry>processor（处理器）</stentry><stentry>处理 DITA 的软件本身</stentry><stentry>输出、校验结果</stentry></strow>
+      </simpletable>
+      <p>两点补充。其一，author 之下还分出 map author，规范单独提到 map author 用标题来标注 map 与 map 结构。其二，information architect 与 DITA architect 在小团队常由同一人担任；规范用法里前者偏内容组织，后者偏语法定义，这一层侧重差异是从语境读出来的，不是规范的界定。规范描述内容生产链条时用的组合是「信息架构师、写作者和发布者可以用它们来规划、开发和交付内容」。</p>
+      <p>各角色词在规范源码里的出现频次相差两个数量级：processor 约 475 处、author 约 419 处、DITA architect 61 处、information architect 25 处、implementer 7 处、user agent 12 处。频次本身说明了规范的重心落在处理侧。</p>
+    </section>
+
+    <section>
+      <title>分析：processor 这个未定义的主语</title>
+      <p>几乎每条规范性要求都以 processor 为主语，而它没有定义条目。规范源码的术语章里留着一条编辑批注，说明需要一个 DITA Processor 的定义，并指出按规范目前的用法，它涵盖任何以任何方式处理 DITA 的工具，而不只是把 DITA 当作源的渲染工具。批注给出的暂定范围是这样：</p>
+      <ul>
+        <li>算 processor：会内联解析 <term keyref="term-conref">conref</term>（内容引用）或 key 的 DITA 编辑器；把 DITA 渲染为其他格式的处理器；处理 DITA 文档间关系的 CCMS。</li>
+        <li>不算：纯文本编辑器，因为它不需要求值任何 DITA 特性。</li>
+      </ul>
+      <p>批注带着未解决标记，正式定义尚未落地。据此可推出一条实践判据，它属推论而非规范条文：判断一个工具是否受规范约束，看它<b>是否求值 DITA 特性</b>，而不是看它是否声称支持 DITA。声称支持而不求值任何特性的工具，与纯文本编辑器落在同一侧。</p>
+      <p>这条判据的边界也随之清楚：批注一旦落地为定义，范围可能收窄或放宽，届时以定义为准。</p>
+    </section>
+
+    <section>
+      <title>结论：角色边界与各自的阅读材料</title>
+      <p>角色由正在做的事决定，不由职位决定。同一个人写 topic 时受一套约束，改 shell 时受另一套；判断某个操作是否合规，先确定这个操作属于哪个角色。conref 之类的写作机制归 author，词汇模块与 shell 的编写归 DITA architect，两者对同一个属性的权限可以完全相反。</p>
+      <p>阅读材料随角色分。下表是本库的编排建议，不是规范的要求。</p>
+      <simpletable relcolwidth="1* 1.6* 1.4*">
+        <sthead><stentry>角色</stentry><stentry>规范里该读的部分</stentry><stentry>本库里该读的簇</stentry></sthead>
+        <strow><stentry>author</stentry><stentry>不必通读，需要时查语言参考的元素字典</stentry><stentry>核心模型与复用、条件与元数据</stentry></strow>
+        <strow><stentry>information architect</stentry><stentry>架构规范的 map、寻址、条件处理部分</stentry><stentry>核心模型与复用、条件与元数据、工程实践</stentry></strow>
+        <strow><stentry>DITA architect</stentry><stentry>架构规范的配置与专门化整章、一致性</stentry><stentry>架构机理、原理</stentry></strow>
+        <strow><stentry>implementer</stentry><stentry>架构规范的处理章、一致性、RFC-2119 语句汇总</stentry><stentry>架构机理、工具链与二开</stentry></strow>
+        <strow><stentry>维护工具链的人</stentry><stentry>读 DITA-OT 文档而非规范</stentry><stentry>工具链与二开</stentry></strow>
+      </simpletable>
+      <p>最后一行不是规范里的角色，是本库按实际分工补的一格。它与 implementer 的差别在于是否改动处理器本身：装配与调试既有工具链的人受 DITA-OT 文档约束，写处理器的人才受规范约束。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：规范自述读者为「DITA 标准的实现者，包括工具开发者和开发专门化的 XML 架构师」，各角色词的出现频次，以及 processor 尚无定义的编辑批注全文与其未解决标记，均逐页核对自规范源码 v2.0-beta03；术语章定义的十个术语全部是文档与语法构件，见<xref href="https://dita-lang.org/dita/archspec/base/basic-dita-terminology" scope="external">基本 DITA 术语</xref>；角色类术语中只有 <codeph>user agent</codeph> 有定义条目，见<xref href="https://dita-lang.org/dita/archspec/base/other-terminology" scope="external">其他术语</xref>。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中五种角色的划分与职责产出物表、information architect 与 DITA architect 的侧重差异，为从规范正文用法归纳；「看是否求值 DITA 特性」的判据，是对编辑批注暂定范围的推论；角色由正在做的事决定而非由职位决定、阅读材料对照表、以及维护工具链一行与 implementer 的划界，为本库编排。</p>
+    </section>
+  </conbody>
+</concept>

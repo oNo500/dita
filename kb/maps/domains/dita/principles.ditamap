@@ -3,4 +3,9 @@
 <!-- dita 分支簇 map：原理（笔记 00/12）。topicref 由迁移任务逐篇追加。 -->
 <map xml:lang="zh-CN">
   <title>原理</title>
+  <topicref href="../../../topics/dita/principles/roles-and-boundaries.dita"/>
+  <topicref href="../../../topics/dita/principles/schema-authority.dita"/>
+  <topicref href="../../../topics/dita/principles/first-principles.dita"/>
+  <topicref href="../../../topics/dita/principles/costs-and-legacy.dita"/>
+  <topicref href="../../../topics/dita/principles/portable-principles.dita"/>
 </map>
