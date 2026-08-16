@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/09-architecture-foundations.md §5（一致性）。§6（设施选型表）按
+     标题规则第 2 关「先怀疑切分」改并入 extension-facilities：那是「哪件事归哪个 facility」，
+     与一致性不同节点；其成本维度另由 practice/customization-cost-ladder 承载。
+     标题规则（2026-08-16 用户定稿）：上游有对应节点，直接用其类目名——规范第 10 章
+     "Conformance"，两个子节为 Conformance of DITA implementations 与 Conformance of
+     DITA documents，本篇覆盖该章整体，故取章名。非自造。
+     题材：reference 素体，不标 @outputclass。cheatsheet 的「速查」标题后缀惯例与上游章名
+     冲突，标题规则优先级更高；R12 只要求 concept 与 task 必标题材，reference 可不标。
+     术语规则（2026-08-16 用户门反馈后，含译名禁令补充）：conformance / specialization /
+     constraint / expansion module / conref / conkeyref 等一律英文原名，中文解释首现随行
+     注一次；「一致性」在本篇作普通语义词使用时不承担术语职责。
+     volatility=stable 的依据：核心特性清单与文档一致性条件出自规范的一致性章。
+     事实纪律：本篇两张表与「部分实现仍算一致」全部出自笔记的已逐页核对清单（一致性页）。
+     三条对二次开发的后果为判断，已在来源节列明；13 个元素的具体清单笔记未逐条记录，
+     本篇只列其存在与数量。 -->
+<reference id="conformance" xml:lang="zh-CN"
+           maturity="draft" volatility="stable"
+           dimension="dim-reference dim-interop">
+  <title>conformance</title>
+  <shortdesc>规范对实现的要求是有条件的：支持某个特性就必须完整遵守该特性的全部规则，只实现一部分特性仍然算一致。评估工具时可核查的问题因此不是它支不支持 DITA，而是下面九项核心特性里它支持哪几项。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/2.0/dita/conformance/conformance" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <refbody>
+    <section>
+      <title>定位</title>
+      <p>本节只列规范对实现与对文档各自提出的条件。三个 extension facility 各改什么见 <xref href="extension-facilities.dita">DITA extension facilities</xref>，shell 一侧另有单独的一致性子页，见 <xref href="doctype-shell.dita">document-type shell</xref>。</p>
+    </section>
+
+    <section>
+      <title>实现一致的判据</title>
+      <p>规范的措辞是：任何实现若支持某个特性，必须遵守描述该特性的章节中的全部规则。不支持某个特性并不使实现变得不一致，已实现的那部分不打折即可。规范列出的核心特性有九项。</p>
+      <simpletable relcolwidth="1* 2.6*">
+        <sthead><stentry>特性</stentry><stentry>说明</stentry></sthead>
+        <strow><stentry>1</stentry><stentry>基于 <xmlatt>class</xmlatt> 的 specialization（专门化）处理</stentry></strow>
+        <strow><stentry>2</stentry><stentry>key 引用解析（<xmlatt>keyref</xmlatt>）</stentry></strow>
+        <strow><stentry>3</stentry><stentry>直接 URI 内容复用（<term keyref="term-conref">conref</term>，内容引用）</stentry></strow>
+        <strow><stentry>4</stentry><stentry>间接 key 内容复用（<xmlatt>conkeyref</xmlatt>）</stentry></strow>
+        <strow><stentry>5</stentry><stentry>conref 范围（<xmlatt>conrefend</xmlatt>）</stentry></strow>
+        <strow><stentry>6</stentry><stentry>内容推送（<xmlatt>conaction</xmlatt>）</stentry></strow>
+        <strow><stentry>7</stentry><stentry>基于 <term keyref="term-ditaval">DITAVAL</term> 的条件处理</stentry></strow>
+        <strow><stentry>8</stentry><stentry>分支过滤</stentry></strow>
+        <strow><stentry>9</stentry><stentry><xmlatt>chunk</xmlatt> 处理</stentry></strow>
+      </simpletable>
+      <p>九项之外还有一组规范性渲染规则，覆盖十三个特定元素，<xmlelement>image</xmlelement>、<xmlelement>pre</xmlelement>、<xmlelement>title</xmlelement>、<xmlelement>related-links</xmlelement> 属于此列。本节未逐条记录这十三个元素的完整清单与各自规则，只确认其存在与数量。</p>
+    </section>
+
+    <section>
+      <title>文档一致的五个条件</title>
+      <simpletable relcolwidth="1* 3*">
+        <sthead><stentry>序</stentry><stentry>条件</stentry></sthead>
+        <strow><stentry>1</stentry><stentry>用上游 shell 的文档，必须通过语法文件校验与语言参考中的断言校验</stentry></strow>
+        <strow><stentry>2</stentry><stentry>用带 constraint（约束）的自定义 shell 的文档，必须符合 constraint 的规则</stentry></strow>
+        <strow><stentry>3</stentry><stentry>用带 expansion module（扩展模块）的自定义 shell 的文档，必须符合 expansion module 的规则</stentry></strow>
+        <strow><stentry>4</stentry><stentry>specialize 出来的元素必须符合 specialization 规则与 <xmlatt>class</xmlatt> 语法</stentry></strow>
+        <strow><stentry>5</stentry><stentry>specialize 出来的属性必须符合属性 specialization 规则</stentry></strow>
+      </simpletable>
+      <p>五个条件里前三个由校验环节兜住，后两个落在写模块的人身上，见 <xref href="structural-specialization.dita">structural specialization</xref> 与 <xref href="attribute-specialization.dita">attribute specialization</xref>。</p>
+    </section>
+
+    <section>
+      <title>部分实现也算一致的三个后果</title>
+      <p>这条判据把工具之间的行为差异从模糊感受变成可核查的清单，本节的三条推论属本库归纳。</p>
+      <ul>
+        <li>不同工具行为不同未必是缺陷，可能一方没有实现那个特性，而规范允许这样。</li>
+        <li>自写处理器可以只实现子集，但已实现的部分不能只做一半。</li>
+        <li>评估内容管理系统一类的产品时，把问题换成它支持上面九项里的哪几项，答案就可以逐条验收。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：任何实现若支持某特性必须遵守描述该特性的章节中的全部规则、部分实现仍算一致、九项核心特性清单、覆盖十三个元素的规范性渲染规则、文档一致的五个条件，转自 <xref href="https://dita-lang.org/2.0/dita/conformance/conformance" scope="external">一致性</xref>，已逐页核对。</p>
+      <p><b>判断</b>：三个后果一节的三条推论为本库归纳，可被反驳。十三个元素的完整清单与各自的渲染规则未逐条核对，本篇只记其存在与数量；shell 一致性与文档一致性的具体关系另在文档类型配置一节，本篇未展开。</p>
+    </section>
+  </refbody>
+</reference>
