@@ -8,7 +8,7 @@
          outputclass="tech-landscape"
          maturity="curated" volatility="volatile">
   <title>Coding Agents 领域全景</title>
-  <shortdesc>agent CLI 工具（<term keyref="term-claude-code">Claude Code</term> / <term keyref="term-codex">Codex</term> / <term keyref="term-antigravity">Antigravity</term>）该从哪些维度理解——本域完整维度清单与当前覆盖状态。二十个维度已覆盖六个，其余为盲区；全景先立、内容按 volatile 优先逐篇填。</shortdesc>
+  <shortdesc>agent CLI 工具（<term keyref="term-claude-code">Claude Code</term> / <term keyref="term-codex">Codex</term> / <term keyref="term-antigravity">Antigravity</term>）该从哪些维度理解——本域完整维度清单与当前覆盖状态。二十个维度已覆盖七个，其余为盲区；全景先立、内容按 volatile 优先逐篇填。</shortdesc>
   <prolog>
     <source href="https://code.claude.com/docs/" scope="external"/>
     <data name="domain" value="coding-agents"/>
@@ -57,7 +57,7 @@
         <strow><stentry>配置（dim-config）</stentry><stentry>settings 体系、权限配置、模型与上下文配置</stentry><stentry>已覆盖：claude-code-settings</stentry></strow>
         <strow><stentry>日常用法（dim-usage）</stentry><stentry>会话管理、常用工作流、并行会话与 worktree</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>速查参考（dim-reference）</stentry><stentry>命令 / 快捷键 / 设置项速查表</stentry><stentry>盲区</stentry></strow>
-        <strow><stentry>集成（dim-integration）</stentry><stentry>MCP 服务器、hooks、IDE / CI / 浏览器 / IM 接入、headless</stentry><stentry>盲区</stentry></strow>
+        <strow><stentry>集成（dim-integration）</stentry><stentry>MCP 服务器、hooks、IDE / CI / 浏览器 / IM 接入、headless</stentry><stentry>已覆盖：agent-extension-choice</stentry></strow>
         <strow><stentry>安全基线（dim-security）</stentry><stentry>权限模型、沙箱、密钥与数据面</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>排障（dim-troubleshooting）</stentry><stentry>安装失败、认证异常、会话卡死等常见症状与处置</stentry><stentry>盲区</stentry></strow>
         <strow><stentry><term keyref="term-context-engineering">上下文工程</term>（dim-context-engineering）</stentry><stentry>上下文窗口管理、CLAUDE.md 瘦身、压缩与记忆</stentry><stentry>已覆盖：agent-context-budget</stentry></strow>
@@ -66,7 +66,7 @@
         <strow><stentry>成本与延迟（dim-cost-latency）</stentry><stentry>模型档位选择、token 预算、缓存与 fast mode 的取舍</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>注入安全（dim-injection-safety）</stentry><stentry>联网 / 读第三方内容时的 prompt 注入面与挡板</stentry><stentry>盲区</stentry></strow>
       </simpletable>
-      <p>当前覆盖度：6 / 20。每重写一篇本域笔记，在其根元素标 <codeph>dimension="dim-…"</codeph>（可多值）并声明 <codeph>domain="coding-agents"</codeph>，此处对应格转为"已覆盖"，<cmdname>dita-tools ia</cmdname> 的覆盖度随之更新。</p>
+      <p>当前覆盖度：7 / 20。每重写一篇本域笔记，在其根元素标 <codeph>dimension="dim-…"</codeph>（可多值）并声明 <codeph>domain="coding-agents"</codeph>，此处对应格转为"已覆盖"，<cmdname>dita-tools ia</cmdname> 的覆盖度随之更新。</p>
     </section>
 
     <section>

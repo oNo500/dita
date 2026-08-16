@@ -13,6 +13,7 @@
 
   <!-- coding-agents / agent 方法论：Phase 3 试点首批 + 后续补写。直接列 topic，不套多余分组 -->
   <topicref href="../../topics/ai/agent-context-budget.dita"/>
+  <topicref href="../../topics/ai/agent-extension-choice.dita"/>
   <topicref href="../../topics/ai/agent-rule-loading.dita"/>
   <topicref href="../../topics/ai/agent-skill-orchestration.dita"/>
   <topicref href="../../topics/ai/agent-context-verification.dita"/>
