@@ -4,6 +4,12 @@
 # 两者缺任何一个都不会静默放行——缺什么就少跑什么，且结果不得当作通过。
 # 有 error 则退出非零，可挡入库 / 接 git hook / CI。
 # 设计见 dita2 cases/kb-redesign/machine-checks-design.md。
+#
+# 性能改造（2026-08-16，见 .superpowers/sdd/2026-08-16-notes-to-kb-migration/
+# review-batching-report.md）：结构校验与业务规则原先各文件起一次 JVM，73 篇
+# ×2＝146 次；改批量调用后每轮固定 2–3 次（root map 1 次 ＋ deliverables map
+# 若干次 ＋ Saxon 业务规则 1 次），检查覆盖面与严格性不变，只是把"文件级循环"挪进
+# DITA-OT 自己的 map 遍历和 XSLT 3.0 的 collection()，不再逐篇起 JVM。
 set -uo pipefail
 KB="$(cd "$(dirname "$0")/.." && pwd)"
 XSL="$KB/scripts/check-rules.xsl"
@@ -39,21 +45,38 @@ fi
 fail=0
 
 echo "== 1. 结构校验（RNG）+ 业务规则（R1–R10）=="
-for f in $(find "$KB/topics" -name '*.dita' | sort); do
-  rel="${f#"$KB"/}"
-  # 结构（RNG shell）
-  if ! dita validate --input="$f" >/tmp/kb-rv.log 2>&1; then
+
+# 结构：dita validate 吃一个 map，DITA-OT 自己沿 topicref/mapref 树遍历全部被引 topic，
+# 一次调用顶过去一篇篇起 JVM。root.ditamap 是 domain 骨架的根，覆盖 kb/topics 下绝大多数
+# topic；但"骨架"和"引用"是两回事——只被 kb/maps/deliverables/*.ditamap 引用、不在任何
+# domain 分支下的 topic（当前如 agent-rules-core.dita、dita-authoring-guide.dita）root
+# map 走不到，所以 deliverables 下每个 map 也各验一次。
+# 覆盖完整性已核过（2026-08-16，独立脚本核验，见迁移报告）：root.ditamap ∪
+# kb/maps/deliverables/*.ditamap＝kb/topics 下全部 .dita，0 篇漏网。往后再漏（新 topic
+# 哪个 map 都不进）归 `just ia`「不在任何分支下」那行兜底，不在这里重复查。
+STRUCT_MAPS="$KB/maps/root.ditamap"
+for m in "$KB"/maps/deliverables/*.ditamap; do
+  [ -e "$m" ] && STRUCT_MAPS="$STRUCT_MAPS $m"
+done
+for m in $STRUCT_MAPS; do
+  rel="${m#"$KB"/}"
+  if ! dita validate --input="$m" >/tmp/kb-rv.log 2>&1; then
     echo "[structure] $rel"; sed 's/^/    /' /tmp/kb-rv.log; fail=1
   fi
-  # 业务规则
-  if [ -n "$CP" ]; then
-    out="$(java -cp "$CP" net.sf.saxon.Transform -s:"$f" -xsl:"$XSL" 2>/dev/null)"
-    if [ -n "$out" ]; then
-      echo "$out" | sed "s#^#[rules] $rel: #"
-      echo "$out" | grep -q 'error' && fail=1
-    fi
-  fi
 done
+
+# 业务规则：一次 Saxon 调用，check-rules.xsl 的 main 模板用 XSLT 3.0 collection()
+# 遍历 kb/topics 下全部 .dita 各跑一遍 R1–R10，每条违规行自带 "[rules] <rel>: " 前缀
+# （文件名前缀现在是 XSLT 自己出的，不再靠这里 sed 拼）。单篇 XML 解析失败（格式错）
+# 用 xsl:try 隔离，只报该篇 R0，不拖垮其余各篇的检查结果——那篇的结构性错误本身，
+# 上面的 dita validate 已经带着文件名行号报过了。
+if [ -n "$CP" ]; then
+  out="$(java -cp "$CP" net.sf.saxon.Transform -it:main -xsl:"$XSL" "kb-dir=file://$KB" 2>/dev/null)"
+  if [ -n "$out" ]; then
+    echo "$out"
+    echo "$out" | grep -q 'error' && fail=1
+  fi
+fi
 
 # 维度覆盖度已归 IA 治理（库的形状，非单篇规则），看 `just ia`；
 # 脚本 dimension-coverage.py 于 2026-08-15 走完吸收五关退役。
