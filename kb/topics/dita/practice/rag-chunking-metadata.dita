@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/15-dita-and-rag.md §3（块的粒度）与 §4（检索元数据对照表）。
+     题材 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
+     术语规则（2026-08-16 用户门反馈后）：RAG / shortdesc / subjectScheme / reltable /
+     glossentry / graph RAG 等一律用英文原名；对照表列头用描述性短语，不造类目名词。
+     volatility=volatile 的依据：检索侧的元数据需求随管线与模型演进。
+     事实纪律：笔记 15 无外部权威来源，全篇为分析；@subjectrefs 与 @collection-type 的
+     语义出自笔记 14 与 11（在那两篇已核对），本篇按判断呈现并注明未在本篇核对。
+     prolog 不写 reviewed（笔记 15 未核对任何页面）。 -->
+<concept id="rag-chunking-metadata" xml:lang="zh-CN"
+         outputclass="best-practice"
+         maturity="draft" volatility="volatile"
+         dimension="dim-retrieval dim-classification">
+  <title>RAG 切块粒度与检索元数据</title>
+  <shortdesc>topic 是默认的切块单位，不是教条：过大时沿元素边界二级切分，过小时整块入库。每块附带的元数据不必另建，类型、主题分面、受众、摘要、时效、溯源深链在 DITA 内容里各有出处，前提是这些字段的维护流程真的在跑。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/specifications" scope="external"/>
+    <data name="domain" value="dita"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>场景</title>
+      <p>入库内容的形态定下来之后，接着要决定块切多大、每块带什么。通用管线在这两处都靠估：按字数切，元数据能凑几个算几个。DITA 内容不必这样做，但也不能直接把 topic 当作唯一答案——有的 topic 超出上下文预算，有的 topic 只有两行。</p>
+    </section>
+
+    <section>
+      <title>做法</title>
+      <p>粒度按 topic 的实际大小分三种情形。</p>
+      <ul>
+        <li>大小合适：整个 topic 作为一块，这是默认情形。</li>
+        <li>超出上下文预算：二级切分沿元素边界进行。段落容器、步骤、术语条目的边界都可由派生链可靠识别，切出来的仍是完整的语义单元。</li>
+        <li>本身很小，例如术语条目或单条排障：整块入库，并把它与术语的引用关系一并带上。</li>
+      </ul>
+      <p>关系图不必另建。map 的层级是父子边，关系表是相关边，<term keyref="term-keyref">keyref</term>（键引用）与 <term keyref="term-conref">conref</term>（内容引用）是引用边，边的类型另有属性给出取值。做图增强检索时这些关系直接可用。</p>
+      <p>元数据逐项对应到内容里的出处。</p>
+      <simpletable relcolwidth="1.3* 1.3* 2*">
+        <sthead><stentry>检索侧需要什么</stentry><stentry>内容里的出处</stentry><stentry>取用时的注意</stentry></sthead>
+        <strow>
+          <stentry>块的类型，概念、操作或参数</stentry>
+          <stentry><xmlatt>class</xmlatt> 里最特化的那一段</stentry>
+          <stentry>据此让操作类问句优先命中操作类的块</stentry>
+        </strow>
+        <strow>
+          <stentry>主题分面</stentry>
+          <stentry><xmlatt>subjectrefs</xmlatt> 与 subjectScheme 树</stentry>
+          <stentry>树给出层级，查父主题可命中子主题的块</stentry>
+        </strow>
+        <strow>
+          <stentry>受众、平台、产品</stentry>
+          <stentry>条件属性</stentry>
+          <stentry>要 passthrough 保留进产物才取得到</stentry>
+        </strow>
+        <strow>
+          <stentry>摘要</stentry>
+          <stentry><xmlelement>shortdesc</xmlelement></stentry>
+          <stentry>作者写的，不必再生成</stentry>
+        </strow>
+        <strow>
+          <stentry>时效</stentry>
+          <stentry>prolog 里的日期字段</stentry>
+          <stentry>仅当由系统注入才可信，手填的日期不能用于排序</stentry>
+        </strow>
+        <strow>
+          <stentry>溯源深链</stentry>
+          <stentry><xmlatt>id</xmlatt> 加 map 路径</stentry>
+          <stentry>依赖 <xmlatt>id</xmlatt> 发布后不再修改</stentry>
+        </strow>
+        <strow>
+          <stentry>语言</stentry>
+          <stentry><xmlatt>xml:lang</xmlatt></stentry>
+          <stentry>多语言库的过滤维度</stentry>
+        </strow>
+      </simpletable>
+    </section>
+
+    <section>
+      <title>理由</title>
+      <p>沿元素边界切分优于按字数切分，好处不在省事，在边界处不会截断句义。派生链让这些边界可被程序稳定识别，无须依赖标题层级或空行一类的启发式判断。</p>
+      <p>元数据一栏的前提是维护流程真的在跑。<b>失真的元数据比没有元数据更糟，因为检索器会用错误的字段过滤与排序，且不会表现出任何不确定</b>。时效一行的限定由此而来：手填日期在改错别字时被顺手更新、重新核对了却没人动它，两种偏差都会让「优先新内容」的排序失效。</p>
+    </section>
+
+    <section>
+      <title>反例</title>
+      <ul>
+        <li>对超长 topic 按固定字数二级切分。切点落在句中或表格中部，得到的块两头都不完整。</li>
+        <li>把手填的日期字段直接接进排序器。字段存在不等于字段可信，判据是问一句：这个值由谁写入、什么时候更新。</li>
+        <li>把条件属性当成可选装饰而不保留进产物。受众与平台一栏随即为空，单库路线的过滤也就无从实现。</li>
+        <li>为图增强检索另建一套关系抽取。map 层级与关系表已经声明了这些边，重建出来的关系还要与源保持同步。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>边界</title>
+      <p>本篇不碰嵌入模型的选择与切块参数的调优，这两处没有可依据的机制，笔记与本库一概不写。入库内容的形态与条件过滤的时机见<xref href="rag-parsed-content.dita">RAG 入库内容的解析形态选择</xref>。</p>
+      <p>元数据各字段的语义与放置规则属元数据与分类一侧，本篇只做检索侧的对应，未核对各字段在规范中的确切定义与可用位置。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：无。检索增强生成与结构化内容的结合尚无标准文献，笔记 15 未核对任何外部页面，本篇因此没有可转述的权威内容。</p>
+      <p><b>判断</b>：正文全部陈述均属判断，可被反驳。其中沿元素边界二级切分、派生链可稳定识别边界、<xmlatt>subjectrefs</xmlatt> 与 subjectScheme 树提供层级分面、关系表与边类型属性可直接用作图的边、条件属性须 passthrough 才保留、日期字段仅在系统注入时可信，来自本库前序笔记的机制分析，未在本篇核对，其核对状态以条件化与元数据两簇对应篇的来源节为准；三种粒度情形的划分、元数据对照表的选项、四条反例、「失真元数据比没有更糟」的定性，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>

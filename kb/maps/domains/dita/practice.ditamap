@@ -12,4 +12,5 @@
   <topicref href="../../../topics/dita/practice/translation-antipatterns.dita"/>
   <topicref href="../../../topics/dita/practice/dita-rag-fit.dita"/>
   <topicref href="../../../topics/dita/practice/rag-parsed-content.dita"/>
+  <topicref href="../../../topics/dita/practice/rag-chunking-metadata.dita"/>
 </map>
