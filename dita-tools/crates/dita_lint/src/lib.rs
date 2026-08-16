@@ -17,6 +17,10 @@ const CONTENT_ROOTS: [&str; 4] = ["concept", "task", "reference", "troubleshooti
 /// Genre is what carries a fixed structure; these types have no plain form.
 const GENRE_REQUIRED_ROOTS: [&str; 2] = ["concept", "task"];
 const DEGREE_WORDS: [&str; 5] = ["特别", "极其", "恰恰", "真正的", "最危险"];
+/// Colloquialisms with no place in documentation register. A proxy like the
+/// degree words: the full judgement stays human, these catch the frequent
+/// offenders.
+const COLLOQUIAL_WORDS: [&str; 6] = ["凑合", "挂个", "塞进", "出事", "拦住", "就该"];
 /// R16: implementation-layer inline markup counted toward the split threshold.
 /// xmlelement/xmlatt/filepath are excluded — the first two are this library's
 /// subject matter when writing about DITA, the third is mostly illustrative.
@@ -214,6 +218,14 @@ fn check_register(root: roxmltree::Node, push: &mut impl FnMut(String)) {
         if n > 0 {
             push(format!(
                 "R15：程度词「{word}」出现 {n} 次——判断的强度由理由撑，不由副词撑"
+            ));
+        }
+    }
+    for word in COLLOQUIAL_WORDS {
+        let n = body.matches(word).count();
+        if n > 0 {
+            push(format!(
+                "R15：口语词「{word}」出现 {n} 次——文档语体用书面表达"
             ));
         }
     }
