@@ -4,4 +4,5 @@
 <map xml:lang="zh-CN">
   <title>原理</title>
   <topicref href="../../../topics/dita/principles/roles-and-boundaries.dita"/>
+  <topicref href="../../../topics/dita/principles/schema-authority.dita"/>
 </map>
