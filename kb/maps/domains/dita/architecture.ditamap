@@ -6,4 +6,5 @@
   <topicref href="../../../topics/dita/architecture/structural-specialization.dita"/>
   <topicref href="../../../topics/dita/architecture/domain-specialization.dita"/>
   <topicref href="../../../topics/dita/architecture/attribute-specialization.dita"/>
+  <topicref href="../../../topics/dita/architecture/constraints-generalization.dita"/>
 </map>
