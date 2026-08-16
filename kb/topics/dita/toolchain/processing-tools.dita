@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/07-programmatic-processing.md §8（工具速查）。
+     题材 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
+     术语规则（2026-08-16 用户门反馈后）：Saxon-HE / Jing / lxml / org.lwdita /
+     LwDITA / XDITA 等一律用工具与规范的原名。
+     volatility=volatile 的依据：库的维护状态与覆盖范围随时间变动。
+     事实纪律：已核对的只有 LwDITA 的 TypeScript 实现一行（活跃维护、npm 发布、
+     兼容 LwDITA v0.3、仅覆盖 XDITA）；其余各行属通用实践，已在篇内与来源节标注。 -->
+<reference id="processing-tools" xml:lang="zh-CN"
+           outputclass="cheatsheet"
+           maturity="draft" volatility="volatile"
+           dimension="dim-reference dim-ecosystem">
+  <title>DITA 程序化处理工具速查：Saxon、Jing 与 lxml</title>
+  <shortdesc>按需求选工具：转换用 XSLT 处理器，校验分 RNG 与 DTD 与 DITA 三层，解析看语言侧的库。以下列出各需求的常用选择与取用时的注意事项，其中 Node.js 一行的结论与其他行不同，须留意覆盖范围。</shortdesc>
+  <prolog>
+    <source href="https://github.com/evolvedbinary/lwdita" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <refbody>
+    <section>
+      <title>定位</title>
+      <p>本篇只回答「这件事用什么工具」。工具怎么用、输入该取源文件还是解析后的内容，另见本簇其他篇；表内除标注外的各行来自通用实践，未逐项核对。</p>
+    </section>
+
+    <section>
+      <title>按需求选工具</title>
+      <simpletable relcolwidth="1.2* 1.4* 2*">
+        <sthead><stentry>需求</stentry><stentry>工具</stentry><stentry>注意</stentry></sthead>
+        <strow>
+          <stentry>XSLT 3.0 转换</stentry>
+          <stentry>Saxon-HE</stentry>
+          <stentry>DITA-OT 随附，写插件时无须另装</stentry>
+        </strow>
+        <strow>
+          <stentry>RNG 校验</stentry>
+          <stentry>Jing</stentry>
+          <stentry>命令行独立执行，适合接进持续集成</stentry>
+        </strow>
+        <strow>
+          <stentry>DTD 校验</stentry>
+          <stentry>xmllint、Xerces</stentry>
+          <stentry>同时补齐默认属性，派生链属性由此可得</stentry>
+        </strow>
+        <strow>
+          <stentry>DITA 层面校验</stentry>
+          <stentry><codeph>dita validate</codeph></stentry>
+          <stentry>DITA-OT 4.3 引入的预览特性，可查出断链</stentry>
+        </strow>
+        <strow>
+          <stentry>Python 解析</stentry>
+          <stentry>lxml</stentry>
+          <stentry>须开启默认属性补齐，且该开关只对 DTD 生效</stentry>
+        </strow>
+        <strow>
+          <stentry>Java 解析与构建</stentry>
+          <stentry>DITA-OT 的 org.dita.dost 加 Saxon</stentry>
+          <stentry>可在进程内配置并执行构建，API 依版本有出入</stentry>
+        </strow>
+        <strow>
+          <stentry>Node.js 解析</stentry>
+          <stentry>libxmljs、saxon-js 自行搭建；LwDITA 一路可用现成实现</stentry>
+          <stentry>完整 DITA 无成熟库；LwDITA 侧见下一节</stentry>
+        </strow>
+        <strow>
+          <stentry>链接检查</stentry>
+          <stentry>直接执行构建</stentry>
+          <stentry>断链由 DITA-OT 报出，无须另写检查器</stentry>
+        </strow>
+        <strow>
+          <stentry>DITA 与 Markdown 互转</stentry>
+          <stentry>org.lwdita</stentry>
+          <stentry>转出方向有损，宜定位为单向发布通道</stentry>
+        </strow>
+      </simpletable>
+    </section>
+
+    <section>
+      <title>Node.js 一行的确切范围</title>
+      <p>完整 DITA 词汇表在 Node.js 侧没有成熟库，这一判断来自通用实践。核实过的是另一件事：LwDITA 的 XDITA 词汇表有活跃维护的 TypeScript 实现，即 <xref href="https://github.com/evolvedbinary/lwdita" scope="external">evolvedbinary/lwdita</xref> 提供的解析与抽象语法树两个包，在 npm 发布，兼容 LwDITA v0.3。</p>
+      <p>取用前先确认覆盖范围：它只覆盖 XDITA，即 LwDITA 的 XML 形态，不覆盖完整 DITA 的元素与专门化机制。内容用的是完整 DITA 时，这条路不成立。</p>
+    </section>
+
+    <section>
+      <title>取用之前</title>
+      <ul>
+        <li>先定输入形态。多数用途要的是解析后的内容，见<xref href="parsed-vs-source.dita">程序化处理的输入选择</xref>。</li>
+        <li>解析源文件时确认默认属性已补齐，否则派生链属性为空，见<xref href="programming-by-class.dita">按 @class 编程</xref>。</li>
+        <li>自研管道在输出阶段过滤不属于目标版本的属性与元素，见<xref href="dita-ot-as-library.dita">DITA-OT 作为库调用</xref>。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：LwDITA 的 TypeScript 实现处于活跃维护、在 npm 发布、兼容 LwDITA v0.3、仅覆盖 XDITA 而非完整 DITA，转自 <xref href="https://github.com/evolvedbinary/lwdita" scope="external">evolvedbinary/lwdita</xref>，已核实。</p>
+      <p><b>判断</b>：除事实段那一条外，表内与正文其余陈述均属判断，可被反驳。其中各需求对应的工具选择、Saxon-HE 随 DITA-OT 分发、lxml 须开启默认属性补齐、DITA 层面校验属 4.3 预览特性、完整 DITA 在 Node.js 侧无成熟库，来自通用实践，未逐项核对；「链接检查直接执行构建即可」与「转出 Markdown 宜定位为单向通道」两条取舍，为本库归纳。</p>
+    </section>
+  </refbody>
+</reference>
