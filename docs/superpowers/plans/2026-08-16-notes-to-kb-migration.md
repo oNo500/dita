@@ -56,6 +56,8 @@
 </concept>
 ```
 
+> **已失效（2026-08-16 Task 2/6 裁定）**：how-to 与 quickstart 均改绑 concept，task 类型退役、task-kb.rng 已删除。本节仅存档。
+
 ### 模板 B：task 题材（how-to / quickstart）
 
 ```xml

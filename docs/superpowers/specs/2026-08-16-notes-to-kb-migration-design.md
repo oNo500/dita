@@ -37,6 +37,8 @@ kb/maps/domains/dita/<簇>.ditamap   簇 map ×6
 
 命名 ASCII kebab，id = 文件名去后缀，全库唯一。题材即 `@outputclass`，按 R12/R13 带固定结构。表中标题为暂定，落笔时按写作规则七定稿（名词短语、定位词、对齐 OASIS 规范/DITA-OT 文档的类目命名）。
 
+> **已失效（2026-08-16 Task 2/6 裁定）**：how-to 与 quickstart 均改绑 concept，task 类型退役、task-kb.rng 已删除。本节仅存档。
+
 **缺口（骨架阶段补）**：quickstart / how-to 绑定 `dita-type=task`，但 `kb/schema/` 尚无 task shell——照 concept-kb.rng 模式新建 `task-kb.rng`（task 2.0 + maturity/volatility/dimension/tool 属性域），并确认 dita-tools lint 对 task 根元素同样生效。
 
 ### 分支根（2）
