@@ -30,7 +30,7 @@
     <section>
       <title>问题</title>
       <p>一类内容的信息结构是固定的：API 端点有路径、请求方法、参数与返回值，硬件手册的每个部件有型号、接口与规格。用通用的 <xmlelement>reference</xmlelement> 写，这套结构只存在于作者的记性里，校验器不管缺没缺，下游要按结构取值时只能按标题文字猜。</p>
-      <p>扩展 vocabulary（词汇表）的传统做法是另造一套格式，代价是全部下游工具重写一遍。DITA 给扩展加了一条硬性要求换掉这笔代价：每个新元素一对一映射回一个已有元素，并在 <xmlatt>class</xmlatt> 上记录从最通用到最具体的整条派生链。specialization（专门化）指的就是这条要求下的扩展，structural specialization 是其中派生整个 topic 类型或 map 类型的一种；要的只是一个跨类型可用的标记而不是一整篇的骨架时，用的是另一种，见 <xref href="domain-specialization.dita">domain specialization</xref>。</p>
+      <p>扩展 vocabulary（词汇表）的传统做法是另造一套格式，代价是全部下游工具重写一遍。DITA 给扩展加了一条硬性要求换掉这笔代价：每个新元素一对一映射回一个已有元素，并在 <xmlatt>class</xmlatt> 上记录从最通用到最具体的整条派生链。<term keyref="term-specialization">specialization</term>（专门化）指的就是这条要求下的扩展，structural specialization 是其中派生整个 topic 类型或 map 类型的一种；要的只是一个跨类型可用的标记而不是一整篇的骨架时，用的是另一种，见 <xref href="domain-specialization.dita">domain specialization</xref>。</p>
     </section>
 
     <section>
@@ -44,7 +44,7 @@
         <strow><stentry>params</stentry><stentry><xmlelement>simpletable</xmlelement></stentry></strow>
       </simpletable>
       <p>某一行的基类填不出来，说明这部分结构还没想清楚，这一步不能跳过。映射的方向也有硬性要求：<b>派生出的元素，其内容模型须是基类内容模型的子集，属性须是基类属性的子集或从基类属性派生出的属性</b>，只能收紧不能放宽。派生链因此永远可逆，降级与 generalization 都建立在这条性质上。</p>
-      <p>语法文件一侧的推荐路线是 RNG 模块。模块引入的是基类的结构模块而不是外壳：模块只依赖模块，domain 与 constraint 的装配由使用方的 document-type shell 负责。</p>
+      <p>语法文件一侧的推荐路线是 RNG 模块。模块引入的是基类的结构模块而不是外壳：模块只依赖模块，domain 与 <term keyref="term-constraint">constraint</term> 的装配由使用方的 <term keyref="term-document-type-shell">document-type shell</term> 负责。</p>
       <codeblock>&lt;!-- apiref.rng（示意结构，非官方模板逐行抄录） --&gt;
 &lt;grammar xmlns="http://relaxng.org/ns/structure/1.0"
          xmlns:dita="http://dita.oasis-open.org/architecture/2005/"&gt;
@@ -100,7 +100,7 @@
     <section>
       <title>结论</title>
       <p>次序是映射表、语法模块、注册与验证，三步的失败症状各不相同：映射列不全，问题要到内容评审时才暴露；模块引成外壳，冲突出现在使用方装配 shell 的时候；<xmlatt>class</xmlatt> 写错则校验照样通过，症状是处理器把新元素当成不认识的元素，输出里少一块。</p>
-      <p>最后一类症状的排查手段是 generalization：把样例文档还原成基类文档，还原得无损即说明整条派生链都写对了，见 <xref href="constraints-generalization.dita">constraints 与 generalization</xref>。要不要走到这一步本身是一道判断题，判据见 <xref href="specialization-practice.dita">specialization 的启用判据</xref>。</p>
+      <p>最后一类症状的排查手段是 <term keyref="term-generalization">generalization</term>：把样例文档还原成基类文档，还原得无损即说明整条派生链都写对了，见 <xref href="constraints-generalization.dita">constraints 与 generalization</xref>。要不要走到这一步本身是一道判断题，判据见 <xref href="specialization-practice.dita">specialization 的启用判据</xref>。</p>
     </section>
 
     <section>

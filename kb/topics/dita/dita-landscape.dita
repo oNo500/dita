@@ -62,7 +62,7 @@
       <simpletable relcolwidth="1* 3*">
         <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
         <strow><stentry>原理与推导（dim-principles）</stentry><stentry><term keyref="term-ssot">同一个事实只存在于一处</term>这条公理推得出哪些结构、又要付出哪几笔代价；哪些设计是必然，哪些只是历史选择</stentry></strow>
-        <strow><stentry>角色与权限（dim-roles）</stentry><stentry>规范写给哪几种角色看、各角色该读哪部分、谁有权定义 schema 与文档类型外壳</stentry></strow>
+        <strow><stentry>角色与权限（dim-roles）</stentry><stentry>规范写给哪几种角色看、各角色该读哪部分、谁有权定义 <term keyref="term-schema">schema</term> 与文档类型外壳</stentry></strow>
         <strow><stentry>写作与收录判据（dim-criteria）</stentry><stentry>一条内容该不该单独成篇、拆分与合并的界线、元数据标到什么程度算够</stentry></strow>
         <strow><stentry>写作与维护流程（dim-process）</stentry><stentry>一篇内容从起草、校验到入库走哪几步，已入库的内容按什么节奏复核与维护</stentry></strow>
       </simpletable>
@@ -86,16 +86,16 @@
         <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
         <strow><stentry>复用、条件化与属性解析（dim-mechanism）</stentry><stentry><term keyref="term-conref">conref</term> 的拉取与推送、<term keyref="term-keyref">keyref</term> 与 keytext、条件属性与分支过滤在什么时机解析、属性有效值的优先级与元数据级联按什么规则算、这些解析各自落在 <term keyref="term-preprocess">preprocess</term>（预处理）的哪一阶段</stentry></strow>
         <strow><stentry>寻址与关系（dim-relations）</stentry><stentry>直接与间接寻址的分工、键空间与作用域嵌套、跨交付物引用、导航与链接的生成</stentry></strow>
-        <strow><stentry>一致性与降级（dim-consistency）</stentry><stentry>泛化算法怎么把专门化还原、规范意义上的一致性怎么判定、处理器不认识自定义元素时会发生什么</stentry></strow>
+        <strow><stentry>一致性与降级（dim-consistency）</stentry><stentry><term keyref="term-generalization">generalization</term>（泛化）算法怎么把 <term keyref="term-specialization">specialization</term>（专门化）内容还原、规范意义上的一致性怎么判定、处理器不认识自定义元素时会发生什么</stentry></strow>
       </simpletable>
     </section>
 
     <section>
       <title>四、扩展与外接</title>
-      <p>专门化是 DITA 区别于其他文档格式的地方，也是本域「具备二次开发能力」这条目标的落点。扩展有向内与向外两个方向：向内是给词汇加元素、加约束，向外是把内容送进别的系统，或把别的内容引进来。检索这一项归在此处，因为它问的是内容离开 DITA 之后还剩多少结构。</p>
+      <p>specialization 是 DITA 区别于其他文档格式的地方，也是本域「具备二次开发能力」这条目标的落点。扩展有向内与向外两个方向：向内是给词汇加元素、加约束，向外是把内容送进别的系统，或把别的内容引进来。检索这一项归在此处，因为它问的是内容离开 DITA 之后还剩多少结构。</p>
       <simpletable relcolwidth="1* 3*">
         <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>扩展设施内部构造（dim-internals）</stentry><stentry><xmlatt>class</xmlatt> 派生链怎么构造、三大扩展设施如何分工、文档类型外壳与词汇模块、约束与扩展模块的差别</stentry></strow>
+        <strow><stentry>extension facilities（扩展设施）内部构造（dim-internals）</stentry><stentry><xmlatt>class</xmlatt> 派生链怎么构造、三大 extension facilities 如何分工、文档类型外壳与 vocabulary module、<term keyref="term-constraint">constraint</term> 与扩展模块的差别</stentry></strow>
         <strow><stentry>插件与程序化处理（dim-integration）</stentry><stentry>DITA-OT 扩展点与插件结构、XSLT 覆盖机制、自定义 <term keyref="term-transtype">transtype</term>（输出类型）、把工具当库调用</stentry></strow>
         <strow><stentry>跨格式互通（dim-interop）</stentry><stentry>引用非 DITA 的外部内容、与 Markdown 互转、翻译交换格式在流程里的定位</stentry></strow>
         <strow><stentry>检索用途（dim-retrieval）</stentry><stentry>topic 自足性与检索切块的吻合度、切块粒度与检索元数据怎么定、送进检索的应当是解析前还是解析后的内容</stentry></strow>
@@ -123,7 +123,7 @@
         <strow><stentry>定位对比（dim-comparison）</stentry><stentry>与 DocBook、Markdown、AsciiDoc 在语义粒度、内建复用、条件化、可扩展性上的差别</stentry></strow>
         <strow><stentry>判断与取舍（dim-decision）</stentry><stentry>上不上 2.0、表格选哪套体系、处理解析前还是解析后的内容，这类需要给出判据的问题</stentry></strow>
         <strow><stentry>采用与成本（dim-adoption）</stentry><stentry>二次开发的成本阶梯、投入产出的成立条件、工程化与持续集成的门槛</stentry></strow>
-        <strow><stentry>版本演进（dim-evolution）</stentry><stentry>规范的阶段状态、工具链基线与规范版本的差距、做专门化时锁版本的做法</stentry></strow>
+        <strow><stentry>版本演进（dim-evolution）</stentry><stentry>规范的阶段状态、工具链基线与规范版本的差距、做 specialization 时锁版本的做法</stentry></strow>
         <strow><stentry>边界与反模式（dim-boundary-pitfalls）</stentry><stentry>用 keytext 拼句子、低于句子粒度的 conref、把未解析内容送进检索这类已知会出错的做法</stentry></strow>
       </simpletable>
     </section>
@@ -137,7 +137,7 @@
         <strow><stentry>基线差</stentry><stentry>DITA-OT 4.4 的语法文件取自 2026-01-25 的 2.0 草案，比 beta03 早约五个月，两者可能有差异</stentry></strow>
         <strow><stentry>主线信号</stentry><stentry>dita-lang.org 的无版本号路径指向 2.0，1.3 的内容移到带版本号的路径下</stentry></strow>
       </simpletable>
-      <p>由此得到三条实践含义。其一，规范支持不等于工具链支持：DITA-OT 的 preview 已相当完整，编辑器与各家内容管理系统的 2.0 支持程度参差，投入内容之前先在最小样例上运行一遍实际要用的工具。其二，规范还会变，做专门化时锁定所基于的 beta 版本号，并尽量从稳定基类派生。其三，元素派生链的记录机制是架构的地基且保持稳定，按派生链匹配的模板、专门化方法与泛化算法都不受 beta 状态影响，二次开发可以照常进行。</p>
+      <p>由此得到三条实践含义。其一，规范支持不等于工具链支持：DITA-OT 的 preview 已相当完整，编辑器与各家内容管理系统的 2.0 支持程度参差，投入内容之前先在最小样例上运行一遍实际要用的工具。其二，规范还会变，做 specialization 时锁定所基于的 beta 版本号，并尽量从稳定基类派生。其三，元素派生链的记录机制是架构的地基且保持稳定，按派生链匹配的模板、specialization 方法与 generalization 算法都不受 beta 状态影响，二次开发可以照常进行。</p>
     </section>
 
     <section>
@@ -149,7 +149,7 @@
         <strow><stentry>类型化强制</stentry><stentry>有</stentry><stentry>无</stentry><stentry>无</stentry><stentry>无</stentry></strow>
         <strow><stentry>内建复用</stentry><stentry>conref、keyref 与 include 三套</stentry><stentry>有限</stentry><stentry>无</stentry><stentry>文件包含</stentry></strow>
         <strow><stentry>条件化</stentry><stentry>正交多维</stentry><stentry>有</stentry><stentry>无</stentry><stentry>一维开关</stentry></strow>
-        <strow><stentry>可扩展性</stentry><stentry>专门化并自动降级</stentry><stentry>改 schema，无降级</stentry><stentry>靠插件</stentry><stentry>靠扩展</stentry></strow>
+        <strow><stentry>可扩展性</stentry><stentry>specialization 并自动降级</stentry><stentry>改 schema，无降级</stentry><stentry>靠插件</stentry><stentry>靠扩展</stentry></strow>
         <strow><stentry>作者门槛</stentry><stentry>高</stentry><stentry>高</stentry><stentry>极低</stentry><stentry>低</stentry></strow>
         <strow><stentry>工具成本</stentry><stentry>高</stentry><stentry>中</stentry><stentry>极低</stentry><stentry>低</stentry></strow>
       </simpletable>

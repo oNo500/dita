@@ -15,7 +15,7 @@
          maturity="draft" volatility="volatile"
          dimension="dim-integration dim-mechanism">
   <title>XSLT 覆盖</title>
-  <shortdesc>改变某个元素的渲染不必改动 DITA-OT 自带的样式表：plugin 声明一份自己的 XSLT，安装时它被追加到该输出格式的 import 链末尾，后导入者优先，模板因而覆盖内置模板。模板匹配写成 <xmlatt>class</xmlatt> 判断，专门化元素随之一并覆盖。</shortdesc>
+  <shortdesc>改变某个元素的渲染不必改动 DITA-OT 自带的样式表：plugin 声明一份自己的 XSLT，安装时它被追加到该输出格式的 import 链末尾，后导入者优先，模板因而覆盖内置模板。模板匹配写成 <xmlatt>class</xmlatt> 判断，<term keyref="term-specialization">specialization</term>（专门化）出的元素随之一并覆盖。</shortdesc>
   <prolog>
     <source href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external"/>
     <data name="domain" value="dita"/>
@@ -51,7 +51,7 @@
   &lt;/xsl:template&gt;
 
 &lt;/xsl:stylesheet&gt;</codeblock>
-      <p>安装 plugin 后按注册的 <term keyref="term-transtype">transtype</term>（输出类型）构建，产出里即为新版式。按 <xmlatt>class</xmlatt> 而非元素名匹配是这里的关键一步：<xmlelement>note</xmlelement> 的专门化元素同样带有 <codeph>topic/note</codeph> 这一段派生链，模板因此自动覆盖它们。</p>
+      <p>安装 plugin 后按注册的 <term keyref="term-transtype">transtype</term>（输出类型）构建，产出里即为新版式。按 <xmlatt>class</xmlatt> 而非元素名匹配是这里的关键一步：<xmlelement>note</xmlelement> 的 specialization 元素同样带有 <codeph>topic/note</codeph> 这一段派生链，模板因此自动覆盖它们。</p>
     </section>
 
     <section>

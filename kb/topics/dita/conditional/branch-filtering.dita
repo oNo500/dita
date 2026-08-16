@@ -70,7 +70,7 @@
         <li>顺序不可颠倒。先建键空间再做分支过滤，键的解析结果就是错的。</li>
         <li>克隆出的各份分支里，同一个键因改名而各自不同，外部要引用其中某一份时须显式规划改名规则。</li>
       </ul>
-      <p>同一分支里同时使用多份 <xmlelement>ditavalref</xmlelement> 与 <xmlatt>keyscope</xmlatt> 的组合，是规范里较复杂而各家实现容易分歧的一处。写依赖它的逻辑之前，先以解析后的中间产物为准核对克隆之后的键长什么样。键空间本身的模型与作用域规则属寻址一侧，本篇不展开。</p>
+      <p>同一分支里同时使用多份 <xmlelement>ditavalref</xmlelement> 与 <xmlatt>keyscope</xmlatt> 的组合，是规范里较复杂而各家实现容易分歧的一处。写依赖它的逻辑之前，先以解析后的中间产物为准核对克隆之后的键长什么样。键空间本身的模型与作用域规则见 <xref href="../architecture/key-space-model.dita">key space 与 key scope</xref>，分支过滤与键空间交互的完整处理顺序另见 <xref href="../architecture/branch-filter-key-space.dita">branch filtering 与 key space</xref>，本篇不展开。</p>
     </section>
 
     <section>

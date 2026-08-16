@@ -64,8 +64,8 @@
     <section>
       <title>DITA 2.0 提供的类型集合</title>
       <p>OASIS 按分委员会分仓开发 2.0，实际有产出的是两个包。base 包给出 <xmlelement>topic</xmlelement>（泛型 topic，全部类型的根基类）、<xmlelement>map</xmlelement> 与 <xmlelement>subjectScheme</xmlelement>；technical content 包给出 <xmlelement>concept</xmlelement>、<xmlelement>task</xmlelement>、<xmlelement>reference</xmlelement>、<xmlelement>glossentry</xmlelement>、<xmlelement>glossgroup</xmlelement>、<xmlelement>troubleshooting</xmlelement> 与 <xmlelement>bookmap</xmlelement>。合计 topic 类型七个，map 类型三个（<xmlelement>map</xmlelement>、<xmlelement>subjectScheme</xmlelement>、<xmlelement>bookmap</xmlelement>）。</p>
-      <p>2.0 移除了 machinery task 与 classification map 两套域及其 document-type shell，并以 <codeph>glossentry.dtd</codeph> 取代 <codeph>glossary.dtd</codeph>。后者是一个 document-type shell，被移除的是它而不是 <xmlelement>glossgroup</xmlelement> 本身，该元素在 2.0 的语法文件目录里仍在。</p>
-      <p>information type 与 document-type shell 是两个层级，容易混。strict task 与 general task 不是两个 information type，是同一个 <xmlelement>task</xmlelement> 类型的两个 shell，且 strict 的那一个由 constraint module（约束模块）实现。同一个 <xmlelement>topic</xmlelement> 也可被不同 shell 配置出完全不同的允许范围。<b>数类型时数的是结构模块，不是 shell</b>。</p>
+      <p>2.0 移除了 machinery task 与 classification map 两套域及其 <term keyref="term-document-type-shell">document-type shell</term>，并以 <codeph>glossentry.dtd</codeph> 取代 <codeph>glossary.dtd</codeph>。后者是一个 document-type shell，被移除的是它而不是 <xmlelement>glossgroup</xmlelement> 本身，该元素在 2.0 的语法文件目录里仍在。</p>
+      <p>information type 与 document-type shell 是两个层级，容易混。strict task 与 general task 不是两个 information type，是同一个 <xmlelement>task</xmlelement> 类型的两个 shell，且 strict 的那一个由 <term keyref="term-constraint">constraint module</term>（约束模块）实现。同一个 <xmlelement>topic</xmlelement> 也可被不同 shell 配置出完全不同的允许范围。<b>数类型时数的是结构模块，不是 shell</b>。</p>
       <simpletable relcolwidth="1* 1.4* 1.4*">
         <sthead><stentry>项</stentry><stentry>strict task</stentry><stentry>general task</stentry></sthead>
         <strow><stentry>内容模型</stentry><stentry>顺序固定，各元素至多一次</stentry><stentry>顺序灵活，元素可重复</stentry></strow>
@@ -74,7 +74,7 @@
         <strow><stentry>选用</stentry><stentry>默认选它（判断）</stentry><stentry>结构不规整的过程性内容（判断）</stentry></strow>
       </simpletable>
       <p>strict 一侧的 <xmlelement>taskbody</xmlelement> 内容模型是 <codeph>prereq?, context?, (steps | steps-unordered)?, result?, tasktroubleshooting?, example?, postreq?</codeph>，全部可选而顺序固定。<xmlelement>steps</xmlelement> 的内容模型是 <codeph>data*, stepsection?, step+</codeph>，子步骤靠 <xmlelement>steps</xmlelement> 直接嵌套在 <xmlelement>step</xmlelement> 内，2.0 已无单独的子步骤元素。<xmlelement>steps-informal</xmlelement> 从 <xmlelement>section</xmlelement> specialize 而来，定义在 task 模块内。</p>
-      <p>类型集合本身是无界的，这是规范的原话。新类型经 specialization（专门化）产生，或从 <xmlelement>topic</xmlelement> 派生，或在既有类型上再细化。内置的那些类型本身就是这个机制的产物：<xmlelement>concept</xmlelement> 的派生链是 <codeph>- topic/topic concept/concept </codeph>，与自造类型在架构上同一等级，区别只在前者写进了规范、有生态支持。这正是 Darwin 一词的含义，即类型从类型繁衍而来。构造规则见 <xref href="../architecture/class-derivation.dita">@class 与 @specializations 属性规则与语法</xref>。</p>
+      <p>类型集合本身是无界的，这是规范的原话。新类型经 <term keyref="term-specialization">specialization</term>（专门化）产生，或从 <xmlelement>topic</xmlelement> 派生，或在既有类型上再细化。内置的那些类型本身就是这个机制的产物：<xmlelement>concept</xmlelement> 的派生链是 <codeph>- topic/topic concept/concept </codeph>，与自造类型在架构上同一等级，区别只在前者写进了规范、有生态支持。这正是 Darwin 一词的含义，即类型从类型繁衍而来。构造规则见 <xref href="../architecture/class-derivation.dita">@class 与 @specializations 属性规则与语法</xref>。</p>
     </section>
 
     <section>

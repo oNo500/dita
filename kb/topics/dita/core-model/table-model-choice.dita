@@ -21,7 +21,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-decision dim-structure-template">
   <title>simpletable 与 CALS table 的选用</title>
-  <shortdesc>DITA 自带两套表格模型，二者的差别不在外观而在能力与代价：一套结构简单、可作 specialization 的基类，另一套支持跨行跨列而几乎无法派生。默认选前者，把后者留给真正需要合并单元格的矩阵。</shortdesc>
+  <shortdesc>DITA 自带两套表格模型，二者的差别不在外观而在能力与代价：一套结构简单、可作 <term keyref="term-specialization">specialization</term> 的基类，另一套支持跨行跨列而几乎无法派生。默认选前者，把后者留给真正需要合并单元格的矩阵。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/langref/base/simpletable" scope="external"/>
     <data name="domain" value="dita"/>
@@ -66,7 +66,7 @@
       <title>边界</title>
       <p>矩阵型数据不在此列。行列都有表头、单元格按区块合并的对照矩阵，用 <xmlelement>simpletable</xmlelement> 表达会失真，此时 CALS 是正确的选择。</p>
       <p>从外部系统导入的表格同样例外。原表已是 CALS 结构时，转成 <xmlelement>simpletable</xmlelement> 的改写成本与出错风险高于保留原状。</p>
-      <p>这条判断是团队约定层面的，工具不强制。把「本库只用 <xmlelement>simpletable</xmlelement>」写进 constraint module 可以让它变成机器可查的规则，代价是 CALS 的例外场合要另开一个 document-type shell。</p>
+      <p>这条判断是团队约定层面的，工具不强制。把「本库只用 <xmlelement>simpletable</xmlelement>」写进 <term keyref="term-constraint">constraint module</term> 可以让它变成机器可查的规则，代价是 CALS 的例外场合要另开一个 <term keyref="term-document-type-shell">document-type shell</term>。</p>
     </section>
 
     <section>

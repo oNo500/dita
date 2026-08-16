@@ -101,7 +101,7 @@ done</codeblock>
 
     <section>
       <title>边界</title>
-      <p>本篇给的是内容库一侧的工程约定。DITA-OT 的安装与首次构建见<xref href="../toolchain/dita-ot-quickstart.dita">DITA-OT 安装与 2.0 doctype 触发</xref>；校验分几层、业务规则怎么写见<xref href="../toolchain/validation-schematron.dita">DITA 校验的分层与 Schematron</xref>。</p>
+      <p>本篇给的是内容库一侧的工程约定。DITA-OT 的安装与首次构建见<xref href="../toolchain/dita-ot-quickstart.dita">DITA-OT 安装与 2.0 doctype 触发</xref>；校验分几层、业务规则怎么写见<xref href="../toolchain/validation-schematron.dita">校验与 Schematron</xref>。</p>
       <p>项目文件的字段与命令选项随 DITA-OT 版本变动，示例按 4.x 的形制写。接入之前以本机版本的文档为准，并用一件交付物先跑通。</p>
     </section>
 

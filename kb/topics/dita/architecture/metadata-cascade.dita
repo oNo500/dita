@@ -36,7 +36,7 @@
 
     <section>
       <title>背景：级联沿包含层级传，且只传清单内的属性</title>
-      <p>规范给的定义是：为一个 map 或一个 topicref 指定的元数据元素与属性，向下级联到嵌套的引用。其中有一处限定值得单独记：级联作用于包含层级，不是 specialization 层级。它沿 map 的树形嵌套往下走，与元素的 <xmlatt>class</xmlatt> 派生链无关。</p>
+      <p>规范给的定义是：为一个 map 或一个 topicref 指定的元数据元素与属性，向下级联到嵌套的引用。其中有一处限定值得单独记：级联作用于包含层级，不是 <term keyref="term-specialization">specialization</term> 层级。它沿 map 的树形嵌套往下走，与元素的 <xmlatt>class</xmlatt> 派生链无关。</p>
       <p>能级联的属性是一份有限清单：</p>
       <simpletable relcolwidth="1* 2.2*">
         <sthead><stentry>组</stentry><stentry>属性</stentry></sthead>

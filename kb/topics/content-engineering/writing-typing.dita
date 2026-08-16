@@ -51,7 +51,7 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：按用户需求划分文档形态见 <xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>（教程、操作指南、技术参考、解释四类，按需求而非主题组织）；DITA 将类型做入语法，<xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/concept" scope="external">concept</xref> 与 <xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/troubleshooting" scope="external">troubleshooting</xref> 等均由 topic 专门化而来。</p>
+      <p><b>事实</b>：按用户需求划分文档形态见 <xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>（教程、操作指南、技术参考、解释四类，按需求而非主题组织）；DITA 将类型做入语法，<xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/concept" scope="external">concept</xref> 与 <xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/troubleshooting" scope="external">troubleshooting</xref> 等均由 topic <term keyref="term-specialization">specialization</term>（专门化）而来。</p>
       <p><b>判断</b>：Diátaxis 四类与 DITA 五类不一一对应，本库按 DITA 类型执行；扫视与通读的判别问句、两种失败模式，为经验归纳，可被反驳。</p>
     </section>
   </conbody>

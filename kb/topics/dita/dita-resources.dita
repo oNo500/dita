@@ -42,10 +42,10 @@
         </strow>
         <strow>
           <stentry><xref href="https://dita-lang.org/dita/archspec/base/topicstructure" scope="external">架构规范</xref></stentry>
-          <stentry>专门化、寻址、处理模型与一致性的规则正文，自研处理逻辑的判据来源</stentry>
+          <stentry><term keyref="term-specialization">specialization</term>（专门化）、寻址、处理模型与一致性的规则正文，自研处理逻辑的判据来源</stentry>
         </strow>
         <strow>
-          <stentry><xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">属性专门化记录规则</xref></stentry>
+          <stentry><xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref></stentry>
           <stentry>属性派生链的语法与由外壳注入默认值的规定</stentry>
         </strow>
         <strow>

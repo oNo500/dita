@@ -32,13 +32,13 @@
         <li>超出上下文预算：二级切分沿元素边界进行。段落容器、步骤、术语条目的边界都可由派生链可靠识别，切出来的仍是完整的语义单元。</li>
         <li>本身很小，例如术语条目或单条排障：整块入库，并把它与术语的引用关系一并带上。</li>
       </ul>
-      <p>关系图不必另建。map 的层级是父子边，关系表是相关边，<term keyref="term-keyref">keyref</term>（键引用）与 <term keyref="term-conref">conref</term>（内容引用）是引用边，边的类型另有属性给出取值。做图增强检索时这些关系直接可用。</p>
+      <p>关系图不必另建。map 的层级是父子边，<xmlelement>reltable</xmlelement> 是相关边，<term keyref="term-keyref">keyref</term>（键引用）与 <term keyref="term-conref">conref</term>（内容引用）是引用边，边的类型由 <xmlatt>collection-type</xmlatt> 给出取值。做图增强检索时这些关系直接可用。</p>
       <p>元数据逐项对应到内容里的出处。</p>
       <simpletable relcolwidth="1.3* 1.3* 2*">
         <sthead><stentry>检索侧需要什么</stentry><stentry>内容里的出处</stentry><stentry>取用时的注意</stentry></sthead>
         <strow>
           <stentry>块的类型，概念、操作或参数</stentry>
-          <stentry><xmlatt>class</xmlatt> 里最特化的那一段</stentry>
+          <stentry><xmlatt>class</xmlatt> 里最具体的那一段</stentry>
           <stentry>据此让操作类问句优先命中操作类的块</stentry>
         </strow>
         <strow>
@@ -58,7 +58,7 @@
         </strow>
         <strow>
           <stentry>时效</stentry>
-          <stentry>prolog 里的日期字段</stentry>
+          <stentry><xmlelement>critdates</xmlelement></stentry>
           <stentry>仅当由系统注入才可信，手填的日期不能用于排序</stentry>
         </strow>
         <strow>
@@ -86,7 +86,7 @@
         <li>对超长 topic 按固定字数二级切分。切点落在句中或表格中部，得到的块两头都不完整。</li>
         <li>把手填的日期字段直接接进排序器。字段存在不等于字段可信，判据是问一句：这个值由谁写入、什么时候更新。</li>
         <li>把条件属性当成可选装饰而不保留进产物。受众与平台一栏随即为空，单库路线的过滤也就无从实现。</li>
-        <li>为图增强检索另建一套关系抽取。map 层级与关系表已经声明了这些边，重建出来的关系还要与源保持同步。</li>
+        <li>为图增强检索另建一套关系抽取。map 层级与 <xmlelement>reltable</xmlelement> 已经声明了这些边，重建出来的关系还要与源保持同步。</li>
       </ul>
     </section>
 
@@ -99,7 +99,7 @@
     <section>
       <title>来源</title>
       <p><b>事实</b>：无。检索增强生成与结构化内容的结合尚无标准文献，笔记 15 未核对任何外部页面，本篇因此没有可转述的权威内容。</p>
-      <p><b>判断</b>：正文全部陈述均属判断，可被反驳。其中沿元素边界二级切分、派生链可稳定识别边界、<xmlatt>subjectrefs</xmlatt> 与 subjectScheme 树提供层级分面、关系表与边类型属性可直接用作图的边、条件属性须 passthrough 才保留、日期字段仅在系统注入时可信，来自本库前序笔记的机制分析，未在本篇核对，其核对状态以条件化与元数据两簇对应篇的来源节为准；三种粒度情形的划分、元数据对照表的选项、四条反例、「失真元数据比没有更糟」的定性，为本库归纳。</p>
+      <p><b>判断</b>：正文全部陈述均属判断，可被反驳。其中沿元素边界二级切分、派生链可稳定识别边界、<xmlatt>subjectrefs</xmlatt> 与 subjectScheme 树提供层级分面、<xmlelement>reltable</xmlelement> 与 <xmlatt>collection-type</xmlatt> 可直接用作图的边、条件属性须 passthrough 才保留、日期字段仅在系统注入时可信，来自本库前序笔记的机制分析，未在本篇核对，其核对状态以条件化与元数据两簇对应篇的来源节为准；三种粒度情形的划分、元数据对照表的选项、四条反例、「失真元数据比没有更糟」的定性，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

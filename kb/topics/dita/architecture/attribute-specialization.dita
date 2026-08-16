@@ -20,7 +20,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-internals dim-mechanism">
   <title>attribute specialization</title>
-  <shortdesc>条件化的内置维度不够用时，从 <xmlatt>props</xmlatt> 或 <xmlatt>base</xmlatt> 派生新属性，得到的是一个可以独立过滤的维度而不是又一串取值。派生链记在文档实例的 <xmlatt>specializations</xmlatt> 上，由 document-type shell 注入；不认识该属性的处理器沿派生链把它还原回基属性。</shortdesc>
+  <shortdesc>条件化的内置维度不够用时，从 <xmlatt>props</xmlatt> 或 <xmlatt>base</xmlatt> 派生新属性，得到的是一个可以独立过滤的维度而不是又一串取值。派生链记在文档实例的 <xmlatt>specializations</xmlatt> 上，由 <term keyref="term-document-type-shell">document-type shell</term> 注入；不认识该属性的处理器沿派生链把它还原回基属性。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external"/>
     <data name="domain" value="dita"/>
@@ -30,7 +30,7 @@
     <section>
       <title>问题</title>
       <p>条件化的内置维度是固定的几个。要按销售区域和授权档次出变体时，最省事的写法是把两件事都挤进 <xmlatt>otherprops</xmlatt>，代价随即出现：两个维度的取值混在同一个属性里，过滤规则说不清「排除某个区域」与「排除某个档次」的分别，取值撞名时更没有办法分辨。</p>
-      <p>attribute specialization 解决的是这一类需求：为新维度派生一个属于自己的属性，它在过滤、generalization 与校验三处都被当作独立维度对待。它是 specialization（专门化）三种形态中唯一在文档实例上留下声明的一种。</p>
+      <p>attribute specialization 解决的是这一类需求：为新维度派生一个属于自己的属性，它在过滤、<term keyref="term-generalization">generalization</term> 与校验三处都被当作独立维度对待。它是 <term keyref="term-specialization">specialization</term>（专门化）三种形态中唯一在文档实例上留下声明的一种。</p>
     </section>
 
     <section>

@@ -45,19 +45,19 @@
         </dlentry>
         <dlentry>
           <dt>降级保证合法，不保证保义</dt>
-          <dd><xmlatt>class</xmlatt> 保证泛化后的内容结构合法，不保证语义不丢。<xmlelement>sensor-id</xmlelement> 泛化成 <xmlelement>ph</xmlelement> 之后，「这是个传感器编号」这条信息没有了。降级是安全的，不是无损的。这划定了 <xmlatt>class</xmlatt> 机制的能力边界：它解决互操作问题，不解决语义保全问题。</dd>
+          <dd><xmlatt>class</xmlatt> 保证 <term keyref="term-generalization">generalization</term>（泛化）后的内容结构合法，不保证语义不丢。<xmlelement>sensor-id</xmlelement> generalize 成 <xmlelement>ph</xmlelement> 之后，「这是个传感器编号」这条信息没有了。降级是安全的，不是无损的。这划定了 <xmlatt>class</xmlatt> 机制的能力边界：它解决互操作问题，不解决语义保全问题。</dd>
         </dlentry>
       </dl>
     </section>
 
     <section>
       <title>分析：必然与历史包袱的分界</title>
-      <p>从公理推得出来的部分，换一套设计仍然会保留：内容单元以自足性定义边界、结构与内容分离、间接寻址、正交的条件维度、派生链写在数据里并可不查 schema 读出、专门化只能收紧、永不修改共享模块、由依赖关系决定的解析顺序。这些的推导见<xref href="first-principles.dita">公理推导</xref>一篇。</p>
+      <p>从公理推得出来的部分，换一套设计仍然会保留：内容单元以自足性定义边界、结构与内容分离、间接寻址、正交的条件维度、派生链写在数据里并可不查 <term keyref="term-schema">schema</term> 读出、<term keyref="term-specialization">specialization</term>（专门化）只能收紧、永不修改共享模块、由依赖关系决定的解析顺序。这些的推导见<xref href="first-principles.dita">公理推导</xref>一篇。</p>
       <p>另一类不是必然，是当年的选择：</p>
       <simpletable relcolwidth="1.2* 2.4*">
         <sthead><stentry>历史选择</stentry><stentry>说明</stentry></sthead>
         <strow><stentry>XML 作为语法</stentry><stentry>上述思想都不要求 XML，同样的架构可以建在别的语法上</stentry></strow>
-        <strow><stentry>DTD 作为起始的 schema 语言</stentry><stentry>DTD 的表达力不足以完整表达专门化，早期模块、实体与 shell 三件套的复杂度大半来自这一限制，后来转向 RNG 是纠偏</stentry></strow>
+        <strow><stentry>DTD 作为起始的 schema 语言</stentry><stentry>DTD 的表达力不足以完整表达 specialization，早期模块、实体与 shell 三件套的复杂度大半来自这一限制，后来转向 RNG 是纠偏</stentry></strow>
         <strow><stentry>concept / task / reference 的三分</stentry><stentry>「要有类型」是推论，「是这三种」是选择</stentry></strow>
         <strow><stentry>词汇表的规模</stentry><stentry>数百个元素，其中有多少是必要的可以争论</stentry></strow>
         <strow><stentry>conref push</stentry><stentry>能力强，但把「读源码能知道有什么」这个性质破坏得最彻底；它是在既有架构上打的补丁，不是从公理长出来的</stentry></strow>
@@ -70,7 +70,7 @@
       <title>结论：文件形态是为长期存活付的另一笔账</title>
       <p>既然做的是范式化，直接上数据库或内容管理系统似乎更省事。文档比数据多一个需求：它要比生产它的工具活得久。产品手册、合规文档、航空与医疗资料的生命周期以十年计，而软件工具的生命周期以年计；内容绑定在某个厂商的数据库里，工具停止维护之后内容就成了考古对象。</p>
       <p>纯文本、开放 schema、公开规范三者合起来是对这个时间尺度的应对，不是技术上的保守。同一条理由也解释了 DITA 为何是 OASIS 标准而非某家公司的产品，以及 <xmlatt>class</xmlatt> 为何必须写在实例里：规范的 specializations 属性一章确认这类属性由 shell 声明的默认值注入、随实例一起携带，文档因此能被完全不持有你的 schema 的处理器读懂。自描述性是为长期存活服务的。</p>
-      <p>这笔账与前面四笔并列：源码可读性、作者的付出、固定的学习与工具成本、语义在泛化中的损失，加上为跨越十年而接受的文件形态。愿不愿意付，取决于内容规模、变体数、变更频率与语言数这四项乘数在你的场景里是多少。</p>
+      <p>这笔账与前面四笔并列：源码可读性、作者的付出、固定的学习与工具成本、语义在 generalization 中的损失，加上为跨越十年而接受的文件形态。愿不愿意付，取决于内容规模、变体数、变更频率与语言数这四项乘数在你的场景里是多少。</p>
     </section>
 
     <section>

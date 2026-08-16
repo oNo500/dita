@@ -22,7 +22,7 @@
   <refbody>
     <section>
       <title>定位</title>
-      <p>本篇只回答「看到这个症状先查什么」。机制本身另见各簇对应篇：派生链与默认属性见<xref href="../toolchain/programming-by-class.dita">按 @class 编程</xref>，阶段顺序与中间产物见<xref href="../toolchain/preprocess-pipeline.dita">DITA-OT preprocess 流水线</xref>，引用方向见<xref href="../core-model/conref-pull-push.dita">conref 与 conref push</xref>。</p>
+      <p>本篇只回答「看到这个症状先查什么」。机制本身另见各簇对应篇：派生链与默认属性见<xref href="../toolchain/programming-by-class.dita">@class 与派生链解析</xref>，阶段顺序与中间产物见<xref href="../toolchain/preprocess-pipeline.dita">preprocess 流水线</xref>，引用方向见<xref href="../core-model/conref-pull-push.dita">conref 与 conref push</xref>。</p>
     </section>
 
     <section>
@@ -34,7 +34,7 @@
           <stentry>两者的值由语法文件的默认属性声明提供。须开启解析器的默认属性补齐，或改读 <term keyref="term-preprocess">preprocess</term>（预处理）之后的文件</stentry>
         </strow>
         <strow>
-          <stentry>自定义 XSLT 模板对专门化元素不生效</stentry>
+          <stentry>自定义 XSLT 模板对 <term keyref="term-specialization">specialization</term>（专门化）出的元素不生效</stentry>
           <stentry>模板按元素名匹配。须改为按派生链匹配，即 <codeph>contains(@class, ' topic/x ')</codeph></stentry>
         </strow>
         <strow>
@@ -42,7 +42,7 @@
           <stentry>匹配串前后少了空格，<codeph>topic/lines</codeph> 一类随之命中</stentry>
         </strow>
         <strow>
-          <stentry>泛化之后元素名不对</stentry>
+          <stentry><term keyref="term-generalization">generalization</term>（泛化）之后元素名不对</stentry>
           <stentry><xmlatt>class</xmlatt> 的祖先链漏写中间层，或结尾少一个空格</stentry>
         </strow>
         <strow>
@@ -129,7 +129,7 @@
     <section>
       <title>来源</title>
       <p><b>事实</b>：<xmlatt>keys</xmlatt> 的值类型为 NMTOKENS、只能以空格分隔，转自 <xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref>；DITA-OT 4.4 提供的 2.0 preview 支持基于 2026-01-25 的草案语法文件，而 v2.0-beta03 发布于其后，转自 <xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA 2.0 preview 支持</xref>与 <xref href="https://github.com/oasis-tcs/dita/releases" scope="external">oasis-tcs/dita 发布页</xref>。三处均已逐页核对。</p>
-      <p><b>判断</b>：除事实段两条外，三张表其余各行均属判断，可被反驳。其中默认属性补齐、按派生链匹配的写法与空格陷阱、泛化后的祖先链要求、安装时编译配置、catalog 与公共标识符、调试选项、字体配置、DITAVAL 排除导致引用落空、key 取最先定义者、条件打在能整体去掉的层级、conref push 的来处、subjectScheme 作受控值、<xmlelement>keytext</xmlelement> 的工具链支持，来自 DITA 与 DITA-OT 使用经验，非规范条文，未逐条核对；三张表的分组方式与「先查什么」的排列顺序为本库归纳。</p>
+      <p><b>判断</b>：除事实段两条外，三张表其余各行均属判断，可被反驳。其中默认属性补齐、按派生链匹配的写法与空格陷阱、generalization 后的祖先链要求、安装时编译配置、catalog 与公共标识符、调试选项、字体配置、DITAVAL 排除导致引用落空、key 取最先定义者、条件打在能整体去掉的层级、conref push 的来处、subjectScheme 作受控值、<xmlelement>keytext</xmlelement> 的工具链支持，来自 DITA 与 DITA-OT 使用经验，非规范条文，未逐条核对；三张表的分组方式与「先查什么」的排列顺序为本库归纳。</p>
     </section>
   </refbody>
 </reference>

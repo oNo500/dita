@@ -20,7 +20,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-internals dim-consistency">
   <title>constraints 与 generalization</title>
-  <shortdesc>constraint（约束）收紧已有元素的内容模型而不引入新元素，属于元素类型配置，不是 specialization 的第四种形态；generalization（泛化）方向相反，把派生出的元素与属性还原回基类，算法只读 <xmlatt>class</xmlatt>，不查语法文件。前者决定作者能写什么，后者决定这些内容还能交给谁。</shortdesc>
+  <shortdesc><term keyref="term-constraint">constraint</term>（约束）收紧已有元素的内容模型而不引入新元素，属于元素类型配置，不是 <term keyref="term-specialization">specialization</term> 的第四种形态；<term keyref="term-generalization">generalization</term>（泛化）方向相反，把派生出的元素与属性还原回基类，算法只读 <xmlatt>class</xmlatt>，不查语法文件。前者决定作者能写什么，后者决定这些内容还能交给谁。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/specifications" scope="external"/>
     <data name="domain" value="dita"/>

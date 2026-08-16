@@ -65,7 +65,7 @@
     <section>
       <title>退出点</title>
       <p>构建产出里出现的是源文件的内容而非 <xmlelement>fallback</xmlelement> 里写的内容，这一步即完成。<xmlelement>fallback</xmlelement> 出现在产出里说明资源没有取到，路径与构建时的可见性都要复查：被引资源自此成为构建的输入之一，源码仓库的目录调整会让文档构建随之变化。</p>
-      <p>不适用的场合有两类。其一，内容需要语义标记与条件化，例如要按产品线过滤的一段说明——那属于 DITA 内容，应写成 DITA 并用 conref。其二，只引入预格式化的代码：<xmlelement>coderef</xmlelement> 是 <xmlelement>include</xmlelement> 的专门化，为此用途而设，用它比用通用元素更贴切。<b><xmlelement>coderef</xmlelement> 与 <xmlelement>include</xmlelement> 的这层关系也是规范自带的专门化范例</b>，可作为写自定义专门化时的对照。</p>
+      <p>不适用的场合有两类。其一，内容需要语义标记与条件化，例如要按产品线过滤的一段说明——那属于 DITA 内容，应写成 DITA 并用 conref。其二，只引入预格式化的代码：<xmlelement>coderef</xmlelement> 是 <xmlelement>include</xmlelement> 的 <term keyref="term-specialization">specialization</term>（专门化），为此用途而设，用它比用通用元素更贴切。<b><xmlelement>coderef</xmlelement> 与 <xmlelement>include</xmlelement> 的这层关系也是规范自带的 specialization 范例</b>，可作为写自定义 specialization 时的对照。</p>
     </section>
 
     <section>

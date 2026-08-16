@@ -18,7 +18,7 @@
          maturity="draft" volatility="volatile"
          dimension="dim-decision dim-adoption dim-evolution">
   <title>specialization 的启用判据</title>
-  <shortdesc>扩展 vocabulary（词汇表）之前先确认 specialization（专门化）是不是这个问题的答案：多数需求止步于 <xmlatt>outputclass</xmlatt> 加样式表，只有需要语义校验或语义驱动的处理时，一套自维护的语法文件才收得回成本。往下走时的四条落地建议是优先 RNG、从 OASIS 模板起步、锁定语法文件版本、从稳定基类派生。</shortdesc>
+  <shortdesc>扩展 vocabulary（词汇表）之前先确认 <term keyref="term-specialization">specialization</term>（专门化）是不是这个问题的答案：多数需求止步于 <xmlatt>outputclass</xmlatt> 加样式表，只有需要语义校验或语义驱动的处理时，一套自维护的语法文件才收得回成本。往下走时的四条落地建议是优先 RNG、从 OASIS 模板起步、锁定语法文件版本、从稳定基类派生。</shortdesc>
   <prolog>
     <source href="https://github.com/oasis-tcs/dita/releases" scope="external"/>
     <data name="domain" value="dita"/>
@@ -66,8 +66,8 @@
 
     <section>
       <title>边界</title>
-      <p><xmlatt>outputclass</xmlatt> 的替代范围止于外观：取值原样传到输出，样式表据此选中元素，到此为止。它不参与校验，处理器不因它改变行为，也不进入派生链，因而不承担类型判定与 generalization。需要机器判断「这段内容是什么」时，它不够用。</p>
-      <p>本篇只给启用判据，不覆盖 constraint 与 expansion module 的取舍（见 <xref href="constraints-generalization.dita">constraints 与 generalization</xref>），也不覆盖 document-type shell 的装配，后者是全部定制的汇合点，另属文档类型配置这一 extension facility。</p>
+      <p><xmlatt>outputclass</xmlatt> 的替代范围止于外观：取值原样传到输出，样式表据此选中元素，到此为止。它不参与校验，处理器不因它改变行为，也不进入派生链，因而不承担类型判定与 <term keyref="term-generalization">generalization</term>。需要机器判断「这段内容是什么」时，它不够用。</p>
+      <p>本篇只给启用判据，不覆盖 <term keyref="term-constraint">constraint</term> 与 expansion module 的取舍（见 <xref href="constraints-generalization.dita">constraints 与 generalization</xref>），也不覆盖 <term keyref="term-document-type-shell">document-type shell</term> 的装配，后者是全部定制的汇合点，另属文档类型配置这一 extension facility。</p>
       <p>两条时效提醒。其一，DITA 2.0 仍是 beta，语法文件与本篇引用的发行版本随时间前移。其二，RNG 到 DTD 的转换工具来自社区通识，本库未核对其当前维护状态与对 2.0 语法的支持程度，纳入流水线之前先在自己的模块上实测一遍。</p>
     </section>
 

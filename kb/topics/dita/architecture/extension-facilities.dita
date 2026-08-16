@@ -26,7 +26,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-internals dim-classification">
   <title>DITA extension facilities</title>
-  <shortdesc>规范给出的是三个并列的扩展入口：document-type configuration 选模块、specialization 造新元素类型、element-type configuration 改已有元素的内容模型。structural、domain、attribute 三者同属 specialization 之下，constraint 则在另一个入口里，把四者摊平并列是层级错读。</shortdesc>
+  <shortdesc>规范给出的是三个并列的扩展入口：document-type configuration 选模块、<term keyref="term-specialization">specialization</term> 造新元素类型、element-type configuration 改已有元素的内容模型。structural、domain、attribute 三者同属 specialization 之下，constraint 则在另一个入口里，把四者摊平并列是层级错读。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/2.0/dita/archspec/base/ditaspecialization" scope="external"/>
     <data name="domain" value="dita"/>
@@ -35,8 +35,8 @@
   <conbody>
     <section>
       <title>问题</title>
-      <p>要改 DITA 允许写什么，入口有几个、各自能改到哪一层，决定了一次定制落在哪个文件里、升级时会不会被覆盖。流传较广的说法是「四种扩展手段」：structural specialization、domain specialization、attribute specialization，再加 constraint（约束）。这个并列摊平了层级。</p>
-      <p>架构规范的框架是三个 extension facility（扩展设施）：document-type configuration、specialization（专门化）、element-type configuration。前面那份清单里的三种 specialization 是第二个 facility 之下的三种形态，constraint 属于第三个 facility，两者不在同一层。generalization（泛化）也常被算作第四种手段，它不是扩展入口，是把 specialize 过的内容还原回基类标记的补充过程。</p>
+      <p>要改 DITA 允许写什么，入口有几个、各自能改到哪一层，决定了一次定制落在哪个文件里、升级时会不会被覆盖。流传较广的说法是「四种扩展手段」：structural specialization、domain specialization、attribute specialization，再加 <term keyref="term-constraint">constraint</term>（约束）。这个并列摊平了层级。</p>
+      <p>架构规范的框架是三个 extension facility（扩展设施）：document-type configuration、specialization（专门化）、element-type configuration。前面那份清单里的三种 specialization 是第二个 facility 之下的三种形态，constraint 属于第三个 facility，两者不在同一层。<term keyref="term-generalization">generalization</term>（泛化）也常被算作第四种手段，它不是扩展入口，是把 specialize 过的内容还原回基类标记的补充过程。</p>
     </section>
 
     <section>
@@ -95,7 +95,7 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：规范提供三个 extension facility，即 document-type configuration、specialization 与 element-type configuration，generalization 是把用了 specialization 的内容转为未 specialize 标记的过程而非第四个 facility，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/ditaspecialization" scope="external">DITA 扩展设施概览</xref>；document-type configuration 能选模块、应用 constraint 与 expansion、指定 topic 嵌套规则、配置默认属性值，且不得直接定义元素类型、无需修改 vocabulary module，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/configuration" scope="external">文档类型配置</xref>；expansion module 与 constraint 互为反向、其作用是在特定元素类型中引入 specialize 出来的属性或元素而不使之全局可用、其核心规则为 generalize 后受影响元素的内容模型必须与该元素原本的内容模型一致，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/expansion-modules" scope="external">扩展模块</xref>。三处均已逐页核对。</p>
+      <p><b>事实</b>：规范提供三个 extension facility，即 document-type configuration、specialization 与 element-type configuration，generalization 是把用了 specialization 的内容转为未 specialize 标记的过程而非第四个 facility，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/ditaspecialization" scope="external">Overview of DITA extension facilities</xref>；document-type configuration 能选模块、应用 constraint 与 expansion、指定 topic 嵌套规则、配置默认属性值，且不得直接定义元素类型、无需修改 vocabulary module，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/configuration" scope="external">文档类型配置</xref>；expansion module 与 constraint 互为反向、其作用是在特定元素类型中引入 specialize 出来的属性或元素而不使之全局可用、其核心规则为 generalize 后受影响元素的内容模型必须与该元素原本的内容模型一致，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/expansion-modules" scope="external">扩展模块</xref>。三处均已逐页核对。</p>
       <p><b>判断</b>：把三种 specialization 与 constraint 摊平并称四种扩展手段属层级错读、三个 facility 均不修改已有 vocabulary module 因而定制不被上游覆盖、constraint 与 expansion 的用途与典型举例、<xmlelement>sensor-id</xmlelement> 这一例、担心新元素全局可用时应选 expansion module 的判据、结论节的事项与 facility 对应表，为本库归纳或来自通用 DITA 实践，未逐页核对。element-type configuration 与 constraint module 的具体条文本篇未展开。</p>
     </section>
   </conbody>

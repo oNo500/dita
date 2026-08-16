@@ -17,7 +17,7 @@
          maturity="draft" volatility="volatile"
          dimension="dim-mechanism dim-governance">
   <title>DITA schema 的定义权与 @class 角色约束</title>
-  <shortdesc>DITA 的 schema 不是一个文件，而是 document-type shell 加它引入的一组模块，定义权因此分在两层：OASIS 出标准模块，组织的 DITA architect 出自有模块与 shell，而 shell 不得自行声明元素或属性类型。同一个 <xmlatt>class</xmlatt> 属性上，四类角色受四种不同的约束。</shortdesc>
+  <shortdesc>DITA 的 <term keyref="term-schema">schema</term> 不是一个文件，而是 <term keyref="term-document-type-shell">document-type shell</term> 加它引入的一组模块，定义权因此分在两层：OASIS 出标准模块，组织的 DITA architect 出自有模块与 shell，而 shell 不得自行声明元素或属性类型。同一个 <xmlatt>class</xmlatt> 属性上，四类角色受四种不同的约束。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external"/>
     <data name="domain" value="dita"/>
@@ -36,25 +36,25 @@
       <dl>
         <dlentry>
           <dt>DITA document</dt>
-          <dd>符合规范要求的 XML 文档。根元素必须是 <xmlelement>map</xmlelement> 或其专门化、<xmlelement>topic</xmlelement> 或其专门化、或 <xmlelement>dita</xmlelement>（不可被专门化，但允许一个文档包含多个平级 topic）。</dd>
+          <dd>符合规范要求的 XML 文档。根元素必须是 <xmlelement>map</xmlelement> 或其 <term keyref="term-specialization">specialization</term>（专门化）、<xmlelement>topic</xmlelement> 或其 specialization、或 <xmlelement>dita</xmlelement>（不可被 specialize，但允许一个文档包含多个平级 topic）。</dd>
         </dlentry>
         <dlentry>
           <dt>DITA document type</dt>
-          <dd>一组唯一的结构模块、域模块和约束模块，它们合起来提供定义 DITA 文档结构的元素与属性声明。</dd>
+          <dd>一组唯一的结构模块、域模块和 <term keyref="term-constraint">constraint</term>（约束）模块，它们合起来提供定义 DITA 文档结构的元素与属性声明。</dd>
         </dlentry>
         <dlentry>
           <dt>DITA document-type shell</dt>
-          <dd>一组 DTD 或 RELAX NG 声明，按规范给出的规则与设计模式实现一个 DITA document type。shell 引入并配置一个或多个结构模块、零个或多个域模块、零个或多个约束模块；除 <xmlelement>dita</xmlelement> 元素及其属性的可选声明外，shell 不直接声明任何元素或属性类型。</dd>
+          <dd>一组 DTD 或 RELAX NG 声明，按规范给出的规则与设计模式实现一个 DITA document type。shell 引入并配置一个或多个结构模块、零个或多个域模块、零个或多个 constraint 模块；除 <xmlelement>dita</xmlelement> 元素及其属性的可选声明外，shell 不直接声明任何元素或属性类型。</dd>
         </dlentry>
       </dl>
       <p>两个词常被混用，规范里是分开的：document type 是一组模块的组合，形态抽象；document-type shell 是实现那个组合的 DTD 或 RNG 文件，形态具体。由此可推出一条判据，属归纳而非规范条文：两个 shell 若引入了同一组模块，它们实现的就是同一个 document type。</p>
       <p>OASIS 的 v2.0-beta03 里有现成的实例。<filepath>doctypes/dtd/base/basetopic.dtd</filepath> 与 <filepath>doctypes/rng/base/basetopic.rng</filepath> 引入的模块完全一致：<codeph>topicMod</codeph>，加 alternativeTitles / emphasis / hazardStatement / highlight / utilities 五个元素域，以及 audience / deliveryTarget / otherprops / platform / product 五个属性域。它们是同一个 document type 的两种实现，「有出入时以 RNG 为准」这条规则也因此有意义——出入指的是同一个 document type 的两个实现之间的出入。</p>
-      <p>术语章还有一处与功能章节的出入：document type 与 shell 的定义都只提到约束模块，没有提扩展模块。扩展模块是 DITA 2.0 新增的设施，遇到这类出入以功能章节为准；成因是否为术语章尚未同步，属推测。</p>
+      <p>术语章还有一处与功能章节的出入：document type 与 shell 的定义都只提到 constraint 模块，没有提扩展模块。扩展模块是 DITA 2.0 新增的设施，遇到这类出入以功能章节为准；成因是否为术语章尚未同步，属推测。</p>
     </section>
 
     <section>
       <title>分析：schema 的构成与运行时定位</title>
-      <p>schema 是一份机器可读的、对某一类文档允许包含什么的形式化描述：哪些元素可以出现、按什么顺序、可以带哪些属性、属性的取值范围。校验器读入 schema 与一份文档，回答这份文档是否有效。在 DITA 里它不是一个文件，而是一组：文档里的 doctype 声明指向一个 shell，shell 引入若干词汇模块，再应用若干约束模块与扩展模块。「这份文档的 schema」指的是 shell 加上它引入的全部模块。</p>
+      <p>schema 是一份机器可读的、对某一类文档允许包含什么的形式化描述：哪些元素可以出现、按什么顺序、可以带哪些属性、属性的取值范围。校验器读入 schema 与一份文档，回答这份文档是否有效。在 DITA 里它不是一个文件，而是一组：文档里的 doctype 声明指向一个 shell，shell 引入若干 vocabulary module（词汇模块），再应用若干 constraint 模块与扩展模块。「这份文档的 schema」指的是 shell 加上它引入的全部模块。</p>
       <p>语法有两种形式。规范规定语法文件以 RELAX NG（RNG）与 XML 文档类型定义（DTD）两种形式提供，两者应当定义相同的 DITA 元素，若存在出入以 RELAX NG 语法为准，因此标准 DITA 词汇表的 RELAX NG 定义是规范性版本。OASIS 的 RNG 文件不使用任何无法翻译为等价 DTD 构造的 RELAX NG 特性，自写模块若打算生成 DTD 也要守这条限制。v2.0-beta03 的 <filepath>doctypes/</filepath> 下只有 <filepath>dtd</filepath> 与 <filepath>rng</filepath> 两个子目录，未随发行提供 XSD。</p>
       <p>schema 在 DITA 里还多做一件事：注入默认属性值。<xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt> 都由这条路径来。RNG 本身没有默认属性值的概念，DITA 对 RELAX NG 的使用依赖 RELAX NG DTD Compatibility 规范，该规范提供定义默认属性值与内嵌文档的机制。由此得出一条对程序化处理关键的结论：<b>不走 schema，就拿不到 <xmlatt>class</xmlatt></b>。</p>
       <p>文件从哪里来与运行时怎么被找到是两个问题。前者的答案是随 DITA-OT 分发、随编辑器分发、从 OASIS 仓库下载，或放在自己的仓库里。后者容易出问题，因为 doctype 声明里不含可用的文件路径：</p>
@@ -64,19 +64,19 @@
       <codeblock>&lt;public publicId="-//OASIS//DTD DITA 2.0 Base Topic//EN" uri="basetopic.dtd"/&gt;
 &lt;uri name="urn:pubid:oasis:names:tc:dita:rng:mapMod.rng:2.0" uri="mapMod.rng"/&gt;</codeblock>
       <p>DTD 侧用 <codeph>public</codeph> 条目匹配公共标识符，RNG 侧用 <codeph>uri</codeph> 与 <codeph>system</codeph> 条目匹配 URN；顶层 catalog 经 <codeph>nextCatalog</codeph> 串接 dtd 与 rng 两条链，两条链再各自串接 base、ditaval、subjectScheme 三层。每个标识符都有 2.0 与 2.x 两条并存，指向同一个文件。这层间接的作用是文档只声明自己是哪一类，不声明 schema 文件在哪：换一套语法文件、升级版本、改目录结构，都只改 catalog，文档一个字不动。</p>
-      <p>catalog 没配好的后果有三种，来自使用经验：解析器报错找不到 schema、尝试联网抓取、或静默跳过校验。第三种最难察觉，文档看起来通过了，而 <xmlatt>class</xmlatt> 一个都没注入。这也划出了 schema 的能力边界：它管元素能否出现在此处、顺序与基数、属性是否允许及取值范围、注入默认属性值；不管 <term keyref="term-conref">conref</term>（内容引用）的目标文件是否存在、key 能否解析、条件过滤后内容是否仍然合法，也不管「task 必须有 shortdesc」这类业务规则——那需要 Schematron 或约束模块。</p>
+      <p>catalog 没配好的后果有三种，来自使用经验：解析器报错找不到 schema、尝试联网抓取、或静默跳过校验。第三种最难察觉，文档看起来通过了，而 <xmlatt>class</xmlatt> 一个都没注入。这也划出了 schema 的能力边界：它管元素能否出现在此处、顺序与基数、属性是否允许及取值范围、注入默认属性值；不管 <term keyref="term-conref">conref</term>（内容引用）的目标文件是否存在、key 能否解析、条件过滤后内容是否仍然合法，也不管「task 必须有 shortdesc」这类业务规则——那需要 Schematron 或 constraint 模块。</p>
     </section>
 
     <section>
       <title>结论：两层定义权与四种 @class 约束</title>
-      <p>定义权分两层。标准层由 OASIS DITA TC 及其分委员会产出 base 包与技术内容包的模块，这些不该改也不需要改；组织层由本方的 DITA architect 产出自有的词汇模块、约束模块、扩展模块与 shell。组织层内部还要再分，两件事的规则不同：定义词汇模块（新元素、新属性）必须遵守专门化规则与 <xmlatt>class</xmlatt> 语法，内容模型必须是基类的子集；编写 shell 只选模块、配默认值，规范的原文是除 <xmlelement>dita</xmlelement> 元素及其属性的可选声明外，shell 不直接声明任何元素或属性类型。把两件事混在一起做，等于分叉了词汇表，升级标准版本时会出问题。</p>
+      <p>定义权分两层。标准层由 OASIS DITA TC 及其分委员会产出 base 包与技术内容包的模块，这些不该改也不需要改；组织层由本方的 DITA architect 产出自有的 vocabulary module、constraint 模块、扩展模块与 shell。组织层内部还要再分，两件事的规则不同：定义 vocabulary module（新元素、新属性）必须遵守 specialization 规则与 <xmlatt>class</xmlatt> 语法，内容模型必须是基类的子集；编写 shell 只选模块、配默认值，规范的原文是除 <xmlelement>dita</xmlelement> 元素及其属性的可选声明外，shell 不直接声明任何元素或属性类型。把两件事混在一起做，等于分叉了词汇表，升级标准版本时会出问题。</p>
       <p>这两层与<xref href="roles-and-boundaries.dita">角色分工</xref>对得上：语法层与设计层归 architect，文档层归 author。语法层是 <filepath>.rng</filepath> 与 <filepath>.dtd</filepath> 文件里的 DITA element type、topic type、map type、shell；设计层的 DITA document type 不是文件，而是「某个 shell 引入了哪一组模块」这个事实；文档层是 <filepath>.dita</filepath> 与 <filepath>.ditamap</filepath> 文件里的 DITA document、DITA element、topic instance、map instance。这个三层归属为本库归纳，规范未如此编排。</p>
       <p>落到 <xmlatt>class</xmlatt> 上，四类角色四种约束：</p>
       <simpletable relcolwidth="1.2* 2.2*">
         <sthead><stentry>角色</stentry><stentry>对 <xmlatt>class</xmlatt> 的约束</stentry></sthead>
         <strow><stentry>author</stentry><stentry>SHOULD NOT 修改；它通常不出现在创作的 topic 中</stentry></strow>
-        <strow><stentry>词汇模块（DITA architect 编写）</stentry><stentry>MUST NOT 修改那些它只是引用、并未专门化的元素的 <xmlatt>class</xmlatt></stentry></strow>
-        <strow><stentry>document-type shell（DITA architect 编写）</stentry><stentry>声明 <xmlatt>class</xmlatt> 的默认值，且该默认值不能是 fixed，以支持泛化往返</stentry></strow>
+        <strow><stentry>vocabulary module（DITA architect 编写）</stentry><stentry>MUST NOT 修改那些它只是引用、并未 specialize 的元素的 <xmlatt>class</xmlatt></stentry></strow>
+        <strow><stentry>document-type shell（DITA architect 编写）</stentry><stentry>声明 <xmlatt>class</xmlatt> 的默认值，且该默认值不能是 fixed，以支持 <term keyref="term-generalization">generalization</term>（泛化）往返</stentry></strow>
         <strow><stentry>processor</stentry><stentry>依据 <xmlatt>class</xmlatt> 匹配，而不是依据元素名</stentry></strow>
       </simpletable>
       <p>判断某项改动是否合规，先确定它落在表里的哪一行。</p>
@@ -84,7 +84,7 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：DITA document、DITA document type、DITA document-type shell 三条定义与「shell 不直接声明任何元素或属性类型」的原文，逐条读自规范源码 v2.0-beta03 的术语章，见<xref href="https://dita-lang.org/dita/archspec/base/basic-dita-terminology" scope="external">基本 DITA 术语</xref>；author SHOULD NOT 修改 <xmlatt>class</xmlatt>、词汇模块 MUST NOT 修改其未专门化元素的 <xmlatt>class</xmlatt>、默认值不能是 fixed，见 <xref href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external">class 属性规则与语法</xref>；语法文件以 RNG 与 DTD 两种形式提供、出入以 RELAX NG 为准、RELAX NG 定义是规范性版本、OASIS 文件不使用无法翻译为 DTD 的 RELAX NG 特性、DITA 对 RELAX NG 的使用依赖 RELAX NG DTD Compatibility 规范提供默认属性值与内嵌文档的机制，均逐页核对自规范源码全文检索；<filepath>doctypes/</filepath> 下只有 dtd 与 rng 两个子目录、未随发行提供 XSD，两个 basetopic 文件引入同一组模块，以及正文引用的两条 catalog 映射与 catalog 的串接层次与 2.0、2.x 两条并存，均取自 v2.0-beta03 实际文件；术语章的定义只提约束模块而未提扩展模块，是对同一批源文件的直接观察。</p>
+      <p><b>事实</b>：DITA document、DITA document type、DITA document-type shell 三条定义与「shell 不直接声明任何元素或属性类型」的原文，逐条读自规范源码 v2.0-beta03 的术语章，见<xref href="https://dita-lang.org/dita/archspec/base/basic-dita-terminology" scope="external">基本 DITA 术语</xref>；author SHOULD NOT 修改 <xmlatt>class</xmlatt>、vocabulary module MUST NOT 修改其未 specialize 元素的 <xmlatt>class</xmlatt>、默认值不能是 fixed，见 <xref href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external">class 属性规则与语法</xref>；语法文件以 RNG 与 DTD 两种形式提供、出入以 RELAX NG 为准、RELAX NG 定义是规范性版本、OASIS 文件不使用无法翻译为 DTD 的 RELAX NG 特性、DITA 对 RELAX NG 的使用依赖 RELAX NG DTD Compatibility 规范提供默认属性值与内嵌文档的机制，均逐页核对自规范源码全文检索；<filepath>doctypes/</filepath> 下只有 dtd 与 rng 两个子目录、未随发行提供 XSD，两个 basetopic 文件引入同一组模块，以及正文引用的两条 catalog 映射与 catalog 的串接层次与 2.0、2.x 两条并存，均取自 v2.0-beta03 实际文件；术语章的定义只提 constraint 模块而未提扩展模块，是对同一批源文件的直接观察。</p>
       <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 schema 的通用定义、DITA 的 schema 由 shell 加其引入模块构成的说法、两个 shell 引入同一组模块即实现同一 document type 的推论、语法层与设计层与文档层的三层归属、schema 管与不管的对照，为归纳；术语章未提扩展模块的成因为推测；schema 文件的四种取得途径、未配 catalog 的三种后果，来自使用经验；processor 依据 <xmlatt>class</xmlatt> 而非元素名匹配一行，来自通用 DITA 实践，未逐页核对；任何组织都可以定义自己的 schema、两层定义权的划分、以及把定义模块与编写 shell 混做的后果，为本库归纳。</p>
     </section>
   </conbody>

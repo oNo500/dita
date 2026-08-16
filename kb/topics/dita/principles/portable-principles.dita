@@ -14,7 +14,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-principles dim-criteria"><!-- 与 first-principles 的分界：那篇推 DITA 内的机制，本篇取与语法无关的部分 -->
   <title>DITA 之外可迁移的 @class 自描述与晚绑定原则</title>
-  <shortdesc>不采用 DITA 的项目仍会遇到同样的约束：复用要求先给东西起名字，可复用性取决于自足性而非尺寸，扩展的语义必须能在数据里检视而不是藏在 schema 里，子类型只能收紧，定制要在升级中存活就只能配置而不修改，而晚绑定每次都以可读性换灵活性。八条原则各自对应 DITA 里的一处机制，也各自在别的系统里出现过。</shortdesc>
+  <shortdesc>不采用 DITA 的项目仍会遇到同样的约束：复用要求先给东西起名字，可复用性取决于自足性而非尺寸，扩展的语义必须能在数据里检视而不是藏在 <term keyref="term-schema">schema</term> 里，子类型只能收紧，定制要在升级中存活就只能配置而不修改，而晚绑定每次都以可读性换灵活性。八条原则各自对应 DITA 里的一处机制，也各自在别的系统里出现过。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external"/>
     <data name="domain" value="dita"/>
@@ -54,7 +54,7 @@
         </dlentry>
         <dlentry>
           <dt>只收紧才能安全降级</dt>
-          <dd>任何子类型设计若允许放宽，就失去了向下兼容的可能，因为还原成基类之后会产出基类不允许的内容。规范的扩展模块一章要求泛化后受影响元素的内容模型必须与原内容模型一致，是这条在 DITA 里的形态；在别处它就是里氏替换原则，以及协议演进中「新字段可选、旧字段不删」这类规约。</dd>
+          <dd>任何子类型设计若允许放宽，就失去了向下兼容的可能，因为还原成基类之后会产出基类不允许的内容。规范的扩展模块一章要求 <term keyref="term-generalization">generalization</term>（泛化）后受影响元素的内容模型必须与原内容模型一致，是这条在 DITA 里的形态；在别处它就是里氏替换原则，以及协议演进中「新字段可选、旧字段不删」这类规约。</dd>
         </dlentry>
         <dlentry>
           <dt>配置与修改是两件事</dt>

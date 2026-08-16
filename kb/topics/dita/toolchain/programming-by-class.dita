@@ -15,7 +15,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-interop dim-mechanism">
   <title>@class 与派生链解析</title>
-  <shortdesc>元素的派生链写在 <xmlatt>class</xmlatt> 里，属性的派生链写在 <xmlatt>specializations</xmlatt> 里，两者都由语法文件提供默认值，创作时不写进源文件。取到它们有两条路；取到之后，按派生链匹配的代码自动覆盖全部专门化元素。</shortdesc>
+  <shortdesc>元素的派生链写在 <xmlatt>class</xmlatt> 里，属性的派生链写在 <xmlatt>specializations</xmlatt> 里，两者都由语法文件提供默认值，创作时不写进源文件。取到它们有两条路；取到之后，按派生链匹配的代码自动覆盖全部 specialization（专门化）出的元素。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external"/>
     <data name="domain" value="dita"/>
@@ -24,7 +24,7 @@
   <conbody>
     <section>
       <title>问题</title>
-      <p>处理 DITA 的代码不应按元素名分支。元素名只说明这一个元素叫什么，派生链才说明它是什么的专门化，按后者匹配才能一并覆盖专门化出来的元素。而裸解析一份源文件时，这两个属性都取不到：它们由 doctype shell 声明为默认值，作者不手写，解析器不补齐就是空。</p>
+      <p>处理 DITA 的代码不应按元素名分支。元素名只说明这一个元素叫什么，派生链才说明它是什么的 <term keyref="term-specialization">specialization</term>，按后者匹配才能一并覆盖 specialize 出来的元素。而裸解析一份源文件时，这两个属性都取不到：它们由 doctype shell 声明为默认值，作者不手写，解析器不补齐就是空。</p>
     </section>
 
     <section>
@@ -58,16 +58,16 @@ tree.getroot().get("class")   # "- topic/topic concept/concept "</codeblock>
     c = el.get("class")
     return c is not None and f" {cls} " in c
 
-# 找出全部 li 及其专门化（step、chdeschd 等）
+# 找出全部 li 及其 specialization（step、chdeschd 等）
 for el in tree.iter():
     if is_class(el, "topic/li"):
         ...
 
 # XPath 写法等价
 tree.xpath("//*[contains(@class, ' topic/section ')]")</codeblock>
-      <p>判断一份 topic 属于哪个类型，取派生链的最后一段，即最特化的那一段。解析 <xmlatt>specializations</xmlatt> 则得到属性名到其祖先链的映射，据此可自行实现属性泛化：某个专门化属性未被识别时，逐级退回到它派生自的属性。</p>
+      <p>判断一份 topic 属于哪个类型，取派生链的最后一段，即最具体的那一段。解析 <xmlatt>specializations</xmlatt> 则得到属性名到其祖先链的映射，据此可自行实现属性 <term keyref="term-generalization">generalization</term>（泛化）：某个 specialize 出的属性未被识别时，逐级退回到它派生自的属性。</p>
       <codeblock>def topic_type(root):
-    """返回最特化的类型名"""
+    """返回最具体的类型名"""
     c = (root.get("class") or "").strip()
     if not c.startswith("-"):
         return None
@@ -85,7 +85,7 @@ def attr_specializations(root):
 
     <section>
       <title>退出点</title>
-      <p>在一份含专门化元素的样例上，匹配结果既包含基类元素也包含其专门化，即说明取到了派生链且匹配写法正确。取到的是空值时，先确认解析器是否补齐了默认属性，再确认 catalog 是否解析到了语法文件。</p>
+      <p>在一份含 specialization 元素的样例上，匹配结果既包含基类元素也包含其 specialization，即说明取到了派生链且匹配写法正确。取到的是空值时，先确认解析器是否补齐了默认属性，再确认 catalog 是否解析到了语法文件。</p>
       <p>不适用的场合是要改写文档并输出。此时不应保留原有的派生链属性，让目标语法文件重新注入，否则派生链可能与目标版本不一致。</p>
     </section>
 

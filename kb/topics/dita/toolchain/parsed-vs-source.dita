@@ -52,7 +52,7 @@ dita -i root.ditamap -f html5 -o /tmp/out --temp=./tmp --debug</codeblock>
 
     <section>
       <title>理由</title>
-      <p>自行实现引用解析的代价被普遍低估。要覆盖的至少有：间接引用的多级展开、引用成环的检测、键作用域、conref push 的插入方向、以及引用双方类型不一致时的泛化匹配。这几项各自都有边界情形，实现出的行为与 DITA-OT 稍有出入，产出就与正式发布的内容对不上。</p>
+      <p>自行实现引用解析的代价被普遍低估。要覆盖的至少有：间接引用的多级展开、引用成环的检测、键作用域、conref push 的插入方向、以及引用双方类型不一致时的 <term keyref="term-generalization">generalization</term>（泛化）匹配。这几项各自都有边界情形，实现出的行为与 DITA-OT 稍有出入，产出就与正式发布的内容对不上。</p>
       <p>派生链属性的来源是另一条理由。<xmlatt>specializations</xmlatt> 由 doctype shell 声明的默认值提供，作者不手写，<xmlatt>class</xmlatt> 出自同一套机制。裸解析源文件时两者都取不到，而按派生链编程正是程序化处理 DITA 的基本手法。</p>
     </section>
 
@@ -61,7 +61,7 @@ dita -i root.ditamap -f html5 -o /tmp/out --temp=./tmp --debug</codeblock>
       <ul>
         <li>自己写 conref 与 keyref 的解析器。除非目标就是实现一个处理器，否则这部分工作产出的是与 DITA-OT 行为不完全一致的第二套解析规则。</li>
         <li>拿源文件建检索索引。条件内容一个未删，某个产品变体专属的段落会进入所有变体的检索结果，而这类错误在抽查时不易发现。</li>
-        <li>在源文件上按元素名匹配，以绕开取不到派生链的问题。专门化元素随即漏掉，而漏掉的恰是自定义程度最高的那部分内容。</li>
+        <li>在源文件上按元素名匹配，以绕开取不到派生链的问题。<term keyref="term-specialization">specialization</term>（专门化）出的元素随即漏掉，而漏掉的恰是自定义程度最高的那部分内容。</li>
       </ul>
     </section>
 

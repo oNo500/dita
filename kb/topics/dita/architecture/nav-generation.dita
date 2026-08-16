@@ -86,7 +86,7 @@
     <section>
       <title>结论</title>
       <p>三类产出的可预期程度递减。TOC 的生成规则与四种例外是规范条文，跨处理器可以指望；索引的标记设施是规范条文，但处理器只是「可以」据此生成索引；链接一侧规范给的是语义约定，map 层级本身产生的父、子、兄弟链接没有单列的生成算法，具体生成哪些、渲染成什么由实现决定。跨处理器迁移时，链接部分的行为要实测。</p>
-      <p>处理模型的其余主题不在本篇：分支过滤见 <xref href="branch-filter-key-space.dita">branch filtering 与 key space</xref>，条件处理的规范语义与分块另属条件化与分块主题。</p>
+      <p>处理模型的其余主题不在本篇：分支过滤见 <xref href="branch-filter-key-space.dita">branch filtering 与 key space</xref>，条件处理的规范语义见 <xref href="../conditional/profiling-ditaval.dita">conditional processing</xref>，分块见 <xref href="../conditional/chunking.dita">chunking 速查</xref>。</p>
     </section>
 
     <section>

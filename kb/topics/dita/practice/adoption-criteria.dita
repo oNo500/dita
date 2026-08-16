@@ -51,16 +51,16 @@
         <strow><stentry>研究与学习</stentry><stentry>直接学 2.0，被移除的历史特性不必先学一遍</stentry></strow>
         <strow><stentry>新项目，工具链自己掌握</stentry><stentry>可以上，锁定 DITA-OT 版本并记录所依据的 beta 号</stentry></strow>
         <strow><stentry>新项目，依赖商业编辑器或内容管理系统</stentry><stentry>先验证这些工具的 2.0 支持，进度不由使用方决定</stentry></strow>
-        <strow><stentry>做二次开发</stentry><stentry>可以上，派生链架构与专门化方法不随 beta 状态变动</stentry></strow>
+        <strow><stentry>做二次开发</stentry><stentry>可以上，派生链架构与 <term keyref="term-specialization">specialization</term>（专门化）方法不随 beta 状态变动</stentry></strow>
       </simpletable>
-      <p>验证工具链支持时，最小样例覆盖四个 2.0 新增机制即可划出边界：<xmlelement>keytext</xmlelement> 的变量文本、<xmlelement>titlealt</xmlelement> 的多标题、<xmlelement>include</xmlelement> 引入非 DITA 内容、<xmlatt>chunk</xmlatt> 的合并取值。四者分布在键、标题、外部内容、输出分块四条不同的处理路径上，一个都不落地的工具链，支持程度也就到此为止。前两者的写法见<xref href="../core-model/keyref-variable-text.dita">keyref 与 keytext</xref>与<xref href="../core-model/include-non-dita.dita">include 引入非 DITA 内容</xref>，<xmlatt>chunk</xmlatt> 的两个取值见<xref href="../conditional/chunking.dita">chunking 速查</xref>。</p>
-      <p>决定上 2.0 之后，把三件事写进项目约定：规范还会变，做专门化时锁定版本；DITA-OT 的语法文件基线滞后于规范草案；生态支持参差，编辑器、内容管理系统与第三方 <term keyref="term-plugin">plugin</term>（插件）逐个验证。相应地，从不太可能再变的基类派生（<xmlelement>div</xmlelement>、<xmlelement>ph</xmlelement>、<xmlelement>section</xmlelement>、<xmlelement>simpletable</xmlelement>、<xmlelement>data</xmlelement>、<xmlelement>foreign</xmlelement>），避开仍在讨论中的区域，先用最小样例把工具链跑通再投入内容，并把 DITA-OT 版本写进持续集成的镜像或版本声明文件。</p>
+      <p>验证工具链支持时，最小样例覆盖四个 2.0 新增机制即可划出边界：<xmlelement>keytext</xmlelement> 的变量文本、<xmlelement>titlealt</xmlelement> 的多标题、<xmlelement>include</xmlelement> 引入非 DITA 内容、<xmlatt>chunk</xmlatt> 的合并取值。四者分布在键、标题、外部内容、输出分块四条不同的处理路径上，一个都不落地的工具链，支持程度也就到此为止。前两者的写法见<xref href="../core-model/keyref-variable-text.dita">keyref 与 keytext 速查</xref>与<xref href="../core-model/include-non-dita.dita">include 元素</xref>，<xmlatt>chunk</xmlatt> 的两个取值见<xref href="../conditional/chunking.dita">chunking 速查</xref>。</p>
+      <p>决定上 2.0 之后，把三件事写进项目约定：规范还会变，做 specialization 时锁定版本；DITA-OT 的语法文件基线滞后于规范草案；生态支持参差，编辑器、内容管理系统与第三方 <term keyref="term-plugin">plugin</term>（插件）逐个验证。相应地，从不太可能再变的基类派生（<xmlelement>div</xmlelement>、<xmlelement>ph</xmlelement>、<xmlelement>section</xmlelement>、<xmlelement>simpletable</xmlelement>、<xmlelement>data</xmlelement>、<xmlelement>foreign</xmlelement>），避开仍在讨论中的区域，先用最小样例把工具链跑通再投入内容，并把 DITA-OT 版本写进持续集成的镜像或版本声明文件。</p>
     </section>
 
     <section>
       <title>理由</title>
       <p>采用判据的五条其实是同一条：固定成本要靠重复摊平。变体数、语言数、内容量都是这个乘数的因子，任何一项为一，成本就没有出口。合规审计是另一类收益，它买的不是效率而是可追溯性，因此单独成条。</p>
-      <p>2.0 那张表的分界线是支持进度由谁决定。<b>DITA-OT 加文本编辑器这条组合里，升级时机自己掌握</b>；商业编辑器与内容管理系统的排期不由使用方决定，而内容一旦投入，再发现某个特性不被支持时退路很窄。二次开发不受影响，是因为它依赖的是派生链与专门化方法，这两者在 1.x 与 2.0 之间保持一致。</p>
+      <p>2.0 那张表的分界线是支持进度由谁决定。<b>DITA-OT 加文本编辑器这条组合里，升级时机自己掌握</b>；商业编辑器与内容管理系统的排期不由使用方决定，而内容一旦投入，再发现某个特性不被支持时退路很窄。二次开发不受影响，是因为它依赖的是派生链与 specialization 方法，这两者在 1.x 与 2.0 之间保持一致。</p>
     </section>
 
     <section>
@@ -75,7 +75,7 @@
 
     <section>
       <title>边界</title>
-      <p>本篇给的是要不要用与能不能现在用，不含用起来之后的两类选择：改造深度到哪一级见<xref href="customization-cost-ladder.dita">二次开发的成本阶梯</xref>，编辑器与 PDF 一路的取舍见<xref href="../toolchain/editors-pdf-reality.dita">DITA 编辑器与 PDF 输出选型</xref>。</p>
+      <p>本篇给的是要不要用与能不能现在用，不含用起来之后的两类选择：改造深度到哪一级见<xref href="customization-cost-ladder.dita">DITA 二次开发的成本阶梯</xref>，编辑器与 PDF 一路的取舍见<xref href="../toolchain/editors-pdf-reality.dita">DITA 编辑器与 PDF 输出选型</xref>。</p>
       <p>2.0 一表的前提是它仍处 beta。转正之后生态跟进，商业工具一栏的建议须重新判断，本篇的采用判据则不随之变动。</p>
     </section>
 

@@ -17,7 +17,7 @@
          maturity="draft" volatility="volatile"
          dimension="dim-consistency dim-process">
   <title>校验与 Schematron</title>
-  <shortdesc>语法文件判定结构是否合法，判定不了团队自己的规则。校验分四种：语法有效性、DITA 的引用完整性、业务规则，以及构建本身。Schematron 承担其中的业务规则一种，用 XPath 断言表达，按 <xmlatt>class</xmlatt> 匹配因而自动覆盖专门化元素。</shortdesc>
+  <shortdesc>语法文件判定结构是否合法，判定不了团队自己的规则。校验分四种：语法有效性、DITA 的引用完整性、业务规则，以及构建本身。Schematron 承担其中的业务规则一种，用 XPath 断言表达，按 <xmlatt>class</xmlatt> 匹配因而自动覆盖 <term keyref="term-specialization">specialization</term>（专门化）出的元素。</shortdesc>
   <prolog>
     <source href="https://www.dita-lang.org/specifications" scope="external"/>
     <data name="domain" value="dita"/>
@@ -55,7 +55,7 @@
           <stentry>最严的一种，暴露条件过滤后不合法与前三种漏掉的引用问题</stentry>
         </strow>
       </simpletable>
-      <p>DITA 2.0 的 OASIS 发行同时提供 RNG 与 DTD 两种语法文件，两者有出入时以 RNG 为准，2.0 不再随发行提供 XSD，需要时可自行从 RNG 生成。做专门化时优先基于 RNG，语法可读得多，也能生成另外两种格式给下游用。以上四句尚未逐页核对。</p>
+      <p>DITA 2.0 的 OASIS 发行同时提供 RNG 与 DTD 两种语法文件，两者有出入时以 RNG 为准，2.0 不再随发行提供 XSD，需要时可自行从 RNG 生成。做 specialization 时优先基于 RNG，语法可读得多，也能生成另外两种格式给下游用。以上四句尚未逐页核对。</p>
       <p>DITA 的引用完整性校验命令是 DITA-OT 4.3 引入的预览特性，与之同批的还有工程脚手架命令。预览特性的行为在后续版本可能调整，使用前先确认本机版本。</p>
     </section>
 
@@ -77,13 +77,13 @@
     &lt;/rule&gt;
   &lt;/pattern&gt;
 &lt;/schema&gt;</codeblock>
-      <p>两条规则的上下文都按 <xmlatt>class</xmlatt> 匹配而非按元素名。这样写的收益是规则自动覆盖专门化元素，代价是规则只能作用于拿得到 <xmlatt>class</xmlatt> 的文档。该属性由语法文件声明为默认值，创作时通常不写进源文件，因此要么让解析器经 DTD 校验补齐它，要么改为作用于 <term keyref="term-preprocess">preprocess</term>（预处理）之后的中间产物。</p>
+      <p>两条规则的上下文都按 <xmlatt>class</xmlatt> 匹配而非按元素名。这样写的收益是规则自动覆盖 specialization 出的元素，代价是规则只能作用于拿得到 <xmlatt>class</xmlatt> 的文档。该属性由语法文件声明为默认值，创作时通常不写进源文件，因此要么让解析器经 DTD 校验补齐它，要么改为作用于 <term keyref="term-preprocess">preprocess</term>（预处理）之后的中间产物。</p>
       <p>运行位置有三处。编辑器内由 Oxygen 原生支持，可关联到框架配置边写边报。持续集成里把它编译成 XSLT 执行，SchXslt 与 ph-schematron 一类实现即为此用。DITA-OT 自身没有内置支持，需要的话自写 <term keyref="term-plugin">plugin</term>（插件）在 preprocess 之后追加一步。</p>
     </section>
 
     <section>
-      <title>与约束模块的分工</title>
-      <p>能用约束模块表达的规则优先用约束：禁用某个元素、把某个可选子元素改为必填，这类结构性收紧写进语法文件后，编辑器在输入时即报错，反馈比事后校验早一整轮。跨元素的、带条件的规则留给 Schematron。</p>
+      <title>与 <term keyref="term-constraint">constraint</term>（约束）模块的分工</title>
+      <p>能用 constraint 模块表达的规则优先用 constraint：禁用某个元素、把某个可选子元素改为必填，这类结构性收紧写进语法文件后，编辑器在输入时即报错，反馈比事后校验早一整轮。跨元素的、带条件的规则留给 Schematron。</p>
       <p>两者的边界随规则形态定，不随规则重要程度定。一条规则表达得了就归约束，表达不了才归 Schematron。</p>
     </section>
 
@@ -114,7 +114,7 @@ done</codeblock>
     <section>
       <title>来源</title>
       <p><b>事实</b>：DITA 2.0 在规范列表中列为 draft、1.3 及更早版本为 OASIS Standard，转自 <xref href="https://www.dita-lang.org/specifications" scope="external">DITA 规范列表</xref>，已逐页核对。</p>
-      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中四种校验的命令与各自能发现的问题、RNG 与 DTD 的关系及 2.0 不再提供 XSD、Schematron 的示例规则与三处运行位置、Oxygen 的原生支持、DITA-OT 无内置 Schematron 支持，均来自通用实践，未逐页核对；DITA 的引用完整性校验命令属 4.3 预览特性来自发布说明的检索结果，未打开页面逐条核对；与约束模块的分工建议、持续集成四步的组合与第三步第四步不可省的理由为本库归纳。</p>
+      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中四种校验的命令与各自能发现的问题、RNG 与 DTD 的关系及 2.0 不再提供 XSD、Schematron 的示例规则与三处运行位置、Oxygen 的原生支持、DITA-OT 无内置 Schematron 支持，均来自通用实践，未逐页核对；DITA 的引用完整性校验命令属 4.3 预览特性来自发布说明的检索结果，未打开页面逐条核对；与 constraint 模块的分工建议、持续集成四步的组合与第三步第四步不可省的理由为本库归纳。</p>
     </section>
   </conbody>
 </concept>

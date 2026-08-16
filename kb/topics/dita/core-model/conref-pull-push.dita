@@ -51,7 +51,7 @@
       <p><xmlatt>conref</xmlatt> 的语法是 <codeph>路径#topicID/elementID</codeph>。同文件内引用可省去路径部分，只留井号起头的片段标识符，这仍是完整语法；同一 topic 内寻址非 topic 元素另有一种缩写形式。两种片段标识符语法的正式定义属寻址主题，不在本篇展开。</p>
       <p>以下三条约束归纳自通用实践。规范的 conref 处理一章尚未逐页核对，因此按判断阅读，落到具体处理器上以实测为准。</p>
       <ol>
-        <li>类型须匹配。<xmlelement>note</xmlelement> 只能引用 <xmlelement>note</xmlelement>。引用更特化的元素可行，取回的内容按派生链泛化成本地元素的类型，反方向不成立。</li>
+        <li>类型须匹配。<xmlelement>note</xmlelement> 只能引用 <xmlelement>note</xmlelement>。引用由 <xmlelement>note</xmlelement> specialize（专门化）而来、更具体的元素可行，取回的内容按派生链 generalize（泛化）成本地元素的类型，反方向不成立。</li>
         <li>目标须带 <xmlatt>id</xmlatt>，且在其所属 topic 内唯一。</li>
         <li>占位元素的原有内容被目标内容整体替换。本地内容因此只在目标缺失时可见，把它写成可读的 fallback 内容仍有收益：目标失效时输出仍然成句，编辑器里也能看见这处引用要表达什么。</li>
       </ol>

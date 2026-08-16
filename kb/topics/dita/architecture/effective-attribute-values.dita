@@ -46,7 +46,7 @@
         <strow>
           <stentry>2</stentry>
           <stentry>语法默认或固定值</stentry>
-          <stentry>document-type shell 与语法模块声明的默认属性</stentry>
+          <stentry><term keyref="term-document-type-shell">document-type shell</term> 与语法模块声明的默认属性</stentry>
           <stentry><xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt></stentry>
         </strow>
         <strow>
