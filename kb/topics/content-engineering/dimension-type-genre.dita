@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/cases/kb-redesign/content-type-framework.md（全文，2026-08-16）。
+     标题《kb 内容分类的维度、类型与题材》系本库自造聚合，上游无对应节点，三道关如下。
+     一、穷尽查证：OASIS DITA 规范只定义 topic 类型（concept / task / reference /
+       troubleshooting / glossentry）与 @outputclass 这一自由标注位，不给类型之上的分层；
+       Diátaxis 只给一层四象限，站点无「维度 / 题材」层；Good Docs Project 给的是模板清单，
+       同样不分层。三处查过，领域内确无「分层判定完整性」这个节点。
+     二、先怀疑切分：本簇既有边界已核——writing-typing 管单篇选哪个 DITA 类型，
+       writing-atomicity 管进不进库，两篇均不含「框架本身分几层、完整性看哪层」。
+       重切进任一篇会把单篇判断与框架判断混装，故保留为独立节点。
+     三、只组合不发明：维度、类型、题材三词均为本库 subjectScheme 已登记的层名
+       （dimension 值集、genre-values 值集、DITA 类型），标题只并列这三个既有词素，
+       未造新概念名、未造新分类框架、未造新普通词。
+     kb 前缀沿用本簇既有篇（kb 内容准入判据 / kb 内容类型化 / kb 来源与成熟度标注）：
+     本篇讲的是本库自订框架而非通用分类学，去掉限定会读成普适断言。
+     SSOT：题材的必需节清单是 subjectScheme genre-values 的 required-section，本篇不复制。 -->
+<concept id="dimension-type-genre" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="stable"
+         dimension="dim-classification dim-concept">
+  <title>kb 内容分类的维度、类型与题材</title>
+  <shortdesc>三层各管一件事：维度决定框架完整不完整，类型决定结构骨架，题材由 <xmlatt>outputclass</xmlatt> 标注、按需增删而不动框架。判断「缺不缺」只看前两层，某篇内容装不下从来不构成新增类型的理由。</shortdesc>
+  <prolog>
+    <data name="domain" value="writing-principles"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>内容分类早期是一份平铺清单：若干类目并列，发现某篇装不下就加一类。平铺的代价是完整性无从判断。类目之间没有层级，任何新内容都能主张自己是下一个类目，而没有任何依据能说明这个类目是必要的还是既有类目的重复。清单于是只增不减，越长越不可信。</p>
+      <p>分层要解决的正是这一点：把「缺不缺」的判断挪到一个有限且可论证的层面上，把「装不下」的容纳交给另一个可以自由增删的层面。</p>
+    </section>
+
+    <section>
+      <title>背景：三层的分工与稳定度</title>
+      <simpletable relcolwidth="1* 2* 2* 1*">
+        <sthead>
+          <stentry>层</stentry><stentry>是什么</stentry><stentry>判断标准</stentry><stentry>变动频率</stentry>
+        </sthead>
+        <strow>
+          <stentry>维度</stentry>
+          <stentry>知识的本质形态</stentry>
+          <stentry>完整性看这层：四个维度够不够</stentry>
+          <stentry>极低</stentry>
+        </strow>
+        <strow>
+          <stentry>类型</stentry>
+          <stentry>结构骨架，即 DITA 基础类型与 Diátaxis 象限</stentry>
+          <stentry>有限且可论证完整</stentry>
+          <stentry>低</stentry>
+        </strow>
+        <strow>
+          <stentry>题材</stentry>
+          <stentry>象限内的写法细分</stentry>
+          <stentry>由 <xmlatt>outputclass</xmlatt> 标注，按需增减</stentry>
+          <stentry>高</stentry>
+        </strow>
+      </simpletable>
+      <p>三层的稳定度递减是设计的着力点。维度极稳，因此适合承担完整性论证；题材可变，因此适合承担容纳。把两项职责放在同一层，就会出现每收到一篇新内容便重估一次框架的局面。</p>
+    </section>
+
+    <section>
+      <title>分析：四个维度与象限内的题材</title>
+      <p>知识内容分四个维度。前三个各有对应的 DITA 表达，第四个不是内容而是结构。</p>
+      <simpletable relcolwidth="1* 2* 2*">
+        <sthead><stentry>维度</stentry><stentry>覆盖什么</stentry><stentry>DITA 表达</stentry></sthead>
+        <strow>
+          <stentry>解释性文档</stentry>
+          <stentry>写来给人读的内容</stentry>
+          <stentry>Diátaxis 四象限对应的 topic 类型（下表）</stentry>
+        </strow>
+        <strow>
+          <stentry>可复用工件</stentry>
+          <stentry>prompt、模板、配置与代码片段，取来即用而非读来理解</stentry>
+          <stentry><xmlelement>reference</xmlelement> 加 <xmlatt>outputclass</xmlatt> 值 artifact，具体形制未定</stentry>
+        </strow>
+        <strow>
+          <stentry>术语</stentry>
+          <stentry>一词一义的条目</stentry>
+          <stentry><xmlelement>glossentry</xmlelement></stentry>
+        </strow>
+        <strow>
+          <stentry>组织与导航</stentry>
+          <stentry>顺序、层级、学习路径</stentry>
+          <stentry><xmlelement>map</xmlelement>，不是 topic</stentry>
+        </strow>
+      </simpletable>
+      <p>可复用工件是四个维度中唯一由本库补上的一维。Diátaxis 是文档框架，覆盖不到取来即用的资产；这类内容不读来理解，而是复制或引用进别处使用。它不拆成 prompt、模板、片段三个类型，而是一个维度之下的三种题材。</p>
+      <p>解释性文档一维内部，象限、类型与题材的对应关系如下。题材的必需节清单以 subjectScheme 的 genre-values 为正本，此处不复制。</p>
+      <simpletable relcolwidth="1* 1* 1.5* 1.5*">
+        <sthead><stentry>象限</stentry><stentry>DITA 类型</stentry><stentry>题材</stentry><stentry>结构依据</stentry></sthead>
+        <strow><stentry>tutorial</stentry><stentry><xmlelement>concept</xmlelement></stentry><stentry>quickstart</stentry><stentry>Good Docs Project 模板</stentry></strow>
+        <strow><stentry>how-to</stentry><stentry><xmlelement>concept</xmlelement></stentry><stentry>how-to</stentry><stentry>Diátaxis</stentry></strow>
+        <strow><stentry>reference</stentry><stentry><xmlelement>reference</xmlelement></stentry><stentry>纯参考、cheatsheet、curated-resources</stentry><stentry>Diátaxis 与本库实践</stentry></strow>
+        <strow><stentry>explanation</stentry><stentry><xmlelement>concept</xmlelement></stentry><stentry>best-practice、tech-landscape、deep-dive</stentry><stentry>模式语言与评估矩阵</stentry></strow>
+        <strow><stentry>troubleshooting</stentry><stentry><xmlelement>troubleshooting</xmlelement></stentry><stentry>排障</stentry><stentry>DITA 原生类型</stentry></strow>
+      </simpletable>
+      <p>tutorial 与 how-to 两象限在 DITA 侧原本对应 <xmlelement>task</xmlelement>，2026-08-16 起改绑 <xmlelement>concept</xmlelement>：<xmlelement>taskbody</xmlelement> 不允许 section 后置于 <xmlelement>steps</xmlelement>，来源节收尾与题材必需节因此两难。</p>
+      <p>这张表回答的是「某篇归哪里」，而不是「要不要加类型」。资源清单不是新类型，是 <xmlelement>reference</xmlelement> 的一个题材 curated-resources；架构决策记录与读书笔记同理，是 explanation 象限的题材。归位靠 <xmlatt>outputclass</xmlatt>，框架不动。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>完整性的判定因此收在两处：四个维度是否覆盖了知识的全部形态，以及解释性文档一维内的四象限是否完整。前者目前齐备，后者由 Diátaxis 的两轴划分自证。单个文件装不下不进入这个判定，它先被问是哪个象限的哪个题材，再由 <xmlatt>outputclass</xmlatt> 容纳。</p>
+      <p>只有一种情况才动框架：出现既不是解释性文档、又不是工件、术语、组织的内容。这是维度层的缺口，也是唯一值得重估框架的信号。</p>
+      <p>本篇给的是框架的形状。单篇动笔前选哪个类型见 <xref href="writing-typing.dita">kb 内容类型化</xref>，内容进不进库见 <xref href="writing-atomicity.dita">kb 内容准入判据</xref>，一个领域里维度清单怎么建起来见 <xref href="domain-dimension-method.dita">kb 领域维度框架与 80/20 取舍</xref>。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：按用户需求而非主题划分文档形态、分教程与操作指南与技术参考与解释四类，见 <xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>；DITA 把类型做进语法，<xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/concept" scope="external">concept</xref> 与 <xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/troubleshooting" scope="external">troubleshooting</xref> 等均由 topic 派生；面向不同文档形态提供可填写模板的项目见 <xref href="https://www.thegooddocsproject.dev/" scope="external">The Good Docs Project</xref>。</p>
+      <p><b>判断</b>：维度、类型、题材的三层划分，四个维度的穷举与「可复用工件是唯一维度缺口」的认定，象限与题材的具体归位，以及「装不下先归题材、不新增类型」这条处置，均为本库设计，无外部标准背书，可被反驳。可复用工件维度的 DITA 表达只定到 <xmlelement>reference</xmlelement> 加 artifact 一层，细则未定。</p>
+    </section>
+  </conbody>
+</concept>
