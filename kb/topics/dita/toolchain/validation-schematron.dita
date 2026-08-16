@@ -13,7 +13,7 @@
          maturity="draft" volatility="volatile"
          dimension="dim-consistency dim-process">
   <title>DITA 校验与 Schematron</title>
-  <shortdesc>语法文件判定结构是否合法，判定不了团队自己的规则。四种校验各查一层：XML 良构与语法有效性、DITA 层面的引用完整性、业务规则、以及构建本身；Schematron 承担其中的业务规则一层，用 XPath 断言表达，按 <xmlatt>class</xmlatt> 匹配因而自动覆盖专门化元素。</shortdesc>
+  <shortdesc>语法文件判定结构是否合法，判定不了团队自己的规则。校验分四层：DTD 或 RNG 的语法有效性、DITA 层面的引用完整性、业务规则，最后由构建本身兜底；Schematron 承担其中的业务规则一层，用 XPath 断言表达，按 <xmlatt>class</xmlatt> 匹配因而自动覆盖专门化元素。</shortdesc>
   <prolog>
     <source href="https://www.dita-lang.org/specifications" scope="external"/>
     <data name="domain" value="dita"/>
@@ -22,14 +22,14 @@
   <conbody>
     <section>
       <title>问题</title>
-      <p>语法文件回答的是「这份文档的元素嵌套合不合法」。团队真正想拦的往往是另一类问题：某类 topic 必须写摘要、外部链接必须标明格式、某个元素在本项目里禁止使用。这类规则跨元素、带条件，语法文件表达不了，而它们出错的代价与结构出错相当。</p>
+      <p>语法文件回答的是「这份文档的元素嵌套合不合法」。团队要禁止的往往是另一类问题：某类 topic 必须写摘要、外部链接必须标明格式、某个元素在本项目里禁止使用。这类规则跨元素、带条件，语法文件表达不了，而它们出错的代价与结构出错相当。</p>
       <p>另有一类问题连语法文件都看不见：引用指向了不存在的文件。这类断链只有在真正解析引用时才暴露，校验因此不能只做一层。</p>
     </section>
 
     <section>
-      <title>做法：四种校验各查一层</title>
+      <title>做法：四层校验各查一类问题</title>
       <simpletable relcolwidth="1.2* 1.6* 2*">
-        <sthead><stentry>查什么</stentry><stentry>怎么跑</stentry><stentry>能发现</stentry></sthead>
+        <sthead><stentry>查什么</stentry><stentry>怎么执行</stentry><stentry>能发现</stentry></sthead>
         <strow>
           <stentry>DTD 有效性</stentry>
           <stentry><codeph>xmllint --noout --valid</codeph></stentry>
@@ -52,7 +52,7 @@
         </strow>
       </simpletable>
       <p>DITA 2.0 的 OASIS 发行同时提供 RNG 与 DTD 两种语法文件，两者有出入时以 RNG 为准，2.0 不再随发行提供 XSD，需要时可自行从 RNG 生成。做专门化时优先基于 RNG，语法可读得多，也能生成另外两种格式给下游用。以上四句尚未逐页核对。</p>
-      <p>DITA 层面的校验命令是 DITA-OT 4.3 引入的预览特性，与之同批的还有工程脚手架命令。预览特性的行为在后续版本可能调整，跑之前先确认本机版本。</p>
+      <p>DITA 层面的校验命令是 DITA-OT 4.3 引入的预览特性，与之同批的还有工程脚手架命令。预览特性的行为在后续版本可能调整，使用前先确认本机版本。</p>
     </section>
 
     <section>
@@ -73,13 +73,13 @@
     &lt;/rule&gt;
   &lt;/pattern&gt;
 &lt;/schema&gt;</codeblock>
-      <p>两条规则的上下文都按 <xmlatt>class</xmlatt> 匹配而非按元素名。这样写的收益是规则自动覆盖专门化元素，代价是规则只能跑在拿得到 <xmlatt>class</xmlatt> 的文档上。该属性由语法文件声明为默认值，创作时通常不写进源文件，因此要么让解析器经 DTD 校验补齐它，要么改跑在 preprocess 之后的中间产物上。</p>
-      <p>运行位置有三处。编辑器内由 Oxygen 原生支持，可关联到框架配置边写边报。持续集成里把它编译成 XSLT 执行，SchXslt 与 ph-schematron 一类实现即为此用。DITA-OT 自身没有内置支持，需要的话自写插件在 preprocess 之后挂一步。</p>
+      <p>两条规则的上下文都按 <xmlatt>class</xmlatt> 匹配而非按元素名。这样写的收益是规则自动覆盖专门化元素，代价是规则只能作用于拿得到 <xmlatt>class</xmlatt> 的文档。该属性由语法文件声明为默认值，创作时通常不写进源文件，因此要么让解析器经 DTD 校验补齐它，要么改为作用于 preprocess 之后的中间产物。</p>
+      <p>运行位置有三处。编辑器内由 Oxygen 原生支持，可关联到框架配置边写边报。持续集成里把它编译成 XSLT 执行，SchXslt 与 ph-schematron 一类实现即为此用。DITA-OT 自身没有内置支持，需要的话自写插件在 preprocess 之后追加一步。</p>
     </section>
 
     <section>
       <title>与约束模块的分工</title>
-      <p>能用约束模块表达的规则优先用约束：禁用某个元素、把某个可选子元素改为必填，这类结构性收紧写进语法文件后，编辑器在输入时就会拦下来，反馈比事后校验早一整轮。跨元素的、带条件的规则留给 Schematron。</p>
+      <p>能用约束模块表达的规则优先用约束：禁用某个元素、把某个可选子元素改为必填，这类结构性收紧写进语法文件后，编辑器在输入时即报错，反馈比事后校验早一整轮。跨元素的、带条件的规则留给 Schematron。</p>
       <p>两者的边界随规则形态定，不随规则重要程度定。一条规则表达得了就归约束，表达不了才归 Schematron。</p>
     </section>
 
