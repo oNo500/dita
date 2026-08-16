@@ -157,7 +157,7 @@ conref、keyref、专门化、泛化、shell、键空间、DITAVAL、transtype �
 
 ## 四、每篇完成定义（DoD）
 
-1. RNG 校验过（题材对应 shell：concept-kb / reference-kb / task-kb）
+1. RNG 校验过（题材对应 shell：concept-kb / reference-kb；task 类型已于 2026-08-16 退役）
 2. `dita-tools lint` 0 error 0 warning（R12–R16 全过）
 3. 题材固定结构齐（R13）；来源节「事实/判断」两段，日期只在 prolog reviewed（R14）
 4. prolog：source、domain=dita（content-engineering 增补篇除外）、reviewed；concept 根标 @dimension
@@ -186,12 +186,15 @@ conref、keyref、专门化、泛化、shell、键空间、DITAVAL、transtype �
 
 单件流，每步之间用户可审：
 
-1. **骨架**：subjectScheme 挂点核实与登记 → 新建 task-kb.rng（见三）→ 目录 + 7 个 map → 全景 + 权威资源 2 篇 → `just review` / `just ia` 绿
+1. **骨架**（已完成）：subjectScheme 挂点登记 → 目录 + 7 个 map → 全景 + 权威资源 2 篇 → 三命令绿。（task-kb.rng 曾在此步新建，后随 task 类型退役而删除。）
 2. **试点**：`02-reuse.md` → conref-pull-push、keyref-variable-text、include-non-dita 3 篇，走完整链（拆分→写作→lint 0→用户审→晋 curated）。**用户认可形状前不进入下一步**
 3. **按簇推进**，volatile 优先：toolchain → practice → conditional → architecture → core-model 剩余 → principles。每簇完成停点给用户审，随簇附冻结声明与词表增量
 4. **收尾**：content-engineering 增补 2 篇 + writing-sourcing 修改；README 冻结；全库 `just review` / `just ia` / `just links` / 交付物重建绿
 
 ## 八、缓建项（本设计不含）
+
+- conref 篇补核对（规范「内容引用处理」章与「处理模型」章）后方可晋 curated
+- dita-tools：重复 topicref 检测、报告 JSON 化
 
 - 角色阅读路径 map（README 五条路径 → audience map）：内容存在后作为独立小项
 - dita 分支 reltable（互链关系表）：簇迁完后统一梳理

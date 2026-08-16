@@ -21,6 +21,23 @@
 - 每篇一个 commit，消息 `content(dita): <slug> — <一句话>`；基础设施改动单独 commit。
 - 破坏性操作零容忍：本计划只新增文件和定点编辑，不删不改已有 topic（Task 13 的 writing-sourcing 定点修改除外）。
 
+### 术语规则（2026-08-16 用户裁定，优先级最高）
+
+- **DITA 的元素名、属性名、机制名一律用英文原名**（conref / conref push / keyref / keydef / keytext / keyscope / fallback / preprocess / transtype / plugin…），不得以中文译名作正文首选词。中文解释只在每篇首次出现时随行给出一次（`conref（内容引用）`），此后全用英文名。先例：ai 分支的 hook / skill / MCP。
+- glossentry 的 glossterm（首选词）= 英文原名，中文释义进 glossdef，中文译名可作 glossAlt；与 glossterm 同词的 glossSynonym 属空转，不写。
+- **禁止自造分类框架并以术语口吻呈现**（「定义侧五种绑定」「先定义者胜」一类）：降级为平实句子，表格列头用描述性短语。
+- 禁自造普通词：内容仓库 → 存放可复用片段的 topic；取值形状 → 语法/格式；兜底内容 → fallback。
+- 标题必含该篇核心机制的英文名，保证可检索、可对号入座。
+
+### 母版通则（2026-08-16 试点审查后确立）
+
+- 凡不在源笔记「已核对」清单内的机制陈述，一律进来源节判断段，或在正文加篇级 caveat。**来源节两段必须穷尽正文全部断言的归属**（判断段以「除事实段所列外，正文其余陈述均属判断」开头再逐条列明）。
+- 事实段只认领正文确实出现的断言，不反向多列。
+- deep-dive 节标题体例：骨架前缀（问题/背景/分析/结论）+ 主题短语，同一前缀每篇最多一次。
+- 样例必须自洽：样例引用的 id/key 在同篇样例中定义。
+- DITA-OT preprocess 阶段名保留英文原名，便于对照 `--debug` 中间产物。
+- 同一事实在不同篇中的证据等级须一致。
+
 ### 通用工作循环（"写一篇"的定义，下文各任务的 per-topic 步骤即执行本循环）
 
 1. 读源笔记对应小节（任务表里给了小节号），按模板起草到目标路径
@@ -56,24 +73,13 @@
 </concept>
 ```
 
-> **已失效（2026-08-16 Task 2/6 裁定）**：how-to 与 quickstart 均改绑 concept，task 类型退役、task-kb.rng 已删除。本节仅存档。
+### 模板 B：作废（2026-08-16 Task 2/6 裁定）
 
-### 模板 B：task 题材（how-to / quickstart）
+原为 task 题材（how-to / quickstart）的 task 外壳模板。taskbody 的内容模型不允许 steps 之后再出现 section，与「来源节收尾」和 R13 的「步骤」必需节三者不可兼得，产出的是不用 `<steps>` 的假 task。**how-to 与 quickstart 均已改绑 concept，task 类型退役，`kb/schema/task-kb.rng` 已删除**（可从 git 历史复活）。全部题材只用模板 A（concept）与模板 C（reference）：
 
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="../../../schema/task-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<task id="<slug>" xml:lang="zh-CN" outputclass="<how-to|quickstart>"
-      maturity="draft" volatility="<…>" dimension="<dim-…>">
-  <title>…</title>
-  <shortdesc>…</shortdesc>
-  <prolog>（同模板 A）</prolog>
-  <taskbody>
-    <!-- quickstart 必需节（R13）：目标/前置/步骤；how-to 无必需节。
-         来源 节的落位以 Task 2 试样验证的结论为准 -->
-  </taskbody>
-</task>
-```
+- concept 承载 quickstart / how-to / best-practice / deep-dive / tech-landscape
+- reference 承载 cheatsheet / curated-resources / artifact
+- quickstart 的 R13 必需节（目标/前置/步骤）在 conbody 内以 section 承载，节序 目标→前置→步骤→来源。
 
 ### 模板 C：reference 题材（cheatsheet / curated-resources）
 
@@ -126,42 +132,9 @@ git add kb/vocab/subjectScheme.ditamap
 git commit -m "feat(vocab): register dita subject under structured-content"
 ```
 
-### Task 2: task-kb.rng shell
+### Task 2: task-kb.rng shell —— 已执行并已回退（2026-08-16）
 
-**Files:**
-- Create: `kb/schema/task-kb.rng`
-- Test: 试样文件 `/tmp/claude-任意/task-specimen.dita`（用后即弃，不入库）
-
-**Interfaces:**
-- Produces: task shell，模板 B 的 `?xml-model` 指向它；带 maturity/volatility/dimension/tool 四个属性域
-
-- [ ] **Step 1: 读现有 shell 作模板**
-
-Read `kb/schema/concept-kb.rng` 全文，记下其结构：外部引用哪些 OASIS RNG 模块、四个属性域（maturityAttDomain / volatilityAttDomain / dimensionAttDomain / toolAttDomain）怎么 include。
-
-- [ ] **Step 2: 写 task-kb.rng**
-
-复制 concept-kb.rng，把 concept 模块引用换成 task 模块（OASIS RNG urn 中 `concept.rng` → `task.rng`，模块名对应替换），四个属性域 include 原样保留，注释头写明"task shell：how-to / quickstart 题材用（2026-08-16 迁移计划 Task 2 建）"。
-
-- [ ] **Step 3: 试样验证（含 来源 节落位试验）**
-
-写试样 task：含 shortdesc、prolog、taskbody 内 `context → steps（2 步）→ 尾部 <section><title>来源</title>`。
-
-Run: `dita validate --input=<试样路径>`
-
-- 通过 → 记录"taskbody 允许尾部 section"，模板 B 的来源节照 concept 写法
-- 报 section 不允许 → **停，向用户报告**：给出两个选项（来源节放 steps 之前 / how-to 改绑 concept 类型）等裁定，不得自行选择
-
-- [ ] **Step 4: lint 冒烟**
-
-把试样临时拷入 `kb/topics/`（随后删除），跑 `dita-tools lint --vocab kb/vocab/subjectScheme.ditamap kb/topics`，确认 lint 对 task 根正常执行 R12（genre 检查）而非跳过或崩溃。删除试样。
-
-- [ ] **Step 5: Commit**
-
-```bash
-git add kb/schema/task-kb.rng
-git commit -m "feat(schema): task-kb shell for how-to and quickstart genres"
-```
+**历史注记，勿再执行。** 本任务当时新建了 `kb/schema/task-kb.rng` 并把 how-to 改绑 concept（taskbody 无法承载尾部 source 节）。Task 6 进一步发现 quickstart 同样受限，遂裁定 quickstart 也改绑 concept、task 类型整体退役、该 shell 删除（见模板 B 作废说明）。净效果：词表 how-to 与 quickstart 的 `dita-type` 均为 concept，`kb/schema/` 只有 concept-kb / reference-kb / glossentry-kb 三套外壳。
 
 ### Task 3: 目录、7 个 map、挂载
 
@@ -277,7 +250,7 @@ Expected: 全绿；`just ia` 出现 dita 域与 planned 维度。
 **Files:**
 - Create: `kb/topics/dita/core-model/conref-pull-push.dita`（deep-dive，含 02§4 处理顺序）
 - Create: `kb/topics/dita/core-model/keyref-variable-text.dita`（reference）
-- Create: `kb/topics/dita/core-model/include-non-dita.dita`（how-to，模板 B——**首个 task topic**）
+- Create: `kb/topics/dita/core-model/include-non-dita.dita`（how-to，模板 A——concept 外壳）
 - Modify: `kb/maps/domains/dita/core-model.ditamap`、`research/notes/02-reuse.md`（冻结声明）
 
 **Interfaces:**
@@ -394,7 +367,9 @@ git commit -m "docs(research): freeze note 02 — migrated to three core-model t
 - [ ] **Step 6: 冻结 03 与 05**（03 的全部小节至此处置完）
 - [ ] **Step 7: 簇 I 验证**（三命令绿；停点合并到 Task 10 末尾，本任务不停）
 
-### Task 10: architecture 簇 II——架构与处理模型（14 篇 ← 笔记 09 / 10 / 11）
+### Task 10a: architecture 簇 II——架构基础与寻址（8 篇 ← 笔记 09 / 10）
+
+拆分说明（2026-08-16）：原 Task 10 为 14 篇一体，参照 toolchain 簇 13 篇的实际体量偏大，按笔记边界拆为 10a（09+10）与 10b（11），各自独立走审查与停点。10a 覆盖下表前 8 行（extension-facilities…branch-filter-key-space），10b 覆盖后 6 行（effective-attribute-values…processing-checklist）。
 
 **Files:**
 - Create: `kb/topics/dita/architecture/` 下 14 篇
@@ -417,9 +392,21 @@ git commit -m "docs(research): freeze note 02 — migrated to three core-model t
 | nav-generation | TOC、索引与链接生成 | reference | 11§5–5.9 |
 | processing-checklist | 程序化处理检查清单 | cheatsheet | **11§6 + 10§7 合并** |
 
-- [ ] **Step 1–14: 逐篇工作循环**
-- [ ] **Step 15: 冻结 09、10、11**
-- [ ] **Step 16: 簇验证 + 🛑 簇停点**（I+II 合并报告，19 篇）
+- [ ] **Step 1–8（10a）：逐篇工作循环**（extension-facilities / doctype-shell / vocabulary-modules / conformance / addressing-modes / key-space-model / cross-deliverable-addressing / branch-filter-key-space）
+- [ ] **Step 9（10a）：冻结笔记 09、10**
+- [ ] **Step 10（10a）：簇验证 + 🛑 停点**（与簇 I 的 5 篇合并报告，13 篇）
+
+### Task 10b: architecture 簇 III——处理模型（6 篇 ← 笔记 11）
+
+**Files:**
+- Create: `kb/topics/dita/architecture/` 下 6 篇（effective-attribute-values / metadata-cascade / conref-attribute-rules / sorting-sort-as / nav-generation / processing-checklist）
+- Modify: `kb/maps/domains/dita/architecture.ditamap`、`research/notes/11-processing-model.md`
+
+篇目、题材与源小节见上表后 6 行；processing-checklist 合并 11§6 + 10§7。
+
+- [ ] **Step 1–6: 逐篇工作循环**
+- [ ] **Step 7: 冻结笔记 11**
+- [ ] **Step 8: 簇验证 + 🛑 簇停点**
 
 ### Task 11: core-model 簇剩余（6 篇 ← 笔记 01）
 
@@ -496,6 +483,28 @@ git push
 报告：总 topic 数、各簇清单、词表新增、覆盖度变化（ia 输出）、遗留缓建项（spec §八）。
 
 ---
+
+### Task 15: 晋级——draft → curated（用户裁定后执行）
+
+**Files:** 各 topic 的 `maturity` 属性；无新增文件。
+
+**前置**：用户逐篇或按批给出晋级裁定。执行者不得自行决定晋级。
+
+- [ ] **Step 1: 按用户裁定改 maturity**（`maturity="draft"` → `"curated"`），一批一个 commit
+- [ ] **Step 2: 验证晋级门**：`dita-tools lint` 对 curated 篇的 R12–R16 由 warning 升 error，必须仍 0 error
+- [ ] **Step 3: `just review` / `just ia` 绿，commit**
+
+已知待裁定项（截至 2026-08-16）：试点三篇（审查建议 include / keyref 晋 curated，conref 留 draft 待补核对）；词表条目的成熟度口径（新条目 draft vs 既有 20 条 curated）。
+
+---
+
+## 迁移后另排的尾巴（不在本计划的任务序内）
+
+- **conref 篇补核对**：规范「内容引用处理」章与「处理模型」章逐页核对，补齐后 conref-pull-push 方可晋 curated（reviewed 换新日期）
+- **dita-tools**：重复 topicref 检测；报告 JSON 化
+- **角色阅读路径 map**：research/README 的五条路径 → audience map
+- **dita 分支 reltable**：互链关系统一梳理
+- **kb-redesign 判据档案**（dimension-benchmark-report、gap-report 等）：不动，保留为调研记录
 
 ## 计划外事项（发现即停）
 
