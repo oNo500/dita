@@ -22,4 +22,5 @@
        自研实现的次序速查，先规则后产出，速查收尾 -->
   <topicref href="../../../topics/dita/architecture/effective-attribute-values.dita"/>
   <topicref href="../../../topics/dita/architecture/metadata-cascade.dita"/>
+  <topicref href="../../../topics/dita/architecture/conref-attribute-rules.dita"/>
 </map>
