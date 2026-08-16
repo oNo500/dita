@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/02-reuse.md §1（内容引用的拉与推）与 §4（三者的解析顺序）。
+     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     volatility=volatile 的依据：解析顺序取自 DITA-OT 实现观察，随发行版变动。
+     笔记标注「未逐页核对」的条目（三条约束、@conrefend、@conaction 四值语义、解析顺序）
+     在正文按判断呈现、并在来源节判断段逐条列明，不写成规范断言。
+     prolog source 取笔记 02 来源节中唯一支撑本篇事实的页面（内容引用与 include 的分工），
+     其余条目的出处集中在来源节。 -->
+<concept id="conref-pull-push" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="volatile"
+         dimension="dim-mechanism dim-boundary-pitfalls">
+  <title>DITA 内容引用的拉取与推送</title>
+  <shortdesc>同一段内容既可由引用方拉取到本地，也可由引用方推送进被引用文件的指定位置；两个方向的语法与约束不同，改动落在谁身上、行为异常时从哪里查起也随之不同，且两者在解析流水线上分处两个阶段。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/dita/langref/base/include" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>一段内容要出现在多处，复制是最直接的做法，代价是每次修订都须找齐全部副本。<term keyref="term-conref">内容引用</term>把副本变成引用：内容只维护一份，其余位置声明指向它。它的作用范围限于 DITA 内容，外部的非 DITA 文件由 <xmlelement>include</xmlelement> 引入，两者的分工由规范给出。</p>
+      <p>引用有两个方向。一个由引用方指向内容仓库，仓库不知道谁在用它；另一个由引用方把内容送进被引用文件的指定位置，被引用文件同样不知道。方向决定了改动落在谁身上，也决定了输出与预期不符时从哪个文件查起。</p>
+    </section>
+
+    <section>
+      <title>背景：拉取方向的语法与约束</title>
+      <p>拉取的一端是内容仓库：一个只提供片段、自身不进导航的 topic，片段各带 <xmlatt>id</xmlatt>。另一端是引用方，占位元素用 <xmlatt>conref</xmlatt> 指向片段。</p>
+      <codeblock>&lt;!-- warehouse/notes.dita：内容仓库 --&gt;
+&lt;topic id="reuse"&gt;
+  &lt;title&gt;可复用片段库&lt;/title&gt;
+  &lt;body&gt;
+    &lt;note id="java-req" type="important"&gt;需要 Java 17 或更高版本。&lt;/note&gt;
+  &lt;/body&gt;
+&lt;/topic&gt;
+
+&lt;!-- 引用方 --&gt;
+&lt;note conref="../warehouse/notes.dita#reuse/java-req"/&gt;</codeblock>
+      <p>属性值的形状是<codeph>路径#topicID/elementID</codeph>。同文件内引用可省去路径部分，只留井号起头的片段标识符，这仍是完整语法；同一 topic 内寻址非 topic 元素另有一种缩写形式。两种片段标识符语法的正式定义属寻址主题，不在本篇展开。</p>
+      <p>以下三条约束归纳自通用实践。规范的内容引用处理一章尚未逐页核对，因此按判断阅读，落到具体处理器上以实测为准。</p>
+      <ol>
+        <li>类型须匹配。<xmlelement>note</xmlelement> 只能引用 <xmlelement>note</xmlelement>。引用更特化的元素可行，取回的内容按派生链泛化成本地元素的类型，反方向不成立。</li>
+        <li>目标须带 <xmlatt>id</xmlatt>，且在其所属 topic 内唯一。</li>
+        <li>占位元素的原有内容被目标内容整体替换。本地内容因此只在目标缺失时可见，把它写成可读的兜底文本仍有收益：目标失效时输出仍然成句，编辑器里也能看见这处引用要表达什么。</li>
+      </ol>
+      <p>一次取回一段连续的兄弟元素用 <xmlatt>conrefend</xmlatt>，起止元素须同父、同类型：</p>
+      <codeblock>&lt;ol&gt;
+  &lt;li conref="../warehouse/notes.dita#reuse/s1"
+      conrefend="../warehouse/notes.dita#reuse/s3"/&gt;
+  &lt;li&gt;本地追加的第四步。&lt;/li&gt;
+&lt;/ol&gt;</codeblock>
+      <p>路径写在引用方，文件移动即失效。以键寻址的写法（<xmlatt>conkeyref</xmlatt>）把这条依赖交给 <term keyref="term-keyref">键引用</term>处理，语义与约束不变，变的只是目标的定位方式。</p>
+    </section>
+
+    <section>
+      <title>分析：推送方向的代价</title>
+      <p>推送由引用方决定往被引用文件插入什么，被引用文件不改动一个字。适用场合是被引用文件不归你管：基础手册由另一支团队维护，而某条产品线需要在第三步之后多一条说明。</p>
+      <codeblock>&lt;steps&gt;
+  &lt;!-- 第一个元素标记推送位置 --&gt;
+  &lt;step conaction="mark" conref="../base/install.dita#install/step3"/&gt;
+  &lt;!-- 紧随其后的元素是被推送的内容 --&gt;
+  &lt;step conaction="pushafter"&gt;
+    &lt;cmd&gt;为本产品线设置 LICENSE_KEY。&lt;/cmd&gt;
+  &lt;/step&gt;
+&lt;/steps&gt;</codeblock>
+      <simpletable relcolwidth="1* 3*">
+        <sthead><stentry><xmlatt>conaction</xmlatt> 取值</stentry><stentry>语义</stentry></sthead>
+        <strow><stentry>mark</stentry><stentry>标记推送位置，与 pushbefore 或 pushafter 配对使用</stentry></strow>
+        <strow><stentry>pushbefore</stentry><stentry>插入到标记位置之前</stentry></strow>
+        <strow><stentry>pushafter</stentry><stentry>插入到标记位置之后</stentry></strow>
+        <strow><stentry>pushreplace</stentry><stentry>替换目标元素，自带指向目标的引用，不需要 mark</stentry></strow>
+      </simpletable>
+      <p>四种取值的语义同样归纳自通用实践，未逐页核对。</p>
+      <p>代价在可追溯性。<b>推送把内容的来处与去处拆到两个文件，且只有来处知道这件事</b>：一段文字出现在输出里，在生成它的源文件里却检索不到，因为它是别的文件送进来的。规模一大，读者与作者都无从判断某个文件的最终形态由哪几处推送共同决定。</p>
+      <p>可用的约束有两条。其一，把推送限制在确有必要的场合，即被引用文件不可改动、而差异又只有一两处；其二，为允许被推送的文件建立登记，让被引用方能查到自己会被谁改写。两条都是流程约定，工具不强制。</p>
+    </section>
+
+    <section>
+      <title>分析：解析顺序与三条推论</title>
+      <p>拉取与推送不在同一个处理阶段完成，与之相关的条件过滤、键解析也各有位置。DITA-OT 的预处理大致按以下顺序执行：</p>
+      <ol>
+        <li>条件过滤</li>
+        <li>map 引用展开</li>
+        <li>键引用解析</li>
+        <li>内容引用推送</li>
+        <li>内容引用解析</li>
+        <li>外部内容引入</li>
+        <li>标题与摘要回填</li>
+        <li>分块</li>
+      </ol>
+      <p>该顺序取自 DITA-OT 的实现观察，规范的处理模型一章尚未逐页核对，准确顺序也随发行版变动。据此有三条推论，同属判断：</p>
+      <ul>
+        <li>条件过滤在最前，因此可以用条件属性排除一个键定义，使某个变体走另一份定义。</li>
+        <li>内容仓库文件通常不应被条件化。目标元素若已被过滤排除，拉取到的位置随之落空，症状出现在引用方而根因在仓库。</li>
+        <li>键引用先于内容引用解析，以键寻址的内容引用因此可用。</li>
+      </ul>
+      <p>顺序既随版本变动，写复杂的引用逻辑之前保留构建的中间产物逐阶段核对，比依据本表推断可靠。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>方向的选择由被引用文件的归属决定：文件可改动则用拉取，把片段沉到内容仓库；文件不可改动而差异有限则用推送，并承担来处与去处分离的代价。两个方向共享同一个前提，即<term keyref="term-ssot">同一个事实只存在于一处</term>——引用只改变这一份内容出现在何处，不改变它由谁维护。</p>
+      <p>本篇的多数条目尚无规范页面支撑。把它们用于自研处理逻辑之前，逐条回到规范的内容引用处理一章与处理模型一章核对，或在最小样例上实测。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：内容引用的作用范围限于 DITA 内容、非 DITA 的外部内容由 <xref href="https://dita-lang.org/dita/langref/base/include" scope="external">include 元素</xref>承担，该分工已逐页核对。</p>
+      <p><b>判断</b>：三条约束、<xmlatt>conrefend</xmlatt> 的范围引用、<xmlatt>conaction</xmlatt> 四种取值的语义、预处理的解析顺序与由它推出的三条推论，来自通用 DITA 实践与 DITA-OT 实现观察，规范的内容引用处理一章与处理模型一章尚未逐页核对。推送的登记做法、两个方向的选用判据为本库判断，可被反驳。</p>
+    </section>
+  </conbody>
+</concept>
