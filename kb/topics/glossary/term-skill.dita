@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-skill" xml:lang="zh-CN" maturity="curated" volatility="volatile">
+  <glossterm>skill</glossterm>
+  <glossdef>按描述与任务的相关性触发、正文按需加载的成套工作流指令。未触发时只有描述常驻上下文。</glossdef>
+  <glossBody>
+    <glossAlt>
+      <glossSynonym xml:lang="en">skill</glossSynonym>
+    </glossAlt>
+    <glossAlt>
+      <glossSynonym>技能</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

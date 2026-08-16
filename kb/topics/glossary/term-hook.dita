@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-hook" xml:lang="zh-CN" maturity="curated" volatility="volatile">
+  <glossterm>hook</glossterm>
+  <glossdef>在 agent 生命周期的特定事件点自动执行的用户定义处理器（shell 命令、HTTP 端点或提示）。由进程触发而非模型选择，可阻断动作——四种扩展机制里唯一的确定性一种。</glossdef>
+  <glossBody>
+    <glossAlt>
+      <glossSynonym xml:lang="en">hook</glossSynonym>
+    </glossAlt>
+    <glossAlt>
+      <glossSynonym>钩子</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-progressive-disclosure" xml:lang="zh-CN" maturity="curated" volatility="stable">
+  <glossterm>渐进披露</glossterm>
+  <glossdef>信息分层按需加载的设计：先只暴露元数据（如 skill 的描述），被判定相关才载入正文，正文指向的深层材料要用才读。长内容因此在未用时几乎不占上下文。</glossdef>
+  <glossBody>
+    <glossAlt>
+      <glossSynonym xml:lang="en">progressive disclosure</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-subagent" xml:lang="zh-CN" maturity="curated" volatility="stable">
+  <glossterm>子 agent</glossterm>
+  <glossdef>拥有独立上下文窗口的委派执行体：领专门任务、在自己的上下文里探索，完成后只向主线回传浓缩结论，翻找过程不污染主上下文。</glossdef>
+  <glossBody>
+    <glossAlt>
+      <glossSynonym xml:lang="en">subagent</glossSynonym>
+    </glossAlt>
+    <glossAlt>
+      <glossSynonym>子代理</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

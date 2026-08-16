@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-tool-search" xml:lang="zh-CN" maturity="curated" volatility="volatile">
+  <glossterm>tool search</glossterm>
+  <glossdef>MCP 工具定义的延迟加载机制：会话开始只载入工具名与服务器说明，具体定义在任务需要时按需检索。它使增加 MCP 服务器对上下文窗口影响甚微。</glossdef>
+  <glossBody>
+    <glossAlt>
+      <glossSynonym xml:lang="en">tool search</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

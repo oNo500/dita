@@ -61,3 +61,16 @@ fn genre_must_match_dita_type() {
             .any(|i| i.message().contains("不能标在 concept 上"))
     );
 }
+
+#[test]
+fn concept_over_split_threshold_is_flagged() {
+    let d = lint("over-threshold.dita");
+    assert!(
+        d.items.iter().any(|i| i.message().contains("R16")),
+        "{:?}",
+        d.items
+            .iter()
+            .map(dita_diagnostics::Diagnostic::message)
+            .collect::<Vec<_>>()
+    );
+}

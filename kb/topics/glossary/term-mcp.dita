@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-mcp" xml:lang="zh-CN" maturity="curated" volatility="volatile">
+  <glossterm>MCP</glossterm>
+  <glossdef>agent 与外部工具、数据源之间的开放连接协议：服务端独立部署，客户端跨工具复用，agent 经它读写工单、监控、数据库等外部系统。</glossdef>
+  <glossBody>
+    <glossSurfaceForm>Model Context Protocol（MCP）</glossSurfaceForm>
+    <glossAlt>
+      <glossSynonym xml:lang="en">Model Context Protocol</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

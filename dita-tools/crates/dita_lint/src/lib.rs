@@ -17,6 +17,22 @@ const CONTENT_ROOTS: [&str; 4] = ["concept", "task", "reference", "troubleshooti
 /// Genre is what carries a fixed structure; these types have no plain form.
 const GENRE_REQUIRED_ROOTS: [&str; 2] = ["concept", "task"];
 const DEGREE_WORDS: [&str; 5] = ["特别", "极其", "恰恰", "真正的", "最危险"];
+/// R16: implementation-layer inline markup counted toward the split threshold.
+/// xmlelement/xmlatt/filepath are excluded — the first two are this library's
+/// subject matter when writing about DITA, the third is mostly illustrative.
+const IMPL_MARKUP: [&str; 10] = [
+    "codeph",
+    "cmdname",
+    "apiname",
+    "parmname",
+    "varname",
+    "option",
+    "userinput",
+    "systemoutput",
+    "synph",
+    "codeblock",
+];
+const SPLIT_THRESHOLD: usize = 8;
 
 /// Lint one topic file against R12–R15.
 ///
@@ -52,6 +68,7 @@ pub fn lint_topic(path: &Path, vocab: &Vocabulary) -> anyhow::Result<DiagnosticB
     check_genre(root, root_name, vocab, &mut push);
     check_source_section(root, &mut push);
     check_register(root, &mut push);
+    check_split_threshold(root, root_name, &mut push);
 
     Ok(diag)
 }
@@ -199,5 +216,22 @@ fn check_register(root: roxmltree::Node, push: &mut impl FnMut(String)) {
                 "R15：程度词「{word}」出现 {n} 次——判断的强度由理由撑，不由副词撑"
             ));
         }
+    }
+}
+
+/// R16: a concept carrying more than the threshold of implementation markup is
+/// judgement and configuration living in one topic — split per convention 3.
+fn check_split_threshold(root: roxmltree::Node, root_name: &str, push: &mut impl FnMut(String)) {
+    if root_name != "concept" {
+        return;
+    }
+    let n = root
+        .descendants()
+        .filter(|d| IMPL_MARKUP.contains(&d.tag_name().name()))
+        .count();
+    if n > SPLIT_THRESHOLD {
+        push(format!(
+            "R16：concept 含 {n} 处实现层标记（上限 {SPLIT_THRESHOLD}）——判据留 concept，清单/语法/字段迁成 reference"
+        ));
     }
 }

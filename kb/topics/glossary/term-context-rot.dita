@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-context-rot" xml:lang="zh-CN" maturity="curated" volatility="stable">
+  <glossterm>context rot</glossterm>
+  <glossdef>上下文越长、模型准确率越低的现象：注意力随 token 数衰减，源于 transformer 的 n² 两两关系在长序列上被稀释。是一条性能梯度，不是超过某个长度才出现的断崖。</glossdef>
+  <glossBody>
+    <glossAlt>
+      <glossSynonym xml:lang="en">context rot</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

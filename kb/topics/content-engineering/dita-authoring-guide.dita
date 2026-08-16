@@ -43,6 +43,7 @@
         <li>症状→原因→处置 → <xmlelement>troubleshooting</xmlelement>。</li>
       </ul>
       <p>题材用 <xmlatt>outputclass</xmlatt> 标，遵守该题材的固定结构（见《内容类型框架》题材表：如 quickstart＝目标→前置→步骤→next）。</p>
+      <p><b>拆分阈值（R16）</b>：concept 里实现层行内标记（<xmlelement>codeph</xmlelement>/<xmlelement>cmdname</xmlelement> 等）合计超 8 处即拆——判据留 concept，事件清单、字段表、命令语法迁成 reference。</p>
     </section>
 
     <section>

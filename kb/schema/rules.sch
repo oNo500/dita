@@ -8,7 +8,7 @@
      DITA topic 无命名空间，context 直接用元素名。写法用 XPath1 子集，便于自带处理器执行。
      决策依据：dita2 cases/知识体系重塑/schematron-设计.md（R1–R10 已定案）。 -->
 <schema xmlns="http://purl.oclc.org/dsdl/schematron">
-  <title>KB 业务规则 R1-R15</title>
+  <title>KB 业务规则 R1-R16</title>
 
   <pattern id="R1-shortdesc">
     <rule context="concept | reference | task | troubleshooting">
@@ -113,6 +113,18 @@
       <assert test="true()"
         >R15（代理指标，恒 warning）：粗体每节至多 2 处；破折号插入语每段至多 1 处；
         程度词（特别/极其/恰恰/真正的/最危险）不出现。只是代理——格言句、场景化开头仍靠人审。由 lint 执行。</assert>
+    </rule>
+  </pattern>
+
+
+  <pattern id="R16-split-threshold">
+    <rule context="concept">
+      <assert test="true()"
+        >R16（2026-08-16 定，硬计数）：concept 正文里实现层行内标记
+        （codeph/cmdname/apiname/parmname/varname/option/userinput/systemoutput/synph/codeblock）
+        合计不得超过 8 处——超过即说明判据与配置并存，按 phase3-review 约定 3 拆成
+        concept（判据）＋ reference（配置）。xmlelement/xmlatt/filepath 不计
+        （前两者是本库讲 DITA 写作时的主题词汇，后者多为示意）。由 dita-tools lint 执行。</assert>
     </rule>
   </pattern>
 

@@ -20,4 +20,13 @@
   <topicref keys="term-claude-code" href="../topics/glossary/term-claude-code.dita"/>
   <topicref keys="term-codex" href="../topics/glossary/term-codex.dita"/>
   <topicref keys="term-antigravity" href="../topics/glossary/term-antigravity.dita"/>
+  <!-- 2026-08-16 第二批：coding-agents 域内容引入的跨篇术语（第二篇测试通过）-->
+  <topicref href="../topics/glossary/term-mcp.dita" keys="term-mcp"/>
+  <topicref href="../topics/glossary/term-hook.dita" keys="term-hook"/>
+  <topicref href="../topics/glossary/term-skill.dita" keys="term-skill"/>
+  <topicref href="../topics/glossary/term-subagent.dita" keys="term-subagent"/>
+  <topicref href="../topics/glossary/term-context-rot.dita" keys="term-context-rot"/>
+  <topicref href="../topics/glossary/term-agentic-harness.dita" keys="term-agentic-harness"/>
+  <topicref href="../topics/glossary/term-tool-search.dita" keys="term-tool-search"/>
+  <topicref href="../topics/glossary/term-progressive-disclosure.dita" keys="term-progressive-disclosure"/>
 </map>
