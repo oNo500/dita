@@ -13,4 +13,5 @@
   <topicref href="../../../topics/dita/toolchain/plugin-debugging.dita"/>
   <topicref href="../../../topics/dita/toolchain/parsed-vs-source.dita"/>
   <topicref href="../../../topics/dita/toolchain/programming-by-class.dita"/>
+  <topicref href="../../../topics/dita/toolchain/dita-ot-as-library.dita"/>
 </map>
