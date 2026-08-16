@@ -233,6 +233,23 @@ fn print_exceptions(report: &IaReport) {
             ));
         }
     }
+    // R17 反向报表：已注册但没有 topic 挂靠的 subject key（树的空叶子）
+    if !report.empty_subject_leaves.is_empty() {
+        let keys: Vec<&str> = report
+            .empty_subject_leaves
+            .iter()
+            .map(String::as_str)
+            .collect();
+        let shown = if keys.len() > 8 {
+            format!("{} …（共 {}）", keys[..8].join("、"), keys.len())
+        } else {
+            keys.join("、")
+        };
+        lines.push(format!(
+            "词表空叶子 {} 个（已注册但零 topic 挂靠）：{shown}",
+            keys.len()
+        ));
+    }
     let errs = report.diagnostics.error_count();
     let warns = report.diagnostics.warning_count();
     if errs > 0 || warns > 0 {

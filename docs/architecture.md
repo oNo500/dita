@@ -44,6 +44,7 @@ dita-tools/  执行引擎     产出：校验结果、IA 视图
 | R12–R13 | 题材必标、值合法、类型匹配、必需节齐全 | `dita-tools lint`（2026-08-16） | `dita-tools lint` ✅ |
 | R14 | 来源节两段标签、禁正文手写日期 | `dita-tools lint` | 同上 ✅ |
 | R15 | 文风代理指标（粗体/破折号/程度词，恒 warning） | `dita-tools lint` | 同上 ✅；格言句与场景化开头仍归人审 |
+| **R17** | **`domain` 值必须是 subjectScheme 已注册的 subject key**（唯一未受控的元数据字段；enumerationdef 绑不了 data 元素，值域只能落这里） | `dita-tools ia` 已报 error，另有反向报表（已注册零挂靠的空叶子） | `dita-tools ia` ✅ |
 | 结构校验 | RNG shell 一致性 | `dita validate`（DITA-OT） | DITA-OT，不自造 |
 | map 结构 / 孤儿 topic | 引用文件是否存在、topic 是否被引 | `dita-tools ia` | dita-tools |
 | 链接活性 | 外链 404 检测 | `scripts/link-check.py`（2026-08-15） | `dita-tools links`（要联网，独立跑，暂不急迁） |

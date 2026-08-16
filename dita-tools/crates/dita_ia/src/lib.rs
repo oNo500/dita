@@ -47,6 +47,9 @@ pub struct IaReport {
     pub value_usage: Vec<ValueUsage>,
     /// The subject tree with content hung on it — the view itself.
     pub skeleton: Vec<Node>,
+    /// R17's reverse report: leaf subject keys the scheme registers that no
+    /// topic names as its domain — the tree's empty leaves, sorted by key.
+    pub empty_subject_leaves: Vec<String>,
 }
 
 /// Build the IA report.
@@ -130,8 +133,10 @@ pub fn build_report(
     } = read_governance(vocab, &topics, &branch_map, &branch_stats, &mut diagnostics)?;
 
     let mut skeleton = Vec::new();
+    let mut empty_subject_leaves = Vec::new();
     if let Some(path) = vocab.filter(|p| p.exists()) {
         let (vocabulary, _) = dita_vocab::parse_vocab(path)?;
+        empty_subject_leaves = empty_leaves(&vocabulary, &topics);
         let benchmarks: std::collections::BTreeMap<String, String> =
             governance::benchmarks(&vocabulary)
                 .iter()
@@ -174,6 +179,7 @@ pub fn build_report(
         benchmarks,
         value_usage,
         skeleton,
+        empty_subject_leaves,
     })
 }
 
@@ -225,8 +231,10 @@ fn collect_descendants(
 }
 
 fn check_values(vocab: &dita_vocab::Vocabulary, topics: &[TopicMeta], diag: &mut DiagnosticBag) {
-    // domain must name a subject key — it is the only link from a topic to the
-    // taxonomy, and a typo silently detaches the topic from the skeleton
+    // R17: domain must name a subject key — it is the only link from a topic
+    // to the taxonomy, and a typo silently detaches the topic from the
+    // skeleton. enumerationdef cannot bind to a `data` element, so this check
+    // has nowhere to live but here (see kb/schema/rules.sch R17).
     let subject_keys = vocab
         .subject("subject")
         .map(dita_vocab::Subject::all_keys)
@@ -236,7 +244,9 @@ fn check_values(vocab: &dita_vocab::Vocabulary, topics: &[TopicMeta], diag: &mut
             if !subject_keys.is_empty() && !subject_keys.contains(domain) {
                 diag.push(Diagnostic::error(
                     &meta.path,
-                    format!("domain 值 \"{domain}\" 不是词表主题键"),
+                    format!(
+                        "domain 值 \"{domain}\" 不是词表已注册的 subject key（R17）——请在 subjectScheme 注册该键，或改用已注册值"
+                    ),
                 ));
             }
         }
@@ -267,6 +277,27 @@ fn check_values(vocab: &dita_vocab::Vocabulary, topics: &[TopicMeta], diag: &mut
             }
         }
     }
+}
+
+/// R17's reverse report: leaf subject keys the scheme registers but no topic
+/// has claimed as its domain — the taxonomy's empty leaves.
+///
+/// Only leaves, not every empty node: an interior key such as `writing` is
+/// empty exactly when every one of its children is, so listing it too would
+/// just repeat the same gap under two names. The leaves are where a planner
+/// decides whether to write, retire, or fold a key.
+fn empty_leaves(vocab: &dita_vocab::Vocabulary, topics: &[TopicMeta]) -> Vec<String> {
+    let Some(subject) = vocab.subject("subject") else {
+        return Vec::new();
+    };
+    let claimed: HashSet<&str> = topics.iter().filter_map(|t| t.domain.as_deref()).collect();
+    let mut out: Vec<String> = subject
+        .leaf_keys()
+        .into_iter()
+        .filter(|key| !claimed.contains(key.as_str()))
+        .collect();
+    out.sort();
+    out
 }
 
 /// A technology domain spread across several branches usually means a topic is
