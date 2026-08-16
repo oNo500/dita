@@ -15,7 +15,7 @@
          maturity="draft" volatility="volatile"
          dimension="dim-retrieval dim-decision">
   <title>DITA topic 自足性与 RAG 切块的对应关系</title>
-  <shortdesc>RAG 在内容一侧要的是语义完整的块与可信的结构化元数据，而这两样是 DITA 为复用与多变体付出成本换来的副产品。已经在 DITA 里的内容做检索时它们全部现成；不在的，这不构成迁移的理由。</shortdesc>
+  <shortdesc><term keyref="term-rag">RAG</term>（检索增强生成）在内容一侧要的是语义完整的块与可信的结构化元数据，而这两样是 DITA 为复用与多变体付出成本换来的副产品。已经在 DITA 里的内容做检索时它们全部现成；不在的，这不构成迁移的理由。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/specifications" scope="external"/>
     <data name="domain" value="dita"/>

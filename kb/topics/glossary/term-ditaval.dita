@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-ditaval" xml:lang="zh-CN" maturity="draft" volatility="stable">
+  <glossterm>DITAVAL</glossterm>
+  <glossdef>条件处理的过滤规则文件：逐条声明某个条件属性的某个取值该如何处理，动作有保留、排除、标记，以及把属性值一并留在输出中供下游使用。构建时以过滤选项指定，未被任何规则命中的取值默认保留。规则与内容分开维护，同一批 topic 因此可按不同的规则文件产出不同变体。</glossdef>
+  <glossBody>
+    <glossAlt>
+      <glossSynonym xml:lang="en">DITAVAL filter file</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

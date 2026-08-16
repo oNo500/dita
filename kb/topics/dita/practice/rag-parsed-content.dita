@@ -13,7 +13,7 @@
          maturity="draft" volatility="volatile"
          dimension="dim-retrieval dim-integration">
   <title>RAG 入库内容的解析形态选择</title>
-  <shortdesc>把 DITA 内容接进检索管线，第一个决定是入库的是创作时的源文件还是 <term keyref="term-preprocess">preprocess</term>（预处理）之后的内容。答案是后者，理由的第三条是正确性而非质量。随后的决定是条件过滤发生在入库前还是检索时，两条路线各有代价。</shortdesc>
+  <shortdesc>把 DITA 内容接进 <term keyref="term-rag">RAG</term>（检索增强生成）管线，第一个决定是入库的是创作时的源文件还是 <term keyref="term-preprocess">preprocess</term>（预处理）之后的内容。答案是后者，理由的第三条是正确性而非质量。随后的决定是条件过滤发生在入库前还是检索时，两条路线各有代价。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/specifications" scope="external"/>
     <data name="domain" value="dita"/>
@@ -26,7 +26,7 @@
 
     <section>
       <title>做法</title>
-      <p>入库的内容一律取 preprocess 之后的形态。取得方式与自研管道相同，以 dita 为输出格式跑一次，产出的是引用已展开、键已替换、条件已按 DITAVAL 裁定的正常 DITA 文件。</p>
+      <p>入库的内容一律取 preprocess 之后的形态。取得方式与自研管道相同，以 dita 为输出格式跑一次，产出的是引用已展开、键已替换、条件已按 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）裁定的正常 DITA 文件。</p>
       <p>随后按变体维度选一条入库路线。</p>
       <simpletable relcolwidth="1.2* 1.8* 1.8*">
         <sthead><stentry>路线</stentry><stentry>做法</stentry><stentry>代价</stentry></sthead>

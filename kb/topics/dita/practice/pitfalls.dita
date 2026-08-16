@@ -93,7 +93,7 @@
         <sthead><stentry>症状</stentry><stentry>原因</stentry></sthead>
         <strow>
           <stentry><term keyref="term-conref">conref</term>（内容引用）拉过来是空的</stentry>
-          <stentry>目标元素已被 DITAVAL 排除。存放可复用片段的 topic 不做条件化</stentry>
+          <stentry>目标元素已被 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）排除。存放可复用片段的 topic 不做条件化</stentry>
         </strow>
         <strow>
           <stentry>key 的覆盖不生效</stentry>

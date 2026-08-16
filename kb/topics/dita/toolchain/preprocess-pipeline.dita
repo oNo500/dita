@@ -30,7 +30,7 @@
       <p>以下顺序取自对 DITA-OT 构建过程的观察，不是规范定义的处理模型。阶段名沿用它自己的叫法，便于与保留下来的中间产物目录逐一对照。</p>
       <ol>
         <li>gen-list：扫描 map，建立全部输入文件的清单。</li>
-        <li>debug-filter：注入调试信息，并按 DITAVAL 执行条件过滤。</li>
+        <li>debug-filter：注入调试信息，并按 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）执行条件过滤。</li>
         <li>copy-files：把图片一类的非 DITA 资源拷入临时目录。</li>
         <li>mapref：展开 map 之间的引用，多份 map 合成一份。</li>
         <li>keyref：解析键，把键名替换成实际的地址与文本。</li>

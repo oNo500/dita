@@ -36,4 +36,7 @@
   <topicref href="../topics/glossary/term-transtype.dita" keys="term-transtype"/>
   <topicref href="../topics/glossary/term-preprocess.dita" keys="term-preprocess"/>
   <topicref href="../topics/glossary/term-plugin.dita" keys="term-plugin"/>
+  <!-- 2026-08-16 第五批：dita 域 practice 簇引入的跨篇术语（DITAVAL 出现于六篇、RAG 出现于三篇，过第二篇门槛）-->
+  <topicref href="../topics/glossary/term-ditaval.dita" keys="term-ditaval"/>
+  <topicref href="../topics/glossary/term-rag.dita" keys="term-rag"/>
 </map>

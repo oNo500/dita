@@ -49,7 +49,7 @@
 │   └── enterprise.ditaval
 └── images/</codeblock>
       <p>命名与标识按两条约定：topic 的文件名与它的 <xmlatt>id</xmlatt> 取同一个值且全库唯一，读到一个片段标识就知道它在哪个文件；<b><xmlatt>id</xmlatt> 一经发布不再修改</b>，它是 <term keyref="term-conref">conref</term>（内容引用）、<xmlelement>xref</xmlelement> 与外部深链共同依赖的契约。</p>
-      <p>持续集成里跑四步：逐文件的语法校验、map 级的 DITA 校验、默认变体的构建、每份 DITAVAL 各构建一次。</p>
+      <p>持续集成里跑四步：逐文件的语法校验、map 级的 DITA 校验、默认变体的构建、每份 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）各构建一次。</p>
       <codeblock>#!/usr/bin/env bash
 set -e
 find docs -name '*.dita' -o -name '*.ditamap' | xargs -n1 xmllint --noout --valid
