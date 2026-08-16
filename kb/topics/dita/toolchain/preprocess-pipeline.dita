@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/04-toolchain-and-build.md §3（preprocess 流水线与 .job.xml）。
+     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     术语规则（2026-08-16 用户门反馈后）：阶段名保留英文原名（gen-list / topicpull /
+     chunk / conrefpush…），便于与调试模式保留的中间产物目录逐一对照。
+     volatility=volatile 的依据：阶段名与顺序取自实现观察，随发行版变动。
+     笔记标注「未逐页核对」的条目（全部阶段名与顺序、.job.xml 的作用、preprocess2 的
+     兼容性）在正文按判断呈现，并在来源节判断段列明；已核对的只有 dita 命令的选项。 -->
+<concept id="preprocess-pipeline" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="volatile"
+         dimension="dim-mechanism dim-internals">
+  <title>DITA-OT preprocess 流水线</title>
+  <shortdesc>preprocess 是发布之前把源文件解析成单一形态的一串阶段：清单扫描、条件过滤、mapref 展开、keyref 与 conref 解析、标题回填、分块。自写的扩展挂在哪一阶段之后，决定它看得见什么，也决定输出与预期不符时该从哪一份中间产物查起。</shortdesc>
+  <prolog>
+    <source href="https://www.dita-ot.org/dev/topics/build-using-dita-command" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>DITA 源文件不能直接渲染。一份 topic 里写着 <term keyref="term-conref">conref</term>（内容引用）指向别处、<term keyref="term-keyref">keyref</term>（键引用）等待 map 给出绑定、条件属性等待过滤规则裁定，这些都要先落定，输出格式的模板才有确定的内容可处理。落定这件事由 preprocess 承担。</p>
+      <p>对只写内容的人，这条流水线是透明的。对要写插件或自研处理逻辑的人，它是必须先看清的地形：代码挂在某个阶段之前还是之后，决定它拿到的是引用还是引用解析后的内容。挂错位置的症状是拿到的文档与预期不符，而不是报错。</p>
+    </section>
+
+    <section>
+      <title>背景：阶段的顺序与各自的动作</title>
+      <p>以下顺序取自对 DITA-OT 构建过程的观察，不是规范定义的处理模型。阶段名沿用它自己的叫法，便于与保留下来的中间产物目录逐一对照。</p>
+      <ol>
+        <li>gen-list：扫描 map，建立全部输入文件的清单。</li>
+        <li>debug-filter：注入调试信息，并按 DITAVAL 执行条件过滤。</li>
+        <li>copy-files：把图片一类的非 DITA 资源拷入临时目录。</li>
+        <li>mapref：展开 map 之间的引用，多份 map 合成一份。</li>
+        <li>keyref：解析键，把键名替换成实际的地址与文本。</li>
+        <li>conrefpush：执行 conref push，把推送的内容插入目标位置。</li>
+        <li>conref：解析 conref，把被引用的内容拉取到引用方。</li>
+        <li>profile：再做一次条件过滤，处理 conref 拉进来的内容。</li>
+        <li>topicpull：从目标 topic 取标题，填充空的链接文字。</li>
+        <li>mappull：从 topic 取标题，填充 map 里的替代标题。</li>
+        <li>maplink：按 map 层级与关系表生成相关链接。</li>
+        <li>chunk：按分块属性合并或拆分输出文件。</li>
+        <li>move-meta-entries：把 map 上的元数据下沉到 topic。</li>
+        <li>flag-module：处理 DITAVAL 的标记动作。</li>
+      </ol>
+      <p>这一串之后才轮到各 transtype（输出类型）自己的 XSLT，HTML5 与 PDF 由此分道。顺序本身解释了几处日常现象：条件过滤在 conref 之前先做一次，因此被排除的片段拉不回来；keyref 早于 conref，以键定位的 conref 因此可用；标题回填在引用解析之后，因此它看到的是最终内容。</p>
+      <p>DITA-OT 3.x 起另有一套以纯 XSLT 重写的实现，减少 Java 与 Ant 之间的往返以提速，4.x 的部分 transtype 默认走它。行为大体兼容，代价落在挂在具体 Ant target 上的插件：升级时须确认那个 target 还在。</p>
+    </section>
+
+    <section>
+      <title>分析：挂载点的选择与可核对的中间产物</title>
+      <p>挂载点的选择归结为一个问题，即代码要看到解析前还是解析后的文档。要分析复用关系、统计引用了谁，得挂在 conref 之前；要做检索索引、格式转换、内容分析，得挂在全部解析完成之后，此时文档已是自足的单一形态。这个取舍在自研处理逻辑上同样成立，不限于插件。</p>
+      <p>阶段之间的产物可以留下来查。指定临时目录并开启调试后，每个阶段之后的中间 XML 都保留在目录里，逐份打开即可确定是哪一步没按预期走。</p>
+      <codeblock>dita -i root.ditamap -f html5 -o out \
+  --temp=/tmp/dita-temp \
+  --debug \
+  -v</codeblock>
+      <p>另一条更省事的路径是把 preprocess 的结果直接当作输出：以 dita 为输出格式跑一次，产出的是正常的 DITA 文件，可用编辑器打开逐处检查引用是否解析正确。<b>这两条路径是排查引用与条件化问题的可靠手段</b>，比照着阶段清单推断可靠。</p>
+      <p>临时目录里的 <filepath>.job.xml</filepath> 记录本次构建的全部输入文件及其角色、格式与是否含 conref，相当于一份构建期的文件清单。写扩展时直接读它取全量清单，不必自行扫盘。它的字段与生成时机同样属实现细节，随版本变动。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>先确定代码要看的是解析前还是解析后的文档，再从阶段清单里选挂载点，最后用保留下来的中间产物验证挂对了位置。三步的次序不能颠倒：清单只给出大致地形，可采信的依据是本机这一版跑出来的中间产物。</p>
+      <p>本篇的阶段名与顺序均无规范页面支撑，且随发行版变动。把它们写进插件的依赖关系或自研管道之前，在目标版本上跑一次带调试的构建逐一核对。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：临时目录、调试与详细输出等选项由 dita 命令提供，转自 <xref href="https://www.dita-ot.org/dev/topics/build-using-dita-command" scope="external">使用 dita 命令构建</xref>，已逐页核对。</p>
+      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中十四个阶段的名称、顺序与各自的动作，以及由顺序推出的三处现象，来自对 DITA-OT 实现的观察，非规范定义；纯 XSLT 重写的那套实现及其对 Ant target 的影响、<filepath>.job.xml</filepath> 的作用与内容，同样来自实现观察，未逐版本核对；挂载点按解析前后取舍的判据、三步次序的建议为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>

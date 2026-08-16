@@ -4,4 +4,5 @@
 <map xml:lang="zh-CN">
   <title>工具链与二开</title>
   <topicref href="../../../topics/dita/toolchain/dita-ot-quickstart.dita"/>
+  <topicref href="../../../topics/dita/toolchain/preprocess-pipeline.dita"/>
 </map>
