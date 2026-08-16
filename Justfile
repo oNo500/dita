@@ -18,6 +18,12 @@ ia *args:
 build:
     cd kb && sh scripts/build-agent-rules.sh
 
+# html5 预览：构建 + 起本地 server + 开浏览器（默认全库，传 map 只构建该域）
+# just preview                              # 全库
+# just preview maps/domains/ai.ditamap     # 只看 ai 域
+preview map="maps/root.ditamap":
+    cd kb && sh scripts/preview.sh {{map}}
+
 # 外链活性（联网、慢；定期跑，不并入 review）
 links:
     uv run --script kb/scripts/link-check.py
