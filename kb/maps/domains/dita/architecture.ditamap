@@ -13,4 +13,6 @@
   <topicref href="../../../topics/dita/architecture/doctype-shell.dita"/>
   <topicref href="../../../topics/dita/architecture/vocabulary-modules.dita"/>
   <topicref href="../../../topics/dita/architecture/conformance.dita"/>
+  <!-- 笔记 10（寻址与键空间）：寻址总述 → key space 模型 → 跨交付物 → 与分支过滤的交互 -->
+  <topicref href="../../../topics/dita/architecture/addressing-modes.dita"/>
 </map>
