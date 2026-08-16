@@ -56,7 +56,7 @@
 
     <section>
       <title>结论：角色边界与各自的阅读材料</title>
-      <p>角色不是身份而是当下在做的事。同一个人上午写 topic、下午改 shell，两段时间受不同的约束管辖；判断某个操作是否合规，先确定这个操作属于哪个角色。<term keyref="term-conref">conref</term> 之类的写作机制归 author，词汇模块与 shell 的编写归 DITA architect，两者对同一个属性的权限可以完全相反。</p>
+      <p>角色由正在做的事决定，不由职位决定。同一个人写 topic 时受一套约束，改 shell 时受另一套；判断某个操作是否合规，先确定这个操作属于哪个角色。conref 之类的写作机制归 author，词汇模块与 shell 的编写归 DITA architect，两者对同一个属性的权限可以完全相反。</p>
       <p>阅读材料随角色分。下表是本库的编排建议，不是规范的要求。</p>
       <simpletable relcolwidth="1* 1.6* 1.4*">
         <sthead><stentry>角色</stentry><stentry>规范里该读的部分</stentry><stentry>本库里该读的簇</stentry></sthead>
@@ -72,7 +72,7 @@
     <section>
       <title>来源</title>
       <p><b>事实</b>：规范自述读者为「DITA 标准的实现者，包括工具开发者和开发专门化的 XML 架构师」，各角色词的出现频次，以及 processor 尚无定义的编辑批注全文与其未解决标记，均逐页核对自规范源码 v2.0-beta03；术语章定义的十个术语全部是文档与语法构件，见<xref href="https://dita-lang.org/dita/archspec/base/basic-dita-terminology" scope="external">基本 DITA 术语</xref>；角色类术语中只有 <codeph>user agent</codeph> 有定义条目，见<xref href="https://dita-lang.org/dita/archspec/base/other-terminology" scope="external">其他术语</xref>。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中五种角色的划分与职责产出物表、information architect 与 DITA architect 的侧重差异，为从规范正文用法归纳；「看是否求值 DITA 特性」的判据，是对编辑批注暂定范围的推论；角色是当下在做的事而非身份、阅读材料对照表、以及维护工具链一行与 implementer 的划界，为本库编排。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中五种角色的划分与职责产出物表、information architect 与 DITA architect 的侧重差异，为从规范正文用法归纳；「看是否求值 DITA 特性」的判据，是对编辑批注暂定范围的推论；角色由正在做的事决定而非由职位决定、阅读材料对照表、以及维护工具链一行与 implementer 的划界，为本库编排。</p>
     </section>
   </conbody>
 </concept>
