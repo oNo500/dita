@@ -6,6 +6,7 @@
   <topicref href="../../../topics/dita/core-model/topic-typing.dita"/>
   <topicref href="../../../topics/dita/core-model/map-structure.dita"/>
   <topicref href="../../../topics/dita/core-model/titlealt-system.dita"/>
+  <topicref href="../../../topics/dita/core-model/table-model-choice.dita"/>
   <topicref href="../../../topics/dita/core-model/conref-pull-push.dita"/>
   <topicref href="../../../topics/dita/core-model/keyref-variable-text.dita"/>
   <topicref href="../../../topics/dita/core-model/include-non-dita.dita"/>

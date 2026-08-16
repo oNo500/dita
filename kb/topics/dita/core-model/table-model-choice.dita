@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/01-core-model.md §3.5（表格：两套体系怎么选）。
+     题材 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
+     标题查证（本库组合，非新造概念）：上游有容器节点「Table elements」
+     （dita-lang.org/dita/langref/containers/table-elements，其说明称 DITA 提供
+     complex table 与 simple table 两种），两个元素各有语言参考页 <table> 与 <simpletable>；
+     <table> 页明确其模型为 OASIS Exchange Table Model（社区通行叫法 CALS）。
+     上游无「在两者之间选型」这一节点，故标题以领域既有词素组合：元素名 simpletable、
+     社区通行名 CALS table、领域词「选用」。先例：kb/topics/dita/toolchain/parsed-vs-source.dita
+     「程序化处理的输入选择」、kb/topics/dita/architecture/specialization-practice.dita
+     「specialization 的启用判据」。未新造概念名、未新造分类框架。
+     术语规则（2026-08-16 用户门反馈 + 同日译名禁令）：simpletable / CALS / specialization /
+     choicetable / properties 等一律英文原名，不译作「简单表」「复杂表」作首选词。
+     volatility=stable 的依据：两套表格的内容模型出自规范，不随发行版变动。
+     事实纪律：simpletable 的内容模型、2.0 支持 <title>、@relcolwidth 与 @keycol 为笔记
+     已逐页核对项；CALS 一侧的属性细节、choicetable 与 properties 派生自 simpletable
+     的说法、以及「默认用 simpletable」的判断均未逐页核对，来源节判断段列明。 -->
+<concept id="table-model-choice" xml:lang="zh-CN"
+         outputclass="best-practice"
+         maturity="draft" volatility="stable"
+         dimension="dim-decision dim-structure-template">
+  <title>simpletable 与 CALS table 的选用</title>
+  <shortdesc>DITA 自带两套表格模型，二者的差别不在外观而在能力与代价：一套结构简单、可作 specialization 的基类，另一套支持跨行跨列而几乎无法派生。默认选前者，把后者留给真正需要合并单元格的矩阵。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/dita/langref/base/simpletable" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>场景</title>
+      <p>写技术内容时表格出现得很频繁：参数清单、取值对照、状态码、选项说明。DITA 在这里给了两个元素，<xmlelement>simpletable</xmlelement> 与 <xmlelement>table</xmlelement>，后者的模型是 OASIS Exchange Table Model，社区通常叫它 CALS。作者每次插表都要在两者之间选一次，选错的代价在当时看不见，在做 specialization 与做多格式输出时才结算。</p>
+      <simpletable relcolwidth="1* 1.6* 1.6*">
+        <sthead><stentry>项</stentry><stentry><xmlelement>simpletable</xmlelement></stentry><stentry>CALS <xmlelement>table</xmlelement></stentry></sthead>
+        <strow><stentry>内容模型</stentry><stentry><codeph>title?, sthead?, strow+</codeph></stentry><stentry><codeph>title?, tgroup+</codeph>，<xmlelement>tgroup</xmlelement> 内再分列声明、表头与表体</stentry></strow>
+        <strow><stentry>跨行跨列</stentry><stentry>不支持</stentry><stentry>支持</stentry></strow>
+        <strow><stentry>列宽</stentry><stentry><xmlatt>relcolwidth</xmlatt> 给比例</stentry><stentry>逐列声明</stentry></strow>
+        <strow><stentry>纵向表头</stentry><stentry><xmlatt>keycol</xmlatt> 指定第几列</stentry><stentry>按行表头属性声明</stentry></strow>
+        <strow><stentry>复杂度</stentry><stentry>低</stentry><stentry>高，是 DITA 里结构最深的元素之一</stentry></strow>
+      </simpletable>
+    </section>
+
+    <section>
+      <title>做法</title>
+      <p>默认写 <xmlelement>simpletable</xmlelement>。列宽用 <xmlatt>relcolwidth</xmlatt> 给比例，需要把某一列当纵向表头时用 <xmlatt>keycol</xmlatt>，需要标题时直接写 <xmlelement>title</xmlelement>。</p>
+      <p>只有确实要合并单元格时才改用 CALS <xmlelement>table</xmlelement>，且把这类表限制在少数几处。</p>
+      <p>场合已有专用表时优先用专用表：task 里的选择表用 <xmlelement>choicetable</xmlelement>，reference 里的属性表用 <xmlelement>properties</xmlelement>。两者语义比裸表格明确，下游可以按语义而不是按列位处理。</p>
+    </section>
+
+    <section>
+      <title>理由</title>
+      <p>第一，1.x 时代改用 CALS 的常见理由已经不成立。<b>2.0 的 <xmlelement>simpletable</xmlelement> 内容模型里有 <xmlelement>title</xmlelement></b>，「简单表没有标题」这条不再是选型依据。</p>
+      <p>第二，<xmlelement>simpletable</xmlelement> 是理想的 specialization 基类。它的结构是行与单元格两层，派生一个语义明确的参数表只要把行与单元格改名并约束列数；CALS 一侧的分组、列声明与跨格属性纠缠在一起，派生的收益抵不过代价。<xmlelement>choicetable</xmlelement> 与 <xmlelement>properties</xmlelement> 正是这条路径的产物。</p>
+      <p>第三，合并单元格在弱表格能力的输出格式里必然降级。产出 Markdown 一类格式时，跨行跨列没有对应写法，处理器只能拆平或丢弃。源头少用一次，下游少一处不可逆的损失。</p>
+    </section>
+
+    <section>
+      <title>反例</title>
+      <p>为了给表格加个标题而用 CALS。这是 1.x 的肌肉记忆，在 2.0 里换来的是一整套用不上的分组结构，以及一张无法被 specialize 的表。</p>
+      <p>把参数清单写成 CALS 表。参数表是最该做 specialization 的内容之一：字段固定、下游要按字段取值。写成 CALS 之后，要么放弃 specialization，要么回头重写全部存量表格。</p>
+      <p>用跨列合并画表头的分组关系。这类分组多数可以改写成两张表或一列显式的分组名，改写之后既保住了 specialization 的可能，也避免了多格式输出时的降级。</p>
+    </section>
+
+    <section>
+      <title>边界</title>
+      <p>矩阵型数据不在此列。行列都有表头、单元格按区块合并的对照矩阵，用 <xmlelement>simpletable</xmlelement> 表达会失真，此时 CALS 是正确的选择。</p>
+      <p>从外部系统导入的表格同样例外。原表已是 CALS 结构时，转成 <xmlelement>simpletable</xmlelement> 的改写成本与出错风险高于保留原状。</p>
+      <p>这条判断是团队约定层面的，工具不强制。把「本库只用 <xmlelement>simpletable</xmlelement>」写进 constraint module 可以让它变成机器可查的规则，代价是 CALS 的例外场合要另开一个 document-type shell。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：<xmlelement>simpletable</xmlelement> 的内容模型 <codeph>title?, sthead?, strow+</codeph>（2.0 起含 <xmlelement>title</xmlelement>）、<xmlatt>relcolwidth</xmlatt> 给比例列宽、<xmlatt>keycol</xmlatt> 指定纵向表头列，转自 <xref href="https://dita-lang.org/dita/langref/base/simpletable" scope="external">simpletable 元素</xref>，已逐页核对；<xmlelement>table</xmlelement> 的模型为 OASIS Exchange Table Model，以及上游把两者归在同一个容器节点下，见 <xref href="https://dita-lang.org/dita/langref/containers/table-elements" scope="external">Table elements</xref>。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 CALS 一侧的内容模型概述与跨行跨列、列声明、行表头的属性细节，<xmlelement>choicetable</xmlelement> 与 <xmlelement>properties</xmlelement> 派生自 <xmlelement>simpletable</xmlelement> 的说法，来自通用 DITA 实践，未逐页核对；默认选 <xmlelement>simpletable</xmlelement> 的判断、三条理由、三个反例、三条边界，以及用 constraint module 把约定变成机器可查规则的建议，为本库归纳。多格式输出时合并单元格的降级为实现观察，未在各输出格式上逐一验证。</p>
+    </section>
+  </conbody>
+</concept>
