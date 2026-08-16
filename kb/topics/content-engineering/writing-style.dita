@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
+     结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
+     整改后按实际情况重新定级。 -->
 <!-- 文体与结构规范。本篇自身遵守它定的规则：标题材 best-practice，
      按该题材的固定结构写（场景→做法→理由→反例→边界）——一条自己不照做的写作规范没有说服力。 -->
 <concept id="writing-style" xml:lang="zh-CN"
          outputclass="best-practice"
-         maturity="curated" volatility="stable"
+         maturity="draft" volatility="stable"
          dimension="dim-criteria dim-structure-template">
   <title>文体与结构：一篇长什么样，不由作者当场决定</title>
   <shortdesc>动笔前先定题材，题材带来固定结构；章节标题是标签不是论点；来源节有统一格式；过程与心得不进正文。没有这层约束，每篇都会长成作者当时的心情。</shortdesc>

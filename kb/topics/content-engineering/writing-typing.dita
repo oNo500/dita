@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<concept id="writing-typing" xml:lang="zh-CN" maturity="curated" volatility="stable" dimension="dim-classification">
+<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
+     结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
+     整改后按实际情况重新定级。 -->
+<concept id="writing-typing" xml:lang="zh-CN" maturity="draft" volatility="stable" dimension="dim-classification">
   <title>类型化写作：先判类型，再动笔</title>
   <shortdesc>动笔前先确定这块内容是哪一类，一篇只写一类；类型服务于自足性，不是为分类而分类。</shortdesc>
   <prolog>

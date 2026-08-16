@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
+     结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
+     整改后按实际情况重新定级。 -->
 <!-- 重写自矿场 30-05-ai/claude-code/AI-ClaudeCode-Rule与Skill分层（type:concept, growing）。
      volatile：rule/skill/paths 是 agent 工具当前机制，会随版本变——判据稳定，具体字段易腐。 -->
-<concept id="agent-rule-loading" xml:lang="zh-CN" maturity="curated" volatility="volatile" dimension="dim-mechanism dim-decision">
+<concept id="agent-rule-loading" xml:lang="zh-CN" maturity="draft" volatility="volatile" dimension="dim-mechanism dim-decision">
   <title>agent 规则的三层加载判据</title>
   <shortdesc>规则按"为什么被加载"分三层——无条件常驻、按路径匹配、按意图语义触发；给一条内容选层（按意图层装的是 skill，不是规则），先判 glob 能否表达它的真实触发条件，再看内容体量。</shortdesc>
   <prolog>

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
+     结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
+     整改后按实际情况重新定级。 -->
 <!-- coding-agents 域 · dim-integration + dim-decision。
      选题参考矿场 30-05-ai/claude-code 的 MCP服务器 / Hooks实现参考 两篇（均为 reference 型）。
      两篇的结论各有一条经核对后未采信，见正文与来源节——矿场只作选题参考，不作事实来源。
      事实当日核对 Claude Code 的 hooks / mcp / skills / memory 四页官方文档。 -->
 <concept id="agent-extension-choice" xml:lang="zh-CN"
-         maturity="verified" volatility="volatile"
+         maturity="draft" volatility="volatile"
          dimension="dim-integration dim-decision">
   <title>扩展机制怎么选：谁来触发，能不能拦</title>
   <shortdesc>hook / MCP / skill / 规则不是四种做同一件事的方式，它们在"由谁触发"和"能否阻断"上根本不同；选错的典型症状是把必须发生的事托付给了模型的判断。</shortdesc>

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
+     结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
+     整改后按实际情况重新定级。 -->
 <!-- coding-agents 域 · dim-context-engineering。
      选题参考矿场 30-05-ai/claude-code/AI-ClaudeCode-ContextEngineering.md——
      该篇本身是链接索引（type: reference），其价值在指向的权威源，正文不迁移。
      事实两路当日核对：Anthropic 工程博客（原理）＋ Claude Code 上下文窗口文档（机制）。 -->
 <concept id="agent-context-budget" xml:lang="zh-CN"
-         maturity="verified" volatility="volatile"
+         maturity="draft" volatility="volatile"
          dimension="dim-context-engineering dim-decision">
   <title>上下文是预算，不是容器</title>
   <shortdesc>上下文窗口越大越该省着用——注意力随 token 数衰减，所以目标是"能达成结果的最小高信号 token 集"，而不是把相关材料都塞进去。四种省法（按需取用 / 压缩 / 外部笔记 / 子 agent）各解决不同的溢出。</shortdesc>

@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
+     结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
+     整改后按实际情况重新定级。 -->
 <!-- 给 AI 的 DITA 写作规则总纲。层0：AI 主笔质量事前靠本篇、事后靠 review.sh。
      本篇是操作手册，串起内容类型框架/维度方法/术语双语，只补 DITA 操作层；
      写作原则不重写，引 topics/content-engineering/writing-*。并入 agent-rules 交付物，AI 读它来写 kb。 -->
 <concept id="dita-authoring-guide" xml:lang="zh-CN"
-         maturity="curated" volatility="stable" dimension="dim-criteria dim-process">
+         maturity="draft" volatility="stable" dimension="dim-criteria dim-process">
   <title>给 AI 的 DITA 写作规则（总纲）</title>
   <shortdesc>AI 主笔 DITA 时照此决策。本集与 review.sh 机器兜底一一对应——事前照做，事后必过。写作原则见 topics/content-engineering/writing-*，选型见《内容类型框架》，本篇只给 DITA 操作层的流程与规则。</shortdesc>
   <prolog>

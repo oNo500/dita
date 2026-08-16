@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
+     结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
+     整改后按实际情况重新定级。 -->
 <!-- 重写自矿场 infra-ai/rules/constitution + rc-rules。
      含通用规则 + 工具特有段（tool 条件属性），交付物构建时按 DITAVAL 过滤出各工具变体。 -->
-<concept id="agent-rules-core" xml:lang="zh-CN" maturity="curated" volatility="volatile" dimension="dim-principles">
+<concept id="agent-rules-core" xml:lang="zh-CN" maturity="draft" volatility="volatile" dimension="dim-principles">
   <title>Agent 规则集（核心）</title>
   <shortdesc>跨项目的 agent 规则——核心原则、不可违反的底线、代码约定，以及各 agent 工具特定的配置约定。</shortdesc>
   <!-- 来源放 prolog 不放正文：本篇是交付物源（构建成 CLAUDE.md / AGENTS.md），
