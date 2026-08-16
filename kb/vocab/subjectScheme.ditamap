@@ -326,8 +326,11 @@
        键不加前缀：outputclass 的字面值即键（与 tool-/dim- 前缀先例不同，接受撞键风险）。
        值来源：research/cases/kb-redesign/content-type-framework.md 定稿表。 -->
   <subjectdef keys="genre-values">
+    <!-- quickstart 于 2026-08-16 由 task 改绑 concept：task 绑定名存实亡（唯一一篇未用
+         <steps>），且 taskbody 不允许 section 后置于 steps，来源节收尾与 R13 必需节两难。
+         section 在 conbody 内天然合法，必需节不变。task-kb.rng 随之退役。 -->
     <subjectdef keys="quickstart">
-      <data name="dita-type" value="task"/>
+      <data name="dita-type" value="concept"/>
       <data name="required-section" value="目标"/>
       <data name="required-section" value="前置"/>
       <data name="required-section" value="步骤"/>
