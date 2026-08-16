@@ -8,4 +8,6 @@
   <topicref href="../../../topics/dita/architecture/attribute-specialization.dita"/>
   <topicref href="../../../topics/dita/architecture/constraints-generalization.dita"/>
   <topicref href="../../../topics/dita/architecture/specialization-practice.dita"/>
+  <!-- 笔记 09（架构基础）：三个 facility → shell → 模块层 → 一致性，由框架读到实现再读到验收 -->
+  <topicref href="../../../topics/dita/architecture/extension-facilities.dita"/>
 </map>

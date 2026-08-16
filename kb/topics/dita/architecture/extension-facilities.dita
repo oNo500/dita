@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/09-architecture-foundations.md §1（三大扩展设施）、§4（约束 vs 扩展）
+     与 §6（对二次开发的实际影响）。原任务清单把 §4 划给 vocabulary-modules，此处按标题
+     规则第 2 关「先怀疑切分」重切：§4 讲的是 element-type configuration 这一个 facility 的
+     两个方向，与 §1 的框架同属一个节点，合篇后 vocabulary-modules 才能对齐上游的
+     Vocabulary modules 节点。§6 的成本维度已由 practice/customization-cost-ladder 承载，
+     本篇只留「哪件事归哪个 facility」的对应。
+     标题规则（2026-08-16 用户定稿）：上游有对应节点，直接用其类目名——架构规范
+     「Configuration and specialization」子树下的 "Overview of DITA extension facilities"
+     节点，原文 "DITA provides three extension facilities"；导航性前缀 Overview of 不入标题
+     （同书 "Overview of document-type shells" 同理）。非自造。
+     术语规则（2026-08-16 用户门反馈后，含译名禁令补充）：extension facility /
+     specialization / generalization / constraint / expansion module / vocabulary module 一律
+     英文原名——「扩展设施」「专门化」「泛化」「约束」是本库自造译名，OASIS 无官方中文版，
+     不得作首选词；中文解释每篇首现随行注一次，此后全用英文名。
+     document-type configuration / element-type configuration 为规范原文的 facility 名，同样不译。
+     volatility=stable 的依据：三个 facility 的划分出自架构规范的框架，不随发行版变动。
+     事实纪律：笔记已逐页核对的是三个 facility 的构成与 generalization 的补充过程定位
+     （扩展设施概览页）、document-type configuration 不得直接定义元素类型且无需修改
+     vocabulary module（文档类型配置页）、expansion module 与 constraint 互为反向及其
+     核心规则（扩展模块页）。四种手段并列是常见误读、共同点的推广、选型对应表均属判断，
+     已在来源节列明。 -->
+<concept id="extension-facilities" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="stable"
+         dimension="dim-internals dim-classification">
+  <title>DITA extension facilities</title>
+  <shortdesc>规范给出的是三个并列的扩展入口：document-type configuration 选模块、specialization 造新元素类型、element-type configuration 改已有元素的内容模型。structural、domain、attribute 三者同属 specialization 之下，constraint 则在另一个入口里，把四者摊平并列是层级错读。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/2.0/dita/archspec/base/ditaspecialization" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>要改 DITA 允许写什么，入口有几个、各自能改到哪一层，决定了一次定制落在哪个文件里、升级时会不会被覆盖。流传较广的说法是「四种扩展手段」：structural specialization、domain specialization、attribute specialization，再加 constraint（约束）。这个并列摊平了层级。</p>
+      <p>架构规范的框架是三个 extension facility（扩展设施）：document-type configuration、specialization（专门化）、element-type configuration。前面那份清单里的三种 specialization 是第二个 facility 之下的三种形态，constraint 属于第三个 facility，两者不在同一层。generalization（泛化）也常被算作第四种手段，它不是扩展入口，是把 specialize 过的内容还原回基类标记的补充过程。</p>
+    </section>
+
+    <section>
+      <title>背景：三个 facility 的分工</title>
+      <simpletable relcolwidth="1.2* 2* 1.4*">
+        <sthead><stentry>facility</stentry><stentry>改动的对象</stentry><stentry>与已有 vocabulary module 的关系</stentry></sthead>
+        <strow>
+          <stentry>document-type configuration</stentry>
+          <stentry>选哪些模块进来、为引入的元素配置默认属性值、定 topic 的嵌套规则</stentry>
+          <stentry>不改，只选取与配置</stentry>
+        </strow>
+        <strow>
+          <stentry>specialization</stentry>
+          <stentry>造新的元素类型或属性，打包成新的 vocabulary module（词汇模块）</stentry>
+          <stentry>不动已有的，只新增</stentry>
+        </strow>
+        <strow>
+          <stentry>element-type configuration</stentry>
+          <stentry>改某个已有元素的内容模型与属性表</stentry>
+          <stentry>不改，改动写在单独的 element-configuration module 里</stentry>
+        </strow>
+      </simpletable>
+      <p>第一个 facility 的落地形态是 <xref href="doctype-shell.dita">document-type shell</xref>，第二个的三种形态分别见 <xref href="structural-specialization.dita">structural specialization</xref>、<xref href="domain-specialization.dita">domain specialization</xref> 与 <xref href="attribute-specialization.dita">attribute specialization</xref>。第三个 facility 的两个方向是下一节的内容。</p>
+    </section>
+
+    <section>
+      <title>分析：element-type configuration 的两个方向</title>
+      <p>这个 facility 下有一对方向相反的模块，两者对称：</p>
+      <simpletable relcolwidth="1* 1.6* 1.6*">
+        <sthead><stentry>项</stentry><stentry>constraint module</stentry><stentry>expansion module（扩展模块）</stentry></sthead>
+        <strow><stentry>方向</stentry><stentry>收紧，移除元素与属性</stentry><stentry>放宽，添加元素与属性</stentry></strow>
+        <strow><stentry>用途</stentry><stentry>禁用本套文档不该出现的元素、把可选子元素改为必填</stentry><stentry>给特定元素类型加 specialize 出来的元素或属性，且不使其全局可用</stentry></strow>
+        <strow><stentry>典型</stentry><stentry>禁用 <xmlelement>draft-comment</xmlelement>、强制 <xmlelement>shortdesc</xmlelement></stentry><stentry>只让 <xmlelement>step</xmlelement> 能用某个自定义元素，别处不能</stentry></strow>
+      </simpletable>
+      <p>两者当中 expansion module 被提及得少，但它填的空缺是真实的。做一个从 <xmlelement>ph</xmlelement> 派生的 domain 元素 <xmlelement>sensor-id</xmlelement>，装进 shell 之后它在所有 <xmlelement>ph</xmlelement> 能出现的位置都可用，包括不希望它出现的位置。规范给 expansion module 的定位正是让架构师在特定元素类型中引入 specialize 出来的属性或元素，而不使这些属性或元素全局可用。</p>
+      <p>它有一条核心规则约束这种放宽：generalize 之后，受 expansion module 影响的元素，其内容模型必须与该元素原本的内容模型一致。这条把放宽的效力关在可还原的范围内，交换出去的内容仍然是合法的基类内容。</p>
+      <p>由此得到一条判据：正打算做 domain specialization、又担心新元素到处都能用，要的是 expansion module，不是更细的 specialization。constraint 一侧的用法与 generalization 的算法见 <xref href="constraints-generalization.dita">constraints 与 generalization</xref>。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>按手上的事对到 facility，路线是唯一的：</p>
+      <simpletable relcolwidth="2* 1.4*">
+        <sthead><stentry>要做的事</stentry><stentry>对应的 facility</stentry></sthead>
+        <strow><stentry>只改外观</stentry><stentry>都不用，<xmlatt>outputclass</xmlatt> 加样式</stentry></strow>
+        <strow><stentry>禁用团队不该写的元素</stentry><stentry>element-type configuration 的 constraint 一侧</stentry></strow>
+        <strow><stentry>给特定元素加自定义标记、不使其全局可用</stentry><stentry>element-type configuration 的 expansion 一侧</stentry></strow>
+        <strow><stentry>造一个跨 topic 类型可用的语义标记</stentry><stentry>specialization（domain）</stentry></strow>
+        <strow><stentry>加一个条件化维度</stentry><stentry>specialization（attribute）</stentry></strow>
+        <strow><stentry>造一整套新的内容骨架</stentry><stentry>specialization（structural）</stentry></strow>
+        <strow><stentry>上面任何一项落地</stentry><stentry>都要经 document-type configuration 装配</stentry></strow>
+      </simpletable>
+      <p>各条路线的工作量差一个数量级，选级的判据见 <xref href="../practice/customization-cost-ladder.dita">DITA 二次开发的成本阶梯</xref>。</p>
+      <p>三个 facility 有一个共同点，也是这套设计的收益所在：<b>没有一个 facility 要求修改已有的 vocabulary module</b>。定制写在自己的 shell 与自有模块里，上游发新版时随包分发的模块文件原封不动，定制不会被覆盖。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：规范提供三个 extension facility，即 document-type configuration、specialization 与 element-type configuration，generalization 是把用了 specialization 的内容转为未 specialize 标记的过程而非第四个 facility，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/ditaspecialization" scope="external">DITA 扩展设施概览</xref>；document-type configuration 能选模块、应用 constraint 与 expansion、指定 topic 嵌套规则、配置默认属性值，且不得直接定义元素类型、无需修改 vocabulary module，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/configuration" scope="external">文档类型配置</xref>；expansion module 与 constraint 互为反向、其作用是在特定元素类型中引入 specialize 出来的属性或元素而不使之全局可用、其核心规则为 generalize 后受影响元素的内容模型必须与该元素原本的内容模型一致，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/expansion-modules" scope="external">扩展模块</xref>。三处均已逐页核对。</p>
+      <p><b>判断</b>：把三种 specialization 与 constraint 摊平并称四种扩展手段属层级错读、三个 facility 均不修改已有 vocabulary module 因而定制不被上游覆盖、constraint 与 expansion 的用途与典型举例、<xmlelement>sensor-id</xmlelement> 这一例、担心新元素全局可用时应选 expansion module 的判据、结论节的事项与 facility 对应表，为本库归纳或来自通用 DITA 实践，未逐页核对。element-type configuration 与 constraint module 的具体条文本篇未展开。</p>
+    </section>
+  </conbody>
+</concept>
