@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/14-metadata-and-classification.md §1（先分清两类元数据）与
+     §5（设计流程）。题材 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，
+     来源节收尾。
+     术语规则（2026-08-16 用户门反馈后）：subject scheme / DITAVAL / othermeta /
+     otherprops / prolog 等一律用英文原名；不造「过滤元数据」「分类元数据」一类术语口吻的
+     类目名，正文一律写成平实的用途描述。
+     标题规则（2026-08-16 用户定稿）——本库自造，上游无对应节点，三道关记录如下：
+     ① 穷尽查证：OASIS 架构规范有 DITA metadata 章（子页 Metadata elements /
+        Metadata attributes / Metadata in maps and topics / Window metadata for user
+        assistance）与 Conditional processing 章，前者讲描述性元数据的语法位置，后者讲
+        条件属性，均无「同一个维度该按哪类用途设计」这个节点；DITA-OT 文档一侧只有流水线
+        阶段名（move-meta-entries 等），无对应概念节点；社区侧 Scriptorium 谈的是流程建议，
+        未给出节点名。
+     ② 先怀疑切分：上游按语法形态切（元素 / 属性），本篇按用途切。若改按上游形态重切，
+        「这个维度给谁消费」的判断会被拆散到两个语法节点里而无处安放，故保留本切分。
+     ③ 只组合不发明：「过滤」取自 Filtering 节点，「分类」取自 subject scheme 一侧的
+        分类语义，「元数据」取自 DITA metadata 节点，三者皆领域既有词素，只作组合。
+     volatility=stable 的依据：两类用途的分界由机制本身决定，不随发行版变动。
+     事实纪律：笔记 14 §1 与 §5 无可转述的规范条文，观点出自社区文章，机制条目的核对状态
+     以本簇对应各篇为准，来源节事实段据实写「无」。 -->
+<concept id="metadata-two-kinds" xml:lang="zh-CN"
+         outputclass="best-practice"
+         maturity="draft" volatility="stable"
+         dimension="dim-classification dim-process">
+  <title>过滤用元数据与分类用元数据</title>
+  <shortdesc>元数据设计的第一个决定不是建哪些字段，而是每个维度主要给谁消费：给构建流水线消费的决定内容进不进这个交付物，给人与检索消费的说明这个 topic 是关于什么的。两类的机制、校验能力与维护方式都不同，先分清用途，字段清单才有依据。</shortdesc>
+  <prolog>
+    <source href="https://www.scriptorium.com/2026/06/death-and-tax-onomies-metadata-with-minimal-pain/" scope="external"/>
+    <data name="domain" value="dita"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>场景</title>
+      <p>一批 topic 已经写好，接下来要给它们加元数据：谁写的、讲什么、给谁看、哪个版本引入。从空白页开始列字段，列出来的清单通常有两个毛病，一是把用途不同的维度混在一处，二是字段建得比消费得多。</p>
+    </section>
+
+    <section>
+      <title>做法</title>
+      <p>先按用途把维度分成两类，两类的差别贯穿机制选择与维护方式。</p>
+      <simpletable relcolwidth="1* 1.6* 1.6*">
+        <sthead><stentry>比较项</stentry><stentry>用于过滤</stentry><stentry>用于分类与检索</stentry></sthead>
+        <strow>
+          <stentry>回答什么问题</stentry>
+          <stentry>这段内容进不进这个交付物</stentry>
+          <stentry>这个 topic 是关于什么的，谁写的，多新</stentry>
+        </strow>
+        <strow>
+          <stentry>机制</stentry>
+          <stentry>条件属性加 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）</stentry>
+          <stentry>prolog 里的元数据元素、指向主题的分类属性、自定义的数据元素</stentry>
+        </strow>
+        <strow>
+          <stentry>谁消费</stentry>
+          <stentry>构建流水线</stentry>
+          <stentry>检索的人、门户的分面导航、合规审计、<term keyref="term-rag">检索增强生成</term></stentry>
+        </strow>
+        <strow>
+          <stentry>写错的后果</stentry>
+          <stentry>产物少一段或多一段</stentry>
+          <stentry>检索结果失真，且不表现为报错</stentry>
+        </strow>
+      </simpletable>
+      <p>同一个维度可能两用，受众既能过滤也能检索。设计时先定它主要给谁消费，这决定它落在哪个机制上，各机制的能力差异见 <xref href="metadata-placement.dita">DITA 元数据的放置位置</xref>。</p>
+      <p>分清用途之后，按以下顺序把字段定下来。</p>
+      <ol>
+        <li>盘点消费者，不盘点字段。先列出谁会读这些值：构建、站内检索、门户分面、合规审计、检索增强生成。没有消费者的字段不建。</li>
+        <li>用一份现成的检查单过一遍，而不是从空白页头脑风暴，见 <xref href="dublin-core-mapping.dita">Dublin Core 与 DITA 元数据对应速查</xref>。</li>
+        <li>对每个字段问三句：谁消费，谁维护，填错了谁会发现。第三句最有筛选力。</li>
+        <li>系统能得出的信息不让人填。日期、版本、修订人交给内容管理系统、版本库或构建管道注入。</li>
+        <li>受控值一次定版进 <xref href="subjectscheme-taxonomy.dita">subject scheme map</xref>。命名冲突在建树时解决，树按过滤语义画，每个维度一棵。</li>
+        <li>首版只建有消费者的三五个字段与一两棵树，往后每次演进走版本化的树变更。</li>
+      </ol>
+    </section>
+
+    <section>
+      <title>理由</title>
+      <p>两类元数据的维护成本结构不同。过滤用的维度写错会在产物里露出来，构建报错或内容明显少了一块，反馈是即时的；分类用的字段写错不影响任何构建，检索器照样按错值排序与过滤，<b>失真的元数据比没有元数据更糟，因为它不表现出任何不确定</b>。</p>
+      <p>「填错了谁会发现」这一句之所以有效，是因为它把字段的可信度还原成一条具体的反馈回路。没有任何环节会发现错值的字段，数据必然随时间失真，建了等于没建。手填的修订日期属于此类：改错别字时被顺手更新，重新核对之后却没人动它，两种偏差方向相反且都不会报错。</p>
+    </section>
+
+    <section>
+      <title>反例</title>
+      <ul>
+        <li>把所有拿不准的维度一律写进 <xmlatt>otherprops</xmlatt> 或 <xmlelement>othermeta</xmlelement>。半年内可用，随后拼写变体开始繁殖，而这两处没有任何校验。</li>
+        <li>照着字段清单把十五项全部建起来。清单是检查单不是建设清单，其中若干项在 DITA 里已由架构承担。</li>
+        <li>把手填的日期字段接进检索排序。字段存在不等于字段可信。</li>
+        <li>分类维度不进受控树，由作者按需发明新取值。同一个概念很快会有三种写法，而检索按字符串匹配。</li>
+        <li>一个维度既当过滤又当分类，却没定过主用途。两类的校验与级联规则不同，问题出现时无从判断该按哪一套排查。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>边界</title>
+      <p>本篇只管用途的分界与字段的取舍顺序。过滤一侧的判定规则见 <xref href="profiling-ditaval.dita">conditional processing</xref>，分类一侧的机制能力对比见 <xref href="metadata-placement.dita">DITA 元数据的放置位置</xref>。</p>
+      <p>元数据在检索增强生成一侧的取用见 <xref href="../practice/rag-chunking-metadata.dita">RAG 切块粒度与检索元数据</xref>，那一篇假定本篇的流程已经在跑。</p>
+      <p>字段在 map 与 topic 之间如何级联、topic 与 map 的元数据如何调和，属处理模型一侧，本篇未核对其规则。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：无。规范定义元数据的语法与位置，不给出设计流程；笔记对应两节亦无可转述的规范条文。</p>
+      <p><b>判断</b>：正文全部陈述均属判断，可被反驳。其中盘点消费者而非字段、用现成清单代替空白页、系统能得出的信息不让人填、受控值一次定版、从小开始并版本化演进，出自 <xref href="https://www.scriptorium.com/2026/06/death-and-tax-onomies-metadata-with-minimal-pain/" scope="external">Scriptorium 关于元数据的一篇文章</xref>，属社区经验而非规范条文；两类元数据的对照表、「填错了谁会发现」这一问、失真元数据比没有元数据更糟的定性、五条反例，为本库归纳。表中各机制的语义与校验能力，其核对状态以本簇对应各篇的来源节为准。</p>
+    </section>
+  </conbody>
+</concept>

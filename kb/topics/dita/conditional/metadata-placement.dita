@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/14-metadata-and-classification.md §3（元数据放在哪：五种机制与取舍）。
+     题材 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
+     术语规则（2026-08-16 用户门反馈后）：specialization / subject scheme / DITAVAL /
+     data / othermeta / prolog 等一律用英文原名；对比表列头用描述性短语，不造类目名词。
+     标题规则（2026-08-16 用户定稿）——本库自造，上游无对应节点，三道关记录如下：
+     ① 穷尽查证：OASIS 架构规范 DITA metadata 章下有 Metadata elements、Metadata
+        attributes、Metadata in maps and topics 三个子页，切法是语法形态（元素还是属性）
+        与文件归属（写在 map 还是 topic），其中 Metadata in maps and topics 讲的是 map 一侧
+        与 topic 一侧的分工与覆盖关系，不是「同一个维度该落在哪个机制上」；DITA-OT 文档
+        一侧只有流水线阶段；社区侧无通行节点名。故上游确无此节点。
+     ② 先怀疑切分：本篇按机制的能力切（能否校验、能否过滤、是否级联、默认渲染与否）。
+        若改按上游的语法形态重切，同一个放置决定会被拆到元素与属性两个节点里，
+        判断顺序无处安放，故保留本切分。
+     ③ 只组合不发明：「DITA 元数据」取自 DITA metadata 节点，「放置位置」为普通词，
+        不造新概念名与新分类框架。
+     volatility=stable 的依据：五处机制的能力差异由规范定义，不随发行版变动。
+     事实纪律：已逐页核对的是 data 与 othermeta 两页的内容模型与默认渲染期望、受控值绑定
+     的三条规则、指向主题的属性以空格分隔引用键；对比表其余各行与判断顺序为本库归纳，
+     在来源节判断段列明。 -->
+<concept id="metadata-placement" xml:lang="zh-CN"
+         outputclass="best-practice"
+         maturity="draft" volatility="stable"
+         dimension="dim-decision dim-comparison">
+  <title>DITA 元数据的放置位置</title>
+  <shortdesc>同一个维度可以放在五处，能力差得很远：有的能被校验、能参与过滤、能沿 map 级联，有的只是一对没人管的名值。选错位置的代价不是当下报错，是一两年后取值失控而没有任何机制发现。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/dita/langref/base/data" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>场景</title>
+      <p>一个维度已经确认有消费者、该建，接下来是放哪。DITA 提供的位置有五处，从语法上看都合法，从能力上看差别很大：能不能校验取值、能不能参与条件过滤、会不会沿 map 级联到下层、处理器默认怎么处理它。</p>
+    </section>
+
+    <section>
+      <title>做法</title>
+      <p>先按能力对照，再按判断顺序落位。</p>
+      <simpletable relcolwidth="1.2* 1* 0.8* 0.9* 1.1* 1.2*">
+        <sthead>
+          <stentry>位置</stentry>
+          <stentry>受控值校验</stentry>
+          <stentry>参与过滤</stentry>
+          <stentry>沿 map 级联</stentry>
+          <stentry>处理器默认行为</stentry>
+          <stentry>适合放什么</stentry>
+        </sthead>
+        <strow>
+          <stentry>条件属性，含从 <xmlatt>props</xmlatt> 派生的自有属性</stentry>
+          <stentry>可，绑 <term keyref="term-subject-scheme">subject scheme</term></stentry>
+          <stentry>可</stentry>
+          <stentry>会</stentry>
+          <stentry>过滤或标记</stentry>
+          <stentry>会改变交付物内容的维度</stentry>
+        </strow>
+        <strow>
+          <stentry>指向主题的分类属性</stentry>
+          <stentry>可，引用 subject scheme 的主题</stentry>
+          <stentry>不可，分类不是条件</stentry>
+          <stentry>会</stentry>
+          <stentry>建立分类关联，不改内容</stentry>
+          <stentry>纯分类，即主题标引与分面导航</stentry>
+        </strow>
+        <strow>
+          <stentry>prolog 里的元数据元素</stentry>
+          <stentry>部分可约束</stentry>
+          <stentry>不可</stentry>
+          <stentry>map 一侧的元数据可下沉到 topic</stentry>
+          <stentry>语义标准，工具认得</stentry>
+          <stentry>作者、日期、版权一类标准描述字段</stentry>
+        </strow>
+        <strow>
+          <stentry>从 <xmlelement>data</xmlelement> 派生的自有元素</stentry>
+          <stentry>可，由自有语法文件定义</stentry>
+          <stentry>不可</stentry>
+          <stentry>不会</stentry>
+          <stentry>默认不渲染</stentry>
+          <stentry>自有结构的属性，如传感器参数、合规编号</stentry>
+        </strow>
+        <strow>
+          <stentry><xmlelement>othermeta</xmlelement></stentry>
+          <stentry>不可，只是一对名值</stentry>
+          <stentry>不可</stentry>
+          <stentry>随所在的元数据容器下沉</stentry>
+          <stentry>无</stentry>
+          <stentry>权宜位置，用于快速试验</stentry>
+        </strow>
+      </simpletable>
+      <p><xmlelement>data</xmlelement> 与 <xmlelement>othermeta</xmlelement> 是两处容易混用的位置，形态差别如下。</p>
+      <codeblock>&lt;prolog&gt;
+  &lt;!-- data：可嵌套、可带类型，是自定义结构化属性的 specialization 基类 --&gt;
+  &lt;data name="compliance" value="IEC-62304"&gt;
+    &lt;data name="class" value="B"/&gt;
+  &lt;/data&gt;
+
+  &lt;metadata&gt;
+    &lt;!-- othermeta：name 与 content 都必填，空内容模型，没有下一层 --&gt;
+    &lt;othermeta name="review-cycle" content="quarterly"/&gt;
+  &lt;/metadata&gt;
+&lt;/prolog&gt;</codeblock>
+      <p>落位按以下顺序判断，命中即停。</p>
+      <ol>
+        <li>这个维度会改变交付物的内容吗。会，用条件属性，并把取值收进 subject scheme。</li>
+        <li>只是给内容归类吗。是，用指向主题的分类属性绑定 subject scheme 里的主题。</li>
+        <li>是标准描述字段吗，例如作者、日期、版权。是，用 prolog 里对应的元数据元素。</li>
+        <li>是自有结构的属性吗，例如设备参数或合规编号。是，从 <xmlelement>data</xmlelement> 派生自己的元素。</li>
+        <li>以上都拿不准，先跑起来再说。用 <xmlelement>othermeta</xmlelement>，同时给它定一个迁移期限。</li>
+      </ol>
+    </section>
+
+    <section>
+      <title>理由</title>
+      <p>五处的分别可以归到一句：<b>没有校验的位置只配放草稿</b>。<xmlelement>othermeta</xmlelement> 的名与内容都是自由文本，写错、写成同义词、写成大小写变体都不会有任何提示，而元数据的价值恰好建立在同一个概念只有一种写法上。</p>
+      <p><xmlelement>data</xmlelement> 的默认行为是另一条依据。规范对处理器的期望是默认不渲染它，它被明确定位为承载属性与元数据、而不是承载正文内容流的元素，同时也是自定义结构化元数据的 specialization 基类。把要给读者看的内容放进去，多数处理器不会输出它。</p>
+      <p>过滤与分类分列两处，也是这张表的用意所在。分类属性不参与条件过滤，因此给内容打分类标记不会意外改变任何交付物的内容；反过来，用条件属性做纯分类，会让一次过滤规则的调整波及产物。</p>
+    </section>
+
+    <section>
+      <title>反例</title>
+      <ul>
+        <li>全部自定义元数据一律用 <xmlelement>othermeta</xmlelement>。它没有校验，也没有结构，半年之后取值集合无人说得清。</li>
+        <li>把 <xmlelement>data</xmlelement> 当成一种正文元素来写内容。它默认不渲染，读者看不到。</li>
+        <li>用条件属性承载纯分类维度。分类值一旦被某份 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）的规则命中，内容会被过滤掉，而这不是分类的本意。</li>
+        <li>给 <xmlelement>othermeta</xmlelement> 里的试验字段不定迁移期限。权宜位置的成立前提是它是临时的。</li>
+        <li>自定义结构化字段跳过语法文件，直接靠约定。缺了语法一侧的定义，校验与编辑器补全都无从谈起。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>边界</title>
+      <p>本篇只比较五处的能力与落位顺序。取值集合本身怎么组织、树怎么画，见 <xref href="subjectscheme-taxonomy.dita">subject scheme map</xref>；哪些字段值得建，见 <xref href="metadata-two-kinds.dita">过滤用元数据与分类用元数据</xref>。</p>
+      <p>元数据沿 map 级联的完整清单、topic 与 map 两侧元数据的调和规则，属处理模型一侧，本篇未核对，表中「沿 map 级联」一列因此只作粗略对照，落到具体项目以实测为准。</p>
+      <p>从 <xmlelement>data</xmlelement> 派生自有元素的写法见 <xref href="../architecture/domain-specialization.dita">domain specialization</xref>，从 <xmlatt>props</xmlatt> 派生自有条件属性的写法见 <xref href="../architecture/attribute-specialization.dita">attribute specialization</xref>。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：<xmlelement>data</xmlelement> 用于承载属性与元数据、带名与值及数据类型三个属性、可出现在 prolog 与元数据容器及大量其他容器中、处理器默认应当不渲染它、被显式定位为 <term keyref="term-specialization">specialization</term> 的基类、仅用于属性而不用于正文内容流，转自 <xref href="https://dita-lang.org/dita/langref/base/data" scope="external">data 语言参考</xref>；<xmlelement>othermeta</xmlelement> 的名与内容两个属性必填、内容模型为空、限于元数据容器内、2.0 仍然存在，转自 <xref href="https://dita-lang.org/dita/langref/base/othermeta" scope="external">othermeta 语言参考</xref>；受控值绑定时容器节点自身不是合法值、空枚举使属性无合法值、默认值在级联值之后求值，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/binding-controlled-values-to-attribute" scope="external">绑定受控值到属性</xref>；分类属性以空格分隔引用主题的键，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/subject-scheme-maps-and-usage" scope="external">subject scheme map 及其使用</xref>。四处均已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中对照表里受控值校验、参与过滤、沿 map 级联三列的各行取值、分类属性的可用位置、prolog 元数据元素可由 map 一侧下沉，未逐条核对；五步判断顺序、「没有校验的位置只配放草稿」的定性、给权宜字段定迁移期限的建议、五条反例，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>

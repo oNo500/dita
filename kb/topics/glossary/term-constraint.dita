@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-constraint" xml:lang="zh-CN" maturity="draft" volatility="stable">
+  <glossterm>constraint</glossterm>
+  <glossdef>在不新增名字的前提下收紧一个已有 document type 的内容模型：把可选元素改为必需、移除不打算使用的元素、限制属性的取值范围。收紧之后的文档仍是原类型的合法实例，与 specialization 的分别在于它只做减法。以模块形式声明，由 document-type shell 与 domain 模块一同装配。</glossdef>
+  <glossBody>
+    <glossAlt>
+      <glossSynonym xml:lang="en">constraint module</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

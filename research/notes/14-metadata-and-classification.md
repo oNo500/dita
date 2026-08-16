@@ -1,5 +1,7 @@
 # 14 · 元数据与分类策略
 
+> **已迁移（2026-08-16）**：正本已迁 kb（`kb/topics/dita/conditional/metadata-two-kinds.dita` ← §1 + §5；`kb/topics/dita/conditional/dublin-core-mapping.dita` ← §2；`kb/topics/dita/conditional/metadata-placement.dita` ← §3；`kb/topics/dita/conditional/subjectscheme-taxonomy.dita` ← §4，与 [03](03-profiling-and-chunking.md) §4 合并为一篇；**§6 对 RAG / 检索的注记已并入 practice 簇**，由 `kb/topics/dita/practice/dita-rag-fit.dita`、`rag-parsed-content.dita`、`rag-chunking-metadata.dita` 三篇承接，其中检索元数据逐项对应的出处一节即本节内容的落点；不迁小节：无），本文冻结为调研档案，不再更新。
+
 > 最佳实践层第一篇。[03](03-profiling-and-chunking.md) 讲了用于**过滤**的元数据（条件属性），本篇讲用于**分类与检索**的元数据：字段放哪、受控值怎么设计、分类树怎么画。
 >
 > 与前 13 篇不同，本篇的部分依据是**社区经验**而非规范条文 —— 观点种子来自 Scriptorium 的 [Death and tax-onomies](https://www.scriptorium.com/2026/06/death-and-tax-onomies-metadata-with-minimal-pain/)（见来源），机制部分仍按规范核对。

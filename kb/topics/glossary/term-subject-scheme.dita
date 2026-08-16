@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<glossentry id="term-subject-scheme" xml:lang="zh-CN" maturity="draft" volatility="stable">
+  <glossterm>subject scheme</glossterm>
+  <glossdef>用 keydef 机制把受控值组织成分类树的一种 map 类型：每个 subjectdef 既是一个键，也是树上的一个节点，嵌套即成层级；enumerationdef 把一棵子树绑定到某个属性，该属性的合法值即这棵子树的子孙，被绑定的容器节点自身不是合法值。处理器据此校验取值，过滤时沿层级向上查找最近命中的规则。树内解析的键引用不产生链接，也不产生变量文本。</glossdef>
+  <glossBody>
+    <glossAlt>
+      <glossSynonym xml:lang="en">subject scheme map</glossSynonym>
+    </glossAlt>
+  </glossBody>
+</glossentry>

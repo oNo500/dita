@@ -1,5 +1,7 @@
 # 03 · 条件化与分块
 
+> **已迁移（2026-08-16）**：正本已迁 kb（`kb/topics/dita/conditional/profiling-ditaval.dita` ← §1–2；`kb/topics/dita/conditional/branch-filtering.dita` ← §3，规范语义按本篇 §3 的指向取自 [10](10-addressing-and-key-space.md) §6 已核对的分支过滤一章；`kb/topics/dita/conditional/subjectscheme-taxonomy.dita` ← §4，与 [14](14-metadata-and-classification.md) §4 合并为一篇；`kb/topics/dita/conditional/chunking.dita` ← §6；**§5 属性专门化已由 `kb/topics/dita/architecture/attribute-specialization.dita` 承接**，该篇的冻结记录见 [05](05-specialization.md)；不迁小节：无），本文冻结为调研档案，不再更新。
+
 两件事：**同一份源产出多个变体**（条件化），以及**源文件结构与输出文件结构解耦**（分块）。
 
 ---
