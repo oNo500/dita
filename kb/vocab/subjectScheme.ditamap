@@ -333,7 +333,7 @@
       <data name="required-section" value="步骤"/>
     </subjectdef>
     <subjectdef keys="how-to">
-      <data name="dita-type" value="task"/>
+      <data name="dita-type" value="concept"/>
     </subjectdef>
     <subjectdef keys="cheatsheet">
       <data name="dita-type" value="reference"/>
