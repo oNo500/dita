@@ -147,8 +147,6 @@
 
       <subjectdef keys="writing">
         <subjectdef keys="writing-principles"/> <!-- 写作规范/原子化判据/Diátaxis -->
-        <subjectdef keys="doc-types"/>          <!-- ADR/README/API 文档 -->
-        <subjectdef keys="llm-friendly"/>       <!-- RAG 友好写作/语义分块 -->
       </subjectdef>
 
     </subjectdef>

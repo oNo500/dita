@@ -8,7 +8,7 @@
   <title>kb 的 LLM 友好写作</title>
   <shortdesc>检索系统按块取回内容，模型读到的是截取的片段而非整篇。为检索而写即回答一个问题：这段被单独截出后是否仍然成立。</shortdesc>
   <prolog>
-    <data name="domain" value="llm-friendly"/>
+    <data name="domain" value="writing-principles"/>
   </prolog>
   <conbody>
     <section>

@@ -13,7 +13,7 @@
          2.0 仍是草案，OASIS 正式发布路径下还没有它。改指 TC 的规范总入口。 -->
     <source href="https://dita-lang.org/specifications" scope="external"/>
     <data name="reviewed" value="2026-08-15"/>
-    <data name="domain" value="dita"/>
+    <data name="domain" value="writing-principles"/>
   </prolog>
   <refbody>
     <section>
@@ -66,7 +66,7 @@
         <li><xmlatt>maturity</xmlatt>：draft/curated/verified。不标默认 draft。verified 前提：来源已核对且标了 <xmlelement>data</xmlelement> <xmlatt>name</xmlatt>="reviewed"（→ R3）。</li>
         <li><xmlatt>volatility</xmlatt>：stable/volatile，必须显式标（漏标 R2 报错）。生态易变的内容标 volatile。</li>
         <li><xmlatt>dimension</xmlatt>：标这篇覆盖的维度（dim-*，可空格分隔多值），值必须在词表 dimension 值集内。</li>
-        <li>domain（prolog <xmlelement>data</xmlelement> <xmlatt>name</xmlatt>="domain"）：这篇内容讲的是哪个主题，值必须是词表 subject 树里的键。它是 topic 与分类树之间唯一的链接——不声明就进不了骨架与覆盖度。优先叶子键（如 <codeph>doc-types</codeph>），内容确实横跨一整组才用组键（如 <codeph>coding-agents</codeph>）。目录与主题两级对应词表同一棵树：<b>目录 = 所属分支键</b>（一级，如 <filepath>topics/content-engineering/</filepath>），<b>domain = 主题键</b>（细粒度）。新建 topic 先按 domain 推出分支，放进同名目录。glossentry 豁免（术语库是组织节点）。填错键 <cmdname>dita-tools ia</cmdname> 报 error 并落回未归桶。</li>
+        <li>domain（prolog <xmlelement>data</xmlelement> <xmlatt>name</xmlatt>="domain"）：这篇内容讲的是哪个主题，值必须是词表 subject 树里的键。它是 topic 与分类树之间唯一的链接——不声明就进不了骨架与覆盖度。优先叶子键（如 <codeph>writing-principles</codeph>），内容确实横跨一整组才用组键（如 <codeph>coding-agents</codeph>）。目录与主题两级对应词表同一棵树：<b>目录 = 所属分支键</b>（一级，如 <filepath>topics/content-engineering/</filepath>），<b>domain = 主题键</b>（细粒度）。新建 topic 先按 domain 推出分支，放进同名目录。glossentry 豁免（术语库是组织节点）。填错键 <cmdname>dita-tools ia</cmdname> 报 error 并落回未归桶。</li>
       </ul>
     </section>
 
