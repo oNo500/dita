@@ -24,4 +24,5 @@
   <topicref href="../../../topics/dita/architecture/metadata-cascade.dita"/>
   <topicref href="../../../topics/dita/architecture/conref-attribute-rules.dita"/>
   <topicref href="../../../topics/dita/architecture/sorting-sort-as.dita"/>
+  <topicref href="../../../topics/dita/architecture/nav-generation.dita"/>
 </map>
