@@ -1,5 +1,7 @@
 # 01 · 核心模型
 
+> **已迁移（2026-08-16）**：正本已迁 kb（`kb/topics/dita/core-model/topic-typing.dita` ← §1、§1.5；`kb/topics/dita/core-model/map-structure.dita` ← §2；`kb/topics/dita/core-model/titlealt-system.dita` ← §3；`kb/topics/dita/core-model/table-model-choice.dita` ← §3.5；`kb/topics/dita/core-model/images-multimedia.dita` ← §3.6；`kb/topics/dita/core-model/class-derivation.dita` ← §4–5，其中 §5 的 `@specializations` 落地用法另见 `kb/topics/dita/architecture/attribute-specialization.dita`；不迁小节：§定位 与 §6「与其他方案的定位差」——两节的内容已并入 `kb/topics/dita/dita-landscape.dita` 的维度框架论述，§定位 的三件事分别落在「核心模型（dim-concept）」「扩展设施内部构造（dim-internals）」两行与「四、扩展与外接」的导语，§6 的七行对比表与适用条件整表落在「与其他方案的定位差」一节），本文冻结为调研档案，不再更新。
+
 ## 定位
 
 DITA 不是"一种 XML 格式"，而是**一套用 XML 表达的、可被程序化扩展的内容架构**。全部设计围绕三件事：
