@@ -87,29 +87,7 @@
 
 ## 30 秒上手
 
-```bash
-# 装 DITA-OT 4.4（需要 Java 17+）
-brew install dita-ot
-dita --version
-
-# 脚手架（init / validate 是 4.3+ 的预览特性）
-dita init --list
-dita init --template=<模板名> --output=sample
-
-# 构建
-dita --input=sample/root.ditamap --format=html5 --output=out
-```
-
-**触发 2.0 处理靠 doctype 声明**（DITA-OT 经 XML catalog 解析到 2.0 语法文件）：
-
-```xml
-<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 2.0 Topic//EN" "topic.dtd">
-<!DOCTYPE map   PUBLIC "-//OASIS//DTD DITA 2.0 Map//EN"   "map.dtd">
-```
-
-版本号可以是 `2.0`、`2.x`（最新 2.x），或**整个省略**（等价于最新 2.x）。RNG 走 `urn:pubid:oasis:names:tc:dita:rng:<类型>.rng:<版本>`。
-
-> 确切字符串以你所用 DITA-OT 随附的 `catalog-dita.xml` 为准 —— 草案期间会动。
+> 已迁 kb：topics/dita/toolchain/dita-ot-quickstart.dita
 
 ---
 
