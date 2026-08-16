@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/13-translation-and-localization.md §4（复用机制在翻译下的坑）
+     与 §5（实践清单）。
+     题材 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
+     术语规则（2026-08-16 用户门反馈后）：conref / keyref / keytext / glossentry /
+     Schematron / SVG 等一律用英文原名；两个反模式不起类目名，按「用变量拼句子」
+     「低于句子粒度的 conref」平实描述。
+     维度取 dim-boundary-pitfalls：本篇主体是反模式与安全粒度的下界，与词表该维度的
+     释义（边界/禁区/反模式/不变量）逐字对应。审查者曾建议评估 dim-terminology
+     （2026-08-16 Task 4 观察 4），本篇只有术语一致性一条要点属该维度，且 dim-terminology
+     不在 dita 域 planned-dimension 清单内，故不标——判断见 task-7 报告。
+     volatility=stable 的依据：两条规则出自自然语言的句法约束，与工具链版本无关。
+     事实纪律：笔记 13 已逐页核对的与本篇相关的只有 translate 属性一条（多数元素无默认、
+     面向非发布内容的元素默认 no），两个反模式与全部规则属判断，来源节判断段列明。 -->
+<concept id="translation-antipatterns" xml:lang="zh-CN"
+         outputclass="best-practice"
+         maturity="draft" volatility="stable"
+         dimension="dim-boundary-pitfalls">
+  <title>DITA 复用机制在翻译下的反模式：keyref 拼句与句子以下的 conref</title>
+  <shortdesc>复用能省翻译成本，前提是复用单元在目标语言里仍然成立。两种写法不满足这个前提：用变量拼接句子，以及引用半句话。两者在单语言下只是别扭，在多语言下产出的是错误译文。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/2.0/dita/archspec/base/the-translate-attribute" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>场景</title>
+      <p>内容库要出多语言版本，复用机制已经用得很熟：产品名走变量，重复的提示走引用，一处改动处处生效。这套习惯在源语言里检验过，读起来通顺，于是被直接带进翻译流程。问题在译文侧才出现，而且不报错：句子的语序不对、半句话与上下文接不上，只有读得懂目标语言的人才看得出来。</p>
+    </section>
+
+    <section>
+      <title>做法</title>
+      <p>两条硬规则先立住。</p>
+      <ul>
+        <li>变量文本只承载名词性、与句法位置无关的内容：产品名、版本号、公司名。凡是变量参与句法的地方，写完整句子，让每个变体各自成句，差异用条件化表达而不是用变量拼接。</li>
+        <li><term keyref="term-conref">conref</term>（内容引用）的最小安全粒度是完整句，更稳的是完整块，例如注释、列表项、段落。</li>
+      </ul>
+      <p>其余四条按同一方向收口。</p>
+      <ul>
+        <li>术语走 glossentry 加 <term keyref="term-keyref">keyref</term>（键引用）。每种语言一套术语 topic，改译只动一处。</li>
+        <li>代码、命令、路径统一用语义元素标记，翻译工具可整类跳过；需要成段排除翻译的内容显式标注可译性属性。</li>
+        <li>图片里的文字进不了翻译流程。截图按语言各出一套并保持目录平行，示意图用 SVG 让文字可译，或者不在图内放文字。</li>
+        <li>把两条硬规则写进写作规范并接进 lint。变量出现在句子中部这一模式可用 Schematron 的启发式规则查出来，翻译启动前先冻结源。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>理由</title>
+      <p>变量拼句的问题在于目标语言的词序、冠词与格变化围绕变量发生。德语的动词位置、法语的性数配合、日语的助词都要求变量两侧的文字随取值改变形态，而源里只有一份文字。译者能翻的只有那一份，于是所有取值共用同一套语法形态。</p>
+      <p>低于句子的 conref 是同一件事换了个入口。半句话的语法形态取决于它出现在哪个上下文里，一份译文无法同时适配多处；源语言之所以看不出问题，是因为中文与英文在这个粒度上的形态变化少。<b>这两条是「复用单元的边界由自足性决定」在翻译维度的加强版</b>：单语言下自足性差只是读着别扭，多语言下它直接产出错误。</p>
+    </section>
+
+    <section>
+      <title>反例</title>
+      <p>用变量拼句子：</p>
+      <codeblock>&lt;p&gt;点击&lt;ph keyref="button-name"/&gt;以保存设置。&lt;/p&gt;</codeblock>
+      <p>源语言读着通顺，变量的取值换成另一个按钮名时，中文仍然成立，而目标语言里这句的结构随取值变化。改法是让两个变体各自成句，用条件属性区分。</p>
+      <p>引用半句话：</p>
+      <codeblock>&lt;ph conref="warehouse/snippets.dita#frag/half-sentence"/&gt;，随后重启服务。</codeblock>
+      <p>被引用的片段在甲处是从句、在乙处是主句，译文只能选一种形态。改法是把整句纳入引用，或者干脆两处各写一遍。</p>
+      <p>其余两种：把术语的译法交给每位译者自行判断，术语库因此失去统一入口；截图里嵌入界面文字，该图在其他语言的交付物里仍是源语言。</p>
+    </section>
+
+    <section>
+      <title>边界</title>
+      <p>本篇只管复用单元的粒度与可译性。三个本地化属性的取值与规则见<xref href="localization-attributes.dita">DITA 本地化属性速查</xref>，翻译流程与工具链的核对项见<xref href="translation-modularity.dita">DITA 模块化的翻译收益与 XLIFF 流程的架构位置</xref>。中日文索引的排序策略属处理模型一侧，另篇处置。</p>
+      <p>只出一种语言且确定不会增加语言的内容库，这两条降为风格建议：半句复用仍然增加维护负担，但不会产出错误。判据是问一句，这批内容将来会不会被翻译。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：多数元素的可译性属性没有默认值，为承载非发布内容而设计的元素默认取不翻译，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/the-translate-attribute" scope="external">translate 属性</xref>，已逐页核对。</p>
+      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中变量文本只用于名词性内容、conref 的最小安全粒度是完整句、术语走 glossentry 加 keyref、语义元素便于翻译工具整类跳过、图片文字进不了翻译流程、翻译启动前冻结源，来自翻译通识与行业做法，规范未如此表述，未逐页核对；德语、法语、日语三处形态变化的举例，以及「变量拼句在目标语言必然出错」的论证，同属该类；两条规则是自足性判据在翻译维度的加强版这一解释、两条硬规则可接进 Schematron 启发式检查、单语言库降为风格建议的判断，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>

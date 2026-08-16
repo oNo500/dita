@@ -9,4 +9,5 @@
   <topicref href="../../../topics/dita/practice/engineering-ci.dita"/>
   <topicref href="../../../topics/dita/practice/translation-modularity.dita"/>
   <topicref href="../../../topics/dita/practice/localization-attributes.dita"/>
+  <topicref href="../../../topics/dita/practice/translation-antipatterns.dita"/>
 </map>
