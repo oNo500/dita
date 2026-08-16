@@ -55,26 +55,28 @@
       <title>来源分档</title>
       <p>每篇内容末尾区分两类来源，这是可信度的凭据：</p>
       <ul>
-        <li><b>已核对</b> —— 逐条对照权威源确认，标注来源与日期。</li>
-        <li><b>判断与通用实践</b> —— 来自经验的归纳，非事实转述，可以被反驳。</li>
+        <li><b>事实</b> —— 转述自权威源，逐条附外链。</li>
+        <li><b>判断</b> —— 来自经验的归纳，非事实转述，可以被反驳。</li>
       </ul>
       <p>把这两类分开，读者（包括未来的自己）才知道哪些能当事实引用、哪些只是判断。分档还有一个副作用，比它的本意更值钱：<b>写来源节的时候，你会被迫发现自己哪些话其实没有依据</b>。一篇通篇讲得很笃定的内容，写到来源节才想起来第二档是空的——那说明它该降成 curated，或者该去补核对。</p>
       <p>本篇自己的来源节就是个例子：第一档只有两条标准定义，其余全在第二档。</p>
+      <p><b>核对日期不写在这里</b>，写在 prolog 的 <xmlelement>data</xmlelement> <xmlatt>name</xmlatt>="reviewed"——它是机读字段，R3 认它、复核提醒读它。正文再手写一遍就成了第二份副本，与下一节的规矩冲突。</p>
     </section>
 
     <section>
       <title>系统能得出的信息，不让人填</title>
       <p>日期、版本、修订人这类信息交给 git 或构建管道注入，不要手填——手填的日期永远是错的。<codeph>git log</codeph> 就是比手写字段更真的修订记录。</p>
+      <p>唯一的例外是<codeph>reviewed</codeph>（来源核对日期），理由是它记的<b>不是 git 记的那件事</b>：git 记文件何时被改，它记来源何时被核。改个错别字会让 git 显得新鲜，重新核对却什么都没改则在 git 里毫无痕迹——两个事件不重合，所以这个字段不是冗余。它仍然只存一份，在 prolog 里，不在正文。</p>
     </section>
 
     <section>
       <title>来源</title>
-      <p><b>已核对</b>（2026-08-15）——只有两条，且都只支持"用什么字段记"，不支持本篇的治理主张：</p>
+      <p><b>事实</b>——只有两条，且都只支持"用什么字段记"，不支持本篇的治理主张：</p>
       <ul>
         <li>"来源"与"日期"是标准元数据字段而非自创，<xref href="https://www.dublincore.org/specifications/dublin-core/dcmi-terms/" scope="external">DCMI Metadata Terms</xref> 把 <codeph>source</codeph> 定义为"派生出本资源的相关资源"，<codeph>date</codeph> 定义为"与资源生命周期中某事件关联的时间点或时段"（建议按 ISO 8601-1 表达）。</li>
         <li>DITA 里的对应物是 <xref href="https://dita-lang.org/dita/langref/base/source" scope="external">prolog 的 source 元素</xref>——"本 topic 全部或部分派生自的资源"，可直接写描述，也可用 <xmlatt>href</xmlatt> / <xmlatt>keyref</xmlatt> 指出去。</li>
       </ul>
-      <p><b>判断与通用实践</b>：除此之外全是本库自定的治理设计——maturity 分三档、volatility 只取两值、"volatile 无核对日期不得 verified"、来源分两档。这些没有任何外部标准背书，也不需要有：它们的分量不来自出处，来自<b>被机器强制执行</b>（R3 查日期、R8 查来源，见机器兜底）。一条没人执行的写作规范，写得再有来头也会腐烂。</p>
+      <p><b>判断</b>：除此之外全是本库自定的治理设计——maturity 分三档、volatility 只取两值、"volatile 无核对日期不得 verified"、来源分两档。这些没有任何外部标准背书，也不需要有：它们的分量不来自出处，来自<b>被机器强制执行</b>（R3 查日期、R8 查来源，见机器兜底）。一条没人执行的写作规范，写得再有来头也会腐烂。</p>
     </section>
   </conbody>
 </concept>
