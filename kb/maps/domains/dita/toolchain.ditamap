@@ -14,4 +14,5 @@
   <topicref href="../../../topics/dita/toolchain/parsed-vs-source.dita"/>
   <topicref href="../../../topics/dita/toolchain/programming-by-class.dita"/>
   <topicref href="../../../topics/dita/toolchain/dita-ot-as-library.dita"/>
+  <topicref href="../../../topics/dita/toolchain/generate-and-convert.dita"/>
 </map>
