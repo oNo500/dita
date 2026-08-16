@@ -1,5 +1,7 @@
 # 10 · 寻址与键空间
 
+> **已迁移（2026-08-16）**：正本已迁 kb（`kb/topics/dita/architecture/addressing-modes.dita` ← §1–2；`kb/topics/dita/architecture/key-space-model.dita` ← §3–4；`kb/topics/dita/architecture/cross-deliverable-addressing.dita` ← §5；`kb/topics/dita/architecture/branch-filter-key-space.dita` ← §6；不迁小节：§7「给程序化处理的启示」留给 Task 10b，与 [11](11-processing-model.md) §6 合并为 `kb/topics/dita/architecture/processing-checklist.dita`，本任务不写），本文冻结为调研档案，不再更新。
+
 > [02-reuse.md](02-reuse.md) 给出的是 key 的操作规则（"先定义者胜"）。本篇讲规范定义的模型。keyscope 与分支过滤叠加时，只有理解模型才能预测结果。
 
 ---

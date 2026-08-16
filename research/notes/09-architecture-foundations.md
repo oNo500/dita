@@ -1,5 +1,7 @@
 # 09 · 架构基础
 
+> **已迁移（2026-08-16）**：正本已迁 kb（`kb/topics/dita/architecture/extension-facilities.dita` ← §1，并入 §4 的 constraint 与 expansion 对称一节与 §6 的设施选型表；`kb/topics/dita/architecture/doctype-shell.dita` ← §2；`kb/topics/dita/architecture/vocabulary-modules.dita` ← §3；`kb/topics/dita/architecture/conformance.dita` ← §5；不迁小节：无——§4 与 §6 未单独立篇，理由是 §4 讲的是 element-type configuration 这一个 facility 的两个方向、与 §1 同节点，§6 的成本维度已由 `kb/topics/dita/practice/customization-cost-ladder.dita` 承载，只余「哪件事归哪个 facility」的对应并入 §1 对应 topic），本文冻结为调研档案，不再更新。
+
 > 本篇补充 [05-specialization.md](05-specialization.md) 未涉及的一层：DITA 的语法文件如何组织成模块，以及 shell 如何把模块装配成一个可用的文档类型。约束、扩展和默认属性注入都建立在这一层上。
 
 ---

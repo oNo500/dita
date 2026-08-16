@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/09-architecture-foundations.md §2（文档类型外壳）。
+     与 principles/schema-authority 的分工：那篇讲定义权与 catalog（笔记 00 §5–8），
+     本篇只讲 shell 这一个构件的能力边界、由此自洽的现象与规范为它单列的三组规则；
+     document type 与 shell 的区分、catalog 解析、@class 注入的机制不在此重复，xref 过去。
+     标题规则（2026-08-16 用户定稿）：上游有对应节点，直接用其类目名——架构规范
+     「Document-type configuration」下的 "Overview of document-type shells" 节点，
+     术语章条目名为 DITA document-type shell；导航性前缀 Overview of 不入标题，
+     DITA 前缀按上游术语章的用法可省（同书正文通篇作 document-type shell）。非自造。
+     术语规则（2026-08-16 用户门反馈后，含译名禁令补充）：document-type shell /
+     vocabulary module / constraint / expansion module / specialization 一律英文原名，
+     「文档类型外壳」「词汇模块」「约束」是本库自造译名，中文解释每篇首现随行注一次。
+     volatility=stable 的依据：shell 的能力边界与三组规则出自架构规范的结构，不随发行版变动。
+     事实纪律：笔记已逐页核对的是 shell 的定义、能做的四件事、不得直接定义元素类型且无需
+     修改 vocabulary module、文档类型配置一节由四个子页构成（文档类型配置页）。五条现象的
+     解释、equivalence 用于判断内容能否安全交换、三组规则的具体条文均未核对，按判断呈现
+     并在来源节列明。 -->
+<concept id="doctype-shell" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="stable"
+         dimension="dim-internals dim-interop">
+  <title>document-type shell</title>
+  <shortdesc>一份 XML 语法文件，规定某类 DITA 文档里允许出现哪些元素和属性。它只做三件事：挑模块、配默认属性值、定 topic 的嵌套规则，自己不声明任何元素类型。全部定制最终都汇到这一个文件，两份文档能否互换内容也由双方的 shell 装配了什么决定。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/2.0/dita/archspec/base/configuration" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>写 <codeph>&lt;!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 2.0 Topic//EN" "topic.dtd"&gt;</codeph> 时，指向的 <filepath>topic.dtd</filepath> 就是一个 shell。<xref href="extension-facilities.dita">三个 extension facility</xref> 无论走哪一个，产物最后都要有一个 shell 把它装配进来，所以「这套内容允许写什么」这个问题只有一个回答处。</p>
+      <p>能力边界也在这里划死。shell 是装配处，不是定义处；分不清这条，就解释不了为什么 <xmlatt>class</xmlatt> 不在源文件里、为什么同一批 topic 换个 shell 校验结果就变。document type 与 shell 的区分、shell 文件在运行时怎么被找到，见 <xref href="../principles/schema-authority.dita">DITA schema 的定义权与 @class 角色约束</xref>。</p>
+    </section>
+
+    <section>
+      <title>背景：装配的四件事与一条禁令</title>
+      <p>规范给 shell 划的能力范围有四项：</p>
+      <ul>
+        <li>选择要引入哪些结构模块与域模块。</li>
+        <li>应用 element-configuration module，即 constraint（约束）与 expansion module（扩展模块）。</li>
+        <li>指定 topic 的嵌套规则。</li>
+        <li>为引入的元素配置默认属性值。<xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt> 都由这条路径注入。</li>
+      </ul>
+      <p>与之配套的是一条禁令：<b>shell 不得直接定义元素类型</b>。它只做装配与配置，被引入模块的定义一个字都不改。同一条约束的另一面是它无需修改 vocabulary module（词汇模块），定制与上游模块因此不共享文件。</p>
+    </section>
+
+    <section>
+      <title>分析：由这条边界自洽的几种现象</title>
+      <p>装配层与定义层分开这一点确立之后，日常遇到的几种现象就不再需要各自的解释：</p>
+      <simpletable relcolwidth="1.4* 2*">
+        <sthead><stentry>现象</stentry><stentry>成因</stentry></sthead>
+        <strow>
+          <stentry><xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt> 不在源文件里</stentry>
+          <stentry>它们是 shell 配置的默认属性值，由校验器注入</stentry>
+        </strow>
+        <strow>
+          <stentry>不做语法校验就拿不到这两个属性</stentry>
+          <stentry>同上，注入发生在校验环节，见 <xref href="../toolchain/parsed-vs-source.dita">程序化处理的输入选择</xref></stentry>
+        </strow>
+        <strow>
+          <stentry>同一批 topic 用不同 shell 校验，结果不同</stentry>
+          <stentry>允许什么由 shell 装配的模块与应用的 constraint 决定</stentry>
+        </strow>
+        <strow>
+          <stentry>升级 DITA 版本时定制不丢</stentry>
+          <stentry>定制在自有 shell 与自有模块里，上游模块未被改动</stentry>
+        </strow>
+        <strow>
+          <stentry>两份文档能否互相 <term keyref="term-conref">conref</term>（内容引用）</stentry>
+          <stentry>取决于双方 shell 各装配了什么</stentry>
+        </strow>
+      </simpletable>
+      <p>最后一行不是文件层面的问题。引用方的 shell 若没装被引用内容所用的那个域，拉过来的片段在本地就不合法。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>规范为 shell 单列了三组规则，构成文档类型配置一节的三个子页：</p>
+      <dl>
+        <dlentry>
+          <dt>Rules for document-type shells</dt>
+          <dd>构造规则，写一个合规 shell 要守的条文。</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Equivalence of document-type shells</dt>
+          <dd>两个 shell 何时算等价。</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Conformance of document-type shells</dt>
+          <dd>什么算一致的 shell，以及它与文档一致性的关系，见 <xref href="conformance.dita">conformance</xref>。</dd>
+        </dlentry>
+      </dl>
+      <p>三组里 equivalence 一节在实践中最容易被跳过。判断两批内容能不能安全互换，问的不是双方用的是不是同一个文件，而是双方的 shell 是否引入了同一组模块。要跨组织复用内容，先比对两边的 shell 装配清单，再谈 <term keyref="term-conref">conref</term> 与 <term keyref="term-keyref">keyref</term>（键引用）。</p>
+      <p>本篇只列出三组规则的存在与用途，未展开条文。写自有 shell 之前回到规范逐条核对。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：shell 的定义（规定一份 DITA 文档中允许的元素和属性、集成结构模块与域模块与元素配置模块）、能做的四件事（选模块、应用 constraint 与 expansion、指定 topic 嵌套规则、配置默认属性值）、不得直接定义元素类型且无需修改 vocabulary module、文档类型配置一节由概览与规则与等价性与一致性四个子页构成，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/configuration" scope="external">文档类型配置</xref>，已逐页核对。</p>
+      <p><b>判断</b>：除事实段外，正文其余陈述均属判断，可被反驳。其中 <xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt> 由校验器注入因而不做校验就拿不到、换 shell 校验结果不同、升级时定制不丢、能否互相 conref 取决于双方 shell 装配清单这五条现象的成因，来自通用 DITA 实践与本库的工具链观察；equivalence 一节是判断两批内容能否安全互换的依据、跨组织复用前先比对装配清单的建议，为本库归纳。三组规则的具体条文未逐条核对，本篇仅列其存在与用途。</p>
+    </section>
+  </conbody>
+</concept>

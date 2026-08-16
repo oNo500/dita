@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/10-addressing-and-key-space.md §3（键空间）与 §4（key 作用域）。
+     与 core-model/keyref-variable-text 的分工：那篇是 keydef 与 keyref 的写法速查，且明写
+     「键空间与作用域嵌套的完整模型属寻址与关系主题，不在此展开」，本篇接这一句。
+     标题规则（2026-08-16 用户定稿）：上游有对应节点，用其类目名组合——key space 是架构
+     规范的术语（分支过滤页原文 "the global key space for a root map"、"construct the key
+     space"），key scope 是 "Indirect key-based addressing" 下 "Scoping keys with the
+     keyscope attribute" 子页的主题（DITA 1.3 同一节点名为 Key scopes）。两个上游词以「与」
+     并列，同簇先例为 constraints 与 generalization。非自造。
+     术语规则（2026-08-16 用户门反馈后，含译名禁令补充）：key / key space / key scope /
+     keydef / keyref / keyscope / mapref 一律英文原名，中文解释每篇首现随行注一次；
+     不自造分类框架——「先定义者胜」「先到先得」已降级为平实叙述（与 keyref-variable-text
+     同一处置）。
+     volatility=volatile 的依据：作用域嵌套与多值的实现差异随 DITA-OT 版本变动。
+     事实纪律：笔记已逐页核对的只有两条——key 提供 map 层面的一层间接、@keyscope 控制
+     作用域边界且跨作用域引用需以作用域名限定（基于 key 的寻址页）。遍历算法（深度优先、
+     按文档顺序）、同名定义取最先者、作用域可嵌套与可多值的可见性规则、四种引用上下文的
+     解析结果，笔记均列在未核对，正文逐条标注并在来源节列明。 -->
+<concept id="key-space-model" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="volatile"
+         dimension="dim-internals dim-mechanism">
+  <title>key space 与 key scope</title>
+  <shortdesc>key 解析查的是一张由 root map 构造出来的映射表。同一个名字有多个定义时生效的是遍历中最先遇到的那个，覆盖因此要靠位置靠前而不是靠后写；<xmlatt>keyscope</xmlatt> 再把这张表切成有层级的若干张，同一份 submap 被引用两次才能各绑各的值。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/2.0/dita/archspec/base/key-based-addressing" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>写 <xmlatt>keyref</xmlatt> 时脑子里假设的是「这个名字指向那份资源」。这个假设在一份 map 里成立，在 map 引 map 引 map 之后就不再自明：同一个名字可能有好几处定义，哪一处生效有确定的规则，而这条规则与编程语言里的赋值直觉相反。</p>
+      <p><xref href="../core-model/keyref-variable-text.dita">keyref 与 keytext 速查</xref>给的是写法，本篇给的是写法背后的那张表怎么来、被 <xmlatt>keyscope</xmlatt> 切开之后又是什么形状。</p>
+    </section>
+
+    <section>
+      <title>背景：key space 的构造与覆盖写法</title>
+      <p>一个 key space（键空间）是从 key 名到 key 定义的映射。它由 root map 出发、按 map 的引用层级构造出来，遍历按深度优先的文档顺序进行；同一个 key 名遇到多个定义时，生效的是遍历中最先遇到的那一个，其后的同名定义被忽略。遍历算法这两条笔记未逐页核对。</p>
+      <p>由此得到覆盖的写法：要让自己的绑定压过被引用 map 里的同名绑定，位置须在那条 <xmlelement>mapref</xmlelement> 之前。</p>
+      <codeblock>&lt;map&gt;
+  &lt;keydef keys="product-name"&gt;
+    &lt;topicmeta&gt;&lt;keytext&gt;矿场&lt;/keytext&gt;&lt;/topicmeta&gt;
+  &lt;/keydef&gt;
+  &lt;mapref href="base/common-keys.ditamap"/&gt;   &lt;!-- 其中的同名 keydef 不再生效 --&gt;
+&lt;/map&gt;</codeblock>
+      <p>把这条记反的代价不小：定义写在后面看起来生效了，实际是被前面某处静默盖掉，症状是变量文本或链接目标停在旧值上，而校验不报任何错。</p>
+      <p>同一个 key 在不同引用上下文里解析成的东西也不同。规范说 key 可以解析为 <xmlatt>href</xmlatt>、key 定义元素的内容、或者两者，具体取哪一样由引用方的上下文决定：<xmlelement>xref</xmlelement> 与 <xmlelement>link</xmlelement> 取链接目标与链接文本，<xmlelement>topicref</xmlelement> 取被引用的资源，<xmlelement>image</xmlelement> 取图片资源与 <xmlelement>keytext</xmlelement> 提供的替代文本，<xmlelement>ph</xmlelement> 与 <xmlelement>keyword</xmlelement> 取 <xmlelement>keytext</xmlelement> 的内容。一个 key 定义同时提供 <xmlatt>href</xmlatt> 与 <xmlelement>keytext</xmlelement> 是允许的。四种上下文的逐条对应笔记未逐页核对。</p>
+    </section>
+
+    <section>
+      <title>分析：key scope 把一张表切成有层级的若干张</title>
+      <p>同一份 submap 在一本书里被引用两次、两次要绑不同的值，是上一节那条规则解释不了的场景：按最先者生效，第二次引用带的定义永远不会生效。<xmlatt>keyscope</xmlatt> 为此把 key space 切开，每个 key scope（键作用域）自带一张表。</p>
+      <codeblock>&lt;map&gt;
+  &lt;topicref href="shared/module.ditamap" keyscope="v1"&gt;
+    &lt;keydef keys="ver"&gt;&lt;topicmeta&gt;&lt;keytext&gt;1.0&lt;/keytext&gt;&lt;/topicmeta&gt;&lt;/keydef&gt;
+  &lt;/topicref&gt;
+  &lt;topicref href="shared/module.ditamap" keyscope="v2"&gt;
+    &lt;keydef keys="ver"&gt;&lt;topicmeta&gt;&lt;keytext&gt;2.0&lt;/keytext&gt;&lt;/topicmeta&gt;&lt;/keydef&gt;
+  &lt;/topicref&gt;
+&lt;/map&gt;</codeblock>
+      <p>作用域内的引用直接写 <codeph>ver</codeph>，两个分支各自解析到自己那份定义；从作用域外引用则要以作用域名限定，写成 <codeph>v1.ver</codeph> 或 <codeph>v2.ver</codeph>。规范对 <xmlatt>keyscope</xmlatt> 的定位就是控制作用域边界，跨作用域引用需以作用域名限定。</p>
+      <p>另有两条笔记未逐页核对：作用域可以嵌套、形成层级；一个 <xmlatt>keyscope</xmlatt> 可以用空格分隔指定多个作用域名。把作用域当成嵌套的命名空间来想是可用的近似，内层可见外层、外层看内层要加前缀，而最先者生效那条在各自的表内照常起作用。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>这张表有三个性质决定了自研解析逻辑的形状：它不是扁平字典而是有层级的，同名定义按遍历先后取舍而不是按赋值先后，同一个 key 的解析结果不是单值而要看引用方是谁。三者任一记错，症状都是解析静默取到错误的值而不是报错。</p>
+      <p>它还不是静态的。<xref href="branch-filter-key-space.dita">branch filtering 与 key space</xref>给出的处理顺序约束说明，分支过滤会改变 root map 的全局 key space，构造这张表之前必须先把分支过滤求值完。</p>
+      <p>本篇的遍历算法、四种上下文的解析结果、作用域嵌套与多值的可见性规则均未逐页核对。落到实现之前，用 <codeph>dita -f dita</codeph> 出一次中间结果，照实际解析出来的 key 核对，做法见 <xref href="../toolchain/parsed-vs-source.dita">程序化处理的输入选择</xref>。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：key 提供一层间接使资源可在 map 层面定义、<xmlatt>keys</xmlatt> 由 <xmlelement>topicref</xmlelement> 或其 specialization 定义、key 可解析为 <xmlatt>href</xmlatt> 与 key 定义元素的内容或两者、<xmlatt>keyscope</xmlatt> 控制作用域边界且跨作用域引用需以作用域名限定、key 依上下文解析为链接或文本或两者，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/key-based-addressing" scope="external">基于 key 的寻址</xref>，已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 key space 由 root map 出发按深度优先的文档顺序构造、同名定义取遍历中最先者、覆盖须置于 <xmlelement>mapref</xmlelement> 之前、四种引用上下文各解析成什么、作用域可嵌套与可多值的可见性规则，笔记列在未逐页核对，正文已逐处标注；两段样例按上述规则构造，非从规范抄录；记反覆盖规则的症状、三个性质对自研解析逻辑的约束、先出中间结果再核对的建议，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>

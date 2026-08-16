@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/10-addressing-and-key-space.md §1（两种寻址）与 §2（直接寻址的细节）。
+     标题规则（2026-08-16 用户定稿）：上游有对应节点，直接用其类目名——架构规范
+     "DITA addressing" 章，其子页为 id attribute / DITA linking / URI-based (direct)
+     addressing / Indirect key-based addressing / Context hooks for user assistance。
+     本篇覆盖该章的总述与除 key 子树外的全部子页，故取章名；key 一侧的深水区另立三篇
+     （key-space-model / cross-deliverable-addressing / branch-filter-key-space），照上游
+     Indirect key-based addressing 子树切分。非自造。
+     术语规则（2026-08-16 用户门反馈后，含译名禁令补充）：key / keyref / conref /
+     fragment identifier / context hook 等一律英文原名，中文解释每篇首现随行注一次；
+     属性名一律以 xmlatt 标记。context hook 包在 keyword 内：术语库的 term-hook 指的是
+     agent 生命周期钩子，与规范此处的 context hook 同形不同义，包起来避免术语扫描误配。
+     volatility=stable 的依据：两种寻址机制与四个链接属性由架构规范定义，不随发行版变动。
+     事实纪律：笔记已逐页核对的是两种寻址机制的存在、@id 提供元素唯一标识、规范定义两种
+     片段标识符语法、四个链接属性、resourceid 提供 context hook（DITA 寻址页），以及 key
+     的定位原话（基于 key 的寻址页）。@id 唯一性的作用范围、@scope 三值的精确语义、
+     resourceid 与 1.x @copy-to 的关系，笔记均列在未核对，按判断呈现并在来源节列明。 -->
+<concept id="addressing-modes" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="stable"
+         dimension="dim-internals dim-relations">
+  <title>DITA addressing</title>
+  <shortdesc>寻址机制只有两种：URI 写在引用处，绑定时机是写下的那一刻；key 定义在 map 层面，绑定推迟到处理时。前者的细节集中在 <xmlatt>id</xmlatt>、两种片段标识符语法与四个描述链接的属性上，后者换来的是同一个 topic 在不同 map 里指向不同资源。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/dita/archspec/base/ditaaddressing" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>一条引用要指向别处的内容，写法上的选择只有两个：把目标的位置写进引用，或者写一个名字、让处理时再去查这个名字对应什么。DITA 把这两条路都定义成机制，前者用 URI，后者用 key。</p>
+      <p>选哪一条决定了内容搬家时会发生什么。写进 URI 的引用换了位置就断；写 key 的引用只要 map 里改一处绑定，全部引用点一起改向。代价是 key 多一层间接，出问题时要先弄清它解析成了什么。</p>
+    </section>
+
+    <section>
+      <title>背景：两种寻址的分工</title>
+      <simpletable relcolwidth="1* 1.6* 1.6*">
+        <sthead><stentry>项</stentry><stentry>直接寻址</stentry><stentry>间接寻址</stentry></sthead>
+        <strow><stentry>载体</stentry><stentry>URI，写在 <xmlatt>href</xmlatt> 或 <xmlatt>conref</xmlatt> 上</stentry><stentry>key，经 <xmlatt>keyref</xmlatt> 或 <xmlatt>conkeyref</xmlatt> 引用</stentry></strow>
+        <strow><stentry>绑定时机</stentry><stentry>写在文档里，不再变</stentry><stentry>处理时经 map 解析</stentry></strow>
+        <strow><stentry>定义位置</stentry><stentry>引用处</stentry><stentry>map 层面</stentry></strow>
+        <strow><stentry>换位置的代价</stentry><stentry>引用断开，逐处改</stentry><stentry>改 map 里的一处定义</stentry></strow>
+      </simpletable>
+      <p>规范对 key 的定位是：提供一层间接，使资源（URI、元数据、变量文本字符串）可以在 DITA map 层面定义，而不是在每个 topic 里各自定义。括号里那三样点出了 key 的用途不止链接目标一种，元数据与变量文本同样走这条路，写法见 <xref href="../core-model/keyref-variable-text.dita">keyref 与 keytext 速查</xref>，模型见 <xref href="key-space-model.dita">key space 与 key scope</xref>。</p>
+    </section>
+
+    <section>
+      <title>分析：直接寻址的三处细节</title>
+      <p>元素通过 <xmlatt>id</xmlatt> 获得唯一标识，指向元素的引用则由片段标识符完成。规范定义了两种语法：</p>
+      <codeblock>file.dita#topicID/elementID   ← 完整式
+#./elementID                  ← 缩写式，用于同一 topic 内寻址非 topic 元素</codeblock>
+      <p>完整式为什么是两段，与 <xmlatt>id</xmlatt> 的唯一性范围有关：topic 的标识在文档内唯一，非 topic 元素的标识只在其所在 topic 内唯一，单靠后一段不足以定位。</p>
+      <p>一条链接由四个属性共同描述，各管一件事：<xmlatt>href</xmlatt> 给出 URI 引用，<xmlatt>format</xmlatt> 说明目标的格式（dita、ditamap、html、pdf、markdown 一类），<xmlatt>scope</xmlatt> 说明目标与本次构建的关系，<xmlatt>type</xmlatt> 给出目标类型的提示。</p>
+      <p><xmlatt>scope</xmlatt> 的三个取值里 <codeph>peer</codeph> 最容易被误用。它不表示外部资源，而是属于同一套交付物、但不在本次构建范围内的资源；外部资源用 <codeph>external</codeph>，纳入本次构建的用 <codeph>local</codeph>。这个取值的实际用途是跨交付物链接，见 <xref href="cross-deliverable-addressing.dita">cross-deliverable addressing</xref>。</p>
+      <p>第三处是 <xmlelement>resourceid</xmlelement>。它提供 <keyword>context hook</keyword>，即供程序按当前上下文调起帮助的那层对应关系：程序在某个界面请求帮助，据此定位到对应的 topic。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>两种机制不是二选一，同一份内容里两者都会出现。可用的分界是资源会不会换位置或换绑定：跨 map 复用、按交付物切换目标、变量文本，走 key；同一 topic 内部指向某个元素、指向确定不动的外部页面，直接写 URI 更短也更好读。</p>
+      <p>本篇未核对 <xmlatt>scope</xmlatt> 三个取值的精确语义表述，也未核对 <xmlelement>resourceid</xmlelement> 在 DITA 2.0 里是否承担了 1.x 中 <xmlatt>copy-to</xmlatt> 的部分职责。把它们写进处理逻辑之前，回规范对应子页逐条核对。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：DITA 只有直接 URI 与间接 key 两种寻址机制、元素通过 <xmlatt>id</xmlatt> 获得唯一标识、规范定义两种片段标识符语法（完整式与用于同 topic 内非 topic 元素的缩写式）、<xmlatt>format</xmlatt> 与 <xmlatt>href</xmlatt> 与 <xmlatt>scope</xmlatt> 与 <xmlatt>type</xmlatt> 共同描述一条链接、<xmlelement>resourceid</xmlelement> 提供 <keyword>context hook</keyword>，转自 <xref href="https://dita-lang.org/dita/archspec/base/ditaaddressing" scope="external">DITA 寻址</xref>；key 提供一层间接使资源（URI、元数据、变量文本字符串）可在 map 层面定义而非在每个 topic 中各自定义，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/key-based-addressing" scope="external">基于 key 的寻址</xref>。两处均已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 <xmlatt>id</xmlatt> 唯一性的两级作用范围、<xmlatt>scope</xmlatt> 三个取值的语义表述、<xmlelement>resourceid</xmlelement> 与 1.x <xmlatt>copy-to</xmlatt> 的关系，笔记列在未核对，本篇按其表述转录而不作断言；两种绑定时机的代价对比、结论节的分界判据，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>
