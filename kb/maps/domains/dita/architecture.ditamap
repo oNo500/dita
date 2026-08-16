@@ -11,4 +11,5 @@
   <!-- 笔记 09（架构基础）：三个 facility → shell → 模块层 → 一致性，由框架读到实现再读到验收 -->
   <topicref href="../../../topics/dita/architecture/extension-facilities.dita"/>
   <topicref href="../../../topics/dita/architecture/doctype-shell.dita"/>
+  <topicref href="../../../topics/dita/architecture/vocabulary-modules.dita"/>
 </map>

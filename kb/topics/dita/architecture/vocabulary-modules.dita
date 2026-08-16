@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/09-architecture-foundations.md §3（模块化与词汇模块）。
+     §4（约束 vs 扩展）按标题规则第 2 关「先怀疑切分」改并入 extension-facilities：那是
+     element-type configuration 这一个 facility 的两个方向，与本篇的模块分类不同层。
+     本篇因此对齐上游的 Vocabulary modules 节点，不再是两个节点的拼盘。
+     标题规则（2026-08-16 用户定稿）：上游有对应节点，直接用其类目名——架构规范
+     「Specialization」下的 "Vocabulary modules" 节点，原文 "A DITA element type or
+     attribute is declared in exactly one vocabulary module"。非自造。
+     术语规则（2026-08-16 用户门反馈后，含译名禁令补充）：vocabulary module /
+     specialization / constraint / expansion module / domain 一律英文原名，「词汇模块」
+     「专门化」是本库自造译名，中文解释每篇首现随行注一次；模块名与短名（topicMod、
+     ui-d、sw-d）照原样不译。
+     volatility=volatile 的依据：文件命名对照表与五个属性域模块清单核对自 v2.0-beta03
+     的语法文件目录，随发行版可变。
+     事实纪律：笔记已逐页核对的是模块化在 DITA 设计中的定位（模块化页）、一个元素类型或
+     属性恰好在一个 vocabulary module 中声明、三种 vocabulary module 的定义、结构模块名
+     通常等于根元素名、元素域模块的短名用于在 @class 中标识该模块且须为合法 XML name
+     token 并在其 specialization 层级内唯一、属性域模块恰好定义一个 @base 或 @props 的
+     specialization、域元素的派生方向约束（词汇模块页），以及文件命名对照表与五个属性域
+     模块的存在（v2.0-beta03 语法文件目录，经 GitHub API 核对）。@specializations 不记录
+     元素域的成因、拿到陌生语法文件先看文件名的做法为判断，已在来源节列明。
+     R16 记号预算：codeph 与 codeblock 合计不超过 8，模块文件名一律用 filepath。 -->
+<concept id="vocabulary-modules" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="volatile"
+         dimension="dim-internals dim-structure-template">
+  <title>vocabulary modules</title>
+  <shortdesc>DITA 的语法文件不是一整块，而是一组模块，由 document-type shell 挑选装配。每个元素类型与属性恰好在一个 vocabulary module 里声明，分三种：结构模块、元素域模块、属性域模块。<xmlatt>class</xmlatt> 里「模块名/元素名」这种写法成立的前提，就是那条「恰好一个」。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/2.0/dita/archspec/base/specialization-vocabulary-modules" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>拿到一套 DITA 语法文件，目录里几十个 <filepath>.rng</filepath> 平铺着，看不出哪个定义元素、哪个只做配置、哪个是入口。规范把这一层称作模块化，并给它一句定位：模块化是 DITA 设计与实现的核心，它使 specialization（专门化）层级的复用与扩展成为可能。</p>
+      <p>模块负责声明元素与属性，<xref href="doctype-shell.dita">document-type shell</xref> 负责选取与配置，文档实例携带 shell 注入的 <xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt>。三层各管一段，处理器不必拿到语法文件也能判断每个元素的来源。这一篇讲中间那层。</p>
+    </section>
+
+    <section>
+      <title>背景：三种 vocabulary module</title>
+      <p>规范先给一条不容例外的规则：<b>一个 DITA 元素类型或属性恰好在一个 vocabulary module（词汇模块）中声明</b>。没有重复声明，任何元素都能唯一追溯到来源模块。<xmlatt>class</xmlatt> 用「模块名/元素名」标识每一层派生，靠的正是这条。</p>
+      <simpletable relcolwidth="1.3* 1.8* 1.6*">
+        <sthead><stentry>种类</stentry><stentry>声明什么</stentry><stentry>数量约束与命名</stentry></sthead>
+        <strow>
+          <stentry>结构模块<p>structural module</p></stentry>
+          <stentry>一个顶层的 map 类型或 topic 类型</stentry>
+          <stentry>模块名通常就是根元素名，如 conceptMod 定义 <xmlelement>concept</xmlelement></stentry>
+        </strow>
+        <strow>
+          <stentry>元素域模块<p>element domain module</p></stentry>
+          <stentry>一个或多个可集成进 map 或 topic 的 specialize 出来的元素</stentry>
+          <stentry>一个模块可含多个元素；有短名（hi-d、sw-d、ui-d），须为合法的 XML name token 且在其 specialization 层级内唯一</stentry>
+        </strow>
+        <strow>
+          <stentry>属性域模块<p>attribute domain module</p></stentry>
+          <stentry><xmlatt>base</xmlatt> 或 <xmlatt>props</xmlatt> 的一个 specialize 出来的属性</stentry>
+          <stentry>恰好一个属性，所以一个模块就是一个文件</stentry>
+        </strow>
+      </simpletable>
+      <p>元素域模块的名称或短名，就是用来在 <xmlatt>class</xmlatt> 属性值里标识该模块的那个记号。域元素的派生另有方向约束：给 topic 用的域元素必须最终派生自 topic 模块的元素，给 map 用的必须派生自 map 模块的元素，map 专有元素不能出现在 topic 里。</p>
+      <p>还有一类模块不属于这三种。constraint（约束）模块与 expansion module（扩展模块）不声明新元素，只改已有元素的内容模型或属性表，它们是 element-configuration module，归 <xref href="extension-facilities.dita">DITA extension facilities</xref> 里的另一个 facility。</p>
+    </section>
+
+    <section>
+      <title>分析：文件名即模块种类，条件属性即装配项</title>
+      <p>v2.0-beta03 的语法文件目录里，命名规律直接暴露了模块种类：</p>
+      <simpletable relcolwidth="1.2* 1.6* 2*">
+        <sthead><stentry>文件名模式</stentry><stentry>是什么</stentry><stentry>例子</stentry></sthead>
+        <strow><stentry><filepath>*Mod.rng</filepath></stentry><stentry>vocabulary module，结构模块或域的实现模块</stentry><stentry><filepath>topicMod</filepath>、<filepath>conceptMod</filepath>、<filepath>taskMod</filepath>、<filepath>referenceMod</filepath></stentry></strow>
+        <strow><stentry><filepath>*Domain.rng</filepath></stentry><stentry>元素域模块</stentry><stentry><filepath>uiDomain</filepath>、<filepath>programmingDomain</filepath>、<filepath>highlightDomain</filepath></stentry></strow>
+        <strow><stentry><filepath>*AttDomain.rng</filepath></stentry><stentry>属性域模块</stentry><stentry><filepath>audienceAttDomain</filepath>、<filepath>platformAttDomain</filepath></stentry></strow>
+        <strow><stentry><filepath>*ConstraintMod.rng</filepath></stentry><stentry>constraint 模块，元素配置而非 vocabulary module</stentry><stentry><filepath>strictTaskbodyConstraintMod</filepath></stentry></strow>
+        <strow><stentry>无后缀</stentry><stentry>document-type shell</stentry><stentry><filepath>concept.rng</filepath>、<filepath>task.rng</filepath>、<filepath>basetopic.rng</filepath></stentry></strow>
+      </simpletable>
+      <p>属性域模块那一行解释了一件容易被当成内建事实的事。<xmlatt>audience</xmlatt>、<xmlatt>platform</xmlatt>、<xmlatt>product</xmlatt>、<xmlatt>deliveryTarget</xmlatt>、<xmlatt>otherprops</xmlatt> 这五个条件属性不是 DITA 语言的内建成分，它们是 base 包里五个独立的属性域模块，每个定义 <xmlatt>props</xmlatt> 的一个 specialization。一个模块一个属性，所以是五个文件而不是一个。</p>
+      <p>三条推论随之成立：可以做一个不含 <xmlatt>platform</xmlatt> 的 shell，用不到就不装；自定义的 <xmlatt>region</xmlatt> 与它们地位相同，同样是 <xmlatt>props</xmlatt> 的一个 specialization，没有等级差别；所谓 DITA 内建的条件维度，是上游预装了五个常用属性域的结果。属性 specialization 的写法见 <xref href="attribute-specialization.dita">attribute specialization</xref>。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>模块层看清之后，文档实例上那两个属性各指向什么就可以推出来。<xmlatt>class</xmlatt> 写在每个元素上，记这个元素来自哪些模块；<xmlatt>specializations</xmlatt> 写在根元素上，记这份文档的 shell 装配了哪些属性域。</p>
+      <codeblock>&lt;uicontrol class="+ topic/ph ui-d/uicontrol "&gt;   ← ph 来自 topicMod，uicontrol 来自短名 ui-d 的元素域模块
+
+&lt;task specializations="@props/platform @props/product"&gt;   ← 对应 platformAttDomain 与 productAttDomain 两个文件</codeblock>
+      <p><xmlatt>specializations</xmlatt> 不是抽象声明，它就是装配清单，token 与属性域模块文件一一对应。它不记录元素域，因为元素域的信息已经在 <xmlatt>class</xmlatt> 里，每个域元素自带派生链；属性一侧没有这个条件，属性值只是字符串，看不出它派生自 <xmlatt>props</xmlatt>，所以要在根元素上单独声明一次。</p>
+      <p>由此得到一条读文件的次序：先看文件名认出模块种类，再看 shell 的引入清单认出这套文档类型装了什么，最后回到实例上的两个属性核对。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：模块化是 DITA 设计与实现的核心、它使 specialization 层级的复用与扩展成为可能、DITA 语法文件是一组声明各 specialization 所需标记的模块文件而 shell 集成特定创作与发布场景所需的模块，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/specialization-modularization" scope="external">模块化</xref>；一个 DITA 元素类型或属性恰好在一个 vocabulary module 中声明、三种 vocabulary module 的定义、结构模块名通常等于根元素名、元素域模块可含多个元素并有短名、该名称或短名用于在 <xmlatt>class</xmlatt> 属性值中标识该模块、短名须为合法 XML name token 且在其 specialization 层级内唯一、属性域模块定义恰好一个 <xmlatt>base</xmlatt> 或 <xmlatt>props</xmlatt> 的 specialization、给 topic 用的域元素须最终派生自 topic 模块元素而给 map 用的须派生自 map 模块元素且 map 专有元素不能出现在 topic 中，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/specialization-vocabulary-modules" scope="external">词汇模块</xref>。两处均已逐页核对。文件命名对照表、五个属性域模块文件的存在、<xmlatt>specializations</xmlatt> 的 token 与属性域文件的对应，核对自 v2.0-beta03 语法文件目录。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 constraint 与 expansion 模块归 element-configuration module 一类的层级归属、三条关于条件属性的推论、<xmlatt>specializations</xmlatt> 不记录元素域的成因、结论节读文件的次序，为本库归纳；<xmlelement>uicontrol</xmlelement> 与 <xmlelement>task</xmlelement> 两段样例按上述规则构造，非从规范逐字抄录。</p>
+    </section>
+  </conbody>
+</concept>
