@@ -163,10 +163,10 @@ fn check_register(root: roxmltree::Node, push: &mut impl FnMut(String)) {
             .descendants()
             .filter(|n| n.has_tag_name("b"))
             .count();
-        let cap = if title == "来源" { 2 } else { 2 };
-        if bold > cap {
+        // 上限对来源节同样是 2：恰好容纳「事实」「判断」两个段标签
+        if bold > 2 {
             push(format!(
-                "R15：节「{title}」有 {bold} 处粗体（上限 {cap}）——粗体不承担语气"
+                "R15：节「{title}」有 {bold} 处粗体（上限 2）——粗体不承担语气"
             ));
         }
     }
