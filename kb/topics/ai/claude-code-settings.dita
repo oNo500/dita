@@ -86,7 +86,7 @@
       <title>来源</title>
       <p><b>已核对</b>（2026-08-15，逐条对照 <xref href="https://code.claude.com/docs/en/settings" scope="external">Claude Code 官方 settings 文档</xref>）：四层作用域及其位置与共享范围、五级优先级顺序、<codeph>allow</codeph>/<codeph>deny</codeph>/<codeph>ask</codeph> 三种规则与未命中默认走 ask、两种通配符语义、权限规则跨层合并且 deny 优先、MCP 键的特殊合并、即时生效与需重启的设置之分、<codeph>/status</codeph> 的 Setting sources 与"至少一个有效设置才显示"、<codeph>/doctor</codeph> 查被剥离条目。本篇事实<b>仅限</b>该页所载；未核对的（如具体 settings 键的完整清单、各 CLI flag）一律未写入。</p>
       <p><b>判断与通用实践</b>：只有一处——"想彻底禁掉某动作就写 deny，不必清理别处 allow"是从合并规则推出的用法建议，非官方原文。</p>
-      <p><b>时效</b>：本篇 volatile。设置键与合并语义随版本变，核对日期即上方 <codeph>reviewed</codeph>；日期一旧，先回官方页复核再引用。</p>
+      <p><b>时效</b>：本篇 volatile。设置键与合并语义随版本变，日期一旧，先回官方页复核再引用。</p>
     </section>
   </refbody>
 </reference>

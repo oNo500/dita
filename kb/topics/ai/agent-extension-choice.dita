@@ -6,7 +6,7 @@
          outputclass="best-practice"
          maturity="draft" volatility="volatile"
          dimension="dim-integration dim-decision">
-  <title>扩展机制的选择</title>
+  <title>agent CLI 扩展机制选型</title>
   <shortdesc>hook、MCP、skill 与规则文件的选择取决于两个属性：触发方与阻断能力。必须执行的约束仅能由 hook 承载，其余三种按内容形态选择。</shortdesc>
   <prolog>
     <source href="https://code.claude.com/docs/en/hooks" scope="external"/>
@@ -67,7 +67,7 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：hook 的定位与阻断能力，见 <xref href="https://code.claude.com/docs/en/hooks" scope="external">Claude Code, Hooks</xref>；CLAUDE.md 为上下文而非强制配置，见 <xref href="https://code.claude.com/docs/en/memory" scope="external">Memory</xref>；tool search 默认启用、延迟加载、影响甚微，见 <xref href="https://code.claude.com/docs/en/mcp" scope="external">MCP</xref>；skill 按描述匹配触发，见 <xref href="https://code.claude.com/docs/en/skills" scope="external">Skills</xref>。核对日期见 prolog。</p>
+      <p><b>事实</b>：hook 的定位与阻断能力，见 <xref href="https://code.claude.com/docs/en/hooks" scope="external">Claude Code, Hooks</xref>；CLAUDE.md 为上下文而非强制配置，见 <xref href="https://code.claude.com/docs/en/memory" scope="external">Memory</xref>；tool search 默认启用、延迟加载、影响甚微，见 <xref href="https://code.claude.com/docs/en/mcp" scope="external">MCP</xref>；skill 按描述匹配触发，见 <xref href="https://code.claude.com/docs/en/skills" scope="external">Skills</xref>。</p>
       <p><b>判断</b>：触发方与阻断能力的二属性框架，以及"不容遗漏则 hook"的判据，为本库归纳，可被反驳。</p>
     </section>
   </conbody>
