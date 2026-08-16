@@ -495,6 +495,20 @@ git commit -m "docs(research): freeze note 02 — migrated to three core-model t
 
 ---
 
+### Task 13c: 术语过账（机械，先于 13b 执行）
+
+**背景**：13b 原本一肩挑规则归并与全部术语清理，账压过重。把纯机械的三类改动拆出来单独跑，13b 专注规则设计。
+
+**Files:** 涉及 dita 分支各簇与 practice/principles 的 topic 正文；不动 map、不动 schema。
+
+- [ ] **Step 1: 译名替换**——「专门化 / 泛化 / 约束（模块义）/ 扩展设施 / 词汇模块 / 特化 / 专用化」等改英文原名（specialization / generalization / constraint / extension facilities / vocabulary module），中文首现随行注一次。清单见 task-7 审查报告第五节 A 与 `rg -n "专门化|泛化|特化|专用化" kb/topics/`。**连带**：customization-cost-ladder 与 pitfalls 的头注释有「一律用英文原名」的自我声明，改正文时同步改注释。另 rag-chunking-metadata 的反向退让（reltable→「关系表」、@collection-type→「边的类型另有属性给出取值」、critdates→「prolog 里的日期字段」）改回英文原名。
+- [ ] **Step 2: keyref 回填**——`uv run --script kb/scripts/term-normalize.py` 报出的全部建议（约 49 处，Task 8 新建 6 条词表后产生），按每篇首现挂 `<term keyref="…">`；标题、代码块、已在 SKIP_TAGS 内的位置不挂。注意 `term-hook` 与规范 `context hook` 同形歧义（10a 已包 keyword 规避，勿改回）。
+- [ ] **Step 3: 修失效链接文字**——目标已改名但链接文字未同步的 6 处：pitfalls:25（preprocess 流水线、@class 与派生链解析）、customization-cost-ladder:86（DITA-OT 扩展点、XSLT 覆盖）、adoption-criteria:56（keyref 与 keytext 速查、include 元素）、engineering-ci:104（校验与 Schematron）。**改前先核对目标篇当前实际标题**（10b 可能又动过 class-derivation）。
+- [ ] **Step 4: 互链回补**——branch-filtering ↔ key-space-model 的边界说明补 xref（Task 8 疑虑 3）。
+- [ ] **Step 5: 验证与提交**——`just review`（术语建议须清零）、`just links`、`dita-tools lint` 0/0；一个 commit `fix(dita): terminology accounting — English mechanism names, keyref backfill, stale link text`。
+
+---
+
 ### Task 14: 收尾——README 冻结 + 全库终验
 
 **Files:**
