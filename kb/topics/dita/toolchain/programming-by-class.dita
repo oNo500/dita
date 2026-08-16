@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/07-programmatic-processing.md §2（怎么拿到 @class 与 @specializations）
+     与 §3（按 @class 编程）。题材 how-to：按 2026-08-16 裁定用 concept 外壳与 conbody（模板 A）。
+     术语规则（2026-08-16 用户门反馈后）：class / specializations / DTD / RNG /
+     preprocess 等一律用英文原名，属性名用 xmlatt。
+     volatility=stable 的依据：按派生链匹配是 DITA 架构的稳定机制，不随 2.0 草案变动。
+     事实纪律：已核对的是 @specializations 由 doctype shell 默认注入及其形式语法；
+     lxml 的解析器行为、RNG 默认值不被注入、catalog 环境变量按判断呈现，来源节逐条列明。 -->
+<concept id="programming-by-class" xml:lang="zh-CN"
+         outputclass="how-to"
+         maturity="draft" volatility="stable"
+         dimension="dim-interop dim-mechanism">
+  <title>按 @class 编程：类型判定与 @specializations 解析</title>
+  <shortdesc>元素的派生链写在 <xmlatt>class</xmlatt> 里，属性的派生链写在 <xmlatt>specializations</xmlatt> 里，两者都由语法文件提供默认值，创作时不写进源文件。取到它们有两条路；取到之后，按派生链匹配的代码自动覆盖全部专门化元素。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>处理 DITA 的代码不应按元素名分支。元素名只说明这一个元素叫什么，派生链才说明它是什么的专门化，按后者匹配才能一并覆盖专门化出来的元素。而裸解析一份源文件时，这两个属性都取不到：它们由 doctype shell 声明为默认值，作者不手写，解析器不补齐就是空。</p>
+    </section>
+
+    <section>
+      <title>做法一：让解析器补齐默认属性</title>
+      <p>解析时开启语法文件加载与默认属性补齐。以 Python 的 lxml 为例，四个开关分别负责加载 DTD、补齐默认属性、解析实体、禁止联网。</p>
+      <codeblock>from lxml import etree
+
+parser = etree.XMLParser(
+    load_dtd=True,
+    attribute_defaults=True,   # 补齐默认属性
+    resolve_entities=True,
+    no_network=True,
+)
+tree = etree.parse("topic.dita", parser)
+tree.getroot().get("class")   # "- topic/topic concept/concept "</codeblock>
+      <p>解析器须能找到语法文件。用 XML catalog 指向本机的 DITA-OT 安装目录，避免每次联网：设置环境变量 <codeph>XML_CATALOG_FILES</codeph> 指向 DITA-OT 的 catalog 文件即可。</p>
+      <p>这条路依赖 DTD。默认属性补齐的开关只对 DTD 生效；RNG 一侧的默认值来自 RELAX NG DTD Compatibility 注解，多数 RNG 校验器不会据此注入属性，校验能过而属性仍为空。因此走这条路时，文档的 doctype 要声明 DTD 版本的外壳；内容用的是 RNG，改走做法二。以上三句来自使用经验，未逐工具验证。</p>
+      <p>这与「RNG 是规范性版本」不矛盾：规范性说的是两者有出入时以谁为准，不是说工具必须用哪一种。</p>
+    </section>
+
+    <section>
+      <title>做法二：处理 preprocess 之后的文件</title>
+      <p>DITA-OT 的中间产物已经把派生链属性写进文件，裸解析即可取到，也不受语法文件格式的限制。这条路更简单，代价是要先执行一次构建，且拿到的内容已展开引用、已过滤条件，两类输入的取舍见<xref href="parsed-vs-source.dita">程序化处理的输入选择</xref>。</p>
+    </section>
+
+    <section>
+      <title>按派生链匹配</title>
+      <p><xmlatt>class</xmlatt> 的取值是一串以空格分隔的派生链，判断时连同前后空格一起匹配，避免误命中同前缀的名字。</p>
+      <codeblock>def is_class(el, cls):
+    """cls 形如 'topic/li'，前后空格不可省"""
+    c = el.get("class")
+    return c is not None and f" {cls} " in c
+
+# 找出全部 li 及其专门化（step、chdeschd 等）
+for el in tree.iter():
+    if is_class(el, "topic/li"):
+        ...
+
+# XPath 写法等价
+tree.xpath("//*[contains(@class, ' topic/section ')]")</codeblock>
+      <p>判断一份 topic 属于哪个类型，取派生链的最后一段，即最特化的那一段。解析 <xmlatt>specializations</xmlatt> 则得到属性名到其祖先链的映射，据此可自行实现属性泛化：某个专门化属性未被识别时，逐级退回到它派生自的属性。</p>
+      <codeblock>def topic_type(root):
+    """返回最特化的类型名"""
+    c = (root.get("class") or "").strip()
+    if not c.startswith("-"):
+        return None
+    return c.split()[-1].split("/")[-1]   # "- topic/topic task/task " → "task"
+
+def attr_specializations(root):
+    """返回 {属性名: 祖先链}，如 {'hardwarePlatform': ['props', 'platform']}"""
+    result = {}
+    for token in (root.get("specializations") or "").split():
+        parts = token.lstrip("@").split("/")   # "@props/platform/hardwarePlatform"
+        if len(parts) &gt;= 2:
+            result[parts[-1]] = parts[:-1]
+    return result</codeblock>
+    </section>
+
+    <section>
+      <title>退出点</title>
+      <p>在一份含专门化元素的样例上，匹配结果既包含基类元素也包含其专门化，即说明取到了派生链且匹配写法正确。取到的是空值时，先确认解析器是否补齐了默认属性，再确认 catalog 是否解析到了语法文件。</p>
+      <p>不适用的场合是要改写文档并输出。此时不应保留原有的派生链属性，让目标语法文件重新注入，否则派生链可能与目标版本不一致。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：<xmlatt>specializations</xmlatt> 由 doctype shell 默认注入而非作者手写，其形式语法为属性派生链的斜杠分隔形式，转自 <xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref>，已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 lxml 须开启语法文件加载与默认属性补齐才能取到默认属性、默认属性补齐只对 DTD 生效、多数 RNG 校验器不注入 RELAX NG DTD Compatibility 声明的默认值、<codeph>XML_CATALOG_FILES</codeph> 的用法，来自使用经验，未逐工具验证；<xmlatt>class</xmlatt> 取值的空格匹配写法、三段示例代码、DITA-OT 中间产物已写入派生链属性，来自通用实践与实现观察；不按元素名分支的理由、两条路的取舍与退出点的判断次序，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>
