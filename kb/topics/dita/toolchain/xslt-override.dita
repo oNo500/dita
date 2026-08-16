@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/06-dita-ot-plugins.md（完整示例：给 note 换个渲染、覆盖机制的关键、
+     处理 2.0 特有元素）。题材 how-to：按 2026-08-16 裁定用 concept 外壳与 conbody（模板 A）。
+     术语规则（2026-08-16 用户门反馈后）：XSLT / import / priority / next-match /
+     transtype 等一律用英文原名；元素名用 xmlelement，属性名用 xmlatt。
+     volatility=volatile 的依据：2.0 草案期间 @class 里的模块名可能变动。
+     事实纪律：已核对的只有「覆盖靠安装时自动追加 import」与「2.0 新元素的可用性与版本下限」
+     两条，示例代码与 priority / next-match 的用法按判断呈现，来源节判断段穷尽列明。 -->
+<concept id="xslt-override" xml:lang="zh-CN"
+         outputclass="how-to"
+         maturity="draft" volatility="volatile"
+         dimension="dim-integration dim-mechanism">
+  <title>DITA-OT 的 XSLT 覆盖：import 顺序与 @class 匹配</title>
+  <shortdesc>改变某个元素的渲染不必改动 DITA-OT 自带的样式表：插件声明一份自己的 XSLT，安装时它被追加到该输出格式的 import 链末尾，后导入者优先，模板因而覆盖内置模板。模板匹配写成 <xmlatt>class</xmlatt> 判断，专门化元素随之一并覆盖。</shortdesc>
+  <prolog>
+    <source href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>默认输出里某个元素的样子不合要求，例如提示框要换成带图标的版式。直接改 DITA-OT 目录下的样式表能立刻见效，代价是升级时改动全部丢失，且这份改动无法随项目分发。插件提供的覆盖机制解决的正是这一点：改动留在自己的目录里，工具箱本身不动。</p>
+    </section>
+
+    <section>
+      <title>做法：声明一份自己的 XSLT</title>
+      <p>在 plugin.xml 里用对应输出格式的 XSLT import 扩展点指向自己的样式表，例如 HTML5 一路用 <codeph>dita.xsl.html5</codeph>。样式表里按 <xmlatt>class</xmlatt> 匹配要改的元素。</p>
+      <codeblock>&lt;!-- xsl/custom.xsl --&gt;
+&lt;xsl:stylesheet version="3.0"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns="http://www.w3.org/1999/xhtml"
+    exclude-result-prefixes="xsl"&gt;
+
+  &lt;!-- 按 @class 匹配，不按元素名 --&gt;
+  &lt;xsl:template match="*[contains(@class, ' topic/note ')]"&gt;
+    &lt;div class="callout callout-{(@type, 'note')[1]}"&gt;
+      &lt;div class="callout-body"&gt;
+        &lt;xsl:apply-templates/&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/xsl:template&gt;
+
+  &lt;!-- 引入自己的样式文件 --&gt;
+  &lt;xsl:template name="gen-user-head"&gt;
+    &lt;link rel="stylesheet" type="text/css" href="{$PATH2PROJ}css/custom.css"/&gt;
+  &lt;/xsl:template&gt;
+
+&lt;/xsl:stylesheet&gt;</codeblock>
+      <p>安装插件后按注册的 transtype（输出类型）构建，产出里即为新版式。按 <xmlatt>class</xmlatt> 而非元素名匹配是这里的关键一步：<xmlelement>note</xmlelement> 的专门化元素同样带有 <codeph>topic/note</codeph> 这一段派生链，模板因此自动覆盖它们。</p>
+    </section>
+
+    <section>
+      <title>覆盖为什么成立</title>
+      <p>安装时，DITA-OT 把所有声明了该扩展点的插件文件按依赖顺序追加 import 语句到生成的入口样式表里。XSLT 的规则是后导入的优先级更高，自己的模板因而排在内置模板之后，匹配到同一元素时胜出。</p>
+      <p>由此得到两条推论。其一，覆盖不生效的第一嫌疑是没有重新安装：import 链是安装时生成的，改完样式表不重新安装，执行的仍是旧链。其二，多个插件覆盖同一模板时，胜负由 import 顺序决定，而顺序取决于插件之间的依赖声明。</p>
+      <p>需要显式控制时有两个手段：用 <codeph>priority</codeph> 提高模板优先级，用 <codeph>next-match</codeph> 调用被覆盖的那个模板。后者适合在原有渲染之外追加内容而非整体替换。</p>
+      <codeblock>&lt;xsl:template match="*[contains(@class, ' topic/note ')]" priority="10"&gt;
+  &lt;xsl:next-match/&gt;          &lt;!-- 先执行原本的渲染 --&gt;
+  &lt;p class="note-footer"&gt;补充说明&lt;/p&gt;
+&lt;/xsl:template&gt;</codeblock>
+      <p>两者的用法来自通用实践，未逐页核对。</p>
+    </section>
+
+    <section>
+      <title>处理 2.0 新增的元素</title>
+      <p>2.0 新增元素的写法没有不同，同样按 <xmlatt>class</xmlatt> 匹配。区别在于哪些元素在本机这一版可用，以及它们的派生链取值。</p>
+      <codeblock>&lt;!-- div：通用块容器，默认可能只是透传 --&gt;
+&lt;xsl:template match="*[contains(@class, ' topic/div ')]"&gt;
+  &lt;div class="{(@outputclass, 'dita-div')[1]}"&gt;
+    &lt;xsl:apply-templates/&gt;
+  &lt;/div&gt;
+&lt;/xsl:template&gt;
+
+&lt;!-- titlealt：按 @title-role 分流 --&gt;
+&lt;xsl:template match="*[contains(@class, ' topic/titlealt ')]
+                       [contains(@title-role, 'search')]" mode="search-title"&gt;
+  &lt;xsl:value-of select="normalize-space(.)"/&gt;
+&lt;/xsl:template&gt;
+
+&lt;!-- video：加自定义播放器包装 --&gt;
+&lt;xsl:template match="*[contains(@class, ' multimedia-d/video ')]"&gt;
+  &lt;figure class="video-wrap"&gt;
+    &lt;xsl:next-match/&gt;
+  &lt;/figure&gt;
+&lt;/xsl:template&gt;</codeblock>
+      <p>示例里的模块名，即斜杠前那一段，在草案期间可能变动，且各元素的可用性有版本下限。写模板之前先以 dita 为输出格式产出一份中间结果，从中确认实际的 <xmlatt>class</xmlatt> 取值，不要照记忆写。</p>
+    </section>
+
+    <section>
+      <title>退出点</title>
+      <p>重新安装插件后构建，产出里出现新版式即完成。仍是旧版式时按两步排查：先确认插件已重新安装，再从生成的入口样式表里确认自己的 import 出现在内置样式表之后。</p>
+      <p>不适用的场合有两类。其一，要改的不是渲染而是内容本身，例如在发布前补一段元数据，那属于 preprocess 阶段的工作，改用 Ant target 一路。其二，只是换配色或字号，写一份 CSS 由资源扩展点带出即可，不必覆盖模板。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：XSLT 覆盖靠安装时自动追加 import 语句、扩展点在 plugin.xml 中以 feature 声明、可用 transtype 限定自定义代码的生效范围，转自 <xref href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external">插件扩展点</xref>；2.0 新元素在 DITA-OT 中的可用性与各自的版本下限，转自 <xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA 2.0 preview 支持</xref>。两份页面均已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中两份样式表示例的写法、priority 与 next-match 的用法、示例中 <xmlatt>class</xmlatt> 里的模块名取值（如 multimedia-d 一段）来自通用实践，未经核对；「改完不重新安装即不生效」「多个插件的胜负由 import 顺序决定」两条推论、两步排查的次序、两类不适用场合的界线，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>
