@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 新建（2026-08-16，Task 13b 规则归并）：术语治理此前无正本——规则散在 writing-style、
+     dita-authoring-guide 组4 与执行期的临时约定文件里，三次用词纠偏都出在这处空缺上。
+     题材 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
+     本库自造：上游无对应节点。已查 OASIS DITA 2.0 archSpec 与 langRef 的节点标题
+     （最近的是 Basic DITA terminology 与 Other terminology，规定的是规范自己用词的定义，
+     不管写作方一侧的用词纪律）、DITA-OT 4.4 docsrc 全部节点标题（无术语治理类节点）、
+     社区通行说法，均无对应节点。标题由本库既有词素「术语」与「治理」组合，
+     不造新概念名、不造新分类框架。 -->
+<concept id="terminology-rules" xml:lang="zh-CN"
+         outputclass="best-practice"
+         maturity="draft" volatility="stable"
+         dimension="dim-terminology dim-governance">
+  <title>kb 术语治理</title>
+  <shortdesc>判据只有一条：凡在规范或官方文档里有对应条目的概念，正文一律用英文原名，中文解释首现随行给一次。判据看这个词指什么，不看它像不像术语——最难拦的正是读起来像普通中文词的机制名。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/dita/archspec/base/basic-dita-terminology" scope="external"/>
+    <data name="domain" value="writing-principles"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>场景</title>
+      <p>一个机制名进库时被译成中文，此后在库内漂移：<term keyref="term-specialization">specialization</term> 先成了「<keyword>专门化</keyword>」，再漂出「<keyword>特化</keyword>」「<keyword>专用化</keyword>」「<keyword>特殊化</keyword>」三种写法，四种叫法同时在库里出现，检索时互不命中，读者也无从判断它们是不是同一件事。</p>
+      <p>审查未能拦截它。拦截的前提是人先认出这是个机制名，而「专门化」读起来是一个普通中文词，它不触发任何警觉，就此混过了全部审查。同一批事故里还有「扩展设施」「词汇模块」——都是无出处的自造译名，都因为词形普通而通行无阻。术语纪律因此不能建立在"看着像术语就受管"之上。</p>
+    </section>
+
+    <section>
+      <title>做法</title>
+      <p><b>判据看所指，不看词形</b>：凡在规范或官方文档里有对应条目的概念，正文一律用英文原名；只有领域外的普通语义词才用中文。执行方法是去上游查有没有这个条目，不是掂量这个词像不像术语。</p>
+      <p>中文解释在该篇首现处随行给一次，形如 <term keyref="term-conref">conref</term>（内容引用），此后全篇只用英文名。首现之后再写中文即是第二份叫法，与英文名争夺检索命中。</p>
+      <p>术语库条目按双语形制建：<xmlelement>glossterm</xmlelement> 放英文原名，中文释义进 <xmlelement>glossdef</xmlelement>，中文与英文的别名各进一条 <xmlelement>glossSynonym</xmlelement>。形制以 <filepath>topics/glossary/term-mcp.dita</filepath> 为样张。别名逐条登记的作用在机器面：<cmdname>term-normalize.py</cmdname> 靠这张别名表扫出正文里未挂引用的字面出现。</p>
+      <p>建条目的门槛是<b>第二篇测试</b>：一个词在第二篇内容里被用到时才建 <xmlelement>glossentry</xmlelement> 并挂 <filepath>maps/glossary.ditamap</filepath>。只出现过一次的词由该篇自己解释，进术语库只会得到一条无人引用的孤条目。</p>
+      <p>确无对应条目而必须自造时，先过三道关：</p>
+      <ol>
+        <li>穷尽查证——上游规范、官方工具文档、社区通行说法都查过，确认领域内确无对应条目；查证结果写进文件头注释，供复核。</li>
+        <li>先怀疑切分——领域里没有这个名字，往往说明篇的边界没有对齐领域知识树，而不是领域缺了名字。先考虑重切，重切不成再自造。</li>
+        <li>只组合，不发明——用领域内既有词素组合，不造新概念名、不造新分类框架、不造新普通词。</li>
+      </ol>
+      <p>三道关同样管自造的分类框架与自造的普通词：把「定义侧五种绑定」这类临时归纳写成术语口吻的标签，与自造译名是同一类事故，降级为平实句子即可（「map 里绑键有这些写法」）。表格列头用描述性短语，不造名词。</p>
+    </section>
+
+    <section>
+      <title>理由</title>
+      <p>英文原名不是风格偏好，是可追溯性。规范与官方文档是这些概念的定义处，用它们的写法，读者能一步查到定义，检索能与上游语料对齐，日后上游改名也能顺着同一个字符串找到全部受影响的内容。译名切断了这条路：它在上游不存在，查不到出处，也无从判断两个译名是不是同一个东西。</p>
+      <p>判据落在"上游有没有条目"而不是"词形像不像术语"，是因为词形判据已被验证会漏。它依赖审查者当场的语感，而语感对普通词形的机制名不起作用；查上游则是可复核的动作，结论不随审查者变化。</p>
+      <p>第二篇测试把术语库的规模与实际复用挂钩。术语库的价值在于统一多处叫法，只有一处用到的词没有可统一的对象，收录它只是给复核增加条目。</p>
+    </section>
+
+    <section>
+      <title>反例</title>
+      <ul>
+        <li>无出处的中文译名作正文首选词：「<keyword>专门化</keyword>」「<keyword>泛化</keyword>」「<keyword>约束模块</keyword>」「<keyword>扩展设施</keyword>」「<keyword>词汇模块</keyword>」。对应上游条目为 specialization、<term keyref="term-generalization">generalization</term>、<term keyref="term-constraint">constraint</term>、extension facilities、vocabulary module。</li>
+        <li>自造普通词冒充术语：把可复用片段的存放目录称作「内容仓库」，把语法或格式称作「取值形状」，把 fallback 称作「兜底内容」。前两个在上游查无此条，第三个上游有名字而被换掉。</li>
+        <li>自造分类框架并以术语口吻呈现：「定义侧五种绑定」「引用侧五种写法」「先定义者胜」。这类标签在上游不存在，读者无从查证，且会随作者下一次归纳而变。</li>
+        <li>一篇之内英文名与中文解释交替使用。首现随行一次之后仍反复写中文，等于在库内又立了一个叫法。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>边界</title>
+      <p>本篇管正文用哪个词。标题怎么定、自造标题怎么标注、文件名与归属字段怎么写，见 <xref href="naming-rules.dita">kb 命名与归属</xref>；术语标注在一篇里出现几次、哪些位置豁免，属操作层，见 <xref href="dita-authoring-guide.dita">kb DITA 写作规则总纲</xref>。</p>
+      <p>机器面只覆盖一半：<cmdname>term-normalize.py</cmdname> 扫的是术语库已收录词的字面出现，R7 提示未挂引用的裸标注。尚未收录的自造译名两者都查不出——它们要靠头注释里的查证记录与人审。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：OASIS 规范用 <xref href="https://dita-lang.org/dita/archspec/base/basic-dita-terminology" scope="external">Basic DITA terminology</xref> 与 Other terminology 两节定义规范自身使用的词，规范文本只有英文版，<xref href="https://dita-lang.org/specifications" scope="external">规范总入口</xref>下无官方中文版。</p>
+      <p><b>判断</b>：以"上游有无对应条目"为判据、中文解释首现随行一次、第二篇测试、自造三道关，均为本库治理设计，无外部标准背书，可被反驳。场景一节所述的漂移与漏审过程取自本库 2026-08 的实际状态。</p>
+    </section>
+  </conbody>
+</concept>
