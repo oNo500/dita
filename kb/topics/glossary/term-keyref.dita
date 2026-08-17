@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<glossentry id="term-keyref" xml:lang="zh-CN" maturity="draft" volatility="stable">
+<glossentry id="term-keyref" xml:lang="zh-CN" maturity="curated" volatility="stable">
   <glossterm>keyref</glossterm>
   <glossdef>以键名作中间层的间接引用：正文只写键名，键与目标文件、外部地址、一段文本或一张图片的绑定由 map 里的 keydef 声明。换一张 map 即换一组绑定，被引用的 topic 不改动。</glossdef>
   <glossBody>

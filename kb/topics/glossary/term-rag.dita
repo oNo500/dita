@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<glossentry id="term-rag" xml:lang="zh-CN" maturity="draft" volatility="stable">
+<glossentry id="term-rag" xml:lang="zh-CN" maturity="curated" volatility="stable">
   <glossterm>RAG</glossterm>
   <glossdef>回答之前先从内容库检索相关片段，把片段连同问题一并交给语言模型，答案因此基于库里的内容而不是模型的记忆。内容一侧要解决三件事：块按什么边界切、每块附带哪些可供过滤与排序的信息、答案怎么指回出处。</glossdef>
   <glossBody>

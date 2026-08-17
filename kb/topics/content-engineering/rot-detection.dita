@@ -13,9 +13,12 @@
      组合，不造新概念名、不造新分类框架。
      事实纪律：四个实例的事实分别在各自正本，本篇不重述；模式的抽象与新增机制的四问
      属本库归纳，已在来源节判断段列明。 -->
+<!-- 2026-08-17 晋级 curated：过 lint 晋级门（R12–R16 转 error 后 0 error）。
+     未晋 verified——本篇事实段自认「无转自权威源的内容」，无可逐条核对的外部来源，
+     verified 一档对它不适用。 -->
 <concept id="rot-detection" xml:lang="zh-CN"
          outputclass="deep-dive"
-         maturity="draft" volatility="stable"
+         maturity="curated" volatility="stable"
          dimension="dim-governance dim-evolution">
   <title>kb 腐烂检测机制</title>
   <shortdesc>库里有四套机制在防不同层次的过期：一条事实、一棵分类树、一批元数据、一组标题。它们是同一个模式的四个实例——给每样东西一个库外的锚点，锚点一动就报警。识出这个模式，新增第五套时才有可照的形制。</shortdesc>

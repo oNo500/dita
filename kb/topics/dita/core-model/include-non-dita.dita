@@ -9,9 +9,12 @@
      「文档与代码同源」的工程论证属判断，已在来源节标明。
      标题依据上游节点名：OASIS DITA 2.0 语言参考的元素页 <include>；非 DITA 内容一侧对应
      架构规范的「Specializing to include non-DITA content」，归 shortdesc 交代。 -->
+<!-- 2026-08-17 晋级 curated：过 lint 晋级门（R12–R16 转 error 后 0 error）。
+     未晋 verified——正文事实取自已逐页核对的 include 元素页，但 prolog 无 reviewed 日期，
+     按 writing-sourcing「晋级 verified 须记录核对日期」不足条件。 -->
 <concept id="include-non-dita" xml:lang="zh-CN"
          outputclass="how-to"
-         maturity="draft" volatility="stable"
+         maturity="curated" volatility="stable"
          dimension="dim-interop">
   <title>include 元素</title>
   <shortdesc>配置样例、README 与代码片段这类非 DITA 内容可以由文档直接引用源码仓库里的原文件，不再手工同步；引入按纯文本或 XML 两种方式解析，后者限于 <xmlelement>foreign</xmlelement> 内，取不到时由 <xmlelement>fallback</xmlelement> 给出替代的内容。</shortdesc>

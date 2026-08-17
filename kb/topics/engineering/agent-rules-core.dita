@@ -3,9 +3,13 @@
 <!-- 批量重写（2026-08-16）：转 reference/artifact（框架维度2：可复用工件）。 -->
 <!-- 重写自矿场 infra-ai/rules/constitution + rc-rules。
      含通用规则 + 工具特有段（tool 条件属性），交付物构建时按 DITAVAL 过滤出各工具变体。 -->
+<!-- 2026-08-17 晋级 curated：过 lint 晋级门（R12–R16 转 error 后 0 error）。
+     必须晋级——交付物 map 自本日起按 maturity 过滤（filters/*.ditaval 排除 draft），
+     本篇是交付物主体，留在 draft 会让 agent-rules 产物空掉。
+     未晋 verified——volatility=volatile 且规则多为本库约定，无逐条外部来源可核（R3 亦要求日期）。 -->
 <reference id="agent-rules-core" xml:lang="zh-CN"
            outputclass="artifact"
-           maturity="draft" volatility="volatile" dimension="dim-principles">
+           maturity="curated" volatility="volatile" dimension="dim-principles">
   <title>agent 规则集</title>
   <shortdesc>跨项目的 agent 规则——核心原则、不可违反的底线、代码约定，以及各 agent 工具特定的配置约定。</shortdesc>
   <!-- 来源放 prolog 不放正文：本篇是交付物源（构建成 CLAUDE.md / AGENTS.md），

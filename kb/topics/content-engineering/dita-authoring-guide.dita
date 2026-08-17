@@ -10,8 +10,12 @@
      重复条款改为一句话加 xref，只留别处无正本的 DITA 操作层条款
      （行内语义标签、术语标注的位置豁免、改 map 结构）。
      组号（组1…组9）同时废除：编号早已乱序，且它不是标签。 -->
+<!-- 2026-08-17 晋级 curated：过 lint 晋级门（R12–R16 转 error 后 0 error）。
+     必须晋级——交付物 map 自本日起按 maturity 过滤（filters/*.ditaval 排除 draft），
+     本篇与 agent-rules-core 同为交付物主体，留在 draft 会让产物空掉。
+     未晋 verified——本篇是路由表，断言几乎全指向库内正本，不存在可逐条核对的外部来源。 -->
 <reference id="dita-authoring-guide" xml:lang="zh-CN"
-         maturity="draft" volatility="stable" dimension="dim-criteria dim-process" outputclass="artifact">
+         maturity="curated" volatility="stable" dimension="dim-criteria dim-process" outputclass="artifact">
   <title>kb DITA 写作规则总纲</title>
   <shortdesc>AI 主笔 DITA 时照此决策。本篇是路由：写一篇的次序、哪类问题看哪篇正本、每条规则对应哪一项机器兜底。规则本身不在这里，只有别处无正本的 DITA 操作层条款留在这里。</shortdesc>
   <prolog>
