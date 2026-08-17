@@ -59,6 +59,22 @@ is_maturity_gate_noise() {
   grep -q 'maturity="draft"' "$src"
 }
 
+# 门是"排除 draft"，它判不了词表里"未标注即视为 draft"这条默认值——DITAVAL 只认
+# 写出来的属性值，缺 @maturity 的 topic 会从门下漏进交付物，而全库没有任何一条规则
+# 要求 @maturity 必须出现（R2 只管 volatility，R4 只在属性存在时校验取值）。
+# DITAVAL 只能 exclude、不能 require，补不了这一格，所以在这里正面断言一次：
+# 交付物 map 直接引的每一篇都必须是 curated 或 verified，缺属性同样不放行。
+for base in $mapped_topics; do
+  src=$(find topics -type f -name "$base" | head -1)
+  [ -n "$src" ] || { echo "交付物 map 引的 $base 在 topics/ 下找不到" >&2; exit 1; }
+  m=$(grep -o 'maturity="[a-z]*"' "$src" | head -1 | sed 's/.*="//; s/"$//')
+  case "$m" in
+    curated|verified) ;;
+    "") echo "交付物主体 $src 没标 @maturity——按词表默认值它是 draft，不够格进交付物" >&2; exit 1 ;;
+    *)  echo "交付物主体 $src 是 $m，不够格进交付物（门：curated 及以上）" >&2; exit 1 ;;
+  esac
+done
+
 # 工具列表从 filters/ 派生，不硬编码：新增一个 DITAVAL 就自动出一个变体。
 # 与词表 tool 值集的差额由 `dita-tools ia --details` 的「受控值使用情况」盯着
 # （定义了却无 DITAVAL 的工具会显示为"未用"）——两处不必互相硬编码。

@@ -92,6 +92,7 @@ R11 的归属之所以两份规划都伸手认领，根子在这条线一直没�
 | IA 治理骨架 | `dita-tools ia` | ✅ 已在 |
 | 链接活性 | `link-check.py` | `dita-tools links` |
 | 交付物构建编排 | `build-agent-rules.sh` | `dita-tools build`（包 DITA-OT） |
+| 交付物成熟度门（排除 draft） | 声明在 `kb/filters/*.ditaval`（DITA-OT 执行）；守卫在 `build-agent-rules.sh`——被引主体必须 curated 以上，且区分"草稿被滤掉"与"主体被滤掉" | 声明留 DITAVAL（属 kb 的纯声明性内容）；守卫随构建编排进 `dita-tools build` |
 | 预览 / 页面渲染 | `preview.sh`（批处理） | `dita-tools preview`——本就在其立项理由里 |
 
 **吸收纪律**：能力成熟一个、退役一个脚本，每项能力只迁移一次。一项能力算"吸收完成"须过五关：

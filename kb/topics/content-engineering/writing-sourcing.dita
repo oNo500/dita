@@ -4,6 +4,11 @@
 <!-- 2026-08-16（终审修复轮）来源节做法补「两段须穷尽正文全部断言」及其反向条款。
      该条原本只写在迁移工作区的 authoring-standards.md「母版通则」里，kb 侧全库检索为零；
      该文件随工作区删除，规则即无版本化正本。按 rot-detection 的「留证与产物同寿」落此。 -->
+<!-- 2026-08-17：「交付物按 maturity 过滤」一句此前无实现——filters/*.ditaval 只过滤
+     tool，maturity 全库零命中，122 篇全 draft 而交付物照单全收。本次补上实现
+     （两个变体各加一条 exclude draft），并把本篇的表述从「按 maturity 过滤」改成
+     写明档位，使正本与实现一字对得上。档位取 draft 排除而非设计稿提过的 verified：
+     全库零篇 verified，按 verified 过滤等于交付物永远为空。 -->
 <concept id="writing-sourcing" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="stable"
@@ -26,7 +31,9 @@
       <p>来源节固定两段，正本在此：末尾一节，标题就叫「来源」，两段的标签描述内容的性质而非作者的动作——事实段转述自权威源，逐条附外链；判断段是可被反驳的经验归纳。两段可以为空但不省略标签：判断为空说明这篇全是转述，事实为空说明它还没有外部支撑。区分的作用在读者侧：明确哪些可作为事实引用、哪些仅为作者判断。R14 校验这两个标签的存在。</p>
       <p><b>两段合起来必须穷尽正文的全部断言</b>：正文里每一条断言，要么在事实段找得到它的外部出处，要么在判断段被认领为本库判断，不允许有第三种——既不附出处、也不声明是判断的句子，读者无法定位它的可信度，而它通常正是无意识写下的推测。写完一篇的检验动作是回读正文，逐条断言问"它在来源节的哪一段里"；新增或改写正文后同样要回读，因为漏的多半是最后补上去的那几句。凡不在源材料已核对清单内的机制陈述，一律写进判断段，或在正文就近加篇级 caveat。反向也不放宽：事实段只认领正文确实出现的断言，不为显得有据而多列正文没写的外部内容。</p>
       <p>核对日期唯一存放于 prolog 的 <codeph>reviewed</codeph> 字段，正文不写。该字段与 git 记录的是两个事件：git 记文件何时被改，reviewed 记来源何时被核；修正错别字使 git 更新而无核对发生，重新核对而无改动则 git 无痕迹。正文也不写"核对日期见 prolog"一类指引：元数据的呈现归渲染层。除此之外，系统能得出的信息（修订时间、版本、作者）一律交给 git 与构建管道，不手填。</p>
-      <p>上述标注管的是单条事实，分类树本身过时它管不到，因此防腐分内容与结构两层。内容层即本节前述机制：volatility 标出哪些内容会随生态变动，verified 强制附核对日期，交付物按 maturity 过滤，过期内容自动失去进入交付物的资格。结构层落在词表内的 benchmark-registry：各顶层分支登记对标锚点、上次对标日期、复核档位与事件触发条件，把一次性的分类对标固化为可复现的纪律。</p>
+      <p>上述标注管的是单条事实，分类树本身过时它管不到，因此防腐分内容与结构两层。内容层即本节前述机制：volatility 标出哪些内容会随生态变动，verified 强制附核对日期，交付物按 maturity 过滤——门开在 draft 与 curated 之间，draft 不进交付物，curated 及以上放行。未审内容因此自动失去进入交付物的资格，不靠人记得它没审过。结构层落在词表内的 benchmark-registry：各顶层分支登记对标锚点、上次对标日期、复核档位与事件触发条件，把一次性的分类对标固化为可复现的纪律。</p>
+      <p>门开在 draft 而不是 verified，是因为门要装在够得着的地方：全库尚无一篇 verified，按 verified 过滤等于交付物永远为空，而永远为空的门等于没有门。档位随库的成熟度上移——有足够多的篇目完成逐条核对之后，再把门抬到 verified。</p>
+      <p>实现是每个交付物变体的 <term keyref="term-ditaval">DITAVAL</term> 里一条 <codeph>exclude</codeph>，条件属性写 <xmlatt>maturity</xmlatt> 本身而非 <xmlatt>props</xmlatt>：maturity 专门化自 props，各外壳的 <xmlatt>specializations</xmlatt> 默认值声明了这层派生关系。门一旦装上，交付物 map 直接引用的篇目就必须是 curated 以上，主体留在 draft 会让产物空掉；因此构建脚本对「被引主体遭过滤」报失败，不与「草稿被滤掉」的正常情形混为一谈。</p>
       <p>结构层以事件触发为主，日历到期只兜底：某分支连续多篇内容无处安放，或外部锚点体系大改版，即触发重新对标；到期仅由工具 flag 提示，不阻塞写作与构建，且默认先做轻量确认，发现锚点体系有大变才跑全量对标。</p>
     </section>
 
@@ -48,12 +55,13 @@
     <section>
       <title>边界</title>
       <p>本篇管标注与晋级条件，以及两层防腐各管什么。来源存在性由 R8 强制，链接活性由定期检查覆盖，来源内容的正确性归人审。结构层的对标锚点、复核档位与触发条件逐条登记在词表的 benchmark-registry，正本在那里，不在本篇。</p>
+      <p>成熟度门有一处判不到：条件过滤只认写出来的属性值，判不了「未标注即视为 draft」这条默认值，而全库也没有任何一条规则要求 <xmlatt>maturity</xmlatt> 必须出现（R2 只管 volatility，R4 只在属性存在时校验取值）。缺属性的 topic 因此会从门下漏过去。补这一格的不是门本身，过滤规则只能排除、不能要求；补它的是交付物构建脚本对被引主体的正面断言——每一篇都得是 curated 或 verified，缺属性同样不放行。</p>
     </section>
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：来源与日期为标准元数据字段，<xref href="https://www.dublincore.org/specifications/dublin-core/dcmi-terms/" scope="external">DCMI Metadata Terms</xref> 定义 <codeph>source</codeph> 为"派生出本资源的相关资源"、<codeph>date</codeph> 为"与资源生命周期事件关联的时间"；DITA 的对应机制为 <xref href="https://dita-lang.org/dita/langref/base/source" scope="external">prolog source 元素</xref>。</p>
-      <p><b>判断</b>：三档成熟度、两值时效、volatile 无日期不得 verified、来源两段分档，均为本库治理设计，无外部标准背书，效力来自机器强制（R2/R3/R8 与 lint 晋级门）。「两段须穷尽正文全部断言」同为本库规约，此前只存在于迁移工作区的执行档案里、无版本化正本，故在此认领；这条无机器面——R14 只校验两个标签在不在，穷尽性靠人审。内容层与结构层对称防腐、结构层以事件触发为主而到期只 flag 不阻塞，同属本库设计；结构层的登记项与复核纪律以词表内 benchmark-registry 的实际内容为准。</p>
+      <p><b>事实</b>：来源与日期为标准元数据字段，<xref href="https://www.dublincore.org/specifications/dublin-core/dcmi-terms/" scope="external">DCMI Metadata Terms</xref> 定义 <codeph>source</codeph> 为"派生出本资源的相关资源"、<codeph>date</codeph> 为"与资源生命周期事件关联的时间"；DITA 的对应机制为 <xref href="https://dita-lang.org/dita/langref/base/source" scope="external">prolog source 元素</xref>。成熟度门落在条件过滤上，<xref href="https://dita-lang.org/dita/langref/ditaval/prop" scope="external">DITAVAL 的 prop 元素</xref>规定 <xmlatt>action</xmlatt> 取 include/exclude/passthrough/flag，且匹配按写出来的 <xmlatt>att</xmlatt> 与 <xmlatt>val</xmlatt> 进行，没有「要求某属性必须出现」这一档，属性缺席也不构成匹配。</p>
+      <p><b>判断</b>：三档成熟度、两值时效、volatile 无日期不得 verified、来源两段分档，均为本库治理设计，无外部标准背书，效力来自机器强制（R2/R3/R8 与 lint 晋级门）。「两段须穷尽正文全部断言」同为本库规约，此前只存在于迁移工作区的执行档案里、无版本化正本，故在此认领；这条无机器面——R14 只校验两个标签在不在，穷尽性靠人审。内容层与结构层对称防腐、结构层以事件触发为主而到期只 flag 不阻塞，同属本库设计；结构层的登记项与复核纪律以词表内 benchmark-registry 的实际内容为准。成熟度门开在 draft 与 curated 之间、档位随库的成熟度上移、被引主体由构建脚本正面断言，三条均为 2026-08-17 落地时的本库决定；门开在此处的直接理由是全库当时零篇 verified，可核对（见各篇 <xmlatt>maturity</xmlatt> 标注）。</p>
     </section>
   </conbody>
 </concept>
