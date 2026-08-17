@@ -16,11 +16,16 @@
      dita 命令的 project 选项，中文侧保留这两个英文原名，不另拟名。
      volatility=volatile 的依据：字段与命令选项随 DITA-OT 版本变动。
      事实纪律：三种等价格式、三层结构与 idref 复用、参数覆盖继承、两条命令均已逐页核对；
-     何时改用 project file 的阈值判断属本库归纳，已在来源节判断段列明。 -->
+     何时改用 project file 的阈值判断属本库归纳，已在来源节判断段列明。
+     维度更正（2026-08-17，Task 14 终验）：原标 dim-config，但 dim-config 不在本域全景的
+     planned-dimension 内，ia 报「规划外的覆盖」。改标 dim-usage——全景「日常构建
+     （dim-usage）」一行的原文即「常用命令**与项目文件**、输出格式的选择、校验与
+     Schematron 怎么接进构建」，逐字点名本篇内容。dim-config 是工具配置类领域
+     （claude-code-settings）的维度，在 DITA 域里补它会与 dim-usage 重面。 -->
 <concept id="project-files" xml:lang="zh-CN"
          outputclass="how-to"
          maturity="draft" volatility="volatile"
-         dimension="dim-process dim-config">
+         dimension="dim-process dim-usage">
   <title>project file 与 dita --project</title>
   <shortdesc>变体矩阵是输入 map、过滤规则、输出类型三者的组合。写成构建脚本里的循环，组合关系就散在脚本里；声明成 project file 的一组 deliverable，组合关系可读、可复用、可单件构建，持续集成里只留一条命令。</shortdesc>
   <prolog>

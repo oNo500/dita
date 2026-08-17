@@ -21,11 +21,16 @@
      事实纪律：schema 的通用定义、可装配语法文件的说法、schema 管与不管的对照表、
      三层归属表、每个术语支撑哪条规则的对照、两个 shell 引入同一组模块即同一文档类型的推论、
      未配 catalog 的三种后果、processor 按 @class 匹配一行，均为归纳或实践观察，
-     已在来源节判断段逐条列明，不写成规范断言。 -->
+     已在来源节判断段逐条列明，不写成规范断言。
+     维度更正（2026-08-17，Task 14 终验）：原标 dim-governance，ia 报「规划外的覆盖」。
+     改标 dim-roles——全景「角色与权限（dim-roles）」一行的原文即「规范写给哪几种角色看、
+     各角色该读哪部分、**谁有权定义 schema 与文档类型外壳**」，正是本篇的正题。
+     dim-governance 在本库的实际用法是 kb 自身的治理（其余五处全在 writing-principles 域），
+     与「DITA 规范把定义权分给谁」不同义，故不补进本域全景。 -->
 <concept id="schema-authority" xml:lang="zh-CN"
          outputclass="deep-dive"
          maturity="draft" volatility="volatile"
-         dimension="dim-mechanism dim-governance">
+         dimension="dim-mechanism dim-roles">
   <title>DITA schema 的定义权</title>
   <shortdesc>DITA 的 <term keyref="term-schema">schema</term> 不是一个文件，而是 <term keyref="term-document-type-shell">document-type shell</term> 加它引入的一组模块，定义权因此分在两层：OASIS 出标准模块，组织的 DITA architect 出自有模块与 shell，而 shell 不得自行声明元素或属性类型。同一个 <xmlatt>class</xmlatt> 属性上，四类角色受四种不同的约束。</shortdesc>
   <prolog>

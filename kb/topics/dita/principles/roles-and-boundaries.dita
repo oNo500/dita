@@ -19,11 +19,17 @@
      volatility=volatile 的依据：processor 的定义仍是规范源码里未解决的编辑批注，
      角色词频次取自 v2.0-beta03 源码检索，两者都随版本变动。
      事实纪律：五种角色的划分与职责表、两类 architect 的侧重差异、
-     「看是否求值 DITA 特性」的判据、阅读边界表均为归纳，已在来源节判断段逐条列明。 -->
+     「看是否求值 DITA 特性」的判据、阅读边界表均为归纳，已在来源节判断段逐条列明。
+     维度更正（2026-08-17，Task 14 终验）：原标 dim-terminology，ia 报「规划外的覆盖」。
+     去掉，不替换。本篇头注释自己写着「角色名的逐条定义属上游 terminology 两节，本库不
+     重述」——标一个本篇明说不写的维度，是标引与内容自相矛盾。本篇第二个面向（processor
+     的边界、规范未定义之处）无对应的规划维度：dim-boundary-pitfalls 讲的是「已知会出错的
+     做法」这类反模式，dim-consistency 讲的是 generalization 与降级，都不是「规范留了空白」。
+     故单标 dim-roles。 -->
 <concept id="roles-and-boundaries" xml:lang="zh-CN"
          outputclass="deep-dive"
          maturity="draft" volatility="volatile"
-         dimension="dim-roles dim-terminology">
+         dimension="dim-roles">
   <title>DITA 的角色分工与 processor 边界</title>
   <shortdesc>规范明写自己只为 implementer 与开发 <term keyref="term-specialization">specialization</term>（专门化）的 XML 架构师而写，其余角色各有别的材料；而它最常当主语的 processor 至今没有定义条目，某个工具是否受规范约束因此只能按它是否求值 DITA 特性来判断。</shortdesc>
   <prolog>
