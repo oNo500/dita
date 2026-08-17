@@ -22,6 +22,43 @@ MAP=maps/deliverables/agent-rules.ditamap
 # 任何一条不再成立（比如换了不写链接文字的 xref），这条白名单就该撤掉。
 IGNORABLE="DOTX031E.*'dita-authoring-guide\.dita' resource is not available"
 
+# 成熟度门（2026-08-17 加，随 filters/*.ditaval 排除 draft）：过滤掉草稿必然带出两类
+# DITA-OT 错误码，它们是门在生效的证据，不是缺陷——但"是证据"不等于可以整类放行。
+#
+#   [DOTJ021E] No output generated for '<topic>' because all content has been
+#             filtered out by DITAVAL 'exclude' conditions
+#       ——某篇 draft 被整篇滤掉，于是没有 md 产出。正是本门的目的。
+#
+#   [DOTX031E] The '<topic>' resource is not available to resolve link information
+#       ——总纲 xref 出去的正本被滤掉，topicpull 取不到它的标题。
+#       库内这些 xref 都写了显式链接文字，链接文字不靠 topicpull 取，故不丢信息。
+#
+# 放行的边界靠"这篇是不是本来就该被滤掉"来划，不靠错误码：
+#   · 错误提到的 topic 是**交付物 map 直接引用**的 → 一律失败。交付物主体被滤掉
+#     属于配置事故（比如主体篇被降回 draft），必须炸，不许被当成"门在生效"。
+#   · 否则查该 topic 的 @maturity：是 draft 就放行（门按设计滤掉了它），
+#     不是 draft 则说明是别的毛病，失败。
+# 这样新出现的、与成熟度门无关的错误码仍然会炸，不会被这条口子盖住。
+mapped_topics=$(grep -o 'href="[^"]*\.dita"' "$MAP" | sed 's/.*\///; s/"$//' | sort -u)
+
+# 判断一行错误是否属于成熟度门的预期产物。约定：错误行里最后一个引号包起来的
+# .dita 路径就是出问题的 topic（DOTJ021E 两处同名，DOTX031E 只有一处）。
+is_maturity_gate_noise() {
+  local line="$1" ref base src
+  case "$line" in
+    *DOTJ021E*|*DOTX031E*) ;;
+    *) return 1 ;;
+  esac
+  ref=$(printf '%s' "$line" | grep -o "'[^']*\.dita'" | tail -1 | tr -d "'")
+  [ -n "$ref" ] || return 1
+  base=${ref##*/}
+  # 交付物主体不许被滤掉——命中即不是"噪声"，交给上面的失败通道
+  printf '%s\n' "$mapped_topics" | grep -qx "$base" && return 1
+  src=$(find topics -type f -name "$base" | head -1)
+  [ -n "$src" ] || return 1
+  grep -q 'maturity="draft"' "$src"
+}
+
 # 工具列表从 filters/ 派生，不硬编码：新增一个 DITAVAL 就自动出一个变体。
 # 与词表 tool 值集的差额由 `dita-tools ia --details` 的「受控值使用情况」盯着
 # （定义了却无 DITAVAL 的工具会显示为"未用"）——两处不必互相硬编码。
@@ -29,13 +66,18 @@ tools=$(ls filters/tool-*.ditaval | sed 's|filters/tool-||; s|\.ditaval$||')
 [ -n "$tools" ] || { echo "filters/ 下没有 tool-*.ditaval，无变体可建" >&2; exit 1; }
 
 log=$(mktemp)
-trap 'rm -f "$log"' EXIT
+errs=$(mktemp)
+unexpected=$(mktemp)
+trap 'rm -f "$log" "$errs" "$unexpected"' EXIT
 
 for tool in $tools; do
   # 先清干净：DITA-OT 的输出布局会随 topic 所在目录、以及 xref 是否拉入 map 外的 topic 而变。
   # 残留的旧产物会让下面的定位撞上过期文件——2026-08-15 就发生过：topic 换目录后合并产物
   # 移到了 out/<tool>/maps/deliverables/ 下，脚本仍 cp 老路径，连续多次"构建成功"发的都是陈旧内容。
-  rm -rf "out/$tool"
+  # out/<tool>.md 与 out/<tool>/ 一并清掉。只清目录不清文件是 2026-08-17 踩到的第三次
+  # 同类事故：构建在错误检查处失败退出，上一轮的 out/<tool>.md 原样留着，
+  # 拿它当"本次产物"比对得到的是"内容没变"的假绿。产物不许比构建活得久。
+  rm -rf "out/$tool" "out/$tool.md"
 
   # dita 对 DOTX/DOTJ 这类错误照样返回 0，所以退出码不足以判断构建是否干净：
   # 必须自己读它的输出。2026-08-17 之前这里是 `>/dev/null`，4 条 DOTX031E 被直接丢掉，
@@ -46,14 +88,29 @@ for tool in $tools; do
     exit 1
   fi
 
-  unexpected=$(grep -E '\[DOT[A-Z]+[0-9]+E\]' "$log" | grep -Ev "$IGNORABLE" || true)
-  if [ -n "$unexpected" ]; then
+  # 逐行分诊（不用进程替换：Justfile 与 review.sh 都以 `sh` 起本脚本，本机 /bin/sh 是 dash）
+  grep -E '\[DOT[A-Z]+[0-9]+E\]' "$log" > "$errs" || true
+  : > "$unexpected"
+  gate_noise=0
+  ignored=0
+  while IFS= read -r line; do
+    [ -n "$line" ] || continue
+    if printf '%s\n' "$line" | grep -Eq "$IGNORABLE"; then
+      ignored=$((ignored + 1))
+    elif is_maturity_gate_noise "$line"; then
+      gate_noise=$((gate_noise + 1))
+    else
+      printf '%s\n' "$line" >> "$unexpected"
+    fi
+  done < "$errs"
+
+  if [ -s "$unexpected" ]; then
     echo "dita 报了错误码却返回 0（$tool）——不在白名单内，按失败处理：" >&2
-    echo "$unexpected" >&2
+    cat "$unexpected" >&2
     exit 1
   fi
-  ignored=$(grep -Ec "$IGNORABLE" "$log" || true)
   [ "$ignored" -eq 0 ] || echo "  （$tool：$ignored 条已知可忽略的 DOTX031E，理由见脚本顶部白名单注释）"
+  [ "$gate_noise" -eq 0 ] || echo "  （$tool：$gate_noise 条 draft 被成熟度门滤掉带出的错误码，理由见脚本顶部说明）"
 
   # 不硬编码产物路径：找出本次生成的合并文件，找不到就失败，绝不 cp 一个不知来历的文件
   built=$(find "out/$tool" -type f -name 'agent-rules.md' | head -1)

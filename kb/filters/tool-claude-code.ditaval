@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Claude Code 变体：排除其他工具特有段，保留通用 + claude-code 段。 -->
+<!-- Claude Code 变体：排除其他工具特有段，保留通用 + claude-code 段；
+     并按成熟度门排除 draft（说明见下方 maturity 那条）。 -->
 <val>
   <prop att="tool" val="tool-codex" action="exclude"/>
   <prop att="tool" val="tool-antigravity" action="exclude"/>
+
+  <!-- 成熟度门（2026-08-17 加）：未审草稿不得进交付物。
+       正本 topics/content-engineering/writing-sourcing.dita「内容层」一段。
+       @att 写属性名本身而非 props——maturity 是 @props 的专门化属性
+       （schema/maturityAttDomain.rng，各 shell 的 @specializations 默认值声明
+       @props/maturity），DITA-OT 按该声明认这个名字。
+       档位是 draft 排除、curated 及以上放行，不是「只放 verified」：
+       全库零篇 verified，按 verified 过滤等于交付物永远为空。
+       局限：DITAVAL 判不了「属性缺席即 draft」这条词表默认值——缺 maturity
+       的 topic 会漏过本条。当前全库 122 篇均显式标注，靠 R4/R2 与人审维持。 -->
+  <prop att="maturity" val="draft" action="exclude"/>
 </val>
