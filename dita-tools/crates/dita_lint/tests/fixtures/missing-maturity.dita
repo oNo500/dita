@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<concept id="no-maturity" outputclass="best-practice" volatility="stable">
+  <title>缺成熟度样例</title>
+  <shortdesc>用于验证 R18：漏标 @maturity 应报错并定位到本文件。</shortdesc>
+  <conbody>
+    <section><title>场景</title><p>说明。</p></section>
+    <section><title>做法：一条</title><p>说明。</p></section>
+    <section><title>边界</title><p>说明。</p></section>
+    <section><title>来源</title>
+      <p><b>事实</b>：无。</p>
+      <p><b>判断</b>：全篇为判断。</p>
+    </section>
+  </conbody>
+</concept>

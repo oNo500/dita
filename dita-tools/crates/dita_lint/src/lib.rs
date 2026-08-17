@@ -1,4 +1,5 @@
-//! Per-topic content rules R12–R15: genre, structure, source section, register.
+//! Per-topic content rules R12–R16 and R18: genre, structure, source section,
+//! register, split threshold, maturity presence.
 //!
 //! Spec lives in `kb/schema/rules.sch`; genre values and their metadata live in
 //! the subject scheme — nothing here carries a value list of its own.
@@ -6,6 +7,13 @@
 //! Severity follows maturity: a draft gets warnings, curated and verified get
 //! errors. That makes this lint the promotion gate — a draft is free to be
 //! unfinished, and claiming curated means passing.
+//!
+//! R18 is the exception: it always reports as an error, regardless of the
+//! topic's maturity. Grading it by maturity would be circular — the grading
+//! itself reads `@maturity`, and the violation R18 catches is that attribute's
+//! absence. It also runs on `glossentry`, which every other check here skips
+//! (their genre/structure/register model doesn't apply to a glossentry's fixed
+//! shape) — R18's context matches R2's in `rules.sch`, not `CONTENT_ROOTS`.
 
 use std::{fs, path::Path};
 
@@ -14,6 +22,16 @@ use dita_diagnostics::{Diagnostic, DiagnosticBag};
 use dita_vocab::Vocabulary;
 
 const CONTENT_ROOTS: [&str; 4] = ["concept", "task", "reference", "troubleshooting"];
+/// R18's context: same as R2's in `rules.sch` — every content topic type plus
+/// `glossentry`, which `CONTENT_ROOTS` deliberately excludes (its genre and
+/// structure checks don't apply there).
+const MATURITY_REQUIRED_ROOTS: [&str; 5] = [
+    "concept",
+    "task",
+    "reference",
+    "troubleshooting",
+    "glossentry",
+];
 /// Genre is what carries a fixed structure; these types have no plain form.
 const GENRE_REQUIRED_ROOTS: [&str; 2] = ["concept", "task"];
 const DEGREE_WORDS: [&str; 5] = ["特别", "极其", "恰恰", "真正的", "最危险"];
@@ -38,7 +56,7 @@ const IMPL_MARKUP: [&str; 10] = [
 ];
 const SPLIT_THRESHOLD: usize = 8;
 
-/// Lint one topic file against R12–R15.
+/// Lint one topic file against R12–R16 and R18.
 ///
 /// # Errors
 ///
@@ -55,8 +73,11 @@ pub fn lint_topic(path: &Path, vocab: &Vocabulary) -> anyhow::Result<DiagnosticB
         .with_context(|| format!("XML parse error in: {}", path.display()))?;
     let root = doc.root_element();
     let root_name = root.tag_name().name();
+
+    check_maturity_required(root, root_name, path, &mut diag);
+
     if !CONTENT_ROOTS.contains(&root_name) {
-        return Ok(diag); // glossentry and unknown roots are out of scope
+        return Ok(diag); // glossentry (R18 already checked above) and unknown roots are out of scope
     }
 
     // drafts warn, curated/verified error — the promotion gate
@@ -76,6 +97,30 @@ pub fn lint_topic(path: &Path, vocab: &Vocabulary) -> anyhow::Result<DiagnosticB
     check_split_threshold(root, root_name, &mut push);
 
     Ok(diag)
+}
+
+/// R18: an unmet default. The filter that keeps drafts out of deliverables
+/// (`kb/filters/*.ditaval`) is a condition on the literal value of `@maturity`
+/// — a topic that never wrote the attribute doesn't match `val="draft"`, so it
+/// doesn't match the exclude either, and slips through unreviewed. The
+/// vocabulary's "unset counts as draft" is a semantic default for validation
+/// and prose, not something DITAVAL can see. This closes that gap by making
+/// the attribute mandatory rather than defaulted — always an error, since the
+/// thing missing is the one the draft/curated grading itself reads.
+fn check_maturity_required(
+    root: roxmltree::Node,
+    root_name: &str,
+    path: &Path,
+    diag: &mut DiagnosticBag,
+) {
+    if MATURITY_REQUIRED_ROOTS.contains(&root_name) && root.attribute("maturity").is_none() {
+        diag.push(Diagnostic::error(
+            path,
+            format!(
+                "R18：{root_name} 必须显式标 @maturity（未标注不匹配交付物过滤的 exclude 条件，会从成熟度门下漏过去，与 R2 对称）"
+            ),
+        ));
+    }
 }
 
 /// Title proxies for rule seven: a title is a name, not a claim. Full

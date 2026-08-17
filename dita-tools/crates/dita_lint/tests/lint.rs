@@ -80,3 +80,68 @@ fn claim_shaped_titles_are_flagged() {
     let d = lint("claim-title.dita");
     assert!(d.items.iter().any(|i| i.message().contains("论断句式")));
 }
+
+#[test]
+fn missing_maturity_is_flagged_as_error() {
+    // R18: an unmet @maturity slips past the DITAVAL exclude entirely (it
+    // only matches val="draft"), so this must always be an error, not graded
+    // by the (absent) maturity like R12-R16 are.
+    let d = lint("missing-maturity.dita");
+    assert_eq!(
+        d.error_count(),
+        1,
+        "{:?}",
+        d.items
+            .iter()
+            .map(dita_diagnostics::Diagnostic::message)
+            .collect::<Vec<_>>()
+    );
+    assert!(
+        d.items
+            .iter()
+            .any(|i| i.is_error() && i.message().contains("R18"))
+    );
+}
+
+#[test]
+fn present_maturity_passes_r18() {
+    // clean.dita carries maturity="curated" already; R18 must stay silent.
+    let d = lint("clean.dita");
+    assert!(d.items.iter().all(|i| !i.message().contains("R18")));
+}
+
+#[test]
+fn glossentry_missing_maturity_is_flagged() {
+    // R18's context matches R2's in rules.sch, not CONTENT_ROOTS: glossentry
+    // is out of scope for R12-R16 (genre/structure/register) but must still
+    // be checked here, since it wasn't covered by any lint gate before.
+    let d = lint("glossentry-missing-maturity.dita");
+    assert_eq!(
+        d.error_count(),
+        1,
+        "{:?}",
+        d.items
+            .iter()
+            .map(dita_diagnostics::Diagnostic::message)
+            .collect::<Vec<_>>()
+    );
+    assert!(
+        d.items
+            .iter()
+            .any(|i| i.is_error() && i.message().contains("R18"))
+    );
+}
+
+#[test]
+fn glossentry_with_maturity_passes() {
+    let d = lint("glossentry-clean.dita");
+    assert_eq!(
+        d.items.len(),
+        0,
+        "{:?}",
+        d.items
+            .iter()
+            .map(dita_diagnostics::Diagnostic::message)
+            .collect::<Vec<_>>()
+    );
+}

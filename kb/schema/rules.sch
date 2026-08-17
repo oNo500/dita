@@ -11,7 +11,7 @@
      机器面。规则的人读正本在 topics/content-engineering/，本文件只管机器执行——
      两处内容不重复，改规则先改正本，再看这条 R 是否要跟着调。 -->
 <schema xmlns="http://purl.oclc.org/dsdl/schematron">
-  <title>KB 业务规则 R1-R17</title>
+  <title>KB 业务规则 R1-R18</title>
 
   <!-- 归属：LLM 友好与检索 / writing-llm-friendly -->
   <pattern id="R1-shortdesc">
@@ -157,6 +157,21 @@
         绑不了 data 元素，值域没有别处能管），已实际碎化出一篇一域的孤儿值。未注册的值报
         error，并提示在 subjectScheme 注册该键或改用已注册值；顺带反向报表：已注册但零
         topic 挂靠的 subject key（树的空叶子），归入 ia「需要处理」段。由 dita-tools ia 执行。</assert>
+    </rule>
+  </pattern>
+
+  <!-- 归属：来源与成熟度 / writing-sourcing -->
+  <pattern id="R18-maturity-required">
+    <rule context="concept | reference | task | troubleshooting | glossentry">
+      <assert test="@maturity"
+        >R18（error，与 R2 对称，不按 maturity 分级）：内容 topic（含 glossentry）必须显式标
+        @maturity。交付物成熟度门只是条件过滤（DITAVAL 排除 @maturity="draft"），没有「属性必须
+        出现」这一档——不标 @maturity 的 topic 不匹配排除规则，未审内容会直接进交付物。词表里
+        「未标注即视为 draft」只是校验与语义上的默认值，DITAVAL 看不到、不会当成排除条件。本条
+        补的正是这一格：漏标本身即错误，不论该 topic 其余各项是否合规，因此不随 draft/curated
+        分级——被检查的正是分级所依赖的那个属性缺席。由 dita-tools lint 执行（覆盖面含
+        glossentry，与本条 Schematron 规格的 context 一致；R12–R16 的题材/结构/文体检查不含
+        glossentry，两者覆盖面不同、互不影响）。</assert>
     </rule>
   </pattern>
 

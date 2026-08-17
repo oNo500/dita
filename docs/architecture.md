@@ -46,6 +46,7 @@ dita-tools/  执行引擎     产出：校验结果、IA 视图
 | R15 | 文风代理指标（粗体/破折号/程度词，恒 warning） | `dita-tools lint` | 同上 ✅；格言句与场景化开头仍归人审 |
 | R16 | concept 实现层行内标记数量阈值，超阈值拆 concept（判据）＋ reference（配置） | `dita-tools lint`（2026-08-16） | 同上 ✅ |
 | R17 | `domain` 值必须是 subjectScheme 已注册的 subject key（唯一未受控的元数据字段；enumerationdef 绑不了 data 元素，值域只能落这里） | `dita-tools ia` 已报 error，另有反向报表（已注册零挂靠的空叶子，--details 按分支归并展示） | `dita-tools ia` ✅ |
+| R18 | 内容 topic（含 glossentry）必须显式标 `@maturity`——DITAVAL 的 exclude 只匹配写出来的属性值，未标注不匹配、会绕开成熟度门；与 R2 对称，恒 error（不按 maturity 分级，因为被检查的正是分级依据的属性本身） | `dita-tools lint`（2026-08-17） | `dita-tools lint` ✅ |
 | 结构校验 | RNG shell 一致性 | `dita validate`（DITA-OT） | DITA-OT，不自造 |
 | map 结构 / 孤儿 topic | 引用文件是否存在、topic 是否被引 | `dita-tools ia` | dita-tools |
 | 链接活性 | 外链 404 检测 | `scripts/link-check.py`（2026-08-15） | `dita-tools links`（要联网，独立跑，暂不急迁） |

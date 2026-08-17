@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glossentry id="term-clean" xml:lang="zh-CN" maturity="curated" volatility="stable">
+  <glossterm>示例术语</glossterm>
+  <glossdef>用于验证 R18：标了 @maturity 的 glossentry 不应触发 R18。</glossdef>
+</glossentry>
