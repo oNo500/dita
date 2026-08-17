@@ -21,14 +21,16 @@
   <conbody>
     <section>
       <title>场景</title>
-      <p>一个机制名进库时被译成中文，此后在库内漂移：<term keyref="term-specialization">specialization</term> 先成了「<keyword>专门化</keyword>」，再漂出「<keyword>特化</keyword>」「<keyword>专用化</keyword>」「<keyword>特殊化</keyword>」三种写法，四种叫法同时在库里出现，检索时互不命中，读者也无从判断它们是不是同一件事。</p>
+      <p>一个机制名进库时被译成中文，此后在库内漂移：<term keyref="term-specialization">specialization</term> 先成了「<keyword>专门化</keyword>」，再漂出「<keyword>特化</keyword>」「<keyword>专用化</keyword>」「<keyword>特殊化</keyword>」三种写法，四种叫法同时在库里出现，检索时互不命中，读者也无从判断它们是不是同一件事。事后复核还发现，最先落地的「专门化」不只是无出处，它是错译：计算机领域的标准译法是「特化」，与 <term keyref="term-generalization">generalization</term> 的「泛化」成对；漂出来的三种写法里，反倒有一种是对的。</p>
       <p>审查未能拦截它。拦截的前提是人先认出这是个机制名，而「专门化」读起来是一个普通中文词，它不触发任何警觉，就此混过了全部审查。同一批事故里还有「扩展设施」「词汇模块」——都是无出处的自造译名，都因为词形普通而通行无阻。术语纪律因此不能建立在"看着像术语就受管"之上。</p>
+      <p>禁令本身也漏了一处。规则要求正文用英文原名、中文解释首现随行给一次，可它举的例子是「conref（内容引用）」——括号里放的是译名而不是解释。照此写下来，被禁的译名在括号里被逐个重新立了一遍：「specialization（专门化）」「vocabulary module（词汇模块）」「extension facilities（扩展设施）」。位置换了，性质没换。</p>
     </section>
 
     <section>
       <title>做法</title>
       <p><b>判据看所指，不看词形</b>：凡在规范或官方文档里有对应条目的概念，正文一律用英文原名；只有领域外的普通语义词才用中文。执行方法是去上游查有没有这个条目，不是掂量这个词像不像术语。</p>
-      <p>中文解释在该篇首现处随行给一次，形如 <term keyref="term-conref">conref</term>（内容引用），此后全篇只用英文名。首现之后再写中文即是第二份叫法，与英文名争夺检索命中。</p>
+      <p>括号里给解释，不给译名。中文解释在该篇首现处随行给一次，一句话说清它是什么，形如 <term keyref="term-conref">conref</term>（引用另一处已有内容），此后全篇只用英文名。写成「conref（内容引用）」这样的对译，等于把被禁的中文叫法挪进括号里重立一遍——读者照样拿它当名字用、拿它去检索，与写在正文里没有区别。解释以十余字为宜，说清"它是什么"即止；长到需要展开的，位置在正文或术语库，不在括号里。</p>
+      <p>判某个译名不合格之前，先查该领域有没有标准译法。「不该用译名」与「这个译名是错的」是两件事：前者按上游有无条目判，后者要看领域惯例。缺这一步会把正确译名与错译一起清掉——本库先前的清理就把「特化」当成"从专门化漂出的变体"一并改了，而它恰是 specialization 在计算机领域的标准译法，与 generalization 的「泛化」成对（本库把 generalization 译对、specialization 译错，这份不一致本身就是证据）。查到的标准译法进术语库条目的 <xmlelement>glossSynonym</xmlelement> 作检索别名，正文仍用英文原名、括号仍给解释。</p>
       <p>术语库条目按双语形制建：<xmlelement>glossterm</xmlelement> 放英文原名，中文释义进 <xmlelement>glossdef</xmlelement>，中文与英文的别名各进一条 <xmlelement>glossSynonym</xmlelement>。形制以 <filepath>topics/glossary/term-mcp.dita</filepath> 为样张。别名逐条登记的作用在机器面：<cmdname>term-normalize.py</cmdname> 靠这张别名表扫出正文里未挂引用的字面出现。</p>
       <p>建条目的门槛是<b>第二篇测试</b>：一个词在第二篇内容里被用到时才建 <xmlelement>glossentry</xmlelement> 并挂 <filepath>maps/glossary.ditamap</filepath>。只出现过一次的词由该篇自己解释，进术语库只会得到一条无人引用的孤条目。</p>
       <p>确无对应条目而必须自造时，先过三道关：</p>
@@ -50,7 +52,9 @@
     <section>
       <title>反例</title>
       <ul>
-        <li>无出处的中文译名作正文首选词：「<keyword>专门化</keyword>」「<keyword>泛化</keyword>」「<keyword>约束模块</keyword>」「<keyword>扩展设施</keyword>」「<keyword>词汇模块</keyword>」。对应上游条目为 specialization、<term keyref="term-generalization">generalization</term>、<term keyref="term-constraint">constraint</term>、extension facilities、vocabulary module。</li>
+        <li>无出处的中文译名作正文首选词：「<keyword>专门化</keyword>」「<keyword>约束模块</keyword>」「<keyword>扩展设施</keyword>」「<keyword>词汇模块</keyword>」。对应上游条目为 specialization、<term keyref="term-constraint">constraint</term>、extension facilities、vocabulary module。其中「专门化」兼是错译，见做法一节的标准译法一步。</li>
+        <li>括号里放译名而不是解释：「conref（内容引用）」「specialization（专门化）」「key space（键空间）」。首选词已改成英文原名，中文叫法却只是挪进了括号，仍会被当作名字使用与检索。括号该写「引用另一处已有内容」「从基类派生出更具体的类型」「键定义生效的范围」这类解释。</li>
+        <li>判定某个译名不合格后不查领域标准译法，把公认译名与错译一并清掉。清「专门化」时顺手改掉「特化」即属此类：前者是错译，后者是标准译法，处置应当相反。</li>
         <li>自造普通词冒充术语：把可复用片段的存放目录称作「内容仓库」，把语法或格式称作「取值形状」，把 fallback 称作「兜底内容」。前两个在上游查无此条，第三个上游有名字而被换掉。</li>
         <li>自造分类框架并以术语口吻呈现：「定义侧五种绑定」「引用侧五种写法」「先定义者胜」。这类标签在上游不存在，读者无从查证，且会随作者下一次归纳而变。</li>
         <li>一篇之内英文名与中文解释交替使用。首现随行一次之后仍反复写中文，等于在库内又立了一个叫法。</li>
@@ -66,7 +70,7 @@
     <section>
       <title>来源</title>
       <p><b>事实</b>：OASIS 规范用 <xref href="https://dita-lang.org/dita/archspec/base/basic-dita-terminology" scope="external">Basic DITA terminology</xref> 与 Other terminology 两节定义规范自身使用的词，规范文本只有英文版，<xref href="https://dita-lang.org/specifications" scope="external">规范总入口</xref>下无官方中文版。</p>
-      <p><b>判断</b>：以"上游有无对应条目"为判据、中文解释首现随行一次、第二篇测试、自造三道关，均为本库治理设计，无外部标准背书，可被反驳。场景一节所述的漂移与漏审过程取自本库 2026-08 的实际状态。</p>
+      <p><b>判断</b>：以"上游有无对应条目"为判据、中文解释首现随行一次、括号内只给解释不给译名、判译名不合格前先查领域标准译法、第二篇测试、自造三道关，均为本库治理设计，无外部标准背书，可被反驳。场景一节所述的漂移与漏审过程取自本库 2026-08 的实际状态；「括号里重立译名」一节取自 2026-08-17 的全库复核（<codeph>specialization（专门化）</codeph> 等对译共三十余处）。「特化」为 specialization 在计算机领域的标准译法、与「泛化」成对，属领域惯例观察（C++ 模板特化、UML 泛化/特化 等通行用法），OASIS 无官方中文版可援引，同样可被反驳。</p>
     </section>
   </conbody>
 </concept>
