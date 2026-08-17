@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 新建（2026-08-16，Task 13b 规则归并）：命名与归属此前无正本——标题条款寄居在
+     writing-style 规则七，归属字段的规则只有 rules.sch R17 的机器面，人读面缺位。
+     题材 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
+     本库自造：上游无对应节点。已查 OASIS DITA 2.0 archSpec 与 langRef 的节点标题
+     （最近的是 Basic DITA terminology，定义规范用词，不管内容库一侧的命名）、
+     DITA-OT 4.4 docsrc 全部节点标题（命名相关的只有 Sample project file 一类具体样例）、
+     社区通行说法，均无对应节点。标题由本库既有词素「命名」与「归属」组合，
+     不造新概念名、不造新分类框架。 -->
+<concept id="naming-rules" xml:lang="zh-CN"
+         outputclass="best-practice"
+         maturity="draft" volatility="stable"
+         dimension="dim-classification dim-governance">
+  <title>kb 命名与归属</title>
+  <shortdesc>标题就是这个节点在领域知识树上的标准叫法：领域里有的直接用，领域里没有的先怀疑切分，确要自造须过三道关并在文件头注释留下查证记录。归属字段（domain、dimension）与文件名、id 同属命名问题，值域由词表与 R17 管住。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/dita/archspec/base/basic-dita-terminology" scope="external"/>
+    <data name="domain" value="writing-principles"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>场景</title>
+      <p>标题的旧规则是五条堆叠：名词短语、含定位词、类目词对齐上游、必含英文机制名、不用冒号。五条全是内容要求，没有一条管形状，叠加之后作者只能用冒号把它们串起来交差——2026-08 的实测是二十二篇里十四篇带冒号副标题，其中多数副标题重复正文首句。</p>
+      <p>归属一侧的问题相反，是无人管：<xmlelement>data</xmlelement> <xmlatt>name</xmlatt>="domain" 是全库唯一未受控的元数据字段，词表的枚举定义绑不到 <xmlelement>data</xmlelement> 元素上，于是碎化出一篇一域的孤儿值，分类树上看不出内容落在哪里。命名与归属是同一件事的两面：前者管人读的名字，后者管机器读的名字。</p>
+    </section>
+
+    <section>
+      <title>做法</title>
+      <p><b>标题就是这个节点在领域知识树上的标准叫法。</b>领域里已有标准叫法的直接用：上游规范与官方工具文档怎么称呼这个节点就叫什么，译成中文时保留其中的英文机制名。不拼装——不堆定位词、不加冒号副标题、不用动词短语、不为"可检索"硬塞机制名；是否保留领域名前缀，以上游是否那样称呼为准。</p>
+      <p>自造是例外，且须严谨——自造词是本库既往一切用词事故的来处。三道关与<xref href="terminology-rules.dita">kb 术语治理</xref>一致：穷尽查证、先怀疑切分、只组合不发明。第二关在标题上尤其要紧：领域里没有这个节点，通常说明这一篇的边界没有对齐领域知识树，重切比造名更可能是正解。</p>
+      <p>自造的标题在文件头注释里标注，写明"本库自造：上游无对应节点"、查过哪些上游与结论、标题由哪些既有词素组合而成。这条注释是复核的唯一入口：没有它，自造与疏忽在成品上分辨不出来。</p>
+      <p>题材后缀依惯例：cheatsheet 以「速查」结尾，tech-landscape 以「领域全景」结尾，其余不加装饰。标题全库唯一。</p>
+      <p><b>kb 前缀的裁定</b>：讲本库自身治理的篇（目录 <filepath>topics/content-engineering/</filepath>、domain 为 <codeph>writing-principles</codeph>）标题一律以「kb 」起头，讲外部领域的篇一律不带。理由在于前者是本库规约而非领域公认知识，前缀标出它的适用范围；后者的前缀取舍已由"以上游是否那样称呼为准"决定，无需另设。本簇按此一次改齐，不留新旧两套。</p>
+      <p>文件名与标识：文件名用 ASCII 短横线写法，<xmlatt>id</xmlatt> 取文件名去掉扩展名后的同一个值，全库唯一。文件名不必逐字对应标题，标题改动时文件名与 <xmlatt>id</xmlatt> 不跟着改——它们是引用方与外部链接依赖的契约，改一次要连带修完所有引用处，而其中一部分不在本库内。</p>
+      <p>归属字段各有值域与管住它的机制：</p>
+      <simpletable relcolwidth="1* 2* 1.4*">
+        <sthead><stentry>字段</stentry><stentry>写什么</stentry><stentry>值域由谁管</stentry></sthead>
+        <strow>
+          <stentry>domain</stentry>
+          <stentry>这篇内容讲的是哪个主题，取词表主题树里已注册的键，优先叶子键</stentry>
+          <stentry>R17（<cmdname>dita-tools ia</cmdname> 执行）</stentry>
+        </strow>
+        <strow>
+          <stentry>dimension</stentry>
+          <stentry>这篇覆盖主题的哪几个方面，可多值</stentry>
+          <stentry>词表枚举定义，构建期校验</stentry>
+        </strow>
+        <strow>
+          <stentry>目录</stentry>
+          <stentry>domain 所属的一级分支键，与词表同一棵树</stentry>
+          <stentry><cmdname>dita-tools ia</cmdname> 的归桶报表</stentry>
+        </strow>
+      </simpletable>
+      <p>R17 同时给反向报表：已注册但零内容挂靠的主题键会作为树的空叶子列出，进 IA 报告的待处理段。</p>
+    </section>
+
+    <section>
+      <title>理由</title>
+      <p>一条规则涵盖了原先的五条，是因为那五条要的其实是同一件事：让标题成为可对号入座的名字。领域里已有的叫法天然满足全部五条——它本就是名词短语、本就带定位、本就与上游类目一致。规则改成"用领域里的叫法"之后，形状不再需要单独规定，冒号串接也失去了成因。</p>
+      <p>自造之所以要过三道关，是因为自造标题同时切断了两条线索：读者查不到它的出处，机器也无法把这一篇对到上游的任何节点上。上游改名时，有出处的标题会被索引报为失联，自造的标题则始终静默。</p>
+      <p>归属字段与标题放在同一篇，是因为它们的失效模式相同：都是"名字没有对齐那棵树"。标题错了人找不到，domain 错了机器归不了桶，两者都要靠外部的树来判定对错，而不是靠作者当场的合理性。</p>
+    </section>
+
+    <section>
+      <title>反例</title>
+      <ul>
+        <li>冒号串接：<keyword>《文体与结构：一篇长什么样，不由作者当场决定》</keyword>。冒号前是名字，冒号后是论断；论断的位置在正文首句。</li>
+        <li>把定位词堆进标题：<keyword>《DITA 单一真相源公理下的 topic、map 与 @class 推导》</keyword>。三个机制名同时入题是为了满足"必含英文机制名"，读者反而看不出这一篇的节点是什么。</li>
+        <li>自造概念名而不留查证记录：以「成本阶梯」称呼一组按代价排序的手段。「阶梯」不是领域词，标题读起来像一个已被公认的框架，实际上无出处。</li>
+        <li>切分把上游确有的节点埋进别的篇里。上游有独立节点而本库只在某节里带过，该内容按领域名检索不到。这是第二关要拦的情形。</li>
+        <li>domain 填一个词表里没有的新键。内容随即落入未归桶，在分类树与覆盖度报表上都不存在。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>边界</title>
+      <p>本篇管名字与归属字段。正文里用哪个词见 <xref href="terminology-rules.dita">kb 术语治理</xref>；一篇的形状与语体见 <xref href="writing-style.dita">kb 文体与语体</xref>；主题树与维度值集本身怎么建、怎么对标，正本在词表与 <xref href="domain-dimension-method.dita">kb 领域维度框架与 80/20 取舍</xref>。</p>
+      <p>标题与上游节点的对应目前只靠文件头注释与人审。声明式溯源（每篇在 prolog 声明自己对应的上游节点，索引核实其存在性，自造篇声明为自造）已定案并记档为 R18，实现在建；机制的定位与它查不出的那一类错误见 <xref href="rot-detection.dita">kb 腐烂检测机制</xref>。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：本篇无转自权威源的规则。OASIS 规范以 <xref href="https://dita-lang.org/dita/archspec/base/basic-dita-terminology" scope="external">Basic DITA terminology</xref> 定义规范自身的用词，不涉及内容库一侧的标题与归属命名。</p>
+      <p><b>判断</b>：以"领域知识树上的标准叫法"为标题规则、自造三道关与头注释留证、kb 前缀按治理篇与领域篇二分、文件名与 <xmlatt>id</xmlatt> 发布后不改、归属字段的三行分工，均为本库设计，无外部标准背书，可被反驳。冒号副标题的比例与孤儿 domain 值的现象取自本库 2026-08 的实测。R18 的形制以设计稿为准，本篇只述其定位。</p>
+    </section>
+  </conbody>
+</concept>
