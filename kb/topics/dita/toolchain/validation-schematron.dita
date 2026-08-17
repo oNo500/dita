@@ -85,12 +85,12 @@
     &lt;/rule&gt;
   &lt;/pattern&gt;
 &lt;/schema&gt;</codeblock>
-      <p>两条规则的上下文都按 <xmlatt>class</xmlatt> 匹配而非按元素名。这样写的收益是规则自动覆盖 specialization 出的元素，代价是规则只能作用于拿得到 <xmlatt>class</xmlatt> 的文档。该属性由语法文件声明为默认值，创作时通常不写进源文件，因此要么让解析器经 DTD 校验补齐它，要么改为作用于 <term keyref="term-preprocess">preprocess</term>（构建前把引用与键解析开的一串阶段）之后的中间产物。</p>
-      <p>运行位置有三处。编辑器内由 Oxygen 原生支持，可关联到框架配置边写边报。持续集成里把它编译成 XSLT 执行，SchXslt 与 ph-schematron 一类实现即为此用。DITA-OT 自身没有内置支持，需要的话自写 <term keyref="term-plugin">plugin</term>（可安装的功能扩展包）在 preprocess 之后追加一步。</p>
+      <p>两条规则的上下文都按 <xmlatt>class</xmlatt> 匹配而非按元素名。这样写的收益是规则自动覆盖 specialization 出的元素，代价是规则只能作用于拿得到 <xmlatt>class</xmlatt> 的文档。该属性由语法文件声明为默认值，创作时通常不写进源文件，因此要么让解析器经 DTD 校验补齐它，要么改为作用于 <term keyref="term-preprocess">preprocess</term>（预处理）之后的中间产物。</p>
+      <p>运行位置有三处。编辑器内由 Oxygen 原生支持，可关联到框架配置边写边报。持续集成里把它编译成 XSLT 执行，SchXslt 与 ph-schematron 一类实现即为此用。DITA-OT 自身没有内置支持，需要的话自写 <term keyref="term-plugin">plugin</term>（插件）在 preprocess 之后追加一步。</p>
     </section>
 
     <section>
-      <title>与 <term keyref="term-constraint">constraint</term>（收紧已有元素的内容模型）模块的分工</title>
+      <title>与 <term keyref="term-constraint">constraint</term>（约束）模块的分工</title>
       <p>能用 constraint 模块表达的规则优先用 constraint：禁用某个元素、把某个可选子元素改为必填，这类结构性收紧写进语法文件后，编辑器在输入时即报错，反馈比事后校验早一整轮。跨元素的、带条件的规则留给 Schematron。</p>
       <p>两者的边界随规则形态定，不随规则重要程度定。一条规则表达得了就归约束，表达不了才归 Schematron。</p>
     </section>

@@ -51,7 +51,7 @@
         <sthead><stentry>角色</stentry><stentry>职责</stentry><stentry>产出物</stentry></sthead>
         <strow><stentry>author（作者）</stentry><stentry>写内容</stentry><stentry>topic、map</stentry></strow>
         <strow><stentry>information architect（信息架构师）</stentry><stentry>设计信息架构</stentry><stentry>root map、<term keyref="term-subject-scheme">subject scheme</term> 受控值、新文档类型的规划</stentry></strow>
-        <strow><stentry>DITA architect（DITA 架构师）</stentry><stentry>定义词汇与文档类型</stentry><stentry>vocabulary module（定义一组元素或属性的语法文件）、<term keyref="term-constraint">constraint</term>（收紧已有元素的内容模型）模块、扩展模块、<term keyref="term-document-type-shell">document-type shell</term></stentry></strow>
+        <strow><stentry>DITA architect（DITA 架构师）</stentry><stentry>定义词汇与文档类型</stentry><stentry>vocabulary module（定义一组元素或属性的语法文件）、<term keyref="term-constraint">constraint</term>（约束）模块、expansion module、<term keyref="term-document-type-shell">document-type shell</term></stentry></strow>
         <strow><stentry>implementer（实现者）</stentry><stentry>开发工具</stentry><stentry>处理器、编辑器、CCMS、插件</stentry></strow>
         <strow><stentry>processor（处理器）</stentry><stentry>处理 DITA 的软件本身</stentry><stentry>输出、校验结果</stentry></strow>
       </simpletable>

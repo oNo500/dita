@@ -36,7 +36,7 @@
   &lt;feature extension="dita.conductor.transtype.check" value="searchindex"/&gt;
   &lt;feature extension="dita.conductor.target.relative" file="build.xml"/&gt;
 &lt;/plugin&gt;</codeblock>
-      <p>构建文件里给出承担该格式的 target。命名有一条约定：transtype 名为 X 时，target 必须叫 <codeph>dita2X</codeph>。target 的依赖链先执行初始化与 <term keyref="term-preprocess">preprocess</term>（构建前把引用与键解析开的一串阶段），再执行自己的生成步骤，因此拿到的是引用已全部解析的文档。</p>
+      <p>构建文件里给出承担该格式的 target。命名有一条约定：transtype 名为 X 时，target 必须叫 <codeph>dita2X</codeph>。target 的依赖链先执行初始化与 <term keyref="term-preprocess">preprocess</term>（预处理），再执行自己的生成步骤，因此拿到的是引用已全部解析的文档。</p>
       <codeblock>&lt;project name="com.example.searchindex"&gt;
   &lt;target name="dita2searchindex"
           depends="build-init, preprocess, searchindex.generate"/&gt;
@@ -88,7 +88,7 @@
 
     <section>
       <title>界面字符串本地化</title>
-      <p>输出里的固定文本，如相关概念、上级主题，来自一套字符串配置而非模板硬编码。<term keyref="term-plugin">plugin</term>（可安装的功能扩展包）提供自己的字符串文件并用对应扩展点注册，即可替换这些文本。</p>
+      <p>输出里的固定文本，如相关概念、上级主题，来自一套字符串配置而非模板硬编码。<term keyref="term-plugin">plugin</term>（插件）提供自己的字符串文件并用对应扩展点注册，即可替换这些文本。</p>
       <codeblock>&lt;!-- cfg/common/vars/zh-CN.xml --&gt;
 &lt;vars xmlns="http://www.oasis-open.org/architecture/2005/"&gt;
   &lt;variable id="Related concepts"&gt;相关概念&lt;/variable&gt;

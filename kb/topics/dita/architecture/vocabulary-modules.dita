@@ -10,7 +10,7 @@
      术语规则（2026-08-16 用户门反馈后，含译名禁令补充）：vocabulary module /
      specialization / constraint / expansion module / domain 一律英文原名；「词汇模块」是
      本库自造译名，「专门化」是错译（标准译法为「特化」）。中文解释每篇首现随行注一次，
-     括号里给解释不给译名（2026-08-17 全库更正）；模块名与短名（topicMod、
+     括号按 terminology-rules 的三分规则（有达意标准译名给译名、否则给解释、正文已说清则不写；2026-08-17 用户定稿）；模块名与短名（topicMod、
      ui-d、sw-d）照原样不译。
      volatility=volatile 的依据：文件命名对照表与五个属性域模块清单核对自 v2.0-beta03
      的语法文件目录，随发行版可变。
@@ -62,7 +62,7 @@
         </strow>
       </simpletable>
       <p>元素域模块的名称或短名，就是用来在 <xmlatt>class</xmlatt> 属性值里标识该模块的那个记号。域元素的派生另有方向约束：给 topic 用的域元素必须最终派生自 topic 模块的元素，给 map 用的必须派生自 map 模块的元素，map 专有元素不能出现在 topic 里。</p>
-      <p>还有一类模块不属于这三种。<term keyref="term-constraint">constraint</term>（收紧已有元素的内容模型）模块与 expansion module（给已有元素追加可选内容的模块）不声明新元素，只改已有元素的内容模型或属性表，它们是 element-configuration module，归 <xref href="extension-facilities.dita">DITA extension facilities</xref> 里的另一个 facility。</p>
+      <p>还有一类模块不属于这三种。<term keyref="term-constraint">constraint</term>（约束）模块与 expansion module 不声明新元素，只改已有元素的内容模型或属性表，它们是 element-configuration module，归 <xref href="extension-facilities.dita">DITA extension facilities</xref> 里的另一个 facility。</p>
     </section>
 
     <section>

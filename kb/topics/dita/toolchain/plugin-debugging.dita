@@ -17,7 +17,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-troubleshooting dim-process">
   <title>plugin 调试</title>
-  <shortdesc><term keyref="term-plugin">plugin</term>（可安装的功能扩展包）的改动不在构建时读取，而在安装时编译进配置，因此调试循环必须以 <codeph>dita install</codeph> 开头。固定临时目录并加上 <codeph>--debug</codeph> 之后，每个 <term keyref="term-preprocess">preprocess</term>（构建前把引用与键解析开的一串阶段）阶段的中间产物都留在盘上，模板没命中还是内容不对可以就地分辨。</shortdesc>
+  <shortdesc><term keyref="term-plugin">plugin</term>（插件）的改动不在构建时读取，而在安装时编译进配置，因此调试循环必须以 <codeph>dita install</codeph> 开头。固定临时目录并加上 <codeph>--debug</codeph> 之后，每个 <term keyref="term-preprocess">preprocess</term>（预处理）阶段的中间产物都留在盘上，模板没命中还是内容不对可以就地分辨。</shortdesc>
   <prolog>
     <source href="https://www.dita-ot.org/dev/topics/build-using-dita-command" scope="external"/>
     <data name="domain" value="dita"/>

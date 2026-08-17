@@ -17,7 +17,7 @@
          maturity="draft" volatility="volatile"
          dimension="dim-interop dim-boundary-pitfalls">
   <title>DITA 生成与 Markdown 互转</title>
-  <shortdesc>接口描述、数据库表、代码注释这类结构化数据可以直接生成 reference topic，代价是生成的 <xmlatt>id</xmlatt> 必须稳定，否则每次重新生成都会断掉引用。Markdown 方向由 org.lwdita <term keyref="term-plugin">plugin</term>（可安装的功能扩展包）双向打通：转出去有损，转进来则可把 Markdown 文件当作 topic 参与构建。</shortdesc>
+  <shortdesc>接口描述、数据库表、代码注释这类结构化数据可以直接生成 reference topic，代价是生成的 <xmlatt>id</xmlatt> 必须稳定，否则每次重新生成都会断掉引用。Markdown 方向由 org.lwdita <term keyref="term-plugin">plugin</term>（插件）双向打通：转出去有损，转进来则可把 Markdown 文件当作 topic 参与构建。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/non-normative/dtd-public-identifiers" scope="external"/>
     <data name="domain" value="dita"/>
@@ -75,11 +75,11 @@ dita -i root.ditamap -f markdown_gitbook -o out   # GitBook，带目录文件</c
 
     <section>
       <title>做法三：把 Markdown 当作 topic 引用</title>
-      <p>反方向不需要先转换。map 里直接引用 Markdown 文件并声明格式，DITA-OT 在 <term keyref="term-preprocess">preprocess</term>（构建前把引用与键解析开的一串阶段）期间把它转成 topic 参与构建。</p>
+      <p>反方向不需要先转换。map 里直接引用 Markdown 文件并声明格式，DITA-OT 在 <term keyref="term-preprocess">preprocess</term>（预处理）期间把它转成 topic 参与构建。</p>
       <codeblock>&lt;map&gt;
   &lt;topicref href="notes/quickstart.md" format="markdown"/&gt;
 &lt;/map&gt;</codeblock>
-      <p>约定是：第一个一级标题成为标题，紧随其后的一段成为摘要，YAML front matter 可提供标识符等元数据。这条路的用法明确：核心内容用 DITA 以保证复用与条件化，边缘内容用 Markdown 降低门槛，一套 map 统一构建。plugin 对 2.0 新元素的支持程度须实测，它的映射表按既有词汇表编写，新元素不一定都覆盖到。</p>
+      <p>约定是：第一个一级标题成为标题，紧随其后的一段成为摘要，YAML front matter 可提供标识符等元数据。这条路的用法明确：核心内容用 DITA 以保证复用与条件化，边缘内容用 Markdown 降低门槛，一套 map 统一构建。plugin 对 2.0 新元素的支持程度须实测，它的映射表按既有 vocabulary 编写，新元素不一定都覆盖到。</p>
     </section>
 
     <section>

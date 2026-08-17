@@ -77,7 +77,7 @@ done</codeblock>
     <section>
       <title>理由</title>
       <p>逐变体构建的理由是条件过滤会改变内容模型的合法性。条件属性不是发布时的显示开关：过滤发生在处理链的前段，产出的是一份结构与原文不同的新文档，此后每一步都按这份新文档判定。条件打在必需的子元素上时，过滤后的文档就可能缺少模型要求的成分，而默认变体从未经历这次删减，因此从不报错。</p>
-      <p>可复用片段不做条件化，理由出自同一处。按 <term keyref="term-preprocess">preprocess</term>（构建前把引用与键解析开的一串阶段）的阶段顺序，条件过滤先于 conref 解析执行一次，被排除的片段随后拉不回来；引用方的文件一个字没改，取到的内容却随所选过滤规则而变（阶段顺序见 <xref href="../toolchain/preprocess-pipeline.dita">preprocess 流水线</xref>）。</p>
+      <p>可复用片段不做条件化，理由出自同一处。按 <term keyref="term-preprocess">preprocess</term>（预处理）的阶段顺序，条件过滤先于 conref 解析执行一次，被排除的片段随后拉不回来；引用方的文件一个字没改，取到的内容却随所选过滤规则而变（阶段顺序见 <xref href="../toolchain/preprocess-pipeline.dita">preprocess 流水线</xref>）。</p>
       <p>project file 解决的是同一件事的规模问题：变体是输入、过滤、输出类型三者的组合，写成循环则组合关系散在脚本里，声明成交付物则组合关系可读、可复用、可单件构建。</p>
     </section>
 

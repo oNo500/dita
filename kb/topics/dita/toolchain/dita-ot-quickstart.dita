@@ -64,11 +64,11 @@ dita init --template=&lt;模板名&gt; --output=sample</codeblock>
 
 &lt;!-- 用 RNG 的文档走 URN 形式：
      urn:pubid:oasis:names:tc:dita:rng:&lt;信息类型&gt;.rng:&lt;版本&gt; --&gt;</codeblock>
-      <p>确切字符串以本机 DITA-OT 随附的语法文件与 <filepath>catalog-dita.xml</filepath> 为准：草案期间这些取值会变，安装后在 <term keyref="term-plugin">plugin</term>（可安装的功能扩展包）目录下查实际的 catalog 条目最可靠。</p>
+      <p>确切字符串以本机 DITA-OT 随附的语法文件与 <filepath>catalog-dita.xml</filepath> 为准：草案期间这些取值会变，安装后在 <term keyref="term-plugin">plugin</term>（插件）目录下查实际的 catalog 条目最可靠。</p>
       <p>第四步，校验与构建。<codeph>--input</codeph> 与 <codeph>--format</codeph> 是必需选项，输出目录、条件过滤、临时目录等由可选项给出。</p>
       <codeblock>dita validate --input=sample/root.ditamap
 dita --input=sample/root.ditamap --format=html5 --output=out</codeblock>
-      <p>产出目录里出现可打开的 HTML 即完成。此后按需换 transtype：pdf 出 PDF，markdown 需先安装对应 plugin，dita 只执行 <term keyref="term-preprocess">preprocess</term>（预处理，发布前的解析阶段）并产出解析后的 DITA 文件，便于逐阶段核对引用是否解析正确。</p>
+      <p>产出目录里出现可打开的 HTML 即完成。此后按需换 transtype：pdf 出 PDF，markdown 需先安装对应 plugin，dita 只执行 <term keyref="term-preprocess">preprocess</term>（预处理）并产出解析后的 DITA 文件，便于逐阶段核对引用是否解析正确。</p>
     </section>
 
     <section>

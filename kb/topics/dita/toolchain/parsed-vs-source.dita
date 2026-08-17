@@ -16,7 +16,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-decision dim-interop">
   <title>程序化处理的输入选择</title>
-  <shortdesc>自己写代码读 DITA 时，第一个决定是读创作时的源文件还是 <term keyref="term-preprocess">preprocess</term>（构建前把引用与键解析开的一串阶段）之后的中间产物。两者的差别不是格式而是完成度：引用是否已展开、条件是否已过滤、派生链是否已写进文件。多数用途要的是后者。</shortdesc>
+  <shortdesc>自己写代码读 DITA 时，第一个决定是读创作时的源文件还是 <term keyref="term-preprocess">preprocess</term>（预处理）之后的中间产物。两者的差别不是格式而是完成度：引用是否已展开、条件是否已过滤、派生链是否已写进文件。多数用途要的是后者。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external"/>
     <data name="domain" value="dita"/>
@@ -52,7 +52,7 @@ dita -i root.ditamap -f html5 -o /tmp/out --temp=./tmp --debug</codeblock>
 
     <section>
       <title>理由</title>
-      <p>自行实现引用解析的代价被普遍低估。要覆盖的至少有：间接引用的多级展开、引用成环的检测、键作用域、conref push 的插入方向、以及引用双方类型不一致时的 <term keyref="term-generalization">generalization</term>（沿派生链把内容还原回基类）匹配。这几项各自都有边界情形，实现出的行为与 DITA-OT 稍有出入，产出就与正式发布的内容对不上。</p>
+      <p>自行实现引用解析的代价被普遍低估。要覆盖的至少有：间接引用的多级展开、引用成环的检测、key scope、conref push 的插入方向、以及引用双方类型不一致时的 <term keyref="term-generalization">generalization</term>（泛化）匹配。这几项各自都有边界情形，实现出的行为与 DITA-OT 稍有出入，产出就与正式发布的内容对不上。</p>
       <p>派生链属性的来源是另一条理由。<xmlatt>specializations</xmlatt> 由 doctype shell 声明的默认值提供，作者不手写，<xmlatt>class</xmlatt> 出自同一套机制。裸解析源文件时两者都取不到，而按派生链编程正是程序化处理 DITA 的基本手法。</p>
     </section>
 
@@ -68,7 +68,7 @@ dita -i root.ditamap -f html5 -o /tmp/out --temp=./tmp --debug</codeblock>
     <section>
       <title>边界</title>
       <p>左列并非退路而是另一类用途：编辑器、内容管理系统、复用关系分析要看的就是引用本身，展开之后引用关系即不可见。判据是问一句，要处理的是内容还是内容之间的关系。</p>
-      <p>本篇只区分输入形态，不覆盖规范定义的处理模型，例如元数据级联与属性有效值的判定规则。自研逻辑若不遵循该模型，即便输入选对，结果仍可能与 DITA-OT 不一致。</p>
+      <p>本篇只区分输入形态，不覆盖规范定义的处理模型，例如 metadata cascading 与属性有效值的判定规则。自研逻辑若不遵循该模型，即便输入选对，结果仍可能与 DITA-OT 不一致。</p>
     </section>
 
     <section>

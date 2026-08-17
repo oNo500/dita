@@ -8,7 +8,7 @@
      术语规则（2026-08-16 用户门反馈后，含同日紧急更正）：constraint / generalization /
      specialization / class 一律英文原名——OASIS 无官方中文版，中文译名不得作首选词；
      其中「专门化」还是错译，标准译法为「特化」，与 generalization 的「泛化」成对。
-     中文解释每篇首现随行注一次，括号里给解释不给译名（2026-08-17 全库更正）。
+     中文解释每篇首现随行注一次，括号按 terminology-rules 的三分规则（有达意标准译名给译名、否则给解释、正文已说清则不写；2026-08-17 用户定稿）。
      标题规则（2026-08-16 第二次纠偏）：照架构规范子树标题 Constraints 与 Generalization
      命名，不拼副标题、不加定位词。
      volatility=stable 的依据：两者的定位与算法出自架构规范的结构，不随发行版变动。
@@ -21,7 +21,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-internals dim-consistency">
   <title>constraints 与 generalization</title>
-  <shortdesc><term keyref="term-constraint">constraint</term>（收紧已有元素的内容模型）收紧已有元素的内容模型而不引入新元素，属于元素类型配置，不是 <term keyref="term-specialization">specialization</term> 的第四种形态；<term keyref="term-generalization">generalization</term>（沿派生链把内容还原回基类）方向相反，把派生出的元素与属性还原回基类，算法只读 <xmlatt>class</xmlatt>，不查语法文件。前者决定作者能写什么，后者决定这些内容还能交给谁。</shortdesc>
+  <shortdesc><term keyref="term-constraint">constraint</term>（约束）收紧已有元素的内容模型而不引入新元素，属于元素类型配置，不是 <term keyref="term-specialization">specialization</term> 的第四种形态；<term keyref="term-generalization">generalization</term>（泛化）方向相反，把派生出的元素与属性还原回基类，算法只读 <xmlatt>class</xmlatt>，不查语法文件。前者决定作者能写什么，后者决定这些内容还能交给谁。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/specifications" scope="external"/>
     <data name="domain" value="dita"/>

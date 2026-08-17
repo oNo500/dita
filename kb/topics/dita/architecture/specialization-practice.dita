@@ -6,7 +6,7 @@
      术语规则（2026-08-16 用户门反馈后，含同日紧急更正）：specialization /
      generalization / constraint / vocabulary / outputclass / RNG / DTD / shell 一律
      英文原名——「词汇表」是本库自造译名，「专门化」是错译（标准译法为「特化」）；中文译名
-     不得作首选词，括号里给解释不给译名（2026-08-17 全库更正）；不自造分类框架。
+     不得作首选词，括号按 terminology-rules 的三分规则（有达意标准译名给译名、否则给解释、正文已说清则不写；2026-08-17 用户定稿）；不自造分类框架。
      标题规则（2026-08-16 第二次纠偏）：名词短语，不拼副标题。本篇不对应架构规范的某个
      子树标题（判断题材），故以核心机制名 specialization 加判据落点命名。
      volatility=volatile 的依据：判据本身稳定，但依赖 2.0 beta 的版本状态与 RNG→DTD
@@ -36,7 +36,7 @@
       <p>第一步先试 <xmlatt>outputclass</xmlatt>。它是通用属性，任何元素都能带；输出一侧按原样传给 HTML 的 class，样式由样式表接管。</p>
       <codeblock>&lt;p outputclass="warning-box"&gt;……&lt;/p&gt;
 &lt;div outputclass="feature-grid"&gt;……&lt;/div&gt;</codeblock>
-      <p>这条路不改语法文件、不装 <term keyref="term-plugin">plugin</term>（可安装的功能扩展包）、不影响内容与外部的交换性，多数外观类需求到此为止。</p>
+      <p>这条路不改语法文件、不装 <term keyref="term-plugin">plugin</term>（插件）、不影响内容与外部的交换性，多数外观类需求到此为止。</p>
       <p>第二步问需求里有没有这两样：需要机器校验语义，例如强制每个 API 端点必须写明请求方法；或者需要按语义驱动处理，例如从接口参考页直接生成接口描述文件。有其一，扩展 vocabulary 才收得回成本；两样都没有，回到第一步。</p>
       <p>第三步选形态。三种形态各有落点，判据在本库另有专篇：</p>
       <ul>

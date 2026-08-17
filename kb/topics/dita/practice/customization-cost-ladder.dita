@@ -52,12 +52,12 @@
         </strow>
         <strow>
           <stentry>二</stentry>
-          <stentry>DITA-OT 的 <term keyref="term-plugin">plugin</term>（可安装的功能扩展包），以 XSLT 覆盖模板</stentry>
+          <stentry>DITA-OT 的 <term keyref="term-plugin">plugin</term>（插件），以 XSLT 覆盖模板</stentry>
           <stentry>改输出逻辑，不动内容模型</stentry>
         </strow>
         <strow>
           <stentry>三</stentry>
-          <stentry>constraint（收紧已有元素的内容模型）</stentry>
+          <stentry>constraint（约束）</stentry>
           <stentry>收紧内容模型，禁用不该用的元素</stentry>
         </strow>
         <strow>
@@ -81,7 +81,7 @@
 
     <section>
       <title>理由</title>
-      <p>次序不是按难度排的，是按牵动的产物范围排的。前两级的产物只有样式与模板，删掉即回到默认状态；第三级起改的是内容模型，已写的内容随之受约束；第四级起新增了词汇，<term keyref="term-generalization">generalization</term>（沿派生链把内容还原回基类）、条件过滤、编辑器补全、渲染模板都要跟着补齐。范围一旦扩大就很难缩回去，因为内容已经按新词汇写完了。</p>
+      <p>次序不是按难度排的，是按牵动的产物范围排的。前两级的产物只有样式与模板，删掉即回到默认状态；第三级起改的是内容模型，已写的内容随之受约束；第四级起新增了词汇，<term keyref="term-generalization">generalization</term>（泛化）、条件过滤、编辑器补全、渲染模板都要跟着补齐。范围一旦扩大就很难缩回去，因为内容已经按新词汇写完了。</p>
       <p>还有一层理由在回报侧。前两级解决的是「看起来不对」，这类问题的回报当场可见；第五、六级解决的是「机器认不出来」，回报要等到有程序真的去消费这层语义时才出现。没有那个程序，新造的元素与用 <xmlatt>outputclass</xmlatt> 标一下的差别只在文档的正式程度上。</p>
     </section>
 

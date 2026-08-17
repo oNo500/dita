@@ -84,11 +84,11 @@
         </dlentry>
         <dlentry>
           <dt>extension facilities（规范开出的扩展入口）的分工来自同一条不变量</dt>
-          <dd>若 schema 是模块化组装的，组装者绝不能自己定义元素，否则又回到分叉词汇表的老路。规范的 extension facilities 概览把三件事各归其位：选用哪些模块归文档类型配置（产物是 shell），新增带派生链的词汇归 specialization，调整单个元素归元素类型配置（<term keyref="term-constraint">constraint</term> 与 expansion module）；文档类型配置一章也明写 shell 只装配与配置、不自行定义元素类型。三者共享一条不变量，即永不修改共享模块。升级 DITA 版本时定制不丢，原因在此，而不在向后兼容做得好。</dd>
+          <dd>若 schema 是模块化组装的，组装者绝不能自己定义元素，否则又回到分叉 vocabulary 的老路。规范的 extension facilities 概览把三件事各归其位：选用哪些模块归文档类型配置（产物是 shell），新增带派生链的词汇归 specialization，调整单个元素归元素类型配置（<term keyref="term-constraint">constraint</term> 与 expansion module）；文档类型配置一章也明写 shell 只装配与配置、不自行定义元素类型。三者共享一条不变量，即永不修改共享模块。升级 DITA 版本时定制不丢，原因在此，而不在向后兼容做得好。</dd>
         </dlentry>
         <dlentry>
           <dt>晚绑定产生解析顺序的依赖图</dt>
-          <dd>若内容与语境无关、由 map 组装，那么链接目标、变量文本、哪些内容存在、结构与顺序、乃至属性的有效值，都只能在构建期确定。由此产生一张解析顺序的依赖图，而这张图可以推导：分支过滤会克隆分支、改变 key 名，所以必须先于键空间构造；key 与 <term keyref="term-conref">conref</term>（引用另一处已有内容）会带进新的元素和属性，所以必须先于属性有效值计算。规范在分支过滤与确定属性有效值两章给出的正是这两条次序。</dd>
+          <dd>若内容与语境无关、由 map 组装，那么链接目标、变量文本、哪些内容存在、结构与顺序、乃至属性的有效值，都只能在构建期确定。由此产生一张解析顺序的依赖图，而这张图可以推导：分支过滤会克隆分支、改变 key 名，所以必须先于 key space 构造；key 与 <term keyref="term-conref">conref</term>（引用另一处已有内容）会带进新的元素和属性，所以必须先于属性有效值计算。规范在分支过滤与确定属性有效值两章给出的正是这两条次序。</dd>
         </dlentry>
       </dl>
       <p>第八步之后的连锁结果值得单列。一旦接受派生链写在实例里，下面几条都成为必然：</p>
@@ -96,10 +96,10 @@
         <sthead><stentry>结果</stentry><stentry>为何必然</stentry></sthead>
         <strow><stentry>处理器按 <xmlatt>class</xmlatt> 匹配而非元素名</stentry><stentry>否则遇到没见过的元素即失效；按派生链匹配则自动落到基类模板</stentry></strow>
         <strow><stentry>降级是内建的</stentry><stentry>不认识 <xmlelement>uicontrol</xmlelement> 的处理器把它当 <xmlelement>ph</xmlelement> 渲染，输出仍然成立，只是丢了修饰</stentry></strow>
-        <strow><stentry><term keyref="term-generalization">generalization</term>（沿派生链把内容还原回基类）是 <xmlatt>class</xmlatt> 的纯函数</stentry><stentry>不需要查任何 schema，读属性即可还原</stentry></strow>
+        <strow><stentry><term keyref="term-generalization">generalization</term>（泛化）是 <xmlatt>class</xmlatt> 的纯函数</stentry><stentry>不需要查任何 schema，读属性即可还原</stentry></strow>
         <strow><stentry>specialization 只能收紧</stentry><stentry>若能放宽，generalization 后会产出基类不允许的内容，generalization 即不再安全</stentry></strow>
       </simpletable>
-      <p>最后一条常被当成要背的规则，按上面的推导它是定理：若要求 generalization 永远产出合法的基类内容，则 specialization 的内容模型必须是基类的子集。这与面向对象里的里氏替换原则同构，specialize 出的元素必须能在任何期待基类元素的地方替换它。规范的扩展模块一章要求 generalization 后受影响元素的内容模型必须与原内容模型一致，可以作为这条定理的佐证。</p>
+      <p>最后一条常被当成要背的规则，按上面的推导它是定理：若要求 generalization 永远产出合法的基类内容，则 specialization 的内容模型必须是基类的子集。这与面向对象里的里氏替换原则同构，specialize 出的元素必须能在任何期待基类元素的地方替换它。规范的 expansion module 一章要求 generalization 后受影响元素的内容模型必须与原内容模型一致，可以作为这条定理的佐证。</p>
     </section>
 
     <section>
@@ -111,7 +111,7 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：本篇推导所引用的规范条文出处有七处，均在前序笔记中逐页核对——<xref href="https://dita-lang.org/2.0/dita/archspec/base/key-based-addressing" scope="external">基于 key 的寻址</xref>（key 提供间接层、资源在 map 层面定义）、<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref>（派生链属性由 shell 默认注入、随实例携带）、<xref href="https://dita-lang.org/2.0/dita/archspec/base/ditaspecialization" scope="external">Overview of DITA extension facilities</xref>（三大 extension facilities 的划分）、<xref href="https://dita-lang.org/2.0/dita/archspec/base/configuration" scope="external">文档类型配置</xref>（shell 不得自行定义元素类型，只装配与配置）、<xref href="https://dita-lang.org/2.0/dita/archspec/base/expansion-modules" scope="external">扩展模块</xref>（generalization 后受影响元素的内容模型必须与原内容模型一致）、<xref href="https://dita-lang.org/2.0/dita/archspec/base/branch-filtering" scope="external">分支过滤</xref>（处理器必须先求值分支过滤才能构造键空间）、<xref href="https://dita-lang.org/2.0/dita/archspec/base/determining-effective-attribute-values" scope="external">确定属性的有效值</xref>（有效值在 conref 与 keyref 解析之后求解）。</p>
+      <p><b>事实</b>：本篇推导所引用的规范条文出处有七处，均在前序笔记中逐页核对——<xref href="https://dita-lang.org/2.0/dita/archspec/base/key-based-addressing" scope="external">基于 key 的寻址</xref>（key 提供间接层、资源在 map 层面定义）、<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref>（派生链属性由 shell 默认注入、随实例携带）、<xref href="https://dita-lang.org/2.0/dita/archspec/base/ditaspecialization" scope="external">Overview of DITA extension facilities</xref>（三大 extension facilities 的划分）、<xref href="https://dita-lang.org/2.0/dita/archspec/base/configuration" scope="external">文档类型配置</xref>（shell 不得自行定义元素类型，只装配与配置）、<xref href="https://dita-lang.org/2.0/dita/archspec/base/expansion-modules" scope="external">扩展模块</xref>（generalization 后受影响元素的内容模型必须与原内容模型一致）、<xref href="https://dita-lang.org/2.0/dita/archspec/base/branch-filtering" scope="external">分支过滤</xref>（处理器必须先求值分支过滤才能构造 key space）、<xref href="https://dita-lang.org/2.0/dita/archspec/base/determining-effective-attribute-values" scope="external">确定属性的有效值</xref>（有效值在 conref 与 keyref 解析之后求解）。</p>
       <p><b>判断</b>：除事实段所列条文外，本篇正文整体为原笔记与本库的推导，可被反驳，不得当作规范条文引用。其中以「同一个事实只应存在于一处」作为单一公理重构 DITA 是本篇的组织方式，规范并未这样表述；与数据库范式化的类比、<xmlatt>class</xmlatt> 作为随数据携带的类型信息表、与里氏替换原则的对应，均为类比，规范未使用这些术语；九步推导中每一步「由上一步逼出」的论证，包括自足性作为 topic 边界的判据、禁止能力的价值、条件维度必须正交、类型化两条理由的强度差异与对三分法的保留、extension facilities 分工与「永不修改共享模块」的表述、以及连锁结果表四行，同属推理；把可推导部分与历史选择分开的做法，为本库编排。</p>
     </section>
   </conbody>

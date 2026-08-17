@@ -40,7 +40,7 @@
         <sthead><stentry>症状</stentry><stentry>原因</stentry></sthead>
         <strow>
           <stentry>Python 或 JavaScript 解析取不到 <xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt></stentry>
-          <stentry>两者的值由语法文件的默认属性声明提供。须开启解析器的默认属性补齐，或改读 <term keyref="term-preprocess">preprocess</term>（构建前把引用与键解析开的一串阶段）之后的文件</stentry>
+          <stentry>两者的值由语法文件的默认属性声明提供。须开启解析器的默认属性补齐，或改读 <term keyref="term-preprocess">preprocess</term>（预处理）之后的文件</stentry>
         </strow>
         <strow>
           <stentry>自定义 XSLT 模板对 <term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）出的元素不生效</stentry>
@@ -51,7 +51,7 @@
           <stentry>匹配串前后少了空格，<codeph>topic/lines</codeph> 一类随之命中</stentry>
         </strow>
         <strow>
-          <stentry><term keyref="term-generalization">generalization</term>（沿派生链把内容还原回基类）之后元素名不对</stentry>
+          <stentry><term keyref="term-generalization">generalization</term>（泛化）之后元素名不对</stentry>
           <stentry><xmlatt>class</xmlatt> 的祖先链漏写中间层，或结尾少一个空格</stentry>
         </strow>
         <strow>
@@ -66,7 +66,7 @@
       <simpletable relcolwidth="1.6* 2*">
         <sthead><stentry>症状</stentry><stentry>原因</stentry></sthead>
         <strow>
-          <stentry>改了 <term keyref="term-plugin">plugin</term>（可安装的功能扩展包）但输出没变</stentry>
+          <stentry>改了 <term keyref="term-plugin">plugin</term>（插件）但输出没变</stentry>
           <stentry>DITA-OT 在安装时编译配置，不在运行时读取。改动后须重新执行一次安装</stentry>
         </strow>
         <strow>

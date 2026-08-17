@@ -35,7 +35,7 @@
   <refbody>
     <section>
       <title>定位</title>
-      <p>规范定义的是处理期望，不是某个实现的流水线。DITA-OT 的 <term keyref="term-preprocess">preprocess</term>（构建前把引用与键解析开的一串阶段）阶段划分是一种实现，本篇是规范要求的次序，两者不必逐阶段对应。</p>
+      <p>规范定义的是处理期望，不是某个实现的流水线。DITA-OT 的 <term keyref="term-preprocess">preprocess</term>（预处理）阶段划分是一种实现，本篇是规范要求的次序，两者不必逐阶段对应。</p>
       <p>次序错了不会报错，症状是键解析到错误的目标、拉进来的内容带错属性、条件化在深层嵌套时静默失效。</p>
     </section>
 

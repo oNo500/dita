@@ -7,7 +7,7 @@
      术语规则（2026-08-16 用户门反馈后，含同日紧急更正）：specialization /
      generalization / props / base / specializations / DITAVAL 等一律英文原名——
      中文译名不得作首选词；「属性专门化」还是错译——specialization 的标准译法为「特化」，
-     与 generalization 的「泛化」成对。括号里给解释不给译名（2026-08-17 全库更正）；属性名用 xmlatt。
+     与 generalization 的「泛化」成对。括号按 terminology-rules 的三分规则（有达意标准译名给译名、否则给解释、正文已说清则不写；2026-08-17 用户定稿）；属性名用 xmlatt。
      标题规则（2026-08-16 第二次纠偏）：照架构规范子树标题 Attribute specialization
      命名，不拼副标题、不加定位词。
      volatility=stable 的依据：@specializations 的形式语法出自架构规范，不随发行版变动。

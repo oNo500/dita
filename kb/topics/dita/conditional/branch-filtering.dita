@@ -3,7 +3,7 @@
 <!-- 迁自 research/notes/03-profiling-and-chunking.md §3（分支过滤）；§3 自身把规范语义
      交给了 research/notes/10-addressing-and-key-space.md §6，本篇的事实段即取自笔记 10
      已逐页核对的分支过滤一章（作用范围、分支克隆、ditavalmeta 四元素、改名要求、
-     求值顺序）。键空间与 keyscope 的完整模型不在本篇，归寻址与键空间一侧。
+     求值顺序）。key space 与 keyscope 的完整模型不在本篇，归寻址与 key space 一侧。
      题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      术语规则（2026-08-16 用户门反馈后）：DITAVAL、ditavalref、ditavalmeta、keyscope 等
      一律用英文原名，元素名以 xmlelement 标记。
@@ -19,7 +19,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-mechanism dim-boundary-pitfalls">
   <title>branch filtering</title>
-  <shortdesc>把一份 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）的规则只应用到 map 的某个分支，同一分支下并列多份规则时该分支被克隆成多份、各自独立过滤，一次构建因此产出多个变体。代价是资源名与键名会撞车，规范为此要求改名，并要求处理器先求值分支过滤再构造键空间。</shortdesc>
+  <shortdesc>把一份 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）的规则只应用到 map 的某个分支，同一分支下并列多份规则时该分支被克隆成多份、各自独立过滤，一次构建因此产出多个变体。代价是资源名与键名会撞车，规范为此要求改名，并要求处理器先求值分支过滤再构造 key space。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/2.0/dita/archspec/base/branch-filtering" scope="external"/>
     <data name="domain" value="dita"/>
@@ -64,24 +64,24 @@
     <section>
       <title>分析：改名不是排版偏好，求值顺序不是优化选择</title>
       <p>改名之所以有专门的元素，是因为克隆制造了两处冲突：同一个 topic 被复制成两份，不改名则两份争同一个输出路径，各自定义的键也争同一个键名。<b>规范就此对处理器提出要求，即分支被克隆时须处理资源名与键名的冲突</b>，<xmlelement>ditavalmeta</xmlelement> 是把这项处理交回作者手上的接口。</p>
-      <p>第二处后果落在键空间上。规范给出的要求是分支过滤可导致 root map 的全局键空间发生变化，因此处理器须求值分支过滤才能构造键空间。由此有三条推论，前两条直接来自这条要求，第三条属判断。</p>
+      <p>第二处后果落在 key space 上。规范给出的要求是分支过滤可导致 root map 的全局 key space 发生变化，因此处理器须求值分支过滤才能构造 key space。由此有三条推论，前两条直接来自这条要求，第三条属判断。</p>
       <ul>
-        <li>键空间不是静态的，它依赖分支过滤的结果。</li>
-        <li>顺序不可颠倒。先建键空间再做分支过滤，键的解析结果就是错的。</li>
+        <li>key space 不是静态的，它依赖分支过滤的结果。</li>
+        <li>顺序不可颠倒。先建 key space 再做分支过滤，键的解析结果就是错的。</li>
         <li>克隆出的各份分支里，同一个键因改名而各自不同，外部要引用其中某一份时须显式规划改名规则。</li>
       </ul>
-      <p>同一分支里同时使用多份 <xmlelement>ditavalref</xmlelement> 与 <xmlatt>keyscope</xmlatt> 的组合，是规范里较复杂而各家实现容易分歧的一处。写依赖它的逻辑之前，先以解析后的中间产物为准核对克隆之后的键长什么样。键空间本身的模型与作用域规则见 <xref href="../architecture/key-space-model.dita">key space 与 key scope</xref>，分支过滤与键空间交互的完整处理顺序另见 <xref href="../architecture/branch-filter-key-space.dita">branch filtering 与 key space</xref>，本篇不展开。</p>
+      <p>同一分支里同时使用多份 <xmlelement>ditavalref</xmlelement> 与 <xmlatt>keyscope</xmlatt> 的组合，是规范里较复杂而各家实现容易分歧的一处。写依赖它的逻辑之前，先以解析后的中间产物为准核对克隆之后的键长什么样。key space 本身的模型与作用域规则见 <xref href="../architecture/key-space-model.dita">key space 与 key scope</xref>，分支过滤与 key space 交互的完整处理顺序另见 <xref href="../architecture/branch-filter-key-space.dita">branch filtering 与 key space</xref>，本篇不展开。</p>
     </section>
 
     <section>
       <title>结论</title>
-      <p>两种做法的分界在交付物：变体各自独立交付，用 DITAVAL 跑多次构建，产物互不相干；变体要并列出现在同一份交付物里，用 branch filtering，代价是承担改名与键空间的复杂度。</p>
+      <p>两种做法的分界在交付物：变体各自独立交付，用 DITAVAL 跑多次构建，产物互不相干；变体要并列出现在同一份交付物里，用 branch filtering，代价是承担改名与 key space 的复杂度。</p>
       <p>规划改名规则是使用这一机制的前置动作，不是收尾的润色。资源名与标题的后缀在写 map 时就定下来，比事后从冲突报错里倒推省事。</p>
     </section>
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：<xmlelement>ditavalref</xmlelement> 的作用范围为该分支及其引用的本地 map 与 topic、多个 <xmlelement>ditavalref</xmlelement> 兄弟导致分支克隆且每份独立过滤、<xmlelement>ditavalmeta</xmlelement> 的四个子元素分别改资源名与生成的标题、分支被克隆时处理器须处理资源名与键名的冲突、分支过滤可导致 root map 全局键空间变化因而处理器须先求值分支过滤以构造键空间，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/branch-filtering" scope="external">分支过滤</xref>，已逐页核对。</p>
+      <p><b>事实</b>：<xmlelement>ditavalref</xmlelement> 的作用范围为该分支及其引用的本地 map 与 topic、多个 <xmlelement>ditavalref</xmlelement> 兄弟导致分支克隆且每份独立过滤、<xmlelement>ditavalmeta</xmlelement> 的四个子元素分别改资源名与生成的标题、分支被克隆时处理器须处理资源名与键名的冲突、分支过滤可导致 root map 全局 key space 变化因而处理器须先求值分支过滤以构造 key space，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/branch-filtering" scope="external">分支过滤</xref>，已逐页核对。</p>
       <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中克隆各份的键因改名而各自不同这一推论、多 <xmlelement>ditavalref</xmlelement> 与 <xmlatt>keyscope</xmlatt> 叠加为实现分歧较大之处、以解析后的中间产物核对键的建议，来自通用 DITA 实践与实现观察，未逐页核对；两种做法按交付物分界的判据、把改名规则前置的建议、拼接多次构建产物的代价，为本库归纳。</p>
     </section>
   </conbody>

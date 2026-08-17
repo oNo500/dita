@@ -39,7 +39,7 @@
       <p>规范给 shell 划的能力范围有四项：</p>
       <ul>
         <li>选择要引入哪些结构模块与域模块。</li>
-        <li>应用 element-configuration module，即 <term keyref="term-constraint">constraint</term>（收紧已有元素的内容模型）与 expansion module（给已有元素追加可选内容的模块）。</li>
+        <li>应用 element-configuration module，即 <term keyref="term-constraint">constraint</term>（约束）与 expansion module（给已有元素追加可选内容的模块）。</li>
         <li>指定 topic 的嵌套规则。</li>
         <li>为引入的元素配置默认属性值。<xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt> 都由这条路径注入。</li>
       </ul>

@@ -30,7 +30,7 @@
   <conbody>
     <section>
       <title>问题</title>
-      <p><term keyref="term-conref">conref</term>（引用另一处已有内容）把另一处的元素拉到当前位置。被拉过来的元素带着自己的属性，写 <xmlatt>conref</xmlatt> 的那个元素上通常也写了属性，两套属性要合成一套。合成规则决定了一件很实际的事：在引用方标一个条件属性，究竟能不能覆盖片段库里那份内容自带的条件。</p>
+      <p><term keyref="term-conref">conref</term> 把另一处的元素拉到当前位置。被拉过来的元素带着自己的属性，写 <xmlatt>conref</xmlatt> 的那个元素上通常也写了属性，两套属性要合成一套。合成规则决定了一件很实际的事：在引用方标一个条件属性，究竟能不能覆盖片段库里那份内容自带的条件。</p>
     </section>
 
     <section>

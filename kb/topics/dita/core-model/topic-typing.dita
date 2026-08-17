@@ -8,7 +8,7 @@
      两个节点名并列命名；「A 与 B」的并列形制沿用同簇 conref-pull-push 与 keyref-variable-text。
      术语规则（2026-08-16 用户门反馈 + 同日译名禁令）：information typing / specialization /
      document-type shell / constraint module / base 包 / technical content 包等一律英文原名，
-     中文解释只在首现随行给一次，括号里给解释不给译名（2026-08-17 全库更正）；
+     中文解释只在首现随行给一次，括号按 terminology-rules 的三分规则（有达意标准译名给译名、否则给解释、正文已说清则不写；2026-08-17 用户定稿）；
      不写「专门化」（错译，标准译法为「特化」）「信息类型化」作正文首选词。
      volatility=volatile 的依据：2.0 内置类型清单与两个包的发布状态随草案版本变动。
      事实纪律：内容模型、类型清单、2.0 移除项、仓库实况为笔记已逐页核对项；类型与主题正交的
@@ -27,7 +27,7 @@
   <conbody>
     <section>
       <title>问题</title>
-      <p>内容按什么切分，决定了它以后能不能被复用。按章节切，一段内容的位置就固定在某本手册的目录里；按篇幅切，切出来的块单独读不成立。DITA 的答案写在它自己的名字里：Darwin Information Typing Architecture，中间两个词就是 information typing（按信息用途给内容分型）。它不是附加特性，是这套架构自我命名时选中的那一项。</p>
+      <p>内容按什么切分，决定了它以后能不能被复用。按章节切，一段内容的位置就固定在某本手册的目录里；按篇幅切，切出来的块单独读不成立。DITA 的答案写在它自己的名字里：Darwin Information Typing Architecture，中间两个词就是 information typing。它不是附加特性，是这套架构自我命名时选中的那一项。</p>
       <p>规范给出的定义是：识别 topic 的类型（如 concept、reference、task），用以清晰区分不同种类的信息。理由是让文档保持聚焦且模块化，从而对读者更清晰、更易检索导航，也更适合复用。</p>
     </section>
 
@@ -66,7 +66,7 @@
       <title>DITA 2.0 提供的类型集合</title>
       <p>OASIS 按分委员会分仓开发 2.0，实际有产出的是两个包。base 包给出 <xmlelement>topic</xmlelement>（泛型 topic，全部类型的根基类）、<xmlelement>map</xmlelement> 与 <xmlelement>subjectScheme</xmlelement>；technical content 包给出 <xmlelement>concept</xmlelement>、<xmlelement>task</xmlelement>、<xmlelement>reference</xmlelement>、<xmlelement>glossentry</xmlelement>、<xmlelement>glossgroup</xmlelement>、<xmlelement>troubleshooting</xmlelement> 与 <xmlelement>bookmap</xmlelement>。合计 topic 类型七个，map 类型三个（<xmlelement>map</xmlelement>、<xmlelement>subjectScheme</xmlelement>、<xmlelement>bookmap</xmlelement>）。</p>
       <p>2.0 移除了 machinery task 与 classification map 两套域及其 <term keyref="term-document-type-shell">document-type shell</term>，并以 <codeph>glossentry.dtd</codeph> 取代 <codeph>glossary.dtd</codeph>。后者是一个 document-type shell，被移除的是它而不是 <xmlelement>glossgroup</xmlelement> 本身，该元素在 2.0 的语法文件目录里仍在。</p>
-      <p>information type 与 document-type shell 是两个层级，容易混。strict task 与 general task 不是两个 information type，是同一个 <xmlelement>task</xmlelement> 类型的两个 shell，且 strict 的那一个由 <term keyref="term-constraint">constraint module</term>（收紧已有元素内容模型的模块）实现。同一个 <xmlelement>topic</xmlelement> 也可被不同 shell 配置出完全不同的允许范围。<b>数类型时数的是结构模块，不是 shell</b>。</p>
+      <p>information type 与 document-type shell 是两个层级，容易混。strict task 与 general task 不是两个 information type，是同一个 <xmlelement>task</xmlelement> 类型的两个 shell，且 strict 的那一个由 <term keyref="term-constraint">constraint module</term>（约束模块）实现。同一个 <xmlelement>topic</xmlelement> 也可被不同 shell 配置出完全不同的允许范围。<b>数类型时数的是结构模块，不是 shell</b>。</p>
       <simpletable relcolwidth="1* 1.4* 1.4*">
         <sthead><stentry>项</stentry><stentry>strict task</stentry><stentry>general task</stentry></sthead>
         <strow><stentry>内容模型</stentry><stentry>顺序固定，各元素至多一次</stentry><stentry>顺序灵活，元素可重复</stentry></strow>

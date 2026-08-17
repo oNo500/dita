@@ -37,7 +37,7 @@
 
     <section>
       <title>背景：key space 的构造与覆盖写法</title>
-      <p>一个 key space（键定义生效的范围）是从 key 名到 key 定义的映射。它由 root map 出发、按 map 的引用层级构造出来，遍历按深度优先的文档顺序进行；同一个 key 名遇到多个定义时，生效的是遍历中最先遇到的那一个，其后的同名定义被忽略。遍历算法这两条笔记未逐页核对。</p>
+      <p>一个 key space 是从 key 名到 key 定义的映射。它由 root map 出发、按 map 的引用层级构造出来，遍历按深度优先的文档顺序进行；同一个 key 名遇到多个定义时，生效的是遍历中最先遇到的那一个，其后的同名定义被忽略。遍历算法这两条笔记未逐页核对。</p>
       <p>由此得到覆盖的写法：要让自己的绑定压过被引用 map 里的同名绑定，位置须在那条 <xmlelement>mapref</xmlelement> 之前。</p>
       <codeblock>&lt;map&gt;
   &lt;keydef keys="product-name"&gt;
@@ -51,7 +51,7 @@
 
     <section>
       <title>分析：key scope 把一张表切成有层级的若干张</title>
-      <p>同一份 submap 在一本书里被引用两次、两次要绑不同的值，是上一节那条规则解释不了的场景：按最先者生效，第二次引用带的定义永远不会生效。<xmlatt>keyscope</xmlatt> 为此把 key space 切开，每个 key scope（把一段 map 划成独立的键定义范围）自带一张表。</p>
+      <p>同一份 submap 在一本书里被引用两次、两次要绑不同的值，是上一节那条规则解释不了的场景：按最先者生效，第二次引用带的定义永远不会生效。<xmlatt>keyscope</xmlatt> 为此把 key space 切开，每个 key scope 自带一张表。</p>
       <codeblock>&lt;map&gt;
   &lt;topicref href="shared/module.ditamap" keyscope="v1"&gt;
     &lt;keydef keys="ver"&gt;&lt;topicmeta&gt;&lt;keytext&gt;1.0&lt;/keytext&gt;&lt;/topicmeta&gt;&lt;/keydef&gt;

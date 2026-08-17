@@ -25,7 +25,7 @@
   <refbody>
     <section>
       <title>定位</title>
-      <p><term keyref="term-keyref">keyref</term>（按键名间接引用，不写路径）在引用方与目标之间加一层间接。<term keyref="term-conref">conref</term>（引用另一处已有内容）与 <xmlelement>xref</xmlelement> 把目标位置直接写在引用方，文件移动即失效；键把绑定集中到 map，正文只留键名。</p>
+      <p><term keyref="term-keyref">keyref</term> 在引用方与目标之间加一层间接。<term keyref="term-conref">conref</term>（引用另一处已有内容）与 <xmlelement>xref</xmlelement> 把目标位置直接写在引用方，文件移动即失效；键把绑定集中到 map，正文只留键名。</p>
       <p>由此得到两项用途。其一，同一份 topic 由不同 map 引用时产出不同结果，topic 文件不改动；其二，产品名这类会重复出现、可能改动的文本由 keytext 提供，改名只改 map 的一处绑定。两项用途用的是同一套机制。</p>
     </section>
 
@@ -97,10 +97,10 @@
         <li>第一个定义生效：按深度优先的文档顺序，先出现的 <xmlelement>keydef</xmlelement> 有效，其后的同名定义被忽略（未逐页核对）。</li>
         <li>要覆盖某个键，把自己的 <xmlelement>keydef</xmlelement> 放在被覆盖的 map 引用之前，那份 map 里的同名键随即失效（未逐页核对）。</li>
         <li><xmlatt>keys</xmlatt> 的类型是 NMTOKENS，只能空格分隔，不接受逗号一类的分隔符。</li>
-        <li><xmlatt>keyscope</xmlatt> 划出独立的键空间，域内直接用键名，域外用「域名.键名」限定（未逐页核对）。</li>
+        <li><xmlatt>keyscope</xmlatt> 划出独立的 key space，域内直接用键名，域外用「域名.键名」限定（未逐页核对）。</li>
       </ul>
       <p><b>先出现的定义生效，与「后定义覆盖前定义」的直觉相反</b>，覆盖的写法由此而来：要让自己的绑定生效，位置须在被覆盖的 map 引用之前。</p>
-      <p><xmlatt>keyscope</xmlatt> 用于同一份 submap 在一本书里出现两次而两次须绑不同值的场合。它的实现差异较大，用前在目标 DITA-OT 版本上实测。键空间与作用域嵌套的完整模型属寻址与关系主题，不在此展开。</p>
+      <p><xmlatt>keyscope</xmlatt> 用于同一份 submap 在一本书里出现两次而两次须绑不同值的场合。它的实现差异较大，用前在目标 DITA-OT 版本上实测。key space 与 key scope 嵌套的完整模型属寻址与关系主题，不在此展开。</p>
     </section>
 
     <section>

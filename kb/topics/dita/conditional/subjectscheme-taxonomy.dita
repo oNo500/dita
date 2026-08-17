@@ -28,7 +28,7 @@
     <section>
       <title>问题</title>
       <p>条件属性的取值是裸字符串。把 <xmlatt>platform</xmlatt> 写成 linu 不会报错，只会静默地什么都不匹配，症状是某个平台的输出少了一段，而源文件看上去毫无问题。团队一大，同一个概念还会长出多个写法。</p>
-      <p>DITA 给出的答案不止是一份拼写检查表。<term keyref="term-subject-scheme">subject scheme</term>（受控值与分类树）把可选值组织成一棵树并绑定到属性，校验只是它最小的用法，层级本身参与过滤的判定。</p>
+      <p>DITA 给出的答案不止是一份拼写检查表。<term keyref="term-subject-scheme">subject scheme</term> 把可选值组织成一棵树并绑定到属性，校验只是它最小的用法，层级本身参与过滤的判定。</p>
     </section>
 
     <section>
