@@ -38,7 +38,7 @@ kb/
 
 ## 纪律（承自 `../research/`）
 
-- **准入测试**：一篇内容进库，须自足（脱离原语境仍成立）+ 可归型（concept/task/reference/troubleshooting/glossentry 之一）。过不了的是噪音，不进。
+- **准入测试**：一篇内容进库，须自足（脱离原语境仍成立）+ 可归型（concept/task/reference/troubleshooting/glossentry 之一）+ 领域特有（换成别的技术栈仍然成立的，不属于这个领域分支）。前两项过不了的是噪音，不进；第三项过不了的改挂通用分支或删除。正本见 [`topics/content-engineering/writing-atomicity.dita`](topics/content-engineering/writing-atomicity.dita)。
 - **来源核对 + 日期戳**：volatile 内容无核对日期不得标 verified。
 - **文件先于工具**：所有 `.dita`/`.ditamap` 是合法 DITA 文件，用 beta03 语法文件校验，不依赖 DITA-OT。
 - **分类树防腐**：词表内 benchmark-registry 记录对标锚点与复核纪律，防结构过时。

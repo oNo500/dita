@@ -3,13 +3,17 @@
 <!-- 批量重写（2026-08-16）：按写作规则七条与 R12–R16 重构。 -->
 <!-- 2026-08-16（终审修复轮）做法节补 R16 拆分阈值的人读正本。此前 rules.sch 把 R16 归属
      标给本篇、路由表也指向本篇，而完整表述留在路由总纲 dita-authoring-guide 里——
-     正本与归属标注不一致。现表述落本篇，总纲降为一句加 xref。 -->
+     正本与归属标注不一致。现表述落本篇，总纲降为一句加 xref。
+     2026-08-17（人审修复轮）判据由两项增为三项，新增「领域特有性」：人审抽样发现
+     领域分支下存在换个技术栈照样成立的通用工程常识（engineering-ci 一篇三条做法里
+     有两条如此），既有两项判据都放行它——它自足、也可归型。判据三补的正是这个口子。
+     shortdesc、做法节、理由节、边界节与来源节判断段的自称条数已同步核过。 -->
 <concept id="writing-atomicity" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="stable"
          dimension="dim-criteria">
   <title>kb 内容准入判据</title>
-  <shortdesc>内容进入知识库须通过两项判据：自足（脱离原语境仍成立）与可归型（能归入五种类型之一）。两项皆不通过的内容为噪音，不进库。</shortdesc>
+  <shortdesc>内容进入知识库须通过三项判据：自足（脱离原语境仍成立）、可归型（能归入五种类型之一）、领域特有性（换一个技术栈就不再成立）。前两项皆不通过的内容为噪音，不进库；第三项不通过的内容不属于这个领域分支，改挂通用分支或删除。</shortdesc>
   <prolog>
     <data name="domain" value="writing-principles"/>
   </prolog>
@@ -32,11 +36,14 @@
       <p>左列并非潦草，而是指代物（"上面说的那个"）已不在场；右列将指代补为内容本身。自足与篇幅无关：判据是脱离语境是否成立，不是字数。</p>
       <p>判据二：可归型。内容能归入 <xmlelement>concept</xmlelement>、<xmlelement>task</xmlelement>、<xmlelement>reference</xmlelement>、<xmlelement>troubleshooting</xmlelement>、<xmlelement>glossentry</xmlelement> 之一（类型的选择见 <xref href="writing-typing.dita">内容类型化</xref>）。归不进任何一类的内容通常尚未成为知识，或者实为多篇混装：一篇"OAuth 踩坑"往往同时含原理、配置步骤与报错处置，应拆为三篇而非拒收。</p>
       <p>混装到什么程度算该拆，有一条硬计数兜底：<b><xmlelement>concept</xmlelement> 正文里实现层行内标记合计超过 8 处即拆</b>。计入的标记是 <xmlelement>codeph</xmlelement>、<xmlelement>cmdname</xmlelement>、<xmlelement>apiname</xmlelement>、<xmlelement>parmname</xmlelement>、<xmlelement>varname</xmlelement>、<xmlelement>option</xmlelement>、<xmlelement>userinput</xmlelement>、<xmlelement>systemoutput</xmlelement>、<xmlelement>synph</xmlelement>、<xmlelement>codeblock</xmlelement>；<xmlelement>xmlelement</xmlelement>、<xmlelement>xmlatt</xmlelement>、<xmlelement>filepath</xmlelement> 不计入——前两者是本库讲 DITA 写作时的主题词汇，后者多为示意。超阈值说明判据与配置并存于一篇，拆法是判据留在 <xmlelement>concept</xmlelement>，字段表与命令语法迁成 <xmlelement>reference</xmlelement>。这条由 <cmdname>dita-tools lint</cmdname> 执行（R16）。</p>
+      <p>判据三：领域特有性。<b>一篇内容如果换成别的技术栈仍然成立，它就不属于这个领域分支。</b>检验方法：把篇中的领域机制名换成另一技术栈里的对应物，若论断仍然成立，该论断不属于本分支。不通过的内容未必是噪音——通用工程常识本身可以是对的，只是位置错了：改挂通用分支（engineering / foundations），或者删除。</p>
+      <p>判据三与前两项的关系是并列而非递进：一篇可以既自足又可归型，同时不属于它当前所在的分支。前两项裁定进不进库，第三项裁定进哪个分支。</p>
     </section>
 
     <section>
       <title>理由</title>
       <p>自足是复用的前提：被复用的内容会出现在新位置，依赖原语境的内容换位即错。可归型使拆分后的每篇可独立检索、引用与更新；不拆则只能整篇读取、整篇过时。</p>
+      <p>领域特有性要挡的不是通用知识本身，而是披着领域外衣的通用知识——它们标注得再诚实，也占着领域分支的位置、稀释检索。读者按某个领域检索，取回的却是"目录按角色分""标识发布后不改"一类换到任何文档系统或代码库都成立的常识，而该领域特有的内容被同类篇章挤到后面。这类内容写得越像样越难发现：它没有错，只是放错了地方，而放错地方不会有任何检查报出来。</p>
     </section>
 
     <section>
@@ -45,19 +52,21 @@
         <li>日志、复盘、一次性记录：无自足性，事过境迁不可复用。</li>
         <li>未加工的链接堆与粘贴：无自有判断，可随时重新获取。</li>
         <li>数行的占位残篇与待办：尚未成形。</li>
+        <li>挂在某个技术栈分支下的通用工程常识：把篇中的机制名换成另一技术栈的对应物，全文照样成立。它通过前两项判据，仍不属于这个分支。</li>
       </ul>
       <p>不进库不等于删除：原件可留在只读旧库，仅不进入要求可用的正本。</p>
     </section>
 
     <section>
       <title>边界</title>
-      <p>本篇裁定进不进；进库后归哪一类、标哪个题材见 <xref href="writing-typing.dita">kb 内容类型化</xref>，节内怎么写见 <xref href="writing-style.dita">kb 文体与语体</xref>。</p>
+      <p>本篇裁定进不进、进哪个分支；进库后归哪一类、标哪个题材见 <xref href="writing-typing.dita">kb 内容类型化</xref>，节内怎么写见 <xref href="writing-style.dita">kb 文体与语体</xref>。</p>
+      <p>判据三只判"属不属于这个分支"，落到具体的 domain 键、目录与标题怎么定，见 <xref href="naming-rules.dita">kb 命名与归属</xref>。</p>
     </section>
 
     <section>
       <title>来源</title>
       <p><b>事实</b>：自足性源自 <term keyref="term-zettelkasten">Zettelkasten</term> 的<term keyref="term-atomicity">原子化</term>原则（一条笔记一件事、脱离语境成立），见 <xref href="https://zettelkasten.de/introduction/" scope="external">zettelkasten.de</xref>；按读者需求划分文档类型见 <xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>。</p>
-      <p><b>判断</b>：将两项合并为准入门槛（皆不过即为噪音）为本库设计，可被反驳。8 处这个拆分阈值同为本库取值，无外部依据：它是"判据与配置并存"的代理指标，不是自然常数，实测偏严或偏松都应改数而非弃用。</p>
+      <p><b>判断</b>：将三项合并为准入门槛（前两项皆不过即为噪音）为本库设计，可被反驳。领域特有性这一项、它的换技术栈检验法、以及不通过时改挂通用分支或删除的处置，同为本库设计，2026-08-17 人审后新增，无外部依据。8 处这个拆分阈值同为本库取值，无外部依据：它是"判据与配置并存"的代理指标，不是自然常数，实测偏严或偏松都应改数而非弃用。</p>
     </section>
   </conbody>
 </concept>
