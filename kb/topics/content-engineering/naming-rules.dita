@@ -76,7 +76,7 @@
     <section>
       <title>边界</title>
       <p>本篇管名字与归属字段。正文里用哪个词见 <xref href="terminology-rules.dita">kb 术语治理</xref>；一篇的形状与语体见 <xref href="writing-style.dita">kb 文体与语体</xref>；主题树与维度值集本身怎么建、怎么对标，正本在词表与 <xref href="domain-dimension-method.dita">kb 领域维度框架与 80/20 取舍</xref>。</p>
-      <p>标题与上游节点的对应目前只靠文件头注释与人审。声明式溯源（每篇在 prolog 声明自己对应的上游节点，索引核实其存在性，自造篇声明为自造）已定案并记档为 R18，实现在建；机制的定位与它查不出的那一类错误见 <xref href="rot-detection.dita">kb 腐烂检测机制</xref>。</p>
+      <p>标题与上游节点的对应目前只靠文件头注释与人审。声明式溯源（每篇在 prolog 声明自己对应的上游节点，索引核实其存在性，自造篇声明为自造）已定案，规则编号定为 R18，记档与实现在建；机制的定位与它查不出的那一类错误见 <xref href="rot-detection.dita">kb 腐烂检测机制</xref>。</p>
     </section>
 
     <section>

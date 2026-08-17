@@ -6,10 +6,14 @@
      不再扩 check-rules.xsl——它在吸收退役通道上）；严重度按 maturity 分级：
      draft 记 warning（草稿免罚），curated/verified 记 error（晋级门）。
      DITA topic 无命名空间，context 直接用元素名。写法用 XPath1 子集，便于自带处理器执行。
-     决策依据：dita2 cases/知识体系重塑/schematron-设计.md（R1–R10 已定案）。 -->
+     决策依据：dita2 cases/知识体系重塑/schematron-设计.md（R1–R10 已定案）。
+     归属标注（2026-08-16，Task 13b 规则归并）：每条 R 前一行注释写明它是哪个学科正本的
+     机器面。规则的人读正本在 topics/content-engineering/，本文件只管机器执行——
+     两处内容不重复，改规则先改正本，再看这条 R 是否要跟着调。 -->
 <schema xmlns="http://purl.oclc.org/dsdl/schematron">
   <title>KB 业务规则 R1-R17</title>
 
+  <!-- 归属：LLM 友好与检索 / writing-llm-friendly -->
   <pattern id="R1-shortdesc">
     <rule context="concept | reference | task | troubleshooting">
       <assert test="shortdesc and normalize-space(shortdesc) != ''"
@@ -17,6 +21,7 @@
     </rule>
   </pattern>
 
+  <!-- 归属：来源与成熟度 / writing-sourcing -->
   <pattern id="R2-volatility-required">
     <rule context="concept | reference | task | troubleshooting | glossentry">
       <assert test="@volatility"
@@ -24,6 +29,7 @@
     </rule>
   </pattern>
 
+  <!-- 归属：来源与成熟度 / writing-sourcing -->
   <pattern id="R3-verified-needs-reviewed">
     <rule context="*[@volatility='volatile'][@maturity='verified']">
       <assert test="prolog/data[@name='reviewed'] or .//data[@name='reviewed']"
@@ -31,6 +37,7 @@
     </rule>
   </pattern>
 
+  <!-- 归属：来源与成熟度 / writing-sourcing -->
   <pattern id="R4-maturity-values">
     <rule context="*[@maturity]">
       <assert test="@maturity='draft' or @maturity='curated' or @maturity='verified'"
@@ -38,6 +45,7 @@
     </rule>
   </pattern>
 
+  <!-- 归属：来源与成熟度 / writing-sourcing -->
   <pattern id="R5-volatility-values">
     <rule context="*[@volatility]">
       <assert test="@volatility='stable' or @volatility='volatile'"
@@ -45,6 +53,7 @@
     </rule>
   </pattern>
 
+  <!-- 归属：交付物变体过滤 / 词表 tool-values（无人读正本） -->
   <pattern id="R6-tool-values">
     <rule context="*[@tool]">
       <assert test="@tool='tool-claude-code' or @tool='tool-codex' or @tool='tool-antigravity'"
@@ -52,6 +61,7 @@
     </rule>
   </pattern>
 
+  <!-- 归属：术语治理 / terminology-rules -->
   <pattern id="R7-bare-term">
     <rule context="term[not(@keyref)]">
       <report test="true()" role="warning"
@@ -59,6 +69,7 @@
     </rule>
   </pattern>
 
+  <!-- 归属：来源与成熟度 / writing-sourcing -->
   <pattern id="R8-source-required">
     <rule context="concept | reference">
       <assert test="prolog/source or .//xref[@scope='external'] or .//data[@name='source']"
@@ -66,10 +77,12 @@
     </rule>
   </pattern>
 
+  <!-- 归属：领域维度框架 / domain-dimension-method -->
   <!-- R9（领域 map 必须挂一个 tech-landscape 全景 topic）是 map 层 + 跨文档规则，
        单文档 Schematron 判不了（要解析 topicref 指向的 topic 的 outputclass）。
        归构建脚本承担（dimension-coverage.py 可扩展：某 domain 有内容却无全景即报）。此处不实现。 -->
 
+  <!-- 归属：领域维度框架 / domain-dimension-method -->
   <pattern id="R10-quickstart-xref">
     <rule context="*[@outputclass='quickstart']">
       <assert test=".//xref"
@@ -80,6 +93,7 @@
 
   <!-- ── R12–R15：题材与文体（实现在 dita-tools lint，此处为规格正本）── -->
 
+  <!-- 归属：内容类型化 / writing-typing -->
   <pattern id="R12-genre">
     <rule context="concept | task">
       <assert test="@outputclass"
@@ -92,6 +106,7 @@
     </rule>
   </pattern>
 
+  <!-- 归属：内容类型化 / writing-typing（必需节清单正本在词表 genre-values） -->
   <pattern id="R13-genre-structure">
     <rule context="*[@outputclass]">
       <assert test="true()"
@@ -100,6 +115,7 @@
     </rule>
   </pattern>
 
+  <!-- 归属：来源与成熟度 / writing-sourcing -->
   <pattern id="R14-source-section">
     <rule context="section[title='来源']">
       <assert test=".//b[normalize-space()='事实'] and .//b[normalize-space()='判断']"
@@ -108,6 +124,7 @@
     </rule>
   </pattern>
 
+  <!-- 归属：写作文体 / writing-style -->
   <pattern id="R15-plain-register">
     <rule context="conbody | refbody | taskbody">
       <assert test="true()"
@@ -119,6 +136,7 @@
   </pattern>
 
 
+  <!-- 归属：切分与准入 / writing-atomicity -->
   <pattern id="R16-split-threshold">
     <rule context="concept">
       <assert test="true()"
@@ -130,6 +148,7 @@
     </rule>
   </pattern>
 
+  <!-- 归属：命名与归属 / naming-rules -->
   <pattern id="R17-domain-registered">
     <rule context="*[prolog/data[@name='domain']]">
       <assert test="true()"
