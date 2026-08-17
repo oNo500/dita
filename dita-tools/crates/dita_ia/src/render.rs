@@ -35,7 +35,7 @@ pub fn print_report(report: &IaReport, details: bool, depth: Option<usize>) {
         println!(
             "\n{}",
             paint.dim(
-                "○ 未建   ◐ 进行中   ● 完成（有全景且零盲区）   · 不适用   ⚠ 有问题   ⏰ 待复核"
+                "○ 未建   ◐ 进行中   ● 完成（有概览且零盲区）   · 不适用   ⚠ 有问题   ⏰ 待复核"
             )
         );
     }
@@ -87,7 +87,7 @@ fn print_node(
         notes.push(format!("{own} 篇"));
     }
     if let Some((covered, planned)) = node.coverage {
-        notes.push(format!("全景 {covered}/{planned}"));
+        notes.push(format!("概览 {covered}/{planned}"));
     }
     if let Some(bm) = &node.benchmark {
         notes.push(paint.dim(bm));
@@ -254,12 +254,12 @@ pub fn exception_lines(report: &IaReport, details: bool) -> Vec<String> {
     if blind > 0 {
         lines.push(format!("维度盲区 {blind} 个"));
     }
-    // 规划外的覆盖：某篇标了一个该域全景没规划的维度。要么全景漏了这一维，要么
+    // 规划外的覆盖：某篇标了一个该域概览没规划的维度。要么概览漏了这一维，要么
     // 那篇标错了——两种都要人去裁，所以不能只在 --details 里说。
     for c in &report.coverage {
         if !c.outside_plan.is_empty() {
             lines.push(format!(
-                "域 {} 有 {} 个规划外的覆盖（该补进全景或标错了）：{}",
+                "域 {} 有 {} 个规划外的覆盖（该补进概览或标错了）：{}",
                 c.domain,
                 c.outside_plan.len(),
                 join(&c.outside_plan)
@@ -312,7 +312,7 @@ fn print_branches(report: &IaReport) {
     }
     println!("\n── 按分支 ──");
     println!(
-        "  每个分支手上有什么，用来决定下一批写哪里。「· 无全景」= 该分支尚无声明维度清单的全景 topic。"
+        "  每个分支手上有什么，用来决定下一批写哪里。「· 无概览」= 该分支尚无声明维度清单的概览 topic。"
     );
     let width = report
         .branch_stats
@@ -335,7 +335,7 @@ fn print_branches(report: &IaReport) {
             if b.has_landscape {
                 ""
             } else {
-                "   · 无全景"
+                "   · 无概览"
             }
         );
     }
@@ -481,10 +481,10 @@ fn print_value_usage(report: &IaReport) {
 
 fn print_coverage(report: &IaReport) {
     println!("\n── 维度覆盖（按技术域，取自各 topic 声明的 domain）──");
-    println!("  技术域比分支细（分支 web 下可有 electron / react 各自的全景）。");
+    println!("  技术域比分支细（分支 web 下可有 electron / react 各自的概览）。");
     println!("  覆盖度 = 已覆盖 ∩ 规划 / 规划；盲区 = 规划了但还没人写的维度。");
     if report.coverage.is_empty() {
-        println!("  没有域声明了 planned-dimension（领域全景未建，或未标 domain）");
+        println!("  没有域声明了 planned-dimension（领域概览未建，或未标 domain）");
     }
     for c in &report.coverage {
         let where_ = if c.branches.is_empty() {
@@ -509,7 +509,7 @@ fn print_coverage(report: &IaReport) {
         }
         if !c.outside_plan.is_empty() {
             println!(
-                "     ⚠ 规划外的覆盖（该补进全景或标错了）：{}",
+                "     ⚠ 规划外的覆盖（该补进概览或标错了）：{}",
                 join(&c.outside_plan)
             );
         }

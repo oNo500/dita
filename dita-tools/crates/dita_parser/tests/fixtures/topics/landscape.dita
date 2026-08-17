@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA 2.0 Concept//EN" "concept.dtd">
 <concept id="landscape" xml:lang="zh-CN" maturity="curated" volatility="stable">
-  <title>某域全景</title>
+  <title>某域概览</title>
   <prolog>
     <data name="domain" value="demo"/>
     <data name="planned-dimension" value="dim-concept"/>
