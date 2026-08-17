@@ -39,14 +39,17 @@
 | 文件 | 内容 |
 |---|---|
 | [`upstream-provenance.md`](upstream-provenance.md) | **「标题 → 上游依据」全量对照表**，一行一篇：slug、定稿标题、上游节点名（或「本库自造」＋三道关摘要）、来源任务 |
+| [`decisions-and-open-items.md`](decisions-and-open-items.md) | **裁定台账与遗留清单**：45 条执行者裁定与 9 条用户裁定（决定、理由、决定错了的代价），以及收尾时仍开放的遗留项（按「合入后近期 / 可长期留 / 待用户裁定」三级分诊） |
 
-### 为什么单独留这一份
+### 为什么单独留这两份
 
 标题规则是「标题就是该节点在领域知识树上的标准叫法」。执行时每篇都查过上游（OASIS archSpec / langRef、DITA-OT 4.4 docsrc、社区通行说法），查证结果写进了两个地方：各 `.dita` 文件的头注释（进版本控制，是正本），以及各任务报告里的对照表（在 SDD 临时工作区里）。
 
 上游节点索引方案（R18 声明式溯源）要给这 65 篇补 `<data name="upstream-node">` 声明，**素材就是那些对照表**。而 SDD 工作区是临时目录，收尾即删——设计稿 §七为此写了一条带时限的任务（T3）：删除前必须抽出来，否则回填要重新查 65 遍。`upstream-provenance.md` 就是这次抽取的产物。
 
 另有一层理由：Task 8 / 9 / 10a / 11 / 12 与改名任务在隔离 worktree 内执行，报告未拷回主仓、已随 worktree 清理消失。这几个簇（architecture、conditional、core-model、principles 共 38 篇）的溯源，除文件头注释外**只剩本表这一份抄本**。
+
+`decisions-and-open-items.md` 出于同一理由抽出，抽的是另一样东西：全程 54 条裁定与仍开放的遗留项，原本只在 `.superpowers/sdd/…/progress.md` 里，而 `.superpowers/` 在 `.gitignore` 内，工作区一删即失。两份合起来构成"这批内容是怎么来的"的完整档案——一份答"标题依据什么"，一份答"路上做过哪些取舍、还欠什么"。
 
 ## 边界
 
