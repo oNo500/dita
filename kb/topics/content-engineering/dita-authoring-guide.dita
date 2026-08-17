@@ -4,8 +4,9 @@
 <!-- 给 AI 的 DITA 写作规则总纲。层0：AI 主笔质量事前靠本篇、事后靠 review.sh。
      本篇是操作手册，串起内容类型框架/维度方法/术语双语，只补 DITA 操作层；
      写作原则不重写，引 topics/content-engineering/writing-*。并入 agent-rules 交付物，AI 读它来写 kb。 -->
-<!-- 2026-08-16（Task 13b 规则归并）改为路由总纲：写作规则分属五个学科、各有正本，
-     本篇此前重述了其中若干条，与正本构成两份副本。改法是加一张学科归属路由表，
+<!-- 2026-08-16（Task 13b 规则归并）改为路由总纲：写作规则分属九类判断、各有正本
+     （九行路由表指向十篇），本篇此前重述了其中若干条，与正本构成两份副本。
+     改法是加一张规则正本路由表，
      重复条款改为一句话加 xref，只留别处无正本的 DITA 操作层条款
      （行内语义标签、术语标注的位置豁免、改 map 结构）。
      组号（组1…组9）同时废除：编号早已乱序，且它不是标签。 -->
@@ -23,7 +24,7 @@
   <refbody>
     <section>
       <title>定位</title>
-      <p>你（AI）是 kb 的主笔。这篇给写每一篇 DITA 前的次序与去处：先按下面的流程走一遍，遇到某一类判断时按路由表去对应的正本查规则。写作规则本身分属五个学科、各有正本，本篇不重述——重述出来的副本会与正本漂移，而这正是本库要消灭的东西。留在本篇的只有别处无正本的 DITA 操作层条款。</p>
+      <p>你（AI）是 kb 的主笔。这篇给写每一篇 DITA 前的次序与去处：先按下面的流程走一遍，遇到某一类判断时按路由表去对应的正本查规则。写作规则本身分属下表九类判断、各有正本，本篇不重述——重述出来的副本会与正本漂移，而这正是本库要消灭的东西。留在本篇的只有别处无正本的 DITA 操作层条款。</p>
     </section>
 
     <section>
@@ -95,7 +96,7 @@
 
     <section>
       <title>选类型与题材</title>
-      <p>按 <xref href="writing-typing.dita">kb 内容类型化</xref>选类型并标 <xmlatt>outputclass</xmlatt>，必需节清单以词表的题材值集为准。拆分阈值见 <xref href="writing-atomicity.dita">kb 内容准入判据</xref>（R16：concept 里实现层行内标记超 8 处即拆，判据留 concept，字段表与命令语法迁成 reference）。</p>
+      <p>按 <xref href="writing-typing.dita">kb 内容类型化</xref>选类型并标 <xmlatt>outputclass</xmlatt>，必需节清单以词表的题材值集为准。一篇里判据与配置并存时的拆分阈值（R16）见 <xref href="writing-atomicity.dita">kb 内容准入判据</xref>。</p>
     </section>
 
     <section>

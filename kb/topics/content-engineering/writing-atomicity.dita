@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 批量重写（2026-08-16）：按写作规则七条与 R12–R16 重构。 -->
+<!-- 2026-08-16（终审修复轮）做法节补 R16 拆分阈值的人读正本。此前 rules.sch 把 R16 归属
+     标给本篇、路由表也指向本篇，而完整表述留在路由总纲 dita-authoring-guide 里——
+     正本与归属标注不一致。现表述落本篇，总纲降为一句加 xref。 -->
 <concept id="writing-atomicity" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="stable"
@@ -28,6 +31,7 @@
       </simpletable>
       <p>左列并非潦草，而是指代物（"上面说的那个"）已不在场；右列将指代补为内容本身。自足与篇幅无关：判据是脱离语境是否成立，不是字数。</p>
       <p>判据二：可归型。内容能归入 <xmlelement>concept</xmlelement>、<xmlelement>task</xmlelement>、<xmlelement>reference</xmlelement>、<xmlelement>troubleshooting</xmlelement>、<xmlelement>glossentry</xmlelement> 之一（类型的选择见 <xref href="writing-typing.dita">内容类型化</xref>）。归不进任何一类的内容通常尚未成为知识，或者实为多篇混装：一篇"OAuth 踩坑"往往同时含原理、配置步骤与报错处置，应拆为三篇而非拒收。</p>
+      <p>混装到什么程度算该拆，有一条硬计数兜底：<b><xmlelement>concept</xmlelement> 正文里实现层行内标记合计超过 8 处即拆</b>。计入的标记是 <xmlelement>codeph</xmlelement>、<xmlelement>cmdname</xmlelement>、<xmlelement>apiname</xmlelement>、<xmlelement>parmname</xmlelement>、<xmlelement>varname</xmlelement>、<xmlelement>option</xmlelement>、<xmlelement>userinput</xmlelement>、<xmlelement>systemoutput</xmlelement>、<xmlelement>synph</xmlelement>、<xmlelement>codeblock</xmlelement>；<xmlelement>xmlelement</xmlelement>、<xmlelement>xmlatt</xmlelement>、<xmlelement>filepath</xmlelement> 不计入——前两者是本库讲 DITA 写作时的主题词汇，后者多为示意。超阈值说明判据与配置并存于一篇，拆法是判据留在 <xmlelement>concept</xmlelement>，字段表与命令语法迁成 <xmlelement>reference</xmlelement>。这条由 <cmdname>dita-tools lint</cmdname> 执行（R16）。</p>
     </section>
 
     <section>
@@ -53,7 +57,7 @@
     <section>
       <title>来源</title>
       <p><b>事实</b>：自足性源自 <term keyref="term-zettelkasten">Zettelkasten</term> 的<term keyref="term-atomicity">原子化</term>原则（一条笔记一件事、脱离语境成立），见 <xref href="https://zettelkasten.de/introduction/" scope="external">zettelkasten.de</xref>；按读者需求划分文档类型见 <xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>。</p>
-      <p><b>判断</b>：将两项合并为准入门槛（皆不过即为噪音）为本库设计，可被反驳。</p>
+      <p><b>判断</b>：将两项合并为准入门槛（皆不过即为噪音）为本库设计，可被反驳。8 处这个拆分阈值同为本库取值，无外部依据：它是"判据与配置并存"的代理指标，不是自然常数，实测偏严或偏松都应改数而非弃用。</p>
     </section>
   </conbody>
 </concept>
