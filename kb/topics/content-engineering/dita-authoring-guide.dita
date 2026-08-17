@@ -4,10 +4,15 @@
 <!-- 给 AI 的 DITA 写作规则总纲。层0：AI 主笔质量事前靠本篇、事后靠 review.sh。
      本篇是操作手册，串起内容类型框架/维度方法/术语双语，只补 DITA 操作层；
      写作原则不重写，引 topics/content-engineering/writing-*。并入 agent-rules 交付物，AI 读它来写 kb。 -->
+<!-- 2026-08-16（Task 13b 规则归并）改为路由总纲：写作规则分属五个学科、各有正本，
+     本篇此前重述了其中若干条，与正本构成两份副本。改法是加一张学科归属路由表，
+     重复条款改为一句话加 xref，只留别处无正本的 DITA 操作层条款
+     （行内语义标签、术语标注的位置豁免、改 map 结构）。
+     组号（组1…组9）同时废除：编号早已乱序，且它不是标签。 -->
 <reference id="dita-authoring-guide" xml:lang="zh-CN"
          maturity="draft" volatility="stable" dimension="dim-criteria dim-process" outputclass="artifact">
   <title>kb DITA 写作规则总纲</title>
-  <shortdesc>AI 主笔 DITA 时照此决策。本集与 review.sh 机器兜底一一对应——事前照做，事后必过。写作原则见 topics/content-engineering/writing-*，选型见《内容类型框架》，本篇只给 DITA 操作层的流程与规则。</shortdesc>
+  <shortdesc>AI 主笔 DITA 时照此决策。本篇是路由：写一篇的次序、哪类问题看哪篇正本、每条规则对应哪一项机器兜底。规则本身不在这里，只有别处无正本的 DITA 操作层条款留在这里。</shortdesc>
   <prolog>
     <!-- 原链接 docs.oasis-open.org/dita/dita/v2.0/ 已 404（link-check.py 于 2026-08-15 查出）：
          2.0 仍是草案，OASIS 正式发布路径下还没有它。改指 TC 的规范总入口。 -->
@@ -18,16 +23,70 @@
   <refbody>
     <section>
       <title>定位</title>
-      <p>你（AI）是 kb 的主笔。这篇是写每一篇 DITA 前照着走的流程与规则。它不含写作原则（在 <filepath>topics/content-engineering/</filepath>），只含 DITA 操作：选类型、用标签、标属性、挂术语与来源。每条规则对应机器兜底 <cmdname>review.sh</cmdname> 的一条检查，事前照做即不被事后拦截。</p>
+      <p>你（AI）是 kb 的主笔。这篇给写每一篇 DITA 前的次序与去处：先按下面的流程走一遍，遇到某一类判断时按路由表去对应的正本查规则。写作规则本身分属五个学科、各有正本，本篇不重述——重述出来的副本会与正本漂移，而这正是本库要消灭的东西。留在本篇的只有别处无正本的 DITA 操作层条款。</p>
+    </section>
+
+    <section>
+      <title>规则正本路由</title>
+      <p>按要判断的事找正本，一处只查一篇：</p>
+      <simpletable relcolwidth="1* 1.6* 1*">
+        <sthead><stentry>要判断的事</stentry><stentry>正本</stentry><stentry>机器兜底</stentry></sthead>
+        <strow>
+          <stentry>这条内容进不进库、该不该拆</stentry>
+          <stentry><xref href="writing-atomicity.dita">kb 内容准入判据</xref></stentry>
+          <stentry>R16</stentry>
+        </strow>
+        <strow>
+          <stentry>归哪个类型、标哪个题材、必需节有哪些</stentry>
+          <stentry><xref href="writing-typing.dita">kb 内容类型化</xref>与词表题材值集</stentry>
+          <stentry>R12/R13</stentry>
+        </strow>
+        <strow>
+          <stentry>成熟度与时效怎么标、来源节怎么写</stentry>
+          <stentry><xref href="writing-sourcing.dita">kb 来源与成熟度标注</xref></stentry>
+          <stentry>R2/R3/R8/R14</stentry>
+        </strow>
+        <strow>
+          <stentry>正文里用中文还是英文原名</stentry>
+          <stentry><xref href="terminology-rules.dita">kb 术语治理</xref></stentry>
+          <stentry>R7 与术语规整脚本</stentry>
+        </strow>
+        <strow>
+          <stentry>标题怎么定、文件名与归属字段怎么写</stentry>
+          <stentry><xref href="naming-rules.dita">kb 命名与归属</xref></stentry>
+          <stentry>R17</stentry>
+        </strow>
+        <strow>
+          <stentry>章节标题、语气与用词</stentry>
+          <stentry><xref href="writing-style.dita">kb 文体与语体</xref></stentry>
+          <stentry>R15</stentry>
+        </strow>
+        <strow>
+          <stentry>喂给检索器与 agent 时怎么写得更好用</stentry>
+          <stentry><xref href="writing-llm-friendly.dita">kb 的 LLM 友好写作</xref></stentry>
+          <stentry>无</stentry>
+        </strow>
+        <strow>
+          <stentry>分类框架分几层、一个领域怎么建起来</stentry>
+          <stentry><xref href="dimension-type-genre.dita">kb 内容分类的维度、类型与题材</xref>、<xref href="domain-dimension-method.dita">kb 领域维度框架与 80/20 取舍</xref></stentry>
+          <stentry>R9/R10 与 IA 报表</stentry>
+        </strow>
+        <strow>
+          <stentry>内容过期与分类树脱锚怎么发现</stentry>
+          <stentry><xref href="rot-detection.dita">kb 腐烂检测机制</xref></stentry>
+          <stentry>见各实例正本</stentry>
+        </strow>
+      </simpletable>
     </section>
 
     <section>
       <title>写一篇的决策流程</title>
       <ol>
         <li>定维度——这篇讲主题的哪个方面（安装/机制/对比/调优…，见词表 dimension 值集）。</li>
-        <li>选类型与题材——按《内容类型框架》：DITA 类型（concept/task/reference/troubleshooting）＋题材（<xmlatt>outputclass</xmlatt>）。</li>
-        <li>写正文——用精细行内语义，不糊成一个 <xmlelement>codeph</xmlelement>。</li>
-        <li>标元数据——<xmlatt>maturity</xmlatt>、<xmlatt>volatility</xmlatt>（必标）、<xmlatt>dimension</xmlatt>（覆盖的维度，可多值）。</li>
+        <li>选类型与题材——DITA 类型（concept/reference/troubleshooting）加题材（<xmlatt>outputclass</xmlatt>）。</li>
+        <li>定标题——按领域知识树上的标准叫法，自造须过三道关并在文件头注释留证。</li>
+        <li>写正文——用精细行内语义，不糊成一个 <xmlelement>codeph</xmlelement>；机制名用英文原名。</li>
+        <li>标元数据——<xmlatt>maturity</xmlatt>、<xmlatt>volatility</xmlatt>（必标）、<xmlatt>dimension</xmlatt>（覆盖的维度，可多值）、prolog 的 domain。</li>
         <li>挂术语与来源——关键术语走 <xmlelement>term</xmlelement> <xmlatt>keyref</xmlatt>；concept/reference 必有来源。</li>
         <li>建新领域时——先建全景 topic、标维度清单与盲区；内容按 80/20 从完整图上切。</li>
         <li>写完跑 <cmdname>review.sh</cmdname>——结构＋业务规则＋覆盖度，有 error 按报告自修再跑。</li>
@@ -35,20 +94,12 @@
     </section>
 
     <section>
-      <title>组1 选类型与题材（→ 结构模板/R 无直接项，靠框架自证）</title>
-      <p>不靠感觉，按《内容类型框架》的三层判断：先维度、再类型、再题材。</p>
-      <ul>
-        <li>要教人一步步做出东西 → <xmlelement>task</xmlelement>（tutorial/how-to 题材）。</li>
-        <li>要讲清"是什么、为什么" → <xmlelement>concept</xmlelement>（best-practice/tech-landscape/deep-dive 题材）。</li>
-        <li>要给查阅的结构化条目 → <xmlelement>reference</xmlelement>（cheatsheet/curated-resources 题材）。</li>
-        <li>症状→原因→处置 → <xmlelement>troubleshooting</xmlelement>。</li>
-      </ul>
-      <p>题材用 <xmlatt>outputclass</xmlatt> 标，遵守该题材的固定结构（见《内容类型框架》题材表：如 quickstart＝目标→前置→步骤→next）。</p>
-      <p>拆分阈值（R16）：concept 里实现层行内标记（<xmlelement>codeph</xmlelement>/<xmlelement>cmdname</xmlelement> 等）合计超 8 处即拆——判据留 concept，事件清单、字段表、命令语法迁成 reference。</p>
+      <title>选类型与题材</title>
+      <p>按 <xref href="writing-typing.dita">kb 内容类型化</xref>选类型并标 <xmlatt>outputclass</xmlatt>，必需节清单以词表的题材值集为准。拆分阈值见 <xref href="writing-atomicity.dita">kb 内容准入判据</xref>（R16：concept 里实现层行内标记超 8 处即拆，判据留 concept，字段表与命令语法迁成 reference）。</p>
     </section>
 
     <section>
-      <title>组2 行内精细语义（准确优先，不糊成 codeph）</title>
+      <title>行内精细语义</title>
       <p>你的内容价值在精确。该用专门标签就用，别一律 <xmlelement>codeph</xmlelement>：</p>
       <dl>
         <dlentry><dt><xmlelement>cmdname</xmlelement></dt><dd>命令名（<codeph>git</codeph>、<codeph>review.sh</codeph>）</dd></dlentry>
@@ -56,23 +107,22 @@
         <dlentry><dt><xmlelement>apiname</xmlelement></dt><dd>API/函数/方法名</dd></dlentry>
         <dlentry><dt><xmlelement>xmlelement</xmlelement> / <xmlelement>xmlatt</xmlelement></dt><dd>XML 元素名 / 属性名</dd></dlentry>
         <dlentry><dt><xmlelement>codeph</xmlelement> / <xmlelement>codeblock</xmlelement></dt><dd>行内代码片段 / 成块代码</dd></dlentry>
-        <dlentry><dt><xmlelement>term</xmlelement> <xmlatt>keyref</xmlatt></dt><dd>受控术语（见组4）</dd></dlentry>
+        <dlentry><dt><xmlelement>term</xmlelement> <xmlatt>keyref</xmlatt></dt><dd>受控术语（标注位置见下一节）</dd></dlentry>
       </dl>
     </section>
 
     <section>
-      <title>组3 元数据标注（→ R2/R4/R5，构建期 enumerationdef）</title>
+      <title>元数据标注</title>
+      <p>四个字段写在根元素与 prolog 上，缺一项即被机器拦下：</p>
       <ul>
-        <li><xmlatt>maturity</xmlatt>：draft/curated/verified。不标默认 draft。verified 前提：来源已核对且标了 <xmlelement>data</xmlelement> <xmlatt>name</xmlatt>="reviewed"（→ R3）。</li>
-        <li><xmlatt>volatility</xmlatt>：stable/volatile，必须显式标（漏标 R2 报错）。生态易变的内容标 volatile。</li>
-        <li><xmlatt>dimension</xmlatt>：标这篇覆盖的维度（dim-*，可空格分隔多值），值必须在词表 dimension 值集内。</li>
-        <li>domain（prolog <xmlelement>data</xmlelement> <xmlatt>name</xmlatt>="domain"）：这篇内容讲的是哪个主题，值必须是词表 subject 树里的键。它是 topic 与分类树之间唯一的链接——不声明就进不了骨架与覆盖度。优先叶子键（如 <codeph>writing-principles</codeph>），内容确实横跨一整组才用组键（如 <codeph>coding-agents</codeph>）。目录与主题两级对应词表同一棵树：<b>目录 = 所属分支键</b>（一级，如 <filepath>topics/content-engineering/</filepath>），<b>domain = 主题键</b>（细粒度）。新建 topic 先按 domain 推出分支，放进同名目录。glossentry 豁免（术语库是组织节点）。填错键 <cmdname>dita-tools ia</cmdname> 报 error 并落回未归桶。</li>
+        <li><xmlatt>maturity</xmlatt> 与 <xmlatt>volatility</xmlatt>——取值与晋级条件见 <xref href="writing-sourcing.dita">kb 来源与成熟度标注</xref>（R2/R3/R4/R5）。</li>
+        <li><xmlatt>dimension</xmlatt> 与 prolog 的 domain——写什么、值域由谁管、目录怎么跟着定，见 <xref href="naming-rules.dita">kb 命名与归属</xref>（R17）。glossentry 的 domain 豁免，术语库是组织节点。</li>
       </ul>
     </section>
 
     <section>
-      <title>组4 术语一致性（→ R7）</title>
-      <p>关键术语不打字面词：查术语库（<filepath>maps/glossary.ditamap</filepath>），有则 <xmlelement>term</xmlelement> <xmlatt>keyref</xmlatt>="term-x"，没有则先建 glossentry（双语条目）再引。改叫法只改术语库，正文不动。</p>
+      <title>术语标注的位置</title>
+      <p>用哪个词由 <xref href="terminology-rules.dita">kb 术语治理</xref>裁定，本节只给标注位置。关键术语不打字面词：查术语库（<filepath>maps/glossary.ditamap</filepath>），有则 <xmlelement>term</xmlelement> <xmlatt>keyref</xmlatt>="term-x"，没有则按第二篇测试决定是否先建条目。改叫法只改术语库，正文不动。</p>
       <ul>
         <li><b>每篇首现标注即可</b>——同一篇里已用 <xmlatt>keyref</xmlatt> 标注过的术语，后文字面提及不必再包。全标会让一段长表格每行都套一层标签，收益为零。</li>
         <li><b>标题不标</b>——标题是标签不是行文，<xmlatt>keyref</xmlatt> 会改变导航与 TOC 的渲染，而"这篇讲的就是它"已由标题本身表达。</li>
@@ -81,8 +131,8 @@
     </section>
 
     <section>
-      <title>组6 来源（→ R8）</title>
-      <p>concept/reference 必有来源，否则 R8 报错——你的内容本就来源驱动：</p>
+      <title>来源的落位</title>
+      <p>来源节写什么见 <xref href="writing-sourcing.dita">kb 来源与成熟度标注</xref>，本节只给落位。concept/reference 必有来源，否则 R8 报错：</p>
       <ul>
         <li>一两个主来源：prolog <xmlelement>source</xmlelement>。</li>
         <li>大量来源：正文末尾"来源"节，多个 <xmlelement>xref</xmlelement> <xmlatt>scope</xmlatt>="external"。</li>
@@ -91,16 +141,7 @@
     </section>
 
     <section>
-      <title>组5 双语 · 组7 维度 · 组8 结构模板（引用已有，不重复）</title>
-      <ul>
-        <li>双语：正文中文单源；术语库双语条目；英文按需翻不预填。详见《术语与双语-设计》。</li>
-        <li>维度完整性：建域先对标建完整维度框架、标盲区，再 80/20 切快速上手；quickstart 挂全景。详见《维度完整性-方法与约束》。</li>
-        <li>结构模板：<b>题材必标</b>——每篇在根元素标 <xmlatt>outputclass</xmlatt>，并按该题材的固定骨架写（quickstart＝目标→前置→步骤→next，best-practice＝场景→做法→理由→反例→边界，等）。骨架表与文体规则见 <xref href="writing-style.dita">文体与结构</xref>：章节标题作标签不作论点、来源节固定两段、过程与心得不进正文、语气平实（开头不造场景、粗体每节至多两处、修辞不携带信息就删）。标题是专业命名：名词短语、含系统或域定位词、类目词对齐上游官方分类。不标题材＝没有结构可依，每篇会自创一套。</li>
-      </ul>
-    </section>
-
-    <section>
-      <title>组9 改 map 结构（引 map 必须包 topichead）</title>
+      <title>改 map 结构</title>
       <p>规范定义的 <xmlelement>mapref</xmlelement> 处理：<b>被引 map 的层级并入容器 map，其 <xmlelement>title</xmlelement> 不产生导航节点</b>。所以裸写 <codeph>&lt;mapref href="domains/web.ditamap"/&gt;</codeph> 会让该域的 topic 直接摊到上一层，"Web 技术栈"这个名字在产物里消失。</p>
       <ul>
         <li>在 <filepath>maps/root.ditamap</filepath> 引任何领域 map / 术语库 map，一律包一层 <xmlelement>topichead</xmlelement>，其 <xmlelement>navtitle</xmlelement> 与被引 map 的 <xmlelement>title</xmlelement> <b>逐字一致</b>。</li>
@@ -111,8 +152,8 @@
     </section>
 
     <section>
-      <title>规则与机器兜底的对应（两条腿咬合）</title>
-      <p>本集每条对应 <cmdname>review.sh</cmdname> 的一条检查，事前照做＝事后必过：</p>
+      <title>规则与机器兜底的对应</title>
+      <p>各正本的规则对应 <cmdname>review.sh</cmdname> 的一条检查，事前照做＝事后必过：</p>
       <simpletable relcolwidth="3* 1*">
         <sthead><stentry>写作规则（事前）</stentry><stentry>机器兜底（事后）</stentry></sthead>
         <strow><stentry>每篇写非空 shortdesc</stentry><stentry>R1</stentry></strow>
@@ -121,6 +162,11 @@
         <strow><stentry>关键术语用 <xmlelement>term</xmlelement> 加 <xmlatt>keyref</xmlatt></stentry><stentry>R7</stentry></strow>
         <strow><stentry>concept/reference 必有来源</stentry><stentry>R8</stentry></strow>
         <strow><stentry>建域先全景、quickstart 挂全景</stentry><stentry>R10 + dita-tools ia（R9 观测与覆盖度）</stentry></strow>
+        <strow><stentry>标题材并按必需节写</stentry><stentry>R12/R13</stentry></strow>
+        <strow><stentry>来源节两段标签齐备</stentry><stentry>R14</stentry></strow>
+        <strow><stentry>语气平实、用词书面</stentry><stentry>R15（代理指标）</stentry></strow>
+        <strow><stentry>实现层行内标记超阈值即拆</stentry><stentry>R16</stentry></strow>
+        <strow><stentry>domain 填词表已注册的主题键</stentry><stentry>R17</stentry></strow>
         <strow><stentry>引 map 包 topichead、navtitle 与被引 map 标题一致</stentry><stentry>dita-tools ia 一致性检查</stentry></strow>
       </simpletable>
     </section>
