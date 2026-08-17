@@ -17,8 +17,10 @@
      三篇同一节点域；structural-specialization 里重复的规则罗列同步改为 xref 指向本篇。
      shell 相对路径不变（core-model 与 architecture 同层，仍为 ../../../schema/）。
      术语规则（2026-08-16 用户门反馈 + 同日译名禁令）：specialization / generalization /
-     domain / document-type shell / constraint module 等一律英文原名，不写「专门化」
-     （错译，标准译法为「特化」）「泛化」；括号按 terminology-rules 的三分规则（有达意标准译名给译名、否则给解释、正文已说清则不写；2026-08-17 用户定稿）。
+     domain / document-type shell / constraint module 等一律英文原名作首选词；「专门化」是
+     错译，标准译法为「特化」，两者都不作首选词。括号按 terminology-rules 的三分规则（有达意
+     标准译名给译名——generalization 给「泛化」，没有或不达意给解释，正文已说清则不写；
+     2026-08-17 用户定稿）。
      volatility=stable 的依据：两个属性的构造规则出自架构规范，不随发行版变动。
      事实纪律：@class 的六条构造规则与 @specializations 的形式语法为笔记已逐页核对项；
      裸解析取不到默认属性、域元素降级示例的具体取值按判断呈现，来源节判断段列明。 -->

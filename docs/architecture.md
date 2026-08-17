@@ -11,7 +11,7 @@
 1. **没有根。** 仓库根目录只有三个文件夹，没有入口文档。三份 README 各说各的，只有 `dita-tools/README.md` 提了一句"作为 kb 的配套工具链"。（已补：根 [README.md](../README.md)）
 2. **同一条规则被两份规划各自认领。** `ia-governance.md`（现存 `research/cases/kb-redesign/`）说 R11 加进 `check-rules.xsl`；`dita-tools` 的架构计划说 R11 进 `dita_validate`。两边都动，就会长出两个都不完整、还得互相同步的实现。
 3. **唯一事实源没被当成唯一事实源。** `vocab/subjectScheme.ditamap` 定义了 51 个 `dim-*` 与三个属性值集，但 `check-rules.xsl` 里是**手抄的副本**。改词表不会让校验跟着变。
-4. **工具够不着内容。** `dita-tools` 有 map 解析器，没有 topic 解析器；`TopicMeta` 类型定义了却没有生产者。它因此读不到任何 `@props` 专门化属性，接不上覆盖度与业务规则。
+4. **工具够不着内容。** `dita-tools` 有 map 解析器，没有 topic 解析器；`TopicMeta` 类型定义了却没有生产者。它因此读不到任何由 `@props` specialization 而来的属性，接不上覆盖度与业务规则。
 
 ## 二、三层契约
 
