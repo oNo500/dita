@@ -23,10 +23,10 @@
      未配 catalog 的三种后果、processor 按 @class 匹配一行，均为归纳或实践观察，
      已在来源节判断段逐条列明，不写成规范断言。
      维度更正（2026-08-17，Task 14 终验）：原标 dim-governance，ia 报「规划外的覆盖」。
-     改标 dim-roles——全景「角色与权限（dim-roles）」一行的原文即「规范写给哪几种角色看、
+     改标 dim-roles——概览「角色与权限（dim-roles）」一行的原文即「规范写给哪几种角色看、
      各角色该读哪部分、**谁有权定义 schema 与文档类型外壳**」，正是本篇的正题。
      dim-governance 在本库的实际用法是 kb 自身的治理（其余五处全在 writing-principles 域），
-     与「DITA 规范把定义权分给谁」不同义，故不补进本域全景。 -->
+     与「DITA 规范把定义权分给谁」不同义，故不补进本域概览。 -->
 <concept id="schema-authority" xml:lang="zh-CN"
          outputclass="deep-dive"
          maturity="draft" volatility="volatile"

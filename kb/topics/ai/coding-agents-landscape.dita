@@ -3,15 +3,15 @@
 <!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
      结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
      整改后按实际情况重新定级。 -->
-<!-- 领域全景（tech-landscape 题材）：coding-agents 域。
+<!-- 领域概览（tech-landscape 题材）：coding-agents 域。
      对标三路：官方文档结构（Claude Code 文档索引，2026-08-15 取原文）＋ 矿场实据
      （20-02-ai-assistant 与 30-05-ai/claude-code 共 20+ 篇）＋ 维度框架族（A 技术制品 × C AI 构建）。
-     矿场素材只参考、不迁移；本域三篇方法论 topic 已先于全景存在，其覆盖计入下表。 -->
+     矿场素材只参考、不迁移；本域三篇方法论 topic 已先于概览存在，其覆盖计入下表。 -->
 <concept id="coding-agents-landscape" xml:lang="zh-CN"
          outputclass="tech-landscape"
          maturity="draft" volatility="volatile">
-  <title>Coding Agents 领域全景</title>
-  <shortdesc>agent CLI 工具（<term keyref="term-claude-code">Claude Code</term> / <term keyref="term-codex">Codex</term> / <term keyref="term-antigravity">Antigravity</term>）该从哪些维度理解——本域完整维度清单与当前覆盖状态。二十个维度已覆盖十个，其余为盲区；全景先立、内容按 volatile 优先逐篇填。</shortdesc>
+  <title>Coding Agents 领域概览</title>
+  <shortdesc>agent CLI 工具（<term keyref="term-claude-code">Claude Code</term> / <term keyref="term-codex">Codex</term> / <term keyref="term-antigravity">Antigravity</term>）该从哪些维度理解——本域完整维度清单与当前覆盖状态。二十个维度已覆盖十个，其余为盲区；概览先立、内容按 volatile 优先逐篇填。</shortdesc>
   <prolog>
     <source href="https://code.claude.com/docs/" scope="external"/>
     <data name="domain" value="coding-agents"/>
@@ -38,7 +38,7 @@
     <data name="planned-dimension" value="dim-injection-safety"/>
   </prolog>
   <conbody>
-    <p>本页是 coding-agents 域的全景：先对标列出该从哪些维度理解 agent CLI 工具，再标出每个维度当前有没有内容。它不讲具体做法，只界定范围、暴露盲区。本域是全库时效流失最快的分支（工具月月变），也是矿场素材最厚的一块——重写按 volatile 优先，写一篇、覆盖度涨一格。</p>
+    <p>本页是 coding-agents 域的概览：先对标列出该从哪些维度理解 agent CLI 工具，再标出每个维度当前有没有内容。它不讲具体做法，只界定范围、暴露盲区。本域是全库时效流失最快的分支（工具月月变），也是矿场素材最厚的一块——重写按 volatile 优先，写一篇、覆盖度涨一格。</p>
 
     <section>
       <title>维度清单与覆盖状态</title>

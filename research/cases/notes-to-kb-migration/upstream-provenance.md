@@ -35,6 +35,8 @@
 | `dita-landscape` | DITA 领域全景 | **本库自造**。上游无「领域全景」这一体裁（OASIS 规范与 DITA-OT 文档均无）；「领域全景」是本库 tech-landscape 题材的固定后缀，DITA 为领域名，未造新词。迁自 `research/README.md`「版本现状」节 + 笔记 01 §6。 | Task 4 |
 | `dita-resources` | DITA 权威资源入口 | **本库自造（半）**。上游有同类目节点：DITA-OT 4.4 文档 `topics/dita-resources.ditamap`「**DITA and DITA-OT resources**」；本篇按可信度分层收录，故取「权威资源入口」而非直译。迁自 `research/README.md`「权威资源」节。 | Task 4 |
 
+> **改名注记（2026-08-17）**：`tech-landscape` 题材的中文后缀由「领域全景」改为「**领域概览**」，三篇标题随之改为《DITA 领域概览》《Electron 领域概览》《Coding Agents 领域概览》。上表 `dita-landscape` 一行保留改名前的原文——它记录的是迁移当时的定稿标题，且其自造论证本身就是针对「全景」这个词的，就地替换会让论证与被论证对象脱节。文件名、`id` 与题材键 `tech-landscape` 均未变，回填时按新标题写正文、按本行读溯源。
+
 ---
 
 ## 二、core-model 簇（Task 5 三篇 + Task 11 五篇）

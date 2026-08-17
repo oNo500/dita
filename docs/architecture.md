@@ -39,7 +39,7 @@ dita-tools/  执行引擎     产出：校验结果、IA 视图
 |---|---|---|---|
 | R1–R6、R8、R10 | shortdesc、时效标注、核对日期、三个属性值域、来源、quickstart 挂靠 | `scripts/check-rules.xsl`（Saxon） | `dita-tools lint`（实现后 xsl 退役，SSOT 手抄副本随之还清） |
 | R7 | 术语裸字面 → `term keyref` | `scripts/term-normalize.py`（报告版） | `dita-tools lint` |
-| R9 / 维度覆盖度 | 领域全景、盲区统计 | `dita-tools ia`（脚本已于 2026-08-15 退役） | `dita-tools ia` ✅ |
+| R9 / 维度覆盖度 | 领域概览、盲区统计 | `dita-tools ia`（脚本已于 2026-08-15 退役） | `dita-tools ia` ✅ |
 | **R11** | **`@dimension` 值合法性** | `dita-tools ia` 已报 error | `dita-tools lint`（归属冲突随终态落定而消） |
 | R12–R13 | 题材必标、值合法、类型匹配、必需节齐全 | `dita-tools lint`（2026-08-16） | `dita-tools lint` ✅ |
 | R14 | 来源节两段标签、禁正文手写日期 | `dita-tools lint` | 同上 ✅ |
@@ -72,7 +72,7 @@ R11 的归属之所以两份规划都伸手认领，根子在这条线一直没�
 | 面 | 回答 | 数据来自 | 现状 |
 |---|---|---|---|
 | **现状** | 实际长什么样 | `maps/` + `topics/` | ✅ 树、分支统计、孤儿、非法值 |
-| **应然** | 本该长什么样 | `subjectScheme` 主题树（81 个规划节点）；全景的 `planned-dimension` | 维度那半已做，主题树那半未做 |
+| **应然** | 本该长什么样 | `subjectScheme` 主题树（81 个规划节点）；概览的 `planned-dimension` | 维度那半已做，主题树那半未做 |
 | **时间** | 什么时候开始烂 | `benchmark-registry`（对标锚点 + 上次日期 + 复核档位） | 未做 |
 
 没有「应然」，工具只能说"这里 3 篇、那里是空的"；有了它才能说"这个分支规划了 18 个子主题、建了 0 个"。没有「时间」，看不见分类树自身的腐烂——而词表里那 10 条对标登记，写的正是"这棵树多久该重新对标一次"。

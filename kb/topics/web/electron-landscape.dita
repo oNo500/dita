@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 领域全景样板（tech-landscape 题材）：electron 域从零起步。
-     用途：验证维度值集（v0.3）能落地——内容 topic 用 @dimension 属性标覆盖、全景用 prolog data 声明本域维度清单、
+<!-- 领域概览样板（tech-landscape 题材）：electron 域从零起步。
+     用途：验证维度值集（v0.3）能落地——内容 topic 用 @dimension 属性标覆盖、概览用 prolog data 声明本域维度清单、
      正文列盲区。此刻 kb 里 electron 一篇内容都没有，故全部维度状态＝盲区，覆盖度 0/N，
-     正是"全景哪怕满是盲区也要先建"的样子。矿场有 electron 素材，只参考、不迁移。 -->
+     正是"概览哪怕满是盲区也要先建"的样子。矿场有 electron 素材，只参考、不迁移。 -->
 <concept id="electron-landscape" xml:lang="zh-CN"
          outputclass="tech-landscape"
          maturity="draft" volatility="volatile">
-  <title>Electron 领域全景</title>
-  <shortdesc>Electron 该从哪些维度理解——本域的完整维度清单与当前覆盖状态。此刻内容尚未重写，各维度均为盲区，全景先立、内容后填。</shortdesc>
+  <title>Electron 领域概览</title>
+  <shortdesc>Electron 该从哪些维度理解——本域的完整维度清单与当前覆盖状态。此刻内容尚未重写，各维度均为盲区，概览先立、内容后填。</shortdesc>
   <prolog>
     <source href="https://www.electronjs.org/docs/latest" scope="external"/>
     <data name="domain" value="electron"/>
@@ -28,7 +28,7 @@
     <data name="planned-dimension" value="dim-packaging"/>
   </prolog>
   <conbody>
-    <p>本页是 Electron 域的全景：先对标列出该从哪些维度理解 Electron，再标出当前每个维度有没有内容。它不讲具体做法，只界定范围、暴露盲区。具体维度的内容以后逐篇重写，写一篇、本域覆盖度涨一格。</p>
+    <p>本页是 Electron 域的概览：先对标列出该从哪些维度理解 Electron，再标出当前每个维度有没有内容。它不讲具体做法，只界定范围、暴露盲区。具体维度的内容以后逐篇重写，写一篇、本域覆盖度涨一格。</p>
 
     <section>
       <title>维度清单与覆盖状态</title>
@@ -54,7 +54,7 @@
 
     <section>
       <title>按需新增的维度：dim-packaging</title>
-      <p>上表的<b>打包分发与更新</b>（<codeph>dim-packaging</codeph>）是本域触发新增的维度。起步维度值集的 A 技术制品族只铺了 9 个通用制品维度，桌面／客户端框架特有的"打包分发"不在其中——它不属于通用核心，也不是"集成"或"配置"能准确容纳的。写这份 electron 全景时碰到它，才按"子类按需再加"补进词表（A 族子类首个）。这是维度框架的预期运转：通用核心稳定，子类维度由真实内容顶出来，而非起步拍脑袋铺满。</p>
+      <p>上表的<b>打包分发与更新</b>（<codeph>dim-packaging</codeph>）是本域触发新增的维度。起步维度值集的 A 技术制品族只铺了 9 个通用制品维度，桌面／客户端框架特有的"打包分发"不在其中——它不属于通用核心，也不是"集成"或"配置"能准确容纳的。写这份 electron 概览时碰到它，才按"子类按需再加"补进词表（A 族子类首个）。这是维度框架的预期运转：通用核心稳定，子类维度由真实内容顶出来，而非起步拍脑袋铺满。</p>
     </section>
   </conbody>
 </concept>

@@ -35,18 +35,18 @@
       <ol>
         <li>先建完整维度框架。对标外部权威结构列维度，不凭记忆；没内容的维度留空并标为盲区；新出现的维度名登记进 <term keyref="term-subject-scheme">subject scheme</term> 词表的维度值集。</li>
         <li>在完整框架上按 80/20 取舍，找出能解锁大部分使用的少数维度。取舍依据是解锁度与使用频率，不是熟悉度。</li>
-        <li>这少数维度写成 quickstart，完整框架本身保留为领域全景，即 tech-landscape 题材。</li>
+        <li>这少数维度写成 quickstart，完整框架本身保留为领域概览，即 tech-landscape 题材。</li>
       </ol>
-      <p>两个产物配套。只有全景没有 quickstart，读者面对全图无从下手；只有 quickstart 没有全景，读者会把入门路径误当成领域的全部。每个领域必须有全景，建域第一步就得有，哪怕先是一份满是盲区的维度清单；quickstart 按需，不强制每个领域都写。两者都不是新类型，本篇给它们补的是写法。</p>
-      <p>维度分两处落地。subjectScheme 的主题树是「领域 &gt; 技术」结构，子节点是具体技术而非维度，所以维度不作为子主题挂在树内，而是另立一个横切的维度值集，与 maturity、volatility 同类。内容 topic 在根元素上标 <xmlatt>dimension</xmlatt>，声明自己覆盖哪些维度，可多值；领域全景用 <xmlelement>prolog</xmlelement> 里的 <xmlelement>data</xmlelement> 字段声明本领域的规划维度清单，属治理元数据。建框架与填词表是同一个动作：第一步的产物就是全景里的维度清单加词表里新登记的维度键。</p>
-      <p>覆盖度由此可算：全景声明的维度中有多少已有 topic 覆盖，构建期按领域分组求差即得；盲区是全景声明了而无 topic 覆盖的那部分，构建期可以逐条列出。</p>
+      <p>两个产物配套。只有概览没有 quickstart，读者面对全图无从下手；只有 quickstart 没有概览，读者会把入门路径误当成领域的全部。每个领域必须有概览，建域第一步就得有，哪怕先是一份满是盲区的维度清单；quickstart 按需，不强制每个领域都写。两者都不是新类型，本篇给它们补的是写法。</p>
+      <p>维度分两处落地。subjectScheme 的主题树是「领域 &gt; 技术」结构，子节点是具体技术而非维度，所以维度不作为子主题挂在树内，而是另立一个横切的维度值集，与 maturity、volatility 同类。内容 topic 在根元素上标 <xmlatt>dimension</xmlatt>，声明自己覆盖哪些维度，可多值；领域概览用 <xmlelement>prolog</xmlelement> 里的 <xmlelement>data</xmlelement> 字段声明本领域的规划维度清单，属治理元数据。建框架与填词表是同一个动作：第一步的产物就是概览里的维度清单加词表里新登记的维度键。</p>
+      <p>覆盖度由此可算：概览声明的维度中有多少已有 topic 覆盖，构建期按领域分组求差即得；盲区是概览声明了而无 topic 覆盖的那部分，构建期可以逐条列出。</p>
       <p>约束分三层，事前、事后、最后各管一段：</p>
       <simpletable relcolwidth="1* 2* 2*">
         <sthead><stentry>环节</stentry><stentry>agent 规则（事前）</stentry><stentry>机器校验（事后）</stentry></sthead>
         <strow>
           <stentry>建维度框架</stentry>
           <stentry>先对标外部权威结构列维度，不凭记忆；登记进 subjectScheme</stentry>
-          <stentry>领域 map 必须挂一个全景 topic</stentry>
+          <stentry>领域 map 必须挂一个概览 topic</stentry>
         </strow>
         <strow>
           <stentry>盲区</stentry>
@@ -56,7 +56,7 @@
         <strow>
           <stentry>quickstart</stentry>
           <stentry>按解锁度与使用频率取舍，不按熟悉度；声明覆盖哪些维度、略过哪些</stentry>
-          <stentry>quickstart 必须 xref 到所属全景并有取舍声明，否则报错</stentry>
+          <stentry>quickstart 必须 xref 到所属概览并有取舍声明，否则报错</stentry>
         </strow>
         <strow>
           <stentry>维度是否齐全、取舍是否准确</stentry>
@@ -69,14 +69,14 @@
     <section>
       <title>理由</title>
       <p>第二步必须在完整框架上做，否则取舍的对象只是已经会的那部分，漏掉的维度仍然没进视野，而取舍的结果看起来同样体面。先有完整框架，80/20 才是取舍而不是自述。</p>
-      <p>三层约束的分工来自各自能管什么。机器只判形式条件：有没有维度框架、有没有对标依据、盲区列没列、quickstart 挂没挂靠全景、题材结构齐不齐。维度齐不齐、取舍准不准，机器判断不了，原本只能靠人审。agent 规则填的是中间这段：它不能保证结果对，但能要求方法对，而方法是否照做，机器查得出来。</p>
+      <p>三层约束的分工来自各自能管什么。机器只判形式条件：有没有维度框架、有没有对标依据、盲区列没列、quickstart 挂没挂靠概览、题材结构齐不齐。维度齐不齐、取舍准不准，机器判断不了，原本只能靠人审。agent 规则填的是中间这段：它不能保证结果对，但能要求方法对，而方法是否照做，机器查得出来。</p>
     </section>
 
     <section>
       <title>反例</title>
       <ul>
-        <li>从已掌握的部分直接写入门路径，不先建全景。读者会把这条路径当成领域的全部，作者也失去了发现盲区的唯一时机。</li>
-        <li>维度只写在全景正文里，不登记进词表。覆盖度算不出，盲区无法在构建期列出，完整性重新退回人工记忆。</li>
+        <li>从已掌握的部分直接写入门路径，不先建概览。读者会把这条路径当成领域的全部，作者也失去了发现盲区的唯一时机。</li>
+        <li>维度只写在概览正文里，不登记进词表。覆盖度算不出，盲区无法在构建期列出，完整性重新退回人工记忆。</li>
         <li>盲区跳过不标。留空且标注的维度提示「这里还缺」，未标注的维度与不存在无异。</li>
         <li>把这条方法当成新的内容类型来落地。它是建域的顺序与写法，四维度框架不因它增减（见 <xref href="dimension-type-genre.dita">kb 内容分类的维度、类型与题材</xref>）。</li>
       </ul>
@@ -90,7 +90,7 @@
     <section>
       <title>来源</title>
       <p><b>事实</b>：以 <xref href="https://dita-lang.org/2.0/dita/archspec/base/subjectschema" scope="external">subject scheme map</xref> 定义受控值、并把值集<xref href="https://dita-lang.org/2.0/dita/archspec/base/binding-controlled-values-to-attribute" scope="external">绑定到属性</xref>，是 DITA 规范提供的机制；属性可从 <xref href="https://dita-lang.org/dita/langref/ditaval/prop" scope="external">@props</xref> 派生，见 <xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">attribute specialization</xref>。按用户需求划分文档形态见 <xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>。</p>
-      <p><b>判断</b>：先完整后取舍的三步、全景与 quickstart 配套且全景每领域必有、维度另立横切值集而不进主题树、盲区为词表与 topic 的差集、三层约束的分工，均为本库设计，无外部标准背书，可被反驳。表中两条机器校验为规格，落地状态以词表与 lint 的实现为准。</p>
+      <p><b>判断</b>：先完整后取舍的三步、概览与 quickstart 配套且概览每领域必有、维度另立横切值集而不进主题树、盲区为词表与 topic 的差集、三层约束的分工，均为本库设计，无外部标准背书，可被反驳。表中两条机器校验为规格，落地状态以词表与 lint 的实现为准。</p>
     </section>
   </conbody>
 </concept>

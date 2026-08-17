@@ -29,7 +29,7 @@
     <section>
       <title>目标</title>
       <p>在本机安装 DITA-OT，确认它按 DITA 2.0 的语法文件处理文档，并从一份 map 产出 HTML5。完成后即可继续用它执行校验、条件过滤与其他 <term keyref="term-transtype">transtype</term>（输出类型）。</p>
-      <p>DITA 的问题域分六类，本篇只覆盖工具链支持这一类的入口部分，其余见 <xref href="../dita-landscape.dita">DITA 领域全景</xref>。</p>
+      <p>DITA 的问题域分六类，本篇只覆盖工具链支持这一类的入口部分，其余见 <xref href="../dita-landscape.dita">DITA 领域概览</xref>。</p>
     </section>
 
     <section>

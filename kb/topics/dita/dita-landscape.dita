@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 领域全景（tech-landscape 题材）：dita 域。
+<!-- 领域概览（tech-landscape 题材）：dita 域。
      迁自 research/README.md「版本现状」节与 research/notes/01-core-model.md §6（与其他方案的定位差）。
      维度框架三路对标：OASIS 规范自身的编排 ＋ DITA-OT 文档类目 ＋ research/notes 00–15 的问题分布。
      覆盖状态不写在正文：planned-dimension 与各内容 topic 的 @dimension 求差由 dita-tools ia 计算。
      本篇自身承载定位对比与版本现状两项内容，故根元素标这两个维度。
-     本库自造：全景篇在上游无对应节点（OASIS 规范与 DITA-OT 文档均无「领域全景」这一体裁），
-     「领域全景」是本库 tech-landscape 题材的固定后缀，DITA 为领域名，未造新词。 -->
+     本库自造：概览篇在上游无对应节点（OASIS 规范与 DITA-OT 文档均无「领域概览」这一体裁），
+     「领域概览」是本库 tech-landscape 题材的固定后缀，DITA 为领域名，未造新词。 -->
 <concept id="dita-landscape" xml:lang="zh-CN"
          outputclass="tech-landscape"
          maturity="draft" volatility="volatile"
          dimension="dim-comparison dim-evolution">
-  <title>DITA 领域全景</title>
+  <title>DITA 领域概览</title>
   <shortdesc>理解 DITA 要分开回答六类问题：这套架构为什么推导成这样、规范定义了哪些模型、机制按什么规则解析、扩展点开在何处、工具链支持到什么程度、什么条件下不该用它。维度按这六类切分，与规范和工具文档的编排逐条对得上。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/specifications" scope="external"/>

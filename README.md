@@ -15,7 +15,7 @@
 
 ## 现在到哪了
 
-- **内容**：24 篇 topic（12 条术语 + 12 篇内容），全部已归入词表主题树。九个分支里 **6 个仍空**；`ai` / `content-engineering` / `web` 有内容。**Phase 5 批量重写已开工**：coding-agents 域建了全景，覆盖度 5/20。
+- **内容**：24 篇 topic（12 条术语 + 12 篇内容），全部已归入词表主题树。九个分支里 **6 个仍空**；`ai` / `content-engineering` / `web` 有内容。**Phase 5 批量重写已开工**：coding-agents 域建了概览，覆盖度 5/20。
 - **规则**：R1–R11 全部有实现且全过（R11 归 `dita-tools`）。
 - **工具**：`dita-tools ia` 是 IA 治理骨架——以词表主题树为骨、内容挂其上，四状态标出哪空 / 在做 / 算完。map 与 topic 两层解析器都在，受控值直读词表。
 - **交付物**：单源 → 双工具变体（`CLAUDE.md` / `AGENTS.md`）已跑通。
@@ -34,7 +34,7 @@
 ```bash
 cd kb && sh scripts/review.sh               # 结构校验 + 业务规则 + 覆盖度 + 术语扫描
 cd kb && sh scripts/build-agent-rules.sh    # 单源 → out/<tool>.md
-cd kb && dita-tools ia                      # IA 全景：分支概览、维度盲区、孤儿
+cd kb && dita-tools ia                      # IA 概览：分支状态、维度盲区、孤儿
 ```
 
 > `dita-tools` 需先安装：`cd dita-tools && cargo install --path apps/dita_cli`。它默认按 kb 的
