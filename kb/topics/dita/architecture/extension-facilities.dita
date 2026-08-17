@@ -89,7 +89,7 @@
         <strow><stentry>造一整套新的内容骨架</stentry><stentry>specialization（structural）</stentry></strow>
         <strow><stentry>上面任何一项落地</stentry><stentry>都要经 document-type configuration 装配</stentry></strow>
       </simpletable>
-      <p>各条路线的工作量差一个数量级，选级的判据见 <xref href="../practice/customization-cost-ladder.dita">DITA 二次开发的成本阶梯</xref>。</p>
+      <p>各条路线的工作量差一个数量级，选级的判据见 <xref href="../practice/customization-cost-ladder.dita">customization 与 specialization 的选用次序</xref>。</p>
       <p>三个 facility 有一个共同点，也是这套设计的收益所在：<b>没有一个 facility 要求修改已有的 vocabulary module</b>。定制写在自己的 shell 与自有模块里，上游发新版时随包分发的模块文件原封不动，定制不会被覆盖。</p>
     </section>
 

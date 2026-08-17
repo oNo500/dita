@@ -83,7 +83,7 @@
 
     <section>
       <title>边界</title>
-      <p>本篇给的是要不要用与能不能现在用，不含用起来之后的两类选择：改造深度到哪一级见<xref href="customization-cost-ladder.dita">DITA 二次开发的成本阶梯</xref>，编辑器与 PDF 一路的取舍见<xref href="../toolchain/editors-pdf-reality.dita">DITA 编辑器与 PDF 输出选型</xref>。</p>
+      <p>本篇给的是要不要用与能不能现在用，不含用起来之后的两类选择：改造深度到哪一级见<xref href="customization-cost-ladder.dita">customization 与 specialization 的选用次序</xref>，编辑器与 PDF 一路的取舍见<xref href="../toolchain/editors-pdf-reality.dita">DITA 编辑器与 PDF 输出选型</xref>。</p>
       <p>2.0 一表的前提是它仍处 beta。转正之后生态跟进，商业工具一栏的建议须重新判断，本篇的采用判据则不随之变动。</p>
     </section>
 

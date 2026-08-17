@@ -8,12 +8,26 @@
      volatility=stable 的依据：六级的次序出自各机制牵动的产物范围，不随发行版变动。
      prolog source 用规范总入口（元数据非事实断言，照 conref-pull-push 的 2026-08-16 裁定）：
      笔记 08 逐页核对过的条目只覆盖版本状态与 @keys 值类型，与本篇内容无交集，
-     故来源节事实段为空并写明原因（照 writing-style「事实为空说明它还没有外部支撑」）。 -->
+     故来源节事实段为空并写明原因（照 writing-sourcing「事实为空说明它还没有外部支撑」）。
+     标题（2026-08-16 Task 13b 切分复议后重拟，原《DITA 二次开发的成本阶梯》）：
+     「阶梯」不是领域词，原标题把一组按代价排序的手段命名成了一个像是公认框架的名字，
+     违「只组合，不发明」。重拟后的标题只用上游两个伞节点的原名，三道关如下。
+     一、穷尽查证：上游把这件事分在两处而无合并节点——OASIS DITA 2.0 archSpec 的
+       Configuration, specialization, and constraints 一部覆盖第三至第六级
+       （constraint 与 attribute / domain / structural specialization），
+       DITA-OT 4.4 docsrc 的 Customizing DITA Open Toolkit 一节覆盖第一、二级
+       （outputclass 加样式、plugin 与 XSLT 覆盖）。两处都不给跨越彼此的选级次序。
+     二、先怀疑切分：按上游切成两篇即失去本篇的唯一内容——六级的相对代价与
+       "能用前面的就不用后面的"这条判据，正建立在跨越两处之上。故保留为一个节点。
+     三、只组合不发明：customization 与 specialization 均为上游节点原名，
+       「选用次序」为普通词组，未造新概念名、未造新分类框架。
+     文件名与 id 沿用 customization-cost-ladder 不改：按 naming-rules，
+     文件名与 id 是引用方与外部链接依赖的契约，标题改动时不跟着改。 -->
 <concept id="customization-cost-ladder" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="stable"
          dimension="dim-decision dim-comparison">
-  <title>DITA 二次开发的成本阶梯</title>
+  <title>customization 与 specialization 的选用次序</title>
   <shortdesc>改造 DITA 有六级手段，从只改外观的 <xmlatt>outputclass</xmlatt> 加样式，到自造 topic 类型的 structural specialization（结构专门化）。六级的成本差一个数量级，选级的判据只有一条：能用前面的就不用后面的。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/specifications" scope="external"/>
@@ -89,7 +103,7 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：本篇无转自权威源的内容。笔记 08 逐页核对过的条目只覆盖版本状态与 <xmlatt>keys</xmlatt> 的值类型，与成本阶梯无交集。</p>
+      <p><b>事实</b>：本篇无转自权威源的内容。笔记 08 逐页核对过的条目只覆盖版本状态与 <xmlatt>keys</xmlatt> 的值类型，与六级手段的选用无交集。</p>
       <p><b>判断</b>：正文全部陈述均属判断，可被反驳。其中六级手段各自动到哪一层、structural specialization 的成本清单，来自通用 DITA 实践，未逐页核对；按牵动的产物范围解释次序、回报出现时机的分层、四条反例与「除了显示还有谁会读这个区分」的判据，为本库归纳。规范的配置与 specialization 一章尚未逐页核对，六级的名称与规范用语可能有出入。</p>
     </section>
   </conbody>

@@ -122,7 +122,7 @@
         <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
         <strow><stentry>定位对比（dim-comparison）</stentry><stentry>与 DocBook、Markdown、AsciiDoc 在语义粒度、内建复用、条件化、可扩展性上的差别</stentry></strow>
         <strow><stentry>判断与取舍（dim-decision）</stentry><stentry>上不上 2.0、表格选哪套体系、处理解析前还是解析后的内容，这类需要给出判据的问题</stentry></strow>
-        <strow><stentry>采用与成本（dim-adoption）</stentry><stentry>二次开发的成本阶梯、投入产出的成立条件、工程化与持续集成的门槛</stentry></strow>
+        <strow><stentry>采用与成本（dim-adoption）</stentry><stentry>改造手段的选用次序、投入产出的成立条件、工程化与持续集成的门槛</stentry></strow>
         <strow><stentry>版本演进（dim-evolution）</stentry><stentry>规范的阶段状态、工具链基线与规范版本的差距、做 specialization 时锁版本的做法</stentry></strow>
         <strow><stentry>边界与反模式（dim-boundary-pitfalls）</stentry><stentry>用 keytext 拼句子、低于句子粒度的 conref、把未解析内容送进检索这类已知会出错的做法</stentry></strow>
       </simpletable>
