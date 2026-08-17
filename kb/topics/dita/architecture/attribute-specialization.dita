@@ -14,7 +14,12 @@
      元素 domain、多级派生
      示例、值由 doctype shell 默认注入（specializations 页），以及 DITAVAL <prop> 的
      @att/@val/@action 三属性（prop 语言参考页）。@base 的用途、@otherprops 的代价、
-     generalization 落地语法 名称(值) 与逐级退回过程按判断呈现，来源节判断段列明。 -->
+     generalization 落地语法 名称(值) 与逐级退回过程按判断呈现，来源节判断段列明。
+     去重（2026-08-16，Task 13b 切分复议）：@specializations 的形式语法、由 shell 默认值
+     注入、不含元素 domain 三条取值规则原在本篇与 class-derivation 两处各写一遍。
+     按两篇既定的「规则」与「用法」分界，规则正本归 class-derivation，本篇改为 xref；
+     本篇保留的是用法一侧——哪两个属性可派生、派生链怎么写、以及那三条规则对写作与
+     解析的两个推论。来源节事实段随之只认领本篇仍在陈述的条目。 -->
 <concept id="attribute-specialization" xml:lang="zh-CN"
          outputclass="deep-dive"
          maturity="draft" volatility="stable"
@@ -34,17 +39,14 @@
     </section>
 
     <section>
-      <title>背景：可派生的两个属性与声明语法</title>
-      <p>可被 specialize 的属性只有两个：<xmlatt>props</xmlatt> 用于条件化维度，<xmlatt>base</xmlatt> 用于不参与条件处理的语义属性。派生链的形式语法是 <codeph>'@', props-or-base, ('/', attname)+</codeph>，即一个 <codeph>@</codeph> 起头、接基属性名、再以斜杠逐级追加属性名。</p>
+      <title>背景：可派生的两个属性与声明位置</title>
+      <p>可被 specialize 的属性只有两个：<xmlatt>props</xmlatt> 用于条件化维度，<xmlatt>base</xmlatt> 用于不参与条件处理的语义属性。从哪一个派生、派几级，写成一条逐级追加的派生链：</p>
       <codeblock>@props/myNewProp                   从 props 派生 myNewProp
 @base/myFirstBase                  从 base 派生
 @base/myFirstBase/mySecondBase     两级派生
 @props/platform/hardwarePlatform   从已有的 platform 再派生一级</codeblock>
-      <p>声明写在 document-type shell 里，落到文档实例上就是根元素的 <xmlatt>specializations</xmlatt>：</p>
-      <codeblock>&lt;topic specializations="@props/deliveryTarget @props/platform @props/product
-                        @props/region @props/licenseTier"&gt;</codeblock>
-      <p>这个值由 shell 声明的默认值注入，作者不手写。与 <xmlatt>class</xmlatt> 同理，裸解析一份源文件时它取不到，取到它的两条路见 <xref href="../toolchain/programming-by-class.dita">派生链属性的取得与匹配</xref>。</p>
-      <p><xmlatt>specializations</xmlatt> 记录的只有 attribute specialization，元素 domain 不在其中。文档实例因此不带「本文档装配了哪些 domain」的信息，要回答这个问题得去看 shell，而不是看实例。</p>
+      <p>声明写在 document-type shell 里，落到文档实例上就是根元素的 <xmlatt>specializations</xmlatt>。该属性的形式语法、它由 shell 的默认值注入而非作者手写、以及它只记录 attribute specialization 而不含元素 domain，都属取值规则，正本见 <xref href="class-derivation.dita">@class 与 @specializations 属性规则与语法</xref>，本篇不重述。</p>
+      <p>对本篇的用法一侧有两个推论：文档实例不带「本文档装配了哪些 domain」的信息，要回答这个问题得去看 shell；裸解析一份源文件时该属性取不到，取到它的两条路见 <xref href="../toolchain/programming-by-class.dita">派生链属性的取得与匹配</xref>。</p>
     </section>
 
     <section>
@@ -66,7 +68,7 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：attribute specialization 的形式语法（<codeph>@</codeph> 后接 props 或 base、再以斜杠逐级追加属性名）、<xmlatt>specializations</xmlatt> 仅覆盖 attribute specialization 而不含元素 domain、其值由 document-type shell 的默认值注入而非作者手写、多级派生的两个示例，转自 <xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref>；DITAVAL 的 <xmlelement>prop</xmlelement> 以 <xmlatt>att</xmlatt>、<xmlatt>val</xmlatt>、<xmlatt>action</xmlatt> 三个属性表达一条过滤规则，转自 <xref href="https://dita-lang.org/dita/langref/ditaval/prop" scope="external">prop 语言参考</xref>。两处均已逐页核对。</p>
+      <p><b>事实</b>：可被 specialize 的属性只有 <xmlatt>props</xmlatt> 与 <xmlatt>base</xmlatt>、多级派生的两个示例，以及本篇据以推出两个推论的三条取值规则（形式语法、由 document-type shell 默认值注入、不含元素 domain，其陈述正本在 class-derivation 一篇），转自 <xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref>；DITAVAL 的 <xmlelement>prop</xmlelement> 以 <xmlatt>att</xmlatt>、<xmlatt>val</xmlatt>、<xmlatt>action</xmlatt> 三个属性表达一条过滤规则，转自 <xref href="https://dita-lang.org/dita/langref/ditaval/prop" scope="external">prop 语言参考</xref>。两处均已逐页核对。</p>
       <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 <xmlatt>base</xmlatt> 用于不参与条件处理的语义属性、把多个维度挤进 <xmlatt>otherprops</xmlatt> 的代价、派生出的属性名可直接用于 DITAVAL、逐级退回的过程与「名称(值)」的 generalization 落地语法、文档实例不带 domain 记录这一推论，来自通用 DITA 实践与实现观察，未逐页核对；维度与取值的分辨判据、三步落地次序与两侧验证的建议，为本库归纳。</p>
     </section>
   </conbody>
