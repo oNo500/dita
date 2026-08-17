@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 新建（2026-08-16，Task 13b 规则归并，用户指定）：库内已有四套防腐机制各自散落，
+     无一处说明它们是同一个模式。本篇只讲模式，各实例的操作细节留在各自正本。
+     题材 deep-dive：无 R13 必需节，节标题按母版通则用「骨架前缀＋主题短语」，
+     同一前缀在兄弟节内至多一次，来源节收尾。
+     本库自造：上游无对应节点。已查 OASIS DITA 2.0 archSpec 与 langRef 节点标题
+     （最近的是 prolog 的 source 与 critdates 两个元素条目，只给字段，不给复核纪律）、
+     DITA-OT 4.4 docsrc 全部节点标题（无内容治理类节点）、社区通行说法，均无对应节点。
+     标题由本库既有词素「腐烂」（内容腐烂，见 term-context-rot 一族用法）与「检测机制」
+     组合，不造新概念名、不造新分类框架。
+     事实纪律：四个实例的事实分别在各自正本，本篇不重述；模式的抽象与新增机制的四问
+     属本库归纳，已在来源节判断段列明。 -->
+<concept id="rot-detection" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="stable"
+         dimension="dim-governance dim-evolution">
+  <title>kb 腐烂检测机制</title>
+  <shortdesc>库里有四套机制在防不同层次的过期：一条事实、一棵分类树、一批元数据、一组标题。它们是同一个模式的四个实例——给每样东西一个库外的锚点，锚点一动就报警。识出这个模式，新增第五套时才有可照的形制。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/specifications" scope="external"/>
+    <data name="domain" value="writing-principles"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>内容库的腐烂不只有一种。一条参数改了名，是事实过期；某个分支连续多篇内容无处安放，是分类树过期；元数据字段填了词表里没有的值，是归属乱造；上游把一个节点改了名，是标题与切分脱锚。四类腐烂的症状互不相同，靠同一次复核带不出来。</p>
+      <p>本库已经分别造了四套机制去防它们。问题在于四套各自散落：一套写在写作规则里，一套登记在词表里，一套是校验规则，一套还在设计稿上。没有一处说明它们其实是同一个模式，于是新增机制时无从参照，已有机制的共同盲区也无人察觉。</p>
+    </section>
+
+    <section>
+      <title>背景：四个实例</title>
+      <p>四套机制按它们盯着的对象排开：</p>
+      <simpletable relcolwidth="1.3* 1* 1.4* 1.3*">
+        <sthead><stentry>机制</stentry><stentry>盯着什么</stentry><stentry>锚在什么上</stentry><stentry>正本</stentry></sthead>
+        <strow>
+          <stentry>成熟度与时效标注加核对日期</stentry>
+          <stentry>一条事实过期</stentry>
+          <stentry>来源页面本身</stentry>
+          <stentry>kb 来源与成熟度标注</stentry>
+        </strow>
+        <strow>
+          <stentry>对标登记（benchmark-registry）</stentry>
+          <stentry>分类树过期</stentry>
+          <stentry>各分支的外部对标体系</stentry>
+          <stentry>词表，人读面在来源与成熟度一篇</stentry>
+        </strow>
+        <strow>
+          <stentry>R17 主题键注册校验</stentry>
+          <stentry>归属元数据乱造</stentry>
+          <stentry>词表主题树</stentry>
+          <stentry>业务规则文件</stentry>
+        </strow>
+        <strow>
+          <stentry>上游节点索引（在建）</stentry>
+          <stentry>标题与切分脱锚</stentry>
+          <stentry>上游规范与工具文档的节点树</stentry>
+          <stentry>kb 命名与归属</stentry>
+        </strow>
+      </simpletable>
+      <p>四行的对象从小到大：一条事实、一篇的归属字段、一整棵分类树、全库标题与上游的对应关系。锚点的位置则一致地在库外——没有一套是拿库内的内容去校库内的内容。</p>
+    </section>
+
+    <section>
+      <title>分析：模式与它的三个构件</title>
+      <p>模式本身可以一句话说完：给每样怕过期的东西一个库外锚点，锚点一动就报警。落地时要定的是三件事。</p>
+      <p>其一，锚点选在哪里。锚点必须在库外，且要能被机器取到——来源页面的地址、外部对标体系的目录、上游文档的节点树都满足这两条。选在库内的"锚点"不成立：库内的两处内容出自同一个人的同一次判断，一处错另一处会跟着错。</p>
+      <p>其二，什么时候比对。本库的既定纪律是事件触发为主、日历到期只兜底：上游发新版本、对标体系大改版一类事件触发重新对标，到期只由工具提示而不阻塞写作与构建。日历触发单独用会退化成例行公事，事件触发单独用会漏掉无声的漂移，两者叠加才覆盖得住。</p>
+      <p>其三，失联之后做什么。报警的产出应当是一张可执行的清单：哪几篇要改标题、哪个分支要重新对标，而不是一个提醒。清单化是这类机制与"定期回顾"的分野：前者能被指派，后者只能被搁置。</p>
+      <p>两条边界写在这里，因为它们对四个实例同样成立。</p>
+      <p><b>机器检查有盲区。</b>以上游节点索引为例：它能查出"声明的节点不存在"——拼错、凭记忆编造、上游改名或删除都会落进这一类；它查不出"节点存在但选错了"，因为声明与标题出自同一个人的同一次判断，判断错了两边一起错，机器看到的是一份自洽的记录。凡是靠作者自己声明锚点的机制都有这个同构盲区，须由独立复核补上，且复核不得由原作者做。</p>
+      <p><b>分诊优于全量。</b>存量校验按"一篇对应几个上游节点"分诊：一对一的抽查即可；零个的（即自造）核它的自造理由是否成立；两个以上的核切分是否该拆。全量逐篇复核的成本与它多找出的问题不成比例，而分诊把注意力放在两端——自造与<term keyref="term-aggregate">聚合</term>正是出问题的两处。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>新增一套防腐机制时，照这四问定形制：盯的是哪一类对象，锚点在库外的什么位置，比对由什么事件触发，失联后产出的清单交给谁。四问答不全的机制会退化成一条无人执行的约定。</p>
+      <p>本篇不重述各实例怎么操作。核对日期怎么标、对标登记有哪些字段、主题键怎么注册、上游节点怎么声明，各在其正本，改动也只改那一处。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：本篇无转自权威源的内容。四个实例各自的事实与操作细节在其正本，本篇只作横向对照。<xref href="https://dita-lang.org/specifications" scope="external">规范总入口</xref>作为元数据来源，不承担本篇任何断言。</p>
+      <p><b>判断</b>：把四套机制归为同一模式、三个构件的划分、新增机制的四问，均为本库归纳，可被反驳。两条边界（自我声明类机制的同构盲区、按对应关系个数分诊）来自上游节点索引的设计讨论，同属本库判断；索引本身尚未落地，其形制以设计稿为准。</p>
+    </section>
+  </conbody>
+</concept>
