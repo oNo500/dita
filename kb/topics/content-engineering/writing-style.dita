@@ -3,14 +3,22 @@
 <!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
      结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
      整改后按实际情况重新定级。 -->
-<!-- 文体与结构规范。本篇自身遵守它定的规则：标题材 best-practice，
+<!-- 文体与语体规范。本篇自身遵守它定的规则：标题材 best-practice，
      按该题材的固定结构写（场景→做法→理由→反例→边界）——一条自己不照做的写作规范没有说服力。 -->
+<!-- 2026-08-16（Task 13b 规则归并）瘦身：原七条里，规则一（题材与固定结构）与规则三
+     （来源节格式）分属内容类型化与来源治理两个学科，在本篇是重复条款，改为边界节一句话
+     加 xref；规则七（标题）整条迁入 naming-rules。本篇只留文体与语体四条。
+     标题一并改定：原《文体与结构：一篇长什么样，不由作者当场决定》是论断式加冒号副标题，
+     违反本篇自身与 naming-rules 的规则。kb 前缀按 naming-rules 的裁定统一带上。
+     本库自造：上游无对应节点。已查 OASIS DITA 2.0 规范与 DITA-OT 4.4 docsrc 全部节点标题
+     （两者都只管标记与处理，不管文体）、Diátaxis 与 Good Docs Project（给的是结构模板，
+     不是语体规约），均无对应节点。标题由既有词素「文体」与「语体」组合，不造新概念名。 -->
 <concept id="writing-style" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="stable"
          dimension="dim-criteria dim-structure-template">
-  <title>文体与结构：一篇长什么样，不由作者当场决定</title>
-  <shortdesc>动笔前先定题材，题材带来固定结构；章节标题是标签不是论点；来源节有统一格式；过程与心得不进正文；语气平实且用词书面。没有这层约束，每篇都会长成作者当时的心情。</shortdesc>
+  <title>kb 文体与语体</title>
+  <shortdesc>四条约束管一篇内容的写法：章节标题作标签不作论点、正文只放知识不放过程与心得、语气平实、用词书面。没有这层约束，每篇都会长成作者当时的心情。</shortdesc>
   <prolog>
     <data name="domain" value="writing-principles"/>
   </prolog>
@@ -18,26 +26,12 @@
     <section>
       <title>场景</title>
       <p>同一个人连写十篇，会写出十种形状：这篇分"判据一/判据二"，那篇分"推论一/推论二"，第三篇的章节标题是一句完整论断。单看每篇都通顺，合起来读就是十种体例——检索时对不齐，复用时接不上，读者每打开一篇都要重新适应一次。</p>
-      <p>类型（concept/task/reference）只管<b>信息种类</b>，管不到<b>一篇的形状</b>。形状归题材管，而题材如果不标，就没有任何东西在管。</p>
+      <p>题材决定一篇有哪些节，管不到节里怎么写。同一副骨架之下，章节标题可以是标签也可以是论断，正文可以只放知识也可以夹着写作过程，语气可以是说明也可以是说服。这一层无约束，则骨架对齐之后读感仍是十种。</p>
     </section>
 
     <section>
-      <title>做法：四条</title>
-      <p>一、题材必标，结构随题材。每篇在根元素标 <xmlatt>outputclass</xmlatt>，并按该题材的固定结构写：</p>
-      <simpletable relcolwidth="1* 1* 2*">
-        <sthead><stentry>题材</stentry><stentry>DITA 类型</stentry><stentry>固定结构</stentry></sthead>
-        <strow><stentry>quickstart</stentry><stentry>task</stentry><stentry>目标 → 前置 → 步骤 → 下一步</stentry></strow>
-        <strow><stentry>how-to</stentry><stentry>task</stentry><stentry>问题 → 步骤 → 退出点</stentry></strow>
-        <strow><stentry>cheatsheet</stentry><stentry>reference</stentry><stentry>至少一张速查表；禁长段</stentry></strow>
-        <strow><stentry>curated-resources</stentry><stentry>reference</stentry><stentry>分类外链 + 逐条点评与入选门槛</stentry></strow>
-        <strow><stentry>best-practice</stentry><stentry>concept</stentry><stentry>场景 → 做法 → 理由 → 反例 → 边界</stentry></strow>
-        <strow><stentry>tech-landscape</stentry><stentry>concept</stentry><stentry>维度清单 + 覆盖状态 + 盲区；对标依据</stentry></strow>
-        <strow><stentry>deep-dive</stentry><stentry>concept</stentry><stentry>问题 → 背景 → 分析 → 结论；来源从厚</stentry></strow>
-        <strow><stentry>（排障）</stentry><stentry>troubleshooting</stentry><stentry>症状 → 原因 → 处置</stentry></strow>
-      </simpletable>
-      <p>没有哪个题材装得下的内容，先怀疑它是两篇（见 <xref href="writing-atomicity.dita">准入测试</xref>），而不是造新题材。</p>
-
-      <p>二、章节标题是标签，不是论点。标题的职责是让人扫一眼知道这节讲什么、决定跳过还是细读。写成完整论断会重复正文、变长、且检索时无法当锚点。</p>
+      <title>做法</title>
+      <p>一、章节标题是标签，不是论点。标题的职责是让人扫一眼知道这节讲什么、决定跳过还是细读。写成完整论断会重复正文、变长、且检索时无法当锚点。</p>
       <simpletable relcolwidth="1* 1*">
         <sthead><stentry>不写</stentry><stentry>写</stentry></sthead>
         <strow><stentry>为什么是预算：注意力会随长度衰减</stentry><stentry>注意力衰减</stentry></strow>
@@ -46,18 +40,9 @@
       </simpletable>
       <p>论断写进正文首句，那里才是它的位置。</p>
 
-      <p>三、来源节格式统一。末尾一节，标题就叫「来源」，两段固定，标签描述内容的性质而非作者的动作：</p>
-      <ul>
-        <li><b>事实</b> —— 转述自权威源的内容，逐条附外链。</li>
-        <li><b>判断</b> —— 经验归纳，可被反驳。</li>
-      </ul>
-      <p>两段可以为空但不省略标签：判断为空说明这篇全是转述，事实为空说明它还没有外部支撑。</p>
-      <p>正文里不写核对日期。核对时间是机读元数据，写在 prolog 的 <xmlelement>data</xmlelement> <xmlatt>name</xmlatt>="reviewed" 上（R3 认它、复核提醒读它）；正文再手写一遍就是第二份副本，且会与那一份漂移。理由同 <xref href="writing-sourcing.dita">来源与成熟度</xref>的「系统能得出的信息，不让人填」。也不写"核对日期见 prolog"一类指引：元数据的呈现归渲染层，正文不解释存储位置。</p>
-      <note>为什么不干脆用 git 时间：git 记的是文件何时被改，不是来源何时被核。改错别字会让 git 显得新鲜，重新核对了却什么都没改则在 git 里毫无痕迹——两个事件不重合，所以 <codeph>reviewed</codeph> 这个字段有独立存在的理由。</note>
+      <p>二、正文只放知识，不放过程与心得。下列内容不进 topic：抓取失败的经过、"我一开始以为…后来发现"、"这个教训值得记"、对自己判断的表扬或检讨。它们是工作日志，属于 commit 说明或设计文档。</p>
 
-      <p>四、正文只放知识，不放过程与心得。下列内容不进 topic：抓取失败的经过、"我一开始以为…后来发现"、"这个教训值得记"、对自己判断的表扬或检讨。它们是工作日志，属于 commit 说明或设计文档。</p>
-
-      <p>五、平实。默认语气是说明，不是说服。禁则：</p>
+      <p>三、平实。默认语气是说明，不是说服。禁则：</p>
       <ul>
         <li>开头直接进主题。不造场景（"三年后你搜到自己的笔记…"）、不先立一个错误做法再推翻它。</li>
         <li>一个意思说一遍。不排比，不在段尾用更响亮的话复述段首。</li>
@@ -69,7 +54,7 @@
       </ul>
       <p>检验：逐句问"删掉它，读者少知道什么"。答案是"没少什么"的句子都删。</p>
 
-      <p>六、用词书面。平实不等于口语，文档语体是书面的克制：</p>
+      <p>四、用词书面。平实不等于口语，文档语体是书面的克制：</p>
       <ul>
         <li>技术动作用规范动词：阻断、执行、加载、校验、迁移。不用口语替身：<keyword>拦</keyword>、<keyword>装</keyword>、<keyword>挂</keyword>、<keyword>塞</keyword>、<keyword>跑</keyword>、<keyword>凑合</keyword>。</li>
         <li>表格列头与定义处用名词短语（"适用内容"，非"装什么"）。</li>
@@ -77,21 +62,12 @@
         <li>同一概念全篇同一词，不混用近义（阻断不与拦下混用）。</li>
         <li>比喻限于该篇主题本身（"上下文预算"是主题可用；顺手把开销写成"账"不可）。</li>
       </ul>
-
-      <p>七、标题是专业命名。topic 会脱离上下文被检索与复用，标题必须独立可识别：</p>
-      <ul>
-        <li>名词短语（task 用动宾），不作论断、不设悬念、不用问句。"上下文是预算，不是容器"是论断；"agent 的上下文预算"是命名。</li>
-        <li>含定位词：写谁的什么，系统或域名入题（<keyword>Claude Code</keyword>、<keyword>agent CLI</keyword>、<keyword>DITA</keyword>）。"扩展机制的选择"不知所指；"agent CLI 扩展机制选型"可对号入座。</li>
-        <li>类目词对齐上游权威分类：写某产品的内容，用其官方文档的类目命名（<keyword>Extensibility</keyword>→扩展机制、<keyword>Settings</keyword>→配置、<keyword>Hooks</keyword>→<keyword>hook</keyword>），不自造同义词。</li>
-        <li>题材后缀从惯例：cheatsheet 以"速查"结尾，tech-landscape 以"领域全景"结尾；其余不加装饰。</li>
-        <li>全库唯一。</li>
-      </ul>
     </section>
 
     <section>
       <title>理由</title>
-      <p>三条判据都指向同一件事：<b>一篇内容的形状应当由它的种类决定，而不是由写它的那一刻决定。</b></p>
-      <p>形状可预测，检索才能对齐（读者知道去哪找"步骤"或"盲区"）、复用才能接上（同题材的块可以互换位置）、审阅才有依据（"这篇 best-practice 没有反例"是可判定的缺陷，"这篇写得有点乱"不是）。</p>
+      <p>四条约束指向同一件事：<b>一篇内容读起来什么样，应当由它的种类决定，而不是由写它的那一刻决定。</b></p>
+      <p>章节标题作标签，是为了让读者与检索器都能把它当锚点：论断式标题重复正文、随作者语气变化，定位不到任何东西。审阅也因此有了依据——"这一节的标题是一句论断"是可判定的缺陷，"这篇写得有点乱"不是。</p>
       <p>过程与心得不进正文，则是自足性的直接推论：一段"我核对时踩了个坑"脱离了写作那一刻就不再成立，它不是知识。</p>
       <p>平实的理由在检索侧：本库同时喂给检索器与 agent，修辞不携带事实却占 token，正文越平，块的信号密度越高（见 <xref href="writing-llm-friendly.dita">LLM 友好写作</xref>）。</p>
     </section>
@@ -100,25 +76,30 @@
       <title>反例</title>
       <p>本库自己犯过，逐条对照：</p>
       <ul>
-        <li><b>十六篇内容里十三篇没标题材</b>，于是每篇自创结构——这是上面所有形状问题的机制性根因。</li>
-        <li>四种章节标题体例同时存在：论点式、编号式（推论一/判据一）、标签式、口语式。</li>
-        <li>来源节有的以「已核对（日期）：」起头、有的直接行文、有的夹带"本篇 volatile，复核时先查这节"的旁白。</li>
+        <li>四种章节标题体例同时存在：论点式、编号式（推论一/判据一）、标签式、口语式。同一份目录读下来对不齐。</li>
         <li>把抓取失败的经过、"未采信的旧结论"写进了正文来源节——那是工作记录。</li>
         <li>修辞过载（2026-08-16 实测）：一篇 66 行的 concept 有 23 处粗体；ai 目录九篇共 119 个破折号插入语、13 处"不是 A 是 B"句式；多篇以虚构场景开头，一段三个对比，信息只有一句。</li>
+        <li>本篇自己的旧标题《文体与结构：一篇长什么样，不由作者当场决定》就是论断式加冒号副标题，违反它自己定的第一条。</li>
       </ul>
-      <p>共同点：<b>每一处单看都说得通，合起来才是问题。</b>所以它不能靠"写的时候注意点"解决，得靠题材约束。</p>
+      <p>共同点：<b>每一处单看都说得通，合起来才是问题。</b>所以它不能靠"写的时候注意点"解决，得靠可判定的禁则。</p>
     </section>
 
     <section>
       <title>边界</title>
-      <p>本篇管形状，不管内容对错——那是来源与人审的事。也不管 DITA 标签怎么用（行内语义、属性标注），那在《给 AI 的 DITA 写作规则》里。</p>
-      <p>固定结构是骨架不是模板：一个题材的必需节都在、顺序对，就算合规；节内怎么写、要不要加表格，作者自定。骨架缺节是缺陷，节内朴素不是。</p>
+      <p>本篇管一篇内容读起来什么样，不管它的骨架、来源与名字，也不管内容对错。三处相邻的规则各有正本：</p>
+      <ul>
+        <li>题材必标、结构随题材、题材的必需节清单——见 <xref href="writing-typing.dita">kb 内容类型化</xref>与词表的题材值集；没有哪个题材装得下的内容先怀疑它是两篇，见 <xref href="writing-atomicity.dita">kb 内容准入判据</xref>。</li>
+        <li>来源节的固定两段与"正文不写核对日期"——见 <xref href="writing-sourcing.dita">kb 来源与成熟度标注</xref>。</li>
+        <li>标题怎么定、文件名与归属字段怎么写——见 <xref href="naming-rules.dita">kb 命名与归属</xref>；正文里用哪个词见 <xref href="terminology-rules.dita">kb 术语治理</xref>。</li>
+      </ul>
+      <p>DITA 标签怎么用（行内语义、属性标注）属操作层，见 <xref href="dita-authoring-guide.dita">kb DITA 写作规则总纲</xref>。</p>
+      <p>禁则是可判定的下限，不是文风模板：一节里没有论断式标题、没有工作记录、没有程度词与口语词，就算合规；节内怎么组织、要不要加表格，作者自定。</p>
     </section>
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：题材与固定结构表转自本库《内容类型框架》（research 设计稿，2026-08 定稿），其中 quickstart 结构对标 Good Docs、how-to 与 reference 的划分对标 <xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>、best-practice 的"场景→做法→理由→反例→边界"对标模式语言体例。本篇把该表从设计稿落为库内可执行规则，未改动其内容。</p>
-      <p><b>判断</b>：三条文体规则（标题作标签、来源节固定两段、过程不进正文）是本库的规约，无外部标准背书；反例取自本库 2026-08-15 的实际状态。</p>
+      <p><b>事实</b>：本篇无转自权威源的规则。按读者需求划分文档形态的框架见 <xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>，它管的是文档类型的划分，不管语体。</p>
+      <p><b>判断</b>：四条约束（章节标题作标签、过程与心得不进正文、平实、用词书面）与各自的禁则清单，均为本库规约，无外部标准背书，可被反驳。反例取自本库 2026-08-15 与 2026-08-16 的实测状态。R15 只是其中一部分的机器代理，格言句与场景化开头仍靠人审。</p>
     </section>
   </conbody>
 </concept>
