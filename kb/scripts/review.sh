@@ -25,14 +25,37 @@ if [ -z "${DITA_HOME:-}" ]; then
   fi
 fi
 SEARCH_DIRS="${DITA_HOME:-} $HOME/ws/tools/dita-ot-* /opt/dita-ot-* /opt/homebrew/Cellar/dita-ot /usr/local/Cellar/dita-ot"
-SAXON_JAR="$(find $SEARCH_DIRS -name 'Saxon-HE-*.jar' 2>/dev/null | head -1)"
+# 多个候选时取版本号最大的那个（sort -V），不是文件系统碰巧先返回的那个：
+# check-rules.xsl 声明 version="3.0" 且用 uri-collection()，装了两版时挑到旧的会整层失效。
+SAXON_JAR="$(find $SEARCH_DIRS -name 'Saxon-HE-*.jar' 2>/dev/null | sort -V | tail -1)"
 skipped=0
+skip_reason=""
 if [ -z "$SAXON_JAR" ]; then
   echo "找不到 DITA-OT 自带 Saxon，业务规则检查跳过（改这里的探测路径）。" >&2
   CP=""
   skipped=1
+  skip_reason="找不到 Saxon"
 else
   CP="$(dirname "$SAXON_JAR")/*"
+  # 版本门：XSLT 3.0（uri-collection()/xsl:try）自 Saxon-HE 9.8 起支持。更旧的版本
+  # 会在编译期就报错——那条路下面的退出码检查也拦得住，但那时的报错是一堆 XSLT 语法
+  # 错误，指不到根因。这里先问一句版本，把"环境不合格"和"规则真违规"分开报。
+  # net.sf.saxon.Version 把版本横幅写 stderr（不是 stdout），所以这里必须 2>&1。
+  saxon_ver="$(java -cp "$CP" net.sf.saxon.Version 2>&1 | head -1)"
+  saxon_num="$(printf '%s' "$saxon_ver" | sed -n 's/.*HE \([0-9][0-9]*\.[0-9][0-9]*\).*/\1/p')"
+  if [ -z "$saxon_num" ]; then
+    echo "Saxon 版本探测失败（$SAXON_JAR），无法确认支持 XSLT 3.0，业务规则检查跳过。" >&2
+    skipped=1
+    skip_reason="Saxon 版本无法确认"
+  else
+    saxon_major="${saxon_num%%.*}"
+    saxon_minor="${saxon_num#*.}"
+    if [ "$saxon_major" -lt 9 ] || { [ "$saxon_major" -eq 9 ] && [ "$saxon_minor" -lt 8 ]; }; then
+      echo "Saxon $saxon_num 不支持 XSLT 3.0（需 ≥ 9.8），业务规则检查跳过：$SAXON_JAR" >&2
+      skipped=1
+      skip_reason="Saxon $saxon_num 不支持 XSLT 3.0"
+    fi
+  fi
 fi
 
 term_skipped=0
@@ -70,9 +93,20 @@ done
 # （文件名前缀现在是 XSLT 自己出的，不再靠这里 sed 拼）。单篇 XML 解析失败（格式错）
 # 用 xsl:try 隔离，只报该篇 R0，不拖垮其余各篇的检查结果——那篇的结构性错误本身，
 # 上面的 dita validate 已经带着文件名行号报过了。
-if [ -n "$CP" ]; then
-  out="$(java -cp "$CP" net.sf.saxon.Transform -it:main -xsl:"$XSL" "kb-dir=file://$KB" 2>/dev/null)"
-  if [ -n "$out" ]; then
+#
+# 退出码必须看：Saxon 失败时 stdout 常常是空的（编译错、找不到 -it 入口、CP 缺 jar 都
+# 是这样），只判 "$out" 非空等于把"没跑成"读成"零违规"。批量化之后这一层是一次调用，
+# 一次失败＝R1–R10 整层失效，还会被下面的 "✅ 全过" 盖住——正是本脚本第 4–5 行
+# 与 102–103 行明令禁止的假绿。所以非零退出码走 skipped 通道（exit 2），不走 fail。
+if [ "$skipped" -eq 0 ]; then
+  out="$(java -cp "$CP" net.sf.saxon.Transform -it:main -xsl:"$XSL" "kb-dir=file://$KB" 2>/tmp/kb-rules-err.log)"
+  rc=$?
+  if [ "$rc" -ne 0 ]; then
+    echo "Saxon 执行失败（退出码 $rc），业务规则 R1–R10 未执行：" >&2
+    sed 's/^/    /' /tmp/kb-rules-err.log >&2
+    skipped=1
+    skip_reason="Saxon 执行失败（退出码 $rc）"
+  elif [ -n "$out" ]; then
     echo "$out"
     echo "$out" | grep -q 'error' && fail=1
   fi
@@ -102,7 +136,7 @@ echo
 # 跳过 ≠ 通过：某项检查没跑就报"全过"是假绿。但"没跑"也不能盖住"真失败"——
 # 确定的失败先说，未执行随后说，两者可同时成立，退出码取更确定的那个（失败 1 > 跳过 2）。
 if [ "$skipped" -ne 0 ]; then
-  echo "⚠️  业务规则 R1–R10 未执行（找不到 Saxon），本次结果不能当作通过依据"
+  echo "⚠️  业务规则 R1–R10 未执行（$skip_reason），本次结果不能当作通过依据"
 fi
 if [ "$term_skipped" -ne 0 ]; then
   echo "⚠️  术语扫描未执行（找不到 uv）"
