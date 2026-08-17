@@ -7,17 +7,27 @@
      术语规则（2026-08-16 用户门反馈后）：conref / keyref / DITAVAL / transtype /
      context / publication / deliverable 等一律用英文原名；笔记里的自造词「内容仓库」
      降级为「存放可复用片段的 topic」，目录名沿用 warehouse 本身。
-     volatility=volatile 的依据：项目文件的形制与 dita 命令的选项随 DITA-OT 版本变动。
-     事实纪律：已核对的是项目文件一节（三种等价格式、三层结构与 idref 复用、两条命令、
-     参数覆盖继承），目录布局、命名约定与 CI 脚本属判断，已在来源节判断段列明。 -->
+     volatility=volatile 的依据：CI 里的命令与工具选项随 DITA-OT 版本变动。
+     2026-08-16（Task 13b 切分复议）拆出：笔记 04 §2 承接来的 project file 一节升为独立篇
+     toolchain/project-files——上游 DITA-OT docsrc 有 Publishing with project files 这个节点，
+     埋在本篇标题之下按领域名检索不到；且它是本篇唯一逐页核对过的事实，档位与其余内容不同。
+     本篇只余一句提及加 xref。prolog source 随之改为文档站入口（元数据，不承担断言）。
+     标题《DITA 工程化与 CI》系本库自造，上游无对应节点，三道关如下。
+     一、穷尽查证：OASIS DITA 2.0 规范只规定语言本身，不讲内容库的工程组织；
+       DITA-OT 4.4 docsrc 全部节点标题为工具的安装、配置与发布操作，无工程约定类节点；
+       社区通行说法无对应节点。拆出 project-files 之后，本篇内容确无上游归处。
+     二、先怀疑切分：三条做法（目录按角色、id 契约、逐变体构建）共用同一个前提——
+       内容进版本库之后的组织方式，分开则每条各三行、均不自足。
+     三、只组合不发明：「工程化」与 CI 均为软件工程通行词，未造新概念名、未造新分类框架。
+     事实纪律：拆出 project file 一节后，本篇全部陈述属判断，已在来源节判断段列明。 -->
 <concept id="engineering-ci" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="volatile"
          dimension="dim-process dim-integration">
   <title>DITA 工程化与 CI</title>
-  <shortdesc>内容进版本库之后要定三件事：目录按角色布局、<xmlatt>id</xmlatt> 发布后不再改这一条契约、持续集成里把每个变体都构建一遍。变体矩阵长大之后，逐个变体的循环换成 DITA-OT 的项目文件，交付物声明一次，构建只留一条带 project 选项的命令。</shortdesc>
+  <shortdesc>内容进版本库之后要定三件事：目录按角色布局、<xmlatt>id</xmlatt> 发布后不再改这一条契约、持续集成里把每个变体都构建一遍。三件都在内容之外，却都由内容的组织方式决定。</shortdesc>
   <prolog>
-    <source href="https://www.dita-ot.org/dev/topics/using-project-files" scope="external"/>
+    <source href="https://www.dita-ot.org/dev/" scope="external"/>
     <data name="domain" value="dita"/>
     <data name="reviewed" value="2026-08"/>
   </prolog>
@@ -59,34 +69,14 @@ for f in docs/filters/*.ditaval; do
   dita -i docs/maps/user-guide.ditamap -f html5 \
        -o "/tmp/ci-$(basename "$f" .ditaval)" --filter="$f"
 done</codeblock>
-      <p>最后一步是容易省掉的一步，也是唯一能发现条件组合问题的一步。变体矩阵长大之后（多个 <term keyref="term-transtype">transtype</term>（输出类型）乘多份 DITAVAL），这段循环换成 DITA-OT 的项目文件：交付物在一处声明，持续集成里只留一条命令。</p>
-      <codeblock>&lt;project xmlns="https://www.dita-ot.org/project"&gt;
-  &lt;context id="guide" name="用户手册"&gt;
-    &lt;input href="maps/user-guide.ditamap"/&gt;
-  &lt;/context&gt;
-
-  &lt;deliverable name="HTML（Linux 版）"&gt;
-    &lt;context idref="guide"&gt;
-      &lt;profile&gt;&lt;ditaval href="filters/linux.ditaval"/&gt;&lt;/profile&gt;
-    &lt;/context&gt;
-    &lt;output href="out/html-linux"/&gt;
-    &lt;publication transtype="html5"/&gt;
-  &lt;/deliverable&gt;
-
-  &lt;deliverable name="PDF"&gt;
-    &lt;context idref="guide"/&gt;
-    &lt;output href="out/pdf"/&gt;
-    &lt;publication transtype="pdf"/&gt;
-  &lt;/deliverable&gt;
-&lt;/project&gt;</codeblock>
-      <p>项目文件有 XML、JSON、YAML 三种等价格式，其中 XML 是规范性的。结构分三层：<xmlelement>context</xmlelement> 声明输入 map 与过滤规则，<xmlelement>publication</xmlelement> 声明输出类型与参数，<xmlelement>deliverable</xmlelement> 把两者与输出目录组合成一件交付物；前两者可被多个交付物按 <xmlatt>idref</xmlatt> 复用，参数在继承之上可覆盖。构建全部交付物用 <codeph>dita --project=project.xml</codeph>，只出其中一件加 <codeph>--deliverable</codeph> 指名。</p>
+      <p>最后一步是容易省掉的一步，也是唯一能发现条件组合问题的一步。变体矩阵长大之后（多个 <term keyref="term-transtype">transtype</term>（输出类型）乘多份 DITAVAL），这段循环改用 DITA-OT 的 project file 声明，交付物在一处写清，持续集成里只留一条命令；形制与执行见 <xref href="../toolchain/project-files.dita">project file 与 dita --project</xref>。</p>
     </section>
 
     <section>
       <title>理由</title>
       <p>三条做法各自堵住一类在别处发现不了的问题。目录按角色分开，是因为可复用片段与普通 topic 的纪律不同：前者被多处引用，一旦条件化，引用方会取到空内容，而症状出现在引用方、根因在被引用的文件。</p>
       <p><xmlatt>id</xmlatt> 不改是因为它被写进了别人的文件：引用方的地址、发布出去的链接、检索系统的溯源记录，改一次就要连带修完这三处，而第三处通常不在自己手上。</p>
-      <p>逐变体构建的理由是条件过滤会改变内容模型的合法性。条件打在必需的子元素上时，过滤后的文档可能缺少模型要求的成分，这类错误在默认变体上不出现。项目文件解决的是同一件事的规模问题：变体是输入、过滤、输出类型三者的组合，写成循环则组合关系散在脚本里，声明成交付物则组合关系可读、可复用、可单件构建。</p>
+      <p>逐变体构建的理由是条件过滤会改变内容模型的合法性。条件打在必需的子元素上时，过滤后的文档可能缺少模型要求的成分，这类错误在默认变体上不出现。project file 解决的是同一件事的规模问题：变体是输入、过滤、输出类型三者的组合，写成循环则组合关系散在脚本里，声明成交付物则组合关系可读、可复用、可单件构建。</p>
     </section>
 
     <section>
@@ -102,13 +92,13 @@ done</codeblock>
     <section>
       <title>边界</title>
       <p>本篇给的是内容库一侧的工程约定。DITA-OT 的安装与首次构建见<xref href="../toolchain/dita-ot-quickstart.dita">DITA-OT 安装与 2.0 doctype 触发</xref>；校验分几层、业务规则怎么写见<xref href="../toolchain/validation-schematron.dita">校验与 Schematron</xref>。</p>
-      <p>项目文件的字段与命令选项随 DITA-OT 版本变动，示例按 4.x 的形制写。接入之前以本机版本的文档为准，并用一件交付物先跑通。</p>
+      <p>变体声明本身的形制与执行命令另属工具链一侧，见 <xref href="../toolchain/project-files.dita">project file 与 dita --project</xref>。</p>
     </section>
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：项目文件有 XML、JSON、YAML 三种等价格式且 XML 为规范性版本，结构分 <xmlelement>context</xmlelement> / <xmlelement>publication</xmlelement> / <xmlelement>deliverable</xmlelement> 三层、可按 <xmlatt>idref</xmlatt> 复用且参数支持覆盖继承，构建以 <codeph>dita --project</codeph> 执行、<codeph>--deliverable</codeph> 指定单件，转自 <xref href="https://www.dita-ot.org/dev/topics/using-project-files" scope="external">使用项目文件</xref>，已逐页核对。</p>
-      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中目录按角色分开的布局、文件名与 <xmlatt>id</xmlatt> 取同值、发布后不改 <xmlatt>id</xmlatt>、可复用片段不做条件化、持续集成四步与其中的命令写法，来自通用实践，未逐页核对；条件过滤可能使文档不再满足内容模型这一现象来自使用经验；三条做法各堵一类问题的解释、四条反例、变体矩阵长大时改用项目文件的阈值判断，为本库归纳。</p>
+      <p><b>事实</b>：本篇无转自权威源的内容。笔记 04 §2 逐页核对过的 project file 一节随该内容迁至 <xref href="../toolchain/project-files.dita">project file 与 dita --project</xref>，事实与出处在那一篇。<xref href="https://www.dita-ot.org/dev/" scope="external">DITA-OT 文档站</xref>作为元数据来源，不承担本篇任何断言。</p>
+      <p><b>判断</b>：正文全部陈述均属判断，可被反驳。其中目录按角色分开的布局、文件名与 <xmlatt>id</xmlatt> 取同值、发布后不改 <xmlatt>id</xmlatt>、可复用片段不做条件化、持续集成四步与其中的命令写法，来自通用实践，未逐页核对；条件过滤可能使文档不再满足内容模型这一现象来自使用经验；三条做法各堵一类问题的解释、四条反例、变体矩阵长大时改用 project file 的阈值判断，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 新建（2026-08-16，Task 13b 切分复议）：本篇内容原埋在 practice/engineering-ci 的做法节里，
+     该篇标题《DITA 工程化与 CI》不含任何可检索到它的名字，而上游确有独立节点。
+     升为独立篇的依据：其一，上游 DITA-OT 4.4 docsrc 有 Publishing with project files 一节
+     （topics/using-project-files.dita，在 publishing.ditamap 之下，带三个 Sample …
+     project files 子节点），本库埋掉了一个领域确有的节点；其二，本篇内容是笔记 04 §2 中
+     唯一逐页核对过的事实，与 engineering-ci 其余内容（目录布局、命名约定、CI 脚本，全属判断）
+     的事实档位不同，合篇会让来源节的事实段与判断段互相掩护；其三，形制、命令与三层结构
+     合起来自足，脱离 engineering-ci 仍成立。
+     题材 how-to：按 2026-08-16 裁定用 concept 外壳与 conbody（模板 A），无 R13 必需节，
+     讲解式散文加 codeblock，来源节收尾。
+     术语规则：project file / context / publication / deliverable / transtype / DITAVAL
+     一律用英文原名——「项目文件」是无出处的自造译名，上游节点名为 project file，本次一并改正。
+     标题取自上游节点：Publishing with project files 讲的就是 project file 与执行它的
+     dita 命令的 project 选项，中文侧保留这两个英文原名，不另拟名。
+     volatility=volatile 的依据：字段与命令选项随 DITA-OT 版本变动。
+     事实纪律：三种等价格式、三层结构与 idref 复用、参数覆盖继承、两条命令均已逐页核对；
+     何时改用 project file 的阈值判断属本库归纳，已在来源节判断段列明。 -->
+<concept id="project-files" xml:lang="zh-CN"
+         outputclass="how-to"
+         maturity="draft" volatility="volatile"
+         dimension="dim-process dim-config">
+  <title>project file 与 dita --project</title>
+  <shortdesc>变体矩阵是输入 map、过滤规则、输出类型三者的组合。写成构建脚本里的循环，组合关系就散在脚本里；声明成 project file 的一组 deliverable，组合关系可读、可复用、可单件构建，持续集成里只留一条命令。</shortdesc>
+  <prolog>
+    <source href="https://www.dita-ot.org/dev/topics/using-project-files" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>用在什么时候</title>
+      <p>交付物只有一两件时，逐次执行 <cmdname>dita</cmdname> 命令即可。矩阵长大之后（多个 <term keyref="term-transtype">transtype</term>（输出类型）乘多份 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）），构建脚本里的循环开始承担声明职责：哪份过滤配哪个输出目录，这层对应关系只存在于循环变量的拼接里，新增一个维度要改多处。project file 把这层关系搬出脚本，交给一份可读的声明。</p>
+    </section>
+
+    <section>
+      <title>形制</title>
+      <p>project file 有 XML、JSON、YAML 三种等价格式，其中 XML 是规范性的。结构分三层：<xmlelement>context</xmlelement> 声明输入 map 与过滤规则，<xmlelement>publication</xmlelement> 声明输出类型与参数，<xmlelement>deliverable</xmlelement> 把两者与输出目录组合成一件交付物。前两者可被多个交付物按 <xmlatt>idref</xmlatt> 复用，参数在继承之上可覆盖。</p>
+      <codeblock>&lt;project xmlns="https://www.dita-ot.org/project"&gt;
+  &lt;context id="guide" name="用户手册"&gt;
+    &lt;input href="maps/user-guide.ditamap"/&gt;
+  &lt;/context&gt;
+
+  &lt;deliverable name="HTML（Linux 版）"&gt;
+    &lt;context idref="guide"&gt;
+      &lt;profile&gt;&lt;ditaval href="filters/linux.ditaval"/&gt;&lt;/profile&gt;
+    &lt;/context&gt;
+    &lt;output href="out/html-linux"/&gt;
+    &lt;publication transtype="html5"/&gt;
+  &lt;/deliverable&gt;
+
+  &lt;deliverable name="PDF"&gt;
+    &lt;context idref="guide"/&gt;
+    &lt;output href="out/pdf"/&gt;
+    &lt;publication transtype="pdf"/&gt;
+  &lt;/deliverable&gt;
+&lt;/project&gt;</codeblock>
+      <p>上例的两件交付物共用同一个输入声明：PDF 一件按 <xmlatt>idref</xmlatt> 取用它而不重复输入路径，HTML 一件在取用的同时就地补上过滤规则。新增一个语言变体只需再加一件 deliverable，输入与输出类型的声明不动。</p>
+    </section>
+
+    <section>
+      <title>执行</title>
+      <p>构建全部交付物用 <codeph>dita --project=project.xml</codeph>，只出其中一件加 <codeph>--deliverable</codeph> 指名。持续集成里因此只留一条命令，而变体的增减发生在声明文件里，脚本不改。</p>
+    </section>
+
+    <section>
+      <title>边界</title>
+      <p>字段与命令选项随 DITA-OT 版本变动，上例按 4.x 的形制写；接入之前以本机版本的文档为准，并用一件交付物先跑通。内容库一侧的目录布局、标识约定与持续集成该跑哪几步，见 <xref href="../practice/engineering-ci.dita">DITA 工程化与 CI</xref>。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：project file 有 XML、JSON、YAML 三种等价格式且 XML 为规范性版本，结构分 <xmlelement>context</xmlelement> / <xmlelement>publication</xmlelement> / <xmlelement>deliverable</xmlelement> 三层、可按 <xmlatt>idref</xmlatt> 复用且参数支持覆盖继承，构建以 <codeph>dita --project</codeph> 执行、<codeph>--deliverable</codeph> 指定单件，转自 <xref href="https://www.dita-ot.org/dev/topics/using-project-files" scope="external">Publishing with project files</xref>，已逐页核对。</p>
+      <p><b>判断</b>：何时该从脚本循环改用 project file 的阈值、"组合关系散在脚本里"这一诊断，以及上例的字段取值，为本库归纳与示意，可被反驳。</p>
+    </section>
+  </conbody>
+</concept>
