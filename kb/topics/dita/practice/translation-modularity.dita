@@ -8,7 +8,15 @@
      volatility=stable 的依据：收益来自 topic 粒度与单源机制，流程分工不随发行版变动。
      事实纪律：笔记 13 已逐页核对的只有规范翻译一节的构成（三个属性子页），
      即规范只覆盖源标记一侧；成本构成、XLIFF 流程、目录布局均属判断，
-     已在来源节判断段穷尽列明。 -->
+     已在来源节判断段穷尽列明。
+     标题《DITA 模块化的翻译收益》系本库自造，上游无对应节点，三道关如下。
+     一、穷尽查证：OASIS DITA 2.0 archSpec 的 Translation 一节（即本篇来源节所引）
+       讲翻译要处理哪些属性与流程，不算模块化在翻译成本上的回报；DITA-OT 4.4 docsrc
+       全部节点标题为工具操作；社区通行说法无对应节点。
+     二、先怀疑切分：与 translation-antipatterns 的分界已核，见该篇头注释；
+       与 customization 一族无交集，无处可并。
+     三、只组合不发明：模块化与翻译均为上游既有说法，「收益」为普通词，
+       未造新概念名、未造新分类框架。 -->
 <concept id="translation-modularity" xml:lang="zh-CN"
          outputclass="deep-dive"
          maturity="draft" volatility="stable"

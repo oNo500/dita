@@ -7,7 +7,14 @@
      volatility=volatile 的依据：检索侧的元数据需求随管线与模型演进。
      事实纪律：笔记 15 无外部权威来源，全篇为分析；@subjectrefs 与 @collection-type 的
      语义出自笔记 14 与 11（在那两篇已核对），本篇按判断呈现并注明未在本篇核对。
-     prolog 不写 reviewed（笔记 15 未核对任何页面）。 -->
+     prolog 不写 reviewed（笔记 15 未核对任何页面）。
+     标题《RAG 切块粒度与检索元数据》系本库自造聚合，上游无对应节点，三道关如下。
+     一、穷尽查证：OASIS DITA 2.0 规范与 DITA-OT 4.4 docsrc 全部节点标题均无 RAG 相关节点；
+       RAG 一侧的通行说法讲分块策略与元数据过滤，但不以 DITA 的 topic 与 prolog 为对象。
+     二、先怀疑切分：粒度与元数据是同一次入库决策的两半——切多大决定了每块要带哪些字段，
+       分成两篇会让判据落在两处。故保留为一个节点。
+     三、只组合不发明：RAG、切块、粒度、元数据四个词素均为两个领域内的既有词，
+       标题只作并列，未造新概念名、未造新分类框架。 -->
 <concept id="rag-chunking-metadata" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="volatile"

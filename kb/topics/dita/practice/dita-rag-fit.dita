@@ -9,7 +9,16 @@
      事实纪律：笔记 15 无外部权威来源，全篇为从前序笔记已核对机制出发的分析，
      故来源节事实段写明「无」并给出原因（照 writing-style「事实为空说明它还没有外部支撑」），
      prolog 不写 reviewed（笔记 15 未核对任何页面，补日期是捏造），
-     source 用规范总入口作元数据（照 conref-pull-push 的 2026-08-16 裁定）。 -->
+     source 用规范总入口作元数据（照 conref-pull-push 的 2026-08-16 裁定）。
+     标题《DITA topic 自足性与 RAG 切块的对应关系》系本库自造聚合，上游无对应节点，
+     三道关如下。
+     一、穷尽查证：OASIS DITA 2.0 规范成文早于检索增强生成的实践，全篇无 RAG 相关节点；
+       DITA-OT 4.4 docsrc 全部节点标题同样无；RAG 一侧的通行说法（分块、嵌入、召回）
+       不讨论 DITA。两个领域的上游各自都没有把它们对起来的节点。
+     二、先怀疑切分：拆成"DITA 自足性"与"RAG 切块"两篇即失去本篇的全部内容——
+       本篇要说的正是两者的对应关系，切开则无处安放。
+     三、只组合不发明：topic、自足性、RAG、切块四个词素分属两个领域且各自既有，
+       标题只作并列，未造新概念名、未造新分类框架。 -->
 <concept id="dita-rag-fit" xml:lang="zh-CN"
          outputclass="deep-dive"
          maturity="draft" volatility="volatile"

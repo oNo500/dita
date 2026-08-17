@@ -7,7 +7,16 @@
      volatility=stable 的依据：三个属性的取值与规则由规范定义。
      事实纪律：本篇四组条目全部出自笔记 13 的已逐页核对清单（翻译一节的构成、
      xml:lang、dir、translate 三页），属规范转述；判断只有「每个 topic 文件显式声明」
-     一条实践建议与元素分类的举例，已在来源节判断段列明。 -->
+     一条实践建议与元素分类的举例，已在来源节判断段列明。
+     标题《DITA 本地化属性速查》系本库自造聚合，上游无对应节点，三道关如下。
+     一、穷尽查证：OASIS DITA 2.0 archSpec 把这三个属性分列为三个并列节点
+       （The dir attribute / The translate attribute / The xml:lang attribute，
+       即本篇来源节所引三处，同在 Translation 一节之下），无把三者合起来讲的节点；
+       DITA-OT 4.4 docsrc 全部节点标题为工具操作，无对应节点。
+     二、先怀疑切分：三个属性各自只有数行，拆成三篇均不足以自足，且读者是一次查三个；
+       聚合为一篇速查是切分的结果，不是回避。
+     三、只组合不发明：三个属性同属上游 Translation 一节，「本地化属性」只是这一节点组的
+       并列称呼；题材后缀「速查」依 cheatsheet 惯例。未造新概念名、未造新分类框架。 -->
 <reference id="localization-attributes" xml:lang="zh-CN"
            outputclass="cheatsheet"
            maturity="draft" volatility="stable"

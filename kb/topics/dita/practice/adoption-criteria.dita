@@ -10,7 +10,15 @@
      volatility=volatile 的依据：判据的前提是 2.0 的 beta 状态与各家工具的支持进度。
      事实纪律：笔记 08 已核对清单里与本篇相关的是版本状态三条（2.0 列为 draft、
      beta03 的发布与 pre-release 性质、DITA-OT 4.4 的基线），采用与否的全部判据属判断，
-     已在来源节判断段穷尽列明。 -->
+     已在来源节判断段穷尽列明。
+     标题《DITA 采用判据》系本库自造，上游无对应节点，三道关如下。
+     一、穷尽查证：OASIS DITA 2.0 规范只规定语言本身，不讨论要不要采用它；
+       DITA-OT 4.4 docsrc 全部节点标题为工具的安装、配置与发布操作，最近的是
+       DITA 2.0 support（讲工具支持到哪一步，不讲选型），社区通行说法亦无对应节点。
+     二、先怀疑切分：本簇边界已核——customization 一篇管用起来之后改造到哪一级，
+       editors-pdf-reality 管工具一路的取舍，两篇均不含"要不要用、能不能现在用"。
+     三、只组合不发明：「采用」与「判据」均为普通词，与本库既有的准入判据一族同构，
+       未造新概念名、未造新分类框架。 -->
 <concept id="adoption-criteria" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="volatile"

@@ -12,7 +12,15 @@
      不在 dita 域 planned-dimension 清单内，故不标——判断见 task-7 报告。
      volatility=stable 的依据：两条规则出自自然语言的句法约束，与工具链版本无关。
      事实纪律：笔记 13 已逐页核对的与本篇相关的只有 translate 属性一条（多数元素无默认、
-     面向非发布内容的元素默认 no），两个反模式与全部规则属判断，来源节判断段列明。 -->
+     面向非发布内容的元素默认 no），两个反模式与全部规则属判断，来源节判断段列明。
+     标题《DITA 复用机制在翻译下的反模式》系本库自造，上游无对应节点，三道关如下。
+     一、穷尽查证：OASIS DITA 2.0 archSpec 有 The translate attribute（即本篇来源节所引）
+       与 Translation 一节，讲的是属性语义与翻译流程，不讲复用机制在翻译下会怎么坏；
+       DITA-OT 4.4 docsrc 全部节点标题为工具操作，无对应节点；社区通行说法无对应节点。
+     二、先怀疑切分：与 translation-modularity 的分界已核——那篇算模块化带来的收益，
+       本篇列它被误用时的两个坏法，合篇会让收益与代价互相冲淡。
+     三、只组合不发明：复用机制与翻译均为上游既有说法，「反模式」为软件工程通行词组，
+       未造新概念名、未造新分类框架。 -->
 <concept id="translation-antipatterns" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="stable"

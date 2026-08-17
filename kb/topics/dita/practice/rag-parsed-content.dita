@@ -7,7 +7,15 @@
      「单库加检索时过滤」平实描述。
      volatility=volatile 的依据：入库管线的做法随检索系统与工具演进。
      事实纪律：笔记 15 无外部权威来源，全篇为分析；条件过滤的判定规则出自笔记 03，
-     在本篇按判断呈现并注明未在本篇核对。prolog 不写 reviewed（笔记 15 未核对任何页面）。 -->
+     在本篇按判断呈现并注明未在本篇核对。prolog 不写 reviewed（笔记 15 未核对任何页面）。
+     标题《RAG 入库内容的解析形态选择》系本库自造，上游无对应节点，三道关如下。
+     一、穷尽查证：OASIS DITA 2.0 规范无 RAG 相关节点；DITA-OT 4.4 docsrc 最近的是
+       Pre-processing modules（讲各阶段做什么，不讲消费方该取哪一份输出）；
+       RAG 一侧的通行说法不以 DITA 的中间产物为对象。
+     二、先怀疑切分：与 toolchain/parsed-vs-source 的分界已核——那篇给通用的程序化处理
+       该读哪一份输入，本篇只给 RAG 入库这一个用途下的取舍与代价，两者读者不同。
+     三、只组合不发明：RAG、入库、解析形态、选择四个词素均既有，
+       与 parsed-vs-source 的「输入选择」同构，未造新概念名、未造新分类框架。 -->
 <concept id="rag-parsed-content" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="volatile"
