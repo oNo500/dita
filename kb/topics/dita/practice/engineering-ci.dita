@@ -12,14 +12,25 @@
      toolchain/project-files——上游 DITA-OT docsrc 有 Publishing with project files 这个节点，
      埋在本篇标题之下按领域名检索不到；且它是本篇唯一逐页核对过的事实，档位与其余内容不同。
      本篇只余一句提及加 xref。prolog source 随之改为文档站入口（元数据，不承担断言）。
-     标题《DITA 工程化与 CI》系本库自造，上游无对应节点，三道关如下。
-     一、穷尽查证：OASIS DITA 2.0 规范只规定语言本身，不讲内容库的工程组织；
-       DITA-OT 4.4 docsrc 全部节点标题为工具的安装、配置与发布操作，无工程约定类节点；
-       社区通行说法无对应节点。拆出 project-files 之后，本篇内容确无上游归处。
-     二、先怀疑切分：三条做法（目录按角色、id 契约、逐变体构建）共用同一个前提——
-       内容进版本库之后的组织方式，分开则每条各三行、均不自足。
-     三、只组合不发明：「工程化」与 CI 均为软件工程通行词，未造新概念名、未造新分类框架。
-     事实纪律：拆出 project file 一节后，本篇全部陈述属判断，已在来源节判断段列明。
+     2026-08-17（人审修复轮）主轴重写并改名。原篇三条做法里「目录按角色分」与「id 发布后
+     不改」换成任何文档系统或代码库都成立，是通用工程常识，按新增的准入判据三（领域特有性，
+     正本见 content-engineering/writing-atomicity）不属于 dita 分支；三条里只有「逐变体构建」
+     有 DITA 特有内核：条件过滤会改变内容模型的合法性，滤掉必需的子元素之后文档不再合法，
+     而这类错在默认变体上不出现。处置是保留本篇（文件名与 id 是引用契约，不动），重写为以
+     该洞见为主轴，两条通用做法压缩为一句并标明属通用工程实践、指向 kb 一侧的正本。
+     标题随主轴由《DITA 工程化与 CI》改为《DITA 变体构建与 CI》：「工程化」恰是判据三
+     要挡下的那个通用名，它罩住的内容已不在本篇。新标题仍系本库自造，三道关重走如下。
+     一、穷尽查证：OASIS DITA 2.0 规范定义 conditional processing 机制本身，不讲持续集成
+       该跑哪些构建；DITA-OT 4.4 docsrc 有 Filtering and flagging content 与 Publishing with
+       project files 两个节点，各讲怎么跑一次构建，无「变体矩阵该全跑」这一节点；社区通行
+       说法亦无对应节点。
+     二、先怀疑切分：本簇边界已核。conditional/profiling-ditaval 管条件属性与 DITAVAL 怎么写、
+       留删怎么判；toolchain/project-files 管变体矩阵怎么声明；toolchain/validation-schematron
+       管校验分几种、Schematron 怎么写。三篇均不含「过滤改变合法性，故 CI 必须逐变体构建」
+       这一条，本篇即这个剩余节点。
+     三、只组合不发明：「变体」「构建」「CI」均为既有词（变体是本库词表 tool 值集既有的用法，
+       CI 为软件工程通行词），未造新概念名、未造新分类框架。
+     事实纪律：本篇全部陈述属判断，已在来源节判断段列明；做法节四条命令为本仓实测可跑。
      2026-08-17（人审修复轮）CI 示例脚本换成本仓真实可跑的命令。原脚本首行调 xmllint
      的 noout/valid 两个开关：xmllint 不在本项目工具链（本机未安装），且 valid 走的是
      DTD 校验，而本库每篇由 xml-model 绑 RNG，这条命令对本库无意义。给一段没跑过、
@@ -30,8 +41,8 @@
          outputclass="best-practice"
          maturity="draft" volatility="volatile"
          dimension="dim-process dim-integration">
-  <title>DITA 工程化与 CI</title>
-  <shortdesc>内容进版本库之后要定三件事：目录按角色布局、<xmlatt>id</xmlatt> 发布后不再改这一条契约、持续集成里把每个变体都构建一遍。三件都在内容之外，却都由内容的组织方式决定。</shortdesc>
+  <title>DITA 变体构建与 CI</title>
+  <shortdesc>条件过滤会改变内容模型的合法性：条件打在必需的子元素上时，过滤后的文档可能缺少模型要求的成分，而这类错误在默认变体上不出现。持续集成因此要按变体矩阵逐件构建，默认变体全绿不等于变体全绿。</shortdesc>
   <prolog>
     <source href="https://www.dita-ot.org/dev/" scope="external"/>
     <data name="domain" value="dita"/>
@@ -40,31 +51,13 @@
   <conbody>
     <section>
       <title>场景</title>
-      <p>内容开始成规模之后，问题从「怎么写」转成「怎么管」。目录混放时，谁是可复用片段、谁是过滤规则要靠文件名猜；<xmlatt>id</xmlatt> 随手改一次，外部深链与既有引用一起断；持续集成只构建默认变体，某个条件组合下内容变得不合法的问题要等到发布那天才暴露。这三件事都在内容之外，却都由内容的组织方式决定。</p>
+      <p>内容成规模之后，同一批 topic 要出多个变体：不同工具、不同平台、不同读者各一份。持续集成通常只构建默认变体，于是有一类问题始终照不到——条件过滤把某个必需的子元素滤掉之后，文档不再满足内容模型，构建在那个变体上失败，而默认变体一路全绿。</p>
+      <p>校验也照不到它。校验查的是源文件，源文件是合法的；不合法的是过滤之后的那份文档，它只在构建那个变体时才存在。于是这类问题的默认暴露时刻是某个变体交付的当天，而当天能拿到的信息是「以前一直是好的」。</p>
     </section>
 
     <section>
       <title>做法</title>
-      <p>目录按角色分开，一个目录只放一类东西。</p>
-      <codeblock>docs/
-├── maps/
-│   ├── user-guide.ditamap
-│   ├── admin-guide.ditamap
-│   └── keys/
-│       ├── product-keys.ditamap     # keytext 变量
-│       └── link-keys.ditamap        # 外链
-├── topics/
-│   ├── concepts/
-│   ├── tasks/
-│   └── reference/
-├── warehouse/                       # 存放可复用片段的 topic，不做条件化
-│   ├── notes.dita
-│   └── snippets.dita
-├── filters/
-│   ├── linux.ditaval
-│   └── enterprise.ditaval
-└── images/</codeblock>
-      <p>命名与标识按两条约定：topic 的文件名与它的 <xmlatt>id</xmlatt> 取同一个值且全库唯一，读到一个片段标识就知道它在哪个文件；<b><xmlatt>id</xmlatt> 一经发布不再修改</b>，它是 <term keyref="term-conref">conref</term>（内容引用）、<xmlelement>xref</xmlelement> 与外部深链共同依赖的契约。</p>
+      <p><b>变体矩阵有几件交付物，持续集成就构建几次。</b>默认变体的构建只证明未经过滤的源文件可以出成品，它不覆盖任何一份过滤规则；每份过滤规则各构建一次，才是对「过滤之后仍合法」这句话的实际检验。</p>
       <p>持续集成里跑四层，前三层查源文件本身、逐层加严，第四层查过滤之后的结果：map 级的 DITA 校验（DITA-OT 沿 topicref 树遍历全部被引 topic）、业务规则的批量断言、题材与文体的 lint、每份 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）各构建一次。下面是本库自己的持续集成实际在跑的命令，路径按本库的目录布局写：</p>
       <codeblock># 1–3. 源文件一侧：结构校验、业务规则、题材与文体（本库封装为 just review）
 dita validate --input=maps/root.ditamap
@@ -77,21 +70,24 @@ for f in filters/tool-*.ditaval; do
   dita -f markdown_github --input=maps/deliverables/agent-rules.ditamap \
        --filter="$f" -o "out/$(basename "$f" .ditaval)"
 done</codeblock>
-      <p>第二条的 <varname>SAXON_LIB</varname> 指向 DITA-OT 自带 Saxon 所在的 <filepath>lib/</filepath> 目录，安装位置随版本变动，本库由 <filepath>scripts/review.sh</filepath> 探测后传入而不硬编码；业务规则本身写在一份 XSLT 里，用 <codeph>collection()</codeph> 一次遍历全部 topic，不逐篇起 JVM。第四步是容易省掉的一步，也是唯一能发现条件组合问题的一步。变体矩阵长大之后（多个 <term keyref="term-transtype">transtype</term>（输出类型）乘多份 DITAVAL），这段循环改用 DITA-OT 的 project file 声明，交付物在一处写清，持续集成里只留一条命令；形制与执行见 <xref href="../toolchain/project-files.dita">project file 与 dita --project</xref>。</p>
+      <p>第二条的 <varname>SAXON_LIB</varname> 指向 DITA-OT 自带 Saxon 所在的 <filepath>lib/</filepath> 目录，安装位置随版本变动，本库由 <filepath>scripts/review.sh</filepath> 探测后传入而不硬编码；业务规则本身写在一份 XSLT 里，用 <codeph>collection()</codeph> 一次遍历全部 topic，不逐篇起 JVM。第四步是容易省掉的一步，也是唯一能发现条件组合问题的一步。</p>
+      <p>与逐变体构建配套的一条内容侧约定：存放可复用片段的 topic 不做条件化。它被多处 <term keyref="term-conref">conref</term>（内容引用）引用，一旦条件化，某些变体下引用方拉到的是空内容——症状出现在引用方，根因在被引用的文件，两者往往不在同一次报错里。</p>
+      <p>变体矩阵长大之后（多个 <term keyref="term-transtype">transtype</term>（输出类型）乘多份 DITAVAL），上面那段循环改用 DITA-OT 的 project file 声明，交付物在一处写清，持续集成里只留一条命令；形制与执行见 <xref href="../toolchain/project-files.dita">project file 与 dita --project</xref>。</p>
+      <p>目录按角色分开、topic 的文件名与它的 <xmlatt>id</xmlatt> 取同值且发布后不再改，这两条换成任何文档系统或代码库都成立，属通用工程实践，本篇不展开；本库一侧怎么落见 <xref href="../../content-engineering/naming-rules.dita">kb 命名与归属</xref>。</p>
     </section>
 
     <section>
       <title>理由</title>
-      <p>三条做法各自堵住一类在别处发现不了的问题。目录按角色分开，是因为可复用片段与普通 topic 的纪律不同：前者被多处引用，一旦条件化，引用方会取到空内容，而症状出现在引用方、根因在被引用的文件。</p>
-      <p><xmlatt>id</xmlatt> 不改是因为它被写进了别人的文件：引用方的地址、发布出去的链接、检索系统的溯源记录，改一次就要连带修完这三处，而第三处通常不在自己手上。</p>
-      <p>逐变体构建的理由是条件过滤会改变内容模型的合法性。条件打在必需的子元素上时，过滤后的文档可能缺少模型要求的成分，这类错误在默认变体上不出现。project file 解决的是同一件事的规模问题：变体是输入、过滤、输出类型三者的组合，写成循环则组合关系散在脚本里，声明成交付物则组合关系可读、可复用、可单件构建。</p>
+      <p>逐变体构建的理由是条件过滤会改变内容模型的合法性。条件属性不是发布时的显示开关：过滤发生在处理链的前段，产出的是一份结构与原文不同的新文档，此后每一步都按这份新文档判定。条件打在必需的子元素上时，过滤后的文档就可能缺少模型要求的成分，而默认变体从未经历这次删减，因此从不报错。</p>
+      <p>可复用片段不做条件化，理由出自同一处。按 <term keyref="term-preprocess">preprocess</term>（预处理）的阶段顺序，条件过滤先于 conref 解析执行一次，被排除的片段随后拉不回来；引用方的文件一个字没改，取到的内容却随所选过滤规则而变（阶段顺序见 <xref href="../toolchain/preprocess-pipeline.dita">preprocess 流水线</xref>）。</p>
+      <p>project file 解决的是同一件事的规模问题：变体是输入、过滤、输出类型三者的组合，写成循环则组合关系散在脚本里，声明成交付物则组合关系可读、可复用、可单件构建。</p>
     </section>
 
     <section>
       <title>反例</title>
       <ul>
         <li>持续集成只构建默认变体。条件组合下的合法性问题会绕过全部检查，直到某个变体交付当天。</li>
-        <li>发布之后调整 <xmlatt>id</xmlatt>，例如为了让它更整齐。外部深链在此刻断裂，且断裂不会报错。</li>
+        <li>持续集成只跑校验、不跑构建。校验读的是源文件，过滤之后的那份文档在校验时并不存在，因而它的合法性无从判起。</li>
         <li>把可复用片段的 topic 条件化。它同时服务多个变体，条件化之后哪个变体取到内容取决于过滤规则，而引用方对此一无所知。</li>
         <li>变体矩阵已有十几件交付物，仍靠 shell 循环拼参数。循环里的过滤与输出目录一一对应关系是隐式的，新增一个维度要改多处。</li>
       </ul>
@@ -99,14 +95,14 @@ done</codeblock>
 
     <section>
       <title>边界</title>
-      <p>本篇给的是内容库一侧的工程约定。DITA-OT 的安装与首次构建见<xref href="../toolchain/dita-ot-quickstart.dita">DITA-OT 安装与 2.0 doctype 触发</xref>；校验分几层、业务规则怎么写见<xref href="../toolchain/validation-schematron.dita">校验与 Schematron</xref>。</p>
+      <p>本篇给的是持续集成该覆盖哪些构建，以及为什么变体不能只构建一件。条件属性怎么标、DITAVAL 怎么写、某段内容留还是删怎么判，见 <xref href="../conditional/profiling-ditaval.dita">conditional processing</xref>；DITA-OT 的安装与首次构建见 <xref href="../toolchain/dita-ot-quickstart.dita">DITA-OT 安装与 2.0 doctype 触发</xref>；校验分几层、业务规则怎么写见 <xref href="../toolchain/validation-schematron.dita">校验与 Schematron</xref>。</p>
       <p>变体声明本身的形制与执行命令另属工具链一侧，见 <xref href="../toolchain/project-files.dita">project file 与 dita --project</xref>。</p>
     </section>
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：本篇无转自权威源的内容。笔记 04 §2 逐页核对过的 project file 一节随该内容迁至 <xref href="../toolchain/project-files.dita">project file 与 dita --project</xref>，事实与出处在那一篇。<xref href="https://www.dita-ot.org/dev/" scope="external">DITA-OT 文档站</xref>作为元数据来源，不承担本篇任何断言。</p>
-      <p><b>判断</b>：正文全部陈述均属判断，可被反驳。其中目录按角色分开的布局、文件名与 <xmlatt>id</xmlatt> 取同值、发布后不改 <xmlatt>id</xmlatt>、可复用片段不做条件化、持续集成分四层的划分，来自通用实践，未逐页核对；四层对应的命令不属此列——它们是本库自己的持续集成实际在跑的命令，2026-08-17 逐条执行确认可用（四条均退出 0、零违规），可在本仓复现；条件过滤可能使文档不再满足内容模型这一现象来自使用经验；三条做法各堵一类问题的解释、四条反例、变体矩阵长大时改用 project file 的阈值判断，为本库归纳。</p>
+      <p><b>事实</b>：本篇无转自权威源的内容。笔记 04 §2 逐页核对过的 project file 一节随该内容迁至 <xref href="../toolchain/project-files.dita">project file 与 dita --project</xref>，事实与出处在那一篇。正文引到的 preprocess 阶段顺序（条件过滤先于 conref 解析）同样不由本篇认领，正本与出处见 <xref href="../toolchain/preprocess-pipeline.dita">preprocess 流水线</xref>。<xref href="https://www.dita-ot.org/dev/" scope="external">DITA-OT 文档站</xref>作为元数据来源，不承担本篇任何断言。</p>
+      <p><b>判断</b>：正文全部陈述均属判断，可被反驳。其中可复用片段不做条件化、持续集成分四层的划分、目录与 <xmlatt>id</xmlatt> 那一句通用工程实践，来自通用实践，未逐页核对；条件过滤可能使文档不再满足内容模型这一现象来自使用经验；逐变体构建与校验各能发现什么的分工、四条反例、变体矩阵长大时改用 project file 的阈值判断，为本库归纳。做法节四层对应的命令不属判断之列：它们是本库自己的持续集成实际在跑的命令，2026-08-17 逐条执行确认可用（四条均退出 0、零违规），可在本仓复现。</p>
     </section>
   </conbody>
 </concept>

@@ -71,7 +71,7 @@
 
     <section>
       <title>边界</title>
-      <p>字段与命令选项随 DITA-OT 版本变动，上例按 4.x 的形制写；接入之前以本机版本的文档为准，并用一件交付物先跑通。内容库一侧的目录布局、标识约定与持续集成该跑哪几步，见 <xref href="../practice/engineering-ci.dita">DITA 工程化与 CI</xref>。</p>
+      <p>字段与命令选项随 DITA-OT 版本变动，上例按 4.x 的形制写；接入之前以本机版本的文档为准，并用一件交付物先跑通。持续集成该跑哪几层构建、变体为什么不能只构建一件，见 <xref href="../practice/engineering-ci.dita">DITA 变体构建与 CI</xref>。</p>
     </section>
 
     <section>
