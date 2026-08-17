@@ -3,8 +3,9 @@
 <!-- 迁自 research/notes/05-specialization.md §2（domain specialization）。
      题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      术语规则（2026-08-16 用户门反馈后，含同日紧急更正）：domain / specialization /
-     generalization / class 等机制名一律英文原名——「域专门化」「泛化」是本库自造译名，
-     OASIS 无官方中文版，不得作首选词；中文解释每篇首现随行注一次。
+     generalization / class 等机制名一律英文原名——OASIS 无官方中文版，中文译名不得作
+     首选词；「域专门化」还是错译，specialization 的标准译法为「特化」。
+     中文解释每篇首现随行注一次，括号里给解释不给译名（2026-08-17 全库更正）。
      内置 domain 沿用 ui-d / sw-d / pr-d 一类模块名，不译。
      标题规则（2026-08-16 第二次纠偏）：照架构规范子树标题 Domain specialization 命名，
      不拼副标题、不加定位词。
@@ -27,7 +28,7 @@
     <section>
       <title>问题</title>
       <p>有一类语义标记要在各处出现：设备编号在概念页、任务页、参考页里都会写到。为它派生一个新的 topic 类型是错配，需要的不是一整篇的骨架，而是一个到处能用的行内标记。</p>
-      <p>domain specialization 就是为此设的一档：派生出来的元素挂在通用基类下，装配进 <term keyref="term-document-type-shell">document-type shell</term> 之后跨 topic 类型可用。整篇骨架仍归 <xref href="structural-specialization.dita">structural specialization</xref>，两者同属 <term keyref="term-specialization">specialization</term>（专门化）这一个 extension facility，区别在派生的是一篇还是一个标记。</p>
+      <p>domain specialization 就是为此设的一档：派生出来的元素挂在通用基类下，装配进 <term keyref="term-document-type-shell">document-type shell</term> 之后跨 topic 类型可用。整篇骨架仍归 <xref href="structural-specialization.dita">structural specialization</xref>，两者同属 <term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）这一个 extension facility，区别在派生的是一篇还是一个标记。</p>
     </section>
 
     <section>

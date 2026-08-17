@@ -14,7 +14,7 @@
     <data name="domain" value="electron"/>
     <data name="reviewed" value="2026-08-09"/>
     <!-- 本域规划维度清单（机读）。每篇内容 topic 在 concept 根用 @dimension 声明覆盖的维度
-         （specialization（专门化）属性，enumerationdef 绑受控值、可多值）；构建期按 domain 分组，
+         （specialization 出的属性，enumerationdef 绑受控值、可多值）；构建期按 domain 分组，
          planned 与各 topic 的 @dimension 求差即盲区、算覆盖度。 -->
     <data name="planned-dimension" value="dim-concept"/>
     <data name="planned-dimension" value="dim-internals"/>

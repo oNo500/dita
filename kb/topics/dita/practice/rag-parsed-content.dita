@@ -21,7 +21,7 @@
          maturity="draft" volatility="volatile"
          dimension="dim-retrieval dim-integration">
   <title>RAG 入库内容的解析形态选择</title>
-  <shortdesc>把 DITA 内容接进 <term keyref="term-rag">RAG</term>（检索增强生成）管线，第一个决定是入库的是创作时的源文件还是 <term keyref="term-preprocess">preprocess</term>（预处理）之后的内容。答案是后者，理由的第三条是正确性而非质量。随后的决定是条件过滤发生在入库前还是检索时，两条路线各有代价。</shortdesc>
+  <shortdesc>把 DITA 内容接进 <term keyref="term-rag">RAG</term>（检索增强生成）管线，第一个决定是入库的是创作时的源文件还是 <term keyref="term-preprocess">preprocess</term>（构建前把引用与键解析开的一串阶段）之后的内容。答案是后者，理由的第三条是正确性而非质量。随后的决定是条件过滤发生在入库前还是检索时，两条路线各有代价。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/specifications" scope="external"/>
     <data name="domain" value="dita"/>
@@ -54,7 +54,7 @@
 
     <section>
       <title>理由</title>
-      <p>三条理由的分量递增。<term keyref="term-conref">conref</term>（内容引用）在源文件里仍是引用，嵌入进去的是一个空壳元素；<term keyref="term-keyref">keyref</term>（键引用）未解析，含产品名的问句检索不到含产品名的内容，因为内容里根本没有产品名。</p>
+      <p>三条理由的分量递增。<term keyref="term-conref">conref</term>（引用另一处已有内容）在源文件里仍是引用，嵌入进去的是一个空壳元素；<term keyref="term-keyref">keyref</term>（按键名间接引用，不写路径）未解析，含产品名的问句检索不到含产品名的内容，因为内容里根本没有产品名。</p>
       <p>第三条与前两条不同类。条件属性未过滤时，源文件里所有变体的内容混在一起，而检索器不理解 DITAVAL：企业版专属的说明可能被答给基础版用户，内部内容可能被答给外部用户。这是正确性问题，不是检索质量问题，且它在抽样检查时不易发现，因为多数问句的答案看上去都对。</p>
     </section>
 

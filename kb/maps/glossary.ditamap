@@ -42,8 +42,11 @@
   <!-- 2026-08-16 第六批：并行各簇留下的跨篇候选，由 conditional 簇统一裁决建条
        （specialization 十余篇、document-type shell 与 schema 各四篇以上、generalization 四篇、
        constraint 三篇、subject scheme 四篇，均已过第二篇门槛）。正文 keyref 的跨簇回填另行统一进行。
-       译名禁令：这几条在规范里都有对应条目，glossterm 一律英文原名，中文只进 glossdef，
-       不设「专门化」「泛化」一类本库自造译名作别名。 -->
+       译名禁令：这几条在规范里都有对应条目，glossterm 一律英文原名，中文只进 glossdef。
+       2026-08-17 更正：此前把「泛化」也列为本库自造译名，是错的——「泛化」是 generalization
+       的领域标准译法，与 specialization 的「特化」成对；错的是「专门化」，它既无出处又译错。
+       中文别名只登记领域标准译法（specialization→「特化」、generalization→「泛化」），
+       供检索召回；不设「专门化」这类错译或自造译名作别名。 -->
   <topicref href="../topics/glossary/term-specialization.dita" keys="term-specialization"/>
   <topicref href="../topics/glossary/term-generalization.dita" keys="term-generalization"/>
   <topicref href="../topics/glossary/term-constraint.dita" keys="term-constraint"/>

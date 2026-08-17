@@ -31,7 +31,7 @@
     <section>
       <title>问题</title>
       <p>在 map 根上设一个 <xmlatt>audience</xmlatt>，让整本书的内容都带上这个受众，是 map 元数据最常见的用法。随后在某个 topicref 上写一个不同的值，期待它覆盖掉根上那个，得到的却是两个值同时生效。</p>
-      <p>这不是实现的偏差，是规范规定的行为。metadata cascading（元数据级联）对多值属性做的是合并，不是覆盖。</p>
+      <p>这不是实现的偏差，是规范规定的行为。metadata cascading（map 上的元数据向下传给被引 topic）对多值属性做的是合并，不是覆盖。</p>
     </section>
 
     <section>

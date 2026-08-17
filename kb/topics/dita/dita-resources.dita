@@ -42,7 +42,7 @@
         </strow>
         <strow>
           <stentry><xref href="https://dita-lang.org/dita/archspec/base/topicstructure" scope="external">架构规范</xref></stentry>
-          <stentry><term keyref="term-specialization">specialization</term>（专门化）、寻址、处理模型与一致性的规则正文，自研处理逻辑的判据来源</stentry>
+          <stentry><term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）、寻址、处理模型与一致性的规则正文，自研处理逻辑的判据来源</stentry>
         </strow>
         <strow>
           <stentry><xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref></stentry>
@@ -69,7 +69,7 @@
         </strow>
         <strow>
           <stentry><xref href="https://www.dita-ot.org/dev/" scope="external">DITA-OT 文档</xref></stentry>
-          <stentry>安装、命令、项目文件、<term keyref="term-preprocess">preprocess</term>（预处理）流水线与输出格式</stentry>
+          <stentry>安装、命令、项目文件、<term keyref="term-preprocess">preprocess</term>（构建前把引用与键解析开的一串阶段）流水线与输出格式</stentry>
         </strow>
         <strow>
           <stentry><xref href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external">扩展点清单</xref></stentry>

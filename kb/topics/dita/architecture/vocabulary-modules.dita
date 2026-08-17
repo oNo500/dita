@@ -8,8 +8,9 @@
      「Specialization」下的 "Vocabulary modules" 节点，原文 "A DITA element type or
      attribute is declared in exactly one vocabulary module"。非自造。
      术语规则（2026-08-16 用户门反馈后，含译名禁令补充）：vocabulary module /
-     specialization / constraint / expansion module / domain 一律英文原名，「词汇模块」
-     「专门化」是本库自造译名，中文解释每篇首现随行注一次；模块名与短名（topicMod、
+     specialization / constraint / expansion module / domain 一律英文原名；「词汇模块」是
+     本库自造译名，「专门化」是错译（标准译法为「特化」）。中文解释每篇首现随行注一次，
+     括号里给解释不给译名（2026-08-17 全库更正）；模块名与短名（topicMod、
      ui-d、sw-d）照原样不译。
      volatility=volatile 的依据：文件命名对照表与五个属性域模块清单核对自 v2.0-beta03
      的语法文件目录，随发行版可变。
@@ -35,13 +36,13 @@
   <conbody>
     <section>
       <title>问题</title>
-      <p>拿到一套 DITA 语法文件，目录里几十个 <filepath>.rng</filepath> 平铺着，看不出哪个定义元素、哪个只做配置、哪个是入口。规范把这一层称作模块化，并给它一句定位：模块化是 DITA 设计与实现的核心，它使 <term keyref="term-specialization">specialization</term>（专门化）层级的复用与扩展成为可能。</p>
+      <p>拿到一套 DITA 语法文件，目录里几十个 <filepath>.rng</filepath> 平铺着，看不出哪个定义元素、哪个只做配置、哪个是入口。规范把这一层称作模块化，并给它一句定位：模块化是 DITA 设计与实现的核心，它使 <term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）层级的复用与扩展成为可能。</p>
       <p>模块负责声明元素与属性，<xref href="doctype-shell.dita">document-type shell</xref> 负责选取与配置，文档实例携带 shell 注入的 <xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt>。三层各管一段，处理器不必拿到语法文件也能判断每个元素的来源。这一篇讲中间那层。</p>
     </section>
 
     <section>
       <title>背景：三种 vocabulary module</title>
-      <p>规范先给一条不容例外的规则：<b>一个 DITA 元素类型或属性恰好在一个 vocabulary module（词汇模块）中声明</b>。没有重复声明，任何元素都能唯一追溯到来源模块。<xmlatt>class</xmlatt> 用「模块名/元素名」标识每一层派生，靠的正是这条。</p>
+      <p>规范先给一条不容例外的规则：<b>一个 DITA 元素类型或属性恰好在一个 vocabulary module（定义一组元素或属性的语法文件）中声明</b>。没有重复声明，任何元素都能唯一追溯到来源模块。<xmlatt>class</xmlatt> 用「模块名/元素名」标识每一层派生，靠的正是这条。</p>
       <simpletable relcolwidth="1.3* 1.8* 1.6*">
         <sthead><stentry>种类</stentry><stentry>声明什么</stentry><stentry>数量约束与命名</stentry></sthead>
         <strow>
@@ -61,7 +62,7 @@
         </strow>
       </simpletable>
       <p>元素域模块的名称或短名，就是用来在 <xmlatt>class</xmlatt> 属性值里标识该模块的那个记号。域元素的派生另有方向约束：给 topic 用的域元素必须最终派生自 topic 模块的元素，给 map 用的必须派生自 map 模块的元素，map 专有元素不能出现在 topic 里。</p>
-      <p>还有一类模块不属于这三种。<term keyref="term-constraint">constraint</term>（约束）模块与 expansion module（扩展模块）不声明新元素，只改已有元素的内容模型或属性表，它们是 element-configuration module，归 <xref href="extension-facilities.dita">DITA extension facilities</xref> 里的另一个 facility。</p>
+      <p>还有一类模块不属于这三种。<term keyref="term-constraint">constraint</term>（收紧已有元素的内容模型）模块与 expansion module（给已有元素追加可选内容的模块）不声明新元素，只改已有元素的内容模型或属性表，它们是 element-configuration module，归 <xref href="extension-facilities.dita">DITA extension facilities</xref> 里的另一个 facility。</p>
     </section>
 
     <section>

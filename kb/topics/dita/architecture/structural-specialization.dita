@@ -4,8 +4,9 @@
      题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      术语规则（2026-08-16 用户门反馈后，含同日紧急更正）：specialization /
      generalization / constraint / domain / class / shell 等机制名一律英文原名——
-     「专门化」「泛化」「约束」是本库自造译名，OASIS 无官方中文版，不得作首选词；
-     中文解释每篇首现随行注一次，此后全用英文名。
+     OASIS 无官方中文版，中文译名不得作首选词；其中「专门化」还是错译——该领域标准译法
+     为「特化」，与 generalization 的「泛化」成对。中文解释每篇首现随行注一次，
+     括号里给解释不给译名（2026-08-17 全库更正），此后全用英文名。
      标题规则（2026-08-16 第二次纠偏）：标题即该节点在领域知识树上的标准叫法，照架构规范
      子树标题 Structural specialization 命名，不拼副标题、不加定位词。
      volatility=stable 的依据：@class 的构造规则出自架构规范，不随发行版变动。
@@ -30,7 +31,7 @@
     <section>
       <title>问题</title>
       <p>一类内容的信息结构是固定的：API 端点有路径、请求方法、参数与返回值，硬件手册的每个部件有型号、接口与规格。用通用的 <xmlelement>reference</xmlelement> 写，这套结构只存在于作者的记性里，校验器不管缺没缺，下游要按结构取值时只能按标题文字猜。</p>
-      <p>扩展 vocabulary（词汇表）的传统做法是另造一套格式，代价是全部下游工具重写一遍。DITA 给扩展加了一条硬性要求换掉这笔代价：每个新元素一对一映射回一个已有元素，并在 <xmlatt>class</xmlatt> 上记录从最通用到最具体的整条派生链。<term keyref="term-specialization">specialization</term>（专门化）指的就是这条要求下的扩展，structural specialization 是其中派生整个 topic 类型或 map 类型的一种；要的只是一个跨类型可用的标记而不是一整篇的骨架时，用的是另一种，见 <xref href="domain-specialization.dita">domain specialization</xref>。</p>
+      <p>扩展 vocabulary（一套元素与属性）的传统做法是另造一套格式，代价是全部下游工具重写一遍。DITA 给扩展加了一条硬性要求换掉这笔代价：每个新元素一对一映射回一个已有元素，并在 <xmlatt>class</xmlatt> 上记录从最通用到最具体的整条派生链。<term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）指的就是这条要求下的扩展，structural specialization 是其中派生整个 topic 类型或 map 类型的一种；要的只是一个跨类型可用的标记而不是一整篇的骨架时，用的是另一种，见 <xref href="domain-specialization.dita">domain specialization</xref>。</p>
     </section>
 
     <section>
@@ -88,7 +89,7 @@
      前缀 最通用      中间层          本次派生的元素   结尾空格</codeblock>
       <p>取值的构造规则由规范逐条规定，含前缀取值、祖先链的完整性、结尾空格与默认值不得为 fixed，规则本身与各条挡住的处理错误见 <xref href="class-derivation.dita">@class 与 @specializations 属性规则与语法</xref>，本篇不重述。落到本例上只需读出一处：前缀 <codeph>-</codeph> 对应 structural specialization，domain specialization 用的是另一个前缀。</p>
       <p>斜杠前的一段通常是模块的名字而不是元素名，两者同名只是常见巧合，读派生链时按模块理解不易出错。</p>
-      <p>剩下的一步是让工具链认识这份语法文件。DITA-OT 一侧用一个 <term keyref="term-plugin">plugin</term>（插件）承载：<filepath>plugin.xml</filepath> 声明 specialization 用的 catalog，catalog 文件把 public ID 与 system ID 映射到本地的 RNG 或 DTD，随后执行安装命令。</p>
+      <p>剩下的一步是让工具链认识这份语法文件。DITA-OT 一侧用一个 <term keyref="term-plugin">plugin</term>（可安装的功能扩展包）承载：<filepath>plugin.xml</filepath> 声明 specialization 用的 catalog，catalog 文件把 public ID 与 system ID 映射到本地的 RNG 或 DTD，随后执行安装命令。</p>
       <codeblock>&lt;!-- plugin.xml --&gt;
 &lt;plugin id="com.example.apiref"&gt;
   &lt;feature extension="dita.specialization.catalog.relative"

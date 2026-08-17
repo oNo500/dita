@@ -6,7 +6,8 @@
      题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      术语规则（2026-08-16 用户门反馈后，含同日紧急更正）：specialization /
      generalization / props / base / specializations / DITAVAL 等一律英文原名——
-     「属性专门化」「泛化」是本库自造译名，不得作首选词；属性名用 xmlatt。
+     中文译名不得作首选词；「属性专门化」还是错译——specialization 的标准译法为「特化」，
+     与 generalization 的「泛化」成对。括号里给解释不给译名（2026-08-17 全库更正）；属性名用 xmlatt。
      标题规则（2026-08-16 第二次纠偏）：照架构规范子树标题 Attribute specialization
      命名，不拼副标题、不加定位词。
      volatility=stable 的依据：@specializations 的形式语法出自架构规范，不随发行版变动。
@@ -35,7 +36,7 @@
     <section>
       <title>问题</title>
       <p>条件化的内置维度是固定的几个。要按销售区域和授权档次出变体时，最省事的写法是把两件事都挤进 <xmlatt>otherprops</xmlatt>，代价随即出现：两个维度的取值混在同一个属性里，过滤规则说不清「排除某个区域」与「排除某个档次」的分别，取值撞名时更没有办法分辨。</p>
-      <p>attribute specialization 解决的是这一类需求：为新维度派生一个属于自己的属性，它在过滤、<term keyref="term-generalization">generalization</term> 与校验三处都被当作独立维度对待。它是 <term keyref="term-specialization">specialization</term>（专门化）三种形态中唯一在文档实例上留下声明的一种。</p>
+      <p>attribute specialization 解决的是这一类需求：为新维度派生一个属于自己的属性，它在过滤、<term keyref="term-generalization">generalization</term> 与校验三处都被当作独立维度对待。它是 <term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）三种形态中唯一在文档实例上留下声明的一种。</p>
     </section>
 
     <section>

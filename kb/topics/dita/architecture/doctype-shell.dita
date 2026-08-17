@@ -39,11 +39,11 @@
       <p>规范给 shell 划的能力范围有四项：</p>
       <ul>
         <li>选择要引入哪些结构模块与域模块。</li>
-        <li>应用 element-configuration module，即 <term keyref="term-constraint">constraint</term>（约束）与 expansion module（扩展模块）。</li>
+        <li>应用 element-configuration module，即 <term keyref="term-constraint">constraint</term>（收紧已有元素的内容模型）与 expansion module（给已有元素追加可选内容的模块）。</li>
         <li>指定 topic 的嵌套规则。</li>
         <li>为引入的元素配置默认属性值。<xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt> 都由这条路径注入。</li>
       </ul>
-      <p>与之配套的是一条禁令：<b>shell 不得直接定义元素类型</b>。它只做装配与配置，被引入模块的定义一个字都不改。同一条约束的另一面是它无需修改 vocabulary module（词汇模块），定制与上游模块因此不共享文件。</p>
+      <p>与之配套的是一条禁令：<b>shell 不得直接定义元素类型</b>。它只做装配与配置，被引入模块的定义一个字都不改。同一条约束的另一面是它无需修改 vocabulary module（定义一组元素或属性的语法文件），定制与上游模块因此不共享文件。</p>
     </section>
 
     <section>
@@ -68,7 +68,7 @@
           <stentry>定制在自有 shell 与自有模块里，上游模块未被改动</stentry>
         </strow>
         <strow>
-          <stentry>两份文档能否互相 <term keyref="term-conref">conref</term>（内容引用）</stentry>
+          <stentry>两份文档能否互相 <term keyref="term-conref">conref</term>（引用另一处已有内容）</stentry>
           <stentry>取决于双方 shell 各装配了什么</stentry>
         </strow>
       </simpletable>
@@ -92,7 +92,7 @@
           <dd>什么算一致的 shell，以及它与文档一致性的关系，见 <xref href="conformance.dita">conformance</xref>。</dd>
         </dlentry>
       </dl>
-      <p>三组里 equivalence 一节在实践中最容易被跳过。判断两批内容能不能安全互换，问的不是双方用的是不是同一个文件，而是双方的 shell 是否引入了同一组模块。要跨组织复用内容，先比对两边的 shell 装配清单，再谈 <term keyref="term-conref">conref</term> 与 <term keyref="term-keyref">keyref</term>（键引用）。</p>
+      <p>三组里 equivalence 一节在实践中最容易被跳过。判断两批内容能不能安全互换，问的不是双方用的是不是同一个文件，而是双方的 shell 是否引入了同一组模块。要跨组织复用内容，先比对两边的 shell 装配清单，再谈 <term keyref="term-conref">conref</term> 与 <term keyref="term-keyref">keyref</term>（按键名间接引用，不写路径）。</p>
       <p>本篇只列出三组规则的存在与用途，未展开条文。写自有 shell 之前回到规范逐条核对。</p>
     </section>
 

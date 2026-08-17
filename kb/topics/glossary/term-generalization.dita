@@ -7,5 +7,10 @@
     <glossAlt>
       <glossSynonym xml:lang="en">DITA generalization</glossSynonym>
     </glossAlt>
+    <!-- 中文别名只登记领域标准译法，供检索召回；正文仍用英文原名，括号给解释。
+         「泛化」与 specialization 的「特化」是成对固定搭配。 -->
+    <glossAlt>
+      <glossSynonym>泛化</glossSynonym>
+    </glossAlt>
   </glossBody>
 </glossentry>

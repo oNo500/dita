@@ -36,7 +36,7 @@
       <p>规范的措辞是：任何实现若支持某个特性，必须遵守描述该特性的章节中的全部规则。不支持某个特性并不使实现变得不一致，已实现的那部分不打折即可。规范列出的核心特性有九项。</p>
       <simpletable relcolwidth="1* 2.6*">
         <sthead><stentry>特性</stentry><stentry>说明</stentry></sthead>
-        <strow><stentry>1</stentry><stentry>基于 <xmlatt>class</xmlatt> 的 <term keyref="term-specialization">specialization</term>（专门化）处理</stentry></strow>
+        <strow><stentry>1</stentry><stentry>基于 <xmlatt>class</xmlatt> 的 <term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）处理</stentry></strow>
         <strow><stentry>2</stentry><stentry>key 引用解析（<xmlatt>keyref</xmlatt>）</stentry></strow>
         <strow><stentry>3</stentry><stentry>直接 URI 内容复用（<term keyref="term-conref">conref</term>，内容引用）</stentry></strow>
         <strow><stentry>4</stentry><stentry>间接 key 内容复用（<xmlatt>conkeyref</xmlatt>）</stentry></strow>
@@ -54,8 +54,8 @@
       <simpletable relcolwidth="1* 3*">
         <sthead><stentry>序</stentry><stentry>条件</stentry></sthead>
         <strow><stentry>1</stentry><stentry>用上游 shell 的文档，必须通过语法文件校验与语言参考中的断言校验</stentry></strow>
-        <strow><stentry>2</stentry><stentry>用带 <term keyref="term-constraint">constraint</term>（约束）的自定义 shell 的文档，必须符合 constraint 的规则</stentry></strow>
-        <strow><stentry>3</stentry><stentry>用带 expansion module（扩展模块）的自定义 shell 的文档，必须符合 expansion module 的规则</stentry></strow>
+        <strow><stentry>2</stentry><stentry>用带 <term keyref="term-constraint">constraint</term>（收紧已有元素的内容模型）的自定义 shell 的文档，必须符合 constraint 的规则</stentry></strow>
+        <strow><stentry>3</stentry><stentry>用带 expansion module（给已有元素追加可选内容的模块）的自定义 shell 的文档，必须符合 expansion module 的规则</stentry></strow>
         <strow><stentry>4</stentry><stentry>specialize 出来的元素必须符合 specialization 规则与 <xmlatt>class</xmlatt> 语法</stentry></strow>
         <strow><stentry>5</stentry><stentry>specialize 出来的属性必须符合属性 specialization 规则</stentry></strow>
       </simpletable>

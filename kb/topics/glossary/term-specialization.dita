@@ -2,10 +2,16 @@
 <?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <glossentry id="term-specialization" xml:lang="zh-CN" maturity="curated" volatility="stable">
   <glossterm>specialization</glossterm>
-  <glossdef>扩展 DITA 的 vocabulary（词汇表）时须满足的一组要求，以及按这组要求做出的扩展：每个新元素或新属性一对一映射回一个已有的元素或属性，派生出的内容模型与属性只能是基类的子集，从最通用到最具体的整条派生链记在 class 属性里。不认识新类型的处理器据此按基类处理，派生链也因此可无损还原。按派生对象分三种，即整个 topic 或 map 类型、跨类型可用的元素集合、属性。</glossdef>
+  <glossdef>扩展 DITA 的 vocabulary（一套元素与属性）时须满足的一组要求，以及按这组要求做出的扩展：每个新元素或新属性一对一映射回一个已有的元素或属性，派生出的内容模型与属性只能是基类的子集，从最通用到最具体的整条派生链记在 class 属性里。不认识新类型的处理器据此按基类处理，派生链也因此可无损还原。按派生对象分三种，即整个 topic 或 map 类型、跨类型可用的元素集合、属性。</glossdef>
   <glossBody>
     <glossAlt>
       <glossSynonym xml:lang="en">DITA specialization</glossSynonym>
+    </glossAlt>
+    <!-- 中文别名只登记领域标准译法，供检索召回；正文仍用英文原名，括号给解释。
+         「特化」与 generalization 的「泛化」是成对固定搭配（C++ 模板特化、UML 泛化/特化）。
+         不登记「专门化」——它既无出处又译错，见 terminology-rules 的标准译法一步。 -->
+    <glossAlt>
+      <glossSynonym>特化</glossSynonym>
     </glossAlt>
   </glossBody>
 </glossentry>

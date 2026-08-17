@@ -30,7 +30,7 @@
   <conbody>
     <section>
       <title>问题</title>
-      <p><term keyref="term-conref">conref</term>（内容引用）把另一处的元素拉到当前位置。被拉过来的元素带着自己的属性，写 <xmlatt>conref</xmlatt> 的那个元素上通常也写了属性，两套属性要合成一套。合成规则决定了一件很实际的事：在引用方标一个条件属性，究竟能不能覆盖片段库里那份内容自带的条件。</p>
+      <p><term keyref="term-conref">conref</term>（引用另一处已有内容）把另一处的元素拉到当前位置。被拉过来的元素带着自己的属性，写 <xmlatt>conref</xmlatt> 的那个元素上通常也写了属性，两套属性要合成一套。合成规则决定了一件很实际的事：在引用方标一个条件属性，究竟能不能覆盖片段库里那份内容自带的条件。</p>
     </section>
 
     <section>
@@ -50,7 +50,7 @@
 
     <section>
       <title>结论</title>
-      <p>合成发生在属性有效值求解之前。完整的次序是先解析 conref 与 <term keyref="term-keyref">keyref</term>（键引用）、其中含本篇这套属性合成，再按五级优先级求有效值，见 <xref href="effective-attribute-values.dita">effective attribute values 的确定</xref>。</p>
+      <p>合成发生在属性有效值求解之前。完整的次序是先解析 conref 与 <term keyref="term-keyref">keyref</term>（按键名间接引用，不写路径）、其中含本篇这套属性合成，再按五级优先级求有效值，见 <xref href="effective-attribute-values.dita">effective attribute values 的确定</xref>。</p>
       <p>两套合并规则的方向相反，值得对着记一次：map 上的多值属性沿包含层级级联时取并集，conref 合成时整体取一边。用同一套直觉去推另一套，得到的结论必错，级联一侧见 <xref href="metadata-cascade.dita">metadata cascading</xref>。</p>
     </section>
 

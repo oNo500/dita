@@ -33,7 +33,7 @@
 
     <section>
       <title>背景：定义受控值并绑定到属性</title>
-      <p>subject scheme 是一种 map 类型，用与 keydef 相同的机制描述主题：每个 <xmlelement>subjectdef</xmlelement> 既是一个键，也是分类树上的一个节点，嵌套即成层级。这里解析的 <term keyref="term-keyref">keyref</term>（键引用）不产生链接，也不产生变量文本，它在此处的语义是绑定与关联，同一套键的基础设施换了一种用途。</p>
+      <p>subject scheme 是一种 map 类型，用与 keydef 相同的机制描述主题：每个 <xmlelement>subjectdef</xmlelement> 既是一个键，也是分类树上的一个节点，嵌套即成层级。这里解析的 <term keyref="term-keyref">keyref</term>（按键名间接引用，不写路径）不产生链接，也不产生变量文本，它在此处的语义是绑定与关联，同一套键的基础设施换了一种用途。</p>
       <p><xmlelement>enumerationdef</xmlelement> 把其中一棵子树绑定到一个属性：<xmlelement>attributedef</xmlelement> 指定属性名，<xmlelement>subjectdef</xmlelement> 以 keyref 指定值集，<xmlelement>defaultSubject</xmlelement> 可选地给出默认值。</p>
       <codeblock>&lt;subjectScheme&gt;
   &lt;subjectdef keys="platform"&gt;

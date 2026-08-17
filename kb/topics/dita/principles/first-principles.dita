@@ -35,7 +35,7 @@
   <conbody>
     <section>
       <title>问题</title>
-      <p>DITA 的机制清单很长：topic 与 map 的分离、间接寻址、正交的条件属性、<term keyref="term-specialization">specialization</term>（专门化）与 <xmlatt>class</xmlatt>、构建期才确定的解析顺序。逐条当规则记，学习曲线陡且记不牢；而其中相当一部分并不是设计者的偏好，是约束的必然结果。</p>
+      <p>DITA 的机制清单很长：topic 与 map 的分离、间接寻址、正交的条件属性、<term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）与 <xmlatt>class</xmlatt>、构建期才确定的解析顺序。逐条当规则记，学习曲线陡且记不牢；而其中相当一部分并不是设计者的偏好，是约束的必然结果。</p>
       <p>分辨这两类的方法是选一条公理，看哪些机制能从它推出来。推得出来的，理解一次就不必再记；推不出来的，是历史选择，可以争论也可以替换。以下推导为原笔记与本库所作，规范本身并未这样组织，每一步都可以按「是否真的从上一步推出」来检验。</p>
     </section>
 
@@ -68,7 +68,7 @@
         </dlentry>
         <dlentry>
           <dt>交叉引用必须间接</dt>
-          <dd>topic 之间的引用同样不能写死目标位置，因为目标在哪取决于当前是哪个 map。产物是 <term keyref="term-keyref">keyref</term>（键引用）。规范在基于 key 的寻址一章给出的正是这层间接：key 提供间接层，资源在 map 层面定义。「能用 keyref 就别用 <xmlatt>href</xmlatt>」因此不是风格偏好，而是同一条约束的延续。</dd>
+          <dd>topic 之间的引用同样不能写死目标位置，因为目标在哪取决于当前是哪个 map。产物是 <term keyref="term-keyref">keyref</term>（按键名间接引用，不写路径）。规范在基于 key 的寻址一章给出的正是这层间接：key 提供间接层，资源在 map 层面定义。「能用 keyref 就别用 <xmlatt>href</xmlatt>」因此不是风格偏好，而是同一条约束的延续。</dd>
         </dlentry>
         <dlentry>
           <dt>变体维度必须正交</dt>
@@ -83,12 +83,12 @@
           <dd>面向广泛领域的 <term keyref="term-schema">schema</term> 对某个具体领域一定不够用。做得宽松则什么都校验不了，让人改 schema 则工具失效、内容无法交换。第三条路是：任何扩展都必须声明自己的派生链，且派生链必须能在不查 schema 的情况下读出来。要求分两半——每个新元素能一对一映射回一个已有元素，且这条链写在数据里而非 schema 里，因为接收文档的处理器未必持有你的 schema。产物是 <xmlatt>class</xmlatt>，形如 <codeph>- topic/li task/step </codeph>；规范的 specializations 属性一章也确认，这类属性由 shell 声明的默认值注入而非作者手写，随实例一起携带。</dd>
         </dlentry>
         <dlentry>
-          <dt>extension facilities（扩展设施）的分工来自同一条不变量</dt>
+          <dt>extension facilities（规范开出的扩展入口）的分工来自同一条不变量</dt>
           <dd>若 schema 是模块化组装的，组装者绝不能自己定义元素，否则又回到分叉词汇表的老路。规范的 extension facilities 概览把三件事各归其位：选用哪些模块归文档类型配置（产物是 shell），新增带派生链的词汇归 specialization，调整单个元素归元素类型配置（<term keyref="term-constraint">constraint</term> 与 expansion module）；文档类型配置一章也明写 shell 只装配与配置、不自行定义元素类型。三者共享一条不变量，即永不修改共享模块。升级 DITA 版本时定制不丢，原因在此，而不在向后兼容做得好。</dd>
         </dlentry>
         <dlentry>
           <dt>晚绑定产生解析顺序的依赖图</dt>
-          <dd>若内容与语境无关、由 map 组装，那么链接目标、变量文本、哪些内容存在、结构与顺序、乃至属性的有效值，都只能在构建期确定。由此产生一张解析顺序的依赖图，而这张图可以推导：分支过滤会克隆分支、改变 key 名，所以必须先于键空间构造；key 与 <term keyref="term-conref">conref</term>（内容引用）会带进新的元素和属性，所以必须先于属性有效值计算。规范在分支过滤与确定属性有效值两章给出的正是这两条次序。</dd>
+          <dd>若内容与语境无关、由 map 组装，那么链接目标、变量文本、哪些内容存在、结构与顺序、乃至属性的有效值，都只能在构建期确定。由此产生一张解析顺序的依赖图，而这张图可以推导：分支过滤会克隆分支、改变 key 名，所以必须先于键空间构造；key 与 <term keyref="term-conref">conref</term>（引用另一处已有内容）会带进新的元素和属性，所以必须先于属性有效值计算。规范在分支过滤与确定属性有效值两章给出的正是这两条次序。</dd>
         </dlentry>
       </dl>
       <p>第八步之后的连锁结果值得单列。一旦接受派生链写在实例里，下面几条都成为必然：</p>
@@ -96,7 +96,7 @@
         <sthead><stentry>结果</stentry><stentry>为何必然</stentry></sthead>
         <strow><stentry>处理器按 <xmlatt>class</xmlatt> 匹配而非元素名</stentry><stentry>否则遇到没见过的元素即失效；按派生链匹配则自动落到基类模板</stentry></strow>
         <strow><stentry>降级是内建的</stentry><stentry>不认识 <xmlelement>uicontrol</xmlelement> 的处理器把它当 <xmlelement>ph</xmlelement> 渲染，输出仍然成立，只是丢了修饰</stentry></strow>
-        <strow><stentry><term keyref="term-generalization">generalization</term>（泛化）是 <xmlatt>class</xmlatt> 的纯函数</stentry><stentry>不需要查任何 schema，读属性即可还原</stentry></strow>
+        <strow><stentry><term keyref="term-generalization">generalization</term>（沿派生链把内容还原回基类）是 <xmlatt>class</xmlatt> 的纯函数</stentry><stentry>不需要查任何 schema，读属性即可还原</stentry></strow>
         <strow><stentry>specialization 只能收紧</stentry><stentry>若能放宽，generalization 后会产出基类不允许的内容，generalization 即不再安全</stentry></strow>
       </simpletable>
       <p>最后一条常被当成要背的规则，按上面的推导它是定理：若要求 generalization 永远产出合法的基类内容，则 specialization 的内容模型必须是基类的子集。这与面向对象里的里氏替换原则同构，specialize 出的元素必须能在任何期待基类元素的地方替换它。规范的扩展模块一章要求 generalization 后受影响元素的内容模型必须与原内容模型一致，可以作为这条定理的佐证。</p>

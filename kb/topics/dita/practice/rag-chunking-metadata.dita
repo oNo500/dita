@@ -39,7 +39,7 @@
         <li>超出上下文预算：二级切分沿元素边界进行。段落容器、步骤、术语条目的边界都可由派生链可靠识别，切出来的仍是完整的语义单元。</li>
         <li>本身很小，例如术语条目或单条排障：整块入库，并把它与术语的引用关系一并带上。</li>
       </ul>
-      <p>关系图不必另建。map 的层级是父子边，<xmlelement>reltable</xmlelement> 是相关边，<term keyref="term-keyref">keyref</term>（键引用）与 <term keyref="term-conref">conref</term>（内容引用）是引用边，边的类型由 <xmlatt>collection-type</xmlatt> 给出取值。做图增强检索时这些关系直接可用。</p>
+      <p>关系图不必另建。map 的层级是父子边，<xmlelement>reltable</xmlelement> 是相关边，<term keyref="term-keyref">keyref</term>（按键名间接引用，不写路径）与 <term keyref="term-conref">conref</term>（引用另一处已有内容）是引用边，边的类型由 <xmlatt>collection-type</xmlatt> 给出取值。做图增强检索时这些关系直接可用。</p>
       <p>元数据逐项对应到内容里的出处。</p>
       <simpletable relcolwidth="1.3* 1.3* 2*">
         <sthead><stentry>检索侧需要什么</stentry><stentry>内容里的出处</stentry><stentry>取用时的注意</stentry></sthead>

@@ -45,7 +45,7 @@
           <stentry>改了哪个 topic 只重翻哪个。翻译记忆与内容管理系统按文件跟踪，未改动的 topic 直接沿用旧译文</stentry>
         </strow>
         <strow>
-          <stentry><term keyref="term-conref">conref</term>（内容引用）与 <term keyref="term-keyref">keyref</term>（键引用）</stentry>
+          <stentry><term keyref="term-conref">conref</term>（引用另一处已有内容）与 <term keyref="term-keyref">keyref</term>（按键名间接引用，不写路径）</stentry>
           <stentry>被引用的片段只有一份源，也就只需一份译文；副本制下同一段话出现 N 次即翻 N 次、同步 N 次</stentry>
         </strow>
         <strow>

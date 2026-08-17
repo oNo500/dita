@@ -69,7 +69,7 @@
        --filter="$f" -o "out/$(basename "$f" .ditaval)"
 done</codeblock>
       <p>循环体每跑一次出一件交付物：过滤规则决定内容，输出目录按规则名派生，因而新增一份 DITAVAL 就自动多出一件、不必改脚本。这一步是容易省掉的一步，也是唯一能发现条件组合问题的一步。</p>
-      <p>与逐变体构建配套的一条内容侧约定：存放可复用片段的 topic 不做条件化。它被多处 <term keyref="term-conref">conref</term>（内容引用）引用，一旦条件化，某些变体下引用方拉到的是空内容——症状出现在引用方，根因在被引用的文件，两者往往不在同一次报错里。</p>
+      <p>与逐变体构建配套的一条内容侧约定：存放可复用片段的 topic 不做条件化。它被多处 <term keyref="term-conref">conref</term>（引用另一处已有内容）引用，一旦条件化，某些变体下引用方拉到的是空内容——症状出现在引用方，根因在被引用的文件，两者往往不在同一次报错里。</p>
       <p>变体矩阵长大之后（多个 <term keyref="term-transtype">transtype</term>（输出类型）乘多份 DITAVAL），上面那段循环改用 DITA-OT 的 project file 声明，交付物在一处写清，持续集成里只留一条命令；形制与执行见 <xref href="../toolchain/project-files.dita">project file 与 dita --project</xref>。</p>
       <p>目录按角色分开、topic 的文件名与它的 <xmlatt>id</xmlatt> 取同值且发布后不再改，这两条换成任何文档系统或代码库都成立，属通用工程实践，本篇不展开；本库一侧怎么落见 <xref href="../../content-engineering/naming-rules.dita">kb 命名与归属</xref>。</p>
     </section>
@@ -77,7 +77,7 @@ done</codeblock>
     <section>
       <title>理由</title>
       <p>逐变体构建的理由是条件过滤会改变内容模型的合法性。条件属性不是发布时的显示开关：过滤发生在处理链的前段，产出的是一份结构与原文不同的新文档，此后每一步都按这份新文档判定。条件打在必需的子元素上时，过滤后的文档就可能缺少模型要求的成分，而默认变体从未经历这次删减，因此从不报错。</p>
-      <p>可复用片段不做条件化，理由出自同一处。按 <term keyref="term-preprocess">preprocess</term>（预处理）的阶段顺序，条件过滤先于 conref 解析执行一次，被排除的片段随后拉不回来；引用方的文件一个字没改，取到的内容却随所选过滤规则而变（阶段顺序见 <xref href="../toolchain/preprocess-pipeline.dita">preprocess 流水线</xref>）。</p>
+      <p>可复用片段不做条件化，理由出自同一处。按 <term keyref="term-preprocess">preprocess</term>（构建前把引用与键解析开的一串阶段）的阶段顺序，条件过滤先于 conref 解析执行一次，被排除的片段随后拉不回来；引用方的文件一个字没改，取到的内容却随所选过滤规则而变（阶段顺序见 <xref href="../toolchain/preprocess-pipeline.dita">preprocess 流水线</xref>）。</p>
       <p>project file 解决的是同一件事的规模问题：变体是输入、过滤、输出类型三者的组合，写成循环则组合关系散在脚本里，声明成交付物则组合关系可读、可复用、可单件构建。</p>
     </section>
 

@@ -6,8 +6,9 @@
      specialization 并列这一点。
      题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      术语规则（2026-08-16 用户门反馈后，含同日紧急更正）：constraint / generalization /
-     specialization / class 一律英文原名——「约束」「泛化」「专门化」是本库自造译名，
-     OASIS 无官方中文版，不得作首选词；中文解释每篇首现随行注一次。
+     specialization / class 一律英文原名——OASIS 无官方中文版，中文译名不得作首选词；
+     其中「专门化」还是错译，标准译法为「特化」，与 generalization 的「泛化」成对。
+     中文解释每篇首现随行注一次，括号里给解释不给译名（2026-08-17 全库更正）。
      标题规则（2026-08-16 第二次纠偏）：照架构规范子树标题 Constraints 与 Generalization
      命名，不拼副标题、不加定位词。
      volatility=stable 的依据：两者的定位与算法出自架构规范的结构，不随发行版变动。
@@ -20,7 +21,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-internals dim-consistency">
   <title>constraints 与 generalization</title>
-  <shortdesc><term keyref="term-constraint">constraint</term>（约束）收紧已有元素的内容模型而不引入新元素，属于元素类型配置，不是 <term keyref="term-specialization">specialization</term> 的第四种形态；<term keyref="term-generalization">generalization</term>（泛化）方向相反，把派生出的元素与属性还原回基类，算法只读 <xmlatt>class</xmlatt>，不查语法文件。前者决定作者能写什么，后者决定这些内容还能交给谁。</shortdesc>
+  <shortdesc><term keyref="term-constraint">constraint</term>（收紧已有元素的内容模型）收紧已有元素的内容模型而不引入新元素，属于元素类型配置，不是 <term keyref="term-specialization">specialization</term> 的第四种形态；<term keyref="term-generalization">generalization</term>（沿派生链把内容还原回基类）方向相反，把派生出的元素与属性还原回基类，算法只读 <xmlatt>class</xmlatt>，不查语法文件。前者决定作者能写什么，后者决定这些内容还能交给谁。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/specifications" scope="external"/>
     <data name="domain" value="dita"/>
@@ -29,7 +30,7 @@
   <conbody>
     <section>
       <title>问题</title>
-      <p>specialization（专门化）的三种形态都是「加」：加 topic 类型、加跨类型可用的元素、加条件化维度。与之配套的另外两件事方向相反。constraint 做的是减法，收紧现有元素的内容模型；generalization 做的是还原，把带派生元素的文档变回基类文档。</p>
+      <p>specialization（从基类派生出更具体的类型）的三种形态都是「加」：加 topic 类型、加跨类型可用的元素、加条件化维度。与之配套的另外两件事方向相反。constraint 做的是减法，收紧现有元素的内容模型；generalization 做的是还原，把带派生元素的文档变回基类文档。</p>
       <p>层级容易被摊平。structural、domain、attribute 三种是 specialization 这一个 extension facility 下的三种形态，constraint 与它并列而不隶属于它，把四者并称「四种扩展手段」是常见的误读。架构规范里，specialization、generalization、constraint 各是「Configuration and specialization」子树下的独立章节。</p>
     </section>
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/01-core-model.md §4（@class：元素的派生链）与 §5（@specializations：
-     属性专门化的派生链）。题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     attribute specialization 的派生链）。题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      标题依据上游节点名（非自造，两个节点并列）：OASIS DITA 2.0 架构规范
      「The @class attribute rules and syntax」（dita-lang.org/dita/archspec/base/
      specialization-class-attribute）与同章的「The specializations attribute rules and syntax」
@@ -17,7 +17,8 @@
      三篇同一节点域；structural-specialization 里重复的规则罗列同步改为 xref 指向本篇。
      shell 相对路径不变（core-model 与 architecture 同层，仍为 ../../../schema/）。
      术语规则（2026-08-16 用户门反馈 + 同日译名禁令）：specialization / generalization /
-     domain / document-type shell / constraint module 等一律英文原名，不写「专门化」「泛化」。
+     domain / document-type shell / constraint module 等一律英文原名，不写「专门化」
+     （错译，标准译法为「特化」）「泛化」；括号里给解释不给译名（2026-08-17 全库更正）。
      volatility=stable 的依据：两个属性的构造规则出自架构规范，不随发行版变动。
      事实纪律：@class 的六条构造规则与 @specializations 的形式语法为笔记已逐页核对项；
      裸解析取不到默认属性、域元素降级示例的具体取值按判断呈现，来源节判断段列明。 -->
@@ -61,7 +62,7 @@
 
     <section>
       <title>@specializations：属性一侧的派生链</title>
-      <p>topic 与 map 的根元素上另有一个 <xmlatt>specializations</xmlatt>，记录本文档用到了哪些属性 <term keyref="term-specialization">specialization</term>（专门化）。</p>
+      <p>topic 与 map 的根元素上另有一个 <xmlatt>specializations</xmlatt>，记录本文档用到了哪些属性 <term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）。</p>
       <codeblock>&lt;task specializations="@props/deliveryTarget @props/platform @props/product"&gt;</codeblock>
       <p>它的形式语法是一个 <codeph>@</codeph> 起头、接 props 或 base、再以斜杠逐级追加属性名。与 <xmlatt>class</xmlatt> 一样，值由 <term keyref="term-document-type-shell">document-type shell</term> 的默认值注入，作者不手写。两处不同值得记：它只记录属性 specialization，元素 domain 不在其中；它写在根元素上而不是逐元素携带。</p>
       <p>层级路径的用处同样在 generalization：处理器不认识某个派生属性时，沿链逐级退回它派生自的属性。这一侧的完整机制与落地步骤见 <xref href="attribute-specialization.dita">attribute specialization</xref>。</p>

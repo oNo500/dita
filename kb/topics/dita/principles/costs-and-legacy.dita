@@ -43,7 +43,7 @@
       <dl>
         <dlentry>
           <dt>源文件不再是完整的真相</dt>
-          <dd>晚绑定的必然后果是读源文件无法知道读者会看到什么：某段内容会不会出现取决于 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件），某个变量的文本取决于哪个 map，某个链接指向哪里取决于键空间，而某处会不会凭空多出一段内容取决于有没有别的文件用 <term keyref="term-conref">conref</term> push（内容推送）送进来。最后一条尤其难查，内容出现在输出里，在生成它的源文件里却检索不到。数据库的范式化有同样的性质，范式化的数据必须连接才有意义；散文多一个属性——<b>源码的可读性对作者本人有价值</b>，而数据库的范式化不伤害任何人的阅读体验。这笔代价只能缓解，不能消除。</dd>
+          <dd>晚绑定的必然后果是读源文件无法知道读者会看到什么：某段内容会不会出现取决于 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件），某个变量的文本取决于哪个 map，某个链接指向哪里取决于键空间，而某处会不会凭空多出一段内容取决于有没有别的文件用 <term keyref="term-conref">conref</term> push（由来源端把内容推到目标位置）送进来。最后一条尤其难查，内容出现在输出里，在生成它的源文件里却检索不到。数据库的范式化有同样的性质，范式化的数据必须连接才有意义；散文多一个属性——<b>源码的可读性对作者本人有价值</b>，而数据库的范式化不伤害任何人的阅读体验。这笔代价只能缓解，不能消除。</dd>
         </dlentry>
         <dlentry>
           <dt>付出的人与受益的人不是同一批</dt>
@@ -55,14 +55,14 @@
         </dlentry>
         <dlentry>
           <dt>降级保证合法，不保证保义</dt>
-          <dd><xmlatt>class</xmlatt> 保证 <term keyref="term-generalization">generalization</term>（泛化）后的内容结构合法，不保证语义不丢。<xmlelement>sensor-id</xmlelement> generalize 成 <xmlelement>ph</xmlelement> 之后，「这是个传感器编号」这条信息没有了。降级是安全的，不是无损的。这划定了 <xmlatt>class</xmlatt> 机制的能力边界：它解决互操作问题，不解决语义保全问题。</dd>
+          <dd><xmlatt>class</xmlatt> 保证 <term keyref="term-generalization">generalization</term>（沿派生链把内容还原回基类）后的内容结构合法，不保证语义不丢。<xmlelement>sensor-id</xmlelement> generalize 成 <xmlelement>ph</xmlelement> 之后，「这是个传感器编号」这条信息没有了。降级是安全的，不是无损的。这划定了 <xmlatt>class</xmlatt> 机制的能力边界：它解决互操作问题，不解决语义保全问题。</dd>
         </dlentry>
       </dl>
     </section>
 
     <section>
       <title>分析：必然与历史包袱的分界</title>
-      <p>从公理推得出来的部分，换一套设计仍然会保留：内容单元以自足性定义边界、结构与内容分离、间接寻址、正交的条件维度、派生链写在数据里并可不查 <term keyref="term-schema">schema</term> 读出、<term keyref="term-specialization">specialization</term>（专门化）只能收紧、永不修改共享模块、由依赖关系决定的解析顺序。这些的推导见<xref href="first-principles.dita">公理推导</xref>一篇。</p>
+      <p>从公理推得出来的部分，换一套设计仍然会保留：内容单元以自足性定义边界、结构与内容分离、间接寻址、正交的条件维度、派生链写在数据里并可不查 <term keyref="term-schema">schema</term> 读出、<term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）只能收紧、永不修改共享模块、由依赖关系决定的解析顺序。这些的推导见<xref href="first-principles.dita">公理推导</xref>一篇。</p>
       <p>另一类不是必然，是当年的选择：</p>
       <simpletable relcolwidth="1.2* 2.4*">
         <sthead><stentry>历史选择</stentry><stentry>说明</stentry></sthead>

@@ -31,7 +31,7 @@
          maturity="draft" volatility="volatile"
          dimension="dim-roles">
   <title>DITA 的角色分工与 processor 边界</title>
-  <shortdesc>规范明写自己只为 implementer 与开发 <term keyref="term-specialization">specialization</term>（专门化）的 XML 架构师而写，其余角色各有别的材料；而它最常当主语的 processor 至今没有定义条目，某个工具是否受规范约束因此只能按它是否求值 DITA 特性来判断。</shortdesc>
+  <shortdesc>规范明写自己只为 implementer 与开发 <term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）的 XML 架构师而写，其余角色各有别的材料；而它最常当主语的 processor 至今没有定义条目，某个工具是否受规范约束因此只能按它是否求值 DITA 特性来判断。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/archspec/base/basic-dita-terminology" scope="external"/>
     <data name="domain" value="dita"/>
@@ -51,7 +51,7 @@
         <sthead><stentry>角色</stentry><stentry>职责</stentry><stentry>产出物</stentry></sthead>
         <strow><stentry>author（作者）</stentry><stentry>写内容</stentry><stentry>topic、map</stentry></strow>
         <strow><stentry>information architect（信息架构师）</stentry><stentry>设计信息架构</stentry><stentry>root map、<term keyref="term-subject-scheme">subject scheme</term> 受控值、新文档类型的规划</stentry></strow>
-        <strow><stentry>DITA architect（DITA 架构师）</stentry><stentry>定义词汇与文档类型</stentry><stentry>vocabulary module（词汇模块）、<term keyref="term-constraint">constraint</term>（约束）模块、扩展模块、<term keyref="term-document-type-shell">document-type shell</term></stentry></strow>
+        <strow><stentry>DITA architect（DITA 架构师）</stentry><stentry>定义词汇与文档类型</stentry><stentry>vocabulary module（定义一组元素或属性的语法文件）、<term keyref="term-constraint">constraint</term>（收紧已有元素的内容模型）模块、扩展模块、<term keyref="term-document-type-shell">document-type shell</term></stentry></strow>
         <strow><stentry>implementer（实现者）</stentry><stentry>开发工具</stentry><stentry>处理器、编辑器、CCMS、插件</stentry></strow>
         <strow><stentry>processor（处理器）</stentry><stentry>处理 DITA 的软件本身</stentry><stentry>输出、校验结果</stentry></strow>
       </simpletable>
@@ -63,7 +63,7 @@
       <title>分析：processor 这个未定义的主语</title>
       <p>几乎每条规范性要求都以 processor 为主语，而它没有定义条目。规范源码的术语章里留着一条编辑批注，说明需要一个 DITA Processor 的定义，并指出按规范目前的用法，它涵盖任何以任何方式处理 DITA 的工具，而不只是把 DITA 当作源的渲染工具。批注给出的暂定范围是这样：</p>
       <ul>
-        <li>算 processor：会内联解析 <term keyref="term-conref">conref</term>（内容引用）或 key 的 DITA 编辑器；把 DITA 渲染为其他格式的处理器；处理 DITA 文档间关系的 CCMS。</li>
+        <li>算 processor：会内联解析 <term keyref="term-conref">conref</term>（引用另一处已有内容）或 key 的 DITA 编辑器；把 DITA 渲染为其他格式的处理器；处理 DITA 文档间关系的 CCMS。</li>
         <li>不算：纯文本编辑器，因为它不需要求值任何 DITA 特性。</li>
       </ul>
       <p>批注带着未解决标记，正式定义尚未落地。据此可推出一条实践判据，它属推论而非规范条文：判断一个工具是否受规范约束，看它<b>是否求值 DITA 特性</b>，而不是看它是否声称支持 DITA。声称支持而不求值任何特性的工具，与纯文本编辑器落在同一侧。</p>

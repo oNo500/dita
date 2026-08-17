@@ -26,7 +26,7 @@
   <conbody>
     <section>
       <title>问题</title>
-      <p><term keyref="term-conref">conref</term>（内容引用）只作用于 DITA 内容，而文档要用到的原文往往不是 DITA：源码仓库里的配置文件、README、接口描述文件。把它们复制进文档，副本与原文各自演进，文档里的样例与实际配置不再一致。</p>
+      <p><term keyref="term-conref">conref</term>（引用另一处已有内容）只作用于 DITA 内容，而文档要用到的原文往往不是 DITA：源码仓库里的配置文件、README、接口描述文件。把它们复制进文档，副本与原文各自演进，文档里的样例与实际配置不再一致。</p>
       <p><xmlelement>include</xmlelement> 补上这条链路。它引用非 DITA 的外部资源，由处理器在构建时取回内容，文档侧只保留一处声明。</p>
     </section>
 
@@ -59,7 +59,7 @@
         <strow><stentry><xmlatt>href</xmlatt></stentry><stentry>外部资源的 URI</stentry></strow>
         <strow><stentry><xmlatt>parse</xmlatt></stentry><stentry>text 按纯文本处理，XML 字符原样显示；xml 按 XML 插入，限 <xmlelement>foreign</xmlelement> 内</stentry></strow>
         <strow><stentry><xmlatt>encoding</xmlatt></stentry><stentry>被引资源的字符编码；未指定时处理器可自行探测</stentry></strow>
-        <strow><stentry><xmlatt>keyref</xmlatt></stentry><stentry>以键定位被引资源，写法与其他 <term keyref="term-keyref">keyref</term>（键引用）一致</stentry></strow>
+        <strow><stentry><xmlatt>keyref</xmlatt></stentry><stentry>以键定位被引资源，写法与其他 <term keyref="term-keyref">keyref</term>（按键名间接引用，不写路径）一致</stentry></strow>
         <strow><stentry><xmlatt>format</xmlatt>、<xmlatt>scope</xmlatt>、<xmlatt>type</xmlatt></stentry><stentry>链接关系属性，声明被引资源的格式、位置与类型</stentry></strow>
       </simpletable>
       <p>内容模型为 <xmlelement>data</xmlelement> 零或多个、<xmlelement>fallback</xmlelement> 至多一个、<xmlelement>foreign</xmlelement> 零或多个。可出现的位置包括段落、列表项、表格单元、图与章节，也包括行内元素之中，因此整段引入与行内引入用的是同一个元素。</p>
@@ -68,7 +68,7 @@
     <section>
       <title>退出点</title>
       <p>构建产出里出现的是源文件的内容而非 <xmlelement>fallback</xmlelement> 里写的内容，这一步即完成。<xmlelement>fallback</xmlelement> 出现在产出里说明资源没有取到，路径与构建时的可见性都要复查：被引资源自此成为构建的输入之一，源码仓库的目录调整会让文档构建随之变化。</p>
-      <p>不适用的场合有两类。其一，内容需要语义标记与条件化，例如要按产品线过滤的一段说明——那属于 DITA 内容，应写成 DITA 并用 conref。其二，只引入预格式化的代码：<xmlelement>coderef</xmlelement> 是 <xmlelement>include</xmlelement> 的 <term keyref="term-specialization">specialization</term>（专门化），为此用途而设，用它比用通用元素更贴切。<b><xmlelement>coderef</xmlelement> 与 <xmlelement>include</xmlelement> 的这层关系也是规范自带的 specialization 范例</b>，可作为写自定义 specialization 时的对照。</p>
+      <p>不适用的场合有两类。其一，内容需要语义标记与条件化，例如要按产品线过滤的一段说明——那属于 DITA 内容，应写成 DITA 并用 conref。其二，只引入预格式化的代码：<xmlelement>coderef</xmlelement> 是 <xmlelement>include</xmlelement> 的 <term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型），为此用途而设，用它比用通用元素更贴切。<b><xmlelement>coderef</xmlelement> 与 <xmlelement>include</xmlelement> 的这层关系也是规范自带的 specialization 范例</b>，可作为写自定义 specialization 时的对照。</p>
     </section>
 
     <section>

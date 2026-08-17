@@ -51,11 +51,11 @@
       <dl>
         <dlentry>
           <dt>DITA document</dt>
-          <dd>符合规范要求的 XML 文档。根元素必须是 <xmlelement>map</xmlelement> 或其 <term keyref="term-specialization">specialization</term>（专门化）、<xmlelement>topic</xmlelement> 或其 specialization、或 <xmlelement>dita</xmlelement>（不可被 specialize，但允许一个文档包含多个平级 topic）。</dd>
+          <dd>符合规范要求的 XML 文档。根元素必须是 <xmlelement>map</xmlelement> 或其 <term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）、<xmlelement>topic</xmlelement> 或其 specialization、或 <xmlelement>dita</xmlelement>（不可被 specialize，但允许一个文档包含多个平级 topic）。</dd>
         </dlentry>
         <dlentry>
           <dt>DITA document type</dt>
-          <dd>一组唯一的结构模块、域模块和 <term keyref="term-constraint">constraint</term>（约束）模块，它们合起来提供定义 DITA 文档结构的元素与属性声明。</dd>
+          <dd>一组唯一的结构模块、域模块和 <term keyref="term-constraint">constraint</term>（收紧已有元素的内容模型）模块，它们合起来提供定义 DITA 文档结构的元素与属性声明。</dd>
         </dlentry>
         <dlentry>
           <dt>DITA document-type shell</dt>
@@ -69,7 +69,7 @@
 
     <section>
       <title>分析：schema 的构成与运行时定位</title>
-      <p>schema 是一份机器可读的、对某一类文档允许包含什么的形式化描述：哪些元素可以出现、按什么顺序、可以带哪些属性、属性的取值范围。校验器读入 schema 与一份文档，回答这份文档是否有效。在 DITA 里它不是一个文件，而是一组：文档里的 doctype 声明指向一个 shell，shell 引入若干 vocabulary module（词汇模块），再应用若干 constraint 模块与扩展模块。「这份文档的 schema」指的是 shell 加上它引入的全部模块。</p>
+      <p>schema 是一份机器可读的、对某一类文档允许包含什么的形式化描述：哪些元素可以出现、按什么顺序、可以带哪些属性、属性的取值范围。校验器读入 schema 与一份文档，回答这份文档是否有效。在 DITA 里它不是一个文件，而是一组：文档里的 doctype 声明指向一个 shell，shell 引入若干 vocabulary module（定义一组元素或属性的语法文件），再应用若干 constraint 模块与扩展模块。「这份文档的 schema」指的是 shell 加上它引入的全部模块。</p>
       <p>语法有两种形式。规范规定语法文件以 RELAX NG（RNG）与 XML 文档类型定义（DTD）两种形式提供，两者应当定义相同的 DITA 元素，若存在出入以 RELAX NG 语法为准，因此标准 DITA 词汇表的 RELAX NG 定义是规范性版本。OASIS 的 RNG 文件不使用任何无法翻译为等价 DTD 构造的 RELAX NG 特性，自写模块若打算生成 DTD 也要守这条限制。v2.0-beta03 的 <filepath>doctypes/</filepath> 下只有 <filepath>dtd</filepath> 与 <filepath>rng</filepath> 两个子目录，未随发行提供 XSD。</p>
       <p>schema 在 DITA 里还多做一件事：注入默认属性值。<xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt> 都由这条路径来。RNG 本身没有默认属性值的概念，DITA 对 RELAX NG 的使用依赖 RELAX NG DTD Compatibility 规范，该规范提供定义默认属性值与内嵌文档的机制。由此得出一条对程序化处理关键的结论：<b>不走 schema，就拿不到 <xmlatt>class</xmlatt></b>。</p>
       <p>文件从哪里来与运行时怎么被找到是两个问题。前者的答案是随 DITA-OT 分发、随编辑器分发、从 OASIS 仓库下载，或放在自己的仓库里。后者容易出问题，因为 doctype 声明里不含可用的文件路径：</p>
@@ -79,7 +79,7 @@
       <codeblock>&lt;public publicId="-//OASIS//DTD DITA 2.0 Base Topic//EN" uri="basetopic.dtd"/&gt;
 &lt;uri name="urn:pubid:oasis:names:tc:dita:rng:mapMod.rng:2.0" uri="mapMod.rng"/&gt;</codeblock>
       <p>DTD 侧用 <codeph>public</codeph> 条目匹配公共标识符，RNG 侧用 <codeph>uri</codeph> 与 <codeph>system</codeph> 条目匹配 URN；顶层 catalog 经 <codeph>nextCatalog</codeph> 串接 dtd 与 rng 两条链，两条链再各自串接 base、ditaval、subjectScheme 三层。每个标识符都有 2.0 与 2.x 两条并存，指向同一个文件。这层间接的作用是文档只声明自己是哪一类，不声明 schema 文件在哪：换一套语法文件、升级版本、改目录结构，都只改 catalog，文档一个字不动。</p>
-      <p>catalog 没配好的后果有三种，来自使用经验：解析器报错找不到 schema、尝试联网抓取、或静默跳过校验。第三种最难察觉，文档看起来通过了，而 <xmlatt>class</xmlatt> 一个都没注入。这也划出了 schema 的能力边界：它管元素能否出现在此处、顺序与基数、属性是否允许及取值范围、注入默认属性值；不管 <term keyref="term-conref">conref</term>（内容引用）的目标文件是否存在、key 能否解析、条件过滤后内容是否仍然合法，也不管「task 必须有 shortdesc」这类业务规则——那需要 Schematron 或 constraint 模块。</p>
+      <p>catalog 没配好的后果有三种，来自使用经验：解析器报错找不到 schema、尝试联网抓取、或静默跳过校验。第三种最难察觉，文档看起来通过了，而 <xmlatt>class</xmlatt> 一个都没注入。这也划出了 schema 的能力边界：它管元素能否出现在此处、顺序与基数、属性是否允许及取值范围、注入默认属性值；不管 <term keyref="term-conref">conref</term>（引用另一处已有内容）的目标文件是否存在、key 能否解析、条件过滤后内容是否仍然合法，也不管「task 必须有 shortdesc」这类业务规则——那需要 Schematron 或 constraint 模块。</p>
     </section>
 
     <section>
@@ -91,7 +91,7 @@
         <sthead><stentry>角色</stentry><stentry>对 <xmlatt>class</xmlatt> 的约束</stentry></sthead>
         <strow><stentry>author</stentry><stentry>SHOULD NOT 修改；它通常不出现在创作的 topic 中</stentry></strow>
         <strow><stentry>vocabulary module（DITA architect 编写）</stentry><stentry>MUST NOT 修改那些它只是引用、并未 specialize 的元素的 <xmlatt>class</xmlatt></stentry></strow>
-        <strow><stentry>document-type shell（DITA architect 编写）</stentry><stentry>声明 <xmlatt>class</xmlatt> 的默认值，且该默认值不能是 fixed，以支持 <term keyref="term-generalization">generalization</term>（泛化）往返</stentry></strow>
+        <strow><stentry>document-type shell（DITA architect 编写）</stentry><stentry>声明 <xmlatt>class</xmlatt> 的默认值，且该默认值不能是 fixed，以支持 <term keyref="term-generalization">generalization</term>（沿派生链把内容还原回基类）往返</stentry></strow>
         <strow><stentry>processor</stentry><stentry>依据 <xmlatt>class</xmlatt> 匹配，而不是依据元素名</stentry></strow>
       </simpletable>
       <p>判断某项改动是否合规，先确定它落在表里的哪一行。</p>

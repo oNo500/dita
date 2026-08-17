@@ -42,7 +42,7 @@
         <strow><stentry>适配宽度</stentry><stentry><xmlatt>scalefit</xmlatt> 让图适配可用宽度（未逐页核对）</stentry></strow>
         <strow><stentry>替代文本</stentry><stentry>行内写 <xmlelement>alt</xmlelement>；纯装饰图显式写一个空的 <xmlelement>alt</xmlelement>，否则读屏器会读文件名（未逐页核对）</stentry></strow>
       </simpletable>
-      <p>按键引用的收益与其他 <term keyref="term-keyref">keyref</term>（键引用）一致：图片换文件只改 map 的一处绑定，正文不动。写法见 <xref href="keyref-variable-text.dita">keyref 与 keytext 速查</xref>。</p>
+      <p>按键引用的收益与其他 <term keyref="term-keyref">keyref</term>（按键名间接引用，不写路径）一致：图片换文件只改 map 的一处绑定，正文不动。写法见 <xref href="keyref-variable-text.dita">keyref 与 keytext 速查</xref>。</p>
     </section>
 
     <section>

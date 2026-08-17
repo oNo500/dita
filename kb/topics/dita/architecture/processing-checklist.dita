@@ -35,7 +35,7 @@
   <refbody>
     <section>
       <title>定位</title>
-      <p>规范定义的是处理期望，不是某个实现的流水线。DITA-OT 的 <term keyref="term-preprocess">preprocess</term>（预处理）阶段划分是一种实现，本篇是规范要求的次序，两者不必逐阶段对应。</p>
+      <p>规范定义的是处理期望，不是某个实现的流水线。DITA-OT 的 <term keyref="term-preprocess">preprocess</term>（构建前把引用与键解析开的一串阶段）阶段划分是一种实现，本篇是规范要求的次序，两者不必逐阶段对应。</p>
       <p>次序错了不会报错，症状是键解析到错误的目标、拉进来的内容带错属性、条件化在深层嵌套时静默失效。</p>
     </section>
 
@@ -47,7 +47,7 @@
         <strow><stentry>2</stentry><stentry>构造 key space</stentry><stentry>后续全部键解析的依据</stentry></strow>
         <strow><stentry>3</stentry><stentry>解析 <xmlatt>keyref</xmlatt> 与 <xmlatt>conkeyref</xmlatt></stentry><stentry>键要先有绑定才能取到目标</stentry></strow>
         <strow><stentry>4</stentry><stentry>解析 <xmlatt>conref</xmlatt>，含两边属性的合成</stentry><stentry>内容与属性到位之后才谈得上求有效值</stentry></strow>
-        <strow><stentry>5</stentry><stentry>求属性有效值，五级优先级，含级联</stentry><stentry>规范要求它排在 <term keyref="term-conref">conref</term>（内容引用）与 <term keyref="term-keyref">keyref</term>（键引用）之后</stentry></strow>
+        <strow><stentry>5</stentry><stentry>求属性有效值，五级优先级，含级联</stentry><stentry>规范要求它排在 <term keyref="term-conref">conref</term>（引用另一处已有内容）与 <term keyref="term-keyref">keyref</term>（按键名间接引用，不写路径）之后</stentry></strow>
         <strow><stentry>6</stentry><stentry>topic 内容的条件过滤</stentry><stentry>过滤判定读的是第 5 步算出的值</stentry></strow>
         <strow><stentry>7</stentry><stentry>其余处理</stentry><stentry>目录、索引、链接、分块等产出</stentry></strow>
       </simpletable>

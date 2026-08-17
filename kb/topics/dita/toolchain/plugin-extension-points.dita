@@ -27,8 +27,8 @@
   <refbody>
     <section>
       <title>定位</title>
-      <p>改变 DITA-OT 的输出有一条正式通道：写 <term keyref="term-plugin">plugin</term>（插件）。plugin 是一个目录，其中必须有 <filepath>plugin.xml</filepath>；该文件里的每个 <xmlelement>feature</xmlelement> 声明用一个扩展点标识符指明「往哪里加」，用文件或值指明「加什么」。</p>
-      <p>扩展点在官方文档里分五组：通用扩展点、<term keyref="term-preprocess">preprocess</term>（预处理）扩展点、XSLT import 扩展点、XSLT 参数扩展点，以及版本与支持信息。本篇按这五组罗列常用项，完整清单以官方页面为准。</p>
+      <p>改变 DITA-OT 的输出有一条正式通道：写 <term keyref="term-plugin">plugin</term>（可安装的功能扩展包）。plugin 是一个目录，其中必须有 <filepath>plugin.xml</filepath>；该文件里的每个 <xmlelement>feature</xmlelement> 声明用一个扩展点标识符指明「往哪里加」，用文件或值指明「加什么」。</p>
+      <p>扩展点在官方文档里分五组：通用扩展点、<term keyref="term-preprocess">preprocess</term>（构建前把引用与键解析开的一串阶段）扩展点、XSLT import 扩展点、XSLT 参数扩展点，以及版本与支持信息。本篇按这五组罗列常用项，完整清单以官方页面为准。</p>
     </section>
 
     <section>
@@ -42,7 +42,7 @@
 │   └── zh-CN.xml        界面字符串本地化
 ├── resource/
 │   └── custom.css
-└── catalog-dita.xml     带 specialization（专门化）schema 时使用</codeblock>
+└── catalog-dita.xml     带 specialization 出的 schema 时使用</codeblock>
       <p>目录名通常即 plugin ID，采用反向域名形式，与 <xmlatt>id</xmlatt> 保持一致便于排查。此约定未逐页核对。</p>
     </section>
 

@@ -31,7 +31,7 @@
   </div>
 
   <div>
-    <a:documentation>SPECIALIZATIONS ATTRIBUTE — 追加 KB 三个属性专门化</a:documentation>
+    <a:documentation>SPECIALIZATIONS ATTRIBUTE — 追加 KB 三个 attribute specialization</a:documentation>
     <define name="specializations-att" combine="interleave">
       <optional>
         <attribute name="specializations"

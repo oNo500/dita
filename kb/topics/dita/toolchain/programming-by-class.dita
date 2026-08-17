@@ -15,7 +15,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-interop dim-mechanism">
   <title>@class 与派生链解析</title>
-  <shortdesc>元素的派生链写在 <xmlatt>class</xmlatt> 里，属性的派生链写在 <xmlatt>specializations</xmlatt> 里，两者都由语法文件提供默认值，创作时不写进源文件。取到它们有两条路；取到之后，按派生链匹配的代码自动覆盖全部 specialization（专门化）出的元素。</shortdesc>
+  <shortdesc>元素的派生链写在 <xmlatt>class</xmlatt> 里，属性的派生链写在 <xmlatt>specializations</xmlatt> 里，两者都由语法文件提供默认值，创作时不写进源文件。取到它们有两条路；取到之后，按派生链匹配的代码自动覆盖全部 specialization（从基类派生出更具体的类型）出的元素。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external"/>
     <data name="domain" value="dita"/>
@@ -47,7 +47,7 @@ tree.getroot().get("class")   # "- topic/topic concept/concept "</codeblock>
 
     <section>
       <title>做法二：处理 preprocess 之后的文件</title>
-      <p>DITA-OT 在 <term keyref="term-preprocess">preprocess</term>（预处理）之后留下的中间产物已经把派生链属性写进文件，裸解析即可取到，也不受语法文件格式的限制。这条路更简单，代价是要先执行一次构建，且拿到的内容已展开引用、已过滤条件，两类输入的取舍见<xref href="parsed-vs-source.dita">程序化处理的输入选择</xref>。</p>
+      <p>DITA-OT 在 <term keyref="term-preprocess">preprocess</term>（构建前把引用与键解析开的一串阶段）之后留下的中间产物已经把派生链属性写进文件，裸解析即可取到，也不受语法文件格式的限制。这条路更简单，代价是要先执行一次构建，且拿到的内容已展开引用、已过滤条件，两类输入的取舍见<xref href="parsed-vs-source.dita">程序化处理的输入选择</xref>。</p>
     </section>
 
     <section>
@@ -65,7 +65,7 @@ for el in tree.iter():
 
 # XPath 写法等价
 tree.xpath("//*[contains(@class, ' topic/section ')]")</codeblock>
-      <p>判断一份 topic 属于哪个类型，取派生链的最后一段，即最具体的那一段。解析 <xmlatt>specializations</xmlatt> 则得到属性名到其祖先链的映射，据此可自行实现属性 <term keyref="term-generalization">generalization</term>（泛化）：某个 specialize 出的属性未被识别时，逐级退回到它派生自的属性。</p>
+      <p>判断一份 topic 属于哪个类型，取派生链的最后一段，即最具体的那一段。解析 <xmlatt>specializations</xmlatt> 则得到属性名到其祖先链的映射，据此可自行实现属性 <term keyref="term-generalization">generalization</term>（沿派生链把内容还原回基类）：某个 specialize 出的属性未被识别时，逐级退回到它派生自的属性。</p>
       <codeblock>def topic_type(root):
     """返回最具体的类型名"""
     c = (root.get("class") or "").strip()

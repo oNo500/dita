@@ -7,7 +7,7 @@
 
   <!-- 成熟度门（2026-08-17 加）：未审草稿不得进交付物。
        正本 topics/content-engineering/writing-sourcing.dita「内容层」一段。
-       @att 写属性名本身而非 props——maturity 是 @props 的专门化属性
+       @att 写属性名本身而非 props——maturity 是从 @props specialize 出的属性
        （schema/maturityAttDomain.rng，各 shell 的 @specializations 默认值声明
        @props/maturity），DITA-OT 按该声明认这个名字。
        档位是 draft 排除、curated 及以上放行，不是「只放 verified」：

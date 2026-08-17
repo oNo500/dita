@@ -62,7 +62,7 @@ job.getFileInfo().forEach(fi -&gt;
     <section>
       <title>输出阶段过滤掉不属于目标版本的东西</title>
       <p>自己的管道读入 DITA、改写、再输出时，有一类问题在测试里不易暴露：产出的文档带上了目标版本没有的属性或元素，校验随即失败，而失败的位置离引入点很远。</p>
-      <p>已知的一个例子出自 org.dita.normalize，即 DITA-OT 的标准化 <term keyref="term-plugin">plugin</term>（插件）：它曾把 <xmlatt>specializations</xmlatt> 写进标准化后的输出，而该属性只在 DITA 2.0 里有效，产出的文档在旧版语法文件下校验不合法。该例出自相关问题单的检索结果，未逐条核对，此处只作为例证。</p>
+      <p>已知的一个例子出自 org.dita.normalize，即 DITA-OT 的标准化 <term keyref="term-plugin">plugin</term>（可安装的功能扩展包）：它曾把 <xmlatt>specializations</xmlatt> 写进标准化后的输出，而该属性只在 DITA 2.0 里有效，产出的文档在旧版语法文件下校验不合法。该例出自相关问题单的检索结果，未逐条核对，此处只作为例证。</p>
       <p><b>由此得到的纪律是：输出阶段显式过滤，不假设「从 DITA 来的一定是合法 DITA」</b>。管道若会重写文档，还应丢掉 <xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt>，让目标语法文件重新注入，保留旧值会让派生链与目标版本对不上。这两个属性本就由 doctype shell 声明的默认值提供，不该由管道手写。</p>
     </section>
 

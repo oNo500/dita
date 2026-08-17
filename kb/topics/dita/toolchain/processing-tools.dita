@@ -34,7 +34,7 @@
         <strow>
           <stentry>XSLT 3.0 转换</stentry>
           <stentry>Saxon-HE</stentry>
-          <stentry>DITA-OT 随附，写 <term keyref="term-plugin">plugin</term>（插件）时无须另装</stentry>
+          <stentry>DITA-OT 随附，写 <term keyref="term-plugin">plugin</term>（可安装的功能扩展包）时无须另装</stentry>
         </strow>
         <strow>
           <stentry>RNG 校验</stentry>
@@ -82,7 +82,7 @@
     <section>
       <title>Node.js 一行的确切范围</title>
       <p>完整 DITA 词汇表在 Node.js 侧没有成熟库，这一判断来自通用实践。核实过的是另一件事：LwDITA 的 XDITA 词汇表有活跃维护的 TypeScript 实现，即 <xref href="https://github.com/evolvedbinary/lwdita" scope="external">evolvedbinary/lwdita</xref> 提供的解析与抽象语法树两个包，在 npm 发布，兼容 LwDITA v0.3。</p>
-      <p>取用前先确认覆盖范围：它只覆盖 XDITA，即 LwDITA 的 XML 形态，不覆盖完整 DITA 的元素与 <term keyref="term-specialization">specialization</term>（专门化）机制。内容用的是完整 DITA 时，这条路不成立。</p>
+      <p>取用前先确认覆盖范围：它只覆盖 XDITA，即 LwDITA 的 XML 形态，不覆盖完整 DITA 的元素与 <term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）机制。内容用的是完整 DITA 时，这条路不成立。</p>
     </section>
 
     <section>

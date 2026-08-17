@@ -25,7 +25,7 @@
          maturity="draft" volatility="volatile"
          dimension="dim-consistency dim-process">
   <title>校验与 Schematron</title>
-  <shortdesc>语法文件判定结构是否合法，判定不了团队自己的规则。校验分四种：语法有效性、DITA 的引用完整性、业务规则，以及构建本身。Schematron 承担其中的业务规则一种，用 XPath 断言表达，按 <xmlatt>class</xmlatt> 匹配因而自动覆盖 <term keyref="term-specialization">specialization</term>（专门化）出的元素。</shortdesc>
+  <shortdesc>语法文件判定结构是否合法，判定不了团队自己的规则。校验分四种：语法有效性、DITA 的引用完整性、业务规则，以及构建本身。Schematron 承担其中的业务规则一种，用 XPath 断言表达，按 <xmlatt>class</xmlatt> 匹配因而自动覆盖 <term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）出的元素。</shortdesc>
   <prolog>
     <source href="https://www.dita-lang.org/specifications" scope="external"/>
     <data name="domain" value="dita"/>
@@ -85,12 +85,12 @@
     &lt;/rule&gt;
   &lt;/pattern&gt;
 &lt;/schema&gt;</codeblock>
-      <p>两条规则的上下文都按 <xmlatt>class</xmlatt> 匹配而非按元素名。这样写的收益是规则自动覆盖 specialization 出的元素，代价是规则只能作用于拿得到 <xmlatt>class</xmlatt> 的文档。该属性由语法文件声明为默认值，创作时通常不写进源文件，因此要么让解析器经 DTD 校验补齐它，要么改为作用于 <term keyref="term-preprocess">preprocess</term>（预处理）之后的中间产物。</p>
-      <p>运行位置有三处。编辑器内由 Oxygen 原生支持，可关联到框架配置边写边报。持续集成里把它编译成 XSLT 执行，SchXslt 与 ph-schematron 一类实现即为此用。DITA-OT 自身没有内置支持，需要的话自写 <term keyref="term-plugin">plugin</term>（插件）在 preprocess 之后追加一步。</p>
+      <p>两条规则的上下文都按 <xmlatt>class</xmlatt> 匹配而非按元素名。这样写的收益是规则自动覆盖 specialization 出的元素，代价是规则只能作用于拿得到 <xmlatt>class</xmlatt> 的文档。该属性由语法文件声明为默认值，创作时通常不写进源文件，因此要么让解析器经 DTD 校验补齐它，要么改为作用于 <term keyref="term-preprocess">preprocess</term>（构建前把引用与键解析开的一串阶段）之后的中间产物。</p>
+      <p>运行位置有三处。编辑器内由 Oxygen 原生支持，可关联到框架配置边写边报。持续集成里把它编译成 XSLT 执行，SchXslt 与 ph-schematron 一类实现即为此用。DITA-OT 自身没有内置支持，需要的话自写 <term keyref="term-plugin">plugin</term>（可安装的功能扩展包）在 preprocess 之后追加一步。</p>
     </section>
 
     <section>
-      <title>与 <term keyref="term-constraint">constraint</term>（约束）模块的分工</title>
+      <title>与 <term keyref="term-constraint">constraint</term>（收紧已有元素的内容模型）模块的分工</title>
       <p>能用 constraint 模块表达的规则优先用 constraint：禁用某个元素、把某个可选子元素改为必填，这类结构性收紧写进语法文件后，编辑器在输入时即报错，反馈比事后校验早一整轮。跨元素的、带条件的规则留给 Schematron。</p>
       <p>两者的边界随规则形态定，不随规则重要程度定。一条规则表达得了就归约束，表达不了才归 Schematron。</p>
     </section>
@@ -107,7 +107,7 @@ java -cp "$SAXON_LIB" net.sf.saxon.Transform \
 
 # 3. 题材与文体：本库自写的 lint（上表四种之外自加的一层）
 dita-tools lint --vocab vocab/subjectScheme.ditamap topics</codeblock>
-      <p>第一层一条命令兼顾上表的前两行：本库每篇由 <xmlelement>xml-model</xmlelement> 绑 RNG，语法有效性在同一次调用里判定，而语法文件查不出 <term keyref="term-conref">conref</term>（内容引用）指向不存在的文件，断链要靠这一层懂 DITA 的那部分才报得出来。</p>
+      <p>第一层一条命令兼顾上表的前两行：本库每篇由 <xmlelement>xml-model</xmlelement> 绑 RNG，语法有效性在同一次调用里判定，而语法文件查不出 <term keyref="term-conref">conref</term>（引用另一处已有内容）指向不存在的文件，断链要靠这一层懂 DITA 的那部分才报得出来。</p>
       <p>第二层是上一节所说「持续集成里把它编译成 XSLT 执行」的一个实例，只是本库取的是手写实现而非编译产物：规则的人读正本是一份 Schematron 文件，可执行面是一份与之同步的 XSLT，由 DITA-OT 自带的 Saxon 跑，不引第三方 Schematron 编译器。<varname>SAXON_LIB</varname> 指向那份 Saxon 所在的 <filepath>lib/</filepath> 目录，安装位置随版本变动，本库由 <filepath>scripts/review.sh</filepath> 探测后传入而不硬编码。两份文件须同步是这个取法的代价，接入编译器后即可删掉其中一份。</p>
       <p>三层查的都是躺在库里的源文件。条件过滤之后的那份文档只在构建时存在，它的合法性这三层照不到，须按每份 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）各构建一次才覆盖得到；那一步的做法与理由见 <xref href="../practice/engineering-ci.dita">DITA 变体构建与 CI</xref>。</p>
     </section>

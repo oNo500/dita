@@ -15,7 +15,7 @@
          maturity="draft" volatility="volatile"
          dimension="dim-integration dim-mechanism">
   <title>XSLT 覆盖</title>
-  <shortdesc>改变某个元素的渲染不必改动 DITA-OT 自带的样式表：plugin 声明一份自己的 XSLT，安装时它被追加到该输出格式的 import 链末尾，后导入者优先，模板因而覆盖内置模板。模板匹配写成 <xmlatt>class</xmlatt> 判断，<term keyref="term-specialization">specialization</term>（专门化）出的元素随之一并覆盖。</shortdesc>
+  <shortdesc>改变某个元素的渲染不必改动 DITA-OT 自带的样式表：plugin 声明一份自己的 XSLT，安装时它被追加到该输出格式的 import 链末尾，后导入者优先，模板因而覆盖内置模板。模板匹配写成 <xmlatt>class</xmlatt> 判断，<term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）出的元素随之一并覆盖。</shortdesc>
   <prolog>
     <source href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external"/>
     <data name="domain" value="dita"/>
@@ -24,7 +24,7 @@
   <conbody>
     <section>
       <title>问题</title>
-      <p>默认输出里某个元素的样子不合要求，例如提示框要换成带图标的版式。直接改 DITA-OT 目录下的样式表能立刻见效，代价是升级时改动全部丢失，且这份改动无法随项目分发。<term keyref="term-plugin">plugin</term>（插件）提供的覆盖机制解决的正是这一点：改动留在自己的目录里，工具箱本身不动。</p>
+      <p>默认输出里某个元素的样子不合要求，例如提示框要换成带图标的版式。直接改 DITA-OT 目录下的样式表能立刻见效，代价是升级时改动全部丢失，且这份改动无法随项目分发。<term keyref="term-plugin">plugin</term>（可安装的功能扩展包）提供的覆盖机制解决的正是这一点：改动留在自己的目录里，工具箱本身不动。</p>
     </section>
 
     <section>
@@ -94,7 +94,7 @@
     <section>
       <title>退出点</title>
       <p>重新安装 plugin 后构建，产出里出现新版式即完成。仍是旧版式时按两步排查：先确认 plugin 已重新安装，再从生成的入口样式表里确认自己的 import 出现在内置样式表之后。</p>
-      <p>不适用的场合有两类。其一，要改的不是渲染而是内容本身，例如在发布前补一段元数据，那属于 <term keyref="term-preprocess">preprocess</term>（预处理）阶段的工作，改用 Ant target 一路。其二，只是换配色或字号，写一份 CSS 由资源扩展点带出即可，不必覆盖模板。</p>
+      <p>不适用的场合有两类。其一，要改的不是渲染而是内容本身，例如在发布前补一段元数据，那属于 <term keyref="term-preprocess">preprocess</term>（构建前把引用与键解析开的一串阶段）阶段的工作，改用 Ant target 一路。其二，只是换配色或字号，写一份 CSS 由资源扩展点带出即可，不必覆盖模板。</p>
     </section>
 
     <section>

@@ -74,7 +74,7 @@
 
     <section>
       <title>分析：三条推论</title>
-      <p><b>解析次序不能颠倒。</b> 这五级要在 <xmlatt>conref</xmlatt> 与 <xmlatt>keyref</xmlatt> 解析完之后才求。<term keyref="term-conref">conref</term>（内容引用）会把别处的元素连同属性拉进来，<term keyref="term-keyref">keyref</term>（键引用）会带来 map 上的绑定，两步之前算出的有效值对应的是一份还没成形的文档。这一条与 conref 自身的属性合成规则接续，合成的规则见 <xref href="conref-attribute-rules.dita">conref 解析时的属性处理</xref>。</p>
+      <p><b>解析次序不能颠倒。</b> 这五级要在 <xmlatt>conref</xmlatt> 与 <xmlatt>keyref</xmlatt> 解析完之后才求。<term keyref="term-conref">conref</term>（引用另一处已有内容）会把别处的元素连同属性拉进来，<term keyref="term-keyref">keyref</term>（按键名间接引用，不写路径）会带来 map 上的绑定，两步之前算出的有效值对应的是一份还没成形的文档。这一条与 conref 自身的属性合成规则接续，合成的规则见 <xref href="conref-attribute-rules.dita">conref 解析时的属性处理</xref>。</p>
       <p><b><xmlatt>class</xmlatt> 属于第 2 级。</b> 派生链不是作者写的，是语法文件声明的默认值，解析时补上。由此得到一个实现层面的后果：不带语法文件裸解析源文件，第 2 级整级缺失，<xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt> 都取不到，按派生链匹配的代码全部落空。取得它们的两条路见 <xref href="../toolchain/parsed-vs-source.dita">程序化处理的输入选择</xref>。</p>
       <p>级联值排在显式值之后，是这三条里唯一符合直觉的一条：元素上自己写了什么，压过从 map 传下来的。但对多值属性，「压过」的实际行为要看上一节末尾那句限定，不能按单值属性的直觉推。</p>
     </section>
