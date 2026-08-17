@@ -5,7 +5,17 @@
      题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      术语规则：角色名用规范里的英文原名（author / information architect /
      DITA architect / implementer / processor），中文解释只在首现随行给一次。
-     标题规则（2026-08-16 收紧）：名词短语，不带冒号副标题。
+     标题（2026-08-16 Task 13b 重定，原《DITA 规范中的角色分工与 processor 边界》
+     带「规范中的」这一多余定位词）。本库自造：上游无对应节点。
+     一、穷尽查证：OASIS DITA 2.0 archSpec 的 Basic DITA terminology 与 Other terminology
+       两节逐条定义 author / information architect / DITA architect / implementer /
+       processor 这些角色名（即本篇来源节所引两处），但没有把它们的分工与阅读边界
+       合起来讲的节点；DITA-OT 4.4 docsrc 全部节点标题为工具操作，仅有 ToC navigation role
+       一条与 role 同形而不同义；社区通行说法无对应节点。
+     二、先怀疑切分：角色名的逐条定义属上游 terminology 两节，本库不重述；
+       本篇讲的是分工与边界，无处可并。
+     三、只组合不发明：角色名与 processor 均为上游原词，「分工」「边界」为普通词，
+       未造新概念名、未造新分类框架。
      volatility=volatile 的依据：processor 的定义仍是规范源码里未解决的编辑批注，
      角色词频次取自 v2.0-beta03 源码检索，两者都随版本变动。
      事实纪律：五种角色的划分与职责表、两类 architect 的侧重差异、
@@ -14,7 +24,7 @@
          outputclass="deep-dive"
          maturity="draft" volatility="volatile"
          dimension="dim-roles dim-terminology">
-  <title>DITA 规范中的角色分工与 processor 边界</title>
+  <title>DITA 的角色分工与 processor 边界</title>
   <shortdesc>规范明写自己只为 implementer 与开发 <term keyref="term-specialization">specialization</term>（专门化）的 XML 架构师而写，其余角色各有别的材料；而它最常当主语的 processor 至今没有定义条目，某个工具是否受规范约束因此只能按它是否求值 DITA 特性来判断。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/archspec/base/basic-dita-terminology" scope="external"/>

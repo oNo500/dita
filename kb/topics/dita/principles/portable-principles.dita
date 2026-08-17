@@ -7,13 +7,21 @@
      判断段如实标注其余归属，不得把推导结论写成规范断言。
      术语规则：@class / keyref / shell / conref push 等一律用英文原名，
      中文解释只在首现随行给一次；不自造术语口吻的分类标签。
-     标题规则（2026-08-16 收紧）：名词短语，不带冒号副标题。
-     volatility=stable 的依据：八条原则与具体语法无关，不随发行版变动。 -->
+     volatility=stable 的依据：八条原则与具体语法无关，不随发行版变动。
+     标题（2026-08-16 Task 13b 重定，原《DITA 之外可迁移的 @class 自描述与晚绑定原则》
+     把两条原则的名字抬进标题，八条中只举其二，读者据此对不上号）。
+     本库自造：上游无对应节点。
+     一、穷尽查证：OASIS DITA 2.0 规范只讲 DITA 自身，不讲剥离 DITA 之后剩下什么；
+       DITA-OT 4.4 docsrc 全部节点标题为工具操作；社区通行说法无对应节点。
+     二、先怀疑切分：与 first-principles 的分界已在根元素注释里写明——那篇推 DITA 内的机制，
+       本篇取与语法无关、可搬去别处的部分。合篇会让"在 DITA 内成立"与"离开 DITA 仍成立"
+       两类结论混在一起。
+     三、只组合不发明：「可迁移」与「原则」均为普通词，非新造概念名，未造新分类框架。 -->
 <concept id="portable-principles" xml:lang="zh-CN"
          outputclass="deep-dive"
          maturity="draft" volatility="stable"
          dimension="dim-principles dim-criteria"><!-- 与 first-principles 的分界：那篇推 DITA 内的机制，本篇取与语法无关的部分 -->
-  <title>DITA 之外可迁移的 @class 自描述与晚绑定原则</title>
+  <title>DITA 之外可迁移的原则</title>
   <shortdesc>不采用 DITA 的项目仍会遇到同样的约束：复用要求先给东西起名字，可复用性取决于自足性而非尺寸，扩展的语义必须能在数据里检视而不是藏在 <term keyref="term-schema">schema</term> 里，子类型只能收紧，定制要在升级中存活就只能配置而不修改，而晚绑定每次都以可读性换灵活性。八条原则各自对应 DITA 里的一处机制，也各自在别的系统里出现过。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external"/>

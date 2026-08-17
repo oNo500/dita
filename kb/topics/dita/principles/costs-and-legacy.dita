@@ -8,13 +8,23 @@
      来源节事实段只列本篇引用到的两条规范条文出处，判断段如实标注其余归属。
      术语规则：conref push / keyref / DITAVAL / @class 等一律用英文原名，
      中文解释只在首现随行给一次。
-     标题规则（2026-08-16 收紧）：名词短语，不带冒号副标题。
-     volatility=stable 的依据：代价来自公理本身，不随发行版或 beta 修订变动。 -->
+     volatility=stable 的依据：代价来自公理本身，不随发行版或 beta 修订变动。
+     标题（2026-08-16 Task 13b 重定，原《DITA 的晚绑定代价与 conref push 等历史包袱》
+     把两个机制名塞进标题，系已废止的「标题必含英文机制名」条款所致）。
+     本库自造：上游无对应节点。
+     一、穷尽查证：OASIS DITA 2.0 规范只在 Conformance 与各机制节点里给出规则，
+       不评价自身的代价；DITA-OT 4.4 docsrc 全部节点标题为工具操作与迁移说明
+       （最近的是 Legacy constructs removed，讲的是被移除的构造，不讲代价的成因）；
+       社区通行说法无对应节点。
+     二、先怀疑切分：与 first-principles 的分界已核——那篇推导机制何以如此，
+       本篇算这些机制要付的代价与哪些属历史包袱，两者不可合篇。
+     三、只组合不发明：「代价」与「历史包袱」均为普通词，非新造概念名，
+       未造新分类框架。 -->
 <concept id="costs-and-legacy" xml:lang="zh-CN"
          outputclass="deep-dive"
          maturity="draft" volatility="stable"
          dimension="dim-boundary-pitfalls dim-evolution">
-  <title>DITA 的晚绑定代价与 conref push 等历史包袱</title>
+  <title>DITA 的代价与历史包袱</title>
   <shortdesc>晚绑定让源文件不再是完整的真相，付出成本的人与受益的组织也不是同一批，这两笔代价与 topic、map、<xmlatt>class</xmlatt> 出自同一条公理，无法靠更好的工具消除。另有一类代价不来自公理而来自历史：XML 语法、DTD 起家、concept 与 task 与 reference 的三分、以及 conref push。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/2.0/dita/conformance/conformance" scope="external"/>

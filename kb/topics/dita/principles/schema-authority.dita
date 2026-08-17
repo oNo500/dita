@@ -5,7 +5,17 @@
      题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      术语规则：document type / document-type shell / schema / catalog 等一律用英文原名，
      中文解释只在首现随行给一次；不自造「装配系统」「造零件/选零件」一类标签。
-     标题规则（2026-08-16 收紧）：名词短语，不带冒号副标题。
+     标题（2026-08-16 Task 13b 重定，原《DITA schema 的定义权与 @class 角色约束》
+     把第二个论题也抬进标题，两个论题并列反而看不出这一篇的节点是什么）。
+     本库自造：上游无对应节点。
+     一、穷尽查证：OASIS DITA 2.0 archSpec 有 The class attribute 与 Basic DITA terminology
+       两节（即本篇来源节所引两处），前者定义 @class 的构造，后者定义 document type 与
+       document-type shell，均不讲"谁有权定义 schema"；DITA-OT 4.4 docsrc 全部节点标题
+       为工具操作（最近的是 Configuring DITA-OT，讲工具配置）；社区通行说法无对应节点。
+     二、先怀疑切分：与 doctype-shell 的分界已核——那篇讲 shell 怎么装配，
+       本篇讲装配权归谁、各角色能改什么。重切进 doctype-shell 会把语法层与权限层混装。
+     三、只组合不发明：schema 为上游原词，「定义权」为普通词组，
+       未造新概念名、未造新分类框架。
      volatility=volatile 的依据：术语章与扩展模块的出入属 beta 期状态，
      catalog 的条目数随发行版变动。
      事实纪律：schema 的通用定义、可装配语法文件的说法、schema 管与不管的对照表、
@@ -16,7 +26,7 @@
          outputclass="deep-dive"
          maturity="draft" volatility="volatile"
          dimension="dim-mechanism dim-governance">
-  <title>DITA schema 的定义权与 @class 角色约束</title>
+  <title>DITA schema 的定义权</title>
   <shortdesc>DITA 的 <term keyref="term-schema">schema</term> 不是一个文件，而是 <term keyref="term-document-type-shell">document-type shell</term> 加它引入的一组模块，定义权因此分在两层：OASIS 出标准模块，组织的 DITA architect 出自有模块与 shell，而 shell 不得自行声明元素或属性类型。同一个 <xmlatt>class</xmlatt> 属性上，四类角色受四种不同的约束。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external"/>

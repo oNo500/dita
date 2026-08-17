@@ -31,7 +31,7 @@
     <section>
       <title>问题</title>
       <p>写 <codeph>&lt;!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA 2.0 Topic//EN" "topic.dtd"&gt;</codeph> 时，指向的 <filepath>topic.dtd</filepath> 就是一个 shell。<xref href="extension-facilities.dita">三个 extension facility</xref> 无论走哪一个，产物最后都要有一个 shell 把它装配进来，所以「这套内容允许写什么」这个问题只有一个回答处。</p>
-      <p>能力边界也在这里划死。shell 是装配处，不是定义处；分不清这条，就解释不了为什么 <xmlatt>class</xmlatt> 不在源文件里、为什么同一批 topic 换个 shell 校验结果就变。document type 与 shell 的区分、shell 文件在运行时怎么被找到，见 <xref href="../principles/schema-authority.dita">DITA schema 的定义权与 @class 角色约束</xref>。</p>
+      <p>能力边界也在这里划死。shell 是装配处，不是定义处；分不清这条，就解释不了为什么 <xmlatt>class</xmlatt> 不在源文件里、为什么同一批 topic 换个 shell 校验结果就变。document type 与 shell 的区分、shell 文件在运行时怎么被找到，见 <xref href="../principles/schema-authority.dita">DITA schema 的定义权</xref>。</p>
     </section>
 
     <section>

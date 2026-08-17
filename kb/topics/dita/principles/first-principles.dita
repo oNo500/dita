@@ -8,13 +8,24 @@
      术语规则：topic / map / keyref / conref / @class 等一律用英文原名，
      中文解释只在首现随行给一次；「负能力」「里氏替换原则」为借用的类比标签，
      在判断段注明，不作术语使用。
-     标题规则（2026-08-16 收紧）：名词短语，不带冒号副标题。
-     volatility=stable 的依据：推导链条不随 DITA-OT 发行版或规范 beta 修订变动。 -->
+     volatility=stable 的依据：推导链条不随 DITA-OT 发行版或规范 beta 修订变动。
+     标题（2026-08-16 Task 13b 重定，原《DITA 单一真相源公理下的 topic、map 与 @class 推导》
+     系已废止的「标题必含英文机制名」条款逼出的塞满形态）。本库自造：上游无对应节点。
+     一、穷尽查证：OASIS DITA 2.0 archSpec 逐一给出各机制节点（DITA specialization、
+       Configuration, specialization, and constraints、Key-based addressing、Branch filtering、
+       Determining effective attribute values、Expansion modules——即本篇来源节所引七处），
+       但无把这些机制从一条前提推导出来的节点；DITA-OT 4.4 docsrc 全部节点标题均为工具操作，
+       无原理类节点；社区通行说法亦无。
+     二、先怀疑切分：本簇边界已核——roles-and-boundaries 讲角色，schema-authority 讲定义权，
+       costs-and-legacy 讲代价，portable-principles 讲剥离 DITA 后剩下什么，四篇均不含推导链
+       本身。重切进任一篇会把结论与推导过程混装，故保留为独立节点。
+     三、只组合不发明：「第一性原理」与「推导」均为通用词组，非本库新造概念名，
+       亦未造新分类框架。 -->
 <concept id="first-principles" xml:lang="zh-CN"
          outputclass="deep-dive"
          maturity="draft" volatility="stable"
          dimension="dim-principles dim-concept">
-  <title>DITA 单一真相源公理下的 topic、map 与 @class 推导</title>
+  <title>DITA 的第一性原理推导</title>
   <shortdesc>DITA 的多数机制可以从「同一个事实只应存在于一处」这一条公理推出来：topic 的边界由自足性而非尺寸定义，map 承接被 topic 排除的位置信息，keyref 让交叉引用间接化，<xmlatt>class</xmlatt> 把派生链写进实例。能推出来的部分不必当规则背，推不出来的部分则是可以争论的选择。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/2.0/dita/archspec/base/ditaspecialization" scope="external"/>
