@@ -65,7 +65,7 @@
       <xsl:value-of select="concat($prefix,'R8(error): concept/reference 必须有至少一个来源','&#10;')"/>
     </xsl:if>
     <xsl:if test="$r[@outputclass='quickstart'] and not($r//xref)">
-      <xsl:value-of select="concat($prefix,'R10(error): quickstart 必须 xref 到所属领域全景','&#10;')"/>
+      <xsl:value-of select="concat($prefix,'R10(error): quickstart 必须 xref 到所属领域概览','&#10;')"/>
     </xsl:if>
   </xsl:template>
 

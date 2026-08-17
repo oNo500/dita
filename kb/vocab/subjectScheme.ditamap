@@ -19,7 +19,7 @@
      · 新增横切「维度值集」dimension：dim-common 通用核心 11 ＋ 四族特有
        （A 技术制品 9 / B 工程治理 8 / C AI 构建 10 / D 方法规范 7），共 45 键。
        维度标引：内容 topic 用专门化属性 @dimension（从 @props 专门化、enumerationdef 绑本值集、可多值）；
-       全景用 prolog data（planned-dimension 规划清单 + domain 域，属治理元数据）。key 统一 dim- 前缀避免撞键。
+       概览用 prolog data（planned-dimension 规划清单 + domain 域，属治理元数据）。key 统一 dim- 前缀避免撞键。
        依据五路对标（矿场＋技术制品＋工程治理＋AI＋写作），见 cases 维度对标报告.md。
      · 含矿场特有维度 dim-mental-model-migration（换栈差异，外部五路框架均无）。
      · v0.3 后按需补 dim-packaging（打包分发/自动更新，A 族桌面框架子类首个，electron 样板触发）。 -->
@@ -157,7 +157,7 @@
        横切"内容讲主题的哪个方面"。DITA 2.0 移除了 classification domain（topicsubject/subjectref 等元素 2.0 不存在），
        受控维度标引改由"@props 专门化属性 + enumerationdef 绑受控值"承担（与 maturity/volatility/tool 同路）：
        内容 topic 在根用 @dimension 标覆盖的维度（专门化自 @props、shell 声明；可多值；enumerationdef 校验值在本值集内，见文件末绑定）；
-       全景 topic 用 prolog data name="planned-dimension" 声明本域规划清单、data name="domain" 标域
+       概览 topic 用 prolog data name="planned-dimension" 声明本域规划清单、data name="domain" 标域
        （规划/域属治理元数据、非内容分类，用 data 承载）。覆盖度＝planned vs 各 topic 的 @dimension，按 domain 求差可算。
        key 统一 dim- 前缀，避免与主题树/其他值集撞键（同 tool- 前缀先例）。
        两层：dim-common 通用核心（所有族可用）＋ 四族特有子集。

@@ -5,7 +5,7 @@
 <map xml:lang="zh-CN">
   <title>AI</title>
 
-  <!-- 领域全景（R9）：coding-agents 域的维度清单与覆盖状态，2026-08-15 建 -->
+  <!-- 领域概览（R9）：coding-agents 域的维度清单与覆盖状态，2026-08-15 建 -->
   <topicref href="../../topics/ai/coding-agents-landscape.dita"/>
 
   <!-- claude-code 叶子：工具具体内容 -->

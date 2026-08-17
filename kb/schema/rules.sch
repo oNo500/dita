@@ -78,15 +78,15 @@
   </pattern>
 
   <!-- 归属：领域维度框架 / domain-dimension-method -->
-  <!-- R9（领域 map 必须挂一个 tech-landscape 全景 topic）是 map 层 + 跨文档规则，
+  <!-- R9（领域 map 必须挂一个 tech-landscape 概览 topic）是 map 层 + 跨文档规则，
        单文档 Schematron 判不了（要解析 topicref 指向的 topic 的 outputclass）。
-       归构建脚本承担（dimension-coverage.py 可扩展：某 domain 有内容却无全景即报）。此处不实现。 -->
+       归构建脚本承担（dimension-coverage.py 可扩展：某 domain 有内容却无概览即报）。此处不实现。 -->
 
   <!-- 归属：领域维度框架 / domain-dimension-method -->
   <pattern id="R10-quickstart-xref">
     <rule context="*[@outputclass='quickstart']">
       <assert test=".//xref"
-        >R10（error）：quickstart 必须 xref 到所属领域全景（并声明覆盖/略过哪些维度）。</assert>
+        >R10（error）：quickstart 必须 xref 到所属领域概览（并声明覆盖/略过哪些维度）。</assert>
     </rule>
   </pattern>
 
