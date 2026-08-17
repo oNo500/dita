@@ -23,7 +23,7 @@
 
   <!-- 九个领域。navtitle 必须与被引 map 的 <title> 逐字一致。 -->
   <topichead>
-    <topicmeta><navtitle>语言本体</navtitle></topicmeta>
+    <topicmeta><navtitle>编程语言</navtitle></topicmeta>
     <mapref href="domains/lang.ditamap"/>
   </topichead>
   <topichead>

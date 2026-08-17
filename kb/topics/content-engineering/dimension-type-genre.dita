@@ -70,7 +70,7 @@
           <stentry>Diátaxis 四象限对应的 topic 类型（下表）</stentry>
         </strow>
         <strow>
-          <stentry>可复用工件</stentry>
+          <stentry>可复用制品</stentry>
           <stentry>prompt、模板、配置与代码片段，取来即用而非读来理解</stentry>
           <stentry><xmlelement>reference</xmlelement> 加 <xmlatt>outputclass</xmlatt> 值 artifact，具体形制未定</stentry>
         </strow>
@@ -85,7 +85,7 @@
           <stentry><xmlelement>map</xmlelement>，不是 topic</stentry>
         </strow>
       </simpletable>
-      <p>可复用工件是四个维度中唯一由本库补上的一维。Diátaxis 是文档框架，覆盖不到取来即用的资产；这类内容不读来理解，而是复制或引用进别处使用。它不拆成 prompt、模板、片段三个类型，而是一个维度之下的三种题材。</p>
+      <p>可复用制品是四个维度中唯一由本库补上的一维。Diátaxis 是文档框架，覆盖不到取来即用的资产；这类内容不读来理解，而是复制或引用进别处使用。它不拆成 prompt、模板、片段三个类型，而是一个维度之下的三种题材。</p>
       <p>解释性文档一维内部，象限、类型与题材的对应关系如下。题材的必需节清单以 subjectScheme 的 genre-values 为正本，此处不复制。</p>
       <simpletable relcolwidth="1* 1* 1.5* 1.5*">
         <sthead><stentry>象限</stentry><stentry>DITA 类型</stentry><stentry>题材</stentry><stentry>结构依据</stentry></sthead>
@@ -102,14 +102,14 @@
     <section>
       <title>结论</title>
       <p>完整性的判定因此收在两处：四个维度是否覆盖了知识的全部形态，以及解释性文档一维内的四象限是否完整。前者目前齐备，后者由 Diátaxis 的两轴划分自证。单个文件装不下不进入这个判定，它先被问是哪个象限的哪个题材，再由 <xmlatt>outputclass</xmlatt> 容纳。</p>
-      <p>只有一种情况才动框架：出现既不是解释性文档、又不是工件、术语、组织的内容。这是维度层的缺口，也是唯一值得重估框架的信号。</p>
+      <p>只有一种情况才动框架：出现既不是解释性文档、又不是制品、术语、组织的内容。这是维度层的缺口，也是唯一值得重估框架的信号。</p>
       <p>本篇给的是框架的形状。单篇动笔前选哪个类型见 <xref href="writing-typing.dita">kb 内容类型化</xref>，内容进不进库见 <xref href="writing-atomicity.dita">kb 内容准入判据</xref>，一个领域里维度清单怎么建起来见 <xref href="domain-dimension-method.dita">kb 领域维度框架与 80/20 取舍</xref>。</p>
     </section>
 
     <section>
       <title>来源</title>
       <p><b>事实</b>：按用户需求而非主题划分文档形态、分教程与操作指南与技术参考与解释四类，见 <xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>；DITA 把类型做进语法，<xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/concept" scope="external">concept</xref> 与 <xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/troubleshooting" scope="external">troubleshooting</xref> 等均由 topic 派生；面向不同文档形态提供可填写模板的项目见 <xref href="https://www.thegooddocsproject.dev/" scope="external">The Good Docs Project</xref>。</p>
-      <p><b>判断</b>：维度、类型、题材的三层划分，四个维度的穷举与「可复用工件是唯一维度缺口」的认定，象限与题材的具体归位，以及「装不下先归题材、不新增类型」这条处置，均为本库设计，无外部标准背书，可被反驳。可复用工件维度的 DITA 表达只定到 <xmlelement>reference</xmlelement> 加 artifact 一层，细则未定。</p>
+      <p><b>判断</b>：维度、类型、题材的三层划分，四个维度的穷举与「可复用制品是唯一维度缺口」的认定，象限与题材的具体归位，以及「装不下先归题材、不新增类型」这条处置，均为本库设计，无外部标准背书，可被反驳。可复用制品维度的 DITA 表达只定到 <xmlelement>reference</xmlelement> 加 artifact 一层，细则未定。</p>
     </section>
   </conbody>
 </concept>

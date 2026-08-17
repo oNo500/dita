@@ -20,11 +20,11 @@
     <mapref href="dita/conditional.ditamap"/>
   </topichead>
   <topichead>
-    <topicmeta><navtitle>架构机理</navtitle></topicmeta>
+    <topicmeta><navtitle>架构</navtitle></topicmeta>
     <mapref href="dita/architecture.ditamap"/>
   </topichead>
   <topichead>
-    <topicmeta><navtitle>工具链与二开</navtitle></topicmeta>
+    <topicmeta><navtitle>工具链与二次开发</navtitle></topicmeta>
     <mapref href="dita/toolchain.ditamap"/>
   </topichead>
   <topichead>

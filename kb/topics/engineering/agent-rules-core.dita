@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 批量重写（2026-08-16）：转 reference/artifact（框架维度2：可复用工件）。 -->
+<!-- 批量重写（2026-08-16）：转 reference/artifact（框架维度2：可复用制品）。 -->
 <!-- 重写自矿场 infra-ai/rules/constitution + rc-rules。
      含通用规则 + 工具特有段（tool 条件属性），交付物构建时按 DITAVAL 过滤出各工具变体。 -->
 <!-- 2026-08-17 晋级 curated：过 lint 晋级门（R12–R16 转 error 后 0 error）。

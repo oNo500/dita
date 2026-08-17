@@ -78,9 +78,9 @@
         <sthead><stentry>角色</stentry><stentry>规范里该读的部分</stentry><stentry>本库里该读的簇</stentry></sthead>
         <strow><stentry>author</stentry><stentry>不必通读，需要时查语言参考的元素字典</stentry><stentry>核心模型与复用、条件与元数据</stentry></strow>
         <strow><stentry>information architect</stentry><stentry>架构规范的 map、寻址、条件处理部分</stentry><stentry>核心模型与复用、条件与元数据、工程实践</stentry></strow>
-        <strow><stentry>DITA architect</stentry><stentry>架构规范的配置与 specialization 整章、一致性</stentry><stentry>架构机理、原理</stentry></strow>
-        <strow><stentry>implementer</stentry><stentry>架构规范的处理章、一致性、RFC-2119 语句汇总</stentry><stentry>架构机理、工具链与二开</stentry></strow>
-        <strow><stentry>维护工具链的人</stentry><stentry>读 DITA-OT 文档而非规范</stentry><stentry>工具链与二开</stentry></strow>
+        <strow><stentry>DITA architect</stentry><stentry>架构规范的配置与 specialization 整章、一致性</stentry><stentry>架构、原理</stentry></strow>
+        <strow><stentry>implementer</stentry><stentry>架构规范的处理章、一致性、RFC-2119 语句汇总</stentry><stentry>架构、工具链与二次开发</stentry></strow>
+        <strow><stentry>维护工具链的人</stentry><stentry>读 DITA-OT 文档而非规范</stentry><stentry>工具链与二次开发</stentry></strow>
       </simpletable>
       <p>最后一行不是规范里的角色，是本库按实际分工补的一格。它与 implementer 的差别在于是否改动处理器本身：装配与调试既有工具链的人受 DITA-OT 文档约束，写处理器的人才受规范约束。</p>
     </section>

@@ -43,7 +43,7 @@
         <strow><stentry>进程通信与用法（dim-usage）</stentry><stentry>IPC 通道、contextBridge 暴露、常用主进程 API</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>安全基线与攻击面（dim-security）</stentry><stentry>nodeIntegration／contextIsolation 开关、XSS→IPC→RCE 攻击链与每段挡板</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>性能与资源（dim-tuning）</stentry><stentry>启动性能、内存占用、多窗口资源、包体积</stentry><stentry>盲区</stentry></strow>
-        <strow><stentry>崩溃与调试（dim-troubleshooting）</stentry><stentry>崩溃日志采集、主／渲染进程调试、常见崩因定位</stentry><stentry>盲区</stentry></strow>
+        <strow><stentry>崩溃与调试（dim-troubleshooting）</stentry><stentry>崩溃日志采集、主／渲染进程调试、常见崩溃原因定位</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>选型对比（dim-comparison）</stentry><stentry>Electron vs Tauri vs 其他 WebView 方案的权衡与取舍依据</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>版本演进与升级（dim-evolution）</stentry><stentry>大版本变化、升级路径、版本落后的风险与追赶</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>生态与工具（dim-ecosystem）</stentry><stentry>electron-builder／forge、常用库、脚手架选材门槛</stentry><stentry>盲区</stentry></strow>

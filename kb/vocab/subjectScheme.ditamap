@@ -21,7 +21,7 @@
        维度标引：内容 topic 用从 @props specialize 出的属性 @dimension（enumerationdef 绑本值集、可多值）；
        概览用 prolog data（planned-dimension 规划清单 + domain 域，属治理元数据）。key 统一 dim- 前缀避免撞键。
        依据五路对标（矿场＋技术制品＋工程治理＋AI＋写作），见 cases 维度对标报告.md。
-     · 含矿场特有维度 dim-mental-model-migration（换栈差异，外部五路框架均无）。
+     · 含矿场特有维度 dim-mental-model-migration（更换技术栈的差异，外部五路框架均无）。
      · v0.3 后按需补 dim-packaging（打包分发/自动更新，A 族桌面框架子类首个，electron 样板触发）。 -->
 <subjectScheme xml:lang="zh-CN">
   <title>知识体系受控词表（正本 v0.3）</title>
@@ -40,7 +40,7 @@
     </subjectdef>
 
     <!-- nodejs 与 electron 归 web 而非 lang：运行时/平台知识，
-         排除 lang（语言本体）时不该消失，排除 web 技术栈时该消失 -->
+         排除 lang（编程语言）时不该消失，排除 web 技术栈时该消失 -->
     <subjectdef keys="web">
       <subjectdef keys="browsers"/>       <!-- 含 Web 平台 API：PWA/WASM/Web Components 落此 -->
       <subjectdef keys="css"/>
@@ -169,14 +169,14 @@
       <subjectdef keys="dim-concept"/>              <!-- 概念/心智模型 -->
       <subjectdef keys="dim-mechanism"/>            <!-- 机制/原理 -->
       <subjectdef keys="dim-comparison"/>           <!-- 对比/选型/权衡 -->
-      <subjectdef keys="dim-decision"/>             <!-- 决策/判断，含判断树 -->
+      <subjectdef keys="dim-decision"/>             <!-- 决策/判断，含决策树 -->
       <subjectdef keys="dim-terminology"/>          <!-- 术语/界定 -->
       <subjectdef keys="dim-evolution"/>            <!-- 演进/版本 -->
       <subjectdef keys="dim-ecosystem"/>            <!-- 生态/资源选材 -->
       <subjectdef keys="dim-boundary-pitfalls"/>    <!-- 边界/禁区/反模式/不变量 -->
       <subjectdef keys="dim-process"/>              <!-- 流程/维护治理 -->
       <subjectdef keys="dim-principles"/>           <!-- 原则/公理 -->
-      <subjectdef keys="dim-mental-model-migration"/> <!-- 换栈差异/心智模型迁移（矿场特有，外部框架无）-->
+      <subjectdef keys="dim-mental-model-migration"/> <!-- 更换技术栈的差异/心智模型迁移（矿场特有，外部框架无）-->
     </subjectdef>
 
     <subjectdef keys="dim-artifact">      <!-- A 技术制品特有（语言/数据库/协议/框架子类按需再加）-->
