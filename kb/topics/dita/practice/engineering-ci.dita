@@ -19,7 +19,13 @@
      二、先怀疑切分：三条做法（目录按角色、id 契约、逐变体构建）共用同一个前提——
        内容进版本库之后的组织方式，分开则每条各三行、均不自足。
      三、只组合不发明：「工程化」与 CI 均为软件工程通行词，未造新概念名、未造新分类框架。
-     事实纪律：拆出 project file 一节后，本篇全部陈述属判断，已在来源节判断段列明。 -->
+     事实纪律：拆出 project file 一节后，本篇全部陈述属判断，已在来源节判断段列明。
+     2026-08-17（人审修复轮）CI 示例脚本换成本仓真实可跑的命令。原脚本首行调 xmllint
+     的 noout/valid 两个开关：xmllint 不在本项目工具链（本机未安装），且 valid 走的是
+     DTD 校验，而本库每篇由 xml-model 绑 RNG，这条命令对本库无意义。给一段没跑过、
+     且对本库不适用的代码比不给更糟。现四条命令（dita validate / Saxon 批量业务规则 /
+     dita-tools lint / 逐 DITAVAL 构建）取自 scripts/review.sh 与 Justfile 的实际做法，
+     已在本仓逐条执行确认，四条均退出 0、零违规。 -->
 <concept id="engineering-ci" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="volatile"
@@ -59,17 +65,19 @@
 │   └── enterprise.ditaval
 └── images/</codeblock>
       <p>命名与标识按两条约定：topic 的文件名与它的 <xmlatt>id</xmlatt> 取同一个值且全库唯一，读到一个片段标识就知道它在哪个文件；<b><xmlatt>id</xmlatt> 一经发布不再修改</b>，它是 <term keyref="term-conref">conref</term>（内容引用）、<xmlelement>xref</xmlelement> 与外部深链共同依赖的契约。</p>
-      <p>持续集成里跑四步：逐文件的语法校验、map 级的 DITA 校验、默认变体的构建、每份 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）各构建一次。</p>
-      <codeblock>#!/usr/bin/env bash
-set -e
-find docs -name '*.dita' -o -name '*.ditamap' | xargs -n1 xmllint --noout --valid
-dita validate --input=docs/maps/user-guide.ditamap
-dita -i docs/maps/user-guide.ditamap -f html5 -o /tmp/ci --debug
-for f in docs/filters/*.ditaval; do
-  dita -i docs/maps/user-guide.ditamap -f html5 \
-       -o "/tmp/ci-$(basename "$f" .ditaval)" --filter="$f"
+      <p>持续集成里跑四层，前三层查源文件本身、逐层加严，第四层查过滤之后的结果：map 级的 DITA 校验（DITA-OT 沿 topicref 树遍历全部被引 topic）、业务规则的批量断言、题材与文体的 lint、每份 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）各构建一次。下面是本库自己的持续集成实际在跑的命令，路径按本库的目录布局写：</p>
+      <codeblock># 1–3. 源文件一侧：结构校验、业务规则、题材与文体（本库封装为 just review）
+dita validate --input=maps/root.ditamap
+java -cp "$SAXON_LIB" net.sf.saxon.Transform \
+     -it:main -xsl:scripts/check-rules.xsl "kb-dir=file://$PWD"
+dita-tools lint --vocab vocab/subjectScheme.ditamap topics
+
+# 4. 过滤之后一侧：每份 DITAVAL 各构建一次（本库封装为 just build）
+for f in filters/tool-*.ditaval; do
+  dita -f markdown_github --input=maps/deliverables/agent-rules.ditamap \
+       --filter="$f" -o "out/$(basename "$f" .ditaval)"
 done</codeblock>
-      <p>最后一步是容易省掉的一步，也是唯一能发现条件组合问题的一步。变体矩阵长大之后（多个 <term keyref="term-transtype">transtype</term>（输出类型）乘多份 DITAVAL），这段循环改用 DITA-OT 的 project file 声明，交付物在一处写清，持续集成里只留一条命令；形制与执行见 <xref href="../toolchain/project-files.dita">project file 与 dita --project</xref>。</p>
+      <p>第二条的 <varname>SAXON_LIB</varname> 指向 DITA-OT 自带 Saxon 所在的 <filepath>lib/</filepath> 目录，安装位置随版本变动，本库由 <filepath>scripts/review.sh</filepath> 探测后传入而不硬编码；业务规则本身写在一份 XSLT 里，用 <codeph>collection()</codeph> 一次遍历全部 topic，不逐篇起 JVM。第四步是容易省掉的一步，也是唯一能发现条件组合问题的一步。变体矩阵长大之后（多个 <term keyref="term-transtype">transtype</term>（输出类型）乘多份 DITAVAL），这段循环改用 DITA-OT 的 project file 声明，交付物在一处写清，持续集成里只留一条命令；形制与执行见 <xref href="../toolchain/project-files.dita">project file 与 dita --project</xref>。</p>
     </section>
 
     <section>
@@ -98,7 +106,7 @@ done</codeblock>
     <section>
       <title>来源</title>
       <p><b>事实</b>：本篇无转自权威源的内容。笔记 04 §2 逐页核对过的 project file 一节随该内容迁至 <xref href="../toolchain/project-files.dita">project file 与 dita --project</xref>，事实与出处在那一篇。<xref href="https://www.dita-ot.org/dev/" scope="external">DITA-OT 文档站</xref>作为元数据来源，不承担本篇任何断言。</p>
-      <p><b>判断</b>：正文全部陈述均属判断，可被反驳。其中目录按角色分开的布局、文件名与 <xmlatt>id</xmlatt> 取同值、发布后不改 <xmlatt>id</xmlatt>、可复用片段不做条件化、持续集成四步与其中的命令写法，来自通用实践，未逐页核对；条件过滤可能使文档不再满足内容模型这一现象来自使用经验；三条做法各堵一类问题的解释、四条反例、变体矩阵长大时改用 project file 的阈值判断，为本库归纳。</p>
+      <p><b>判断</b>：正文全部陈述均属判断，可被反驳。其中目录按角色分开的布局、文件名与 <xmlatt>id</xmlatt> 取同值、发布后不改 <xmlatt>id</xmlatt>、可复用片段不做条件化、持续集成分四层的划分，来自通用实践，未逐页核对；四层对应的命令不属此列——它们是本库自己的持续集成实际在跑的命令，2026-08-17 逐条执行确认可用（四条均退出 0、零违规），可在本仓复现；条件过滤可能使文档不再满足内容模型这一现象来自使用经验；三条做法各堵一类问题的解释、四条反例、变体矩阵长大时改用 project file 的阈值判断，为本库归纳。</p>
     </section>
   </conbody>
 </concept>
