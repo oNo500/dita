@@ -1,6 +1,8 @@
 # 04 · 工具链与构建
 
-> **已迁移（2026-08-16）**：正本已迁 kb（`kb/topics/dita/toolchain/dita-ot-quickstart.dita` ← §1–2，并吸收 README「30 秒上手」；`kb/topics/dita/toolchain/preprocess-pipeline.dita` ← §3；`kb/topics/dita/toolchain/validation-schematron.dita` ← §4；`kb/topics/dita/toolchain/editors-pdf-reality.dita` ← §5–6；不迁小节：§2 的「项目文件（`--project`）」，多交付物构建留待 practice 簇 engineering-ci 承接），本文冻结为调研档案，不再更新。
+> **已迁移（2026-08-16）**：正本已迁 kb（`kb/topics/dita/toolchain/dita-ot-quickstart.dita` ← §1–2，并吸收 README「30 秒上手」；`kb/topics/dita/toolchain/preprocess-pipeline.dita` ← §3；`kb/topics/dita/toolchain/validation-schematron.dita` ← §4；`kb/topics/dita/toolchain/editors-pdf-reality.dita` ← §5–6；`kb/topics/dita/toolchain/project-files.dita` ← §2 的「项目文件（`--project`）」；不迁小节：无），本文冻结为调研档案，不再更新。
+
+> **声明修订（2026-08-16，Task 13b 切分复议后）**：原声明写「§2 的项目文件小节不迁，留待 practice 簇 engineering-ci 承接」。该小节先随 §工程化建议 进了 `engineering-ci`，13b 复议时又从中拆出为独立篇 `toolchain/project-files.dita`（上游 DITA-OT 4.4 docsrc 确有 Publishing with project files 节点）。故 §2 已全部迁出，无不迁小节。
 
 ## 1. 现实前提
 

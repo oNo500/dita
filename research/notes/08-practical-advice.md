@@ -1,6 +1,6 @@
 # 08 · 实践建议
 
-> **已迁移（2026-08-16）**：正本已迁 kb（`kb/topics/dita/practice/pitfalls.dita` ← §高频踩坑清单；`kb/topics/dita/practice/adoption-criteria.dita` ← §用 DITA 2.0 的现实判断 + §什么时候 DITA 是对的 + §什么时候 DITA 是错的，并吸收 `research/README.md`「四个招牌特性」的框架句；`kb/topics/dita/practice/customization-cost-ladder.dita` ← §二次开发的成本阶梯；`kb/topics/dita/practice/engineering-ci.dita` ← §工程化建议，并承接 [04](04-toolchain-and-build.md) §2 的项目文件小节；不迁小节：§学习路径——学习顺序属 map 的编排职责，其中「四个新特性最能验证工具链边界」一句已并入 adoption-criteria；§本笔记集的覆盖情况与剩余缺口、§值得关注的方向——两者是调研档案，不属知识库内容），本文冻结为调研档案，不再更新。
+> **已迁移（2026-08-16）**：正本已迁 kb（`kb/topics/dita/practice/pitfalls.dita` ← §高频踩坑清单；`kb/topics/dita/practice/adoption-criteria.dita` ← §用 DITA 2.0 的现实判断 + §什么时候 DITA 是对的 + §什么时候 DITA 是错的，并吸收 `research/README.md`「四个招牌特性」的框架句；`kb/topics/dita/practice/customization-cost-ladder.dita` ← §二次开发的成本阶梯；`kb/topics/dita/practice/engineering-ci.dita` ← §工程化建议（[04](04-toolchain-and-build.md) §2 的项目文件小节一度并入本篇，13b 切分复议后拆为 `kb/topics/dita/toolchain/project-files.dita`，正本归 04）；不迁小节：§学习路径——学习顺序属 map 的编排职责，其中「四个新特性最能验证工具链边界」一句已并入 adoption-criteria；§本笔记集的覆盖情况与剩余缺口、§值得关注的方向——两者是调研档案，不属知识库内容），本文冻结为调研档案，不再更新。
 
 ## 高频踩坑清单
 
