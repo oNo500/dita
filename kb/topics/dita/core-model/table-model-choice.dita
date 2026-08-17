@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/01-core-model.md §3.5（表格：两套体系怎么选）。
-     题材 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
+     体裁 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
      标题查证（本库组合，非新造概念）：上游有容器节点「Table elements」
      （dita-lang.org/dita/langref/containers/table-elements，其说明称 DITA 提供
      complex table 与 simple table 两种），两个元素各有语言参考页 <table> 与 <simpletable>；

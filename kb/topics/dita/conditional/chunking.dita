@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/03-profiling-and-chunking.md §6（分块）。
-     题材 cheatsheet：以取值表与用法表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
+     体裁 cheatsheet：以取值表与用法表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
      术语规则（2026-08-16 用户门反馈后）：chunk 与它的两个取值 combine / split 一律用英文原名。
      标题规则（2026-08-16 用户定稿）：上游有节点，直接用其类目名——OASIS 架构规范
      「DITA processing」章下与 Conditional processing、Branch filtering 并列的一节即
      Chunking（子页 About the chunk attribute / Processing chunk="combine" /
      Processing chunk="split"），DITA-OT 文档的对应节点亦为 Chunking。
-     题材后缀惯例：cheatsheet 以「速查」结尾，故定为「chunking 速查」，不另加定位词。
+     体裁后缀惯例：cheatsheet 以「速查」结尾，故定为「chunking 速查」，不另加定位词。
      volatility=stable 的依据：两个取值的语义与组合规则出自架构规范。
      事实纪律：两个取值的语义、内部 @chunk 被忽略、根上设默认与分支覆盖、层级应与源一致、
      1.x 令牌在 2.0 被移除，均已逐页核对；典型用法表为实践建议，在来源节判断段列明。 -->

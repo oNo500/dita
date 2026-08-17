@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/08-practical-advice.md §高频踩坑清单（三张症状表）。
-     题材 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
+     体裁 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
      术语规则（2026-08-16 用户门反馈后）：conref / keyref / keytext / conref push /
      DITAVAL / subjectScheme / catalog 等一律用英文原名；表格列头用描述性短语「症状」
      「原因」，不造类目名词；笔记里的「先定义者胜」「内容仓库」两个自造标签已降级为平实句子。
@@ -15,7 +15,7 @@
        报错编号，不覆盖语言层与派生链的踩坑；社区通行说法无对应节点。
      二、先怀疑切分：三张症状表按"派生链属性与 XSLT 匹配"等主题已可分篇，
        但每张只有数行，且读者按症状查时要一次扫完；聚合为一篇速查后仍自足。
-     三、只组合不发明：「故障」与「速查」均为普通词，后者依 cheatsheet 题材惯例，
+     三、只组合不发明：「故障」与「速查」均为普通词，后者依 cheatsheet 体裁惯例，
        未造新概念名、未造新分类框架。 -->
 <reference id="pitfalls" xml:lang="zh-CN"
            outputclass="cheatsheet"

@@ -4,7 +4,7 @@
      交给了 research/notes/10-addressing-and-key-space.md §6，本篇的事实段即取自笔记 10
      已逐页核对的分支过滤一章（作用范围、分支克隆、ditavalmeta 四元素、改名要求、
      求值顺序）。key space 与 keyscope 的完整模型不在本篇，归寻址与 key space 一侧。
-     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     体裁 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      术语规则（2026-08-16 用户门反馈后）：DITAVAL、ditavalref、ditavalmeta、keyscope 等
      一律用英文原名，元素名以 xmlelement 标记。
      标题规则（2026-08-16 用户定稿）：上游有节点，直接用其类目名——OASIS 架构规范

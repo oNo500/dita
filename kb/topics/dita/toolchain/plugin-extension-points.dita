@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/06-dita-ot-plugins.md（插件是什么、plugin.xml 结构、主要扩展点分类、
-     现成插件参考）。题材 cheatsheet：以速查表为主、禁长段；
+     现成插件参考）。体裁 cheatsheet：以速查表为主、禁长段；
      refbody 不允许裸 p，导语包在「定位」节内。
      术语规则（2026-08-16 用户门反馈后）：plugin.xml / feature / extension / transtype /
      preprocess 等一律用英文原名；扩展点的分组沿用官方页面的分组，不自造类目。

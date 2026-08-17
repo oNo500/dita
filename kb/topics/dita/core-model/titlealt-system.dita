@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/01-core-model.md §3（标题体系：titlealt）。
-     题材 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
+     体裁 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
      标题依据上游节点名（非自造）：OASIS DITA 2.0 语言参考元素 <titlealt>
      （dita-lang.org/dita/langref/base/titlealt，父节点 Basic topic elements）；
-     「速查」为本库 cheatsheet 题材的后缀惯例，先例见同簇 keyref-variable-text
+     「速查」为本库 cheatsheet 体裁的后缀惯例，先例见同簇 keyref-variable-text
      「keyref 与 keytext 速查」。
      术语规则（2026-08-16 用户门反馈 + 同日译名禁令）：titlealt / title-role /
      alternative titles domain 等一律英文原名，不译作「替代标题域」作首选词。

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/06-dita-ot-plugins.md（完整示例：给 note 换个渲染、覆盖机制的关键、
-     处理 2.0 特有元素）。题材 how-to：按 2026-08-16 裁定用 concept 外壳与 conbody（模板 A）。
+     处理 2.0 特有元素）。体裁 how-to：按 2026-08-16 裁定用 concept 外壳与 conbody（模板 A）。
      术语规则（2026-08-16 用户门反馈后）：XSLT / import / priority / next-match /
      transtype 等一律用英文原名；元素名用 xmlelement，属性名用 xmlatt。
      volatility=volatile 的依据：2.0 草案期间 @class 里的模块名可能变动。

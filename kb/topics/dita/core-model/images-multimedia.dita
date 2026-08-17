@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/01-core-model.md §3.6（图像与多媒体）。
-     题材 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
+     体裁 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
      标题依据上游节点名（非自造，两个节点并列）：<image> 的语言参考页
      （dita-lang.org/dita/langref/base/image，父节点 Body elements）与容器节点
      Multimedia elements（dita-lang.org/dita/langref/containers/multimedia-elements，
      含 audio / video / media-source / media-track / video-poster 五个元素页）。
      上游没有把 image 与多媒体合并的单一节点，故并列两个节点名；「速查」为本库
-     cheatsheet 题材的后缀惯例，先例见同簇 keyref-variable-text。
+     cheatsheet 体裁的后缀惯例，先例见同簇 keyref-variable-text。
      术语规则（2026-08-16 用户门反馈 + 同日译名禁令）：image / fallback / keytext /
      media-source / media-track / video-poster 等一律英文原名。
      volatility=stable 的依据：元素的子元素顺序与属性集出自规范，不随发行版变动。

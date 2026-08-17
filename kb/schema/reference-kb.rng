@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="urn:pubid:oasis:names:tc:dita:rng:checkShell.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <!-- KB Reference 文档类型外壳（DITA 架构师产出）。
-     服务 reference 题材：cheatsheet 速查、curated-resources 资源清单，以及维度 dim-reference 类内容。
+     服务 reference 体裁：cheatsheet 速查、curated-resources 资源清单，以及维度 dim-reference 类内容。
      照 OASIS reference.rng 装配，与 concept-kb 同套配置，只改三处：
        1) 身份（shellPublicIds）
        2) @specializations 默认值追加 @props/maturity @props/volatility @props/tool @props/dimension

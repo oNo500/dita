@@ -4,7 +4,7 @@
      并入 §「本篇在整体框架中的位置」里 constraint 不属于 specialization 这一层级提醒。
      extension facilities 的完整框架属笔记 09，本篇不代它下结论，只交代 constraint 与
      specialization 并列这一点。
-     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     体裁 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      术语规则（2026-08-16 用户门反馈后，含同日紧急更正）：constraint / generalization /
      specialization / class 一律英文原名——OASIS 无官方中文版，中文译名不得作首选词；
      其中「专门化」还是错译，标准译法为「特化」，与 generalization 的「泛化」成对。

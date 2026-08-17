@@ -2,7 +2,7 @@
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/15-dita-and-rag.md §1（RAG 的内容侧难题与 DITA 的现成答案）、
      §5（反面）与 §6（结论）。
-     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     体裁 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      术语规则（2026-08-16 用户门反馈后）：RAG / conref / keyref / preprocess /
      shortdesc / DITAVAL 等一律用英文原名；不为「语义边界」「切块单元」造类目名词。
      volatility=volatile 的依据：RAG 一侧的管线做法与嵌入效果随模型与工具演进。

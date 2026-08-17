@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 机器兜底：一条命令串全套——RNG 结构校验 + 业务规则 R1–R10 + 题材文体 R12–R15 + 术语扫描。
+# 机器兜底：一条命令串全套——RNG 结构校验 + 业务规则 R1–R10 + 体裁文体 R12–R15 + 术语扫描。
 # 依赖：DITA-OT（dita validate + 自带 Saxon）与 uv（跑 kb/scripts 下的 .py）。
 # 两者缺任何一个都不会静默放行——缺什么就少跑什么，且结果不得当作通过。
 # 有 error 则退出非零，可挡入库 / 接 git hook / CI。
@@ -116,7 +116,7 @@ fi
 # 脚本 dimension-coverage.py 于 2026-08-15 走完吸收五关退役。
 
 echo
-echo "== 2. 题材与文体 R12–R15（dita-tools lint；draft 记 warning，晋级门）=="
+echo "== 2. 体裁与文体 R12–R15（dita-tools lint；draft 记 warning，晋级门）=="
 if command -v dita-tools >/dev/null 2>&1; then
   dita-tools lint --vocab "$KB/vocab/subjectScheme.ditamap" "$KB/topics" || fail=1
 else

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/02-reuse.md §1（conref 的拉与推）与 §4（三者的解析顺序）。
-     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     体裁 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      术语规则（2026-08-16 用户门反馈后）：元素名、属性名、机制名一律用英文原名，
      中文解释只在首现随行给一次；不自造分类框架与译名。
      volatility=volatile 的依据：解析顺序取自 DITA-OT 实现观察，随发行版变动。

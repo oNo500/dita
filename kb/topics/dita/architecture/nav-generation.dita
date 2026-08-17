@@ -2,7 +2,7 @@
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/11-processing-model.md §5（目录的生成规则）、§5.5（索引）、
      §5.7（链接生成）与 §5.9（其余处理主题的覆盖对照）。
-     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     体裁 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      标题（本库自造：上游无单一对应节点，为三个上游类目的组合，依据如下查证结果）：
      一、穷尽查证。OASIS DITA 2.0 架构规范「DITA processing」章下与本篇对应的是三处而非
      一处——「Navigation」（其子页仅 Table of contents 与 Alternative titles）、「Indexes」，

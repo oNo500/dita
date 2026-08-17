@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/01-core-model.md §1（Topic：最小可寻址单元）与 §1.5（信息类型化）。
-     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     体裁 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      标题依据上游节点名（非自造）：OASIS DITA 2.0 架构规范章节「DITA topics」
      （dita-lang.org/dita/archspec/base/topicover）下列六个子节点，本篇覆盖其中的
      「Topic structure」与「Information typing」两个，故以 topic 与 information typing

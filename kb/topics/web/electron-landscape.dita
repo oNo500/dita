@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 领域概览样板（tech-landscape 题材）：electron 域从零起步。
+<!-- 领域概览样板（tech-landscape 体裁）：electron 域从零起步。
      用途：验证维度值集（v0.3）能落地——内容 topic 用 @dimension 属性标覆盖、概览用 prolog data 声明本域维度清单、
      正文列盲区。此刻 kb 里 electron 一篇内容都没有，故全部维度状态＝盲区，覆盖度 0/N，
      正是"概览哪怕满是盲区也要先建"的样子。矿场有 electron 素材，只参考、不迁移。 -->

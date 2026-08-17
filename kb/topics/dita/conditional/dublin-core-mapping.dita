@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/14-metadata-and-classification.md §2（别从空白页开始）。
-     题材 cheatsheet：以对应表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
+     体裁 cheatsheet：以对应表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
      术语规则（2026-08-16 用户门反馈后）：Dublin Core 与各 DITA 元素名一律用英文原名，
      元素以 xmlelement、属性以 xmlatt 标记；不造中文字段名。
      标题规则（2026-08-16 用户定稿）——本库自造，上游无对应节点，三道关记录如下：
@@ -13,7 +13,7 @@
      ② 先怀疑切分：本篇的边界就是两套字段集之间的映射，重切只能并回元数据设计一篇，
         而那一篇是流程、本篇是查表用的对照，合并后两种用法互相干扰，故保留独立。
      ③ 只组合不发明：「Dublin Core」为 DCMI 的标准名，「DITA 元数据」取自 DITA metadata
-        节点，「对应」为普通词；题材后缀惯例保留，cheatsheet 以「速查」结尾。
+        节点，「对应」为普通词；体裁后缀惯例保留，cheatsheet 以「速查」结尾。
      volatility=stable 的依据：两套字段集各自稳定，对应关系不随发行版变动。
      事实纪律：已逐页核对的只有 author 的 @type 取值 creator / contributor 与该页未提及
      Dublin Core；十五个元素的清单属 DCMI 通识、对应表与「三项被架构吸收」的解读为本库分析，

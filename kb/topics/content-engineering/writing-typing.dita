@@ -29,7 +29,7 @@
       </simpletable>
       <p>类型与主题正交。同一主题自然产生多篇不同类型：以 OAuth 为例，授权模型属 concept、客户端配置属 task、参数对照属 reference、回调报错属 troubleshooting。四篇各自被独立命中；合为一篇则查报错的读者须先翻过原理。</p>
       <p>难以区分 reference 与 concept 时，问读者是扫视找值还是通读理解；前者归 reference。</p>
-      <p>类型定下之后再定题材：每篇在根元素标 <xmlatt>outputclass</xmlatt>（R12 强制），并按该题材的必需节写（R13 按节标题前缀匹配）。题材有哪些、各自绑哪个 DITA 类型、必需节是哪几节，正本在词表的题材值集，本篇与其他篇均不复制该清单——复制出来的副本会与它漂移。没有哪个题材装得下的内容，先怀疑它是两篇，而不是造新题材。</p>
+      <p>类型定下之后再定体裁：每篇在根元素标 <xmlatt>outputclass</xmlatt>（R12 强制），并按该体裁的必需节写（R13 按节标题前缀匹配）。体裁有哪些、各自绑哪个 DITA 类型、必需节是哪几节，正本在词表的体裁值集，本篇与其他篇均不复制该清单——复制出来的副本会与它漂移。没有哪个体裁装得下的内容，先怀疑它是两篇，而不是造新体裁。</p>
       <p>必需节是骨架不是模板：必需节都在、顺序对即合规，节内怎么写、要不要加表格由作者自定。骨架缺节是缺陷，节内朴素不是。</p>
     </section>
 
@@ -48,7 +48,7 @@
 
     <section>
       <title>边界</title>
-      <p>本篇管选类型与标题材，题材值集与必需节清单的正本在词表。三层分类框架本身分几层、完整性看哪一层，见 <xref href="dimension-type-genre.dita">kb 内容分类的维度、类型与题材</xref>；节内怎么写、语气如何，见 <xref href="writing-style.dita">kb 文体与语体</xref>。</p>
+      <p>本篇管选类型与标体裁，体裁值集与必需节清单的正本在词表。三层分类框架本身分几层、完整性看哪一层，见 <xref href="dimension-type-genre.dita">kb 内容分类的维度、类型与体裁</xref>；节内怎么写、语气如何，见 <xref href="writing-style.dita">kb 文体与语体</xref>。</p>
     </section>
 
     <section>

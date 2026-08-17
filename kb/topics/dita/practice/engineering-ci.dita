@@ -3,7 +3,7 @@
 <!-- 迁自 research/notes/08-practical-advice.md §工程化建议（目录组织 / 命名与 ID / CI）
      与 research/notes/04-toolchain-and-build.md §2「项目文件」小节
      （04 已冻结并注明该小节留待本篇承接，2026-08-16 Task 6 裁定）。
-     题材 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
+     体裁 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
      术语规则（2026-08-16 用户门反馈后）：conref / keyref / DITAVAL / transtype /
      context / publication / deliverable 等一律用英文原名；笔记里的自造词「内容仓库」
      降级为「存放可复用片段的 topic」，目录名沿用 warehouse 本身。

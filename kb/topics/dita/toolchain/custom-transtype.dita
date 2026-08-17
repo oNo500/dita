@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/06-dita-ot-plugins.md（写全新的 transtype、挂 Ant target、
-     界面字符串本地化）。题材 how-to：按 2026-08-16 裁定用 concept 外壳与 conbody（模板 A）。
+     界面字符串本地化）。体裁 how-to：按 2026-08-16 裁定用 concept 外壳与 conbody（模板 A）。
      术语规则（2026-08-16 用户门反馈后）：transtype / Ant target / preprocess /
      feature 等一律用英文原名，dita2X 命名约定保留原形。
      volatility=stable 的依据：注册方式与 target 命名约定跨版本未变；

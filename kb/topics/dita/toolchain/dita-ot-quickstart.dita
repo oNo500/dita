@@ -2,7 +2,7 @@
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/04-toolchain-and-build.md §1（现实前提）与 §2（DITA-OT：安装、
      触发 2.0、常用命令），并吸收 research/README.md「30 秒上手」节。
-     题材 quickstart。2026-08-16 裁定：quickstart 由 task 改绑 concept（词表 genre-values
+     体裁 quickstart。2026-08-16 裁定：quickstart 由 task 改绑 concept（词表 genre-values
      同步改，task-kb.rng 退役），因此本篇用 concept 外壳与 conbody，节序恢复正常阅读序：
      目标 → 前置 → 步骤 → 来源收尾。R13 必需节仍为 目标 / 前置 / 步骤。
      术语规则（2026-08-16 用户门反馈后）：transtype / preprocess / doctype / catalog 等
@@ -13,7 +13,7 @@
      本库自造（聚合）：标题由两个上游节点合成——DITA-OT 4.4 文档的安装一组
      （topics/installing-client、topics/installing-via-homebrew 等，类目名 Installing DITA-OT）
      与 reference/dita-v2-0-support「DITA 2.0 preview support」；上游无把二者合并的节点，
-     合并出自本库 quickstart 题材。词素均为领域既有，未造新词。 -->
+     合并出自本库 quickstart 体裁。词素均为领域既有，未造新词。 -->
 <concept id="dita-ot-quickstart" xml:lang="zh-CN"
          outputclass="quickstart"
          maturity="draft" volatility="volatile"

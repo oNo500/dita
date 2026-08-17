@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/06-dita-ot-plugins.md（调试插件的工作流），并接上同篇「最高频的坑」
-     一段。题材 how-to：按 2026-08-16 裁定用 concept 外壳与 conbody（模板 A）。
+     一段。体裁 how-to：按 2026-08-16 裁定用 concept 外壳与 conbody（模板 A）。
      术语规则（2026-08-16 用户门反馈后）：plugin / transtype / preprocess / import
      等一律用英文原名；症状表的列头用描述性短语，不造名词。
      volatility=stable 的依据：调试循环与选项跨版本未变。

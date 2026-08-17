@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/11-processing-model.md §1（确定属性的有效值）。
-     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     体裁 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      标题依据上游节点名（非自造）：OASIS DITA 2.0 架构规范「DITA processing」章下的
      子节点「Determining effective attribute values」（dita-lang.org/2.0/dita/archspec/
      base/determining-effective-attribute-values，2026-08 逐页核对节点名）。动名词

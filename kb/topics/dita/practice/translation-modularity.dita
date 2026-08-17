@@ -2,7 +2,7 @@
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/13-translation-and-localization.md §1（为什么模块化能降翻译成本）
      与 §3（翻译流程的架构位置）。
-     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     体裁 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      术语规则（2026-08-16 用户门反馈后）：conref / keyref / keytext / XLIFF / ITS /
      TM / CCMS 等一律用英文原名；不为「翻译单元」「交换格式」一类说法造类目名词。
      volatility=stable 的依据：收益来自 topic 粒度与单源机制，流程分工不随发行版变动。

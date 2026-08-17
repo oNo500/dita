@@ -157,7 +157,7 @@ fn check_genre(
     let Some(genre) = genre else {
         if GENRE_REQUIRED_ROOTS.contains(&root_name) {
             push(format!(
-                "R12：{root_name} 必须标题材 @outputclass（固定结构靠它）"
+                "R12：{root_name} 必须标体裁 @outputclass（固定结构靠它）"
             ));
         }
         return;
@@ -173,7 +173,7 @@ fn check_genre(
     if let Some(want) = subject.data.get("dita-type") {
         if want != root_name {
             push(format!(
-                "R12：题材 \"{genre}\" 属 {want}，不能标在 {root_name} 上"
+                "R12：体裁 \"{genre}\" 属 {want}，不能标在 {root_name} 上"
             ));
         }
     }
@@ -195,7 +195,7 @@ fn check_genre(
         .collect();
     for need in required {
         if !titles.iter().any(|t| t.starts_with(need.as_str())) {
-            push(format!("R13：题材 \"{genre}\" 缺必需节「{need}」"));
+            push(format!("R13：体裁 \"{genre}\" 缺必需节「{need}」"));
         }
     }
 }

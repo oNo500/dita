@@ -6,8 +6,8 @@
      标题规则（2026-08-16 用户定稿）：上游有对应节点，直接用其类目名——规范第 10 章
      "Conformance"，两个子节为 Conformance of DITA implementations 与 Conformance of
      DITA documents，本篇覆盖该章整体，故取章名。非自造。
-     题材：reference 素体，不标 @outputclass。cheatsheet 的「速查」标题后缀惯例与上游章名
-     冲突，标题规则优先级更高；R12 只要求 concept 与 task 必标题材，reference 可不标。
+     体裁：reference 素体，不标 @outputclass。cheatsheet 的「速查」标题后缀惯例与上游章名
+     冲突，标题规则优先级更高；R12 只要求 concept 与 task 必标体裁，reference 可不标。
      术语规则（2026-08-16 用户门反馈后，含译名禁令补充）：conformance / specialization /
      constraint / expansion module / conref / conkeyref 等一律英文原名，中文解释首现随行
      注一次；「一致性」在本篇作普通语义词使用时不承担术语职责。

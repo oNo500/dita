@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/14-metadata-and-classification.md §3（元数据放在哪：五种机制与取舍）。
-     题材 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
+     体裁 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
      术语规则（2026-08-16 用户门反馈后）：specialization / subject scheme / DITAVAL /
      data / othermeta / prolog 等一律用英文原名；对比表列头用描述性短语，不造类目名词。
      标题规则（2026-08-16 用户定稿）——本库自造，上游无对应节点，三道关记录如下：

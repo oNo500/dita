@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/02-reuse.md §2（keyref 与间接寻址）。
-     题材 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
+     体裁 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
      术语规则（2026-08-16 用户门反馈后）：keyref / keydef / keytext / keyscope 等一律用英文
      原名，中文解释只在首现随行给一次；不自造分类框架（原「定义侧五种绑定」「引用侧五种写法」
      「先定义者胜」已降级为平实说明）。
      volatility=volatile 的依据：@keyscope 的实现差异随 DITA-OT 版本变动。
      笔记标注「未逐页核对」的条目在表内与列表内逐条标注，并在来源节判断段列明。
      标题依据上游节点名：OASIS DITA 2.0 的 @keyref 属性与 <keytext> 元素；结尾的「速查」
-     是本库 cheatsheet 题材的固定后缀。 -->
+     是本库 cheatsheet 体裁的固定后缀。 -->
 <!-- 2026-08-17 晋级 curated：过 lint 晋级门（R12–R16 转 error 后 0 error）。
      未晋 verified——笔记标注「未逐页核对」的条目仍在，且 prolog 无 reviewed 日期。 -->
 <reference id="keyref-variable-text" xml:lang="zh-CN"

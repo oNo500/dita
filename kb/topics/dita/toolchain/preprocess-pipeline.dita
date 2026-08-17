@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/04-toolchain-and-build.md §3（preprocess 流水线与 .job.xml）。
-     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     体裁 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      术语规则（2026-08-16 用户门反馈后）：阶段名保留英文原名（gen-list / topicpull /
      chunk / conrefpush…），便于与调试模式保留的中间产物目录逐一对照。
      volatility=volatile 的依据：阶段名与顺序取自实现观察，随发行版变动。

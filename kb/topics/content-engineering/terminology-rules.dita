@@ -2,7 +2,7 @@
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 新建（2026-08-16，Task 13b 规则归并）：术语治理此前无正本——规则散在 writing-style、
      dita-authoring-guide 组4 与执行期的临时约定文件里，三次用词纠偏都出在这处空缺上。
-     题材 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
+     体裁 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
      本库自造：上游无对应节点。已查 OASIS DITA 2.0 archSpec 与 langRef 的节点标题
      （最近的是 Basic DITA terminology 与 Other terminology，规定的是规范自己用词的定义，
      不管写作方一侧的用词纪律）、DITA-OT 4.4 docsrc 全部节点标题（无术语治理类节点）、

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/05-specialization.md §2（domain specialization）。
-     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     体裁 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      术语规则（2026-08-16 用户门反馈后，含同日紧急更正）：domain / specialization /
      generalization / class 等机制名一律英文原名——OASIS 无官方中文版，中文译名不得作
      首选词；「域专门化」还是错译，specialization 的标准译法为「特化」。

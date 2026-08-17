@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 权威资源（curated-resources 题材）：dita 域。
+<!-- 权威资源（curated-resources 体裁）：dita 域。
      迁自 research/README.md「权威资源」节。链接活性由 just links 定期核；
      入口收录标准见「定位」节，产品与教程类链接不收。
      本库自造（半）：上游有同类目节点，DITA-OT 4.4 文档 topics/dita-resources.ditamap

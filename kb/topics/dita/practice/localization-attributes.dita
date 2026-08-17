@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/13-translation-and-localization.md §2（三个本地化属性）。
-     题材 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
+     体裁 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
      术语规则（2026-08-16 用户门反馈后）：属性名一律用英文原名并以 xmlatt 标记；
      BiDi、XLIFF 等保留原名，不译成自造中文词。
      volatility=stable 的依据：三个属性的取值与规则由规范定义。
@@ -16,7 +16,7 @@
      二、先怀疑切分：三个属性各自只有数行，拆成三篇均不足以自足，且读者是一次查三个；
        聚合为一篇速查是切分的结果，不是回避。
      三、只组合不发明：三个属性同属上游 Translation 一节，「本地化属性」只是这一节点组的
-       并列称呼；题材后缀「速查」依 cheatsheet 惯例。未造新概念名、未造新分类框架。 -->
+       并列称呼；体裁后缀「速查」依 cheatsheet 惯例。未造新概念名、未造新分类框架。 -->
 <reference id="localization-attributes" xml:lang="zh-CN"
            outputclass="cheatsheet"
            maturity="draft" volatility="stable"

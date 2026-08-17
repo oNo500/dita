@@ -59,7 +59,7 @@
 
     <section>
       <title>边界</title>
-      <p>本篇裁定进不进、进哪个分支；进库后归哪一类、标哪个题材见 <xref href="writing-typing.dita">kb 内容类型化</xref>，节内怎么写见 <xref href="writing-style.dita">kb 文体与语体</xref>。</p>
+      <p>本篇裁定进不进、进哪个分支；进库后归哪一类、标哪个体裁见 <xref href="writing-typing.dita">kb 内容类型化</xref>，节内怎么写见 <xref href="writing-style.dita">kb 文体与语体</xref>。</p>
       <p>判据三只判"属不属于这个分支"，落到具体的 domain 键、目录与标题怎么定，见 <xref href="naming-rules.dita">kb 命名与归属</xref>。</p>
     </section>
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
+<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、体裁规则确立前、拆分标准未定前，
      结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
      整改后按实际情况重新定级。 -->
-<!-- 领域概览（tech-landscape 题材）：coding-agents 域。
+<!-- 领域概览（tech-landscape 体裁）：coding-agents 域。
      对标三路：官方文档结构（Claude Code 文档索引，2026-08-15 取原文）＋ 矿场实据
      （20-02-ai-assistant 与 30-05-ai/claude-code 共 20+ 篇）＋ 维度框架族（A 技术制品 × C AI 构建）。
      矿场素材只参考、不迁移；本域三篇方法论 topic 已先于概览存在，其覆盖计入下表。 -->

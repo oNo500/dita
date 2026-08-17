@@ -2,7 +2,7 @@
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/07-programmatic-processing.md §4（Java：把 DITA-OT 当库用、
      读 .job.xml）与 §7（一个真实的坑：中间产物的版本污染）。
-     题材 how-to：按 2026-08-16 裁定用 concept 外壳与 conbody（模板 A）。
+     体裁 how-to：按 2026-08-16 裁定用 concept 外壳与 conbody（模板 A）。
      术语规则（2026-08-16 用户门反馈后）：ProcessorFactory / Processor / Job /
      .job.xml / preprocess 等一律保留英文原名。
      volatility=volatile 的依据：Java API 与中间产物的字段随 DITA-OT 版本变动。

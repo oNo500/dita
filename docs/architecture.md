@@ -41,7 +41,7 @@ dita-tools/  执行引擎     产出：校验结果、IA 视图
 | R7 | 术语裸字面 → `term keyref` | `scripts/term-normalize.py`（报告版） | `dita-tools lint` |
 | R9 / 维度覆盖度 | 领域概览、盲区统计 | `dita-tools ia`（脚本已于 2026-08-15 退役） | `dita-tools ia` ✅ |
 | **R11** | **`@dimension` 值合法性** | `dita-tools ia` 已报 error | `dita-tools lint`（归属冲突随终态落定而消） |
-| R12–R13 | 题材必标、值合法、类型匹配、必需节齐全 | `dita-tools lint`（2026-08-16） | `dita-tools lint` ✅ |
+| R12–R13 | 体裁必标、值合法、类型匹配、必需节齐全 | `dita-tools lint`（2026-08-16） | `dita-tools lint` ✅ |
 | R14 | 来源节两段标签、禁正文手写日期 | `dita-tools lint` | 同上 ✅ |
 | R15 | 文风代理指标（粗体/破折号/程度词，恒 warning） | `dita-tools lint` | 同上 ✅；格言句与场景化开头仍归人审 |
 | R16 | concept 实现层行内标记数量阈值，超阈值拆 concept（判据）＋ reference（配置） | `dita-tools lint`（2026-08-16） | 同上 ✅ |
@@ -87,7 +87,7 @@ R11 的归属之所以两份规划都伸手认领，根子在这条线一直没�
 |---|---|---|
 | 结构校验（RNG）/ 发布 | DITA-OT | 留 DITA-OT，不自造 |
 | 业务规则 lint（R1–R11） | `check-rules.xsl` + `ia` 各持一段 | `dita-tools lint` |
-| 题材与文体 lint（R12–R15） | ✅ `dita-tools lint`（2026-08-16 开建，新能力直进平台）；严重度按 maturity 分级＝晋级门 | 已在归宿 |
+| 体裁与文体 lint（R12–R15） | ✅ `dita-tools lint`（2026-08-16 开建，新能力直进平台）；严重度按 maturity 分级＝晋级门 | 已在归宿 |
 | 术语扫描（R7） | `term-normalize.py` | `dita-tools lint` |
 | 维度覆盖 | ~~`dimension-coverage.py`~~ | ✅ **已吸收（2026-08-15 退役，五关首个先例）**，归 `dita-tools ia` |
 | IA 治理骨架 | `dita-tools ia` | ✅ 已在 |

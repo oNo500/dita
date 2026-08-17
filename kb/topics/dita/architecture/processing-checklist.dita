@@ -3,7 +3,7 @@
 <!-- 迁自 research/notes/11-processing-model.md §6（给程序化处理的检查清单）与
      research/notes/10-addressing-and-key-space.md §7（给程序化处理的启示），两处合并成一篇。
      笔记 10 的冻结声明已写明 §7 留给本篇，本篇落地后两处均已处置完毕。
-     题材 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
+     体裁 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
      标题（本库自造：上游无对应节点，依据如下查证结果）：
      一、穷尽查证。OASIS DITA 2.0 架构规范「DITA processing」章只逐项规定各处理主题
      （Navigation / Indexes / Content reference (conref) / Conditional processing /
@@ -14,7 +14,7 @@
      二、先怀疑切分。本篇的边界即「规范约束下自研处理逻辑的执行次序」，这是规范未设节点
      而实现方必须面对的一处空缺，不是切分错位，重切无从落。
      三、只组合，不发明。DITA processing 直取上游章名，「顺序」与「速查」均为领域与本库
-     既有词素，不造新概念名、不造新分类框架。「速查」是本库 cheatsheet 题材的固定后缀。
+     既有词素，不造新概念名、不造新分类框架。「速查」是本库 cheatsheet 体裁的固定后缀。
      术语规则（2026-08-16 用户门反馈后，含译名禁令补充）：conref / keyref / conkeyref /
      keydef / key space / DITAVAL / preprocess 一律英文原名。
      volatility=stable 的依据：次序两端的规范约束（分支过滤先于 key space 构造、有效值后于

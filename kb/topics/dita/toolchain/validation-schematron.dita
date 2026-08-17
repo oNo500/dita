@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/04-toolchain-and-build.md §4（校验、Schematron、CI 里的最小校验）。
-     题材 how-to：按 2026-08-16 裁定用 concept 外壳与 conbody（模板 A），
+     体裁 how-to：按 2026-08-16 裁定用 concept 外壳与 conbody（模板 A），
      过程写成讲解式散文加 codeblock，来源节收尾。
      术语规则（2026-08-16 用户门反馈后）：Schematron / DITAVAL / preprocess 等机制名
      一律用英文原名；不自造分类框架，四种校验按「查什么」平实罗列，不造层级名词。
@@ -105,7 +105,7 @@ dita validate --input=maps/root.ditamap
 java -cp "$SAXON_LIB" net.sf.saxon.Transform \
      -it:main -xsl:scripts/check-rules.xsl "kb-dir=file://$PWD"
 
-# 3. 题材与文体：本库自写的 lint（上表四种之外自加的一层）
+# 3. 体裁与文体：本库自写的 lint（上表四种之外自加的一层）
 dita-tools lint --vocab vocab/subjectScheme.ditamap topics</codeblock>
       <p>第一层一条命令兼顾上表的前两行：本库每篇由 <xmlelement>xml-model</xmlelement> 绑 RNG，语法有效性在同一次调用里判定，而语法文件查不出 <term keyref="term-conref">conref</term>（引用另一处已有内容）指向不存在的文件，断链要靠这一层懂 DITA 的那部分才报得出来。</p>
       <p>第二层是上一节所说「持续集成里把它编译成 XSLT 执行」的一个实例，只是本库取的是手写实现而非编译产物：规则的人读正本是一份 Schematron 文件，可执行面是一份与之同步的 XSLT，由 DITA-OT 自带的 Saxon 跑，不引第三方 Schematron 编译器。<varname>SAXON_LIB</varname> 指向那份 Saxon 所在的 <filepath>lib/</filepath> 目录，安装位置随版本变动，本库由 <filepath>scripts/review.sh</filepath> 探测后传入而不硬编码。两份文件须同步是这个取法的代价，接入编译器后即可删掉其中一份。</p>

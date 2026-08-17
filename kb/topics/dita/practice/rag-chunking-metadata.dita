@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/15-dita-and-rag.md §3（块的粒度）与 §4（检索元数据对照表）。
-     题材 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
+     体裁 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
      术语规则（2026-08-16 用户门反馈后）：RAG / shortdesc / subjectScheme / reltable /
      glossentry / graph RAG 等一律用英文原名；对照表列头用描述性短语，不造类目名词。
      volatility=volatile 的依据：检索侧的元数据需求随管线与模型演进。

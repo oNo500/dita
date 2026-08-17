@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/07-programmatic-processing.md §5（生成 DITA）与 §6（DITA ↔ Markdown）。
-     题材 how-to：按 2026-08-16 裁定用 concept 外壳与 conbody（模板 A）。
+     体裁 how-to：按 2026-08-16 裁定用 concept 外壳与 conbody（模板 A）。
      术语规则（2026-08-16 用户门反馈后）：org.lwdita / transtype / front matter /
      DOCTYPE 等一律用英文原名；映射难点表的列头用描述性短语，不造名词。
      volatility=volatile 的依据：org.lwdita 对 2.0 元素的支持程度随版本推进。

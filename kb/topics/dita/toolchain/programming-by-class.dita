@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/07-programmatic-processing.md §2（怎么拿到 @class 与 @specializations）
-     与 §3（按 @class 编程）。题材 how-to：按 2026-08-16 裁定用 concept 外壳与 conbody（模板 A）。
+     与 §3（按 @class 编程）。体裁 how-to：按 2026-08-16 裁定用 concept 外壳与 conbody（模板 A）。
      术语规则（2026-08-16 用户门反馈后）：class / specializations / DTD / RNG /
      preprocess 等一律用英文原名，属性名用 xmlatt。
      volatility=stable 的依据：按派生链匹配是 DITA 架构的稳定机制，不随 2.0 草案变动。

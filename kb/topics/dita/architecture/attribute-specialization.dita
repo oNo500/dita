@@ -3,7 +3,7 @@
 <!-- 迁自 research/notes/05-specialization.md §3（attribute specialization）与
      research/notes/03-profiling-and-chunking.md §5（属性专门化：造自己的条件维度），
      两处内容合并成一篇。
-     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     体裁 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      术语规则（2026-08-16 用户门反馈后，含同日紧急更正）：specialization /
      generalization / props / base / specializations / DITAVAL 等一律英文原名——
      中文译名不得作首选词；「属性专门化」还是错译——specialization 的标准译法为「特化」，

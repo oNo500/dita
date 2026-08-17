@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/07-programmatic-processing.md §8（工具速查）。
-     题材 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
+     体裁 cheatsheet：以速查表为主、禁长段；refbody 不允许裸 p，导语包在「定位」节内。
      术语规则（2026-08-16 用户门反馈后）：Saxon-HE / Jing / lxml / org.lwdita /
      LwDITA / XDITA 等一律用工具与规范的原名。
      volatility=volatile 的依据：库的维护状态与覆盖范围随时间变动。
@@ -9,7 +9,7 @@
      兼容 LwDITA v0.3、仅覆盖 XDITA）；其余各行属通用实践，已在篇内与来源节标注。
      本库自造：上游无对应节点。表内工具（Saxon-HE、Jing、xmllint、lxml、org.lwdita）分属各自
      项目，OASIS 规范与 DITA-OT 4.4 文档 docsrc 均无跨项目的工具清单节点，社区亦无通行名。
-     标题由领域既有词素「程序化处理」「工具」组合，「速查」是本库 cheatsheet 题材的固定后缀。 -->
+     标题由领域既有词素「程序化处理」「工具」组合，「速查」是本库 cheatsheet 体裁的固定后缀。 -->
 <reference id="processing-tools" xml:lang="zh-CN"
            outputclass="cheatsheet"
            maturity="draft" volatility="volatile"

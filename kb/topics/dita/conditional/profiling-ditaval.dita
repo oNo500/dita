@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/03-profiling-and-chunking.md §1（条件属性）与 §2（DITAVAL 文件）。
-     题材 how-to，用模板 A（concept）：问题 → 做法 → 判定规则 → 退出点 → 来源。
+     体裁 how-to，用模板 A（concept）：问题 → 做法 → 判定规则 → 退出点 → 来源。
      术语规则（2026-08-16 用户门反馈后）：DITAVAL、prop、action、flag、passthrough 等
      一律用英文原名，中文解释每篇首现随行注一次；action 的四个取值在表里用平实文字，不造类目名词。
      标题规则（2026-08-16 用户定稿）：上游有节点，直接用其类目名——OASIS 架构规范

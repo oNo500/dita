@@ -91,13 +91,13 @@
   </pattern>
 
 
-  <!-- ── R12–R15：题材与文体（实现在 dita-tools lint，此处为规格正本）── -->
+  <!-- ── R12–R15：体裁与文体（实现在 dita-tools lint，此处为规格正本）── -->
 
   <!-- 归属：内容类型化 / writing-typing -->
   <pattern id="R12-genre">
     <rule context="concept | task">
       <assert test="@outputclass"
-        >R12：concept/task 必须标题材 @outputclass（固定结构靠它；词表 genre-values 为受控值）。</assert>
+        >R12：concept/task 必须标体裁 @outputclass（固定结构靠它；词表 genre-values 为受控值）。</assert>
     </rule>
     <rule context="*[@outputclass]">
       <assert test="true()"
@@ -110,7 +110,7 @@
   <pattern id="R13-genre-structure">
     <rule context="*[@outputclass]">
       <assert test="true()"
-        >R13：题材声明了 required-section 的（best-practice、quickstart），正文各节标题须按前缀
+        >R13：体裁声明了 required-section 的（best-practice、quickstart），正文各节标题须按前缀
         覆盖全部必需节（"做法：四条"匹配"做法"）。骨架缺节是缺陷；节内朴素不是。由 lint 执行。</assert>
     </rule>
   </pattern>
@@ -170,7 +170,7 @@
         「未标注即视为 draft」只是校验与语义上的默认值，DITAVAL 看不到、不会当成排除条件。本条
         补的正是这一格：漏标本身即错误，不论该 topic 其余各项是否合规，因此不随 draft/curated
         分级——被检查的正是分级所依赖的那个属性缺席。由 dita-tools lint 执行（覆盖面含
-        glossentry，与本条 Schematron 规格的 context 一致；R12–R16 的题材/结构/文体检查不含
+        glossentry，与本条 Schematron 规格的 context 一致；R12–R16 的体裁/结构/文体检查不含
         glossentry，两者覆盖面不同、互不影响）。</assert>
     </rule>
   </pattern>

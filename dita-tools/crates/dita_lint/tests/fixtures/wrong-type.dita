@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <concept id="wrong" outputclass="cheatsheet" maturity="curated" volatility="stable">
-  <title>题材与类型不匹配</title>
+  <title>体裁与类型不匹配</title>
   <shortdesc>cheatsheet 标在 concept 上。</shortdesc>
   <conbody><p>正文。</p></conbody>
 </concept>

@@ -2,7 +2,7 @@
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/12-philosophy-and-principles.md §三（代价 1–4）、
      §四（哪些是必然，哪些是历史包袱）、§五（为什么是文件，不是数据库）。
-     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     体裁 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      ⚠ 事实纪律：源笔记是论证篇而非规范转述。四笔代价、必然与包袱的划分、
      把 conref push 判为包袱、文件形态优于数据库的论证，全部属推导与判断，可被反驳；
      来源节事实段只列本篇引用到的两条规范条文出处，判断段如实标注其余归属。

@@ -2,7 +2,7 @@
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/13-translation-and-localization.md §4（复用机制在翻译下的坑）
      与 §5（实践清单）。
-     题材 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
+     体裁 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
      术语规则（2026-08-16 用户门反馈后）：conref / keyref / keytext / glossentry /
      Schematron / SVG 等一律用英文原名；两个反模式不起类目名，按「用变量拼句子」
      「低于句子粒度的 conref」平实描述。

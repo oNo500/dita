@@ -2,7 +2,7 @@
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/00-roles-and-boundaries.md §1（五种角色）、§2（规范写给谁）、
      §3（各角色该读什么，并入本篇结论节的阅读边界论述）、§4（processor 尚未定义）。
-     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     体裁 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      术语规则：角色名用规范里的英文原名（author / information architect /
      DITA architect / implementer / processor），中文解释只在首现随行给一次。
      标题（2026-08-16 Task 13b 重定，原《DITA 规范中的角色分工与 processor 边界》

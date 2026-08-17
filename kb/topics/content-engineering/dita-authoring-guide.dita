@@ -42,8 +42,8 @@
           <stentry>R16</stentry>
         </strow>
         <strow>
-          <stentry>归哪个类型、标哪个题材、必需节有哪些</stentry>
-          <stentry><xref href="writing-typing.dita">kb 内容类型化</xref>与词表题材值集</stentry>
+          <stentry>归哪个类型、标哪个体裁、必需节有哪些</stentry>
+          <stentry><xref href="writing-typing.dita">kb 内容类型化</xref>与词表体裁值集</stentry>
           <stentry>R12/R13</stentry>
         </strow>
         <strow>
@@ -73,7 +73,7 @@
         </strow>
         <strow>
           <stentry>分类框架分几层、一个领域怎么建起来</stentry>
-          <stentry><xref href="dimension-type-genre.dita">kb 内容分类的维度、类型与题材</xref>、<xref href="domain-dimension-method.dita">kb 领域维度框架与 80/20 取舍</xref></stentry>
+          <stentry><xref href="dimension-type-genre.dita">kb 内容分类的维度、类型与体裁</xref>、<xref href="domain-dimension-method.dita">kb 领域维度框架与 80/20 取舍</xref></stentry>
           <stentry>R9/R10 与 IA 报表</stentry>
         </strow>
         <strow>
@@ -88,7 +88,7 @@
       <title>写一篇的决策流程</title>
       <ol>
         <li>定维度——这篇讲主题的哪个方面（安装/机制/对比/调优…，见词表 dimension 值集）。</li>
-        <li>选类型与题材——DITA 类型（concept/reference/troubleshooting）加题材（<xmlatt>outputclass</xmlatt>）。</li>
+        <li>选类型与体裁——DITA 类型（concept/reference/troubleshooting）加体裁（<xmlatt>outputclass</xmlatt>）。</li>
         <li>定标题——按领域知识树上的标准叫法，自造须过三道关并在文件头注释留证。</li>
         <li>写正文——用精细行内语义，不糊成一个 <xmlelement>codeph</xmlelement>；机制名用英文原名。</li>
         <li>标元数据——<xmlatt>maturity</xmlatt>、<xmlatt>volatility</xmlatt>（必标）、<xmlatt>dimension</xmlatt>（覆盖的维度，可多值）、prolog 的 domain。</li>
@@ -99,8 +99,8 @@
     </section>
 
     <section>
-      <title>选类型与题材</title>
-      <p>按 <xref href="writing-typing.dita">kb 内容类型化</xref>选类型并标 <xmlatt>outputclass</xmlatt>，必需节清单以词表的题材值集为准。一篇里判据与配置并存时的拆分阈值（R16）见 <xref href="writing-atomicity.dita">kb 内容准入判据</xref>。</p>
+      <title>选类型与体裁</title>
+      <p>按 <xref href="writing-typing.dita">kb 内容类型化</xref>选类型并标 <xmlatt>outputclass</xmlatt>，必需节清单以词表的体裁值集为准。一篇里判据与配置并存时的拆分阈值（R16）见 <xref href="writing-atomicity.dita">kb 内容准入判据</xref>。</p>
     </section>
 
     <section>
@@ -167,7 +167,7 @@
         <strow><stentry>关键术语用 <xmlelement>term</xmlelement> 加 <xmlatt>keyref</xmlatt></stentry><stentry>R7</stentry></strow>
         <strow><stentry>concept/reference 必有来源</stentry><stentry>R8</stentry></strow>
         <strow><stentry>建域先概览、quickstart 挂概览</stentry><stentry>R10 + dita-tools ia（R9 观测与覆盖度）</stentry></strow>
-        <strow><stentry>标题材并按必需节写</stentry><stentry>R12/R13</stentry></strow>
+        <strow><stentry>标体裁并按必需节写</stentry><stentry>R12/R13</stentry></strow>
         <strow><stentry>来源节两段标签齐备</stentry><stentry>R14</stentry></strow>
         <strow><stentry>语气平实、用词书面</stentry><stentry>R15（代理指标）</stentry></strow>
         <strow><stentry>实现层行内标记超阈值即拆</stentry><stentry>R16</stentry></strow>

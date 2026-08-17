@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/reference-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、题材规则确立前、拆分标准未定前，
+<!-- 2026-08-16 统一降级为 draft：本篇写于术语主线执行前、体裁规则确立前、拆分标准未定前，
      结构上未达 curated（见 research/cases/kb-redesign/phase3-review.md 重写约定 1/3/4/5）。
      整改后按实际情况重新定级。 -->
 <!-- 库内第一篇 reference（reference-kb shell 首次投用）。
-     题材 cheatsheet：用来查，不用来读完。
+     体裁 cheatsheet：用来查，不用来读完。
      volatile 且 verified：全部事实当日逐条核对官方 settings 文档，核对日期见 prolog（R3）。
      矿场 20-02/AI-Claude-Code权限配置.md 与 30-05/settings模板.md 只作选题参考——
      两者都写"三层配置"，官方实为四层 + CLI 参数，旧笔记的结论未采信。 -->

@@ -2,7 +2,7 @@
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/00-roles-and-boundaries.md §5（规范定义的基本术语）、
      §6（schema 是什么）、§7（谁可以定义 schema）、§8（各角色对 @class 的权限）。
-     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     体裁 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      术语规则：document type / document-type shell / schema / catalog 等一律用英文原名，
      中文解释只在首现随行给一次；不自造「装配系统」「造零件/选零件」一类标签。
      标题（2026-08-16 Task 13b 重定，原《DITA schema 的定义权与 @class 角色约束》

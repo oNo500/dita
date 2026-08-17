@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/07-programmatic-processing.md §1（第一个决定：处理解析前还是解析后）。
-     题材 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
+     体裁 best-practice，R13 必需节：场景 / 做法 / 理由 / 反例 / 边界，来源节收尾。
      术语规则（2026-08-16 用户门反馈后）：conref / keyref / include / preprocess /
      DITAVAL 等一律用英文原名；对比表列头用描述性短语，不造名词。
      volatility=stable 的依据：两类输入的差别源自处理模型本身，不随发行版变动。

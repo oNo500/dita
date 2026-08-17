@@ -3,7 +3,7 @@
 <!-- 迁自 research/notes/03-profiling-and-chunking.md §4（给条件值上类型）与
      research/notes/14-metadata-and-classification.md §4（内建的分类法机制）——两节讲的是
      同一个节点的两种用法，合并为一篇，不按笔记的篇次切分。
-     题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     体裁 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      术语规则（2026-08-16 用户门反馈后）：subject scheme / subjectdef / enumerationdef /
      defaultSubject / DITAVAL 等一律用英文原名，中文解释每篇首现随行注一次。
      标题规则（2026-08-16 用户定稿）：上游有节点，直接用其类目名——OASIS 架构规范章节页

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/12-philosophy-and-principles.md §六（剥离 DITA 之后剩下什么，八条）
-     与 §七（结论）。题材 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     与 §七（结论）。体裁 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
      ⚠ 事实纪律：源笔记是论证篇而非规范转述。八条原则与结论整体为原笔记与本库的推导，
      可被反驳；来源节事实段只列这八条各自引用到的三条规范条文出处，
      判断段如实标注其余归属，不得把推导结论写成规范断言。

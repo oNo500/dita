@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <!-- 迁自 research/notes/02-reuse.md §3（include 引用非 DITA 内容）。
-     题材 how-to：按 2026-08-16 裁定改绑 concept，用 concept-kb.rng 外壳与 conbody，
+     体裁 how-to：按 2026-08-16 裁定改绑 concept，用 concept-kb.rng 外壳与 conbody，
      过程写成讲解式散文加 codeblock，来源节照常收尾（模板 A）。
      术语规则（2026-08-16 用户门反馈后）：include / fallback / foreign / conref / keyref
      等一律用英文原名，中文解释只在首现随行给一次。
