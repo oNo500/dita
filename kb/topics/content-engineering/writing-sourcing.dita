@@ -55,13 +55,13 @@
     <section>
       <title>边界</title>
       <p>本篇管标注与晋级条件，以及两层防腐各管什么。来源存在性由 R8 强制，链接活性由定期检查覆盖，来源内容的正确性归人审。结构层的对标锚点、复核档位与触发条件逐条登记在词表的 benchmark-registry，正本在那里，不在本篇。</p>
-      <p>成熟度门有一处判不到：条件过滤只认写出来的属性值，判不了「未标注即视为 draft」这条默认值，而全库也没有任何一条规则要求 <xmlatt>maturity</xmlatt> 必须出现（R2 只管 volatility，R4 只在属性存在时校验取值）。缺属性的 topic 因此会从门下漏过去。补这一格的不是门本身，过滤规则只能排除、不能要求；补它的是交付物构建脚本对被引主体的正面断言——每一篇都得是 curated 或 verified，缺属性同样不放行。</p>
+      <p>成熟度门本身有一处判不到：条件过滤只认写出来的属性值，判不了「未标注即视为 draft」这条默认值。此前 R2 只管 volatility、R4 只在属性存在时校验取值，没有任何一条规则要求 <xmlatt>maturity</xmlatt> 必须出现，缺属性的 topic 因此会从门下漏过去。过滤规则本身补不了这一格，它只能排除、不能要求存在；补它的现在有两层：R18（2026-08-17 加）直接要求内容 topic 显式标 <xmlatt>maturity</xmlatt>，漏标即报错，与 R2 对称；交付物构建脚本对被引主体的正面断言仍在——每一篇都得是 curated 或 verified，缺属性同样不放行，两层不互相替代。</p>
     </section>
 
     <section>
       <title>来源</title>
       <p><b>事实</b>：来源与日期为标准元数据字段，<xref href="https://www.dublincore.org/specifications/dublin-core/dcmi-terms/" scope="external">DCMI Metadata Terms</xref> 定义 <codeph>source</codeph> 为"派生出本资源的相关资源"、<codeph>date</codeph> 为"与资源生命周期事件关联的时间"；DITA 的对应机制为 <xref href="https://dita-lang.org/dita/langref/base/source" scope="external">prolog source 元素</xref>。成熟度门落在条件过滤上，<xref href="https://dita-lang.org/dita/langref/ditaval/prop" scope="external">DITAVAL 的 prop 元素</xref>规定 <xmlatt>action</xmlatt> 取 include/exclude/passthrough/flag，且匹配按写出来的 <xmlatt>att</xmlatt> 与 <xmlatt>val</xmlatt> 进行，没有「要求某属性必须出现」这一档，属性缺席也不构成匹配。</p>
-      <p><b>判断</b>：三档成熟度、两值时效、volatile 无日期不得 verified、来源两段分档，均为本库治理设计，无外部标准背书，效力来自机器强制（R2/R3/R8 与 lint 晋级门）。「两段须穷尽正文全部断言」同为本库规约，此前只存在于迁移工作区的执行档案里、无版本化正本，故在此认领；这条无机器面——R14 只校验两个标签在不在，穷尽性靠人审。内容层与结构层对称防腐、结构层以事件触发为主而到期只 flag 不阻塞，同属本库设计；结构层的登记项与复核纪律以词表内 benchmark-registry 的实际内容为准。成熟度门开在 draft 与 curated 之间、档位随库的成熟度上移、被引主体由构建脚本正面断言，三条均为 2026-08-17 落地时的本库决定；门开在此处的直接理由是全库当时零篇 verified，可核对（见各篇 <xmlatt>maturity</xmlatt> 标注）。</p>
+      <p><b>判断</b>：三档成熟度、两值时效、volatile 无日期不得 verified、来源两段分档，均为本库治理设计，无外部标准背书，效力来自机器强制（R2/R3/R8 与 lint 晋级门）。「两段须穷尽正文全部断言」同为本库规约，此前只存在于迁移工作区的执行档案里、无版本化正本，故在此认领；这条无机器面——R14 只校验两个标签在不在，穷尽性靠人审。内容层与结构层对称防腐、结构层以事件触发为主而到期只 flag 不阻塞，同属本库设计；结构层的登记项与复核纪律以词表内 benchmark-registry 的实际内容为准。成熟度门开在 draft 与 curated 之间、档位随库的成熟度上移、被引主体由构建脚本正面断言，三条均为 2026-08-17 落地时的本库决定；门开在此处的直接理由是全库当时零篇 verified，可核对（见各篇 <xmlatt>maturity</xmlatt> 标注）。R18 同为 2026-08-17 本库决定：要求内容 topic（含 glossentry）显式标 <xmlatt>maturity</xmlatt>，与 R2 对称，堵住「未标注即被过滤放过」这一格；由 dita-tools lint 执行，不按 draft/curated 分级：被检查的正是分级依据的那个属性缺席。</p>
     </section>
   </conbody>
 </concept>
