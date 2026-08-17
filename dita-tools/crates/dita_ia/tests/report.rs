@@ -378,3 +378,50 @@ fn r17_empty_leaves_by_branch_is_empty_without_a_vocabulary() {
     let report = report_without_vocab();
     assert!(report.empty_leaves_by_branch.is_empty());
 }
+
+/// 回归锁：`--details` 只该藏「词表空叶子」这一条存量清单，不该连带藏掉缺陷信号。
+///
+/// 背景：R17 修复轮的指令是把空叶子降级到 `--details`，但实现把整段异常都门控了，
+/// 「规划外的覆盖」因此在无参 `just ia` 下不可见——四篇 topic 的维度漂移就这样穿过了
+/// 每一个簇的验收（各簇跑的都是无参 `just ia`，报告写「无 ⚠」时是当时口径下的真话）。
+/// 本测试同时钉住两件事，缺一件都会让那次回归重演：
+///   一、空叶子**确实**被门控（否则降级的初衷丢了）；
+///   二、其余异常**确实没有**被门控（否则缺陷又被藏起来）。
+#[test]
+fn only_empty_leaves_hide_behind_details() {
+    let report = report();
+    let bare = dita_ia::exception_lines(&report, false);
+    let full = dita_ia::exception_lines(&report, true);
+
+    let has = |lines: &[String], needle: &str| lines.iter().any(|l| l.contains(needle));
+
+    // 一、空叶子是存量清单（树先立、内容后填），只在 --details 下列
+    assert!(
+        !has(&bare, "词表空叶子"),
+        "空叶子不该出现在无参输出里：{bare:?}"
+    );
+    assert!(
+        has(&full, "词表空叶子"),
+        "--details 下必须列出空叶子：{full:?}"
+    );
+
+    // 二、规划外的覆盖是缺陷信号，两种模式下都必须打印
+    assert!(
+        has(&bare, "规划外的覆盖"),
+        "规划外的覆盖被门控了——正是这次回归的形状：{bare:?}"
+    );
+    assert!(
+        has(&bare, "dim-nonexistent"),
+        "越界的那个维度名要指名道姓，否则读者无从下手：{bare:?}"
+    );
+    assert!(has(&full, "规划外的覆盖"), "{full:?}");
+
+    // 三、两种模式的差集**只有**空叶子那一行——任何新增的门控都会让这条断言失败
+    let only_in_full: Vec<&String> = full.iter().filter(|l| !bare.contains(l)).collect();
+    assert_eq!(
+        only_in_full.len(),
+        1,
+        "--details 只该多出空叶子一行，实际多出：{only_in_full:?}"
+    );
+    assert!(only_in_full[0].contains("词表空叶子"), "{only_in_full:?}");
+}

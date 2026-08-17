@@ -21,7 +21,7 @@ pub use consistency::check_group_titles;
 pub use domain::{Branches, branches};
 pub use governance::{BenchmarkEntry, BranchPlan, ValueUsage};
 pub use paint::Paint;
-pub use render::print_report;
+pub use render::{exception_lines, print_report};
 pub use skeleton::{Node, State};
 pub use stats::{BranchStats, DomainCoverage};
 pub use tree::count_topics;

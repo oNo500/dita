@@ -194,6 +194,36 @@ fn has_details(report: &IaReport) -> bool {
 
 /// Only what needs acting on, one line each. Silence means nothing is wrong.
 fn print_exceptions(report: &IaReport, details: bool) {
+    let lines = exception_lines(report, details);
+    if lines.is_empty() {
+        return;
+    }
+    println!("\n需要处理：");
+    for line in lines {
+        println!("  · {line}");
+    }
+    if errs_present(report) {
+        println!("\n诊断明细：");
+        for d in &report.diagnostics.items {
+            let prefix = if d.is_error() { "❌" } else { "⚠ " };
+            println!("  {prefix} {}: {}", d.path().display(), d.message());
+        }
+    }
+}
+
+/// The exception summary as data, so what is and isn't gated behind `--details`
+/// can be asserted instead of eyeballed.
+///
+/// **Exactly one line is gated: the vocabulary's empty leaves.** That one is a
+/// standing inventory (58 leaves the day the tree was planted), so it drowns
+/// the summary; every other line here reports something actually wrong and must
+/// show up in a bare `just ia`. Getting this wrong once already cost us: the
+/// R17 fix round gated the whole coverage section, which took "规划外的覆盖"
+/// — a real defect signal — down with it, and four topics drifted unnoticed
+/// through every cluster's sign-off because those all ran `just ia` with no
+/// flags. Keep new lines ungated unless they are inventory, not defects.
+#[must_use]
+pub fn exception_lines(report: &IaReport, details: bool) -> Vec<String> {
     let mut lines = Vec::new();
     if !report.orphans.is_empty() {
         lines.push(format!(
@@ -224,6 +254,18 @@ fn print_exceptions(report: &IaReport, details: bool) {
     if blind > 0 {
         lines.push(format!("维度盲区 {blind} 个"));
     }
+    // 规划外的覆盖：某篇标了一个该域全景没规划的维度。要么全景漏了这一维，要么
+    // 那篇标错了——两种都要人去裁，所以不能只在 --details 里说。
+    for c in &report.coverage {
+        if !c.outside_plan.is_empty() {
+            lines.push(format!(
+                "域 {} 有 {} 个规划外的覆盖（该补进全景或标错了）：{}",
+                c.domain,
+                c.outside_plan.len(),
+                join(&c.outside_plan)
+            ));
+        }
+    }
     for usage in &report.value_usage {
         if !usage.unused.is_empty() {
             lines.push(format!(
@@ -234,8 +276,9 @@ fn print_exceptions(report: &IaReport, details: bool) {
         }
     }
     // R17 反向报表：已注册但没有 topic 挂靠的 subject key（树的空叶子）。
-    // 按分支归并，仅 --details 展示——扁平列出个别 key 在这规模的词表下太长，
-    // 分支才是真正拿去决策"下一批写哪里"的粒度。
+    // 按分支归并，**本函数里唯一受 --details 门控的一行**——它是存量清单
+    // （树先立、内容后填，空叶子是预期状态），不是缺陷信号；扁平列出个别 key
+    // 在这规模的词表下也太长，分支才是拿去决策"下一批写哪里"的粒度。
     if details && !report.empty_leaves_by_branch.is_empty() {
         let total: usize = report.empty_leaves_by_branch.iter().map(|(_, n)| n).sum();
         let groups: Vec<String> = report
@@ -256,21 +299,7 @@ fn print_exceptions(report: &IaReport, details: bool) {
     if !report.vocab_loaded {
         lines.push("未读到词表：规划对照与值检查均已跳过".to_string());
     }
-
-    if lines.is_empty() {
-        return;
-    }
-    println!("\n需要处理：");
-    for line in lines {
-        println!("  · {line}");
-    }
-    if errs_present(report) {
-        println!("\n诊断明细：");
-        for d in &report.diagnostics.items {
-            let prefix = if d.is_error() { "❌" } else { "⚠ " };
-            println!("  {prefix} {}: {}", d.path().display(), d.message());
-        }
-    }
+    lines
 }
 
 fn errs_present(report: &IaReport) -> bool {
