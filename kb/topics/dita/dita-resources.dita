@@ -5,7 +5,11 @@
      入口收录标准见「定位」节，产品与教程类链接不收。
      本库自造（半）：上游有同类目节点，DITA-OT 4.4 文档 topics/dita-resources.ditamap
      「DITA and DITA-OT resources」；本篇按可信度分层收录，故取「权威资源入口」而非直译。
-     词素均为领域既有，未造新分类框架。 -->
+     词素均为领域既有，未造新分类框架。
+
+     R19 回填核对（2026-08-18）：上游节点确在——DITA-OT 4.4「DITA and DITA-OT resources」
+     （Reference 之下），故本篇不是自造而是改了措辞的直取，声明按该节点写。标题
+     「DITA 权威资源入口」与节点名不同字，属标题待议项，本轮不改。 -->
 <reference id="dita-resources" xml:lang="zh-CN"
            outputclass="curated-resources"
            maturity="draft" volatility="volatile"

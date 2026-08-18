@@ -16,7 +16,12 @@
      事实纪律：笔记已逐页核对的只有两条——key 提供 map 层面的一层间接、@keyscope 控制
      作用域边界且跨作用域引用需以作用域名限定（基于 key 的寻址页）。遍历算法（深度优先、
      按文档顺序）、同名定义取最先者、作用域可嵌套与可多值的可见性规则、四种引用上下文的
-     解析结果，笔记均列在未核对，正文逐条标注并在来源节列明。 -->
+     解析结果，笔记均列在未核对，正文逐条标注并在来源节列明。
+
+     R19 回填核对（2026-08-18）：key space 在 2.0 索引里不是节点名，而是「Key terminology」
+     节点内的一个 dt 术语；本篇正文对应的两个节点是「Core concepts for working with keys」
+     （key space 的构造与生效定义）与「Scoping keys with the keyscope attribute」（key scope），
+     声明按这两个写。标题属待议项，本轮不改。 -->
 <concept id="key-space-model" xml:lang="zh-CN"
          outputclass="deep-dive"
          maturity="draft" volatility="volatile"

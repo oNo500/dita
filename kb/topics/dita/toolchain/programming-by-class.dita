@@ -9,7 +9,12 @@
      lxml 的解析器行为、RNG 默认值不被注入、catalog 环境变量按判断呈现，来源节逐条列明。
      标题依据上游节点名：OASIS DITA 2.0 架构规范「The class attribute rules and syntax」与
      「The specializations attribute rules and syntax」（同属 Specialization 章）。
-     「派生链」是本库既用词素，对应规范中 @class 记录的 specialization 派生关系，非新造概念。 -->
+     「派生链」是本库既用词素，对应规范中 @class 记录的 specialization 派生关系，非新造概念。
+
+     R19 回填核对（2026-08-18）：两条声明与 architecture/class-derivation 相同（archSpec
+     「The class attribute rules and syntax」与「The specializations attribute rules and
+     syntax」）——两篇确实挂在同一对上游节点上，那篇讲规则本身，本篇讲按规则解析的写法。
+     同一对节点被两篇声明属切分待议项，登记备查，本轮不动。 -->
 <concept id="programming-by-class" xml:lang="zh-CN"
          outputclass="how-to"
          maturity="draft" volatility="stable"

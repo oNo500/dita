@@ -10,7 +10,13 @@
      本库自造：上游无对应节点。已查 OASIS DITA 2.0 规范、DITA-OT 4.4 文档 docsrc 全部节点标题
      （最近的是 reference/preprocessing「Pre-processing modules」，只讲阶段本身，不讲消费方
      该取哪一份输入）、社区通行说法，均无「输入选择」这个节点。标题由领域既有词素
-     「程序化处理」与「输入选择」组合，不造新概念、不造新分类。 -->
+     「程序化处理」与「输入选择」组合，不造新概念、不造新分类。
+
+     R19 回填核对（2026-08-18）：声明 coined，三道关如下。一、穷尽查证。上游节点索引内最接近的是
+     DITA-OT 4.4「Pre-processing modules」（只讲各阶段做什么，不讲消费方该取哪一份输出），
+     OASIS DITA 2.0 规范无「输入选择」这一节点。二、先怀疑切分。与 practice/rag-parsed-content
+     的分界已核——那篇只给 RAG 入库这一个用途下的取舍，本篇给通用程序化处理，读者不同。
+     三、只组合，不发明。「程序化处理」与「输入选择」均为既有词素。 -->
 <concept id="parsed-vs-source" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="stable"

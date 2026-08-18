@@ -221,6 +221,9 @@ fn matching_is_exact_not_fuzzy() {
     assert!(!index.contains("DITA maps and their usage"));
 }
 
+/// 三道关的名字在头注释里是自然中文，会带标点、会跨行——本库真的写着
+/// 「只组合，不发明」。字面子串搜索会把它报成缺失，那正是最伤可信度的误报，
+/// 所以比对前两边都去标点与空白（fixture 里就是带逗号加换行的写法）。
 #[test]
 fn coined_with_three_gates_passes() {
     let d = lint("upstream-coined-ok.dita");

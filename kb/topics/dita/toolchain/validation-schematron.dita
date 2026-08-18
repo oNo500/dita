@@ -19,7 +19,14 @@
      同轮收口重叠：原第四步「每个变体各构建一遍」与 engineering-ci 是同一段的两份拷贝。
      按节点切分——校验查的是躺在库里的源文件，本篇是它的正本；过滤之后那份文档只在构建时
      存在，逐变体构建是 engineering-ci 重写后的主轴与全部存在理由，正本归那一篇。故本篇
-     只余源文件一侧的三层，第四步降为一句加 xref，两篇不再各存一份。 -->
+     只余源文件一侧的三层，第四步降为一句加 xref，两篇不再各存一份。
+
+     R19 回填核对（2026-08-18）：声明 coined，三道关如下。一、穷尽查证。OASIS DITA 2.0 规范
+     无「校验」总节点；DITA-OT 4.4 docsrc 只有 dita validate 子命令与
+     「Extension points in org.dita.validate」，均非四层校验的合并视角；ISO Schematron 是
+     独立标准，不是 DITA 节点。二、先怀疑切分。四层校验查的都是躺在库里的源文件，拆开会让
+     「哪一层管什么」无处安放；与 practice/engineering-ci 的重叠已于 2026-08-17 收口。
+     三、只组合，不发明。「校验」为领域既有词，Schematron 为上游标准名。 -->
 <concept id="validation-schematron" xml:lang="zh-CN"
          outputclass="how-to"
          maturity="draft" volatility="volatile"

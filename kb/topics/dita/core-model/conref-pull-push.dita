@@ -11,7 +11,12 @@
      事实段只有一条（conref 与 include 的分工，出自 include 元素页）。
      标题依据上游节点名：OASIS DITA 2.0 的 conref 与 conref push 机制名；DITA-OT 4.4 文档
      reference/preprocess-conref「Resolve content references (conref)」与
-     reference/preprocess-conrefpush「Conref push (conrefpush)」。 -->
+     reference/preprocess-conrefpush「Conref push (conrefpush)」。
+
+     R19 回填核对（2026-08-18）：两条声明取 archSpec 的语言层节点而不是 DITA-OT 的 preprocess
+     阶段名——「Content reference (conref)」与「Pushing reusable content to a new location」
+     （2.0 里 conref push 的节点就叫这个名，不叫 Conref push）。本篇讲的是机制本身，
+     阶段名属实现，另在 preprocess-pipeline 一篇。 -->
 <concept id="conref-pull-push" xml:lang="zh-CN"
          outputclass="deep-dive"
          maturity="draft" volatility="volatile"

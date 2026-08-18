@@ -20,7 +20,12 @@
      注入、不含元素 domain 三条取值规则原在本篇与 class-derivation 两处各写一遍。
      按两篇既定的「规则」与「用法」分界，规则正本归 class-derivation，本篇改为 xref；
      本篇保留的是用法一侧——哪两个属性可派生、派生链怎么写、以及那三条规则对写作与
-     解析的两个推论。来源节事实段随之只认领本篇仍在陈述的条目。 -->
+     解析的两个推论。来源节事实段随之只认领本篇仍在陈述的条目。
+
+     R19 回填核对（2026-08-18）：上面「照架构规范子树标题 Attribute specialization 命名」
+     这句按 DITA 2.0 已不成立——2.0 无该节点，属性一侧的节点名为
+     「Specialization rules for attributes」（archSpec/base/specialization-rules-attributes），
+     声明按它写。标题属待议项，本轮不改。 -->
 <concept id="attribute-specialization" xml:lang="zh-CN"
          outputclass="deep-dive"
          maturity="draft" volatility="stable"

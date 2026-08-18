@@ -12,7 +12,11 @@
      volatility=stable 的依据：绑定语法与向上查找算法出自架构规范，不随发行版变动。
      事实纪律：向上查找、容器节点非合法值、空枚举、defaultSubject 的求值位置、三条 SHOULD、
      键引用不产生链接与变量文本，均已逐页核对；树按过滤语义画、一棵树一个维度、
-     引入门槛三条为分析与实践建议，在来源节判断段列明。 -->
+     引入门槛三条为分析与实践建议，在来源节判断段列明。
+
+     R19 回填核对（2026-08-18）：上游节点名为复数「Subject scheme maps」
+     （「Subject scheme maps and their usage」之下的首个子页），声明按原文逐字写；
+     标题用单数属措辞差异，登记备查。 -->
 <concept id="subjectscheme-taxonomy" xml:lang="zh-CN"
          outputclass="deep-dive"
          maturity="draft" volatility="stable"

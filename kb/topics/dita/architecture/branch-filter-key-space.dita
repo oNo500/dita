@@ -15,7 +15,12 @@
      处理资源名与 key 名冲突、分支过滤可导致 root map 全局 key space 变化因而处理器必须
      求值分支过滤以构造 key space（分支过滤页）。四条后果与三条实践建议为判断，已在来源节
      列明。
-     §7（给程序化处理的启示）不迁本篇，按任务分工归 Task 10b 的 processing-checklist。 -->
+     §7（给程序化处理的启示）不迁本篇，按任务分工归 Task 10b 的 processing-checklist。
+
+     R19 回填核对（2026-08-18）：key space 在 2.0 索引里不是节点名（是「Key terminology」内的
+     dt 术语），故只声明「Branch filtering」一条；本篇正文对应的两个子节点
+     「Branch filtering: Impact on resource and key names」与「Branch filtering: Implications of
+     processing order」都在该章之下，随章一起报漂移。标题属待议项，本轮不改。 -->
 <concept id="branch-filter-key-space" xml:lang="zh-CN"
          outputclass="deep-dive"
          maturity="draft" volatility="volatile"

@@ -6,7 +6,13 @@
      覆盖状态不写在正文：planned-dimension 与各内容 topic 的 @dimension 求差由 dita-tools ia 计算。
      本篇自身承载定位对比与版本现状两项内容，故根元素标这两个维度。
      本库自造：概览篇在上游无对应节点（OASIS 规范与 DITA-OT 文档均无「领域概览」这一体裁），
-     「领域概览」是本库 tech-landscape 体裁的固定后缀，DITA 为领域名，未造新词。 -->
+     「领域概览」是本库 tech-landscape 体裁的固定后缀，DITA 为领域名，未造新词。
+
+     R19 回填核对（2026-08-18）：声明 coined，三道关如下。一、穷尽查证。上游节点索引
+     （kb/vocab/upstream-nodes.tsv，OASIS 2.0 规范 archSpec/langRef ＋ DITA-OT 4.4 docsrc）
+     内无「领域概览」这一体裁的节点——两边都不给某个技术领域的全景篇，只给机制节点与工具操作。
+     二、先怀疑切分。概览篇的边界就是整个分支，无处可并；重切等于取消这一体裁。
+     三、只组合，不发明。「领域概览」是本库 tech-landscape 体裁的固定后缀，DITA 为领域名。 -->
 <concept id="dita-landscape" xml:lang="zh-CN"
          outputclass="tech-landscape"
          maturity="draft" volatility="volatile"

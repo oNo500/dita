@@ -13,7 +13,11 @@
      本库自造（聚合）：标题由两个上游节点合成——DITA-OT 4.4 文档的安装一组
      （topics/installing-client、topics/installing-via-homebrew 等，类目名 Installing DITA-OT）
      与 reference/dita-v2-0-support「DITA 2.0 preview support」；上游无把二者合并的节点，
-     合并出自本库 quickstart 体裁。词素均为领域既有，未造新词。 -->
+     合并出自本库 quickstart 体裁。词素均为领域既有，未造新词。
+
+     R19 回填核对（2026-08-18）：改判为组合篇而非自造——两侧在 DITA-OT 4.4 docsrc 里各有节点：
+     「Installing DITA Open Toolkit」（顶层章）与「DITA 2.0 preview support」
+     （Reference / DITA specification support 之下），两条全部声明。合并动作仍出自本库。 -->
 <concept id="dita-ot-quickstart" xml:lang="zh-CN"
          outputclass="quickstart"
          maturity="draft" volatility="volatile"

@@ -10,7 +10,15 @@
      本库自造：上游无对应节点。OASIS 规范不涉工具，DITA-OT 4.4 文档 docsrc 只到
      topics/pdf-customization-approaches「PDF customization approaches」，无编辑器选型节点；
      社区有「DITA editors」这一通行类目，故保留 DITA 前缀。标题由领域既有词素「DITA 编辑器」
-     「PDF 输出」「选型」组合，不造新分类框架。 -->
+     「PDF 输出」「选型」组合，不造新分类框架。
+
+     R19 回填核对（2026-08-18）：声明 coined，三道关如下。一、穷尽查证。OASIS 规范不涉工具；
+     DITA-OT 4.4 docsrc 与 PDF 相关的节点是「Customizing PDF output」及其子节点
+     「PDF customization approaches」，讲的是怎么定制而不是在几条路线之间选型，编辑器一侧
+     上游无任何节点（索引全表核对）。二、先怀疑切分。本篇的边界是「工具一路的取舍」，与
+     practice/customization-cost-ladder（改造到哪一级）、toolchain/dita-ot-quickstart
+     （怎么装起来）均无重叠，无处可并。三、只组合，不发明。「DITA 编辑器」为社区通行类目，
+     「PDF 输出」「选型」为普通词素。 -->
 <concept id="editors-pdf-reality" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="volatile"

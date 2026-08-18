@@ -9,7 +9,15 @@
      兼容 LwDITA v0.3、仅覆盖 XDITA）；其余各行属通用实践，已在篇内与来源节标注。
      本库自造：上游无对应节点。表内工具（Saxon-HE、Jing、xmllint、lxml、org.lwdita）分属各自
      项目，OASIS 规范与 DITA-OT 4.4 文档 docsrc 均无跨项目的工具清单节点，社区亦无通行名。
-     标题由领域既有词素「程序化处理」「工具」组合，「速查」是本库 cheatsheet 体裁的固定后缀。 -->
+     标题由领域既有词素「程序化处理」「工具」组合，「速查」是本库 cheatsheet 体裁的固定后缀。
+
+     R19 回填核对（2026-08-18）：声明 coined，三道关如下。一、穷尽查证。表内工具
+     （Saxon-HE、Jing、xmllint、lxml、org.lwdita）分属各自项目，OASIS 规范与 DITA-OT 4.4
+     docsrc 均无跨项目的工具清单节点（DITA-OT 侧最近的「DITA and DITA-OT resources」收的是
+     资源入口，不是按用途分的工具选型）。二、先怀疑切分。本篇是查表用的 cheatsheet，与
+     parsed-vs-source（取哪一份输入的判据）分工已核，合篇会让判据被表格淹没。
+     三、只组合，不发明。「程序化处理」「工具」为既有词素，「速查」是本库 cheatsheet 体裁的
+     固定后缀。 -->
 <reference id="processing-tools" xml:lang="zh-CN"
            outputclass="cheatsheet"
            maturity="draft" volatility="volatile"

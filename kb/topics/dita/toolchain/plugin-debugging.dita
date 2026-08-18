@@ -11,7 +11,13 @@
      docsrc 全部节点标题、社区通行说法，最接近的是三个分立节点 topics/enabling-debug-mode
      「Enabling debug mode」、topics/plugins-installing「Installing plug-ins」、
      topics/troubleshooting-overview「Error messages and troubleshooting」，无合并节点。
-     标题由领域既有词素 plugin 与「调试」组合，不引入新概念。 -->
+     标题由领域既有词素 plugin 与「调试」组合，不引入新概念。
+
+     R19 回填核对（2026-08-18）：声明 coined，三道关如下。一、穷尽查证。DITA-OT 4.4 与调试
+     相关的是三个分立节点「Enabling debug mode」「Installing plug-ins」「Error messages and
+     troubleshooting」，上游无把它们合起来的节点；OASIS 规范不涉工具链。二、先怀疑切分。
+     本篇的边界是插件开发时的调试循环，三个上游节点各只覆盖其中一步，按上游重切会把一个
+     循环拆到三处。三、只组合，不发明。plugin 为上游原词，「调试」为普通词。 -->
 <concept id="plugin-debugging" xml:lang="zh-CN"
          outputclass="how-to"
          maturity="draft" volatility="stable"

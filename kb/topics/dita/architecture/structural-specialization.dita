@@ -15,7 +15,13 @@
      元素名之分、catalog 注册步骤、未写 XSLT 也按基类渲染，均按判断呈现并在来源节列明。
      去重（2026-08-16，Task 10b 执行控制器裁定）：上述四条规则原在「分析」节逐条罗列，与
      同簇 class-derivation 重复，现改为 xref 指向该篇，正文只留本例读得出的前缀一项；
-     来源节的事实认领相应改为「规则见 xref 篇」。其余论述与来源归属未动。 -->
+     来源节的事实认领相应改为「规则见 xref 篇」。其余论述与来源归属未动。
+
+     R19 回填核对（2026-08-18）：上面「照架构规范子树标题 Structural specialization 命名」
+     这句按 DITA 2.0 已不成立——1.3 的该子树在 2.0 撤销，Structural specialization 与
+     Domain specialization 双双降为「Overview of specialization」
+     （archSpec/base/specialization-overview）节点内的两个 dt 术语。声明按该节点写。
+     本篇与 domain-specialization 共用这一个上游节点，属切分待议项，本轮不改标题。 -->
 <concept id="structural-specialization" xml:lang="zh-CN"
          outputclass="deep-dive"
          maturity="draft" volatility="stable"

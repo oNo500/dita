@@ -21,7 +21,12 @@
      map 引 map 时导航树在引用点并入、节点显示文本取有效导航标题、Navigation 节仅两个子页、
      索引设施的六项、@collection-type 与 @linking 各四个取值的定义原文、reltable 的四条链接
      规则。topichead 靠导航标题生成节点为推论，索引的三条实践要点与层级链接的生成属实现
-     观察，均在正文标注并在来源节判断段列明。 -->
+     观察，均在正文标注并在来源节判断段列明。
+
+     R19 回填核对（2026-08-18）：改判为组合篇而非自造——三个类目里「Navigation」与「Indexes」
+     都是 archSpec「DITA processing」章下的真实节点，故声明这两条；第三项 generated links
+     上游确无节点（DITA-OT 侧只有 preprocess 阶段「Map-based linking (maplink)」）。
+     上面的三道关记录保留为当时的论证存档；切分复核仍待办。 -->
 <concept id="nav-generation" xml:lang="zh-CN"
          outputclass="deep-dive"
          maturity="draft" volatility="volatile"

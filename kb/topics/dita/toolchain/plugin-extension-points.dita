@@ -12,7 +12,13 @@
      标题依据上游节点名：DITA-OT 4.4 文档 extension-points/extension-points.ditamap
      「DITA-OT extension points」。plugin.xml 一节对应上游 topics/plugin-configfile
      「Plug-in descriptor file」，安装一节对应 topics/plugins-installing「Installing plug-ins」，
-     两者并入本篇，故不进标题。 -->
+     两者并入本篇，故不进标题。
+
+     R19 回填核对（2026-08-18）：上面引的「DITA-OT extension points」是
+     extension-points.ditamap 的 map 标题，不是 topic 节点；索引里对应的节点是
+     「Extension point reference」（Reference 之下，其子节点为 All DITA-OT extension points /
+     General / Pre-processing / XSLT-import / XSLT-parameter 各扩展点页与
+     Extension points by plug-in）。声明按它写；标题属待议项，本轮不改。 -->
 <reference id="plugin-extension-points" xml:lang="zh-CN"
            outputclass="cheatsheet"
            maturity="draft" volatility="volatile"

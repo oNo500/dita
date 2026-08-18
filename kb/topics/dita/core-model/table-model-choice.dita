@@ -15,7 +15,12 @@
      volatility=stable 的依据：两套表格的内容模型出自规范，不随发行版变动。
      事实纪律：simpletable 的内容模型、2.0 支持 <title>、@relcolwidth 与 @keycol 为笔记
      已逐页核对项；CALS 一侧的属性细节、choicetable 与 properties 派生自 simpletable
-     的说法、以及「默认用 simpletable」的判断均未逐页核对，来源节判断段列明。 -->
+     的说法、以及「默认用 simpletable」的判断均未逐页核对，来源节判断段列明。
+
+     R19 回填核对（2026-08-18）：标题的两个词素在 langRef 里各有节点——「simpletable」与
+     「table」（同在「Table elements」之下，后者即社区称 CALS 的 OASIS Exchange Table Model），
+     故按组合篇声明这两条而不写 coined。「上游无『在两者之间选型』这一节点」的判断不变；
+     「CALS table」不是上游节点名，属标题待议项。 -->
 <concept id="table-model-choice" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="stable"

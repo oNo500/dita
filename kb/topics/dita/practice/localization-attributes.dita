@@ -16,7 +16,12 @@
      二、先怀疑切分：三个属性各自只有数行，拆成三篇均不足以自足，且读者是一次查三个；
        聚合为一篇速查是切分的结果，不是回避。
      三、只组合不发明：三个属性同属上游 Translation 一节，「本地化属性」只是这一节点组的
-       并列称呼；体裁后缀「速查」依 cheatsheet 惯例。未造新概念名、未造新分类框架。 -->
+       并列称呼；体裁后缀「速查」依 cheatsheet 惯例。未造新概念名、未造新分类框架。
+
+     R19 回填核对（2026-08-18）：改判为组合篇而非自造——三个属性在 archSpec 里各有独立节点
+     「The dir attribute」「The translate attribute」「The xml:lang attribute」（同在
+     「Translation and localization」之下），三条全部声明，上游任何一个改名都能报到本篇。
+     上面「上游无把三者合起来讲的节点」这一判断不变，聚合动作仍出自本库。 -->
 <reference id="localization-attributes" xml:lang="zh-CN"
            outputclass="cheatsheet"
            maturity="draft" volatility="stable"

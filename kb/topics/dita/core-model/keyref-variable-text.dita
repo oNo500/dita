@@ -8,7 +8,11 @@
      volatility=volatile 的依据：@keyscope 的实现差异随 DITA-OT 版本变动。
      笔记标注「未逐页核对」的条目在表内与列表内逐条标注，并在来源节判断段列明。
      标题依据上游节点名：OASIS DITA 2.0 的 @keyref 属性与 <keytext> 元素；结尾的「速查」
-     是本库 cheatsheet 体裁的固定后缀。 -->
+     是本库 cheatsheet 体裁的固定后缀。
+
+     R19 回填核对（2026-08-18）：标题两个词素各对一个上游节点——keyref 对 archSpec
+     「Referencing a key with the keyref attribute」（Indirect key-based addressing 之下），
+     keytext 对 langRef 元素页「keytext」。两条全部声明。 -->
 <!-- 2026-08-17 晋级 curated：过 lint 晋级门（R12–R16 转 error 后 0 error）。
      未晋 verified——笔记标注「未逐页核对」的条目仍在，且 prolog 无 reviewed 日期。 -->
 <reference id="keyref-variable-text" xml:lang="zh-CN"

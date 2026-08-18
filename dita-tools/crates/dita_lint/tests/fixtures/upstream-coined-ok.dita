@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 本库自造。①穷尽查证：上游三处均无此节点。②先怀疑切分：边界已核，无处可并。③只组合不发明：两个词素均既有。 -->
+<!-- 本库自造。①穷尽查证：上游三处均无此节点。②先怀疑切分：边界已核，无处可并。③只组合，
+     不发明：两个词素均既有。 -->
 <concept id="upstream-coined-ok" outputclass="best-practice" maturity="curated" volatility="stable">
   <title>样例</title>
   <shortdesc>一句摘要。</shortdesc>

@@ -208,6 +208,20 @@ const COINED: &str = "coined";
 /// is prose and stays a human read, but its absence is machine-visible.
 const COINED_GATES: [&str; 3] = ["穷尽查证", "先怀疑切分", "只组合不发明"];
 
+/// Punctuation and whitespace dropped before looking for a gate's name.
+///
+/// The library really does write 「只组合，不发明」 with a comma, and 「先怀疑
+/// 切分」 across a line break. Both are the gate, written naturally; a literal
+/// substring search would report them as missing. Same rule as the index
+/// comparison: normalize both sides, then match exactly.
+fn condensed(text: &str) -> String {
+    text.chars()
+        .filter(|c| {
+            !c.is_whitespace() && !"，。、；：,.;:「」（）()【】“”\"'—-…·《》<>".contains(*c)
+        })
+        .collect()
+}
+
 /// Lint one topic file against R12–R16, R18 and R19.
 ///
 /// `upstream` is `None` when the node index could not be loaded. R19 then does
@@ -317,10 +331,11 @@ fn check_upstream_node(
 
     for value in declared {
         if value.trim().eq_ignore_ascii_case(COINED) {
+            let header = condensed(header);
             let missing: Vec<&str> = COINED_GATES
                 .iter()
                 .copied()
-                .filter(|gate| !header.contains(gate))
+                .filter(|gate| !header.contains(&condensed(gate)))
                 .collect();
             if !missing.is_empty() {
                 push(format!(

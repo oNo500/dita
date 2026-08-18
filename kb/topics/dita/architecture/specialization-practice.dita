@@ -13,7 +13,20 @@
      工具的维护状态，两者随时间变动。
      事实纪律：笔记已逐页核对的只有 oasis-tcs/dita v2.0-beta03 发行包含语法文件；成本
      论证、@outputclass 优先建议、RNG→DTD 工具链、subset relationship 的表述均属未核对
-     或判断性内容，按判断呈现并在来源节列明。 -->
+     或判断性内容，按判断呈现并在来源节列明。
+
+     R19 回填核对（2026-08-18）：声明 coined，三道关如下。一、穷尽查证。OASIS DITA 2.0
+     archSpec「Specialization」章下九个节点（Overview of specialization / Specialization rules
+     for element types / Specialization rules for attributes / Sharing elements across
+     specializations / The class attribute rules and syntax / The specializations attribute rules
+     and syntax / Vocabulary modules / Modularization / Specializing to include non-DITA content）
+     均无「何时该启用 specialization」这一节点；最接近的是 Overview of specialization 末尾
+     "Specialization is appropriate in the following circumstances" 一段，那是节点内的一段而非
+     节点。DITA-OT 4.4 docsrc 全部节点标题为安装、配置与发布操作，无判据类节点。
+     二、先怀疑切分。本篇是 best-practice 判据篇，与 structural / domain / attribute 三篇的
+     机制说明不同层；按上游重切只会把同一份判据摊回三篇各说一遍。
+     三、只组合，不发明。specialization 为上游原词，「启用判据」与本库既有
+     practice/adoption-criteria「DITA 采用判据」同构，未造新词。 -->
 <concept id="specialization-practice" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="volatile"

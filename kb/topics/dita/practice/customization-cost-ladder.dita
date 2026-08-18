@@ -22,7 +22,14 @@
      三、只组合不发明：customization 与 specialization 均为上游节点原名，
        「选用次序」为普通词组，未造新概念名、未造新分类框架。
      文件名与 id 沿用 customization-cost-ladder 不改：按 naming-rules，
-     文件名与 id 是引用方与外部链接依赖的契约，标题改动时不跟着改。 -->
+     文件名与 id 是引用方与外部链接依赖的契约，标题改动时不跟着改。
+
+     R19 回填核对（2026-08-18）：上面引的两个上游伞节点名要更正。OASIS 一侧 2.0 的章名是
+     「Configuration and specialization」（1.3 的「Configuration, specialization, and
+     constraints」已改，constraints 在 2.0 降为该章的子节点），声明按 2.0 写；DITA-OT 一侧
+     4.4 docsrc 里没有「Customizing DITA Open Toolkit」这个节点，顶层只有「Configuring
+     DITA-OT」与「Extending DITA-OT with plug-ins」——即标题里的 customization 一词在上游
+     查无同名节点。故本篇只声明得出一条，另一半属标题待议项，本轮不改。 -->
 <concept id="customization-cost-ladder" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="stable"

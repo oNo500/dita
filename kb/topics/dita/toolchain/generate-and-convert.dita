@@ -11,7 +11,12 @@
      「Markdown input」与 topics/dita2markdown「Generating Markdown output」；生成一侧
      （从结构化数据生成 topic）在 OASIS 规范与 DITA-OT docsrc 中均无对应节点，社区亦无通行名。
      标题由领域既有词素「DITA 生成」「Markdown 互转」组合。本篇跨两个节点，边界待复核：
-     建议后续把生成一侧单独成篇（见 retitle-report 的边界建议）。 -->
+     建议后续把生成一侧单独成篇（见 retitle-report 的边界建议）。
+
+     R19 回填核对（2026-08-18）：Markdown 一侧的两个节点「Markdown input」与
+     「Generating Markdown output」在 DITA-OT 4.4 索引中都在，故声明这两条，不写 coined；
+     生成一侧（从结构化数据生成 topic）上游仍无节点，本篇因此是半自造，
+     「建议把生成一侧单独成篇」的切分待议项不变。 -->
 <concept id="generate-and-convert" xml:lang="zh-CN"
          outputclass="how-to"
          maturity="draft" volatility="volatile"
