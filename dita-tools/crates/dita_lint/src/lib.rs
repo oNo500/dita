@@ -35,10 +35,123 @@ const MATURITY_REQUIRED_ROOTS: [&str; 5] = [
 /// Genre is what carries a fixed structure; these types have no plain form.
 const GENRE_REQUIRED_ROOTS: [&str; 2] = ["concept", "task"];
 const DEGREE_WORDS: [&str; 5] = ["特别", "极其", "恰恰", "真正的", "最危险"];
-/// Colloquialisms with no place in documentation register. A proxy like the
-/// degree words: the full judgement stays human, these catch the frequent
-/// offenders.
-const COLLOQUIAL_WORDS: [&str; 6] = ["凑合", "挂个", "塞进", "出事", "拦住", "就该"];
+
+/// One banned colloquialism plus the legitimate compounds that contain it.
+///
+/// Chinese has no word boundaries, so "whole-word match" does not exist
+/// mechanically: scanning for 装 hits 安装/装配/封装, for 挂 hits 挂载/挂靠.
+/// The scheme here is one literal to match plus a closed list of compounds in
+/// which that literal reads as legitimate — a hit covered by one of them is
+/// suppressed.
+struct Colloquial {
+    /// The literal scanned for in body text.
+    word: &'static str,
+    /// Compounds containing `word` in which it is legitimate. Empty when the
+    /// literal has no legitimate reading of its own.
+    allowed_in: &'static [&'static str],
+}
+
+/// R15's colloquial face — the machine subset of writing-style 规则四.
+///
+/// The rule bans five single-character stand-in verbs (拦/装/挂/塞/跑), 凑合,
+/// and three colloquial particles/phrases (个 as in 挂个, 就该, 来点, 出事).
+/// Only 跑 is scanned as a bare character: no legitimate compound of it occurs
+/// in technical prose, and the few that exist (跑道/奔跑/…) enumerate
+/// completely, so the exclusion list is closed. The other four characters have
+/// open-ended legitimate compounds — a new one (装置, 集装箱, 悬挂) would
+/// become a false positive the moment someone writes it — so their machine
+/// face is a curated list of colloquial collocations instead. That deliberately
+/// under-reports: a colloquial 装 in an unlisted collocation passes. This is the
+/// intended trade — R15 declares itself a proxy, and a rule that fires on 安装
+/// loses the credibility that makes the rest of it worth running.
+///
+/// Bare 个 stays out entirely: it is the ordinary measure word (1000+ legitimate
+/// uses in this library), machine-undecidable, human review only.
+const COLLOQUIAL_WORDS: [Colloquial; 14] = [
+    Colloquial {
+        word: "凑合",
+        allowed_in: &[],
+    },
+    // 出事：歧义在右侧——产出事实、输出事件都是「出＋事X」的切分
+    Colloquial {
+        word: "出事",
+        allowed_in: &["出事实", "出事件", "出事项", "出事务"],
+    },
+    Colloquial {
+        word: "就该",
+        allowed_in: &["成就该", "迁就该"],
+    },
+    Colloquial {
+        word: "来点",
+        allowed_in: &["带来点"],
+    },
+    // 拦：规范动词是阻断；拦截 是书面用法
+    Colloquial {
+        word: "拦住",
+        allowed_in: &[],
+    },
+    Colloquial {
+        word: "拦下",
+        allowed_in: &[],
+    },
+    // 装：规范动词是安装/装配/封装，都以复合词形式出现
+    Colloquial {
+        word: "装上",
+        allowed_in: &["安装上"],
+    },
+    Colloquial {
+        word: "装进",
+        allowed_in: &["安装进", "封装进", "组装进"],
+    },
+    Colloquial {
+        word: "装个",
+        allowed_in: &["安装个"],
+    },
+    // 挂：挂载/挂靠/挂钩 是书面用法
+    Colloquial {
+        word: "挂个",
+        allowed_in: &[],
+    },
+    Colloquial {
+        word: "挂上",
+        allowed_in: &["悬挂上"],
+    },
+    // 塞：阻塞/堵塞 是书面用法
+    Colloquial {
+        word: "塞进",
+        allowed_in: &[],
+    },
+    Colloquial {
+        word: "塞满",
+        allowed_in: &[],
+    },
+    // 跑：规范动词是运行/执行；下列复合词穷举得尽，故可扫单字
+    Colloquial {
+        word: "跑",
+        allowed_in: &["跑道", "跑步", "奔跑", "赛跑", "长跑", "跑偏", "跑马"],
+    },
+];
+
+/// How many times `entry.word` occurs outside any of its legitimate compounds.
+fn colloquial_hits(text: &str, entry: &Colloquial) -> usize {
+    text.match_indices(entry.word)
+        .filter(|(at, _)| {
+            !entry
+                .allowed_in
+                .iter()
+                .any(|compound| covers(text, *at, entry.word, compound))
+        })
+        .count()
+}
+
+/// Does an occurrence of `compound` in `text` cover the hit of `word` at `at`?
+fn covers(text: &str, at: usize, word: &str, compound: &str) -> bool {
+    compound.match_indices(word).any(|(offset, _)| {
+        at.checked_sub(offset)
+            .and_then(|start| text.get(start..start + compound.len()))
+            == Some(compound)
+    })
+}
 /// R16: implementation-layer inline markup counted toward the split threshold.
 /// xmlelement/xmlatt/filepath are excluded — the first two are this library's
 /// subject matter when writing about DITA, the third is mostly illustrative.
@@ -136,8 +249,7 @@ fn check_title(root: roxmltree::Node, push: &mut impl FnMut(String)) {
                 .collect()
         })
         .unwrap_or_default();
-    for (pat, why) in [("？", "问句"), ("，不是", "论断句式"), ("——", "破折号")]
-    {
+    for (pat, why) in [("？", "问句"), ("，不是", "论断句式"), ("——", "破折号")] {
         if title.contains(pat) {
             push(format!(
                 "标题「{title}」含{why}——标题是专业命名（naming-rules 标题规则）"
@@ -300,9 +412,10 @@ fn check_register(root: roxmltree::Node, push: &mut impl FnMut(String)) {
             ));
         }
     }
-    for word in COLLOQUIAL_WORDS {
-        let n = body.matches(word).count();
+    for entry in &COLLOQUIAL_WORDS {
+        let n = colloquial_hits(&body, entry);
         if n > 0 {
+            let word = entry.word;
             push(format!(
                 "R15：口语词「{word}」出现 {n} 次——文档语体用书面表达"
             ));
@@ -324,5 +437,60 @@ fn check_split_threshold(root: roxmltree::Node, root_name: &str, push: &mut impl
         push(format!(
             "R16：concept 含 {n} 处实现层标记（上限 {SPLIT_THRESHOLD}）——判据留 concept，清单/语法/字段迁成 reference"
         ));
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{COLLOQUIAL_WORDS, Colloquial, colloquial_hits};
+
+    fn entry(word: &str) -> &'static Colloquial {
+        COLLOQUIAL_WORDS
+            .iter()
+            .find(|c| c.word == word)
+            .unwrap_or_else(|| panic!("{word} 不在 COLLOQUIAL_WORDS 里"))
+    }
+
+    /// Every word of writing-style 规则四 that carries a machine face: one
+    /// sentence that must fire, one legitimate compound that must not.
+    #[test]
+    fn each_colloquial_fires_and_spares_its_legitimate_compound() {
+        let cases = [
+            ("凑合", "先凑合用着", "尚无合法复合词，此处为对照句"),
+            ("出事", "出事之后再补", "这一步不会影响产出事实"),
+            ("就该", "缺一项就该报错", "这项成就该领域的共识"),
+            ("来点", "这里来点例子", "重构带来点滴改进"),
+            ("拦住", "把非法值拦住", "审查未能拦截它"),
+            ("拦下", "缺一项即被机器拦下", "拦截的前提是先认出机制名"),
+            ("装上", "把过滤器装上", "安装上游依赖之后再构建"),
+            ("装进", "一条内容装进哪层", "把逻辑封装进模块"),
+            ("装个", "先装个插件试试", "只安装个别插件"),
+            ("挂个", "挂个钩子上去", "挂载点的选择"),
+            ("挂上", "把 keyref 挂上", "悬挂上方的标签"),
+            ("塞进", "把字段塞进元数据", "阻塞写作与构建"),
+            ("塞满", "把参数塞满", "阻塞的成因"),
+            ("跑", "跑一次构建", "跑道与奔跑都不是技术动作"),
+        ];
+        assert_eq!(cases.len(), COLLOQUIAL_WORDS.len(), "词表与用例须一一对应");
+        for (word, hit, spare) in cases {
+            let e = entry(word);
+            assert_eq!(colloquial_hits(hit, e), 1, "「{word}」应命中：{hit}");
+            assert_eq!(colloquial_hits(spare, e), 0, "「{word}」误报：{spare}");
+        }
+    }
+
+    #[test]
+    fn repeated_hits_are_counted() {
+        assert_eq!(colloquial_hits("先跑一次，再跑一次", entry("跑")), 2);
+    }
+
+    /// The exclusion must not swallow a real hit sitting next to a legitimate
+    /// compound in the same sentence.
+    #[test]
+    fn exclusion_is_positional_not_wholesale() {
+        assert_eq!(
+            colloquial_hits("安装上游依赖之后，把过滤器装上", entry("装上")),
+            1
+        );
     }
 }
