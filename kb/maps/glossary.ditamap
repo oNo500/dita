@@ -14,7 +14,10 @@
   <topicref keys="term-atomicity" href="../topics/glossary/term-atomicity.dita"/>
   <topicref keys="term-zettelkasten" href="../topics/glossary/term-zettelkasten.dita"/>
   <topicref keys="term-domain-event" href="../topics/glossary/term-domain-event.dita"/>
-  <topicref keys="term-aggregate" href="../topics/glossary/term-aggregate.dita"/>
+  <!-- 2026-08-18 摘除 term-aggregate（连同 topics/glossary/term-aggregate.dita）：
+       它是 DDD 的聚合根，此前被误挂在 rot-detection 的「一篇对应多个上游节点」上；
+       该误挂纠正后全库零引用，不过第二篇测试。词条本身没错，将来真有两篇用到再按
+       原样重建（git 历史里有）。 -->
   <topicref keys="term-kebab-case" href="../topics/glossary/term-kebab-case.dita"/>
   <topicref keys="term-moc" href="../topics/glossary/term-moc.dita"/>
   <topicref keys="term-claude-code" href="../topics/glossary/term-claude-code.dita"/>
