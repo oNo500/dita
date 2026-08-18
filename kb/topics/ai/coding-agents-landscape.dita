@@ -67,7 +67,7 @@
         <strow><stentry>编排（dim-agent-orchestration）</stentry><stentry><term keyref="term-subagent">子 agent</term>、workflow、skill 之间的衔接</stentry><stentry>已覆盖：agent-skill-orchestration</stentry></strow>
         <strow><stentry>资产设计（dim-tool-design）</stentry><stentry>怎么写好一个 skill / MCP 工具 / 规则集——给 agent 用的资产的设计规范</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>成本与延迟（dim-cost-latency）</stentry><stentry>模型档位选择、token 预算、缓存与 fast mode 的取舍</stentry><stentry>盲区</stentry></strow>
-        <strow><stentry>注入安全（dim-injection-safety）</stentry><stentry>联网 / 读第三方内容时的 prompt 注入面与挡板</stentry><stentry>盲区</stentry></strow>
+        <strow><stentry>注入安全（dim-injection-safety）</stentry><stentry>联网 / 读第三方内容时的 prompt 注入的攻击面与防护手段</stentry><stentry>盲区</stentry></strow>
       </simpletable>
       <p>当前覆盖度：10 / 20。每重写一篇本域笔记，在其根元素标 <codeph>dimension="dim-…"</codeph>（可多值）并声明 <codeph>domain="coding-agents"</codeph>，此处对应格转为"已覆盖"，<cmdname>dita-tools ia</cmdname> 的覆盖度随之更新。</p>
     </section>

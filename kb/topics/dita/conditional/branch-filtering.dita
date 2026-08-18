@@ -19,7 +19,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-mechanism dim-boundary-pitfalls">
   <title>branch filtering</title>
-  <shortdesc>把一份 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）的规则只应用到 map 的某个分支，同一分支下并列多份规则时该分支被克隆成多份、各自独立过滤，一次构建因此产出多个变体。代价是资源名与键名会撞车，规范为此要求改名，并要求处理器先求值分支过滤再构造 key space。</shortdesc>
+  <shortdesc>把一份 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）的规则只应用到 map 的某个分支，同一分支下并列多份规则时该分支被克隆成多份、各自独立过滤，一次构建因此产出多个变体。代价是资源名与键名会冲突，规范为此要求改名，并要求处理器先求值分支过滤再构造 key space。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/2.0/dita/archspec/base/branch-filtering" scope="external"/>
     <data name="domain" value="dita"/>
@@ -63,7 +63,7 @@
 
     <section>
       <title>分析：改名不是排版偏好，求值顺序不是优化选择</title>
-      <p>改名之所以有专门的元素，是因为克隆制造了两处冲突：同一个 topic 被复制成两份，不改名则两份争同一个输出路径，各自定义的键也争同一个键名。<b>规范就此对处理器提出要求，即分支被克隆时须处理资源名与键名的冲突</b>，<xmlelement>ditavalmeta</xmlelement> 是把这项处理交回作者手上的接口。</p>
+      <p>改名之所以有专门的元素，是因为克隆制造了两处冲突：同一个 topic 被复制成两份，不改名则两份指向同一个输出路径，各自定义的键也占用同一个键名。<b>规范就此对处理器提出要求，即分支被克隆时须处理资源名与键名的冲突</b>，<xmlelement>ditavalmeta</xmlelement> 是把这项处理交回作者手上的接口。</p>
       <p>第二处后果落在 key space 上。规范给出的要求是分支过滤可导致 root map 的全局 key space 发生变化，因此处理器须求值分支过滤才能构造 key space。由此有三条推论，前两条直接来自这条要求，第三条属判断。</p>
       <ul>
         <li>key space 不是静态的，它依赖分支过滤的结果。</li>

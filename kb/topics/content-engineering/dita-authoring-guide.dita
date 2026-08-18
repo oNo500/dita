@@ -150,7 +150,7 @@
       <p>规范定义的 <xmlelement>mapref</xmlelement> 处理：<b>被引 map 的层级并入容器 map，其 <xmlelement>title</xmlelement> 不产生导航节点</b>。所以裸写 <codeph>&lt;mapref href="domains/web.ditamap"/&gt;</codeph> 会让该域的 topic 直接摊到上一层，"Web 技术栈"这个名字在产物里消失。</p>
       <ul>
         <li>在 <filepath>maps/root.ditamap</filepath> 引任何领域 map / 术语库 map，一律包一层 <xmlelement>topichead</xmlelement>，其 <xmlelement>navtitle</xmlelement> 与被引 map 的 <xmlelement>title</xmlelement> <b>逐字一致</b>。</li>
-        <li>该分支若已有真实落地 topic，改用指向它的 <xmlelement>topicref</xmlelement> 更好——分组节点从空壳变成真实页面，且不再有标题副本。</li>
+        <li>该分支若已有真实落地 topic，改用指向它的 <xmlelement>topicref</xmlelement> 更好——分组节点从无内容的占位变成真实页面，且不再有标题副本。</li>
         <li>别把 <xmlelement>topicgroup</xmlelement> 当替代：它只做分组，自身不进导航，救不了这个问题。</li>
       </ul>
       <p>标题副本由 <cmdname>dita-tools ia</cmdname> 的一致性检查兜住（navtitle 与被引 map 标题不符即报警），但事前写对就不会触发它。</p>
