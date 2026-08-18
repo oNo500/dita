@@ -123,7 +123,7 @@ fn check_maturity_required(
     }
 }
 
-/// Title proxies for rule seven: a title is a name, not a claim. Full
+/// Title proxies for the naming rules: a title is a name, not a claim. Full
 /// judgement (locating term, upstream category alignment) stays human.
 fn check_title(root: roxmltree::Node, push: &mut impl FnMut(String)) {
     let title: String = root
@@ -136,11 +136,11 @@ fn check_title(root: roxmltree::Node, push: &mut impl FnMut(String)) {
                 .collect()
         })
         .unwrap_or_default();
-    for (pat, why) in [("？", "问句"), ("，不是", "论断句式"), ("——", "悬念破折号")]
+    for (pat, why) in [("？", "问句"), ("，不是", "论断句式"), ("——", "破折号")]
     {
         if title.contains(pat) {
             push(format!(
-                "标题「{title}」含{why}——标题是专业命名（writing-style 规则七）"
+                "标题「{title}」含{why}——标题是专业命名（naming-rules 标题规则）"
             ));
         }
     }

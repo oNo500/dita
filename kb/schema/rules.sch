@@ -73,7 +73,7 @@
   <pattern id="R8-source-required">
     <rule context="concept | reference">
       <assert test="prolog/source or .//xref[@scope='external'] or .//data[@name='source']"
-        >R8（error）：concept/reference 必须有至少一个来源（prolog source 或来源节外链）。内容本就该有出处。</assert>
+        >R8（error）：concept/reference 必须有至少一个来源（prolog source 或来源节外链）。内容应有出处。</assert>
     </rule>
   </pattern>
 
@@ -124,13 +124,16 @@
     </rule>
   </pattern>
 
-  <!-- 归属：写作文体 / writing-style -->
+  <!-- 归属：写作文体 / writing-style；其中标题一项归 naming-rules -->
   <pattern id="R15-plain-register">
     <rule context="conbody | refbody | taskbody">
       <assert test="true()"
         >R15（代理指标，恒 warning）：粗体每节至多 2 处；破折号插入语每段至多 1 处；
-        程度词（特别/极其/恰恰/真正的/最危险）与口语词（凑合/挂个/塞进/出事/拦住/就该）不出现；
-        标题不含问号、"，不是"论断句式、悬念破折号（writing-style 规则七的机器面）。
+        程度词（特别/极其/恰恰/真正的/最危险）与口语词不出现——口语词只取可判定的复合形态
+        （凑合/挂个/塞进/出事/拦住/就该）；writing-style 规则四清单里的单字形态
+        （拦/装/挂/塞/跑/个）在中文里歧义太大，不进机器面，靠人审。
+        标题不含问号、"，不是"论断句式与破折号：这一项是 naming-rules 标题规则的机器面，
+        原 writing-style 规则七已整条迁入该篇。
         只是代理——格言句、场景化开头、定位词与类目对齐仍靠人审。由 lint 执行。</assert>
     </rule>
   </pattern>
