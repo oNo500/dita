@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/05-specialization.md §5（generalization），经 constraints-generalization
+     一篇中转。原篇同时载 §4（constraint）与 §5，2026-08-18 拆为 constraints 与本篇两篇。
+
+     拆篇缘由（2026-08-18 重切，用户裁定）：原篇的合并理由记在 upstream-provenance 里，是
+     「两类目内容互为依赖（收紧 vs 还原），拆开得两篇薄篇」。按 DITA 2.0 的实际节点结构，
+     Constraints 与 Generalization 是「Configuration and specialization」下两个平级节点，
+     各带自己的子节点（Generalization 下五个：Overview of generalization、Element
+     generalization、Processor expectations when generalizing elements、Attribute
+     generalization、Generalization with cross-specialization dependencies），两者之间没有
+     父子或从属关系。合成一篇使这两个节点在本库检索不到自己的名字，属 naming-rules 反例
+     「切分把上游确有的节点埋进别的篇里」。原篇 R19 声明两条，机器上合规，实为一篇顶两个
+     平级节点。拆后各认领一条。
+
+     查证依据（2026-08-18 于本机只读克隆 ~/ws/tools/oasis-dita 逐个文件读，版本
+     v2.0-beta03 / 0a8920b3，与 kb/vocab/upstream-nodes.tsv 的来源版本一致）：
+     specification/archSpec/base/specialization-and-custom-doctypes.ditamap 列出
+     「Configuration and specialization」下六个并列节点；generalization.ditamap 列出
+     Generalization 的五个子节点。本篇事实段出自 generalization.dita、
+     generalization-overview.dita、generalization-elements.dita、
+     generalization-attributes.dita 四个节点文件，同日逐行读。
+
+     标题（naming-rules 标题规则）：取上游节点 Generalization 在领域知识树上的叫法，机制名
+     保留英文原名，不拼副标题、不加定位词。
+     R19：声明一条 Generalization。原篇的 Constraints 一条随拆分留在 constraints 篇。
+     体裁 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     术语规则（2026-08-16 用户门反馈后，含同日紧急更正）：generalization / specialization /
+     constraint / class / props / base 一律英文原名——OASIS 无官方中文版，中文译名不得作
+     首选词；「专门化」是错译，标准译法为「特化」，与 generalization 的「泛化」成对。中文
+     解释每篇首现随行注一次，括号按 terminology-rules 的三分规则（有达意标准译名给译名、
+     否则给解释、正文已说清则不写；2026-08-17 用户定稿）。
+     volatility=stable 的依据（沿用原篇）：generalization 的定位与算法出自架构规范，不随
+     发行版变动。
+     事实纪律：已逐页核对的有六处——一、Generalization 是「Configuration and specialization」
+     下与 Specialization、Constraints 平级的节点，其定义为反转 specialization、把 specialize
+     出的元素与属性转回派生自的类型；二、可 generalize 到任意祖先层级，用途有三类（迁移、
+     临时往返、在不支持该 specialization 的环境里复用）；三、迁移用途下实例文档里的 @class
+     与 @specializations 须缺席以便用 shell 的默认值，往返用途下 SHOULD 保留原值；
+     四、元素一侧靠读 @class 判定并改名，step 的取值 "- topic/li task/step " 泛化为 li；
+     五、属性一侧的落地语法是「名称(值)」，可停在中间层，处理器读 @specializations 判定祖先链，
+     同一元素上不得同时出现同一属性的 generalized 与 specialized 值；六、@class 须列出完整
+     祖先链、含未改名的中间层（class 属性页，原篇已核对项，本篇承接该论证故一并承接其认领）。
+     三类场合的举例措辞、算法在自研实现里的操作步骤、新模块写完先测 generalization 的验收
+     建议，按判断呈现并在来源节列明。 -->
+<concept id="generalization" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="stable"
+         dimension="dim-internals dim-interop dim-mechanism">
+  <title>generalization</title>
+  <shortdesc><term keyref="term-generalization">generalization</term>（泛化）是 <term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）的反转，把 specialize 出的元素与属性转回它们派生自的类型。它只读 <xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt> 两个属性，不查语法文件；可以停在任意一层祖先，不必一路还原到最通用的那一层。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/dita/archspec/base/generalization" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="upstream-node" value="Generalization"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>一份用了自有 specialization 的文档，交给不认识这套模块的一方时会遇到两种结局：对方的处理器把新元素当作不认识的元素跳过，或者干脆校验不过。内容本身没有问题，问题在于接收方的语法文件里没有这些类型。</p>
+      <p>generalization 是规范给这一情形备下的反向过程。它与 Specialization、Constraints 同为架构规范「Configuration and specialization」章下的平级节点，做的是把 specialize 出的元素与属性转回它们派生自的类型。规范列了三类用得上它的场合：内容迁移（某个 specialization 不成功或不再需要，把内容还原成不那么具体的形态）、临时往返（交给不支持 specialization 的流程处理，事后转回）、在不支持该 specialization 的环境里复用内容。</p>
+    </section>
+
+    <section>
+      <title>背景：元素一侧怎么还原</title>
+      <p>元素一侧的判定只读一个属性。处理器检查 <xmlatt>class</xmlatt>，认出这个元素属于本次要 generalize 的模块，就把它改名成更通用的那个形态，取值随之截到该层：</p>
+      <codeblock>&lt;step class="- topic/li task/step "&gt;   →   &lt;li class="- topic/li "&gt;</codeblock>
+      <p>还原可以停在任意一层祖先，不必一路退到 <xmlelement>topic</xmlelement>。合作方认识 task 而不认识你的 mytask 时，还原到 task 这一层即可，双方共同认得的那一层就是可停的位置。</p>
+      <p>两种用途对属性的处置不同，这一点决定了还原之后能不能再回来。为迁移而 generalize 时，实例文档里的 <xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt> 要缺席，让 <term keyref="term-document-type-shell">document-type shell</term> 的默认值接管；为往返而 generalize 时，两个属性应当保留原来的 specialize 取值，往返的信息就存在这里。</p>
+    </section>
+
+    <section>
+      <title>分析：属性一侧与完整祖先链的用处</title>
+      <p>属性一侧不改元素名，改的是取值的形态。派生出的属性退回祖先属性时，祖先属性的取值由「属性名(原取值)」构成：</p>
+      <codeblock>hardwarePlatform="x86"  →  platform="hardwarePlatform(x86)"
+                        →  props="hardwarePlatform(x86)"</codeblock>
+      <p>处理器靠根元素上的 <xmlatt>specializations</xmlatt> 判断这条祖先链，据此确认中间层是不是一个合法的落点。派生自 <xmlatt>props</xmlatt> 或 <xmlatt>base</xmlatt> 的属性怎么声明这条链，见 <xref href="attribute-specialization.dita">属性的 specialization 规则</xref>。有一条禁止值得记：同一个元素上不得同时出现同一属性的 generalized 与 specialized 两种取值，那意味着文档只被泛化了一半，或者泛化之后又用 specialize 过的文档类型编辑过。</p>
+      <p>算法不查语法文件这一点，反过来解释了 <xmlatt>class</xmlatt> 的构造规则为什么要求列出完整祖先链，中间层即便没有改名也不能省。省掉一层，generalization 就找不到可停的位置，而这条链上的信息在文档之外没有第二个副本。规则本身见 <xref href="class-derivation.dita">@class 与 @specializations 属性规则与语法</xref>。</p>
+      <p>与 <term keyref="term-constraint">constraint</term>（约束）的对照说明了 generalization 管的是哪一类差异：受约束的文档转到不受约束的文档类型，只要改绑 shell 就行，元素不必改名，因为收紧不产生新类型；用了 expansion module 的文档则可能要先 generalize 掉那些新引入的元素与属性才交换得出去。constraint 一侧见 <xref href="constraints.dita">constraints</xref>。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>generalization 在日常工作里的第一个用处不是交换，是验收。新模块写完先测一次：把样例文档还原成基类文档，还原得无损即说明整条派生链都写对了，这是本库对 <xref href="element-type-specialization.dita">元素类型的 specialization 规则</xref> 与属性一侧两篇所述派生共同的验收建议。</p>
+      <p>本篇的算法描述是规范条文的转述，不是某个实现的行为记录。自研还原逻辑之前，回到 Generalization 一章的 Element generalization、Attribute generalization 与 Processor expectations when generalizing elements 三节逐条核对，跨模块依赖的情形另见该章的 Generalization with cross-specialization dependencies。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：Generalization 是架构规范「Configuration and specialization」章下与 Specialization、Constraints 平级的节点，其定义为反转 specialization、把 specialize 出的元素与属性转回派生自的类型，转自 <xref href="https://dita-lang.org/dita/archspec/base/generalization" scope="external">Generalization</xref>；可 generalize 到任意祖先层级、三类用途（迁移、临时往返、在不支持该 specialization 的环境里复用）、迁移用途下实例文档里的两个属性须缺席以便用 shell 默认值而往返用途下应保留原取值、受约束文档改绑 shell 即可去约束且元素不必改名、用了 expansion module 的文档可能须先 generalize 才可交换，转自 <xref href="https://dita-lang.org/dita/archspec/base/generalization-overview" scope="external">Overview of generalization</xref>；元素一侧靠检查 <xmlatt>class</xmlatt> 判定所属模块并改名成更通用的形态、<xmlelement>step</xmlelement> 的取值 "- topic/li task/step " 泛化为 <xmlelement>li</xmlelement>，转自 <xref href="https://dita-lang.org/dita/archspec/base/generalization-elements" scope="external">Element generalization</xref>；属性一侧祖先属性的取值由属性名加圆括号内的原取值构成、处理器据 <xmlatt>specializations</xmlatt> 判定祖先链与中间落点的合法性、同一元素上不得同时出现同一属性的 generalized 与 specialized 取值，转自 <xref href="https://dita-lang.org/dita/archspec/base/generalization-attributes" scope="external">Attribute generalization</xref>；<xmlatt>class</xmlatt> 须列出从最通用到最具体的完整祖先链、未改名的中间层同样要列出，转自 <xref href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external">class 属性规则与语法</xref>。五处均已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中不认识这套模块的处理器会跳过或校验不过这两种结局、三类用途落到实际协作里的措辞、双方共同认得的那一层就是可停位置这条操作性表述，来自通用 DITA 实践与实现观察，未逐页核对；完整祖先链与「找得到可停位置」之间的因果解释、新模块写完先测 generalization 的验收建议、把验收而非交换列为第一个用处，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>

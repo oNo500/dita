@@ -160,7 +160,7 @@ domain：前缀 +，派生的是一个跨 topic 类型可用的元素
     <section>
       <title>结论</title>
       <p>次序是映射表、语法模块、注册与验证；domain 一侧在头两步之间多一道选基类，末尾多一道把 domain 装配进 document-type shell，装配这一步决定了它在哪些 topic 类型里可用，domain 模块本身不作这个决定。三步的失败症状各不相同：映射列不全，问题要到内容评审时才暴露；模块引成外壳，冲突出现在使用方装配 shell 的时候；<xmlatt>class</xmlatt> 写错则校验照样通过，症状是处理器把新元素当成不认识的元素，输出里少一块。</p>
-      <p>最后一类症状的排查手段是 generalization：把样例文档还原成基类文档，还原得无损即说明整条派生链都写对了，见 <xref href="constraints-generalization.dita">constraints 与 generalization</xref>。要不要走到这一步本身是一道判断题，判据见 <xref href="specialization-practice.dita">specialization 的启用判据</xref>。</p>
+      <p>最后一类症状的排查手段是 generalization：把样例文档还原成基类文档，还原得无损即说明整条派生链都写对了，见 <xref href="generalization.dita">generalization</xref>。要不要走到这一步本身是一道判断题，判据见 <xref href="specialization-practice.dita">specialization 的启用判据</xref>。</p>
       <p>自带 domain 的清单随语法文件版本变动。照着某一个自带 domain 改写自己的模块之前，在目标版本的语法文件里核对该模块仍然存在、名字未变。</p>
     </section>
 

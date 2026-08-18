@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/05-specialization.md §4（constraint），经 constraints-generalization
+     一篇中转。原篇同时载 §4 与 §5（generalization），2026-08-18 拆为本篇与 generalization
+     两篇。
+
+     拆篇缘由（2026-08-18 重切，用户裁定）：原篇的合并理由记在 upstream-provenance 里，是
+     「两类目内容互为依赖（收紧 vs 还原），拆开得两篇薄篇」。按 DITA 2.0 的实际节点结构，
+     Constraints 与 Generalization 是「Configuration and specialization」下两个平级节点，
+     各带自己的子节点（Constraints 下三个：Overview of constraints、Constraint rules、
+     Constraints, processing, and interoperability；Generalization 下五个），两者之间没有
+     父子或从属关系。合成一篇使这两个节点在本库检索不到自己的名字，属 naming-rules 反例
+     「切分把上游确有的节点埋进别的篇里」。原篇 R19 声明两条（Constraints 与
+     Generalization），机器上合规，实为一篇顶两个平级节点。拆后各认领一条。
+     「薄篇」的顾虑由这次拆解本身回答：两个节点各自的上游子树都有可核对的条文，原篇因合并
+     而只能各写一半，拆后两篇都比原来的半篇厚。
+
+     查证依据（2026-08-18 于本机只读克隆 ~/ws/tools/oasis-dita 逐个文件读，版本
+     v2.0-beta03 / 0a8920b3，与 kb/vocab/upstream-nodes.tsv 的来源版本一致）：
+     specification/archSpec/base/specialization-and-custom-doctypes.ditamap 列出
+     「Configuration and specialization」下六个并列节点——Overview of DITA extension
+     facilities、Document-type configuration、Specialization、Generalization、Constraints、
+     Expansion modules；constraints.ditamap 列出 Constraints 的三个子节点。本篇事实段的
+     四项功能与「收紧后仍符合原语法」一条出自 constraints-overview.dita，同日逐行读。
+
+     标题（naming-rules 标题规则）：取上游节点 Constraints 在领域知识树上的叫法，机制名保留
+     英文原名，不拼副标题、不加定位词。
+     R19：声明一条 Constraints。原篇的 Generalization 一条随拆分转给 generalization 篇。
+     体裁 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     术语规则（2026-08-16 用户门反馈后，含同日紧急更正）：constraint / generalization /
+     specialization / domain / class 一律英文原名——OASIS 无官方中文版，中文译名不得作首选词；
+     其中「专门化」还是错译，标准译法为「特化」，与 generalization 的「泛化」成对。中文解释
+     每篇首现随行注一次，括号按 terminology-rules 的三分规则（有达意标准译名给译名、否则给
+     解释、正文已说清则不写；2026-08-17 用户定稿）。
+     volatility=stable 的依据（沿用原篇）：constraint 的定位与能做什么出自架构规范，不随
+     发行版变动。
+     事实纪律：已逐页核对的有三处——一、Constraints 是「Configuration and specialization」下
+     与 Specialization、Generalization 平级的节点，constraint 不是 specialization 的一种形态
+     （上述两份 ditamap 与节点文件，2026-08-18）；二、constraint module 的四项功能及其边界，
+     以及 RNG 语法文件下收紧 domain 扩展元素可由 document-type configuration 直接完成
+     （constraints 概述页，同日）；三、凡符合收紧后语法的实例同样符合收紧前的语法（同页）。
+     本库常用的六条写法（举例）、语法文件一级规则与 lint 脚本在生效时刻上的差别、constraint
+     一改会使既有内容成批失效因而宜早做、与 specialization 的选用判据，均按判断呈现并在
+     来源节列明。原篇里由 @class 完整祖先链支撑的论证属 generalization 一侧，随该内容迁往
+     generalization 篇，其事实认领同去，本篇不认领。 -->
+<concept id="constraints" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="stable"
+         dimension="dim-internals dim-consistency">
+  <title>constraints</title>
+  <shortdesc><term keyref="term-constraint">constraint</term>（约束）收紧已有元素的内容模型与属性而不引入新元素，凡符合收紧后语法的实例同样符合收紧前的语法。它与 <term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）在架构规范里平级，不是 specialization 的一种形态；两者的分工是前者决定作者能写什么，后者决定能写出什么新语义。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/dita/archspec/base/constraints" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="upstream-node" value="Constraints"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>specialization 做的是加法：加 topic 类型、加跨类型可用的元素、加条件化维度。一套文档定型之后，需求常常反过来——不是缺元素，是元素太多，作者写得出本套文档不该出现的东西。constraint 做的就是这个减法，收紧现有元素的内容模型与属性表。</p>
+      <p>层级容易被摊平。架构规范的「Configuration and specialization」章下有六个平级节点，Specialization、Constraints、Generalization、Expansion modules 各占其一；specialization 内部再按 specialize 的是元素类型还是属性分两侧。把 structural、domain、attribute 与 constraint 并称「四种扩展手段」是常见的误读：前三个是 specialization 一个节点内部的分法，constraint 与它们不在同一层。三个 extension facility 的完整框架见 <xref href="extension-facilities.dita">DITA extension facilities</xref>。</p>
+    </section>
+
+    <section>
+      <title>背景：constraint 能收紧什么</title>
+      <p>规范给 constraint module 列了四项功能，每项都带自己的边界：</p>
+      <ul>
+        <li>收紧元素的内容模型：去掉可选元素、把可选元素改为必填、要求原本无序的元素按固定次序出现。反方向不允许——必填不能改回可选，有序元素的次序不能改。</li>
+        <li>收紧元素上可用的属性，并可限制某个属性的取值集合。</li>
+        <li>收紧一个 domain 提供的扩展元素集合，以及这些扩展元素的内容模型。</li>
+        <li>用 domain 提供的扩展元素替换基础元素，使被替换的基础元素不再可用。</li>
+      </ul>
+      <p>第三项有一处与语法文件格式相关的提醒：RNG 一侧收紧 domain 的扩展元素集合，由 <term keyref="term-document-type-shell">document-type shell</term> 的 document-type configuration 直接完成即可，不必写成 constraint module。</p>
+      <p>落到一套文档上，常见的写法有这么几种：</p>
+      <ul>
+        <li>把 <xmlelement>shortdesc</xmlelement> 从可选改为必填，让生成的检索摘要没有空缺。</li>
+        <li>禁止 <xmlelement>draft-comment</xmlelement> 出现在发布分支的内容里。</li>
+        <li>表格只保留 <xmlelement>simpletable</xmlelement>，不使用另一套复杂的表格模型。</li>
+        <li>把 <xmlelement>note</xmlelement> 的 <xmlatt>type</xmlatt> 限定到实际用得上的几个取值。</li>
+        <li>禁用宽松形态的步骤结构，只允许严格的那一种。</li>
+        <li>禁止 topic 嵌套，一份文件只写一个 topic。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>分析：生效的时刻与改动的代价</title>
+      <p>这些规则写成 lint 脚本也能查，差别在生效的时刻。<b>constraint 是语法文件一级的规则，编辑器据此不提示那个元素，违规内容在输入时即被拒绝</b>，而不是提交之后由持续集成报出来。</p>
+      <p>代价是它与内容绑定得更紧。constraint 一改，既有内容会成批变成不合法，所以收紧的动作要在内容规模还小的时候做。放宽的方向没有对称的代价：收紧后的语法是原语法的子集，凡符合收紧后语法的实例都符合原语法，把文档改绑到不受约束的 shell 即可，元素不必改名。这一点与 <term keyref="term-generalization">generalization</term>（泛化）成对照——后者是给 specialize 出的类型准备的还原过程，要改名、要截派生链，见 <xref href="generalization.dita">generalization</xref>。</p>
+      <p>与 constraint 方向相反的模块是 expansion module，它在特定元素类型上放宽而不使新元素全局可用，两者的对称关系见 <xref href="extension-facilities.dita">DITA extension facilities</xref>。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>判据不难分：需要新语义时做 specialization，只要禁用或收紧已有元素时做 constraint。选错的症状也不同——用 specialization 去实现「不许写某个元素」，得到的是一套要长期维护的新模块，而需求本来一个 constraint module 就能满足。</p>
+      <p>本篇的六条常见写法是举例而非规范条文，语法文件一级与 lint 在生效时刻上的差别属实现层面的描述。把它们写进语法文件之前，回到架构规范 Constraints 一章的 Constraint rules 与 Constraints, processing, and interoperability 两节逐条核对，或在最小样例上实测。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：Constraints 是架构规范「Configuration and specialization」章下与 Specialization、Generalization、Expansion modules 平级的节点，constraint 因此不是 specialization 的一种形态，转自 <xref href="https://dita-lang.org/dita/archspec/base/constraints" scope="external">Constraints</xref> 及该章的目录结构；constraint module 的四项功能（收紧内容模型且不得把必填改回可选或改动有序元素的次序、收紧可用属性与属性取值集合、收紧 domain 提供的扩展元素及其内容模型、用 domain 扩展元素替换基础元素）、凡符合收紧后语法的实例同样符合收紧前的语法、RNG 一侧收紧 domain 扩展元素可由 document-type configuration 直接完成，转自 <xref href="https://dita-lang.org/dita/archspec/base/constraints-overview" scope="external">Overview of constraints</xref>。两处均已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中六条常见写法及各自的用意、constraint 是语法文件一级规则因而在输入时即拒绝违规内容、它与 lint 脚本在生效时刻上的差别，来自通用 DITA 实践与工具使用观察，未逐页核对；constraint 一改会使既有内容成批失效因而宜早做、specialization 与 constraint 的选用判据、选错时的症状，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>
