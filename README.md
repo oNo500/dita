@@ -30,6 +30,7 @@
 | Java 17+ / DITA-OT 4.4 | 校验、构建、交付物 | ✅ 已装（`~/ws/tools`） |
 | uv | 跑 `kb/scripts` 下的 Python（脚本自带 PEP 723 头，不用系统 python） | ✅ 由 setup 装 |
 | Rust + C 链接器 | dita-tools | ✅ 已装（rustup + build-essential），`cargo test` 全过 |
+| oasis-tcs/dita 只读克隆 | 上游节点索引的规范来源（锁定 tag 见 SSOT） | ✅ 由 setup 装（`~/ws/tools/oasis-dita`） |
 
 ```bash
 cd kb && sh scripts/review.sh               # 结构校验 + 业务规则 + 覆盖度 + 术语扫描

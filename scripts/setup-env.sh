@@ -7,6 +7,10 @@ set -eu
 # ── 版本 SSOT ────────────────────────────────────────────────
 DITA_OT_VERSION="4.4"
 TEMURIN_MAJOR="17"
+# oasis-tcs/dita 锁定版本：upstream-index 的来源之一，索引头记的就是这个值。
+# 用 tag 不用分支名——分支会动，索引与来源就对不上了。
+# v2.0-beta03 = commit 0a8920b3590e28dd87b1d70dd38d60d8e7406ddd（2026-06-30）
+OASIS_DITA_REF="v2.0-beta03"
 TOOLS_DIR="$HOME/ws/tools"
 BIN_DIR="$HOME/.local/bin"
 # ─────────────────────────────────────────────────────────────
@@ -63,7 +67,25 @@ WRAP
 chmod +x "$BIN_DIR/dita"
 say "✓ dita → $OT_DIR（markdown 插件 org.lwdita 随 4.4 自带）"
 
-# 5. Rust + just + dita-tools
+# 5. OASIS DITA 规范源（只读克隆；dita-tools upstream-index 的来源之一）
+OASIS_DIR="$TOOLS_DIR/oasis-dita"
+if [ ! -d "$OASIS_DIR/.git" ]; then
+  say "克隆 oasis-tcs/dita…（约 34 MB）"
+  git clone --quiet https://github.com/oasis-tcs/dita.git "$OASIS_DIR"
+fi
+# 已有克隆也按 SSOT 的 ref 同步：不同机器上的索引必须由同一份源生成，
+# 否则"上游改名"与"我这份克隆旧了"两种 diff 分不开
+OASIS_WANT="$(git -C "$OASIS_DIR" rev-parse --verify --quiet "${OASIS_DITA_REF}^{commit}" || true)"
+if [ -z "$OASIS_WANT" ]; then
+  git -C "$OASIS_DIR" fetch --quiet --tags origin
+  OASIS_WANT="$(git -C "$OASIS_DIR" rev-parse "${OASIS_DITA_REF}^{commit}")"
+fi
+if [ "$(git -C "$OASIS_DIR" rev-parse HEAD)" != "$OASIS_WANT" ]; then
+  git -C "$OASIS_DIR" checkout --quiet --detach "$OASIS_DITA_REF"
+fi
+say "✓ oasis-dita → $OASIS_DIR（$OASIS_DITA_REF）"
+
+# 6. Rust + just + dita-tools
 if ! command -v cargo >/dev/null 2>&1 && [ ! -x "$HOME/.cargo/bin/cargo" ]; then
   say "装 rustup…"
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
