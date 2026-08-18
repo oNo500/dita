@@ -1,6 +1,6 @@
 use dita_ast::{
     DitaMap, TopicRef,
-    visit::{Visit, walk_dita_map},
+    visit::{Visit, walk_dita_map, walk_topic_ref},
 };
 use std::{
     collections::HashSet,
@@ -27,9 +27,10 @@ fn collect_referenced(map: &DitaMap) -> HashSet<PathBuf> {
 
     impl Visit for Collector {
         fn visit_topic_ref(&mut self, node: &TopicRef) {
-            if let Ok(canonical) = node.href.canonicalize() {
+            if let Some(Ok(canonical)) = node.href.as_ref().map(|h| h.canonicalize()) {
                 self.0.insert(canonical);
             }
+            walk_topic_ref(self, node);
         }
     }
 

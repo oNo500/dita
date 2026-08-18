@@ -14,8 +14,12 @@ mod tests {
     #[test]
     fn map_node_holds_topic_ref() {
         let node = MapNode::TopicRef(TopicRef {
-            href: PathBuf::from("topics/foo.dita"),
+            href: Some(PathBuf::from("topics/foo.dita")),
+            keyref: None,
             nav_title: None,
+            processing_role: ProcessingRole::default(),
+            chunk: None,
+            children: vec![],
         });
         assert!(matches!(node, MapNode::TopicRef(_)));
     }

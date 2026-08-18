@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bookmap>
+  <booktitle><mainbooktitle>规范书</mainbooktitle></booktitle>
+  <frontmatter>
+    <notices>
+      <topicref href="topics/landscape.dita"/>
+    </notices>
+  </frontmatter>
+  <chapter format="ditamap" href="sub.ditamap"/>
+  <appendix href="topics/bare.dita"/>
+</bookmap>

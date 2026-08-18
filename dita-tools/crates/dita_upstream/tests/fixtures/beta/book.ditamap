@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bookmap>
+  <booktitle><mainbooktitle>书</mainbooktitle></booktitle>
+  <frontmatter>
+    <notices><topicref href="topics/cover.dita"/></notices>
+  </frontmatter>
+  <chapter href="topics/only.dita"/>
+  <appendix format="ditamap" href="app.ditamap"/>
+</bookmap>

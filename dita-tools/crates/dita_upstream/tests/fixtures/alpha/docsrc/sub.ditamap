@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map>
+  <title>子 map 的标题不是节点</title>
+  <topicref href="topics/chapter.dita" chunk="to-content">
+    <topicref keyref="nested"/>
+    <topicref keyref="no-such-key"/>
+  </topicref>
+  <topicref href="topics/chapter.dita"/>
+</map>

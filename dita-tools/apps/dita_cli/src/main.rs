@@ -20,6 +20,8 @@ enum Commands {
     Ia(commands::ia::IaArgs),
     /// Per-topic content rules R12–R15 (genre, structure, source labels, register)
     Lint(commands::lint::LintArgs),
+    /// Regenerate the upstream node index from the local DITA-OT and OASIS sources
+    UpstreamIndex(commands::upstream_index::UpstreamIndexArgs),
 }
 
 fn main() -> Result<()> {
@@ -27,5 +29,6 @@ fn main() -> Result<()> {
     match cli.command {
         Commands::Ia(args) => commands::ia::run(&args),
         Commands::Lint(args) => commands::lint::run(&args),
+        Commands::UpstreamIndex(args) => commands::upstream_index::run(&args),
     }
 }

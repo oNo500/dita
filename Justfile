@@ -14,6 +14,12 @@ ia *args:
     cd dita-tools && cargo build -q
     cd kb && ../dita-tools/target/debug/dita-tools ia {{args}}
 
+# 上游节点索引再生成（生成物进版本控制；文件本身勿手改，改了下次生成即覆盖）
+# 来源是本机 ~/ws/tools 下的 DITA-OT 与 oasis-dita 克隆，先 just setup 装齐
+upstream-index:
+    cd dita-tools && cargo build -q
+    dita-tools/target/debug/dita-tools upstream-index --out kb/vocab/upstream-nodes.tsv
+
 # 单源 → 各工具变体（CLAUDE.md / AGENTS.md 雏形）
 build:
     cd kb && sh scripts/build-agent-rules.sh

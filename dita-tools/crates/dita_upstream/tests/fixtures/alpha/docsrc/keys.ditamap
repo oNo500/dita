@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map>
+  <title>键定义</title>
+  <keydef keys="guide" href="topics/guide.dita"/>
+  <keydef keys="nested" href="topics/nested.dita"/>
+  <keydef keys="somewhere-else" href="https://example.org/x" scope="external" format="html"/>
+</map>

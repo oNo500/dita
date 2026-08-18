@@ -85,3 +85,48 @@ fn a_broken_submap_is_never_reported_as_a_cycle() {
         "两次引用都应各自报出真正的原因：{msgs:?}"
     );
 }
+
+#[test]
+fn nested_topicrefs_survive() {
+    // 嵌套 topicref 是 DITA 表达层级的常规写法（上游两个来源都在用）；
+    // 只收顶层就等于整棵子树消失
+    let fixture = Path::new("tests/fixtures/nested.ditamap");
+    let (map, _diag) = parse_map(fixture).expect("parse failed");
+    let MapNode::TopicRef(outer) = &map.children[0] else {
+        panic!("expected a topicref");
+    };
+    assert_eq!(outer.children.len(), 2);
+    let MapNode::TopicRef(keyed) = &outer.children[1] else {
+        panic!("expected the keyref-only topicref to survive");
+    };
+    assert_eq!(keyed.keyref.as_deref(), Some("only-a-key"));
+    assert!(keyed.href.is_none(), "无 href 就是 None，不是伪造的路径");
+}
+
+#[test]
+fn external_href_is_not_a_local_path() {
+    // scope="external" 的 href 是 URL；拼到 map 目录上会造出一个不存在的
+    // 本地文件，然后被报成"文件不存在"——错误信息指向一个根本不该存在的路径
+    let fixture = Path::new("tests/fixtures/nested.ditamap");
+    let (map, diag) = parse_map(fixture).expect("parse failed");
+    let MapNode::TopicRef(external) = &map.children[1] else {
+        panic!("expected the external topicref");
+    };
+    assert!(external.href.is_none());
+    assert_eq!(diag.error_count(), 0);
+}
+
+#[test]
+fn bookmap_chapters_are_topicrefs() {
+    // OASIS 规范源的入口是 bookmap，每个分支都挂在 <chapter> 下；
+    // 不认这些元素，整张图解析出来是空的
+    let fixture = Path::new("tests/fixtures/book.ditamap");
+    let (map, _diag) = parse_map(fixture).expect("parse failed");
+    // frontmatter/notices 里的封面不是主题树节点，不该出现
+    assert_eq!(map.children.len(), 2);
+    let MapNode::MapRef(chapter) = &map.children[0] else {
+        panic!("chapter format=\"ditamap\" 就是 mapref 的长写法");
+    };
+    assert_eq!(chapter.title.as_deref(), Some("子 Map"));
+    assert!(matches!(map.children[1], MapNode::TopicRef(_)));
+}

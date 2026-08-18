@@ -106,8 +106,10 @@ fn collect_topics(nodes: &[MapNode], out: &mut Vec<PathBuf>) {
     for node in nodes {
         match node {
             MapNode::TopicRef(t) => {
-                let path = t.href.canonicalize().unwrap_or_else(|_| t.href.clone());
-                out.push(path);
+                if let Some(href) = &t.href {
+                    out.push(href.canonicalize().unwrap_or_else(|_| href.clone()));
+                }
+                collect_topics(&t.children, out);
             }
             MapNode::TopicHead(h) => collect_topics(&h.children, out),
             MapNode::MapRef(m) => collect_topics(&m.children, out),

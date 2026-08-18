@@ -85,6 +85,18 @@ fn parse_map_file(
     })
 }
 
+/// Bookmap specializations of `<topicref>`. They differ from `<topicref>` in
+/// where they may appear, not in what they mean structurally, so the tree view
+/// treats them identically — without this the OASIS specification bookmap
+/// parses to an empty tree, since every one of its branches hangs off a
+/// `<chapter>`.
+///
+/// `<frontmatter>` / `<backmatter>` / `<notices>` are deliberately absent:
+/// covers and notices are not nodes of the subject tree.
+const TOPICREF_LIKE: [&str; 6] = [
+    "topicref", "chapter", "appendix", "part", "preface", "glossref",
+];
+
 fn collect_children(
     node: roxmltree::Node,
     base: &Path,
@@ -94,7 +106,12 @@ fn collect_children(
     let mut result = Vec::new();
 
     for child in node.children().filter(roxmltree::Node::is_element) {
-        match child.tag_name().name() {
+        let name = child.tag_name().name();
+        // `<topicref href="x.ditamap" format="ditamap">` is a mapref spelled the
+        // long way; DITA treats the two the same and so must this
+        let is_mapref = name == "mapref"
+            || (TOPICREF_LIKE.contains(&name) && child.attribute("format") == Some("ditamap"));
+        match if is_mapref { "mapref" } else { name } {
             "mapref" => {
                 let Some(href_str) = child.attribute("href") else {
                     diag.push(Diagnostic::warning(base, "mapref missing href attribute"));
@@ -127,18 +144,37 @@ fn collect_children(
                     Err(e) => diag.push(Diagnostic::error(&href, e.to_string())),
                 }
             }
-            "topicref" => {
-                if let Some(href_str) = child.attribute("href") {
-                    let href = base.join(href_str);
-                    let nav_title = extract_nav_title(&child);
+            n if TOPICREF_LIKE.contains(&n) => {
+                let processing_role = match child.attribute("processing-role") {
+                    Some("resource-only") => ProcessingRole::ResourceOnly,
+                    _ => ProcessingRole::Normal,
+                };
+                // an external target is a URL, not a path — joining it onto the
+                // map's directory would fabricate a local file that then gets
+                // reported missing
+                let external = child.attribute("scope") == Some("external");
+                let href = child
+                    .attribute("href")
+                    .filter(|_| !external)
+                    .map(|h| base.join(h));
+                if let Some(href) = &href {
                     if !href.exists() {
                         diag.push(Diagnostic::error(
-                            &href,
+                            href,
                             format!("referenced file not found: {}", href.display()),
                         ));
                     }
-                    result.push(MapNode::TopicRef(TopicRef { href, nav_title }));
                 }
+                result.push(MapNode::TopicRef(TopicRef {
+                    href,
+                    keyref: child.attribute("keyref").map(str::to_string),
+                    nav_title: extract_nav_title(&child),
+                    processing_role,
+                    chunk: child.attribute("chunk").map(str::to_string),
+                    // a topicref nested in a topicref is DITA's way of nesting
+                    // without a topichead — dropping these loses whole subtrees
+                    children: collect_children(child, base, ancestors, diag),
+                }));
             }
             "topichead" => {
                 let nav_title =

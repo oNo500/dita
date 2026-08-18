@@ -31,6 +31,7 @@ dita_ia        = { path = "crates/dita_ia" }
 dita_vocab     = { path = "crates/dita_vocab" }
 dita_lint      = { path = "crates/dita_lint" }
 dita_diagnostics = { path = "crates/dita_diagnostics" }
+dita_upstream   = { path = "crates/dita_upstream" }
 
 # XML parsing
 roxmltree = "0.21"

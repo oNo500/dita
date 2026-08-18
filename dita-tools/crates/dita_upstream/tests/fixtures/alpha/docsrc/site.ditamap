@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map>
+  <title>站点</title>
+  <mapref href="keys.ditamap" processing-role="resource-only"/>
+  <topicref keyref="guide">
+    <mapref href="sub.ditamap"/>
+  </topicref>
+  <topicref href="topics/loose.dita" processing-role="resource-only"/>
+</map>

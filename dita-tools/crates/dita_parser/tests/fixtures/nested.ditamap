@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map>
+  <title>嵌套写法</title>
+  <topicref href="topics/bare.dita">
+    <topicref href="topics/full.dita"/>
+    <topicref keyref="only-a-key"/>
+  </topicref>
+  <topicref href="https://example.org/upstream" scope="external" format="html"/>
+</map>

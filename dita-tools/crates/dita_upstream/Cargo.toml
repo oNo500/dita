@@ -1,0 +1,15 @@
+[package]
+name = "dita_upstream"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+dita_ast.workspace = true
+dita_parser.workspace = true
+roxmltree.workspace = true
+anyhow.workspace = true
+
+[lints]
+workspace = true

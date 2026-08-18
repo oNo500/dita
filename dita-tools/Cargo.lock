@@ -135,6 +135,7 @@ dependencies = [
  "clap",
  "dita_ia",
  "dita_lint",
+ "dita_upstream",
  "dita_vocab",
 ]
 
@@ -179,6 +180,16 @@ dependencies = [
  "dita_ast",
  "dita_diagnostics",
  "insta",
+ "roxmltree",
+]
+
+[[package]]
+name = "dita_upstream"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "dita_ast",
+ "dita_parser",
  "roxmltree",
 ]
 

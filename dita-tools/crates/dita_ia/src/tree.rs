@@ -38,7 +38,9 @@ const COLLAPSE_AFTER: usize = 6;
 
 fn print_nodes(nodes: &[MapNode], prefix: &str, ann: &Annotations) {
     let count = nodes.len();
-    let plain_leaves = nodes.iter().all(|n| matches!(n, MapNode::TopicRef(_)));
+    let plain_leaves = nodes
+        .iter()
+        .all(|n| matches!(n, MapNode::TopicRef(t) if t.children.is_empty()));
     let collapse = !ann.full && plain_leaves && count > COLLAPSE_AFTER;
     for (i, node) in nodes.iter().enumerate() {
         if collapse && i == 3 {
@@ -55,13 +57,26 @@ fn print_nodes(nodes: &[MapNode], prefix: &str, ann: &Annotations) {
 
         match node {
             MapNode::TopicRef(t) => {
-                let path = t.href.canonicalize().unwrap_or_else(|_| t.href.clone());
-                let name = t.href.file_name().and_then(|s| s.to_str()).unwrap_or("?");
-                if !t.href.exists() {
+                // keyref 未解析或纯分组的 topicref：没有文件可标注，只画名字。
+                // 本库的 map 不用这两种写法，这条分支是给上游源留的
+                let Some(href) = &t.href else {
+                    let label = t
+                        .nav_title
+                        .clone()
+                        .or_else(|| t.keyref.clone())
+                        .unwrap_or_else(|| "(unnamed)".to_string());
+                    println!("{prefix}{conn}{label}");
+                    print_nodes(&t.children, &child_prefix, ann);
+                    continue;
+                };
+                let path = href.canonicalize().unwrap_or_else(|_| href.clone());
+                let name = href.file_name().and_then(|s| s.to_str()).unwrap_or("?");
+                if !href.exists() {
                     println!("{prefix}{conn}✗ {name}   ← 文件不存在");
                     continue;
                 }
                 println!("{prefix}{conn}{name}{}", topic_note(&path, ann));
+                print_nodes(&t.children, &child_prefix, ann);
             }
             MapNode::TopicHead(h) => {
                 // a wrapper around one same-named mapref exists only to give the
@@ -169,7 +184,7 @@ pub fn count_topics(nodes: &[MapNode]) -> usize {
     nodes
         .iter()
         .map(|n| match n {
-            MapNode::TopicRef(_) => 1,
+            MapNode::TopicRef(t) => usize::from(t.href.is_some()) + count_topics(&t.children),
             MapNode::TopicHead(h) => count_topics(&h.children),
             MapNode::MapRef(m) => count_topics(&m.children),
         })
