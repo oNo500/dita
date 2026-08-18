@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<concept id="quickstart-no-hangoff" outputclass="quickstart" maturity="draft" volatility="stable" dimension="dim-concept">
+  <title>样例快速上手</title>
+  <shortdesc>挂靠与取舍用例。</shortdesc>
+  <prolog><data name="domain" value="sample"/></prolog>
+  <conbody>
+    <section><title>取舍</title>
+      <p>覆盖三维中的一维，但没有指向概览的引用。</p></section>
+    <section><title>来源</title>
+      <p><b>事实</b>：无。</p><p><b>判断</b>：全篇为判断。</p></section>
+  </conbody>
+</concept>

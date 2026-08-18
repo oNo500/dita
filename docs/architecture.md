@@ -37,7 +37,7 @@ dita-tools/  执行引擎     产出：校验结果、IA 视图
 
 | 规则 | 内容 | 现在谁做 | 终态归属 |
 |---|---|---|---|
-| R1–R6、R8、R10 | shortdesc、时效标注、核对日期、三个属性值域、来源、quickstart 挂靠 | `scripts/check-rules.xsl`（Saxon） | `dita-tools lint`（实现后 xsl 退役，SSOT 手抄副本随之还清） |
+| R1–R6、R8 | shortdesc、时效标注、核对日期、三个属性值域、来源 | `scripts/check-rules.xsl`（Saxon） | `dita-tools lint`（实现后 xsl 退役，SSOT 手抄副本随之还清） |
 | R7 | 术语裸字面 → `term keyref` | `scripts/term-normalize.py`（报告版） | `dita-tools lint` |
 | R9 / 维度覆盖度 | 领域概览、盲区统计 | `dita-tools ia`（脚本已于 2026-08-15 退役） | `dita-tools ia` ✅ |
 | **R11** | **`@dimension` 值合法性** | `dita-tools ia` 已报 error | `dita-tools lint`（归属冲突随终态落定而消） |
@@ -48,6 +48,8 @@ dita-tools/  执行引擎     产出：校验结果、IA 视图
 | R17 | `domain` 值必须是 subjectScheme 已注册的 subject key（唯一未受控的元数据字段；enumerationdef 绑不了 data 元素，值域只能落这里） | `dita-tools ia` 已报 error，另有反向报表（已注册零挂靠的空叶子，--details 按分支归并展示） | `dita-tools ia` ✅ |
 | R18 | 内容 topic（含 glossentry）必须显式标 `@maturity`——DITAVAL 的 exclude 只匹配写出来的属性值，未标注不匹配、会绕开成熟度门；与 R2 对称，恒 error（不按 maturity 分级，因为被检查的正是分级依据的属性本身） | `dita-tools lint`（2026-08-17） | `dita-tools lint` ✅ |
 | R19 | dita 域 topic 必须在 prolog 声明 `upstream-node`（标题所依据的上游节点标题原文，逐字英文；组合篇多条；自造写 `coined` 并在头注释留三道关），声明须在上游节点索引 `kb/vocab/upstream-nodes.tsv` 中解析得到。比对前双方归一化（大小写不敏感、空白折叠），归一化后精确匹配，不做模糊/子串——假通过比误报更隐蔽。解析不到时消息列三种可能（拼写有误 / 上游改名或删除 / 索引未收录），不断言作者出错。索引读不到 → 走"未执行"（lint 退出码 2），不静默通过 | `dita-tools lint`（2026-08-18） | `dita-tools lint` ✅；覆盖面按分支推广（补抓取器 + `bm-*` 的 `index-source`/`index-generated`，判定逻辑不动） |
+| R20（吸收 R10） | 体裁声明的挂靠与取舍：词表 genre-values 里带 `hangs-off-genre` 的体裁（当前只有 quickstart → tech-landscape），其 topic 必须有一个 xref 解析到该体裁的、同 domain 的篇（打开被引文件读 `@outputclass` 与 domain，不是「有没有 xref」），且根元素的 `@dimension` 须非空、全部落在概览 `planned-dimension` 内、并且是**真子集**（覆盖全部即非取舍）。略过的维度刻意不要求逐条声明——它是可推导的差集，`ia` 已在算。「取舍」一节的**存在**归 R13（节名属体裁结构，正本在词表 `required-section`，工具不得内联该字面）。恒 error：查的是体裁的定义性条件，且 R10 自首版即恒 error，吸收不得放宽 | `dita-tools lint`（2026-08-18） | `dita-tools lint` ✅ |
+| ~~R10~~ | ~~quickstart 挂靠~~ | **已被 R20 吸收（2026-08-18）**：`check-rules.xsl` 那一段已删，`rules.sch` 保留记档与差分对账（R20 通过必然 R10 通过，反之不然） | 归 R20 |
 | 结构校验 | RNG shell 一致性 | `dita validate`（DITA-OT） | DITA-OT，不自造 |
 | map 结构 / 孤儿 topic | 引用文件是否存在、topic 是否被引 | `dita-tools ia` | dita-tools |
 | 链接活性 | 外链 404 检测 | `scripts/link-check.py`（2026-08-15） | `dita-tools links`（要联网，独立跑，暂不急迁） |
@@ -87,9 +89,9 @@ R11 的归属之所以两份规划都伸手认领，根子在这条线一直没�
 | 能力 | 今天 | 收敛到 |
 |---|---|---|
 | 结构校验（RNG）/ 发布 | DITA-OT | 留 DITA-OT，不自造 |
-| 业务规则 lint（R1–R11） | `check-rules.xsl` + `ia` 各持一段 | `dita-tools lint` |
+| 业务规则 lint（R1–R11） | `check-rules.xsl`（现存 R1–R8）+ `ia` 各持一段 | `dita-tools lint` |
 | 体裁与文体 lint（R12–R16） | ✅ `dita-tools lint`（2026-08-16 开建，新能力直进平台）；严重度按 maturity 分级＝晋级门 | 已在归宿 |
-| 成熟度必标（R18）/ 上游声明（R19） | ✅ `dita-tools lint`（R18 2026-08-17，R19 2026-08-18） | 已在归宿 |
+| 成熟度必标（R18）/ 上游声明（R19）/ 体裁挂靠（R20） | ✅ `dita-tools lint`（R18 2026-08-17，R19 与 R20 2026-08-18）；R20 吸收了 `check-rules.xsl` 的 R10，该段已删 | 已在归宿 |
 | 上游节点索引生成 | ✅ `dita-tools upstream-index`（2026-08-18，生成物进版本控制、勿手改） | 已在归宿 |
 | 术语扫描（R7） | `term-normalize.py` | `dita-tools lint` |
 | 维度覆盖 | ~~`dimension-coverage.py`~~ | ✅ **已吸收（2026-08-15 退役，五关首个先例）**，归 `dita-tools ia` |
@@ -110,7 +112,7 @@ R11 的归属之所以两份规划都伸手认领，根子在这条线一直没�
 
 | 事实 | 正本 | 已知的违规副本 |
 |---|---|---|
-| 分类树、三个属性值集、45+ 维度值 | `kb/vocab/subjectScheme.ditamap` | `kb/scripts/check-rules.xsl` 内的硬编码值 |
+| 分类树、三个属性值集、46 个维度值、体裁的必需节与挂靠对（`hangs-off-genre`） | `kb/vocab/subjectScheme.ditamap` | `kb/scripts/check-rules.xsl` 内的硬编码值 |
 | 规则 R1–R11 的定义与理由 | `kb/schema/rules.sch` + `research/cases/kb-redesign/schematron-design.md` | `kb/scripts/check-rules.xsl` 的注释（可接受，属实现注解） |
 | 内容与其元数据 | `kb/topics/**.dita` | 无 |
 | 结构组织 | `kb/maps/**.ditamap` | 无 |

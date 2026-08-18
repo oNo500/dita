@@ -11,6 +11,14 @@
     <subjectdef keys="cheatsheet">
       <data name="dita-type" value="reference"/>
     </subjectdef>
+    <subjectdef keys="tech-landscape">
+      <data name="dita-type" value="concept"/>
+    </subjectdef>
+    <subjectdef keys="quickstart">
+      <data name="dita-type" value="concept"/>
+      <data name="required-section" value="取舍"/>
+      <data name="hangs-off-genre" value="tech-landscape"/>
+    </subjectdef>
   </subjectdef>
   <enumerationdef>
     <attributedef name="outputclass"/>

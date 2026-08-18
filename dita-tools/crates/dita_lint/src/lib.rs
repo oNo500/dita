@@ -1,5 +1,6 @@
-//! Per-topic content rules R12–R16, R18 and R19: genre, structure, source
-//! section, register, split threshold, maturity presence, upstream provenance.
+//! Per-topic content rules R12–R16, R18, R19 and R20: genre, structure, source
+//! section, register, split threshold, maturity presence, upstream provenance,
+//! and a genre's declared hang-off (quickstart → its domain landscape).
 //!
 //! Spec lives in `kb/schema/rules.sch`; genre values and their metadata live in
 //! the subject scheme — nothing here carries a value list of its own.
@@ -14,6 +15,14 @@
 //! absence. It also runs on `glossentry`, which every other check here skips
 //! (their genre/structure/register model doesn't apply to a glossentry's fixed
 //! shape) — R18's context matches R2's in `rules.sch`, not `CONTENT_ROOTS`.
+//!
+//! R20 is the other exception, and always an error too. What it checks is not a
+//! degree of finish but the defining condition of the genre: a quickstart is
+//! one path selected on a landscape, so a quickstart that hangs off nothing is
+//! not an unfinished quickstart, it is a how-to wearing the wrong label. It
+//! also inherits R10's severity — that Schematron rule has been an
+//! unconditional error since the first ruleset, and absorbing it here must not
+//! quietly relax it.
 
 use std::{fs, path::Path};
 
@@ -255,6 +264,8 @@ pub fn lint_topic(
         return Ok(diag); // glossentry (R18 already checked above) and unknown roots are out of scope
     }
 
+    check_hangs_off(root, path, vocab, &mut diag);
+
     // drafts warn, curated/verified error — the promotion gate
     let strict = matches!(root.attribute("maturity"), Some("curated" | "verified"));
     let mut push = |msg: String| {
@@ -354,6 +365,184 @@ fn check_upstream_node(
                 index.provenance()
             ));
         }
+    }
+}
+
+/// R20: a genre's declared hang-off, resolved across documents.
+///
+/// The subject scheme is the only place that says which genres hang off which
+/// — `hangs-off-genre` on the depending genre (`quickstart` → `tech-landscape`).
+/// Nothing here carries that pair, the same discipline the rest of this file
+/// follows: no value list in Rust, ever.
+///
+/// Two things are then checkable, and neither is a matter of finish, so both
+/// report as errors regardless of `@maturity`:
+///
+/// - **挂靠**: some `xref` in the topic has to resolve to a real file whose
+///   genre is the one declared, and that file has to belong to the same domain.
+///   R10 asked only "is there any xref at all", which any link satisfied; this
+///   opens the target and looks.
+/// - **取舍**: the topic has to say which of that landscape's planned
+///   dimensions it covers, by declaring `@dimension`, and the set has to be a
+///   *proper* subset of the plan. Covering the whole plan is not a selection —
+///   that topic is the landscape, not a path across it.
+///
+/// The skipped dimensions are deliberately **not** listed anywhere: they are
+/// the complement of a declared set against a declared plan, and hand-copying
+/// a derivable set is the defect this library computes its way out of
+/// everywhere else (`just ia` does exactly this subtraction). What the author
+/// owes is the choice and its reasons — the choice as `@dimension`, the reasons
+/// as prose in the 取舍 section, whose presence is R13's job because its title
+/// lives in the vocabulary, not here.
+fn check_hangs_off(
+    root: roxmltree::Node,
+    path: &Path,
+    vocab: &Vocabulary,
+    diag: &mut DiagnosticBag,
+) {
+    let Some(genre) = root.attribute("outputclass") else {
+        return;
+    };
+    let Some(want) = vocab
+        .subject(genre)
+        .and_then(|s| s.data.get("hangs-off-genre"))
+    else {
+        return; // this genre hangs off nothing — R20 does not apply
+    };
+    let mut err = |msg: String| diag.push(Diagnostic::error(path, msg));
+
+    let dir = path.parent().unwrap_or_else(|| Path::new("."));
+    let mut tried: Vec<String> = Vec::new();
+    let mut target = None;
+    for href in local_hrefs(root) {
+        let candidate = dir.join(&href);
+        match TopicFacts::read(&candidate) {
+            Some(facts) if facts.genre.as_deref() == Some(want.as_str()) => {
+                target = Some(facts);
+                break;
+            }
+            _ => tried.push(href),
+        }
+    }
+
+    let Some(landscape) = target else {
+        err(format!(
+            "R20：{genre} 缺挂靠——正文里没有一个 xref 指向体裁为 {want} 的篇（本域概览）。\
+             {genre} 是在完整维度框架上选出的一条路径，不挂靠框架就无从判断它略过了什么。\
+             已解析的库内 xref：{}",
+            if tried.is_empty() {
+                "无".to_string()
+            } else {
+                tried.join("、")
+            }
+        ));
+        return;
+    };
+
+    let domain = prolog_data(root, "domain");
+    if !domain.is_empty()
+        && !landscape.domain.is_empty()
+        && !domain
+            .iter()
+            .any(|d| landscape.domain.contains(&(*d).to_string()))
+    {
+        err(format!(
+            "R20：挂靠的概览属域「{}」，与本篇的域「{}」不符——{genre} 要挂的是自己所属领域的概览，\
+             挂到别域会让取舍声明对着一份无关的维度清单做",
+            landscape.domain.join("、"),
+            domain.join("、")
+        ));
+    }
+
+    let covered: Vec<&str> = root
+        .attribute("dimension")
+        .unwrap_or_default()
+        .split_whitespace()
+        .collect();
+    if covered.is_empty() {
+        err(format!(
+            "R20：{genre} 缺取舍声明——根元素必须标 @dimension，声明本篇覆盖了概览规划清单里的哪几个维度。\
+             略过的那些不必逐条抄写，它们是规划清单与本声明的差集，由 dita-tools ia 算出"
+        ));
+        return;
+    }
+
+    let outside: Vec<&str> = covered
+        .iter()
+        .copied()
+        .filter(|d| !landscape.planned.iter().any(|p| p == d))
+        .collect();
+    if !outside.is_empty() {
+        err(format!(
+            "R20：覆盖声明里的「{}」不在概览的规划清单内——要么本篇标错了维度，\
+             要么概览漏登记了这一维（两种都会让覆盖度算不准，先定是哪一种再改）",
+            outside.join("」「")
+        ));
+    }
+
+    let skipped: Vec<&String> = landscape
+        .planned
+        .iter()
+        .filter(|p| !covered.iter().any(|c| c == p))
+        .collect();
+    if skipped.is_empty() {
+        err(format!(
+            "R20：本篇覆盖了概览规划的全部 {} 个维度，没有略过任何一维——那不是取舍。\
+             按解锁度与使用频率选出少数几维，其余留给概览",
+            landscape.planned.len()
+        ));
+    }
+}
+
+/// Local (non-external) `.dita` targets of a topic's `xref`s, fragment
+/// stripped, in document order.
+fn local_hrefs(root: roxmltree::Node) -> Vec<String> {
+    root.descendants()
+        .filter(|n| n.has_tag_name("xref"))
+        .filter(|n| n.attribute("scope") != Some("external"))
+        .filter_map(|n| n.attribute("href"))
+        .map(|h| h.split('#').next().unwrap_or(h).to_string())
+        .filter(|h| {
+            Path::new(h)
+                .extension()
+                .is_some_and(|e| e.eq_ignore_ascii_case("dita"))
+        })
+        .collect()
+}
+
+/// The few facts R20 needs from a referenced topic, read from its own file.
+///
+/// A second parse rather than a corpus pass: the only thing being followed is
+/// one `xref` the topic itself wrote, so opening that file is the whole job.
+struct TopicFacts {
+    genre: Option<String>,
+    domain: Vec<String>,
+    planned: Vec<String>,
+}
+
+impl TopicFacts {
+    /// `None` when the file is missing or not well-formed — the caller reports
+    /// that as "no hang-off found" together with what it tried, since a broken
+    /// or dangling reference is exactly one of the ways a hang-off fails.
+    fn read(path: &Path) -> Option<Self> {
+        let xml = fs::read_to_string(path).ok()?;
+        let opts = roxmltree::ParsingOptions {
+            allow_dtd: true,
+            ..roxmltree::ParsingOptions::default()
+        };
+        let doc = roxmltree::Document::parse_with_options(&xml, opts).ok()?;
+        let root = doc.root_element();
+        Some(Self {
+            genre: root.attribute("outputclass").map(str::to_string),
+            domain: prolog_data(root, "domain")
+                .into_iter()
+                .map(str::to_string)
+                .collect(),
+            planned: prolog_data(root, "planned-dimension")
+                .into_iter()
+                .map(str::to_string)
+                .collect(),
+        })
     }
 }
 

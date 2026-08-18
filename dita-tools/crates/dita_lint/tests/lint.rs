@@ -327,3 +327,84 @@ fn r19_severity_follows_maturity() {
     );
     assert_eq!(d.error_count(), 0, "{:?}", messages(&d));
 }
+
+// ── R20：体裁声明的挂靠（quickstart → 本域概览）──
+//
+// 恒 error，不随 maturity 分级：查的不是完成度，是体裁的定义性条件——
+// 不挂靠任何框架的 quickstart 不是「未写完的 quickstart」，是标错体裁的 how-to。
+// 全部用例的 maturity 都是 draft，正是为了把这一点钉住。
+
+/// 挂靠解析得到、覆盖集是规划清单的真子集——R20 无话可说。
+#[test]
+fn quickstart_with_resolved_hangoff_passes() {
+    let d = lint("quickstart-ok.dita");
+    let msgs = messages(&d);
+    assert!(
+        !msgs.iter().any(|m| m.contains("R20")),
+        "合规样例不应报 R20：{msgs:?}"
+    );
+}
+
+/// 变异一：去掉指向概览的 xref。R10 只问「有没有 xref」，本条打开目标看体裁。
+#[test]
+fn quickstart_without_hangoff_is_error() {
+    let d = lint("quickstart-no-hangoff.dita");
+    let msgs = messages(&d);
+    assert_eq!(d.error_count(), 1, "draft 也报 error：{msgs:?}");
+    assert!(
+        msgs.iter()
+            .any(|m| m.contains("R20") && m.contains("缺挂靠"))
+    );
+}
+
+/// 变异二：去掉取舍声明（根元素的 @dimension）。
+#[test]
+fn quickstart_without_dimension_is_error() {
+    let d = lint("quickstart-no-dimension.dita");
+    let msgs = messages(&d);
+    assert_eq!(d.error_count(), 1, "draft 也报 error：{msgs:?}");
+    assert!(
+        msgs.iter()
+            .any(|m| m.contains("R20") && m.contains("缺取舍声明"))
+    );
+}
+
+/// 覆盖了规划清单的全部维度＝没有取舍，那是概览不是路径。
+#[test]
+fn quickstart_covering_every_planned_dimension_is_error() {
+    let d = lint("quickstart-covers-all.dita");
+    let msgs = messages(&d);
+    assert!(
+        msgs.iter()
+            .any(|m| m.contains("R20") && m.contains("没有略过任何一维"))
+    );
+}
+
+/// 声明覆盖了概览没规划的维度：不是标错就是概览漏登记，两种都让覆盖度算不准。
+#[test]
+fn quickstart_covering_unplanned_dimension_is_error() {
+    let d = lint("quickstart-outside-plan.dita");
+    let msgs = messages(&d);
+    assert!(
+        msgs.iter()
+            .any(|m| m.contains("R20") && m.contains("dim-retrieval"))
+    );
+}
+
+/// 挂到了别域的概览：取舍声明对着一份无关的维度清单做，等于没做。
+#[test]
+fn quickstart_hanging_off_another_domain_is_error() {
+    let d = lint("quickstart-wrong-domain.dita");
+    let msgs = messages(&d);
+    assert!(
+        msgs.iter()
+            .any(|m| m.contains("R20") && m.contains("与本篇的域"))
+    );
+}
+
+/// 体裁没声明 hangs-off-genre 的（best-practice 等）不进本条的射程。
+#[test]
+fn genre_without_declared_hangoff_is_out_of_scope() {
+    let d = lint("clean.dita");
+    assert!(!messages(&d).iter().any(|m| m.contains("R20")));
+}

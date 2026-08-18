@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<concept id="hangoff-other-landscape" outputclass="tech-landscape" maturity="draft" volatility="stable"
+         dimension="dim-comparison">
+  <title>别域的概览</title>
+  <shortdesc>域不同，用于域不符用例。</shortdesc>
+  <prolog>
+    <data name="domain" value="elsewhere"/>
+    <data name="planned-dimension" value="dim-concept"/>
+    <data name="planned-dimension" value="dim-usage"/>
+  </prolog>
+  <conbody><section><title>来源</title>
+    <p><b>事实</b>：无。</p><p><b>判断</b>：全篇为判断。</p></section></conbody>
+</concept>

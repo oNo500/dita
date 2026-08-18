@@ -360,8 +360,15 @@
     <subjectdef keys="quickstart">
       <data name="dita-type" value="concept"/>
       <data name="required-section" value="目标"/>
+      <data name="required-section" value="取舍"/>
       <data name="required-section" value="前置"/>
       <data name="required-section" value="步骤"/>
+      <!-- R20：quickstart 是在完整维度框架上选出的一条路径，必须挂靠所属领域的概览体裁。
+           这一对关系（谁挂靠谁）的正本在这里，不在 lint——工具不得内联值清单，
+           它读本字段判定；换言之 quickstart 与 tech-landscape 两个字面只出现在词表里。
+           取舍一节同理：节名是体裁结构的一部分，故走 required-section 由 R13 执行，
+           R20 只管挂靠解析得到与覆盖声明成立与否，两条互不重复报同一处缺失。 -->
+      <data name="hangs-off-genre" value="tech-landscape"/>
     </subjectdef>
     <subjectdef keys="how-to">
       <data name="dita-type" value="concept"/>

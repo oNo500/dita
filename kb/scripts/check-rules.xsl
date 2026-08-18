@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- KB 业务规则检查（可执行版，Saxon 跑）。实现 schema/rules.sch 的 R1–R10。
+<!-- KB 业务规则检查（可执行版，Saxon 跑）。实现 schema/rules.sch 的 R1–R8（R10 于 2026-08-18 被 R20 吸收进 dita-tools lint，此处删除，见 rules.sch 该条注释）。
      用 DITA-OT 自带 Saxon-HE 执行，不引第三方 Schematron 编译器。
      ⚠ 须与 schema/rules.sch 保持同步（那份是人读规格，本份是可执行实现）；
         将来接入 SchXslt 后可直接编译 rules.sch，删除本份消除重复。
@@ -27,7 +27,7 @@
        只绑定全局 xsl:param，绑不到命名模板自己的局部 xsl:param，踩过坑记在这。 -->
   <xsl:param name="kb-dir" as="xs:string?"/>
 
-  <!-- 规则实现本体：对一份已解析文档跑 R1–R10（R9 除外，见上），每条违规一行，
+  <!-- 规则实现本体：对一份已解析文档执行 R1–R8（R9/R10 除外，见上），每条违规一行，
        行首按调用方给的 $prefix 定位到具体文件（批量入口传 "[rules] <rel>: "，
        单文件调试入口传空串）。 -->
   <xsl:template name="check-doc">
@@ -64,9 +64,6 @@
     <xsl:if test="$r[self::concept or self::reference] and not($r/prolog/source or $r//xref[@scope='external'] or $r//data[@name='source'])">
       <xsl:value-of select="concat($prefix,'R8(error): concept/reference 必须有至少一个来源','&#10;')"/>
     </xsl:if>
-    <xsl:if test="$r[@outputclass='quickstart'] and not($r//xref)">
-      <xsl:value-of select="concat($prefix,'R10(error): quickstart 必须 xref 到所属领域概览','&#10;')"/>
-    </xsl:if>
   </xsl:template>
 
   <!-- 单文件调试入口：java ... net.sf.saxon.Transform -s:<file> -xsl:check-rules.xsl
@@ -78,7 +75,7 @@
   </xsl:template>
 
   <!-- 批量入口：java ... net.sf.saxon.Transform -it:main -xsl:check-rules.xsl "kb-dir=file://<KB 绝对路径>"
-       一次 JVM 跑完 kb/topics 下全部 .dita 的 R1–R10。 -->
+       一次 JVM 执行完 kb/topics 下全部 .dita 的 R1–R8。 -->
   <xsl:template name="main">
     <xsl:if test="not($kb-dir)">
       <xsl:message terminate="yes">缺 kb-dir 参数：java ... -it:main -xsl:check-rules.xsl "kb-dir=file://&lt;kb 绝对路径&gt;"</xsl:message>

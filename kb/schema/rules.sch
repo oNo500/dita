@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- KB 业务规则（Schematron，ISO/IEC 19757-3）R1–R10。
+<!-- KB 业务规则（Schematron，ISO/IEC 19757-3）R1–R20。
      分工：RNG 管结构、subjectScheme enumerationdef 构建期管受控值；
      本文件管 RNG 表达不了的跨属性/语义/业务规则（编辑期即时 + 审查脚本批量）。
-     R12–R16（2026-08-16 加，随 writing-style 落地）与 R18–R19 由 dita-tools lint 实现
+     R12–R16（2026-08-16 加，随 writing-style 落地）与 R18–R20 由 dita-tools lint 实现
      （新能力直接进平台，不再扩 check-rules.xsl——它正在被逐步取代）；严重度按 maturity 分级：
      draft 记 warning（草稿不阻断），curated/verified 记 error（晋级门）。R18 是例外，恒 error
      （被检查的正是分级所依赖的属性）；R19 随分级，但索引读不到时走"未执行"而非通过。
@@ -12,7 +12,7 @@
      机器面。规则的人读正本在 topics/content-engineering/，本文件只管机器执行——
      两处内容不重复，改规则先改正本，再看这条 R 是否要跟着调。 -->
 <schema xmlns="http://purl.oclc.org/dsdl/schematron">
-  <title>KB 业务规则 R1-R19</title>
+  <title>KB 业务规则 R1-R20</title>
 
   <!-- 归属：LLM 友好与检索 / writing-llm-friendly -->
   <pattern id="R1-shortdesc">
@@ -84,12 +84,13 @@
        归构建脚本承担（dimension-coverage.py 可扩展：某 domain 有内容却无概览即报）。此处不实现。 -->
 
   <!-- 归属：领域维度框架 / domain-dimension-method -->
-  <pattern id="R10-quickstart-xref">
-    <rule context="*[@outputclass='quickstart']">
-      <assert test=".//xref"
-        >R10（error）：quickstart 必须 xref 到所属领域概览（并声明覆盖/略过哪些维度）。</assert>
-    </rule>
-  </pattern>
+  <!-- R10（quickstart 必须 xref 到所属领域概览并声明覆盖/略过哪些维度）已被 R20 吸收，
+       此处不再实现，check-rules.xsl 里的那一段同步删除（吸收纪律：一项能力只落一处，
+       两处都报会让同一处缺失出现两条消息）。原因是单文档 Schematron 只判得了「有没有
+       xref」——任意一条链接都能满足它，而规则真正要的是「那个 xref 指到的是不是本域的
+       概览」，这要打开被引文件读它的 @outputclass 与 domain，跨文档，XPath1 子集表达不了。
+       差分对账：R10 的判定是 R20 挂靠一面的严格弱化（R20 通过必然 R10 通过，反之不然），
+       故吸收不放宽任何一处，严重度也照 R10 保持恒 error。 -->
 
 
   <!-- ── R12–R15：体裁与文体（实现在 dita-tools lint，此处为规格正本）── -->
@@ -212,6 +213,32 @@
         覆盖面：目前只有 domain="dita"（其上游可本地解析，成本最低）。规则是全库通用的，
         推广到其他分支要补的只有抓取器与 benchmark-registry 的 index-source / index-generated
         两个字段，不改本条的判定逻辑（设计稿七之二）。由 dita-tools lint 执行。</assert>
+    </rule>
+  </pattern>
+
+  <!-- 归属：领域维度框架 / domain-dimension-method -->
+  <pattern id="R20-genre-hangoff">
+    <rule context="*[@outputclass]">
+      <assert test="true()"
+        >R20（2026-08-18 定，恒 error，不按 maturity 分级）：体裁声明的挂靠与取舍。
+        词表 genre-values 里带 data name="hangs-off-genre" 的体裁（目前只有 quickstart，
+        值为 tech-landscape），其 topic 必须满足两件事，缺任一报错。
+        其一，挂靠：正文里至少有一个 xref 指向的库内 .dita 文件，其根元素 @outputclass
+        等于所声明的那个体裁，且该文件 prolog 的 domain 与本篇相同。判定要打开被引文件看，
+        不是「有没有 xref」——那是被本条吸收的 R10 的判法，任意一条链接都能满足它。
+        挂到别域的概览同样报错：取舍声明若对着一份无关的维度清单做，等于没做。
+        其二，取舍声明：根元素必须标 @dimension，声明本篇覆盖了概览规划清单里的哪几个维度；
+        所声明的值须全部落在该概览的 planned-dimension 内（落在外面说明要么本篇标错、
+        要么概览漏登记，两种都会让覆盖度算不准）；且必须是**真子集**——覆盖了规划的全部维度
+        就不是取舍，那篇是概览而不是概览上的一条路径。
+        **略过的维度刻意不要求逐条声明**：它是规划清单与覆盖声明的差集，可由机器求出
+        （dita-tools ia 已在算），手抄一份可推导的集合正是本库在别处逐条消灭的缺陷。
+        作者要交的是选择与理由——选择落在 @dimension 上，理由落在「取舍」一节的散文里，
+        而该节的**存在**由 R13 管（节名属体裁结构，正本在词表的 required-section，
+        工具不得内联该字面），本条只管挂靠解析得到与覆盖声明成立与否，两条不重复报同一处缺失。
+        恒 error 的两条理由：其一，被查的不是完成度而是体裁的定义性条件——不挂靠任何框架的
+        quickstart 不是未写完的 quickstart，是标错体裁的 how-to；其二，被吸收的 R10 自首版
+        起即为恒 error，吸收不得顺带放宽。由 dita-tools lint 执行。</assert>
     </rule>
   </pattern>
 
