@@ -20,7 +20,7 @@
 <concept id="writing-style" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="stable"
-         dimension="dim-criteria dim-structure-template">
+         dimension="dim-criteria dim-structure-template dim-register">
   <title>kb 文体与语体</title>
   <shortdesc>五条约束管一篇内容的写法：章节标题作标签不作论点、正文只放知识不放过程与心得、语气平实、用词书面、样例自洽。没有这层约束，每篇的读感由写它的那一刻决定。</shortdesc>
   <prolog>

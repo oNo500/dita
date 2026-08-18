@@ -224,6 +224,12 @@
       <subjectdef keys="dim-examples"/>
       <subjectdef keys="dim-consistency"/>
       <subjectdef keys="dim-interop"/>
+      <subjectdef keys="dim-register"/>    <!-- 语体与用词：语气、句式、禁用词、强调手段的配额。
+           writing-principles 概览的对标补出（Google developer documentation style guide 的
+           Voice and tone / Language and grammar / Punctuation 三组、Microsoft Writing Style Guide 的
+           brand voice / Word choice / Grammar and parts of speech / Punctuation 四组，两家均占顶层类目的
+           三分之一强），D 族原七个值里无一承担：结构与模板管骨架，语体管的是散文表层，
+           归入前者是类目错置。补法照 dim-packaging 的先例——单个领域的概览对标触发，按需补一个值。 -->
     </subjectdef>
 
   </subjectdef>
@@ -312,6 +318,17 @@
       <data name="event-trigger">DITA-OT 升级；OASIS 发新 beta 或正式版；再生成索引后 diff 出节点改名/删除（R19 会把失联的声明逐篇列出）</data>
       <data name="index-source" value="dita-ot + oasis-archspec + oasis-langref + oasis-spec"/>
       <data name="index-generated" value="2026-08-18"/>
+    </subjectdef>
+
+    <!-- writing-principles 分支（随该域概览落地新增）。与 bm-content-engineering 分列，理由同
+         bm-dita：那条的锚点覆盖整个知识工程分支（术语标准与结构化内容标准），而写作规则这一支的
+         权威在另一批文档上——单篇文档形态的两个框架、两家写作风格指南。挂在上面那条里等于
+         替另外几支宣称"已按这批锚点对标"。 -->
+    <subjectdef keys="bm-writing-principles">
+      <data name="anchor">Diátaxis（站点类目：四象限 ＋ the map / the compass / quality / workflow / adoption）· The Good Docs Project（Core pack 七模板 ＋ Misc pack 的 glossary / style guide / terminology system / user personas，另有 Tactics）· Google developer documentation style guide（九组顶层类目）· Microsoft Writing Style Guide（二十余项顶层类目，含 Checklists / Content planning / Search and writing）· ISO 704 与 ISO 25964 / NISO Z39.19（概念、定义、指称与三类概念关系）· OASIS DITA 2.0 的 subject scheme 与受控值绑定</data>
+      <data name="last-benchmarked" value="2026-08-18"/>
+      <data name="cadence" value="stable-on-trigger"/>
+      <data name="event-trigger">Diátaxis 或 Good Docs 改版站点类目；两家风格指南重构顶层类目；ISO 704 / 25964 出新版；本支连续 ≥3 篇内容标不上概览已列的维度</data>
     </subjectdef>
 
     <!-- 维度值集的对标（v0.3 新增）：登记的不是主题分支，是横切 dimension 值集本身。 -->

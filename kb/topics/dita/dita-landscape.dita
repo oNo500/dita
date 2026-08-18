@@ -65,12 +65,11 @@
 
     <section>
       <title>一、立场、权限与自用规矩</title>
-      <p>学一门标准之前先定三件事：它为什么长成这样、你有没有权限改它、你自己按什么规矩写。DITA 的元素清单是推导结果而非约定清单，跳过推导，后面每条规则都退化成需要背诵的条目；权限划定阅读边界，定义词汇与外壳是架构师的职责，写内容的人读到外壳为止；自用规矩把前两条落到日常，判据管一篇该不该建，流程管它从起草到复核怎么走。</p>
+      <p>学一门标准之前先定三件事：它为什么长成这样、你有没有权限改它、你自己按什么规矩写。DITA 的元素清单是推导结果而非约定清单，跳过推导，后面每条规则都退化成需要背诵的条目；权限划定阅读边界，定义词汇与外壳是架构师的职责，写内容的人读到外壳为止；自用规矩把前两条落到日常，流程管一篇从起草到复核怎么走。写作与收录判据不在本域，它管的是本库写作而非 DITA 本身，正本在 writing-principles 域。</p>
       <simpletable relcolwidth="1* 3*">
         <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
         <strow><stentry>原理与推导（dim-principles）</stentry><stentry><term keyref="term-ssot">同一个事实只存在于一处</term>这条公理推得出哪些结构、又要付出哪几笔代价；哪些设计是必然，哪些只是历史选择</stentry></strow>
         <strow><stentry>角色与权限（dim-roles）</stentry><stentry>规范写给哪几种角色看、各角色该读哪部分、谁有权定义 <term keyref="term-schema">schema</term> 与文档类型外壳</stentry></strow>
-        <strow><stentry>写作与收录判据（dim-criteria）</stentry><stentry>一条内容该不该单独成篇、拆分与合并的界线、元数据标到什么程度算够</stentry></strow>
         <strow><stentry>写作与维护流程（dim-process）</stentry><stentry>一篇内容从起草、校验到入库走哪几步，已入库的内容按什么节奏复核与维护</stentry></strow>
       </simpletable>
     </section>
@@ -176,7 +175,7 @@
     <section>
       <title>来源</title>
       <p><b>事实</b>：版本现状四项与三条实践含义的依据为 <xref href="https://dita-lang.org/specifications" scope="external">规范总入口</xref>、<xref href="https://github.com/oasis-tcs/dita/releases" scope="external">OASIS TC 发布页</xref>、<xref href="https://www.dita-ot.org/dev/release-notes/" scope="external">DITA-OT 发布说明</xref>与 <xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA-OT 的 2.0 支持说明</xref>，均已逐页核对。刻意排除一节里两条独立版本线的状态，依据是 <xref href="https://github.com/oasis-tcs/dita-learning-training" scope="external">学习培训仓库</xref>无 release 且长期未推送、<xref href="https://github.com/oasis-tcs/dita-lwdita" scope="external">轻量版仓库</xref>自成版本线，两处仓库实况已在调研笔记核对。维度对标所引的规范编排取自规范总入口与 <xref href="https://www.dita-ot.org/dev/" scope="external">DITA-OT 文档</xref>的现有类目。</p>
-      <p><b>判断</b>：二十四个维度的取舍与六组划分、三项刻意排除、把检索归入扩展与外接而非工程实践，均为本库判断，可被反驳。与其他方案的定位差一表为判断性内容，未逐页核对各方案的规范原文；该表的量级词表达的是相对位置，不是可测量的指标。维度清单是否齐全属人审事项。</p>
+      <p><b>判断</b>：二十三个维度的取舍与六组划分、三项刻意排除、把检索归入扩展与外接而非工程实践，均为本库判断，可被反驳。与其他方案的定位差一表为判断性内容，未逐页核对各方案的规范原文；该表的量级词表达的是相对位置，不是可测量的指标。维度清单是否齐全属人审事项。</p>
     </section>
   </conbody>
 </concept>
