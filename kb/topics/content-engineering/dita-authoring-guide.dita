@@ -67,7 +67,7 @@
           <stentry>R15</stentry>
         </strow>
         <strow>
-          <stentry>喂给检索器与 agent 时怎么写得更好用</stentry>
+          <stentry>供检索器与 agent 使用时怎么写得更好用</stentry>
           <stentry><xref href="writing-llm-friendly.dita">kb 的 LLM 友好写作</xref></stentry>
           <stentry>无</stentry>
         </strow>

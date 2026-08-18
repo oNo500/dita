@@ -38,7 +38,7 @@
           <stentry>这个维度讲什么</stentry>
           <stentry>状态</stentry>
         </sthead>
-        <strow><stentry>概念（dim-concept）</stentry><stentry>Electron 是什么、Chromium＋Node 合体的心智模型、适用与不适用场景</stentry><stentry>盲区</stentry></strow>
+        <strow><stentry>概念（dim-concept）</stentry><stentry>Electron 是什么、Chromium 与 Node 两个运行时如何组合、适用与不适用场景</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>架构与进程模型（dim-internals）</stentry><stentry>主进程／渲染进程／preload 的职责与边界、进程间隔离</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>进程通信与用法（dim-usage）</stentry><stentry>IPC 通道、contextBridge 暴露、常用主进程 API</stentry><stentry>盲区</stentry></strow>
         <strow><stentry>安全基线与攻击面（dim-security）</stentry><stentry>nodeIntegration／contextIsolation 开关、XSS→IPC→RCE 攻击链与各环节的阻断手段</stentry><stentry>盲区</stentry></strow>

@@ -36,7 +36,7 @@
   <conbody>
     <section>
       <title>用在什么时候</title>
-      <p>交付物只有一两件时，逐次执行 <cmdname>dita</cmdname> 命令即可。矩阵长大之后（多个 <term keyref="term-transtype">transtype</term>（输出类型）乘多份 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）），构建脚本里的循环开始承担声明职责：哪份过滤配哪个输出目录，这层对应关系只存在于循环变量的拼接里，新增一个维度要改多处。project file 把这层关系搬出脚本，交给一份可读的声明。</p>
+      <p>交付物只有一两件时，逐次执行 <cmdname>dita</cmdname> 命令即可。矩阵扩大之后（多个 <term keyref="term-transtype">transtype</term>（输出类型）乘多份 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）），构建脚本里的循环开始承担声明职责：哪份过滤配哪个输出目录，这层对应关系只存在于循环变量的拼接里，新增一个维度要改多处。project file 把这层关系搬出脚本，交给一份可读的声明。</p>
     </section>
 
     <section>

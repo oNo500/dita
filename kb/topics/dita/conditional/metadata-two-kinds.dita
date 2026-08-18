@@ -83,7 +83,7 @@
     <section>
       <title>反例</title>
       <ul>
-        <li>把所有拿不准的维度一律写进 <xmlatt>otherprops</xmlatt> 或 <xmlelement>othermeta</xmlelement>。半年内可用，随后拼写变体开始繁殖，而这两处没有任何校验。</li>
+        <li>把所有拿不准的维度一律写进 <xmlatt>otherprops</xmlatt> 或 <xmlelement>othermeta</xmlelement>。半年内可用，随后拼写变体开始增多，而这两处没有任何校验。</li>
         <li>照着字段清单把十五项全部建起来。清单是检查单不是建设清单，其中若干项在 DITA 里已由架构承担。</li>
         <li>把手填的日期字段接进检索排序。字段存在不等于字段可信。</li>
         <li>分类维度不进受控树，由作者按需发明新取值。同一个概念很快会有三种写法，而检索按字符串匹配。</li>

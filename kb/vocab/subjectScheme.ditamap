@@ -28,7 +28,7 @@
 
   <!-- ═══════ 主题维度 ═══════
        供 @subjectrefs 引用做分类标引，不绑定过滤属性。
-       树按"排除父亲时儿子该消失"的过滤语义画（14 §4），不按学科从属画。
+       树按"排除父节点时子节点该消失"的过滤语义画（14 §4），不按学科从属画。
        九个顶层分支互相正交，经五路对标确认无一需改动。 -->
   <subjectdef keys="subject">
 
@@ -93,8 +93,8 @@
         <subjectdef keys="mcp"/>           <!-- 出现 A2A/ACP 真实笔记时升 protocols 父节点 -->
         <subjectdef keys="memory"/>        <!-- 预留挂点：agent 记忆/KG-as-memory（v0.2 预留） -->
       </subjectdef>
-      <!-- coding-agents（原 agent-cli）：工具已不限 CLI 形态；产品名叶子接受高周转，
-           父节点稳定、叶子死了归档即可（如 Google 2026-06 砍 Gemini CLI） -->
+      <!-- coding-agents（原 agent-cli）：工具已不限 CLI 形态；产品名这一层的节点更替频繁，
+           父节点稳定、节点废弃后归档即可（如 Google 2026-06 停止 Gemini CLI） -->
       <subjectdef keys="coding-agents">
         <subjectdef keys="claude-code"/>
         <subjectdef keys="codex"/>

@@ -6,7 +6,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-classification">
   <title>kb 内容类型化</title>
-  <shortdesc>动笔前先确定类型，一篇只写一类。类型化的收益是结构可预测：同类内容形状一致，才能被统一检索、复用与投喂。</shortdesc>
+  <shortdesc>动笔前先确定类型，一篇只写一类。类型化的收益是结构可预测：同类内容形状一致，才能被统一检索、复用，并送入检索器与模型。</shortdesc>
   <prolog>
     <data name="domain" value="writing-principles"/>
   </prolog>

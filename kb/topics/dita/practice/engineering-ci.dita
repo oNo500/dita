@@ -70,7 +70,7 @@
 done</codeblock>
       <p>循环体每跑一次出一件交付物：过滤规则决定内容，输出目录按规则名派生，因而新增一份 DITAVAL 就自动多出一件、不必改脚本。这一步是容易省掉的一步，也是唯一能发现条件组合问题的一步。</p>
       <p>与逐变体构建配套的一条内容侧约定：存放可复用片段的 topic 不做条件化。它被多处 <term keyref="term-conref">conref</term>（引用另一处已有内容）引用，一旦条件化，某些变体下引用方拉到的是空内容——症状出现在引用方，根因在被引用的文件，两者往往不在同一次报错里。</p>
-      <p>变体矩阵长大之后（多个 <term keyref="term-transtype">transtype</term>（输出类型）乘多份 DITAVAL），上面那段循环改用 DITA-OT 的 project file 声明，交付物在一处写清，持续集成里只留一条命令；形制与执行见 <xref href="../toolchain/project-files.dita">project file 与 dita --project</xref>。</p>
+      <p>变体矩阵扩大之后（多个 <term keyref="term-transtype">transtype</term>（输出类型）乘多份 DITAVAL），上面那段循环改用 DITA-OT 的 project file 声明，交付物在一处写清，持续集成里只留一条命令；形制与执行见 <xref href="../toolchain/project-files.dita">project file 与 dita --project</xref>。</p>
       <p>目录按角色分开、topic 的文件名与它的 <xmlatt>id</xmlatt> 取同值且发布后不再改，这两条换成任何文档系统或代码库都成立，属通用工程实践，本篇不展开；本库一侧怎么落见 <xref href="../../content-engineering/naming-rules.dita">kb 命名与归属</xref>。</p>
     </section>
 
@@ -100,7 +100,7 @@ done</codeblock>
     <section>
       <title>来源</title>
       <p><b>事实</b>：本篇无转自权威源的内容。笔记 04 §2 逐页核对过的 project file 一节随该内容迁至 <xref href="../toolchain/project-files.dita">project file 与 dita --project</xref>，事实与出处在那一篇。正文引到的 preprocess 阶段顺序（条件过滤先于 conref 解析）同样不由本篇认领，正本与出处见 <xref href="../toolchain/preprocess-pipeline.dita">preprocess 流水线</xref>。<xref href="https://www.dita-ot.org/dev/" scope="external">DITA-OT 文档站</xref>作为元数据来源，不承担本篇任何断言。</p>
-      <p><b>判断</b>：正文全部陈述均属判断，可被反驳。其中可复用片段不做条件化、持续集成分四层的划分、目录与 <xmlatt>id</xmlatt> 那一句通用工程实践，来自通用实践，未逐页核对；条件过滤可能使文档不再满足内容模型这一现象来自使用经验；逐变体构建与校验各能发现什么的分工、四条反例、变体矩阵长大时改用 project file 的阈值判断，为本库归纳。做法节的逐变体构建循环不属判断之列：它是本库自己的持续集成实际在跑的命令，2026-08-17 执行确认可用（两个变体均退出 0、产物齐全），可在本仓复现。源文件一侧三层校验的命令同批实测，正本在 <xref href="../toolchain/validation-schematron.dita">校验与 Schematron</xref>。</p>
+      <p><b>判断</b>：正文全部陈述均属判断，可被反驳。其中可复用片段不做条件化、持续集成分四层的划分、目录与 <xmlatt>id</xmlatt> 那一句通用工程实践，来自通用实践，未逐页核对；条件过滤可能使文档不再满足内容模型这一现象来自使用经验；逐变体构建与校验各能发现什么的分工、四条反例、变体矩阵扩大时改用 project file 的阈值判断，为本库归纳。做法节的逐变体构建循环不属判断之列：它是本库自己的持续集成实际在跑的命令，2026-08-17 执行确认可用（两个变体均退出 0、产物齐全），可在本仓复现。源文件一侧三层校验的命令同批实测，正本在 <xref href="../toolchain/validation-schematron.dita">校验与 Schematron</xref>。</p>
     </section>
   </conbody>
 </concept>

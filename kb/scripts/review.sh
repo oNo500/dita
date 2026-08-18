@@ -69,7 +69,7 @@ fail=0
 
 echo "== 1. 结构校验（RNG）+ 业务规则（R1–R10）=="
 
-# 结构：dita validate 吃一个 map，DITA-OT 自己沿 topicref/mapref 树遍历全部被引 topic，
+# 结构：dita validate 以一个 map 为输入，DITA-OT 自己沿 topicref/mapref 树遍历全部被引 topic，
 # 一次调用顶过去一篇篇起 JVM。root.ditamap 是 domain 骨架的根，覆盖 kb/topics 下绝大多数
 # topic；但"骨架"和"引用"是两回事——只被 kb/maps/deliverables/*.ditamap 引用、不在任何
 # domain 分支下的 topic（当前如 agent-rules-core.dita、dita-authoring-guide.dita）root

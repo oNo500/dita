@@ -22,7 +22,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-criteria dim-structure-template">
   <title>kb 文体与语体</title>
-  <shortdesc>五条约束管一篇内容的写法：章节标题作标签不作论点、正文只放知识不放过程与心得、语气平实、用词书面、样例自洽。没有这层约束，每篇都会长成作者当时的心情。</shortdesc>
+  <shortdesc>五条约束管一篇内容的写法：章节标题作标签不作论点、正文只放知识不放过程与心得、语气平实、用词书面、样例自洽。没有这层约束，每篇的读感由写它的那一刻决定。</shortdesc>
   <prolog>
     <data name="domain" value="writing-principles"/>
   </prolog>
@@ -77,7 +77,7 @@
       <p>章节标题作标签，是为了让读者与检索器都能把它当锚点：论断式标题重复正文、随作者语气变化，定位不到任何东西。审阅也因此有了依据——"这一节的标题是一句论断"是可判定的缺陷，"这篇写得有点乱"不是。</p>
       <p>过程与心得不进正文，则是自足性的直接推论：一段"我核对时踩了个坑"脱离了写作那一刻就不再成立，它不是知识。</p>
       <p>样例自洽的理由与前两条同源：引用了本篇没有的 id 或 key 的样例，读者要么补出一个定义（那是猜），要么去别处找（那是原语境）；两条路都通向不自足。deep-dive 的前缀加主题短语同理——前缀给论证位置，短语给定位锚点，缺后者的目录扫不出内容差别。</p>
-      <p>平实的理由在检索侧：本库同时喂给检索器与 agent，修辞不携带事实却占 token，正文越平，块的信号密度越高（见 <xref href="writing-llm-friendly.dita">LLM 友好写作</xref>）。</p>
+      <p>平实的理由在检索侧：本库同时供检索器与 agent 使用，修辞不携带事实却占 token，正文越平，块的信号密度越高（见 <xref href="writing-llm-friendly.dita">LLM 友好写作</xref>）。</p>
     </section>
 
     <section>

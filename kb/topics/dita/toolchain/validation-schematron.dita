@@ -98,7 +98,7 @@
     <section>
       <title>把校验接进构建</title>
       <p>源文件一侧的最小组合是三层，逐层加严。下面是本库自己的持续集成实际在跑的命令（仓内封装为一条 <cmdname>just review</cmdname>），路径按本库的目录布局写：</p>
-      <codeblock># 1. 结构与引用：dita validate 吃一个 map，沿 topicref 树遍历全部被引 topic
+      <codeblock># 1. 结构与引用：dita validate 以一个 map 为输入，沿 topicref 树遍历全部被引 topic
 dita validate --input=maps/root.ditamap
 
 # 2. 业务规则：一次 Saxon 调用，XSLT 用 collection() 遍历全部 topic

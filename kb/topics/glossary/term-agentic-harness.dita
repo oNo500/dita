@@ -2,7 +2,7 @@
 <?xml-model href="../../schema/glossentry-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <glossentry id="term-agentic-harness" xml:lang="zh-CN" maturity="curated" volatility="stable">
   <glossterm>agentic harness</glossterm>
-  <glossdef>围绕语言模型的执行框架：提供工具、上下文管理与执行环境，把只会生成文本的模型变成能行动的 agent。模型决定判断质量，harness 决定它够不够得着。</glossdef>
+  <glossdef>围绕语言模型的执行框架：提供工具、上下文管理与执行环境，把只会生成文本的模型变成能行动的 agent。模型决定判断质量，harness 决定它能触及哪些资源。</glossdef>
   <glossBody>
     <glossAlt>
       <glossSynonym xml:lang="en">agentic harness</glossSynonym>
