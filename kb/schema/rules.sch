@@ -126,7 +126,7 @@
 
   <!-- 归属：写作文体 / writing-style；其中标题一项归 naming-rules -->
   <pattern id="R15-plain-register">
-    <rule context="conbody | refbody | taskbody">
+    <rule context="conbody | refbody | taskbody | shortdesc">
       <assert test="true()"
         >R15（代理指标，严重度随 maturity 分级）：粗体每节至多 2 处；破折号插入语每段至多 1 处；
         程度词（特别/极其/恰恰/真正的/最危险）与口语词不出现。口语词的机器面覆盖 writing-style
@@ -138,6 +138,12 @@
         由人审接住。单字「个」不进机器面——它是普通量词，机器判不了。
         标题不含问号、"，不是"论断句式与破折号：这一项是 naming-rules 标题规则的机器面，
         原 writing-style 规则七已整条迁入该篇。
+        检查范围含 shortdesc：它会被抽出去复用（链接预览、目录条目说明、检索摘要），
+        一篇被十处链接则其 shortdesc 在十处露面，口语跟着链接扩散全库，故不能只扫正文。
+        落到 shortdesc 上的子检查逐项定：口语词与程度词照搬（提及排除同样生效）；
+        破折号照搬「一段至多 1」——shortdesc 恰是单段；粗体在 shortdesc 上为 0，
+        因为「每节至多 2」按节量化而 shortdesc 不是节，搬得过来的是「只标判据与警示」，
+        摘要无判据与警示可标；标题模式一项查的是 title，不落到 shortdesc。
         只是代理——格言句、场景化开头、定位词与类目对齐仍靠人审。由 lint 执行。</assert>
     </rule>
   </pattern>
