@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 快速上手（quickstart 体裁）：writing-principles 域，概览 writing-principles-landscape
+     十九个维度上按解锁度选出的五维。
+     与 dita-authoring-guide 的边界（已核，不合并）：那篇是穷尽式路由，九类判断各指一个正本，
+     供 AI 主笔时随时查，构建进交付物；本篇是选择性路径，回答「十三篇里先读哪五篇、为什么
+     是这五篇、其余何时再读」，按解锁度排序而非按判断类型枚举。两者的失效方式也不同——
+     路由表漏一类判断即失职，入门路径列全部判断即失去存在理由。本篇不复述任何一条规则，
+     只给次序、理由与去处。
+     R13 必需节：目标 / 前置 / 步骤；取舍一节由 quickstart 体裁的挂靠与取舍规则要求。
+
+     标题《kb 写作规则快速上手》系本库自造，三道关如下。
+     一、穷尽查证：Diátaxis 站点无对应页型（它的 Start here 是框架自身的导言，不是某个
+       规则集的入门路径）；Good Docs Project 的 Quickstart 模板是模板而非本库这一支的节点名；
+       两家写作风格指南均无「按解锁度选出的规则子集」这一类目；OASIS DITA 规范不涉写作方法。
+       四处查过，上游确无对应叫法。
+     二、先怀疑切分：与 dita-authoring-guide 的边界如上，与 writing-principles-landscape 的
+       边界是全景与路径之分。两处都不构成合并理由。
+     三、只组合不发明：「快速上手」是本库 quickstart 体裁的固定后缀（先例见「领域概览」），
+       「写作规则」是本支在领域 map 与词表注释里的既有叫法，kb 前缀沿用本簇既有篇。未造新词。
+
+     R19 覆盖面目前只有 domain="dita"，本域无上游节点索引，故不写 upstream-node 声明，
+     与本支其余各篇一致。 -->
+<concept id="writing-principles-quickstart" xml:lang="zh-CN"
+         outputclass="quickstart"
+         maturity="draft" volatility="stable"
+         dimension="dim-criteria dim-classification dim-structure-template dim-terminology dim-governance">
+  <title>kb 写作规则快速上手</title>
+  <shortdesc>写第一篇进库的内容只需先答五个问题：这条内容该不该进库、归哪个类型与体裁、骨架有哪些节、概念用什么叫法、元数据标哪几个字段。五问都答对，机器检查就会全过；答错任何一个，返工的是整篇而不是几句话。</shortdesc>
+  <prolog>
+    <source href="https://diataxis.fr/" scope="external"/>
+    <data name="domain" value="writing-principles"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>目标</title>
+      <p>写出一篇能通过全部机器检查、并且半年后仍然找得到、看得懂的库内内容。完成后会有一篇标好类型与体裁、骨架齐全、元数据完整的 topic，以及一份判断下一篇该不该单独成篇的依据。</p>
+    </section>
+
+    <section>
+      <title>取舍</title>
+      <p>本篇覆盖 <xref href="writing-principles-landscape.dita">kb 写作规则领域概览</xref>十九个维度中的五个：准入与质量判据（dim-criteria）、类型与体裁的划分（dim-classification）、结构与必需节（dim-structure-template）、术语与界定（dim-terminology）、归属字段与值域（dim-governance）。取舍依据是解锁度与使用频率，不是熟悉程度。这五维每写一篇都要用到，且全部有机器面：五维里任何一维答错，内容会在入库检查处被阻断，而不是留到复核时才发现。</p>
+      <p>略过的十四个维度分三类：</p>
+      <ul>
+        <li>推迟到修订时再看：语体与用词、正例与反例、检索与模型取用。这三维的问题在初稿里都不阻断入库，且改起来是局部的——语体问题由机器按代理指标逐条列出，照着改即可，不必先通读规则。</li>
+        <li>推迟到库长大后再看：概念之间的关系、演进与腐烂、单源多输出、采用与推广。它们回答的是多篇之间与长期的问题，一篇内容答不出也不影响这一篇的对错。</li>
+        <li>推迟到要改规则时再看：原则与公理、角色与分工、规则体系的心智模型、一致性与机器校验、写作与维护流程、与外部框架的定位差、边界与反模式。这七维是规则体系自身的元层，读它们是为了判断规则该不该改，不是为了照规则写。</li>
+      </ul>
+      <p>略过不等于不存在。概览是完整的那张图，本篇只是图上的一条起步路线；把这五维当成写作规则的全部，会写出一批格式合规而语体各异、彼此无从关联的内容。</p>
+    </section>
+
+    <section>
+      <title>前置</title>
+      <ul>
+        <li>手上有一条想记的内容，且能用一句话说清它是什么。说不清的先不动笔，那通常意味着它还是两条内容。</li>
+        <li>本机能执行库的检查命令。事前照规则写与事后被机器阻断，成本差在一个数量级，而这条路径默认你会在提交前执行一次检查。</li>
+        <li>接受一个前提：规则的目的不是让内容整齐，是让它在半年后被另一个人或一个模型取用时仍然成立。判断某条规则值不值得遵守时以这一条为准。</li>
+      </ul>
+    </section>
+
+    <section>
+      <title>步骤</title>
+      <p>第一步，先问它该不该进库。三项判据依次过：脱离原语境是否仍然成立、能否归入既有的某个类型、换一个技术栈后是否就不成立了。前两项都不过的内容是噪音，不进库；第三项不过的内容属于通用分支而非当前领域。判据的展开与边界见 <xref href="writing-atomicity.dita">kb 内容准入判据</xref>。这一步排在最前的理由是它决定后面五步做不做，而不是怎么做。</p>
+      <p>第二步，定类型与体裁。类型是 DITA 的结构骨架，体裁是骨架之上更细的一层固定形状，由 <xmlatt>outputclass</xmlatt> 标注。先按内容形态选类型，再在该类型允许的体裁里选一个，两者不匹配会被机器直接拦截。做法见 <xref href="writing-typing.dita">kb 内容类型化</xref>，三层的关系见 <xref href="dimension-type-genre.dita">kb 内容分类的维度、类型与体裁</xref>。</p>
+      <p>第三步，按体裁的必需节搭骨架。必需节清单的正本在词表的体裁值集里，不在任何一篇正文里，所以查的时候查词表。骨架先搭空，再逐节填——反过来做的结果通常是内容长成了自己想写的形状，而不是这个体裁的形状。</p>
+      <p>第四步，定叫法。凡在规范或官方文档里有对应条目的概念，正文一律用英文原名，中文首现随行注一次；括号里放译名还是放解释，取决于这个词有没有达意的标准译名，两者都没有时不自造译名。领域里查不到对应条目的叫法要先怀疑是切分错了，确要自造须过三道关并在文件头注释留下查证记录。判据见 <xref href="terminology-rules.dita">kb 术语治理</xref>，标题与文件名的命名见 <xref href="naming-rules.dita">kb 命名与归属</xref>。</p>
+      <p>第五步，标元数据并写来源。四个字段缺一即被阻断：成熟度、时效、覆盖的维度、所属领域。来源节固定两段，一段列可核对的事实与出处，一段列本库的判断，两段可空不可省。写法见 <xref href="writing-sourcing.dita">kb 来源与成熟度标注</xref>。</p>
+      <p>第六步，执行一次检查，按报告自修。报告分两档：错误阻断入库，提示只记录。草稿阶段的多数条目是提示，不必一次清完，但类型、体裁与必需节这三项属于骨架，报出来即应当场改——它们越晚改，重写的篇幅越大。</p>
+      <p>六步走完，判断标准不是检查全过，而是这两个问题都答得上来：这篇的哪一段单独截出来仍然成立，以及下一篇同类内容会不会长成同一个形状。答不上来的话，问题多半出在第一步与第二步，回去重做比继续往下写便宜。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：按用户需求而非主题划分文档形态，见 <xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>；按文档形态提供可填写模板、并把词表与术语系统列为独立模板，见 <xref href="https://www.thegooddocsproject.dev/template" scope="external">The Good Docs Project</xref>。两处的类目结构已逐页核对。本篇引用的五条规则各有库内正本，正本的外部来源在各该篇的来源节，本篇不重复列出。</p>
+      <p><b>判断</b>：五个维度的选取与十四个维度的推迟理由、六步的次序、「骨架先搭空再填」、「骨架类报告当场改、语体类留到修订时一并改」、以及收尾的两个判断问题，均为本库判断，可被反驳。取舍是否选准属人审事项，机器只校验挂靠与声明是否齐备。</p>
+    </section>
+  </conbody>
+</concept>

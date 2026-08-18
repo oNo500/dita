@@ -6,6 +6,7 @@
 <map xml:lang="zh-CN">
   <title>DITA</title>
   <topicref href="../../topics/dita/dita-landscape.dita"/>
+  <topicref href="../../topics/dita/dita-content-quickstart.dita"/>
   <topicref href="../../topics/dita/dita-resources.dita"/>
   <topichead>
     <topicmeta><navtitle>原理</navtitle></topicmeta>
