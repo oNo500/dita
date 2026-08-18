@@ -301,6 +301,19 @@
       <data name="event-trigger">标准出新版；结构化内容领域新范式</data>
     </subjectdef>
 
+    <!-- dita 分支（2026-08-18 新增，随上游节点索引 R19 落地）。登记在 bm-content-engineering
+         之外单列：那条的锚点覆盖整个知识工程分支，而节点索引只覆盖 DITA 一支，挂上去等于
+         替另外几支宣称"已建索引"。index-source / index-generated 两个字段是设计稿七之二
+         定的推广接口——有了它们，"锚点建没建索引、索引是否落后于工具链"才可查。 -->
+    <subjectdef keys="bm-dita">
+      <data name="anchor">OASIS DITA 2.0 规范（archSpec / langRef，oasis-tcs/dita）＋ DITA-OT 官方文档 docsrc</data>
+      <data name="last-benchmarked" value="2026-08-18"/>
+      <data name="cadence" value="stable-on-trigger"/>
+      <data name="event-trigger">DITA-OT 升级；OASIS 发新 beta 或正式版；再生成索引后 diff 出节点改名/删除（R19 会把失联的声明逐篇列出）</data>
+      <data name="index-source" value="dita-ot + oasis-archspec + oasis-langref + oasis-spec"/>
+      <data name="index-generated" value="2026-08-18"/>
+    </subjectdef>
+
     <!-- 维度值集的对标（v0.3 新增）：登记的不是主题分支，是横切 dimension 值集本身。 -->
     <subjectdef keys="bm-dimension">
       <data name="anchor">五路对标：Diátaxis/Good Docs（体裁与解释性文档）· 主流官方文档顶层结构（技术制品维度）· Google SRE/DORA/SPACE/Team Topologies（工程治理维度）· Anthropic/OpenAI/Chip Huyen AI Engineering（AI 构建维度）· ISO 25964/Z39.19（方法规范维度）＋ 矿场 422 篇实据</data>

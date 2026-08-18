@@ -76,13 +76,13 @@
     <section>
       <title>边界</title>
       <p>本篇管名字与归属字段。正文里用哪个词见 <xref href="terminology-rules.dita">kb 术语治理</xref>；一篇的形状与语体见 <xref href="writing-style.dita">kb 文体与语体</xref>；主题树与维度值集本身怎么建、怎么对标，正本在词表与 <xref href="domain-dimension-method.dita">kb 领域维度框架与 80/20 取舍</xref>。</p>
-      <p>标题与上游节点的对应目前只靠文件头注释与人审。声明式溯源（每篇在 prolog 声明自己对应的上游节点，索引核实其存在性，自造篇声明为自造）已定案，规则编号定为 R18，记档与实现在建；机制的定位与它查不出的那一类错误见 <xref href="rot-detection.dita">kb 腐烂检测机制</xref>。</p>
+      <p>标题与上游节点的对应已从人审转为声明式溯源：每篇在 prolog 声明自己对应的上游节点，索引核实其存在性，自造篇声明为自造。规则编号 R19（2026-08-18 落地，原设计稿写的 R18 已被"成熟度必标"占用），机器面在 dita-tools lint，规格记档在 <filepath>kb/schema/rules.sch</filepath>，覆盖面目前是 dita 域、按分支推广。它查不出的是"节点存在但选错了"——声明与标题出自同一判断，这一类只能靠独立复核；机制的定位与这类盲区见 <xref href="rot-detection.dita">kb 腐烂检测机制</xref>。</p>
     </section>
 
     <section>
       <title>来源</title>
       <p><b>事实</b>：本篇无转自权威源的规则。OASIS 规范以 <xref href="https://dita-lang.org/dita/archspec/base/basic-dita-terminology" scope="external">Basic DITA terminology</xref> 定义规范自身的用词，不涉及内容库一侧的标题与归属命名。</p>
-      <p><b>判断</b>：以"领域知识树上的标准叫法"为标题规则、自造三道关与头注释留证、kb 前缀按治理篇与领域篇二分、文件名与 <xmlatt>id</xmlatt> 发布后不改、归属字段的三行分工，均为本库设计，无外部标准背书，可被反驳。冒号副标题的比例与孤儿 domain 值的现象取自本库 2026-08 的实测。R18 的形制以设计稿为准，本篇只述其定位。</p>
+      <p><b>判断</b>：以"领域知识树上的标准叫法"为标题规则、自造三道关与头注释留证、kb 前缀按治理篇与领域篇二分、文件名与 <xmlatt>id</xmlatt> 发布后不改、归属字段的三行分工，均为本库设计，无外部标准背书，可被反驳。冒号副标题的比例与孤儿 domain 值的现象取自本库 2026-08 的实测。R19 的形制以设计稿与 <filepath>rules.sch</filepath> 为准，本篇只述其定位；其中"比对前归一化、归一化后精确匹配、解析不到时列三种可能"三条为 2026-08-18 用户裁定，理由是误报会让规则失去可信度、最终被人忽略。</p>
     </section>
   </conbody>
 </concept>

@@ -1,0 +1,8 @@
+# 本文件由工具生成，勿手改——下次生成会原样覆盖。
+# 生成命令：dita-tools upstream-index --out vocab/upstream-nodes.tsv
+# 来源版本：DITA-OT 4.4 · oasis-tcs/dita v2.0-beta03 (0a8920b)
+# 生成日期：2026-08-18
+# 列：source	title	parent	path	url
+oasis-archspec	DITA maps		specification/archSpec/base/dita-maps.dita	https://dita-lang.org/dita/archspec/base/dita-maps
+oasis-archspec	Overview of specialization	Configuration and specialization	specification/archSpec/base/specialization-overview.dita	
+dita-ot	Publishing with project files	Publishing	docsrc/topics/using-project-files.dita	

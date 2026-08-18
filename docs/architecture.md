@@ -47,6 +47,7 @@ dita-tools/  执行引擎     产出：校验结果、IA 视图
 | R16 | concept 实现层行内标记数量阈值，超阈值拆 concept（判据）＋ reference（配置） | `dita-tools lint`（2026-08-16） | 同上 ✅ |
 | R17 | `domain` 值必须是 subjectScheme 已注册的 subject key（唯一未受控的元数据字段；enumerationdef 绑不了 data 元素，值域只能落这里） | `dita-tools ia` 已报 error，另有反向报表（已注册零挂靠的空叶子，--details 按分支归并展示） | `dita-tools ia` ✅ |
 | R18 | 内容 topic（含 glossentry）必须显式标 `@maturity`——DITAVAL 的 exclude 只匹配写出来的属性值，未标注不匹配、会绕开成熟度门；与 R2 对称，恒 error（不按 maturity 分级，因为被检查的正是分级依据的属性本身） | `dita-tools lint`（2026-08-17） | `dita-tools lint` ✅ |
+| R19 | dita 域 topic 必须在 prolog 声明 `upstream-node`（标题所依据的上游节点标题原文，逐字英文；组合篇多条；自造写 `coined` 并在头注释留三道关），声明须在上游节点索引 `kb/vocab/upstream-nodes.tsv` 中解析得到。比对前双方归一化（大小写不敏感、空白折叠），归一化后精确匹配，不做模糊/子串——假通过比误报更隐蔽。解析不到时消息列三种可能（拼写有误 / 上游改名或删除 / 索引未收录），不断言作者出错。索引读不到 → 走"未执行"（lint 退出码 2），不静默通过 | `dita-tools lint`（2026-08-18） | `dita-tools lint` ✅；覆盖面按分支推广（补抓取器 + `bm-*` 的 `index-source`/`index-generated`，判定逻辑不动） |
 | 结构校验 | RNG shell 一致性 | `dita validate`（DITA-OT） | DITA-OT，不自造 |
 | map 结构 / 孤儿 topic | 引用文件是否存在、topic 是否被引 | `dita-tools ia` | dita-tools |
 | 链接活性 | 外链 404 检测 | `scripts/link-check.py`（2026-08-15） | `dita-tools links`（要联网，独立跑，暂不急迁） |
@@ -87,7 +88,9 @@ R11 的归属之所以两份规划都伸手认领，根子在这条线一直没�
 |---|---|---|
 | 结构校验（RNG）/ 发布 | DITA-OT | 留 DITA-OT，不自造 |
 | 业务规则 lint（R1–R11） | `check-rules.xsl` + `ia` 各持一段 | `dita-tools lint` |
-| 体裁与文体 lint（R12–R15） | ✅ `dita-tools lint`（2026-08-16 开建，新能力直进平台）；严重度按 maturity 分级＝晋级门 | 已在归宿 |
+| 体裁与文体 lint（R12–R16） | ✅ `dita-tools lint`（2026-08-16 开建，新能力直进平台）；严重度按 maturity 分级＝晋级门 | 已在归宿 |
+| 成熟度必标（R18）/ 上游声明（R19） | ✅ `dita-tools lint`（R18 2026-08-17，R19 2026-08-18） | 已在归宿 |
+| 上游节点索引生成 | ✅ `dita-tools upstream-index`（2026-08-18，生成物进版本控制、勿手改） | 已在归宿 |
 | 术语扫描（R7） | `term-normalize.py` | `dita-tools lint` |
 | 维度覆盖 | ~~`dimension-coverage.py`~~ | ✅ **已吸收（2026-08-15 退役，五关首个先例）**，归 `dita-tools ia` |
 | IA 治理骨架 | `dita-tools ia` | ✅ 已在 |

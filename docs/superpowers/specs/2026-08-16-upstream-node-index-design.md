@@ -70,7 +70,7 @@
 2. **词表即中英对照**。`term-*` 条目的 glossterm 为英文、glossAlt 含中文别名，中文→英文的查找已存在且受治理，不在索引里重复一份。
 3. **顺父链走**。主题本身无英文机制名的篇（如「元数据的放置位置」），从 `parent` 列自上而下浏览定位——这是索引保留父链列的另一个用途。
 
-## 五、校验（R18）
+## 五、校验（编号落定为 R19，2026-08-18）
 
 落在 `dita_lint`，与 R12–R17 同一套严格度分级（draft 记 warning，curated/verified 记 error）：
 
@@ -96,7 +96,7 @@
 
 **允许一篇声明多条**（组合篇如 `key space 与 key scope`），逐条校验，任一条不解析即报该条。
 
-规格记档进 `kb/schema/rules.sch`，归属正本标注为 `naming-rules`。（原设计写的 R18 编号已被「maturity 必标」占用，实现时另取下一个可用编号。）
+规格记档进 `kb/schema/rules.sch`，归属正本标注为 `naming-rules`。（原设计写的 R18 编号已被「maturity 必标」占用，**实现时落定为 R19**。）
 
 ## 六、治理
 
@@ -125,7 +125,7 @@
 
 | 要补的 | 说明 |
 |---|---|
-| 抓取器 | 把该上游的页面树取成 source/title/parent/path/url 五列。DITA 源直接解析；HTML 站点需按其导航结构抓取；纯 PDF 或无结构的上游则**只登记不建索引**（该分支的 R18 豁免，且豁免须显式登记而非静默跳过） |
+| 抓取器 | 把该上游的页面树取成 source/title/parent/path/url 五列。DITA 源直接解析；HTML 站点需按其导航结构抓取；纯 PDF 或无结构的上游则**只登记不建索引**（该分支的 R19 豁免，且豁免须显式登记而非静默跳过） |
 | registry 补字段 | 在对应 `bm-*` 条目下加 `index-source`（抓取标识）与 `index-generated`（生成日期），使"锚点已建索引与否、索引是否落后"可查 |
 
 索引表的 `source` 列与 lint 的按域启用，从第一版起就是为此留的——加分支不需要改格式、改声明写法、改 lint 逻辑，只加抓取器与 registry 条目。
@@ -145,7 +145,7 @@
 2. **T2 生成器**：`dita-tools upstream-index` 子命令 + 单元测试；产出首版 tsv 并提交
 3. **T3 溯源抽取**：从各任务报告抽「标题 → 上游依据」对照表落 `research/cases/`（**必须先于 workspace 删除**）
 4. **T4 回填**：65 篇补 `upstream-node` 声明
-5. **T5 校验**：R18 落 `dita_lint` + `rules.sch` 记档 + `docs/architecture.md` 能力表登记 + benchmark-registry 加登记项
+5. **T5 校验**：R19 落 `dita_lint` + `rules.sch` 记档 + `docs/architecture.md` 能力表登记 + benchmark-registry 加登记项
 6. **T6 吸收五关**：实现+测试 → 差分对账 → 删旧法（无旧法可删，此步为确认人工查证不再是唯一路径）→ 同步文档 → `just check` 绿
 
 T3 优先级最高且有时限（workspace 生命周期内）；T1–T2 与 T4–T5 可并行两路。

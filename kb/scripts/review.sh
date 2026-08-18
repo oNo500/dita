@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# 机器检查：一条命令串全套——RNG 结构校验 + 业务规则 R1–R10 + 体裁文体 R12–R15 + 术语扫描。
+# 机器检查：一条命令串全套——RNG 结构校验 + 业务规则 R1–R10 + 体裁文体 R12–R16
+# + 成熟度 R18 + 上游声明 R19 + 术语扫描。
 # 依赖：DITA-OT（dita validate + 自带 Saxon）与 uv（跑 kb/scripts 下的 .py）。
 # 两者缺任何一个都不会静默放行——缺什么就少跑什么，且结果不得当作通过。
 # 有 error 则退出非零，可挡入库 / 接 git hook / CI。
@@ -60,6 +61,7 @@ fi
 
 term_skipped=0
 lint_skipped=0
+upstream_skipped=0
 if ! command -v uv >/dev/null 2>&1; then
   echo "找不到 uv，术语扫描跳过（装：scripts/setup-env.sh）。" >&2
   term_skipped=1
@@ -116,11 +118,24 @@ fi
 # 脚本 dimension-coverage.py 于 2026-08-15 走完吸收五关退役。
 
 echo
-echo "== 2. 体裁与文体 R12–R15（dita-tools lint；draft 记 warning，晋级门）=="
+echo "== 2. 体裁文体 R12–R16 + 成熟度 R18 + 上游声明 R19（dita-tools lint；draft 记 warning，晋级门）=="
 if command -v dita-tools >/dev/null 2>&1; then
-  dita-tools lint --vocab "$KB/vocab/subjectScheme.ditamap" "$KB/topics" || fail=1
+  # 退出码三档，与本脚本余下部分同一口径：0 全过 / 1 有 error / 2 有检查未执行。
+  # 2 是 R19 专有的——上游节点索引读不到时它不跑，而"没跑"既不能当通过
+  # （静默放行假绿），也不能当失败（把索引的故障报成 66 篇的错误）。
+  dita-tools lint --vocab "$KB/vocab/subjectScheme.ditamap" \
+                  --upstream-index "$KB/vocab/upstream-nodes.tsv" "$KB/topics"
+  lint_rc=$?
+  if [ "$lint_rc" -eq 1 ]; then
+    fail=1
+  elif [ "$lint_rc" -eq 2 ]; then
+    upstream_skipped=1
+  elif [ "$lint_rc" -ne 0 ]; then
+    echo "dita-tools lint 异常退出（退出码 $lint_rc）" >&2
+    fail=1
+  fi
 else
-  echo "找不到 dita-tools，R12–R15 未执行（装：scripts/setup-env.sh）" >&2
+  echo "找不到 dita-tools，R12–R16 / R18 / R19 未执行（装：scripts/setup-env.sh）" >&2
   lint_skipped=1
 fi
 
@@ -142,13 +157,17 @@ if [ "$term_skipped" -ne 0 ]; then
   echo "⚠️  术语扫描未执行（找不到 uv）"
 fi
 if [ "$lint_skipped" -ne 0 ]; then
-  echo "⚠️  R12–R15 未执行（找不到 dita-tools）"
+  echo "⚠️  R12–R16 / R18 / R19 未执行（找不到 dita-tools）"
+fi
+if [ "$upstream_skipped" -ne 0 ]; then
+  echo "⚠️  R19（上游节点声明）未执行——上游节点索引读不到，重新生成：just upstream-index"
 fi
 if [ "$fail" -ne 0 ]; then
   echo "❌ 有 error（见上），阻断入库"
   exit 1
 fi
-if [ "$skipped" -ne 0 ] || [ "$term_skipped" -ne 0 ] || [ "$lint_skipped" -ne 0 ]; then
+if [ "$skipped" -ne 0 ] || [ "$term_skipped" -ne 0 ] || [ "$lint_skipped" -ne 0 ] \
+   || [ "$upstream_skipped" -ne 0 ]; then
   exit 2
 fi
 if [ "$fail" -eq 0 ]; then

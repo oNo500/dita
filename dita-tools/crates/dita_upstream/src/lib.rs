@@ -4,9 +4,11 @@
 //! 就是"哪几篇要改标题"的工单。设计正本见
 //! `docs/superpowers/specs/2026-08-16-upstream-node-index-design.md`。
 
+mod index_file;
 mod keyspace;
 mod walk;
 
+pub use index_file::{NodeIndex, normalize};
 pub use keyspace::KeySpace;
 
 use std::{

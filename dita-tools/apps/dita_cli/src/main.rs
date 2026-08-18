@@ -18,7 +18,8 @@ struct Cli {
 enum Commands {
     /// Show IA overview: knowledge tree, orphan topics, and diagnostics
     Ia(commands::ia::IaArgs),
-    /// Per-topic content rules R12–R15 (genre, structure, source labels, register)
+    /// Per-topic content rules R12–R16, R18, R19 (genre, structure, source labels,
+    /// register, split threshold, maturity, upstream provenance)
     Lint(commands::lint::LintArgs),
     /// Regenerate the upstream node index from the local DITA-OT and OASIS sources
     UpstreamIndex(commands::upstream_index::UpstreamIndexArgs),

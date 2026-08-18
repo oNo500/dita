@@ -168,6 +168,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "dita_diagnostics",
+ "dita_upstream",
  "dita_vocab",
  "roxmltree",
 ]

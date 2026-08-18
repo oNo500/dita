@@ -1,5 +1,5 @@
-//! Per-topic content rules R12–R16 and R18: genre, structure, source section,
-//! register, split threshold, maturity presence.
+//! Per-topic content rules R12–R16, R18 and R19: genre, structure, source
+//! section, register, split threshold, maturity presence, upstream provenance.
 //!
 //! Spec lives in `kb/schema/rules.sch`; genre values and their metadata live in
 //! the subject scheme — nothing here carries a value list of its own.
@@ -19,6 +19,7 @@ use std::{fs, path::Path};
 
 use anyhow::Context;
 use dita_diagnostics::{Diagnostic, DiagnosticBag};
+use dita_upstream::NodeIndex;
 use dita_vocab::Vocabulary;
 
 const CONTENT_ROOTS: [&str; 4] = ["concept", "task", "reference", "troubleshooting"];
@@ -193,12 +194,35 @@ const IMPL_MARKUP: [&str; 10] = [
 ];
 const SPLIT_THRESHOLD: usize = 8;
 
-/// Lint one topic file against R12–R16 and R18.
+/// R19: the domains whose upstream is indexed. The rule ("every topic declares
+/// which upstream node it corresponds to") is library-wide; the enforcement is
+/// staged, because it needs an index and only `dita` has one so far (design
+/// §七之二). A domain absent from this list is skipped, not passed — adding a
+/// branch means adding a crawler and a `bm-*` registry entry, not touching this
+/// file's logic.
+const INDEXED_DOMAINS: [&str; 1] = ["dita"];
+/// R19: the value that says "no upstream node exists for this one".
+const COINED: &str = "coined";
+/// R19: the three gates a coined title has to have passed (naming-rules).
+/// Their names have to appear in the file header comment — the argument itself
+/// is prose and stays a human read, but its absence is machine-visible.
+const COINED_GATES: [&str; 3] = ["穷尽查证", "先怀疑切分", "只组合不发明"];
+
+/// Lint one topic file against R12–R16, R18 and R19.
+///
+/// `upstream` is `None` when the node index could not be loaded. R19 then does
+/// not run at all — and the caller must report it as 未执行, never as passing.
+/// Treating a missing index as "nothing resolves" would report the index's own
+/// failure as 66 authoring errors.
 ///
 /// # Errors
 ///
 /// Returns `Err` only when the file cannot be read or is not well-formed XML.
-pub fn lint_topic(path: &Path, vocab: &Vocabulary) -> anyhow::Result<DiagnosticBag> {
+pub fn lint_topic(
+    path: &Path,
+    vocab: &Vocabulary,
+    upstream: Option<&NodeIndex>,
+) -> anyhow::Result<DiagnosticBag> {
     let mut diag = DiagnosticBag::default();
     let xml = fs::read_to_string(path)
         .with_context(|| format!("cannot read file: {}", path.display()))?;
@@ -232,8 +256,90 @@ pub fn lint_topic(path: &Path, vocab: &Vocabulary) -> anyhow::Result<DiagnosticB
     check_source_section(root, &mut push);
     check_register(root, &mut push);
     check_split_threshold(root, root_name, &mut push);
+    if let Some(index) = upstream {
+        check_upstream_node(root, &header_comment(&doc), index, &mut push);
+    }
 
     Ok(diag)
+}
+
+/// The file header comment: everything commented outside the root element.
+/// That is where each topic's provenance record lives (a convention the whole
+/// library follows), and it is what R19 reads for the three gates.
+fn header_comment(doc: &roxmltree::Document) -> String {
+    doc.root()
+        .children()
+        .filter(roxmltree::Node::is_comment)
+        .filter_map(|n| n.text())
+        .collect()
+}
+
+/// One topic's `prolog/data[@name=…]` values, in document order.
+fn prolog_data<'a>(root: roxmltree::Node<'a, 'a>, name: &str) -> Vec<&'a str> {
+    root.descendants()
+        .filter(|n| n.has_tag_name("data") && n.attribute("name") == Some(name))
+        .filter_map(|n| n.attribute("value"))
+        .collect()
+}
+
+/// R19: declarative provenance. Not "does the title look like an upstream node"
+/// — Chinese titles against English node names would be all noise (design §二)
+/// — but "does this topic say which node it corresponds to, and does that
+/// declaration resolve".
+///
+/// Three things are machine-checkable here, and the third is the point: whether
+/// the declared name exists, whether a coined title carries its argument, and
+/// **which declarations go dangling after upstream renames something**.
+///
+/// A topic may declare several nodes (組合篇 like `key space 与 key scope`);
+/// each is checked on its own and each miss is reported on its own.
+fn check_upstream_node(
+    root: roxmltree::Node,
+    header: &str,
+    index: &NodeIndex,
+    push: &mut impl FnMut(String),
+) {
+    let domain = prolog_data(root, "domain");
+    if !domain.iter().any(|d| INDEXED_DOMAINS.contains(d)) {
+        return; // 分支的上游还没建索引：跳过，不是通过（设计七之二）
+    }
+
+    let declared = prolog_data(root, "upstream-node");
+    if declared.is_empty() {
+        push(
+            "R19：缺 upstream-node 声明——dita 域 topic 必须写明标题取自上游哪个节点\
+             （prolog data name=\"upstream-node\" value=\"节点标题原文\"）；\
+             本库自造的写 value=\"coined\"，并在文件头注释写明三道关"
+                .to_string(),
+        );
+        return;
+    }
+
+    for value in declared {
+        if value.trim().eq_ignore_ascii_case(COINED) {
+            let missing: Vec<&str> = COINED_GATES
+                .iter()
+                .copied()
+                .filter(|gate| !header.contains(gate))
+                .collect();
+            if !missing.is_empty() {
+                push(format!(
+                    "R19：声明 coined（本库自造）但文件头注释缺三道关说明「{}」\
+                     ——自造得留下论证，否则与「查不到就写 coined」无从区分",
+                    missing.join("」「")
+                ));
+            }
+        } else if !index.contains(value) {
+            push(format!(
+                "R19：upstream-node「{value}」在上游节点索引中解析不到。三种可能，\
+                 逐条排除后再改：①声明拼写有误（节点标题须逐字照抄上游原文）；\
+                 ②上游已改名或删除——这正是本规则要暴露的漂移，属实则改标题与声明；\
+                 ③索引未收录该节点（resource-only 子树、未随发行版发布的页面、\
+                 conref 素材片段都不在内），请核对索引头：{}",
+                index.provenance()
+            ));
+        }
+    }
 }
 
 /// R18: an unmet default. The filter that keeps drafts out of deliverables

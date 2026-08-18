@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 非 dita 域，上游尚未建索引。 -->
+<concept id="upstream-other-domain" outputclass="best-practice" maturity="curated" volatility="stable">
+  <title>样例</title>
+  <shortdesc>一句摘要。</shortdesc>
+  <prolog>
+    <source href="https://example.invalid/x" scope="external"/>
+    <data name="domain" value="ai"/>
+
+  </prolog>
+  <conbody>
+    <section><title>场景</title><p>说明。</p></section>
+    <section><title>做法：三条</title><p>说明。</p></section>
+    <section><title>边界</title><p>说明。</p></section>
+    <section><title>来源</title>
+      <p><b>事实</b>：无。</p>
+      <p><b>判断</b>：全篇为判断。</p>
+    </section>
+  </conbody>
+</concept>

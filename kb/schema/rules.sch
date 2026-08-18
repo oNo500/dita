@@ -2,16 +2,17 @@
 <!-- KB 业务规则（Schematron，ISO/IEC 19757-3）R1–R10。
      分工：RNG 管结构、subjectScheme enumerationdef 构建期管受控值；
      本文件管 RNG 表达不了的跨属性/语义/业务规则（编辑期即时 + 审查脚本批量）。
-     R12–R15（2026-08-16 加，随 writing-style 落地）由 dita-tools lint 实现（新能力直接进平台，
-     不再扩 check-rules.xsl——它正在被逐步取代）；严重度按 maturity 分级：
-     draft 记 warning（草稿不阻断），curated/verified 记 error（晋级门）。
+     R12–R16（2026-08-16 加，随 writing-style 落地）与 R18–R19 由 dita-tools lint 实现
+     （新能力直接进平台，不再扩 check-rules.xsl——它正在被逐步取代）；严重度按 maturity 分级：
+     draft 记 warning（草稿不阻断），curated/verified 记 error（晋级门）。R18 是例外，恒 error
+     （被检查的正是分级所依赖的属性）；R19 随分级，但索引读不到时走"未执行"而非通过。
      DITA topic 无命名空间，context 直接用元素名。写法用 XPath1 子集，便于自带处理器执行。
      决策依据：dita2 cases/知识体系重塑/schematron-设计.md（R1–R10 已定案）。
      归属标注（2026-08-16，Task 13b 规则归并）：每条 R 前一行注释写明它是哪个学科正本的
      机器面。规则的人读正本在 topics/content-engineering/，本文件只管机器执行——
      两处内容不重复，改规则先改正本，再看这条 R 是否要跟着调。 -->
 <schema xmlns="http://purl.oclc.org/dsdl/schematron">
-  <title>KB 业务规则 R1-R18</title>
+  <title>KB 业务规则 R1-R19</title>
 
   <!-- 归属：LLM 友好与检索 / writing-llm-friendly -->
   <pattern id="R1-shortdesc">
@@ -185,6 +186,32 @@
         分级——被检查的正是分级所依赖的那个属性缺席。由 dita-tools lint 执行（覆盖面含
         glossentry，与本条 Schematron 规格的 context 一致；R12–R16 的体裁/结构/文体检查不含
         glossentry，两者覆盖面不同、互不影响）。</assert>
+    </rule>
+  </pattern>
+
+  <!-- 归属：命名与归属 / naming-rules -->
+  <pattern id="R19-upstream-node">
+    <rule context="*[prolog/data[@name='domain'][@value='dita']]">
+      <assert test="prolog/data[@name='upstream-node']"
+        >R19（2026-08-18 定，严重度随 maturity 分级：draft warning / curated 以上 error）：
+        声明式溯源。每篇在 prolog 写 data name="upstream-node"，value 为该篇标题所依据的
+        上游节点标题原文（英文逐字）；组合篇声明多条，逐条校验；上游确无对应节点的写
+        value="coined"，并在文件头注释写明三道关（穷尽查证 / 先怀疑切分 / 只组合不发明）。
+        不校验标题像不像上游节点名——本库标题是中文且常为组合，逐字匹配全是噪音（设计稿二）；
+        校验的是三件确定的事：声明的节点是否真实存在、自造是否带说明、以及**上游改名后哪些
+        声明失联**（第三件才是这套东西的目的）。
+        比对前双方都归一化：大小写不敏感、首尾空白去除、内部连续空白折叠为一个，归一化后
+        **精确**匹配，不做模糊或子串匹配——模糊会把 Specialization 匹到 Overview of
+        specialization，制造比误报更隐蔽的假通过。
+        解析不到时消息必须列三种可能而不是断言拼错：①拼写有误；②上游已改名或删除；
+        ③索引未收录该节点（resource-only 子树、未随发行版发布的页面、conref 素材片段刻意
+        排除在外），并提示核对索引头的生成日期与来源版本。把索引的空缺报成作者的错误，
+        是最伤可信度的一类误报。
+        索引（kb/vocab/upstream-nodes.tsv）缺失或读不了时本条**未执行**，走 skip 通道
+        （lint 退出码 2、review.sh 报"未执行"），不得静默通过。
+        覆盖面：目前只有 domain="dita"（其上游可本地解析，成本最低）。规则是全库通用的，
+        推广到其他分支要补的只有抓取器与 benchmark-registry 的 index-source / index-generated
+        两个字段，不改本条的判定逻辑（设计稿七之二）。由 dita-tools lint 执行。</assert>
     </rule>
   </pattern>
 

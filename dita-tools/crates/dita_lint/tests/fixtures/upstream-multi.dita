@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 组合篇，两个上游节点。 -->
+<concept id="upstream-multi" outputclass="best-practice" maturity="curated" volatility="stable">
+  <title>样例</title>
+  <shortdesc>一句摘要。</shortdesc>
+  <prolog>
+    <source href="https://example.invalid/x" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="upstream-node" value="DITA maps"/>
+    <data name="upstream-node" value="Overview of specialization"/>
+  </prolog>
+  <conbody>
+    <section><title>场景</title><p>说明。</p></section>
+    <section><title>做法：三条</title><p>说明。</p></section>
+    <section><title>边界</title><p>说明。</p></section>
+    <section><title>来源</title>
+      <p><b>事实</b>：无。</p>
+      <p><b>判断</b>：全篇为判断。</p>
+    </section>
+  </conbody>
+</concept>
