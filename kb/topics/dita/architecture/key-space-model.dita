@@ -31,7 +31,7 @@
   <conbody>
     <section>
       <title>问题</title>
-      <p>写 <xmlatt>keyref</xmlatt> 时脑子里假设的是「这个名字指向那份资源」。这个假设在一份 map 里成立，在 map 引 map 引 map 之后就不再自明：同一个名字可能有好几处定义，哪一处生效有确定的规则，而这条规则与编程语言里的赋值直觉相反。</p>
+      <p>写 <xmlatt>keyref</xmlatt> 时默认的假设是「这个名字指向那份资源」。这个假设在一份 map 里成立，在 map 引 map 引 map 之后就不再自明：同一个名字可能有好几处定义，哪一处生效有确定的规则，而这条规则与编程语言里的赋值直觉相反。</p>
       <p><xref href="../core-model/keyref-variable-text.dita">keyref 与 keytext 速查</xref>给的是写法，本篇给的是写法背后的那张表怎么来、被 <xmlatt>keyscope</xmlatt> 切开之后又是什么形状。</p>
     </section>
 

@@ -33,7 +33,7 @@
       <p>核对日期唯一存放于 prolog 的 <codeph>reviewed</codeph> 字段，正文不写。该字段与 git 记录的是两个事件：git 记文件何时被改，reviewed 记来源何时被核；修正错别字使 git 更新而无核对发生，重新核对而无改动则 git 无痕迹。正文也不写"核对日期见 prolog"一类指引：元数据的呈现归渲染层。除此之外，系统能得出的信息（修订时间、版本、作者）一律交给 git 与构建管道，不手填。</p>
       <p>上述标注管的是单条事实，分类树本身过时它管不到，因此防腐分内容与结构两层。内容层即本节前述机制：volatility 标出哪些内容会随生态变动，verified 强制附核对日期，交付物按 maturity 过滤——门开在 draft 与 curated 之间，draft 不进交付物，curated 及以上放行。未审内容因此自动失去进入交付物的资格，不靠人记得它没审过。结构层落在词表内的 benchmark-registry：各顶层分支登记对标锚点、上次对标日期、复核档位与事件触发条件，把一次性的分类对标固化为可复现的纪律。</p>
       <p>门开在 draft 而不是 verified，是因为门要设在当前达得到的档位上：全库尚无一篇 verified，按 verified 过滤等于交付物永远为空，而永远为空的门等于没有门。档位随库的成熟度上移——有足够多的篇目完成逐条核对之后，再把门抬到 verified。</p>
-      <p>实现是每个交付物变体的 <term keyref="term-ditaval">DITAVAL</term> 里一条 <codeph>exclude</codeph>，条件属性写 <xmlatt>maturity</xmlatt> 本身而非 <xmlatt>props</xmlatt>：maturity specialize 自 props，各外壳的 <xmlatt>specializations</xmlatt> 默认值声明了这层派生关系。门一旦装上，交付物 map 直接引用的篇目就必须是 curated 以上，主体留在 draft 会让产物空掉；因此构建脚本对「被引主体遭过滤」报失败，不与「草稿被滤掉」的正常情形混为一谈。</p>
+      <p>实现是每个交付物变体的 <term keyref="term-ditaval">DITAVAL</term> 里一条 <codeph>exclude</codeph>，条件属性写 <xmlatt>maturity</xmlatt> 本身而非 <xmlatt>props</xmlatt>：maturity specialize 自 props，各外壳的 <xmlatt>specializations</xmlatt> 默认值声明了这层派生关系。门一旦装上，交付物 map 直接引用的篇目就必须是 curated 以上，主体留在 draft 会让产物为空；因此构建脚本对「被引主体遭过滤」报失败，不与「草稿被滤掉」的正常情形混为一谈。</p>
       <p>结构层以事件触发为主，日历到期只兜底：某分支连续多篇内容无处安放，或外部锚点体系大改版，即触发重新对标；到期仅由工具 flag 提示，不阻塞写作与构建，且默认先做轻量确认，发现锚点体系有大变才跑全量对标。</p>
     </section>
 

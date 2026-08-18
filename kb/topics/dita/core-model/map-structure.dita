@@ -66,7 +66,7 @@
 
     <section>
       <title>分析：mapref 合并层级而不留下节点</title>
-      <p>这一条最容易踩，因为它违反直觉：引一份 map 进来，产物里看不到那份 map 的名字。规范定义的处理是把被引 map 的层级在引用位置并入容器 map，示例显示被引 map 的 <xmlelement>topicref</xmlelement> 子项替换 <xmlelement>mapref</xmlelement> 元素本身。合并的是那些 <xmlelement>topicref</xmlelement>，被引 map 的 <xmlelement>title</xmlelement> 只是那个文件的标题，不会变成一个导航节点。</p>
+      <p>这一条最容易误判，因为它违反直觉：引一份 map 进来，产物里看不到那份 map 的名字。规范定义的处理是把被引 map 的层级在引用位置并入容器 map，示例显示被引 map 的 <xmlelement>topicref</xmlelement> 子项替换 <xmlelement>mapref</xmlelement> 元素本身。合并的是那些 <xmlelement>topicref</xmlelement>，被引 map 的 <xmlelement>title</xmlelement> 只是那个文件的标题，不会变成一个导航节点。</p>
       <p>一份有十个 <xmlelement>topicref</xmlelement>、标题为「Web 技术栈」的 map 被引进来，产物里得到的是那十篇平铺在当前层级，没有「Web 技术栈」这一层。map 越多，顶层越乱，每份被引 map 的组织意图都在合并中消失。</p>
       <p>想保住分组名有两条路，取舍在于那一层值不值得有一个页面。</p>
       <simpletable relcolwidth="1* 1.4* 1.8*">

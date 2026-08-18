@@ -3,7 +3,7 @@
      分工：RNG 管结构、subjectScheme enumerationdef 构建期管受控值；
      本文件管 RNG 表达不了的跨属性/语义/业务规则（编辑期即时 + 审查脚本批量）。
      R12–R15（2026-08-16 加，随 writing-style 落地）由 dita-tools lint 实现（新能力直接进平台，
-     不再扩 check-rules.xsl——它在吸收退役通道上）；严重度按 maturity 分级：
+     不再扩 check-rules.xsl——它正在被逐步取代）；严重度按 maturity 分级：
      draft 记 warning（草稿不阻断），curated/verified 记 error（晋级门）。
      DITA topic 无命名空间，context 直接用元素名。写法用 XPath1 子集，便于自带处理器执行。
      决策依据：dita2 cases/知识体系重塑/schematron-设计.md（R1–R10 已定案）。

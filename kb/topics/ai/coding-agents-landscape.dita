@@ -38,7 +38,7 @@
     <data name="planned-dimension" value="dim-injection-safety"/>
   </prolog>
   <conbody>
-    <p>本页是 coding-agents 域的概览：先对标列出该从哪些维度理解 agent CLI 工具，再标出每个维度当前有没有内容。它不讲具体做法，只界定范围、暴露盲区。本域是全库时效流失最快的分支（工具月月变），也是矿场素材最厚的一块——重写按 volatile 优先，写一篇、覆盖度涨一格。</p>
+    <p>本页是 coding-agents 域的概览：先对标列出该从哪些维度理解 agent CLI 工具，再标出每个维度当前有没有内容。它不讲具体做法，只界定范围、暴露盲区。本域是全库时效流失最快的分支（工具每月都有变动），也是矿场素材最厚的一块——重写按 volatile 优先，每写一篇，覆盖度增加一项。</p>
 
     <section>
       <title>维度清单与覆盖状态</title>

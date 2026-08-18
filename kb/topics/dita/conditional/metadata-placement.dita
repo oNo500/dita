@@ -107,13 +107,13 @@
         <li>只是给内容归类吗。是，用指向主题的分类属性绑定 subject scheme 里的主题。</li>
         <li>是标准描述字段吗，例如作者、日期、版权。是，用 prolog 里对应的元数据元素。</li>
         <li>是自有结构的属性吗，例如设备参数或合规编号。是，从 <xmlelement>data</xmlelement> 派生自己的元素。</li>
-        <li>以上都拿不准，先跑起来再说。用 <xmlelement>othermeta</xmlelement>，同时给它定一个迁移期限。</li>
+        <li>以上都不适用时用 <xmlelement>othermeta</xmlelement> 过渡，同时给它定一个迁移期限。</li>
       </ol>
     </section>
 
     <section>
       <title>理由</title>
-      <p>五处的分别可以归到一句：<b>没有校验的位置只配放草稿</b>。<xmlelement>othermeta</xmlelement> 的名与内容都是自由文本，写错、写成同义词、写成大小写变体都不会有任何提示，而元数据的价值恰好建立在同一个概念只有一种写法上。</p>
+      <p>五处的分别可以归到一句：<b>没有校验的位置只适合放草稿</b>。<xmlelement>othermeta</xmlelement> 的名与内容都是自由文本，写错、写成同义词、写成大小写变体都不会有任何提示，而元数据的价值恰好建立在同一个概念只有一种写法上。</p>
       <p><xmlelement>data</xmlelement> 的默认行为是另一条依据。规范对处理器的期望是默认不渲染它，它被明确定位为承载属性与元数据、而不是承载正文内容流的元素，同时也是自定义结构化元数据的 specialization 基类。把要给读者看的内容放进去，多数处理器不会输出它。</p>
       <p>过滤与分类分列两处，也是这张表的用意所在。分类属性不参与条件过滤，因此给内容打分类标记不会意外改变任何交付物的内容；反过来，用条件属性做纯分类，会让一次过滤规则的调整波及产物。</p>
     </section>
@@ -139,7 +139,7 @@
     <section>
       <title>来源</title>
       <p><b>事实</b>：<xmlelement>data</xmlelement> 用于承载属性与元数据、带名与值及数据类型三个属性、可出现在 prolog 与元数据容器及大量其他容器中、处理器默认应当不渲染它、被显式定位为 <term keyref="term-specialization">specialization</term> 的基类、仅用于属性而不用于正文内容流，转自 <xref href="https://dita-lang.org/dita/langref/base/data" scope="external">data 语言参考</xref>；<xmlelement>othermeta</xmlelement> 的名与内容两个属性必填、内容模型为空、限于元数据容器内、2.0 仍然存在，转自 <xref href="https://dita-lang.org/dita/langref/base/othermeta" scope="external">othermeta 语言参考</xref>；受控值绑定时容器节点自身不是合法值、空枚举使属性无合法值、默认值在级联值之后求值，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/binding-controlled-values-to-attribute" scope="external">绑定受控值到属性</xref>；分类属性以空格分隔引用主题的键，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/subject-scheme-maps-and-usage" scope="external">subject scheme map 及其使用</xref>。四处均已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中对照表里受控值校验、参与过滤、沿 map 级联三列的各行取值、分类属性的可用位置、prolog 元数据元素可由 map 一侧下沉，未逐条核对；五步判断顺序、「没有校验的位置只配放草稿」的定性、给权宜字段定迁移期限的建议、五条反例，为本库归纳。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中对照表里受控值校验、参与过滤、沿 map 级联三列的各行取值、分类属性的可用位置、prolog 元数据元素可由 map 一侧下沉，未逐条核对；五步判断顺序、「没有校验的位置只适合放草稿」的定性、给权宜字段定迁移期限的建议、五条反例，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

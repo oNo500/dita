@@ -29,7 +29,7 @@
          maturity="draft" volatility="stable"
          dimension="dim-internals dim-consistency">
   <title>@class 与 @specializations 属性规则与语法</title>
-  <shortdesc>每个 DITA 元素都带一条从最通用到最具体排列的派生链，写在 <xmlatt>class</xmlatt> 里；属性一侧的对应物写在根元素的 <xmlatt>specializations</xmlatt> 里。两者的取值形状都由规范规定得很死，其中几条看似排版洁癖的要求，各自挡住一类具体的处理错误。</shortdesc>
+  <shortdesc>每个 DITA 元素都带一条从最通用到最具体排列的派生链，写在 <xmlatt>class</xmlatt> 里；属性一侧的对应物写在根元素的 <xmlatt>specializations</xmlatt> 里。两者的取值形状都由规范严格规定，其中几条看似只关乎书写形式的要求，各自挡住一类具体的处理错误。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external"/>
     <data name="domain" value="dita"/>
@@ -58,7 +58,7 @@
       <title>分析：三条规定各挡住什么</title>
       <p>结尾空格挡的是前缀误命中。匹配时把 token 连同前后空格一起找，<codeph>' topic/li '</codeph> 才不会命中 <codeph>topic/link</codeph>。取值末尾若不留空格，最后一个 token 就没有右边界，最具体的那一层反而成了最容易匹配错的一层。</p>
       <p>完整祖先链挡的是 <term keyref="term-generalization">generalization</term> 失真。把一份文档退回基础词汇时，算法逐级读派生链找可以退到的层；中间层若因为没有改名而被省略，退回就少了一站，该层的处理规则随之落空。</p>
-      <p>默认值不得为 fixed 挡的是 generalization 之后的回不去。已经 generalize 的文档里，元素名已经换成基类的名字，而它需要继续携带原来那条完整派生链，以便之后还原。属性若被声明为 fixed，实例上就写不进与声明不同的值，这条路径被堵死。</p>
+      <p>默认值不得为 fixed 挡的是 generalization 之后的回不去。已经 generalize 的文档里，元素名已经换成基类的名字，而它需要继续携带原来那条完整派生链，以便之后还原。属性若被声明为 fixed，实例上就写不进与声明不同的值，这条路径就不再可行。</p>
       <p><b>三条规定都不是排版偏好，各自对应一类会真实发生的处理错误</b>。这也解释了为什么规范把它们写成硬性要求而不是建议。</p>
     </section>
 
@@ -73,7 +73,7 @@
     <section>
       <title>结论</title>
       <p>由这两个属性得出的处理规则只有一条：处理 DITA 的代码按派生链匹配，不按元素名匹配。按元素名写的模板，任何人做一次 specialization 就会失效；按派生链写的模板自动覆盖全部派生物。domain 元素同理，不认识 UI domain 的处理器把 <xmlelement>uicontrol</xmlelement> 当作它派生自的 <xmlelement>ph</xmlelement> 渲染，结果仍然正确，只是丢了样式。降级是内建的。</p>
-      <p>有一处容易踩空：这两个属性都是语法文件提供的默认值，不做校验地裸解析源文件时，它们全部取不到。取到它们的两条路与匹配写法见 <xref href="../toolchain/programming-by-class.dita">@class 与派生链解析</xref>。</p>
+      <p>有一处容易遗漏：这两个属性都是语法文件提供的默认值，不做校验地裸解析源文件时，它们全部取不到。取到它们的两条路与匹配写法见 <xref href="../toolchain/programming-by-class.dita">@class 与派生链解析</xref>。</p>
     </section>
 
     <section>

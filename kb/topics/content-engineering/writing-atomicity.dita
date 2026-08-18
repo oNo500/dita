@@ -34,7 +34,7 @@
         </strow>
       </simpletable>
       <p>左列并非潦草，而是指代物（"上面说的那个"）已不在场；右列将指代补为内容本身。自足与篇幅无关：判据是脱离语境是否成立，不是字数。</p>
-      <p>判据二：可归型。内容能归入 <xmlelement>concept</xmlelement>、<xmlelement>task</xmlelement>、<xmlelement>reference</xmlelement>、<xmlelement>troubleshooting</xmlelement>、<xmlelement>glossentry</xmlelement> 之一（类型的选择见 <xref href="writing-typing.dita">内容类型化</xref>）。归不进任何一类的内容通常尚未成为知识，或者实为多篇混装：一篇"OAuth 踩坑"往往同时含原理、配置步骤与报错处置，应拆为三篇而非拒收。</p>
+      <p>判据二：可归型。内容能归入 <xmlelement>concept</xmlelement>、<xmlelement>task</xmlelement>、<xmlelement>reference</xmlelement>、<xmlelement>troubleshooting</xmlelement>、<xmlelement>glossentry</xmlelement> 之一（类型的选择见 <xref href="writing-typing.dita">内容类型化</xref>）。归不进任何一类的内容通常尚未成为知识，或者实为多篇混装：一篇"OAuth 常见问题"往往同时含原理、配置步骤与报错处置，应拆为三篇而非拒收。</p>
       <p>混装到什么程度算该拆，有一条硬计数兜底：<b><xmlelement>concept</xmlelement> 正文里实现层行内标记合计超过 8 处即拆</b>。计入的标记是 <xmlelement>codeph</xmlelement>、<xmlelement>cmdname</xmlelement>、<xmlelement>apiname</xmlelement>、<xmlelement>parmname</xmlelement>、<xmlelement>varname</xmlelement>、<xmlelement>option</xmlelement>、<xmlelement>userinput</xmlelement>、<xmlelement>systemoutput</xmlelement>、<xmlelement>synph</xmlelement>、<xmlelement>codeblock</xmlelement>；<xmlelement>xmlelement</xmlelement>、<xmlelement>xmlatt</xmlelement>、<xmlelement>filepath</xmlelement> 不计入——前两者是本库讲 DITA 写作时的主题词汇，后者多为示意。超阈值说明判据与配置并存于一篇，拆法是判据留在 <xmlelement>concept</xmlelement>，字段表与命令语法迁成 <xmlelement>reference</xmlelement>。这条由 <cmdname>dita-tools lint</cmdname> 执行（R16）。</p>
       <p>判据三：领域特有性。<b>一篇内容如果换成别的技术栈仍然成立，它就不属于这个领域分支。</b>检验方法：把篇中的领域机制名换成另一技术栈里的对应物，若论断仍然成立，该论断不属于本分支。不通过的内容未必是噪音——通用工程常识本身可以是对的，只是位置错了：改挂通用分支（engineering / foundations），或者删除。</p>
       <p>判据三与前两项的关系是并列而非递进：一篇可以既自足又可归型，同时不属于它当前所在的分支。前两项裁定进不进库，第三项裁定进哪个分支。</p>
@@ -43,7 +43,7 @@
     <section>
       <title>理由</title>
       <p>自足是复用的前提：被复用的内容会出现在新位置，依赖原语境的内容换位即错。可归型使拆分后的每篇可独立检索、引用与更新；不拆则只能整篇读取、整篇过时。</p>
-      <p>领域特有性要挡的不是通用知识本身，而是披着领域外衣的通用知识——它们标注得再诚实，也占着领域分支的位置、稀释检索。读者按某个领域检索，取回的却是"目录按角色分""标识发布后不改"一类换到任何文档系统或代码库都成立的常识，而该领域特有的内容被同类篇章挤到后面。这类内容写得越像样越难发现：它没有错，只是放错了地方，而放错地方不会有任何检查报出来。</p>
+      <p>领域特有性要挡的不是通用知识本身，而是看起来属于该领域的通用知识——它们标注得再诚实，也占着领域分支的位置、稀释检索。读者按某个领域检索，取回的却是"目录按角色分""标识发布后不改"一类换到任何文档系统或代码库都成立的常识，而该领域特有的内容被同类篇章挤到后面。这类内容写得越像样越难发现：它没有错，只是放错了地方，而放错地方不会有任何检查报出来。</p>
     </section>
 
     <section>

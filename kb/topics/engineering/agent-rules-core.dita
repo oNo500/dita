@@ -5,7 +5,7 @@
      含通用规则 + 工具特有段（tool 条件属性），交付物构建时按 DITAVAL 过滤出各工具变体。 -->
 <!-- 2026-08-17 晋级 curated：过 lint 晋级门（R12–R16 转 error 后 0 error）。
      必须晋级——交付物 map 自本日起按 maturity 过滤（filters/*.ditaval 排除 draft），
-     本篇是交付物主体，留在 draft 会让 agent-rules 产物空掉。
+     本篇是交付物主体，留在 draft 会让 agent-rules 产物为空。
      未晋 verified——volatility=volatile 且规则多为本库约定，无逐条外部来源可核（R3 亦要求日期）。 -->
 <reference id="agent-rules-core" xml:lang="zh-CN"
            outputclass="artifact"

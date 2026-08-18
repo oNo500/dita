@@ -29,7 +29,7 @@
   <conbody>
     <section>
       <title>场景</title>
-      <p>内容在 DITA 里，现在要建检索索引供模型取用。打开源文件解析看似最短的路径，索引也确实能建起来，检索结果却不对劲：有的块里只有一个内容为空的元素，有的块里产品名还是占位符，还有的块属于另一个产品变体。三种症状的根因是同一个，即入库的是尚未解析的内容。</p>
+      <p>内容在 DITA 里，现在要建检索索引供模型取用。打开源文件解析看似最短的路径，索引也确实能建起来，检索结果却与预期不符：有的块里只有一个内容为空的元素，有的块里产品名还是占位符，还有的块属于另一个产品变体。三种症状的根因是同一个，即入库的是尚未解析的内容。</p>
     </section>
 
     <section>
@@ -70,7 +70,7 @@
 
     <section>
       <title>边界</title>
-      <p>本篇只定入库内容的形态与过滤时机，不含块该切多大与每块带什么元数据，那两项见<xref href="rag-chunking-metadata.dita">RAG 切块粒度与检索元数据</xref>。为什么 DITA 内容在检索场景占便宜，见<xref href="dita-rag-fit.dita">DITA topic 自足性与 RAG 切块的对应关系</xref>。</p>
+      <p>本篇只定入库内容的形态与过滤时机，不含块该切多大与每块带什么元数据，那两项见<xref href="rag-chunking-metadata.dita">RAG 切块粒度与检索元数据</xref>。为什么 DITA 内容在检索场景有现成优势，见<xref href="dita-rag-fit.dita">DITA topic 自足性与 RAG 切块的对应关系</xref>。</p>
       <p>输入形态的一般性取舍不限于检索场景，程序化处理的同一决定见<xref href="../toolchain/parsed-vs-source.dita">程序化处理的输入选择</xref>。条件过滤的判定规则与 passthrough 的语义属条件化一侧，本篇转述而未核对。</p>
     </section>
 

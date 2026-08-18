@@ -14,7 +14,7 @@
      volatility=stable 的依据：会级联的属性清单与 @cascade 的语义出自架构规范，不随发行版变动。
      事实纪律：笔记已逐页核对的是级联的定义、作用于包含层级而非 specialization 层级、
      会级联的属性完整清单、多值加性与单值取最近祖先、@cascade 的 merge 与 nomerge 语义及
-     nomerge 只阻止累积、reltable 的级联路径。根上显式写 nomerge 的建议与踩坑症状属判断，
+     nomerge 只阻止累积、reltable 的级联路径。根上显式写 nomerge 的建议与常见错误症状属判断，
      来源节判断段列明。 -->
 <concept id="metadata-cascade" xml:lang="zh-CN"
          outputclass="deep-dive"

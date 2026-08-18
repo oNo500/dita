@@ -4,7 +4,7 @@
      标题规则（2026-08-16 用户定稿）：上游有对应节点，直接用其类目名——架构规范
      "DITA addressing" 章，其子页为 id attribute / DITA linking / URI-based (direct)
      addressing / Indirect key-based addressing / Context hooks for user assistance。
-     本篇覆盖该章的总述与除 key 子树外的全部子页，故取章名；key 一侧的深水区另立三篇
+     本篇覆盖该章的总述与除 key 子树外的全部子页，故取章名；key 一侧的复杂部分另立三篇
      （key-space-model / cross-deliverable-addressing / branch-filter-key-space），照上游
      Indirect key-based addressing 子树切分。非自造。
      术语规则（2026-08-16 用户门反馈后，含译名禁令补充）：key / keyref / conref /
@@ -31,7 +31,7 @@
     <section>
       <title>问题</title>
       <p>一条引用要指向别处的内容，写法上的选择只有两个：把目标的位置写进引用，或者写一个名字、让处理时再去查这个名字对应什么。DITA 把这两条路都定义成机制，前者用 URI，后者用 key。</p>
-      <p>选哪一条决定了内容搬家时会发生什么。写进 URI 的引用换了位置就断；写 key 的引用只要 map 里改一处绑定，全部引用点一起改向。代价是 key 多一层间接，出问题时要先弄清它解析成了什么。</p>
+      <p>选哪一条决定了内容换位置时会发生什么。写进 URI 的引用换了位置就断；写 key 的引用只要 map 里改一处绑定，全部引用点一起改向。代价是 key 多一层间接，出问题时要先弄清它解析成了什么。</p>
     </section>
 
     <section>
