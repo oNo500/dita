@@ -72,7 +72,7 @@
         <strow><stentry>用途</stentry><stentry>禁用本套文档不该出现的元素、把可选子元素改为必填</stentry><stentry>给特定元素类型加 specialize 出来的元素或属性，且不使其全局可用</stentry></strow>
         <strow><stentry>典型</stentry><stentry>禁用 <xmlelement>draft-comment</xmlelement>、强制 <xmlelement>shortdesc</xmlelement></stentry><stentry>只让 <xmlelement>step</xmlelement> 能用某个自定义元素，别处不能</stentry></strow>
       </simpletable>
-      <p>两者当中 expansion module 被提及得少，但它填的空缺是真实的。做一个从 <xmlelement>ph</xmlelement> 派生的 domain 元素 <xmlelement>sensor-id</xmlelement>，装进 shell 之后它在所有 <xmlelement>ph</xmlelement> 能出现的位置都可用，包括不希望它出现的位置。规范给 expansion module 的定位正是让架构师在特定元素类型中引入 specialize 出来的属性或元素，而不使这些属性或元素全局可用。</p>
+      <p>两者当中 expansion module 被提及得少，但它填的空缺是真实的。做一个从 <xmlelement>ph</xmlelement> 派生的 domain 元素 <xmlelement>sensor-id</xmlelement>，装配进 shell 之后它在所有 <xmlelement>ph</xmlelement> 能出现的位置都可用，包括不希望它出现的位置。规范给 expansion module 的定位正是让架构师在特定元素类型中引入 specialize 出来的属性或元素，而不使这些属性或元素全局可用。</p>
       <p>它有一条核心规则约束这种放宽：generalize 之后，受 expansion module 影响的元素，其内容模型必须与该元素原本的内容模型一致。这条把放宽的效力关在可还原的范围内，交换出去的内容仍然是合法的基类内容。</p>
       <p>由此得到一条判据：正打算做 domain specialization、又担心新元素到处都能用，要的是 expansion module，不是更细的 specialization。constraint 一侧的用法与 generalization 的算法见 <xref href="constraints-generalization.dita">constraints 与 generalization</xref>。</p>
     </section>

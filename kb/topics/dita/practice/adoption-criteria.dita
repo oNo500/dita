@@ -62,7 +62,7 @@
         <strow><stentry>做二次开发</stentry><stentry>可以上，派生链架构与 <term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）方法不随 beta 状态变动</stentry></strow>
       </simpletable>
       <p>验证工具链支持时，最小样例覆盖四个 2.0 新增机制即可划出边界：<xmlelement>keytext</xmlelement> 的变量文本、<xmlelement>titlealt</xmlelement> 的多标题、<xmlelement>include</xmlelement> 引入非 DITA 内容、<xmlatt>chunk</xmlatt> 的合并取值。四者分布在键、标题、外部内容、输出分块四条不同的处理路径上，一个都不落地的工具链，支持程度也就到此为止。四者的写法依次见<xref href="../core-model/keyref-variable-text.dita">keyref 与 keytext 速查</xref>、<xref href="../core-model/titlealt-system.dita">titlealt 速查</xref>、<xref href="../core-model/include-non-dita.dita">include 元素</xref>与<xref href="../conditional/chunking.dita">chunking 速查</xref>。</p>
-      <p>决定上 2.0 之后，把三件事写进项目约定：规范还会变，做 specialization 时锁定版本；DITA-OT 的语法文件基线滞后于规范草案；生态支持参差，编辑器、内容管理系统与第三方 <term keyref="term-plugin">plugin</term>（插件）逐个验证。相应地，从不太可能再变的基类派生（<xmlelement>div</xmlelement>、<xmlelement>ph</xmlelement>、<xmlelement>section</xmlelement>、<xmlelement>simpletable</xmlelement>、<xmlelement>data</xmlelement>、<xmlelement>foreign</xmlelement>），避开仍在讨论中的区域，先用最小样例把工具链跑通再投入内容，并把 DITA-OT 版本写进持续集成的镜像或版本声明文件。</p>
+      <p>决定上 2.0 之后，把三件事写进项目约定：规范还会变，做 specialization 时锁定版本；DITA-OT 的语法文件基线滞后于规范草案；生态支持参差，编辑器、内容管理系统与第三方 <term keyref="term-plugin">plugin</term>（插件）逐个验证。相应地，从不太可能再变的基类派生（<xmlelement>div</xmlelement>、<xmlelement>ph</xmlelement>、<xmlelement>section</xmlelement>、<xmlelement>simpletable</xmlelement>、<xmlelement>data</xmlelement>、<xmlelement>foreign</xmlelement>），避开仍在讨论中的区域，先用最小样例验证工具链可用，再投入内容，并把 DITA-OT 版本写进持续集成的镜像或版本声明文件。</p>
     </section>
 
     <section>

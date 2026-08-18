@@ -34,13 +34,13 @@
 
     <section>
       <title>做法</title>
-      <p>入库的内容一律取 preprocess 之后的形态。取得方式与自研管道相同，以 dita 为输出格式跑一次，产出的是引用已展开、键已替换、条件已按 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）裁定的正常 DITA 文件。</p>
+      <p>入库的内容一律取 preprocess 之后的形态。取得方式与自研管道相同，以 dita 为输出格式执行一次，产出的是引用已展开、键已替换、条件已按 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）裁定的正常 DITA 文件。</p>
       <p>随后按变体维度选一条入库路线。</p>
       <simpletable relcolwidth="1.2* 1.8* 1.8*">
         <sthead><stentry>路线</stentry><stentry>做法</stentry><stentry>代价</stentry></sthead>
         <strow>
           <stentry>按变体分库</stentry>
-          <stentry>每个 DITAVAL 组合各跑一次构建，各建各的索引</stentry>
+          <stentry>每个 DITAVAL 组合各执行一次构建，各建各的索引</stentry>
           <stentry>库的数量等于变体数，共有内容在每个库里各存一份</stentry>
         </strow>
         <strow>
@@ -62,7 +62,7 @@
       <title>反例</title>
       <ul>
         <li>直接嵌入源文件，打算靠提示词让模型忽略无关变体。模型看不到过滤规则，也无从判断哪个变体与提问者相关。</li>
-        <li>自行实现引用解析以避开跑构建。这与自研处理管道的代价相同，产出的是与工具链行为不完全一致的第二套解析规则。</li>
+        <li>自行实现引用解析以避开执行构建。这与自研处理管道的代价相同，产出的是与工具链行为不完全一致的第二套解析规则。</li>
         <li>选了单库路线，却把条件属性当作普通标签做字符串匹配。属性之间的排除关系因此丢失，过滤结果比不过滤更难排查。</li>
         <li>分库路线下把共有内容当作重复数据去重。去重之后块归属哪个库不再确定，按库隔离变体这一前提随之失效。</li>
       </ul>

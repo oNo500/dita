@@ -94,7 +94,7 @@
         <li>标元数据——<xmlatt>maturity</xmlatt>、<xmlatt>volatility</xmlatt>（必标）、<xmlatt>dimension</xmlatt>（覆盖的维度，可多值）、prolog 的 domain。</li>
         <li>挂术语与来源——关键术语走 <xmlelement>term</xmlelement> <xmlatt>keyref</xmlatt>；concept/reference 必有来源。</li>
         <li>建新领域时——先建概览 topic、标维度清单与盲区；内容按 80/20 从完整图上切。</li>
-        <li>写完跑 <cmdname>review.sh</cmdname>——结构＋业务规则＋覆盖度，有 error 按报告自修再跑。</li>
+        <li>写完执行 <cmdname>review.sh</cmdname>——结构＋业务规则＋覆盖度，有 error 按报告自修后重新执行。</li>
       </ol>
     </section>
 
@@ -118,7 +118,7 @@
 
     <section>
       <title>元数据标注</title>
-      <p>四个字段写在根元素与 prolog 上，缺一项即被机器拦下：</p>
+      <p>四个字段写在根元素与 prolog 上，缺一项即被机器阻断：</p>
       <ul>
         <li><xmlatt>maturity</xmlatt> 与 <xmlatt>volatility</xmlatt>——取值与晋级条件见 <xref href="writing-sourcing.dita">kb 来源与成熟度标注</xref>（R2/R3/R4/R5）。</li>
         <li><xmlatt>dimension</xmlatt> 与 prolog 的 domain——写什么、值域由谁管、目录怎么跟着定，见 <xref href="naming-rules.dita">kb 命名与归属</xref>（R17）。glossentry 的 domain 豁免，术语库是组织节点。</li>

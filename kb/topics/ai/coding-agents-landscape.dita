@@ -50,7 +50,7 @@
         </sthead>
         <strow><stentry>概念（dim-concept）</stentry><stentry>agent CLI 是什么、agent 循环的心智模型、它与补全式助手的本质差异</stentry><stentry>已覆盖：agent-loop-model</stentry></strow>
         <strow><stentry>加载机制（dim-mechanism）</stentry><stentry>规则 / <term keyref="term-skill">skill</term> / <term keyref="term-hook">hook</term> 何时进上下文、三层加载语义</stentry><stentry>已覆盖：agent-rule-loading、agent-context-verification</stentry></strow>
-        <strow><stentry>选层判据（dim-decision）</stentry><stentry>一条内容装进哪层、编排独立成物还是写进正文的取舍</stentry><stentry>已覆盖：agent-rule-loading、agent-skill-orchestration</stentry></strow>
+        <strow><stentry>选层判据（dim-decision）</stentry><stentry>一条内容归入哪层、编排独立成物还是写进正文的取舍</stentry><stentry>已覆盖：agent-rule-loading、agent-skill-orchestration</stentry></strow>
         <strow><stentry>工作方法（dim-method）</stentry><stentry>做事链与查证链、第三方资产验收、收录判据</stentry><stentry>已覆盖：agent-context-verification</stentry></strow>
         <strow><stentry>选型对比（dim-comparison）</stentry><stentry>Claude Code vs Codex vs Antigravity 及终端工具生态的取舍依据</stentry><stentry>已覆盖：coding-agents-comparison（部分：Antigravity 合并语义未核）</stentry></strow>
         <strow><stentry>生态与资产（dim-ecosystem）</stentry><stentry>skills / 插件市场、社区资产的分布与选材门槛</stentry><stentry>盲区</stentry></strow>

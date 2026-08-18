@@ -70,7 +70,7 @@ def make_api_topic(endpoint):
 dita -i root.ditamap -f markdown         -o out   # 通用
 dita -i root.ditamap -f markdown_github  -o out   # GitHub 风味
 dita -i root.ditamap -f markdown_gitbook -o out   # GitBook，带目录文件</codeblock>
-      <p>这一步是有损的。Markdown 没有 concept 与 task 与 reference 的类型语义，没有派生链属性，也没有条件属性，转出去的内容回不来。因此它只适合作为发布通道：单向、可重跑，产出视为构建结果而非可编辑的源。</p>
+      <p>这一步是有损的。Markdown 没有 concept 与 task 与 reference 的类型语义，没有派生链属性，也没有条件属性，转出去的内容回不来。因此它只适合作为发布通道：单向、可重复执行，产出视为构建结果而非可编辑的源。</p>
     </section>
 
     <section>

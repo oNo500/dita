@@ -12,7 +12,7 @@
      （只有 dita validate 子命令与各 transtype 的处理节点）、ISO Schematron（独立标准，
      非 DITA 节点），四层校验的合并视角为本篇自己的组织。标题由领域既有词素「校验」与上游
      标准名 Schematron 组合；前缀按上游用语省去（子命令即 dita validate，无「DITA 校验」页）。
-     2026-08-17（人审修复轮）「把校验接进构建」一节换成本仓真实可跑的命令，与 practice/
+     2026-08-17（人审修复轮）「把校验接进构建」一节换成本仓真实可用的命令，与 practice/
      engineering-ci 同批同因：原脚本首行调 xmllint 的 noout/valid 两个开关，xmllint 不在本
      项目工具链（本机未安装），且 valid 走 DTD 校验，而本库每篇由 xml-model 绑 RNG，对本库
      无意义；做法表第一行的同一条命令一并去掉 DTD 专属的那个开关，只留工具名。
@@ -97,7 +97,7 @@
 
     <section>
       <title>把校验接进构建</title>
-      <p>源文件一侧的最小组合是三层，逐层加严。下面是本库自己的持续集成实际在跑的命令（仓内封装为一条 <cmdname>just review</cmdname>），路径按本库的目录布局写：</p>
+      <p>源文件一侧的最小组合是三层，逐层加严。下面是本库自己的持续集成实际执行的命令（仓内封装为一条 <cmdname>just review</cmdname>），路径按本库的目录布局写：</p>
       <codeblock># 1. 结构与引用：dita validate 以一个 map 为输入，沿 topicref 树遍历全部被引 topic
 dita validate --input=maps/root.ditamap
 
@@ -108,7 +108,7 @@ java -cp "$SAXON_LIB" net.sf.saxon.Transform \
 # 3. 体裁与文体：本库自写的 lint（上表四种之外自加的一层）
 dita-tools lint --vocab vocab/subjectScheme.ditamap topics</codeblock>
       <p>第一层一条命令兼顾上表的前两行：本库每篇由 <xmlelement>xml-model</xmlelement> 绑 RNG，语法有效性在同一次调用里判定，而语法文件查不出 <term keyref="term-conref">conref</term>（引用另一处已有内容）指向不存在的文件，断链要靠这一层的 DITA 语义识别才报得出来。</p>
-      <p>第二层是上一节所说「持续集成里把它编译成 XSLT 执行」的一个实例，只是本库取的是手写实现而非编译产物：规则的人读正本是一份 Schematron 文件，可执行面是一份与之同步的 XSLT，由 DITA-OT 自带的 Saxon 跑，不引第三方 Schematron 编译器。<varname>SAXON_LIB</varname> 指向那份 Saxon 所在的 <filepath>lib/</filepath> 目录，安装位置随版本变动，本库由 <filepath>scripts/review.sh</filepath> 探测后传入而不硬编码。两份文件须同步是这个取法的代价，接入编译器后即可删掉其中一份。</p>
+      <p>第二层是上一节所说「持续集成里把它编译成 XSLT 执行」的一个实例，只是本库取的是手写实现而非编译产物：规则的人读正本是一份 Schematron 文件，可执行面是一份与之同步的 XSLT，由 DITA-OT 自带的 Saxon 执行，不引第三方 Schematron 编译器。<varname>SAXON_LIB</varname> 指向那份 Saxon 所在的 <filepath>lib/</filepath> 目录，安装位置随版本变动，本库由 <filepath>scripts/review.sh</filepath> 探测后传入而不硬编码。两份文件须同步是这个取法的代价，接入编译器后即可删掉其中一份。</p>
       <p>三层查的都是躺在库里的源文件。条件过滤之后的那份文档只在构建时存在，它的合法性这三层照不到，须按每份 <term keyref="term-ditaval">DITAVAL</term>（条件过滤规则文件）各构建一次才覆盖得到；那一步的做法与理由见 <xref href="../practice/engineering-ci.dita">DITA 变体构建与 CI</xref>。</p>
     </section>
 
@@ -121,7 +121,7 @@ dita-tools lint --vocab vocab/subjectScheme.ditamap topics</codeblock>
     <section>
       <title>来源</title>
       <p><b>事实</b>：DITA 2.0 在规范列表中列为 draft、1.3 及更早版本为 OASIS Standard，转自 <xref href="https://www.dita-lang.org/specifications" scope="external">DITA 规范列表</xref>，已逐页核对。</p>
-      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中四种校验的命令与各自能发现的问题、RNG 与 DTD 的关系及 2.0 不再提供 XSD、Schematron 的示例规则与三处运行位置、Oxygen 的原生支持、DITA-OT 无内置 Schematron 支持，均来自通用实践，未逐页核对；DITA 的引用完整性校验命令属 4.3 预览特性来自发布说明的检索结果，未打开页面逐条核对；与 constraint 模块的分工建议、持续集成分层的组合与「源文件一侧照不到过滤后的文档」这一分工，为本库归纳。「把校验接进构建」一节的三条命令不属未核对之列：它们是本库自己的持续集成实际在跑的命令，2026-08-17 逐条执行确认可用（三条均退出 0、零违规），可在本仓复现；同节所述本库以手写 XSLT 而非编译产物执行 Schematron 规则，为本仓事实。</p>
+      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中四种校验的命令与各自能发现的问题、RNG 与 DTD 的关系及 2.0 不再提供 XSD、Schematron 的示例规则与三处运行位置、Oxygen 的原生支持、DITA-OT 无内置 Schematron 支持，均来自通用实践，未逐页核对；DITA 的引用完整性校验命令属 4.3 预览特性来自发布说明的检索结果，未打开页面逐条核对；与 constraint 模块的分工建议、持续集成分层的组合与「源文件一侧照不到过滤后的文档」这一分工，为本库归纳。「把校验接进构建」一节的三条命令不属未核对之列：它们是本库自己的持续集成实际执行的命令，2026-08-17 逐条执行确认可用（三条均退出 0、零违规），可在本仓复现；同节所述本库以手写 XSLT 而非编译产物执行 Schematron 规则，为本仓事实。</p>
     </section>
   </conbody>
 </concept>

@@ -239,7 +239,7 @@
          任何写作或构建。
        · 到期复核【默认轻量】：花几分钟确认锚点体系有无大变即可续期
          （更新 last-benchmarked）；只有轻量确认发现大变、或事件触发时，
-         才跑一次全量对标（即 2026-08-08 的五路调研规格）。
+         才执行一次全量对标（即 2026-08-08 的五路调研规格）。
        · cadence 是默认档，可按分支手动调；stable 分支基本靠事件触发。 -->
   <subjectdef keys="benchmark-registry">
     <topicmeta><navtitle>对标治理登记（不参与内容分类）</navtitle></topicmeta>

@@ -94,7 +94,7 @@
     <section>
       <title>边界</title>
       <p>本篇只管用途的分界与字段的取舍顺序。过滤一侧的判定规则见 <xref href="profiling-ditaval.dita">conditional processing</xref>，分类一侧的机制能力对比见 <xref href="metadata-placement.dita">DITA 元数据的放置位置</xref>。</p>
-      <p>元数据在检索增强生成一侧的取用见 <xref href="../practice/rag-chunking-metadata.dita">RAG 切块粒度与检索元数据</xref>，那一篇假定本篇的流程已经在跑。</p>
+      <p>元数据在检索增强生成一侧的取用见 <xref href="../practice/rag-chunking-metadata.dita">RAG 切块粒度与检索元数据</xref>，那一篇假定本篇的流程已经在运行。</p>
       <p>字段在 map 与 topic 之间如何级联、topic 与 map 的元数据如何调和，属处理模型一侧，本篇未核对其规则。</p>
     </section>
 
