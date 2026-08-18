@@ -20,6 +20,8 @@
   <prolog>
     <source href="https://dita-lang.org/dita/langref/base/keytext" scope="external"/>
     <data name="domain" value="dita"/>
+    <data name="upstream-node" value="Referencing a key with the keyref attribute"/>
+    <data name="upstream-node" value="keytext"/>
     <data name="reviewed" value="2026-08"/>
   </prolog>
   <refbody>

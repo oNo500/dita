@@ -26,6 +26,9 @@
   <prolog>
     <source href="https://dita-lang.org/2.0/dita/archspec/base/translation" scope="external"/>
     <data name="domain" value="dita"/>
+    <data name="upstream-node" value="The dir attribute"/>
+    <data name="upstream-node" value="The translate attribute"/>
+    <data name="upstream-node" value="The xml:lang attribute"/>
     <data name="reviewed" value="2026-08"/>
   </prolog>
   <refbody>

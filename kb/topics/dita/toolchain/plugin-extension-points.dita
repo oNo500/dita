@@ -22,6 +22,7 @@
   <prolog>
     <source href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external"/>
     <data name="domain" value="dita"/>
+    <data name="upstream-node" value="Extension point reference"/>
     <data name="reviewed" value="2026-08"/>
   </prolog>
   <refbody>

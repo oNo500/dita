@@ -22,6 +22,7 @@
   <prolog>
     <source href="https://dita-lang.org/2.0/dita/archspec/base/subjectschema" scope="external"/>
     <data name="domain" value="dita"/>
+    <data name="upstream-node" value="Subject scheme maps"/>
     <data name="reviewed" value="2026-08"/>
   </prolog>
   <conbody>
