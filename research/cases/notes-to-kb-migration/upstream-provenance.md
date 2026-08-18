@@ -206,6 +206,27 @@
 
 ---
 
+## 附之零：回填后的校订（2026-08-18，T4 执行结果）
+
+回填已完成（R19，`kb/vocab/upstream-nodes.tsv` 逐条核对）。**本表下文各行的「上游依据」列有若干处经核实不成立**，正本以各 `.dita` 文件头注释里的「R19 回填核对」段与 prolog 的 `upstream-node` 声明为准：
+
+| 本表所写 | 索引核实结果 |
+|---|---|
+| `structural-specialization` / `domain-specialization` 直取子树标题 | DITA 2.0 撤销了这两个子树，两者降为 `Overview of specialization` 节点内的两个 `<dt>` 术语 |
+| `attribute-specialization` 直取子树标题 | 2.0 无该节点；属性一侧的节点名是 `Specialization rules for attributes` |
+| `customization-cost-ladder` 取 `Configuration, specialization, and constraints` ＋ `Customizing DITA Open Toolkit` | 前者是 1.3 章名（2.0 为 `Configuration and specialization`）；后者 DITA-OT 4.4 根本没有，顶层只有 `Configuring DITA-OT` 与 `Extending DITA-OT with plug-ins` |
+| `plugin-extension-points` 取 `DITA-OT extension points` | 那是 ditamap 的 map 标题，不是 topic 节点；索引里对应 `Extension point reference` |
+| `project-files` 取 `Using project files` | 上游标题是 `Publishing with project files`（`using-project-files.dita` 是文件名） |
+| `key-space-model` / `branch-filter-key-space` 以 key space 为「上游词」 | key space 不是节点名，是 `Key terminology` 里的 `<dt>` 术语 |
+| `conref-pull-push` 取 DITA-OT 的两个 preprocess 阶段名 | 语言层节点是 `Content reference (conref)` 与 `Pushing reusable content to a new location` |
+| `subjectscheme-taxonomy` 取 `Subject scheme maps`／DITA-OT `Subject schemes` | 前者对（复数，逐字）；后者 DITA-OT 4.4 索引内不存在 |
+
+另有六篇由「自造」改判为**组合篇**——两端在索引里都有节点，声明多条比 `coined` 更能报出漂移：`nav-generation`（Navigation ＋ Indexes）、`localization-attributes`（三个属性节点）、`dita-ot-quickstart`、`generate-and-convert`、`table-model-choice`、`dita-resources`。
+
+下文分诊表的三档篇数（25 / 11 / 30）随之改为 **28 / 14 / 24**。
+
+---
+
 ## 附：回填时的分诊建议
 
 按 progress.md 的索引边界裁定（2026-08-16），存量按声明数分诊：
