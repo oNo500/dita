@@ -95,7 +95,7 @@
   &lt;feature extension="dita.specialization.catalog.relative"
            file="catalog-dita.xml"/&gt;
 &lt;/plugin&gt;</codeblock>
-      <p>装上之后，一行 XSLT 都不写也能得到正确输出：输出模板按 <xmlatt>class</xmlatt> 匹配而不按元素名匹配，apiref 于是走 <xmlelement>reference</xmlelement> 的模板渲染。想要专属版式再另写模板覆盖，那是可选的第二步，不是可用的前提。</p>
+      <p>安装之后，一行 XSLT 都不写也能得到正确输出：输出模板按 <xmlatt>class</xmlatt> 匹配而不按元素名匹配，apiref 于是走 <xmlelement>reference</xmlelement> 的模板渲染。想要专属版式再另写模板覆盖，那是可选的第二步，不是可用的前提。</p>
     </section>
 
     <section>
