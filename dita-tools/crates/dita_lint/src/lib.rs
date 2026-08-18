@@ -152,6 +152,30 @@ fn covers(text: &str, at: usize, word: &str, compound: &str) -> bool {
             == Some(compound)
     })
 }
+/// Inline markup in which a banned word is mentioned rather than used: a rule
+/// quoting the words it bans is not violating itself.
+const MENTION_MARKUP: [&str; 6] = [
+    "codeph",
+    "codeblock",
+    "xmlelement",
+    "xmlatt",
+    "term",
+    "keyword",
+];
+
+/// Everything `node` says in its own voice: descendant text minus whatever sits
+/// inside `MENTION_MARKUP`.
+fn used_text(node: roxmltree::Node) -> String {
+    node.descendants()
+        .filter(roxmltree::Node::is_text)
+        .filter(|t| {
+            !t.ancestors()
+                .any(|a| MENTION_MARKUP.contains(&a.tag_name().name()))
+        })
+        .filter_map(|n| n.text())
+        .collect()
+}
+
 /// R16: implementation-layer inline markup counted toward the split threshold.
 /// xmlelement/xmlatt/filepath are excluded — the first two are this library's
 /// subject matter when writing about DITA, the third is mostly illustrative.
@@ -353,6 +377,9 @@ fn check_source_section(root: roxmltree::Node, push: &mut impl FnMut(String)) {
 
 /// R15: register proxies — always approximations, and the spec says so.
 /// Aphorisms and staged openings stay a human call.
+///
+/// Scope is the body plus `shortdesc`; `check_shortdesc` records which
+/// sub-checks carry over to the latter and which do not.
 fn check_register(root: roxmltree::Node, push: &mut impl FnMut(String)) {
     // bold per section, source-section labels excluded via its two allowed
     for section in root.descendants().filter(|n| n.has_tag_name("section")) {
@@ -388,39 +415,82 @@ fn check_register(root: roxmltree::Node, push: &mut impl FnMut(String)) {
         }
     }
 
-    // mention is not use: a rule quoting the words it bans (inside codeph and
-    // similar markup contexts) is not violating itself
     let body: String = root
         .descendants()
         .filter(|n| matches!(n.tag_name().name(), "conbody" | "refbody" | "taskbody"))
-        .flat_map(|b| b.descendants().filter(roxmltree::Node::is_text))
-        .filter(|t| {
-            !t.ancestors().any(|a| {
-                matches!(
-                    a.tag_name().name(),
-                    "codeph" | "codeblock" | "xmlelement" | "xmlatt" | "term" | "keyword"
-                )
-            })
-        })
-        .filter_map(|n| n.text())
+        .map(used_text)
         .collect();
+    check_words(&body, "", push);
+
+    check_shortdesc(root, push);
+}
+
+/// R15's word face — degree words and colloquialisms in one stretch of used
+/// (not mentioned) text. `at` names where the text came from, so a hit in a
+/// shortdesc reads as one without re-scanning the file; the body passes `""`.
+fn check_words(text: &str, at: &str, push: &mut impl FnMut(String)) {
     for word in DEGREE_WORDS {
-        let n = body.matches(word).count();
+        let n = text.matches(word).count();
         if n > 0 {
             push(format!(
-                "R15：程度词「{word}」出现 {n} 次——判断的强度由理由撑，不由副词撑"
+                "R15：{at}程度词「{word}」出现 {n} 次——判断的强度由理由撑，不由副词撑"
             ));
         }
     }
     for entry in &COLLOQUIAL_WORDS {
-        let n = colloquial_hits(&body, entry);
+        let n = colloquial_hits(text, entry);
         if n > 0 {
             let word = entry.word;
             push(format!(
-                "R15：口语词「{word}」出现 {n} 次——文档语体用书面表达"
+                "R15：{at}口语词「{word}」出现 {n} 次——文档语体用书面表达"
             ));
         }
     }
+}
+
+/// R15 on `shortdesc`. The body's register is read by whoever opens the topic;
+/// a shortdesc is extracted and reused — link previews, map TOC entries,
+/// retrieval summaries — so one colloquialism in it surfaces once per inbound
+/// link, everywhere the topic is referenced. Same rules, wider blast radius.
+///
+/// Which sub-checks carry over, and why not all of them:
+///
+/// - 口语词 / 程度词: the register rules are about words, and a shortdesc is
+///   prose like any other. Straight carry-over, mention-exclusion included.
+/// - 破折号: writing-style 规则三 caps insertions at one per 段 and a shortdesc
+///   is exactly one 段 — the same threshold applies unchanged. No tightening is
+///   invented here: the number comes from the 人读正本, not from this file.
+/// - 粗体: the body cap ("每节至多 2") is quantified per 节 and a shortdesc is
+///   not a 节, so the number does not transfer. What transfers is the rule's
+///   qualitative half — 粗体只标判据与警示. A summary labels neither, so any
+///   bold in it is emphasis, i.e. 语气. Banned outright; the library already
+///   holds to this (0 occurrences in 89 shortdescs), the check just locks it.
+/// - 标题模式（？/「，不是」/破折号）: that check reads `title` and proxies the
+///   naming rules, which govern names, not summaries. Not applicable.
+fn check_shortdesc(root: roxmltree::Node, push: &mut impl FnMut(String)) {
+    let Some(shortdesc) = root.children().find(|c| c.has_tag_name("shortdesc")) else {
+        return; // presence is R1's job, not ours
+    };
+
+    let bold = shortdesc
+        .descendants()
+        .filter(|n| n.has_tag_name("b"))
+        .count();
+    if bold > 0 {
+        push(format!(
+            "R15：shortdesc 有 {bold} 处粗体——摘要无判据与警示可标，粗体在这里只剩语气（正文每节至多 2，shortdesc 为 0）"
+        ));
+    }
+
+    let text = used_text(shortdesc);
+    let dashes = text.matches("——").count();
+    if dashes > 1 {
+        push(format!(
+            "R15：shortdesc 有 {dashes} 处破折号插入（单段，至多 1）——它会被抽去做链接预览与目录说明"
+        ));
+    }
+
+    check_words(&text, "shortdesc 的", push);
 }
 
 /// R16: a concept carrying more than the threshold of implementation markup is
@@ -442,7 +512,73 @@ fn check_split_threshold(root: roxmltree::Node, root_name: &str, push: &mut impl
 
 #[cfg(test)]
 mod tests {
-    use super::{COLLOQUIAL_WORDS, Colloquial, colloquial_hits};
+    use super::{COLLOQUIAL_WORDS, Colloquial, check_register, colloquial_hits};
+
+    /// R15's messages for one topic, in report order.
+    fn register_of(xml: &str) -> Vec<String> {
+        let doc = roxmltree::Document::parse(xml).expect("用例必须是良构 XML");
+        let mut msgs = Vec::new();
+        check_register(doc.root_element(), &mut |m| msgs.push(m));
+        msgs
+    }
+
+    /// The shortdesc is extracted and reused, so its register is checked too —
+    /// a colloquialism there is not shielded by sitting outside the body.
+    #[test]
+    fn shortdesc_colloquialism_is_reported() {
+        let msgs = register_of(
+            r#"<concept id="t"><title>切块</title>
+               <shortdesc>先跑一次构建，再决定切法。</shortdesc>
+               <conbody><p>切块单位是 topic。</p></conbody></concept>"#,
+        );
+        assert_eq!(msgs.len(), 1, "应恰好报一处：{msgs:?}");
+        assert!(msgs[0].contains("shortdesc"), "须点明位置：{}", msgs[0]);
+        assert!(msgs[0].contains("跑"), "须点明词：{}", msgs[0]);
+    }
+
+    /// Mention is not use — the exclusion that spares a quoted ban in the body
+    /// spares it in the shortdesc on the same terms.
+    #[test]
+    fn shortdesc_mention_inside_keyword_is_spared() {
+        let msgs = register_of(
+            r#"<concept id="t"><title>用词</title>
+               <shortdesc>技术动作用规范动词，不用 <keyword>跑</keyword> 一类口语替身。</shortdesc>
+               <conbody><p>规范动词是执行。</p></conbody></concept>"#,
+        );
+        assert!(msgs.is_empty(), "keyword 内是提及不是使用：{msgs:?}");
+    }
+
+    /// The body's "至多 2" is quantified per 节 and a shortdesc is not one; what
+    /// carries over is 粗体只标判据与警示, and a summary labels nothing.
+    #[test]
+    fn shortdesc_bold_is_banned_outright() {
+        let msgs = register_of(
+            r#"<concept id="t"><title>切块</title>
+               <shortdesc>切块单位是 <b>topic</b>。</shortdesc>
+               <conbody><p>正文。</p></conbody></concept>"#,
+        );
+        assert_eq!(msgs.len(), 1, "应恰好报一处：{msgs:?}");
+        assert!(msgs[0].contains("粗体"), "{}", msgs[0]);
+    }
+
+    /// A shortdesc is one 段, so it gets the one-insertion allowance a body
+    /// paragraph gets — no more, and no tightening beyond the 人读正本.
+    #[test]
+    fn shortdesc_allows_one_dash_and_reports_two() {
+        let one = register_of(
+            r#"<concept id="t"><title>切块</title>
+               <shortdesc>切块单位是 topic——过大时二级切分。</shortdesc>
+               <conbody><p>正文。</p></conbody></concept>"#,
+        );
+        assert!(one.is_empty(), "单段一处破折号合规：{one:?}");
+        let two = register_of(
+            r#"<concept id="t"><title>切块</title>
+               <shortdesc>切块单位是 topic——过大时二级切分——过小时整块入库。</shortdesc>
+               <conbody><p>正文。</p></conbody></concept>"#,
+        );
+        assert_eq!(two.len(), 1, "应恰好报一处：{two:?}");
+        assert!(two[0].contains("破折号"), "{}", two[0]);
+    }
 
     fn entry(word: &str) -> &'static Colloquial {
         COLLOQUIAL_WORDS
