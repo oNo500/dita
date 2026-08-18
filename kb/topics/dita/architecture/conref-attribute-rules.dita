@@ -36,7 +36,7 @@
     <section>
       <title>背景：两级优先级</title>
       <p>规范给的次序只有两级。第一级是引用方元素上指定的全部属性，取值为 <codeph>-dita-use-conref-target</codeph> 的除外；第二级是被引用方元素上指定的全部属性，<xmlatt>id</xmlatt> 除外。</p>
-      <p>引用方赢，<xmlatt>id</xmlatt> 永远不跟着走。后一条的必要性是结构性的：<xmlatt>id</xmlatt> 若随内容复制过来，同一份文档里立刻出现重复的标识符，而 conref 的用途正是把同一段内容拉到多处。</p>
+      <p>引用方的取值优先，<xmlatt>id</xmlatt> 永远不跟着走。后一条的必要性是结构性的：<xmlatt>id</xmlatt> 若随内容复制过来，同一份文档里立刻出现重复的标识符，而 conref 的用途正是把同一段内容拉到多处。</p>
       <p>另有两条与直觉有出入。属性值从不合并，即使 <xmlatt>audience</xmlatt> 这类多值属性，最终值也是整体取一边，不做并集。<xmlatt>xml:lang</xmlatt> 不完全走上面两级，规范为它留了特殊处理，语言标注要与内容本身保持一致。</p>
     </section>
 

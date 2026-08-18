@@ -30,7 +30,7 @@
   <conbody>
     <section>
       <title>场景</title>
-      <p>写技术内容时表格出现得很频繁：参数清单、取值对照、状态码、选项说明。DITA 在这里给了两个元素，<xmlelement>simpletable</xmlelement> 与 <xmlelement>table</xmlelement>，后者的模型是 OASIS Exchange Table Model，社区通常叫它 CALS。作者每次插表都要在两者之间选一次，选错的代价在当时看不见，在做 specialization 与做多格式输出时才结算。</p>
+      <p>写技术内容时表格出现得很频繁：参数清单、取值对照、状态码、选项说明。DITA 在这里给了两个元素，<xmlelement>simpletable</xmlelement> 与 <xmlelement>table</xmlelement>，后者的模型是 OASIS Exchange Table Model，社区通常叫它 CALS。作者每次插表都要在两者之间选一次，选错的代价在当时看不见，在做 specialization 与做多格式输出时才显现。</p>
       <simpletable relcolwidth="1* 1.6* 1.6*">
         <sthead><stentry>项</stentry><stentry><xmlelement>simpletable</xmlelement></stentry><stentry>CALS <xmlelement>table</xmlelement></stentry></sthead>
         <strow><stentry>内容模型</stentry><stentry><codeph>title?, sthead?, strow+</codeph></stentry><stentry><codeph>title?, tgroup+</codeph>，<xmlelement>tgroup</xmlelement> 内再分列声明、表头与表体</stentry></strow>
@@ -57,7 +57,7 @@
 
     <section>
       <title>反例</title>
-      <p>为了给表格加个标题而用 CALS。这是 1.x 的肌肉记忆，在 2.0 里换来的是一整套用不上的分组结构，以及一张无法被 specialize 的表。</p>
+      <p>为了给表格加个标题而用 CALS。这是 1.x 的沿用习惯，在 2.0 里换来的是一整套用不上的分组结构，以及一张无法被 specialize 的表。</p>
       <p>把参数清单写成 CALS 表。参数表是最该做 specialization 的内容之一：字段固定、下游要按字段取值。写成 CALS 之后，要么放弃 specialization，要么回头重写全部存量表格。</p>
       <p>用跨列合并画表头的分组关系。这类分组多数可以改写成两张表或一列显式的分组名，改写之后既保住了 specialization 的可能，也避免了多格式输出时的降级。</p>
     </section>

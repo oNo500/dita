@@ -56,8 +56,8 @@
 
     <section>
       <title>覆盖为什么成立</title>
-      <p>安装时，DITA-OT 把所有声明了该扩展点的 plugin 文件按依赖顺序追加 import 语句到生成的入口样式表里。XSLT 的规则是后导入的优先级更高，自己的模板因而排在内置模板之后，匹配到同一元素时胜出。</p>
-      <p>由此得到两条推论。其一，覆盖不生效的第一嫌疑是没有重新安装：import 链是安装时生成的，改完样式表不重新安装，执行的仍是旧链。其二，多个 plugin 覆盖同一模板时，胜负由 import 顺序决定，而顺序取决于 plugin 之间的依赖声明。</p>
+      <p>安装时，DITA-OT 把所有声明了该扩展点的 plugin 文件按依赖顺序追加 import 语句到生成的入口样式表里。XSLT 的规则是后导入的优先级更高，自己的模板因而排在内置模板之后，匹配到同一元素时优先生效。</p>
+      <p>由此得到两条推论。其一，覆盖不生效时首先检查是否重新安装：import 链是安装时生成的，改完样式表不重新安装，执行的仍是旧链。其二，多个 plugin 覆盖同一模板时，哪一个生效由 import 顺序决定，而顺序取决于 plugin 之间的依赖声明。</p>
       <p>需要显式控制时有两个手段：用 <codeph>priority</codeph> 提高模板优先级，用 <codeph>next-match</codeph> 调用被覆盖的那个模板。后者适合在原有渲染之外追加内容而非整体替换。</p>
       <codeblock>&lt;xsl:template match="*[contains(@class, ' topic/note ')]" priority="10"&gt;
   &lt;xsl:next-match/&gt;          &lt;!-- 先执行原本的渲染 --&gt;
@@ -100,7 +100,7 @@
     <section>
       <title>来源</title>
       <p><b>事实</b>：XSLT 覆盖靠安装时自动追加 import 语句、扩展点在 plugin.xml 中以 feature 声明、可用 transtype 限定自定义代码的生效范围，转自 <xref href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external">插件扩展点</xref>；2.0 新元素在 DITA-OT 中的可用性与各自的版本下限，转自 <xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA 2.0 preview 支持</xref>。两份页面均已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中两份样式表示例的写法、priority 与 next-match 的用法、示例中 <xmlatt>class</xmlatt> 里的模块名取值（如 multimedia-d 一段）来自通用实践，未经核对；「改完不重新安装即不生效」「多个 plugin 的胜负由 import 顺序决定」两条推论、两步排查的次序、两类不适用场合的界线，为本库归纳。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中两份样式表示例的写法、priority 与 next-match 的用法、示例中 <xmlatt>class</xmlatt> 里的模块名取值（如 multimedia-d 一段）来自通用实践，未经核对；「改完不重新安装即不生效」「多个 plugin 覆盖同一模板时哪一个生效由 import 顺序决定」两条推论、两步排查的次序、两类不适用场合的界线，为本库归纳。</p>
     </section>
   </conbody>
 </concept>
