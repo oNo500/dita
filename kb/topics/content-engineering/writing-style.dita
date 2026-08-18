@@ -16,7 +16,7 @@
 <!-- 2026-08-16（终审修复轮）补第五条「样例自洽」与第一条下的 deep-dive 节标题体例，
      故本篇现为五条。两条原本只写在迁移工作区的 authoring-standards.md「母版通则」里，
      kb 侧全库检索为零；该文件随工作区删除，规则即无版本化正本。
-     按 rot-detection 的「留证与产物同寿」落此。 -->
+     按 rot-detection 的留证纪律落此。 -->
 <concept id="writing-style" xml:lang="zh-CN"
          outputclass="best-practice"
          maturity="draft" volatility="stable"

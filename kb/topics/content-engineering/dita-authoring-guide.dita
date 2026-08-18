@@ -17,7 +17,7 @@
 <reference id="dita-authoring-guide" xml:lang="zh-CN"
          maturity="curated" volatility="stable" dimension="dim-criteria dim-process" outputclass="artifact">
   <title>kb DITA 写作规则总纲</title>
-  <shortdesc>AI 主笔 DITA 时照此决策。本篇是路由：写一篇的次序、哪类问题看哪篇正本、每条规则对应哪一项机器兜底。规则本身不在这里，只有别处无正本的 DITA 操作层条款留在这里。</shortdesc>
+  <shortdesc>AI 主笔 DITA 时照此决策。本篇是路由：写一篇的次序、哪类问题看哪篇正本、每条规则对应哪一项机器检查。规则本身不在这里，只有别处无正本的 DITA 操作层条款留在这里。</shortdesc>
   <prolog>
     <!-- 原链接 docs.oasis-open.org/dita/dita/v2.0/ 已 404（link-check.py 于 2026-08-15 查出）：
          2.0 仍是草案，OASIS 正式发布路径下还没有它。改指 TC 的规范总入口。 -->
@@ -35,7 +35,7 @@
       <title>规则正本路由</title>
       <p>按要判断的事找正本，一处只查一篇：</p>
       <simpletable relcolwidth="1* 1.6* 1*">
-        <sthead><stentry>要判断的事</stentry><stentry>正本</stentry><stentry>机器兜底</stentry></sthead>
+        <sthead><stentry>要判断的事</stentry><stentry>正本</stentry><stentry>机器检查</stentry></sthead>
         <strow>
           <stentry>这条内容进不进库、该不该拆</stentry>
           <stentry><xref href="writing-atomicity.dita">kb 内容准入判据</xref></stentry>
@@ -153,14 +153,14 @@
         <li>该分支若已有真实落地 topic，改用指向它的 <xmlelement>topicref</xmlelement> 更好——分组节点从无内容的占位变成真实页面，且不再有标题副本。</li>
         <li>别把 <xmlelement>topicgroup</xmlelement> 当替代：它只做分组，自身不进导航，解决不了这个问题。</li>
       </ul>
-      <p>标题副本由 <cmdname>dita-tools ia</cmdname> 的一致性检查兜住（navtitle 与被引 map 标题不符即报警），但事前写对就不会触发它。</p>
+      <p>标题副本由 <cmdname>dita-tools ia</cmdname> 的一致性检查覆盖（navtitle 与被引 map 标题不符即报警），但事前写对就不会触发它。</p>
     </section>
 
     <section>
-      <title>规则与机器兜底的对应</title>
+      <title>规则与机器检查的对应</title>
       <p>各正本的规则对应 <cmdname>review.sh</cmdname> 的一条检查，事前照做＝事后必过：</p>
       <simpletable relcolwidth="3* 1*">
-        <sthead><stentry>写作规则（事前）</stentry><stentry>机器兜底（事后）</stentry></sthead>
+        <sthead><stentry>写作规则（事前）</stentry><stentry>机器检查（事后）</stentry></sthead>
         <strow><stentry>每篇写非空 shortdesc</stentry><stentry>R1</stentry></strow>
         <strow><stentry>显式标 volatility / maturity、只用受控值</stentry><stentry>R2/R4/R5</stentry></strow>
         <strow><stentry>verified 内容标核对日期 data name="reviewed"</stentry><stentry>R3</stentry></strow>

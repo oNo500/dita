@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 机器兜底：一条命令串全套——RNG 结构校验 + 业务规则 R1–R10 + 体裁文体 R12–R15 + 术语扫描。
+# 机器检查：一条命令串全套——RNG 结构校验 + 业务规则 R1–R10 + 体裁文体 R12–R15 + 术语扫描。
 # 依赖：DITA-OT（dita validate + 自带 Saxon）与 uv（跑 kb/scripts 下的 .py）。
 # 两者缺任何一个都不会静默放行——缺什么就少跑什么，且结果不得当作通过。
 # 有 error 则退出非零，可挡入库 / 接 git hook / CI。
@@ -76,7 +76,7 @@ echo "== 1. 结构校验（RNG）+ 业务规则（R1–R10）=="
 # map 走不到，所以 deliverables 下每个 map 也各验一次。
 # 覆盖完整性已核过（2026-08-16，独立脚本核验，见迁移报告）：root.ditamap ∪
 # kb/maps/deliverables/*.ditamap＝kb/topics 下全部 .dita，0 篇漏网。往后再漏（新 topic
-# 哪个 map 都不进）归 `just ia`「不在任何分支下」那行兜底，不在这里重复查。
+# 哪个 map 都不进）归 `just ia`「不在任何分支下」那行覆盖，不在这里重复查。
 STRUCT_MAPS="$KB/maps/root.ditamap"
 for m in "$KB"/maps/deliverables/*.ditamap; do
   [ -e "$m" ] && STRUCT_MAPS="$STRUCT_MAPS $m"

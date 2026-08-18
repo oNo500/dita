@@ -2,7 +2,7 @@
 <!DOCTYPE map PUBLIC "-//OASIS//DTD DITA 2.0 Map//EN" "map.dtd">
 <!-- 领域 map：DITA（subjectScheme 挂点：content-engineering/structured-content/dita）
      六簇结构见 docs/superpowers/specs/2026-08-16-notes-to-kb-migration-design.md。
-     navtitle 必须与被引簇 map 的 <title> 逐字一致（dita-tools 一致性检查兜底）。 -->
+     navtitle 必须与被引簇 map 的 <title> 逐字一致（dita-tools 一致性检查覆盖）。 -->
 <map xml:lang="zh-CN">
   <title>DITA</title>
   <topicref href="../../topics/dita/dita-landscape.dita"/>

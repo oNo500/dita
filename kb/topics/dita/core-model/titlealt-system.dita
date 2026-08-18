@@ -10,7 +10,7 @@
      alternative titles domain 等一律英文原名，不译作「替代标题域」作首选词。
      volatility=stable 的依据：@title-role 的取值集与合并规则出自规范，不随发行版变动。
      事实纪律：五个取值、多值、可出现位置、topicref 优先的合并规则、domain 简写元素
-     均取自已逐页核对的 titlealt 元素页；linking 作为 navigation/search 兜底的说法
+     均取自已逐页核对的 titlealt 元素页；linking 作为 navigation/search 回落值的说法
      与写作建议按判断呈现，来源节判断段列明。 -->
 <reference id="titlealt-system" xml:lang="zh-CN"
            outputclass="cheatsheet"
@@ -80,14 +80,14 @@
       <ul>
         <li>只在替代标题与正文标题确实不同时才写。两者相同时省去，处理器回落到 <xmlelement>title</xmlelement>，少一份会漂移的副本。</li>
         <li>hint 一项不进任何输出，用途是在 map 里给作者留一句说明，指出这个 <xmlelement>topicref</xmlelement> 指的是什么。</li>
-        <li>linking 常被当作 navigation 与 search 的兜底来用，写一条 linking 即覆盖多数场合。该行为未逐页核对，依赖它之前在目标处理器上实测。</li>
+        <li>linking 常被当作 navigation 与 search 的回落值来用，写一条 linking 即覆盖多数场合。该行为未逐页核对，依赖它之前在目标处理器上实测。</li>
       </ul>
     </section>
 
     <section>
       <title>来源</title>
       <p><b>事实</b>：<xmlatt>title-role</xmlatt> 五个取值及各自语义、多值与处理器自定义取值、三处可出现的位置、<xmlelement>topicref</xmlelement> 一侧优先的合并规则、alternative titles domain 的五个简写元素，均转自 <xref href="https://dita-lang.org/dita/langref/base/titlealt" scope="external">titlealt 元素</xref>；<xmlelement>titlealt</xmlelement> 在 <xmlelement>prolog</xmlelement> 内须排在 <xmlelement>author</xmlelement> 之前转自 <xref href="https://dita-lang.org/dita/langref/base/prolog" scope="external">prolog 元素</xref>；<xmlelement>titlealts</xmlelement> 容器与 <xmlatt>navtitle</xmlatt> 属性的退役转自 <xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref>。三份页面均已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 linking 作为 navigation 与 search 兜底的说法未逐页核对，正文已标注；相同则不写、统一简写与完整写法二选一、合并方向决定改写落点，为本库归纳。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 linking 作为 navigation 与 search 回落值的说法未逐页核对，正文已标注；相同则不写、统一简写与完整写法二选一、合并方向决定改写落点，为本库归纳。</p>
     </section>
   </refbody>
 </reference>

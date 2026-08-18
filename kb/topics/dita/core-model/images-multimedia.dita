@@ -70,7 +70,7 @@
       <title>fallback 与无障碍</title>
       <ul>
         <li>视频一律写 <xmlelement>fallback</xmlelement>。PDF 一类静态输出无法内嵌视频，规范允许处理器此时改用 <xmlelement>fallback</xmlelement> 的内容。</li>
-        <li>这与 <xmlelement>include</xmlelement> 用 <xmlelement>fallback</xmlelement> 兜取不到的外部资源是同一个设计，见 <xref href="include-non-dita.dita">include 元素</xref>。</li>
+        <li>这与 <xmlelement>include</xmlelement> 用 <xmlelement>fallback</xmlelement> 处理取不到的外部资源是同一个设计，见 <xref href="include-non-dita.dita">include 元素</xref>。</li>
         <li><xmlelement>fallback</xmlelement> 里写得出替代信息才有价值：给出资源的去处或它要传达的结论，而不是一句「此处有视频」。这条属本库约定。</li>
         <li>图片一侧的对应项是 <xmlelement>alt</xmlelement>。装饰性图片写空的 <xmlelement>alt</xmlelement> 与不写 <xmlelement>alt</xmlelement> 是两种不同的信号，前者表示无需朗读，后者会让读屏器退回读文件名。</li>
       </ul>

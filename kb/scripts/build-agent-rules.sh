@@ -104,7 +104,7 @@ for tool in $tools; do
     exit 1
   fi
 
-  # 逐行分诊（不用进程替换：Justfile 与 review.sh 都以 `sh` 起本脚本，本机 /bin/sh 是 dash）
+  # 逐行分类处理（不用进程替换：Justfile 与 review.sh 都以 `sh` 起本脚本，本机 /bin/sh 是 dash）
   grep -E '\[DOT[A-Z]+[0-9]+E\]' "$log" > "$errs" || true
   : > "$unexpected"
   gate_noise=0
