@@ -7,14 +7,33 @@
      volatility=stable 的依据：按派生链匹配是 DITA 架构的稳定机制，不随 2.0 草案变动。
      事实纪律：已核对的是 @specializations 由 doctype shell 默认注入及其形式语法；
      lxml 的解析器行为、RNG 默认值不被注入、catalog 环境变量按判断呈现，来源节逐条列明。
-     标题依据上游节点名：OASIS DITA 2.0 架构规范「The class attribute rules and syntax」与
+     标题原依据上游节点名：OASIS DITA 2.0 架构规范「The class attribute rules and syntax」与
      「The specializations attribute rules and syntax」（同属 Specialization 章）。
      「派生链」是本库既用词素，对应规范中 @class 记录的 specialization 派生关系，非新造概念。
 
-     R19 回填核对（2026-08-18）：两条声明与 architecture/class-derivation 相同（archSpec
-     「The class attribute rules and syntax」与「The specializations attribute rules and
-     syntax」）——两篇确实挂在同一对上游节点上，那篇讲规则本身，本篇讲按规则解析的写法。
-     同一对节点被两篇声明属切分待议项，登记备查，本轮不动。 -->
+     R19 回填核对（2026-08-18 上午）：两条声明与 architecture/class-derivation 相同——两篇挂在
+     同一对上游节点上，那篇讲规则本身，本篇讲按规则解析的写法。同一对节点被两篇声明，当时
+     登记为 D 类切分待议项，未动。
+
+     D 类判决（2026-08-18 下午，DITA 2.0 重切轮一并判清）：「规则」与「用法」的分界成立，
+     不调整内容；改的是声明——本篇由两条节点声明改为 coined。理由是 R19 声明的是「标题取自
+     上游哪个节点」，而本篇的标题与内容都不是那两个节点：那两页只讲取值构成与规则，取到它们
+     的两条路、按派生链匹配的写法、解析器与 catalog 的配置，上游任何节点都没有。原先的两条
+     声明因此是把 class-derivation 的节点借来一用，一对节点被两篇认领，漂移报警也会重复。
+     三道关如下。
+     一、穷尽查证。OASIS 一侧：archSpec「Specialization」章九个节点通读，与这两个属性有关的
+     只有 The class attribute rules and syntax 与 The specializations attribute rules and
+     syntax，两页均无解析与匹配的内容（2026-08-18 于本机只读克隆 ~/ws/tools/oasis-dita
+     v2.0-beta03 逐行读）。DITA-OT 一侧：上游节点索引 736 行全表检索 parse / catalog / java /
+     api / program / match 六个词，命中的是 Extending an XML catalog file（在插件里加 catalog
+     条目，不是把第三方解析器指到 catalog）与 Using the Java API（已由 toolchain/
+     dita-ot-as-library 承接），均非本篇节点。
+     二、先怀疑切分。本篇与 architecture/class-derivation 的边界是「规则」与「用法」之分。
+     本轮复核仍成立：那篇是上述两个节点的转述，逐条对得上；本篇是按规则取值与匹配的写法，
+     两页里一句都没有。合回去会让一个规范规则节点混进工具实现，那才是切分错位。
+     三、只组合不发明。标题「@class 与派生链解析」里 @class 是上游属性名，「派生链」是本库
+     既用词素（对应规范中 @class 记录的 specialization 派生关系），「解析」是通用技术词，
+     未造新词。 -->
 <concept id="programming-by-class" xml:lang="zh-CN"
          outputclass="how-to"
          maturity="draft" volatility="stable"
@@ -24,8 +43,7 @@
   <prolog>
     <source href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external"/>
     <data name="domain" value="dita"/>
-    <data name="upstream-node" value="The class attribute rules and syntax"/>
-    <data name="upstream-node" value="The specializations attribute rules and syntax"/>
+    <data name="upstream-node" value="coined"/>
     <data name="reviewed" value="2026-08"/>
   </prolog>
   <conbody>

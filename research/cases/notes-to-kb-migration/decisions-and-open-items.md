@@ -73,11 +73,11 @@
 
 ### Task 8–12（并行三簇 + 第二波）
 
-28. **疑虑3「constraints 与 generalization」一篇承两类目，保持不拆。** 理由：先例 conref 与 conref push；两类目互为依赖（收紧 vs 还原），拆开会得到两篇薄篇。代价：标题与上游类目非一对一。
+28. **疑虑3「constraints 与 generalization」一篇承两类目，保持不拆。** 理由：先例 conref 与 conref push；两类目互为依赖（收紧 vs 还原），拆开会得到两篇薄篇。代价：标题与上游类目非一对一。**（2026-08-18 推翻，见第五节。）**
 29. **疑虑4「specialization 的启用判据」中的「判据」不算自造。** 理由：本库既有词（writing-atomicity 内容准入判据、adoption-criteria DITA 采用判据），属"只组合不发明"；但因无上游类目须补三道关头注释。
 30. **疑虑1 → Task 8 冻结笔记 03 时必须补「§5 已由 attribute-specialization 承接」的对应关系。**
 31. **Task 12 五个标题全部塞满，根因是已废止的"标题必含英文机制名"条款。** 处置：5 篇标题连同自造依据注释并入 13b 标题过账；建议方向为回归笔记原名的简短形态。代价：13b 范围再增 5 篇标题。
-32. **疑虑1（class-derivation 与 architecture 簇重叠）**：class-derivation 保留为「规则与语法」正本（上游确有该页），但 ① 归位到 architecture/ 簇，② structural-specialization 里重复的 `@class` 四条构造规则改为 xref 指向它。执行交 Task 10b。代价：跨簇移文件 + map 两处改动。
+32. **疑虑1（class-derivation 与 architecture 簇重叠）**：class-derivation 保留为「规则与语法」正本（上游确有该页），但 ① 归位到 architecture/ 簇，② structural-specialization 里重复的 `@class` 四条构造规则改为 xref 指向它。执行交 Task 10b。代价：跨簇移文件 + map 两处改动。**（2026-08-18：structural-specialization 已并入 element-type-specialization，该 xref 随内容转移，裁定本身不变。）**
 33. **疑虑3 CALS 保留**（领域事实标准叫法，DITA 规范自身亦用 "CALS table"），glossdef 注明规范原称 OASIS Exchange Table Model。代价：无。
 34. **Task 10a 疑虑1 conformance 用 reference 素体不标 outputclass。** 理由：R12 只对 concept/task 强制；标题规则优先于题材后缀惯例。代价：该篇无 R13 结构保证，篇幅小可控。
 35. **Task 10a 疑虑2「DITA addressing」可能被误读为 key 三篇之父——接受现状**，map 内已加分组注释；若日后 preview 显示混淆再议。
@@ -186,6 +186,17 @@
 - **⑤ 笔记 04 与 08 的冻结声明过期** —— 台账第 16 条与 13b 切分复议的落差：`project-files` 已拆为独立篇，两篇笔记仍写"不迁"。全库唯一"声明为不迁而实际已迁"的小节。
 - **⑥ R16 缺人读正本** —— `rules.sch` 与路由表都把归属标给 `writing-atomicity`，完整表述却留在路由总纲。表述落归属篇，总纲降为一句加 xref。
 - **⑦ 台账与遗留清单落进版本控制** —— 即本文件。
+
+---
+
+### 2026-08-18 按 DITA 2.0 重切（推翻第 28 条）
+
+上一轮 R19 回填（上游节点索引落地）暴露：本簇的切分照的是 **DITA 1.3 的章节结构**，不是 2.0 的。1.3 把 specialization 分成 structural / domain / attribute 三个并列子树，本库照此切了三篇；2.0 改按「specialize 的是什么」分两类，1.3 的前两个子树合成一个节点。用户裁定按 2.0 重切，本轮执行。
+
+- **第 28 条被推翻**：`constraints-generalization` 拆为 `constraints` 与 `generalization` 两篇。当时说「拆开得两篇薄篇」，这一点没有成立——2.0 里两者是平级节点各带子树（3 个 / 5 个子节点），可核对的条文足够，原篇因合并只能各写一半，拆后两篇都比原来的半篇厚。**当时付的代价是「标题与上游类目非一对一」，实际代价比预估的大**：它使两个上游节点在本库按名检索不到，属 naming-rules 反例「切分把上游确有的节点埋进别的篇里」。
+- `structural-specialization` ＋ `domain-specialization` 合并为 `element-type-specialization`；`attribute-specialization` 改标题为「属性的 specialization 规则」，slug 与 id 不变。
+- **D 类（同一对节点被两篇声明）判清**：`class-derivation` 与 `programming-by-class` 的「规则 / 用法」分界成立，内容不动；`programming-by-class` 的 R19 声明改为 `coined`（三道关写在该篇头注释）。
+- 完整的查证依据、2.0 节点树与处置表见 [`upstream-provenance.md` 附之一](upstream-provenance.md#附之一2026-08-18-按-dita-20-重切)。
 
 ---
 

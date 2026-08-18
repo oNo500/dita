@@ -60,10 +60,10 @@
 
 | slug | 定稿标题 | 上游依据 | 来源任务 |
 |---|---|---|---|
-| `structural-specialization` | structural specialization | **非自造，直取子树标题**。架构规范「**Structural specialization**」。迁自笔记 05 §1。 | Task 9 |
-| `domain-specialization` | domain specialization | **非自造，直取子树标题**。架构规范「**Domain specialization**」。迁自笔记 05 §2。 | Task 9 |
-| `attribute-specialization` | attribute specialization | **非自造，直取子树标题**。架构规范「**Attribute specialization**」。迁自笔记 05 §3 ＋ 笔记 03 §5，两处合并。 | Task 9 |
-| `constraints-generalization` | constraints 与 generalization | **非自造，两个子树标题并列**。架构规范「**Constraints**」与「**Generalization**」。裁定不拆：两类目内容互为依赖（收紧 vs 还原），拆开得两篇薄篇。迁自笔记 05 §4＋§5。 | Task 9 |
+| ~~`structural-specialization`~~ | structural specialization | **非自造，直取子树标题**。架构规范「**Structural specialization**」。迁自笔记 05 §1。<br>⚠️ 2026-08-18 重切：该子树是 DITA 1.3 的，2.0 已撤销。本篇与下一篇合并为 `element-type-specialization`，见[附之一](#附之一2026-08-18-按-dita-20-重切)。 | Task 9 |
+| ~~`domain-specialization`~~ | domain specialization | **非自造，直取子树标题**。架构规范「**Domain specialization**」。迁自笔记 05 §2。<br>⚠️ 2026-08-18 重切：同上，已并入 `element-type-specialization`。 | Task 9 |
+| `attribute-specialization` | ~~attribute specialization~~ → 属性的 specialization 规则 | **非自造，直取子树标题**。架构规范「**Attribute specialization**」。迁自笔记 05 §3 ＋ 笔记 03 §5，两处合并。<br>⚠️ 2026-08-18 重切：1.3 子树名，2.0 无该节点；标题改取 2.0 的 `Specialization rules for attributes`。slug 不变。 | Task 9 |
+| ~~`constraints-generalization`~~ | constraints 与 generalization | **非自造，两个子树标题并列**。架构规范「**Constraints**」与「**Generalization**」。裁定不拆：两类目内容互为依赖（收紧 vs 还原），拆开得两篇薄篇。迁自笔记 05 §4＋§5。<br>⚠️ 2026-08-18 重切：该裁定被推翻。2.0 里两者是平级节点各带子树，已拆为 `constraints` 与 `generalization`。 | Task 9 |
 | `specialization-practice` | specialization 的启用判据 | **本库自造（组合）**。上游无「何时启用 specialization」这一节点。「判据」非自造词——本库既有（writing-atomicity 内容准入判据、adoption-criteria DITA 采用判据），属「只组合不发明」。迁自笔记 05 §核心思想＋§6。 | Task 9（三道关补于 Task 13b） |
 
 ### 3.2 架构基础与寻址（Task 10a）
@@ -212,8 +212,8 @@
 
 | 本表所写 | 索引核实结果 |
 |---|---|
-| `structural-specialization` / `domain-specialization` 直取子树标题 | DITA 2.0 撤销了这两个子树，两者降为 `Overview of specialization` 节点内的两个 `<dt>` 术语 |
-| `attribute-specialization` 直取子树标题 | 2.0 无该节点；属性一侧的节点名是 `Specialization rules for attributes` |
+| `structural-specialization` / `domain-specialization` 直取子树标题 | DITA 2.0 撤销了这两个子树，两者降为 `Overview of specialization` 节点内的两个 `<dt>` 术语（已于 2026-08-18 重切，见附之一） |
+| `attribute-specialization` 直取子树标题 | 2.0 无该节点；属性一侧的节点名是 `Specialization rules for attributes`（同上） |
 | `customization-cost-ladder` 取 `Configuration, specialization, and constraints` ＋ `Customizing DITA Open Toolkit` | 前者是 1.3 章名（2.0 为 `Configuration and specialization`）；后者 DITA-OT 4.4 根本没有，顶层只有 `Configuring DITA-OT` 与 `Extending DITA-OT with plug-ins` |
 | `plugin-extension-points` 取 `DITA-OT extension points` | 那是 ditamap 的 map 标题，不是 topic 节点；索引里对应 `Extension point reference` |
 | `project-files` 取 `Using project files` | 上游标题是 `Publishing with project files`（`using-project-files.dita` 是文件名） |
@@ -224,6 +224,51 @@
 另有六篇由「自造」改判为**组合篇**——两端在索引里都有节点，声明多条比 `coined` 更能报出漂移：`nav-generation`（Navigation ＋ Indexes）、`localization-attributes`（三个属性节点）、`dita-ot-quickstart`、`generate-and-convert`、`table-model-choice`、`dita-resources`。
 
 下文分诊表的三档篇数（25 / 11 / 30）随之改为 **28 / 14 / 24**。
+
+---
+
+## 附之一：2026-08-18 按 DITA 2.0 重切
+
+附之零暴露的三行（`structural-specialization` / `domain-specialization` / `attribute-specialization`）不只是命名问题：**本库当初的切分照的是 DITA 1.3 的章节结构**。1.3 把 specialization 分成 structural / domain / attribute 三个并列子树，本库照此切了三篇；2.0 改按「specialize 的是什么」分两类，元素类型一侧与属性一侧各一个节点，1.3 的 structural 与 domain 两个子树合成前者。同一轮还查出 `constraints-generalization` 一篇顶着两个平级节点。用户裁定按 2.0 重切。
+
+**查证依据**：本机只读克隆 `~/ws/tools/oasis-dita` v2.0-beta03（`0a8920b3`，与 `kb/vocab/upstream-nodes.tsv` 的来源版本一致），逐个文件读 `specification/archSpec/base/` 下的 `specialization-and-custom-doctypes.ditamap`、`specialization.ditamap`、`constraints.ditamap`、`generalization.ditamap`、`expansion-modules.ditamap`、`configuration.ditamap`。实际结构：
+
+```
+Configuration and specialization
+├── Overview of DITA extension facilities
+├── Document-type configuration          （4 个子节点）
+├── Specialization                       （9 个子节点）
+│   ├── Overview of specialization
+│   ├── Modularization
+│   ├── Vocabulary modules
+│   ├── Specialization rules for element types
+│   ├── Specialization rules for attributes
+│   ├── The class attribute rules and syntax
+│   ├── The specializations attribute rules and syntax
+│   ├── Specializing to include non-DITA content
+│   └── Sharing elements across specializations
+├── Generalization                       （5 个子节点）
+├── Constraints                          （3 个子节点）
+└── Expansion modules                    （2 个子节点）
+```
+
+**处置与结果**（本簇 8 篇，重切后仍 8 篇）：
+
+| 原篇 | 处置 | 现 slug | 现标题 | `upstream-node` |
+|---|---|---|---|---|
+| `structural-specialization` ＋ `domain-specialization` | 合并 | `element-type-specialization` | 元素类型的 specialization 规则 | `Specialization rules for element types` |
+| `attribute-specialization` | 留，改标题 | `attribute-specialization` | 属性的 specialization 规则 | `Specialization rules for attributes` |
+| `class-derivation` | 不动 | `class-derivation` | @class 与 @specializations 属性规则与语法 | `The class attribute rules and syntax` ＋ `The specializations attribute rules and syntax` |
+| `constraints-generalization` | 拆分 | `constraints` / `generalization` | constraints / generalization | `Constraints` / `Generalization` |
+| `extension-facilities` | 不动 | `extension-facilities` | DITA extension facilities | `Overview of DITA extension facilities` |
+| `specialization-practice` | 不动 | `specialization-practice` | specialization 的启用判据 | `coined` |
+| `vocabulary-modules` | 不动 | `vocabulary-modules` | vocabulary modules | `Vocabulary modules` |
+
+合并 −1、拆分 +1，**净变化为零**：全库 121 篇，重切前后相同。（重切任务书里写的「8 → 7 篇」是算错的，合并与拆分各一次正好抵消。）
+
+**D 类判决**（附之零上一轮登记的「同一对节点被两篇声明」）：`class-derivation` 与 `programming-by-class` 的「规则」与「用法」分界**成立，不调整内容**；改的是声明——`programming-by-class` 由那两条节点声明改为 `coined`，三道关写在该篇头注释里。理由：两个上游页面只讲取值构成与规则，「取到它们的两条路」「按派生链匹配的写法」上游无节点承载，原先的声明是把 `class-derivation` 的节点借来一用，一对节点被两篇认领，漂移报警也会重复。这一对节点本轮起只由 `class-derivation` 认领。
+
+**仍未被本库认领的 Specialization 子节点**（不是缺陷，登记备查）：`Overview of specialization`、`Modularization`、`The specializations attribute rules and syntax`（由 `class-derivation` 组合认领）、`Specializing to include non-DITA content`、`Sharing elements across specializations`。其中 `Overview of specialization` 的两分内容已作为背景写进 `element-type-specialization` 并按事实认领来源。
 
 ---
 

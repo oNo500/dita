@@ -8,7 +8,9 @@
      （…/specialization-specializations-attribute）。两个节点共用「attribute rules and syntax」
      词尾，故并列后共用一次词尾；「A 与 B」的并列形制沿用同簇 conref-pull-push。
      切分说明（复核用）：本篇只讲两个属性的取值构成与规则，即上述两个规范节点本身。
-     怎么在代码里取到并匹配它们见 kb/topics/dita/toolchain/programming-by-class.dita；
+     怎么在代码里取到并匹配它们见 kb/topics/dita/toolchain/programming-by-class.dita
+     （2026-08-18 D 类判决：该分界成立，但那篇的 R19 声明由这两个节点改为 coined——上游
+     两页只讲规则，不讲解析与匹配，这一对节点的声明本轮起只由本篇认领）；
      怎么用它们做 specialization 见同簇的元素类型一侧与属性一侧两篇（2026-08-18 重切前为
      structural / domain / attribute 三篇，按 DITA 2.0 的 Specialization 子树并为两篇）。
      三处与本篇的边界是「规则」与「用法」之分，不重复展开。

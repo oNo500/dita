@@ -1,6 +1,6 @@
 # 05 · 专门化（Specialization）
 
-> **已迁移（2026-08-16）**：正本已迁 kb（`kb/topics/dita/architecture/structural-specialization.dita` ← §1；`kb/topics/dita/architecture/domain-specialization.dita` ← §2；`kb/topics/dita/architecture/attribute-specialization.dita` ← §3，并入 [03](03-profiling-and-chunking.md) §5 的条件维度用法；`kb/topics/dita/architecture/constraints-generalization.dita` ← §4–5，并入「本篇在整体框架中的位置」里 constraint 与 specialization 并列这一层级提醒；`kb/topics/dita/architecture/specialization-practice.dita` ← §核心思想 与 §6；不迁小节：「本篇在整体框架中的位置」的三个扩展设施完整框架，归 [09](09-architecture-foundations.md) 与其对应 topic），本文冻结为调研档案，不再更新。
+> **已迁移（2026-08-16）**：正本已迁 kb（`kb/topics/dita/architecture/element-type-specialization.dita` ← §1＋§2（2026-08-18 按 DITA 2.0 重切合篇，原为 structural-specialization 与 domain-specialization 两篇）；`kb/topics/dita/architecture/attribute-specialization.dita` ← §3，并入 [03](03-profiling-and-chunking.md) §5 的条件维度用法；`kb/topics/dita/architecture/constraints.dita` ← §4 与 `kb/topics/dita/architecture/generalization.dita` ← §5（同日重切拆篇，原合为 constraints-generalization 一篇），constraint 与 specialization 并列这一层级提醒并入前者；`kb/topics/dita/architecture/specialization-practice.dita` ← §核心思想 与 §6；不迁小节：「本篇在整体框架中的位置」的三个扩展设施完整框架，归 [09](09-architecture-foundations.md) 与其对应 topic），本文冻结为调研档案，不再更新。
 
 > 二次开发的第一条路：**扩展词汇表**。
 
