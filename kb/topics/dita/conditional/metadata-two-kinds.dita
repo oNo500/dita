@@ -29,6 +29,7 @@
   <prolog>
     <source href="https://www.scriptorium.com/2026/06/death-and-tax-onomies-metadata-with-minimal-pain/" scope="external"/>
     <data name="domain" value="dita"/>
+    <data name="upstream-node" value="coined"/>
   </prolog>
   <conbody>
     <section>

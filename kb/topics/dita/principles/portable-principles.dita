@@ -33,6 +33,7 @@
   <prolog>
     <source href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external"/>
     <data name="domain" value="dita"/>
+    <data name="upstream-node" value="coined"/>
     <data name="reviewed" value="2026-08"/>
   </prolog>
   <conbody>

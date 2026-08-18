@@ -19,6 +19,7 @@
   <prolog>
     <source href="https://github.com/evolvedbinary/lwdita" scope="external"/>
     <data name="domain" value="dita"/>
+    <data name="upstream-node" value="coined"/>
     <data name="reviewed" value="2026-08"/>
   </prolog>
   <refbody>

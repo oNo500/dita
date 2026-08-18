@@ -28,6 +28,7 @@
   <prolog>
     <source href="https://dita-lang.org/specifications" scope="external"/>
     <data name="domain" value="dita"/>
+    <data name="upstream-node" value="coined"/>
   </prolog>
   <conbody>
     <section>
