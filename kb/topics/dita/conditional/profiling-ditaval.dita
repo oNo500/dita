@@ -58,7 +58,7 @@
 
 &lt;!-- 分组形态：platform 维度下再分一层 database 组 --&gt;
 &lt;p platform="linux database(oracle mysql)"&gt;Linux 且用 Oracle 或 MySQL 时适用。&lt;/p&gt;</codeblock>
-      <p>内置维度不够用时，从 <xmlatt>props</xmlatt> 派生自有的条件属性，而不是把多个维度挤进 <xmlatt>otherprops</xmlatt>，写法见 <xref href="../architecture/attribute-specialization.dita">attribute specialization</xref>。</p>
+      <p>内置维度不够用时，从 <xmlatt>props</xmlatt> 派生自有的条件属性，而不是把多个维度挤进 <xmlatt>otherprops</xmlatt>，写法见 <xref href="../architecture/attribute-specialization.dita">属性的 specialization 规则</xref>。</p>
     </section>
 
     <section>

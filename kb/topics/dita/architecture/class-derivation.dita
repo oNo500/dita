@@ -9,12 +9,14 @@
      词尾，故并列后共用一次词尾；「A 与 B」的并列形制沿用同簇 conref-pull-push。
      切分说明（复核用）：本篇只讲两个属性的取值构成与规则，即上述两个规范节点本身。
      怎么在代码里取到并匹配它们见 kb/topics/dita/toolchain/programming-by-class.dita；
-     怎么用它们做 specialization 见同簇 structural / domain / attribute specialization 三篇。
+     怎么用它们做 specialization 见同簇的元素类型一侧与属性一侧两篇（2026-08-18 重切前为
+     structural / domain / attribute 三篇，按 DITA 2.0 的 Specialization 子树并为两篇）。
      三处与本篇的边界是「规则」与「用法」之分，不重复展开。
      归位（2026-08-16，Task 10b 执行控制器裁定）：本篇原在 core-model 簇，与同簇
      structural-specialization 的 @class 四条构造规则逐条重复。裁定归位到 architecture 簇——
      两个属性的规则出自架构规范「Configuration and specialization」章，与 specialization
-     三篇同一节点域；structural-specialization 里重复的规则罗列同步改为 xref 指向本篇。
+     各篇同一节点域；structural-specialization 里重复的规则罗列同步改为 xref 指向本篇
+     （该篇 2026-08-18 已并入 element-type-specialization，xref 随之转移）。
      shell 相对路径不变（core-model 与 architecture 同层，仍为 ../../../schema/）。
      术语规则（2026-08-16 用户门反馈 + 同日译名禁令）：specialization / generalization /
      domain / document-type shell / constraint module 等一律英文原名作首选词；「专门化」是
@@ -69,7 +71,7 @@
       <p>topic 与 map 的根元素上另有一个 <xmlatt>specializations</xmlatt>，记录本文档用到了哪些属性 <term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）。</p>
       <codeblock>&lt;task specializations="@props/deliveryTarget @props/platform @props/product"&gt;</codeblock>
       <p>它的形式语法是一个 <codeph>@</codeph> 起头、接 props 或 base、再以斜杠逐级追加属性名。与 <xmlatt>class</xmlatt> 一样，值由 <term keyref="term-document-type-shell">document-type shell</term> 的默认值注入，作者不手写。两处不同值得记：它只记录属性 specialization，元素 domain 不在其中；它写在根元素上而不是逐元素携带。</p>
-      <p>层级路径的用处同样在 generalization：处理器不认识某个派生属性时，沿链逐级退回它派生自的属性。这一侧的完整机制与落地步骤见 <xref href="attribute-specialization.dita">attribute specialization</xref>。</p>
+      <p>层级路径的用处同样在 generalization：处理器不认识某个派生属性时，沿链逐级退回它派生自的属性。这一侧的完整机制与落地步骤见 <xref href="attribute-specialization.dita">属性的 specialization 规则</xref>。</p>
     </section>
 
     <section>

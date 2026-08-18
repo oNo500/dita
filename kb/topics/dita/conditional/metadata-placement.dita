@@ -134,7 +134,7 @@
       <title>边界</title>
       <p>本篇只比较五处的能力与落位顺序。取值集合本身怎么组织、树怎么画，见 <xref href="subjectscheme-taxonomy.dita">subject scheme map</xref>；哪些字段值得建，见 <xref href="metadata-two-kinds.dita">过滤用元数据与分类用元数据</xref>。</p>
       <p>元数据沿 map 级联的完整清单、topic 与 map 两侧元数据的调和规则，属处理模型一侧，本篇未核对，表中「沿 map 级联」一列因此只作粗略对照，落到具体项目以实测为准。</p>
-      <p>从 <xmlelement>data</xmlelement> 派生自有元素的写法见 <xref href="../architecture/domain-specialization.dita">domain specialization</xref>，从 <xmlatt>props</xmlatt> 派生自有条件属性的写法见 <xref href="../architecture/attribute-specialization.dita">attribute specialization</xref>。</p>
+      <p>从 <xmlelement>data</xmlelement> 派生自有元素的写法见 <xref href="../architecture/element-type-specialization.dita">元素类型的 specialization 规则</xref>，从 <xmlatt>props</xmlatt> 派生自有条件属性的写法见 <xref href="../architecture/attribute-specialization.dita">属性的 specialization 规则</xref>。</p>
     </section>
 
     <section>

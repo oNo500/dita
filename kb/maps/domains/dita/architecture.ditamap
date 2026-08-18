@@ -5,10 +5,11 @@
   <title>架构</title>
   <!-- 笔记 01§4–5 与 05（specialization）：规则先于用法，故 class-derivation 领起，它给出
        @class 与 @specializations 两个属性的规则与语法（2026-08-16 由 core-model 簇归位至此），
-       其后依次是三种 specialization 形态、constraint 与启用判据 -->
+       其后是 specialization 的两侧（元素类型 / 属性）、constraint 与启用判据。
+       两侧的分法与次序照 DITA 2.0 的 Specialization 子树（2026-08-18 重切）：原先按 1.3 的
+       structural / domain / attribute 三分排三篇，2.0 把前两者合成一个节点，故合为一篇 -->
   <topicref href="../../../topics/dita/architecture/class-derivation.dita"/>
-  <topicref href="../../../topics/dita/architecture/structural-specialization.dita"/>
-  <topicref href="../../../topics/dita/architecture/domain-specialization.dita"/>
+  <topicref href="../../../topics/dita/architecture/element-type-specialization.dita"/>
   <topicref href="../../../topics/dita/architecture/attribute-specialization.dita"/>
   <topicref href="../../../topics/dita/architecture/constraints-generalization.dita"/>
   <topicref href="../../../topics/dita/architecture/specialization-practice.dita"/>

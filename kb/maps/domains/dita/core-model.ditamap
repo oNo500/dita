@@ -3,7 +3,8 @@
 <!-- dita 分支簇 map：核心模型与复用（笔记 01/02）。topicref 由迁移任务逐篇追加。
      class-derivation（笔记 01§4–5）于 2026-08-16 归位到 architecture 簇：@class 与
      @specializations 的规则出自架构规范的 specialization 章，与该簇三篇 specialization 同域，
-     且 structural-specialization 曾逐条重述这些规则。见 maps/domains/dita/architecture.ditamap。 -->
+     且当时的 structural-specialization（2026-08-18 已并入 element-type-specialization）曾逐条
+     重述这些规则。见 maps/domains/dita/architecture.ditamap。 -->
 <map xml:lang="zh-CN">
   <title>核心模型与复用</title>
   <topicref href="../../../topics/dita/core-model/topic-typing.dita"/>

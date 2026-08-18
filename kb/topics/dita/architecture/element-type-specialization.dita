@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- 迁自 research/notes/05-specialization.md §1（structural specialization）与 §2（domain
+     specialization）。原为两篇（structural-specialization / domain-specialization），
+     2026-08-18 合为本篇。
+
+     合篇缘由（2026-08-18 重切，用户裁定）：本库当初照 DITA 1.3 的章节结构切篇——1.3 把
+     specialization 分成 structural / domain / attribute 三个并列子树，本簇因此有对应的三篇。
+     DITA 2.0 改了分法：按「specialize 的是什么」分两类，元素类型一侧是 Specialization rules
+     for element types，属性一侧是 Specialization rules for attributes，1.3 的 structural 与
+     domain 两个子树在 2.0 合成前一个节点，两个词降为 Overview of specialization 节点内的两个
+     dt 术语。上一轮 R19 回填因此报出两篇共用一个上游节点：声明表面合规，实为切分照着过期
+     规范做的。本篇即按 2.0 元素类型一侧重切的产物，attribute-specialization 是其属性一侧的
+     对篇，两篇的分界与上游同一条轴。
+
+     查证依据（2026-08-18 于本机只读克隆 ~/ws/tools/oasis-dita 逐个文件读，版本
+     v2.0-beta03 / 0a8920b3，与 kb/vocab/upstream-nodes.tsv 的来源版本一致）：
+     specification/archSpec/base/specialization-and-custom-doctypes.ditamap 显示
+     「Configuration and specialization」下六个并列节点——Overview of DITA extension
+     facilities、Document-type configuration、Specialization、Generalization、Constraints、
+     Expansion modules；specialization.ditamap 显示 Specialization 下九个子节点，含
+     Specialization rules for element types 与 Specialization rules for attributes，
+     无 Structural specialization / Domain specialization / Attribute specialization。
+     specialization-rules-elements.dita 与 specialization-overview.dita 两个节点的正文
+     同日逐行读过，本篇事实段的认领据此。
+
+     标题（naming-rules 标题规则）：取上游节点 Specialization rules for element types 在领域
+     知识树上的叫法，机制名 specialization 保留英文原名，不拼副标题、不加定位词。structural
+     与 domain 两个词在 2.0 仍是在用术语（Overview of specialization 的两个 dt），故正文照用，
+     只是不再充当篇的标题。
+     R19：声明一条 Specialization rules for element types。两篇旧的「Overview of
+     specialization」声明随合篇撤销——那个节点讲的是 specialization 的总述与两分，本篇引其
+     两分作背景（来源节按事实认领并给出页面），篇本身对应的是元素类型一侧的规则节点。
+
+     体裁 deep-dive，按「问题 → 背景 → 分析 → 结论」骨架写，来源节收尾。
+     术语规则（2026-08-16 用户门反馈后，含同日紧急更正）：specialization / generalization /
+     constraint / domain / class / shell 等机制名一律英文原名——OASIS 无官方中文版，中文译名
+     不得作首选词；其中「专门化」还是错译，该领域标准译法为「特化」，与 generalization 的
+     「泛化」成对。中文解释每篇首现随行注一次，括号按 terminology-rules 的三分规则（有达意
+     标准译名给译名、否则给解释、正文已说清则不写；2026-08-17 用户定稿），此后全用英文名。
+     内置 domain 沿用 ui-d / sw-d / pr-d 一类模块名，不译。
+     volatility=volatile 的依据（合篇取两篇中更保守的一档，原 structural 篇为 stable、domain
+     篇为 volatile）：元素类型 specialization 的规则出自架构规范、不随发行版变动，但本篇同时
+     载有内置 domain 清单与可派生基类，两者随 2.0 语法文件演进变动。
+     事实纪律：已逐页核对的有四处——一、specialized 元素类型的四条特征与「DITA 元素不入命名
+     空间」（元素类型 specialization 规则页，2026-08-18 逐行读）；二、specialization 分
+     structural 与 domain 两类及各自的派生来源（specialization 概述页，同日）；三、coderef 由
+     include specialize 而来（include 语言参考页，原 domain 篇已核对项）；四、@class 两个前缀
+     的分工（class 属性页，两篇旧文的共同已核对项）。@class 的完整构造规则不在本篇重述——
+     去重裁定（2026-08-16 Task 10b）为正本归 class-derivation、本篇 xref 指过去，合篇后沿用，
+     其事实认领同样留在那一篇。RNG 模块示例为示意结构，模块名与元素名之分、catalog 注册步骤、
+     未写 XSLT 也按基类渲染、内置 domain 清单、六个推荐基类、两类之间的选用判据，均按判断
+     呈现并在来源节列明。 -->
+<concept id="element-type-specialization" xml:lang="zh-CN"
+         outputclass="deep-dive"
+         maturity="draft" volatility="volatile"
+         dimension="dim-internals dim-structure-template dim-decision">
+  <title>元素类型的 specialization 规则</title>
+  <shortdesc>元素类型一侧的 specialization 分两类：structural specialization 派生整个 topic 类型或 map 类型，domain specialization 派生跨 topic 类型可用的元素。两类共用一套规则，即新元素一对一映射回一个已有元素、内容模型与属性只能收紧不能放宽、整条派生链写在 <xmlatt>class</xmlatt> 里；落地也同为映射表、语法模块、注册进工具链三步。</shortdesc>
+  <prolog>
+    <source href="https://dita-lang.org/dita/archspec/base/specialization-rules-elements" scope="external"/>
+    <data name="domain" value="dita"/>
+    <data name="upstream-node" value="Specialization rules for element types"/>
+    <data name="reviewed" value="2026-08"/>
+  </prolog>
+  <conbody>
+    <section>
+      <title>问题</title>
+      <p>一类内容的信息结构是固定的：API 端点有路径、请求方法、参数与返回值，硬件手册的每个部件有型号、接口与规格。用通用的 <xmlelement>reference</xmlelement> 写，这套结构只存在于作者的记性里，校验器不管缺没缺，下游要按结构取值时只能按标题文字猜。另一类需求的形状相反：设备编号在概念页、任务页、参考页里都会写到，要的不是一整篇的骨架，而是一个到处能用的行内标记。</p>
+      <p>扩展 vocabulary（一套元素与属性）的传统做法是另造一套格式，代价是全部下游工具重写一遍。DITA 给扩展加了一条硬性要求换掉这笔代价：每个新元素一对一映射回一个已有元素，并在 <xmlatt>class</xmlatt> 上记录从最通用到最具体的整条派生链。<term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）指的就是这条要求下的扩展。</p>
+      <p>元素类型一侧的 specialization 按派生的是什么分两类。structural specialization 从 topic 类型或 map 类型派生，concept、task、reference 之于 topic，bookmap 之于 map，都属这一类；domain specialization 从 topic 或 map 内部定义的元素派生，得到的元素装配进 <term keyref="term-document-type-shell">document-type shell</term> 之后跨 topic 类型可用。属性一侧另有一套规则，见 <xref href="attribute-specialization.dita">属性的 specialization 规则</xref>。</p>
+    </section>
+
+    <section>
+      <title>背景：映射表与语法模块</title>
+      <p>两类的落地都从映射表开始。为 API 文档造 apiref 类型时，先把打算新增的元素逐个对到基类：</p>
+      <simpletable relcolwidth="1* 1*">
+        <sthead><stentry>新元素</stentry><stentry>派生自</stentry></sthead>
+        <strow><stentry>apiref</stentry><stentry><xmlelement>reference</xmlelement></stentry></strow>
+        <strow><stentry>apirefbody</stentry><stentry><xmlelement>refbody</xmlelement></stentry></strow>
+        <strow><stentry>endpoint</stentry><stentry><xmlelement>section</xmlelement></stentry></strow>
+        <strow><stentry>params</stentry><stentry><xmlelement>simpletable</xmlelement></stentry></strow>
+      </simpletable>
+      <p>某一行的基类填不出来，说明这部分结构还没想清楚，这一步不能跳过。映射的方向由规范规定死：派生出的元素类型要带一个形式正确的 <xmlatt>class</xmlatt>、内容模型与所派生自的元素相同或更窄、属性集是该元素属性集的子集或从其属性派生出的属性、属性取值与取值范围同为子集。<b>四条都只允许收紧</b>，派生链因此永远可逆，降级与 <term keyref="term-generalization">generalization</term>（泛化）都建立在这条性质上。</p>
+      <p>另有一条限制关乎命名空间：DITA 元素不属于任何命名空间，只有 <xmlatt>DITAArchVersion</xmlatt> 在 DITA 定义的命名空间里。别的命名空间的 XML vocabulary 进不来元素类型这条路，它们走 <xmlelement>foreign</xmlelement> 一路，见下一节的基类表。</p>
+      <p>语法文件一侧的推荐路线是 RNG 模块。模块引入的是基类的结构模块而不是外壳：模块只依赖模块，domain 与 <term keyref="term-constraint">constraint</term>（约束）的装配由使用方的 document-type shell 负责。</p>
+      <codeblock>&lt;!-- apiref.rng（示意结构，非官方模板逐行抄录） --&gt;
+&lt;grammar xmlns="http://relaxng.org/ns/structure/1.0"
+         xmlns:dita="http://dita.oasis-open.org/architecture/2005/"&gt;
+
+  &lt;!-- 引入基类的结构模块 referenceMod.rng，不是外壳 reference.rng --&gt;
+  &lt;include href="referenceMod.rng"/&gt;
+
+  &lt;!-- apirefbody、endpoint、params 按同一形式各写一组 define，此处从略 --&gt;
+  &lt;define name="apiref.content"&gt;
+    &lt;ref name="title"/&gt;
+    &lt;optional&gt;&lt;ref name="shortdesc"/&gt;&lt;/optional&gt;
+    &lt;optional&gt;&lt;ref name="prolog"/&gt;&lt;/optional&gt;
+    &lt;optional&gt;&lt;ref name="apirefbody"/&gt;&lt;/optional&gt;
+  &lt;/define&gt;
+
+  &lt;define name="apiref.element"&gt;
+    &lt;element name="apiref"&gt;
+      &lt;ref name="apiref.attributes"/&gt;
+      &lt;ref name="apiref.content"/&gt;
+    &lt;/element&gt;
+  &lt;/define&gt;
+
+  &lt;!-- 声明 class 的默认值。dita:defaultValue 来自 RELAX NG DTD Compatibility：
+       RNG 本身没有默认属性值的概念，DITA 靠这个扩展提供 --&gt;
+  &lt;define name="apiref.attributes"&gt;
+    &lt;ref name="id-atts"/&gt;
+    &lt;ref name="localization-atts"/&gt;
+    &lt;optional&gt;
+      &lt;attribute name="class"
+        dita:defaultValue="- topic/topic reference/reference apiref/apiref "/&gt;
+    &lt;/optional&gt;
+  &lt;/define&gt;
+&lt;/grammar&gt;</codeblock>
+    </section>
+
+    <section>
+      <title>分析：两类的分别与基类的选择</title>
+      <p>两类的派生链同形，都是一串以空格分隔的「模块名/元素名」，从最通用排到最具体，差别只在前缀：</p>
+      <codeblock>structural：前缀 -，派生的是整个 topic 类型
+class="- topic/topic reference/reference apiref/apiref "
+       ↑ ↑            ↑                  ↑              ↑
+     前缀 最通用      中间层          本次派生的元素   结尾空格
+
+domain：前缀 +，派生的是一个跨 topic 类型可用的元素
+&lt;sensor-id class="+ topic/ph iot-d/sensor-id "&gt;TEMP-04&lt;/sensor-id&gt;</codeblock>
+      <p>取值的构造规则由规范逐条规定，含前缀取值、祖先链的完整性、结尾空格与默认值不得为 fixed，规则本身与各条挡住的处理错误见 <xref href="class-derivation.dita">@class 与 @specializations 属性规则与语法</xref>，本篇不重述。落到这两个例子上只需读出前缀一处：structural 用 <codeph>-</codeph>，domain 用 <codeph>+</codeph>。</p>
+      <p>斜杠前的一段通常是模块的名字而不是元素名，两者同名只是常见巧合，读派生链时按模块理解不易出错。上例里的 iot-d 即 domain 模块名，以 <codeph>-d</codeph> 收尾是 DITA 自带模块的通行写法。</p>
+      <p>DITA 自带的 domain 有十几个，它们本身就是这套机制的产物，可以当范本读：ui-d（界面控件）、sw-d（软件）、pr-d（编程）、syntaxdiagram-d（语法图）、hi-d（高亮）、emphasis-d（<xmlelement>strong</xmlelement> 与 <xmlelement>em</xmlelement>）、ut-d（实用元素）、xml-d、mathml-d、svg-d、multimedia-d（<xmlelement>audio</xmlelement> 与 <xmlelement>video</xmlelement>）、alternative-titles-d（<xmlelement>navtitle</xmlelement> 一类替代标题）。其中一个现成的官方范例是 <xmlelement>coderef</xmlelement>，它由 <xmlelement>include</xmlelement> specialize 而来，把「从外部拉内容」这件事收窄到代码引用。</p>
+      <p>domain specialization 的设计工作几乎全在选基类。基类决定了新元素能出现在哪些位置、内容模型允许放什么，以及不认识它的处理器把它当成什么。以下六个是常被选中的起点。</p>
+      <simpletable relcolwidth="1* 2.4*">
+        <sthead><stentry>基类</stentry><stentry>适合派生成</stentry></sthead>
+        <strow><stentry><xmlelement>div</xmlelement></stentry><stentry>自定义的块级分组，基类无语义包袱</stentry></strow>
+        <strow><stentry><xmlelement>ph</xmlelement></stentry><stentry>自定义的行内语义标记</stentry></strow>
+        <strow><stentry><xmlelement>include</xmlelement></stentry><stentry>从外部拉取内容的场合，<xmlelement>coderef</xmlelement> 即此路的官方范例</stentry></strow>
+        <strow><stentry><xmlelement>data</xmlelement></stentry><stentry>挂在内容上的元数据</stentry></strow>
+        <strow><stentry><xmlelement>foreign</xmlelement></stentry><stentry>嵌入非 DITA 的 XML vocabulary，MathML 与 SVG 走的是这条</stentry></strow>
+        <strow><stentry><xmlelement>titlealt</xmlelement></stentry><stentry>自定义的标题角色</stentry></strow>
+      </simpletable>
+      <p>最后一行有个先问一句的余地：<xmlatt>title-role</xmlatt> 接受自定义取值，多数标题角色不派生新元素也能表达。同类判断在几个 extension facility 上反复出现，成本判据见 <xref href="specialization-practice.dita">specialization 的启用判据</xref>。</p>
+      <p>两类之间的取舍可以归到一句话上：要定义的是一整篇内容的骨架，用 structural specialization；要定义的是一个到处能用的标记，用 domain specialization。<b>拿不准时优先 domain specialization</b>，它不改动任何 topic 类型的定义，成本低于前者，也更容易被别的项目直接装配复用。</p>
+    </section>
+
+    <section>
+      <title>注册与降级</title>
+      <p>剩下的一步是让工具链认识这份语法文件。DITA-OT 一侧用一个 <term keyref="term-plugin">plugin</term>（插件）承载：<filepath>plugin.xml</filepath> 声明 specialization 用的 catalog，catalog 文件把 public ID 与 system ID 映射到本地的 RNG 或 DTD，随后执行安装命令。</p>
+      <codeblock>&lt;!-- plugin.xml --&gt;
+&lt;plugin id="com.example.apiref"&gt;
+  &lt;feature extension="dita.specialization.catalog.relative"
+           file="catalog-dita.xml"/&gt;
+&lt;/plugin&gt;</codeblock>
+      <p>安装之后，一行 XSLT 都不写也能得到正确输出：输出模板按 <xmlatt>class</xmlatt> 匹配而不按元素名匹配，apiref 于是走 <xmlelement>reference</xmlelement> 的模板渲染，不认识 sensor-id 的处理器把它当 <xmlelement>ph</xmlelement> 处理，输出仍然成句。想要专属版式再另写模板覆盖，那是可选的第二步，不是可用的前提。</p>
+    </section>
+
+    <section>
+      <title>结论</title>
+      <p>次序是映射表、语法模块、注册与验证；domain 一侧在头两步之间多一道选基类，末尾多一道把 domain 装配进 document-type shell，装配这一步决定了它在哪些 topic 类型里可用，domain 模块本身不作这个决定。三步的失败症状各不相同：映射列不全，问题要到内容评审时才暴露；模块引成外壳，冲突出现在使用方装配 shell 的时候；<xmlatt>class</xmlatt> 写错则校验照样通过，症状是处理器把新元素当成不认识的元素，输出里少一块。</p>
+      <p>最后一类症状的排查手段是 generalization：把样例文档还原成基类文档，还原得无损即说明整条派生链都写对了，见 <xref href="constraints-generalization.dita">constraints 与 generalization</xref>。要不要走到这一步本身是一道判断题，判据见 <xref href="specialization-practice.dita">specialization 的启用判据</xref>。</p>
+      <p>自带 domain 的清单随语法文件版本变动。照着某一个自带 domain 改写自己的模块之前，在目标版本的语法文件里核对该模块仍然存在、名字未变。</p>
+    </section>
+
+    <section>
+      <title>来源</title>
+      <p><b>事实</b>：specialized 元素类型的四条特征（形式正确的 <xmlatt>class</xmlatt>、内容模型与所派生自的元素相同或更窄、属性集为其子集或从其属性派生出的属性、属性取值与取值范围同为子集），以及 DITA 元素不属于任何命名空间、只有 <xmlatt>DITAArchVersion</xmlatt> 在 DITA 定义的命名空间里，转自 <xref href="https://dita-lang.org/dita/archspec/base/specialization-rules-elements" scope="external">元素类型的 specialization 规则</xref>；specialization 分 structural 与 domain 两类、前者从 topic 类型或 map 类型派生而 concept 与 task 之于 topic、bookmap 之于 map 即其例、后者从 topic 或 map 内部定义的元素派生并可装配进 document-type shell，转自 <xref href="https://dita-lang.org/dita/archspec/base/specialization-overview" scope="external">specialization 概述</xref>；<xmlelement>coderef</xmlelement> 由 <xmlelement>include</xmlelement> specialize 而来，转自 <xref href="https://dita-lang.org/dita/langref/base/include" scope="external">include 元素</xref>；<xmlatt>class</xmlatt> 两个前缀的分工，即 structural 一类取减号、domain 一类取加号，转自 <xref href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external">class 属性规则与语法</xref>——该属性其余构造规则的事实认领已归 <xref href="class-derivation.dita">@class 与 @specializations 属性规则与语法</xref>，本篇不重述、不重复认领。以上四处均已逐页核对。</p>
+      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 RNG 模块示例的写法（示意结构，非官方模板逐行抄录）、引模块而不引外壳的理由、斜杠前一段是模块名、domain 模块名以 <codeph>-d</codeph> 收尾的写法、十二个自带 domain 的清单与各自的覆盖范围、六个可派生基类及其适用范围、<xmlatt>title-role</xmlatt> 接受自定义取值、plugin 与 catalog 的注册步骤、未写 XSLT 也按基类模板渲染、不认识 domain 元素的处理器按基类处理，来自通用 DITA 实践与 DITA-OT 实现观察，未逐页核对；先画映射表的要求、三步次序与三类失败症状、以 generalization 验证派生链的建议、两类之间的选用判据、拿不准时优先 domain specialization 的建议、先定基类再装配的次序，为本库归纳。</p>
+    </section>
+  </conbody>
+</concept>

@@ -78,7 +78,7 @@
         <strow><stentry>无后缀</stentry><stentry>document-type shell</stentry><stentry><filepath>concept.rng</filepath>、<filepath>task.rng</filepath>、<filepath>basetopic.rng</filepath></stentry></strow>
       </simpletable>
       <p>属性域模块那一行解释了一件容易被当成内建事实的事。<xmlatt>audience</xmlatt>、<xmlatt>platform</xmlatt>、<xmlatt>product</xmlatt>、<xmlatt>deliveryTarget</xmlatt>、<xmlatt>otherprops</xmlatt> 这五个条件属性不是 DITA 语言的内建成分，它们是 base 包里五个独立的属性域模块，每个定义 <xmlatt>props</xmlatt> 的一个 specialization。一个模块一个属性，所以是五个文件而不是一个。</p>
-      <p>三条推论随之成立：可以做一个不含 <xmlatt>platform</xmlatt> 的 shell，用不到就不装；自定义的 <xmlatt>region</xmlatt> 与它们地位相同，同样是 <xmlatt>props</xmlatt> 的一个 specialization，没有等级差别；所谓 DITA 内建的条件维度，是上游预装了五个常用属性域的结果。属性 specialization 的写法见 <xref href="attribute-specialization.dita">attribute specialization</xref>。</p>
+      <p>三条推论随之成立：可以做一个不含 <xmlatt>platform</xmlatt> 的 shell，用不到就不装；自定义的 <xmlatt>region</xmlatt> 与它们地位相同，同样是 <xmlatt>props</xmlatt> 的一个 specialization，没有等级差别；所谓 DITA 内建的条件维度，是上游预装了五个常用属性域的结果。属性 specialization 的写法见 <xref href="attribute-specialization.dita">属性的 specialization 规则</xref>。</p>
     </section>
 
     <section>

@@ -54,14 +54,14 @@
       <title>分析：generalization 的算法与可交换性</title>
       <p>generalization 的算法只读一个属性。元素名换成派生链里目标层级的那个名字，<xmlatt>class</xmlatt> 随之截到该层：</p>
       <codeblock>&lt;step class="- topic/li task/step "&gt;   →   &lt;li class="- topic/li "&gt;</codeblock>
-      <p>属性同理，派生出的属性退回基属性并改用「名称(值)」形态，退回的层级也可以停在中间，见 <xref href="attribute-specialization.dita">attribute specialization</xref>。元素一侧同样不必一路还原到 <xmlelement>topic</xmlelement>：合作方认识 task 而不认识你的 mytask 时，还原到 task 这一层即可。</p>
+      <p>属性同理，派生出的属性退回基属性并改用「名称(值)」形态，退回的层级也可以停在中间，见 <xref href="attribute-specialization.dita">属性的 specialization 规则</xref>。元素一侧同样不必一路还原到 <xmlelement>topic</xmlelement>：合作方认识 task 而不认识你的 mytask 时，还原到 task 这一层即可。</p>
       <p>算法不查语法文件这一点，反过来解释了 <xmlatt>class</xmlatt> 的构造规则为什么要求列出完整祖先链，中间层即便没有改名也不能省。省掉一层，generalization 就找不到可停的位置，这条链上的信息在文档之外没有第二个副本。</p>
       <p>用得上 generalization 的场合有三类：内容要交给不认识这套派生元素的合作方、内容要迁进别的系统、内容要归档。三类的共同点是接收方按基类处理，而基类是双方都认的那部分。</p>
     </section>
 
     <section>
       <title>结论</title>
-      <p>两件事各自的判据不难分：需要新语义时做 specialization，只要禁用或收紧已有元素时做 constraint。做完哪一种都要过 generalization 这一关，新模块写完先测一次，能无损还原成标准 DITA 即说明派生链都写对了，这是本库对 <xref href="structural-specialization.dita">structural specialization</xref> 与 <xref href="domain-specialization.dita">domain specialization</xref> 共同的验收建议。</p>
+      <p>两件事各自的判据不难分：需要新语义时做 specialization，只要禁用或收紧已有元素时做 constraint。做完哪一种都要过 generalization 这一关，新模块写完先测一次，能无损还原成标准 DITA 即说明派生链都写对了，这是本库对 <xref href="element-type-specialization.dita">元素类型的 specialization 规则</xref> 一篇所述两类派生共同的验收建议。</p>
       <p>本篇的 constraint 用途清单与 generalization 算法描述均无规范页面支撑。把它们写进语法文件或自研的还原逻辑之前，回到架构规范的 Constraints 一章与 Generalization 一章逐条核对，或在最小样例上实测。</p>
     </section>
 
