@@ -65,9 +65,13 @@
       <xsl:value-of select="concat($prefix,'R7(warning): 裸 term 未用 keyref（术语库建成后应引 keyref）','&#10;')"/>
     </xsl:for-each>
     <!-- R8（2026-08-19 改判据）与 R21（同日新增）共用同一组变量：两条问的是同一件事的
-         两面（来源状况是什么 / 该状况配不配 verified），判定若各写一份必然漂移。 -->
+         两面（来源状况是什么 / 该状况配不配 verified），判定若各写一份必然漂移。
+         两态靠**结构**互斥，不靠措辞：节内有 ul＝列条目态，无 ul＝声明态。
+         这一点是刻意的——早先试过「节内有外链即算有来源」，它会被无来源篇里那句
+         「某某源不承担本篇任何断言」的反向声明满足，声明句就此变成可有可无。 -->
     <xsl:variable name="srcSections" select="$doc//section[normalize-space(title)='来源']"/>
     <xsl:variable name="srcSection" select="$srcSections[1]"/>
+    <xsl:variable name="srcList" select="$srcSection//ul"/>
     <!-- 无来源态的判据是一个固定字面，不是"有文字即可"：机器认的是本节第一段以
          「本篇无外部来源」开头，作者写下这句时那份心理成本仍在。 -->
     <xsl:variable name="declaresNone"
@@ -77,16 +81,27 @@
     </xsl:if>
     <xsl:if test="$r[self::concept or self::reference]">
       <xsl:choose>
-        <!-- 交付物源（构建成 CLAUDE.md / AGENTS.md）不设来源节：整节会进常驻上下文。
-             这类篇把来源落 prolog/source，与来源节等效。 -->
-        <xsl:when test="$r/prolog/source"/>
+        <!-- 交付物源（体裁 artifact，构建成 CLAUDE.md / AGENTS.md）不设来源节：
+             整节会进常驻上下文。这类篇把来源落 prolog/source。
+             门开得这么窄有实据：全库 82 篇带 prolog/source，其中 8 篇的来源节明写
+             「该源作为元数据来源，不承担本篇任何断言」——prolog/source 在本库是元数据
+             出处字段，不是断言出处，无条件认它等于发一张覆盖全库的免检通行证。
+             'artifact' 这个字面内联在此，与本文件顶部三个值集变量同一处置：本文件不读词表，
+             读词表的是 dita-tools lint，而 R8 要与 R21 同处（判定单源）。 -->
+        <xsl:when test="empty($srcSection) and $r/@outputclass='artifact' and $r/prolog/source"/>
         <xsl:when test="empty($srcSection)">
-          <xsl:value-of select="concat($prefix,'R8(error): 缺来源节——必须显式声明来源状况：有来源就在末尾「来源」一节逐条列出（每条附 scope=&quot;external&quot; 的地址），无来源就让该节第一段以「本篇无外部来源，属本库方法论。」开头；交付物源可改在 prolog/source 声明','&#10;')"/>
+          <xsl:value-of select="concat($prefix,'R8(error): 缺来源节——必须显式声明来源状况：有来源就在末尾「来源」一节用 ul 逐条列出（至少一条附 scope=&quot;external&quot; 的地址），无来源就让该节第一段以「本篇无外部来源，属本库方法论。」开头；只有体裁 artifact 的交付物源可免来源节，改在 prolog/source 声明','&#10;')"/>
         </xsl:when>
+        <xsl:when test="exists($srcList) and $declaresNone">
+          <xsl:value-of select="concat($prefix,'R8(error): 来源节自相矛盾——列了条目又声明「本篇无外部来源」。两态二选一：列条目就删掉声明句，没有来源就删掉列表','&#10;')"/>
+        </xsl:when>
+        <xsl:when test="exists($srcList) and empty($srcList//xref[@scope='external'])">
+          <xsl:value-of select="concat($prefix,'R8(error): 来源节列了条目，却没有一条带外部地址——地址要机器看得见（scope=&quot;external&quot; 的 xref）；确实无外部来源就删掉列表，改写「本篇无外部来源，属本库方法论。」','&#10;')"/>
+        </xsl:when>
+        <xsl:when test="exists($srcList)"/>
         <xsl:when test="$declaresNone"/>
-        <xsl:when test="$srcSection//xref[@scope='external']"/>
         <xsl:otherwise>
-          <xsl:value-of select="concat($prefix,'R8(error): 来源节既无外部地址、也无无来源声明——二选一：逐条列出来源（每条附 scope=&quot;external&quot; 的 xref），或让本节第一段以「本篇无外部来源」开头','&#10;')"/>
+          <xsl:value-of select="concat($prefix,'R8(error): 来源节既不是列条目态、也不是声明态——有来源就写成 ul 逐条列出（至少一条带 scope=&quot;external&quot; 的地址），无来源就让本节第一段以「本篇无外部来源」开头','&#10;')"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
