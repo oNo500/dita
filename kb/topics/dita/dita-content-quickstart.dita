@@ -85,8 +85,16 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：topic 与 map 分离、topic 应自足不依赖上下文，见 <xref href="https://dita-lang.org/dita/archspec/base/basic-concepts" scope="external">Basic concepts</xref>与 <xref href="https://dita-lang.org/dita/archspec/base/ditamaps" scope="external">DITA maps</xref>；直接寻址与间接寻址并列且键在 map 上定义，见 <xref href="https://dita-lang.org/dita/archspec/base/ditaaddressing" scope="external">DITA addressing</xref>；conref 用于引用内容片段见 <xref href="https://dita-lang.org/dita/archspec/base/conref-overview" scope="external">Content referencing overview</xref>；条件属性加过滤文件产出变体见 <xref href="https://dita-lang.org/dita/archspec/base/conditional-processing-and-subject-schemes" scope="external">Conditional processing and subject schemes</xref>。四条均属本库其他各篇逐页核实过的规范内容，本篇只作转引，正本见 core-model 与 architecture 两簇对应各篇；所引页面的节点标题与 URL 已对照上游节点索引核实。</p>
-      <p><b>判断</b>：四个维度的选取与十九个维度的推迟理由、六步的次序、「键要早于第一次引用建起来」、「低于句子的粒度不用 conref」、「只有一个变体时条件化是净成本」、以及收尾的三个判断问题，均为本库判断，可被反驳。取舍是否选准属人审事项，机器只校验挂靠与声明是否齐备。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>topic 与 map 分离、topic 应自足不依赖上下文——<xref href="https://dita-lang.org/dita/archspec/base/basic-concepts" scope="external">Basic concepts</xref>、<xref href="https://dita-lang.org/dita/archspec/base/ditamaps" scope="external">DITA maps</xref></li>
+        <li>直接寻址与间接寻址并列，键在 map 上定义——<xref href="https://dita-lang.org/dita/archspec/base/ditaaddressing" scope="external">DITA addressing</xref></li>
+        <li>conref 用于引用内容片段——<xref href="https://dita-lang.org/dita/archspec/base/conref-overview" scope="external">Content referencing overview</xref></li>
+        <li>条件属性加过滤文件产出变体——<xref href="https://dita-lang.org/dita/archspec/base/conditional-processing-and-subject-schemes" scope="external">Conditional processing and subject schemes</xref></li>
+        <li>以上四条由本库其他各篇逐页核实，本篇只作转引，正本在 core-model 与 architecture 两簇对应各篇；所引页面的节点标题与 URL 已对照上游节点索引核实</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：四个维度的选取与十九个维度的推迟理由、六步的次序、「键要早于第一次引用建起来」、「低于句子的粒度不用 conref」、「只有一个变体时条件化是净成本」、收尾的三个判断问题，均为本库判断。取舍是否选准属人审事项，机器只校验挂靠与声明是否齐备。</p>
     </section>
   </conbody>
 </concept>

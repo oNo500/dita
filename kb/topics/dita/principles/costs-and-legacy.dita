@@ -86,8 +86,13 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：本篇引用的规范条文出处有两处，均在前序笔记中逐页核对——<xref href="https://dita-lang.org/2.0/dita/conformance/conformance" scope="external">一致性</xref>（一致性以特性为单位）、<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref>（派生链属性由 shell 默认注入、随实例携带）。</p>
-      <p><b>判断</b>：除事实段所列条文外，本篇正文整体为原笔记与本库的推导，可被反驳，不得当作规范条文引用。其中四笔代价的推导（源文件不再是完整真相、付出者与受益者错配、收益随场景形状变化而成本不变、降级保证合法不保证保义）、与数据库范式化的类比及「散文的范式化伤害作者」这一差别、DITA 在工程师群体推不动的成因、必然与历史选择的划分表五行、把 conref push 判为包袱、以及据此提出的判断方法，均属判断；文件形态优于数据库的论证、十年与年的生命周期对比、以及自描述性为长期存活服务的结论，同属推理。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>一致性以特性为单位——<xref href="https://dita-lang.org/2.0/dita/conformance/conformance" scope="external">一致性</xref>（前序笔记已逐页核对）</li>
+        <li>派生链属性由 shell 默认注入、随实例携带——<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref>（前序笔记已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列条文外，本篇正文整体为原笔记与本库的推导，可被反驳，不得当作规范条文引用：四笔代价的推导（源文件不再是完整真相、付出者与受益者错配、收益随场景形状变化而成本不变、降级保证合法不保证保义）、与数据库范式化的类比及「散文的范式化伤害作者」这一差别、DITA 在工程师群体推不动的成因、必然与历史选择的划分表五行、把 conref push 判为包袱、据此提出的判断方法，均属判断；文件形态优于数据库的论证、十年与年的生命周期对比、自描述性为长期存活服务的结论，同属推理。</p>
     </section>
   </conbody>
 </concept>

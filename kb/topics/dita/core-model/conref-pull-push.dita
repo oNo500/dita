@@ -120,8 +120,12 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：conref 的作用范围限于 DITA 内容、非 DITA 的外部内容由 <xref href="https://dita-lang.org/dita/langref/base/include" scope="external">include 元素</xref>承担，该分工已逐页核对。</p>
-      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中 conref 与 conref push 的语法、三条约束、<xmlatt>conrefend</xmlatt> 的范围引用、<xmlatt>conaction</xmlatt> 四种取值的语义、<xmlatt>conkeyref</xmlatt> 与按路径寻址在语义上等同，来自通用 DITA 实践；preprocess 的八个阶段、其顺序与由它推出的三条推论，来自 DITA-OT 实现观察；片段该怎么组织、conref push 的登记做法、两个方向的选用判据为本库归纳。规范的 conref 处理一章与处理模型一章尚未逐页核对。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>conref 的作用范围限于 DITA 内容，非 DITA 的外部内容由 include 承担——<xref href="https://dita-lang.org/dita/langref/base/include" scope="external">include 元素</xref>（该分工已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段那一条外，正文其余陈述均属判断，可被反驳：conref 与 conref push 的语法、三条约束、<xmlatt>conrefend</xmlatt> 的范围引用、<xmlatt>conaction</xmlatt> 四种取值的语义、<xmlatt>conkeyref</xmlatt> 与按路径寻址在语义上等同，来自通用 DITA 实践；preprocess 的八个阶段、其顺序与由它推出的三条推论，来自 DITA-OT 实现观察；片段该怎么组织、conref push 的登记做法、两个方向的选用判据为本库归纳。规范的 conref 处理一章与处理模型一章尚未逐页核对。</p>
     </section>
   </conbody>
 </concept>

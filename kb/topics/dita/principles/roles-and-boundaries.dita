@@ -88,8 +88,14 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：规范自述读者为「DITA 标准的实现者，包括工具开发者和开发 specialization 的 XML 架构师」，各角色词的出现频次，以及 processor 尚无定义的编辑批注全文与其未解决标记，均逐页核对自规范源码 v2.0-beta03；术语章定义的十个术语全部是文档与语法构件，见<xref href="https://dita-lang.org/dita/archspec/base/basic-dita-terminology" scope="external">基本 DITA 术语</xref>；角色类术语中只有 <codeph>user agent</codeph> 有定义条目，见<xref href="https://dita-lang.org/dita/archspec/base/other-terminology" scope="external">其他术语</xref>。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中五种角色的划分与职责产出物表、information architect 与 DITA architect 的侧重差异，为从规范正文用法归纳；「看是否求值 DITA 特性」的判据，是对编辑批注暂定范围的推论；角色由正在做的事决定而非由职位决定、阅读材料对照表、以及维护工具链一行与 implementer 的划界，为本库编排。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>规范自述读者为「DITA 标准的实现者，包括工具开发者和开发 specialization 的 XML 架构师」、各角色词的出现频次、processor 尚无定义的编辑批注全文与其未解决标记——规范源码 v2.0-beta03（均已逐页核对）</li>
+        <li>术语章定义的十个术语全部是文档与语法构件——<xref href="https://dita-lang.org/dita/archspec/base/basic-dita-terminology" scope="external">基本 DITA 术语</xref></li>
+        <li>角色类术语中只有 <codeph>user agent</codeph> 有定义条目——<xref href="https://dita-lang.org/dita/archspec/base/other-terminology" scope="external">其他术语</xref></li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：五种角色的划分与职责产出物表、information architect 与 DITA architect 的侧重差异，为从规范正文用法归纳；「看是否求值 DITA 特性」的判据，是对编辑批注暂定范围的推论；角色由正在做的事决定而非由职位决定、阅读材料对照表、维护工具链一行与 implementer 的划界，为本库编排。</p>
     </section>
   </conbody>
 </concept>

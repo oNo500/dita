@@ -112,8 +112,19 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：本篇推导所引用的规范条文出处有七处，均在前序笔记中逐页核对——<xref href="https://dita-lang.org/2.0/dita/archspec/base/key-based-addressing" scope="external">基于 key 的寻址</xref>（key 提供间接层、资源在 map 层面定义）、<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref>（派生链属性由 shell 默认注入、随实例携带）、<xref href="https://dita-lang.org/2.0/dita/archspec/base/ditaspecialization" scope="external">Overview of DITA extension facilities</xref>（三大 extension facilities 的划分）、<xref href="https://dita-lang.org/2.0/dita/archspec/base/configuration" scope="external">文档类型配置</xref>（shell 不得自行定义元素类型，只装配与配置）、<xref href="https://dita-lang.org/2.0/dita/archspec/base/expansion-modules" scope="external">扩展模块</xref>（generalization 后受影响元素的内容模型必须与原内容模型一致）、<xref href="https://dita-lang.org/2.0/dita/archspec/base/branch-filtering" scope="external">分支过滤</xref>（处理器必须先求值分支过滤才能构造 key space）、<xref href="https://dita-lang.org/2.0/dita/archspec/base/determining-effective-attribute-values" scope="external">确定属性的有效值</xref>（有效值在 conref 与 keyref 解析之后求解）。</p>
-      <p><b>判断</b>：除事实段所列条文外，本篇正文整体为原笔记与本库的推导，可被反驳，不得当作规范条文引用。其中以「同一个事实只应存在于一处」作为单一公理重构 DITA 是本篇的组织方式，规范并未这样表述；与数据库范式化的类比、<xmlatt>class</xmlatt> 作为随数据携带的类型信息表、与里氏替换原则的对应，均为类比，规范未使用这些术语；九步推导中每一步「由上一步逼出」的论证，包括自足性作为 topic 边界的判据、禁止能力的价值、条件维度必须正交、类型化两条理由的强度差异与对三分法的保留、extension facilities 分工与「永不修改共享模块」的表述、以及连锁结果表四行，同属推理；把可推导部分与历史选择分开的做法，为本库编排。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>key 提供间接层、资源在 map 层面定义——<xref href="https://dita-lang.org/2.0/dita/archspec/base/key-based-addressing" scope="external">基于 key 的寻址</xref></li>
+        <li>派生链属性由 shell 默认注入、随实例携带——<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref></li>
+        <li>三大 extension facilities 的划分——<xref href="https://dita-lang.org/2.0/dita/archspec/base/ditaspecialization" scope="external">Overview of DITA extension facilities</xref></li>
+        <li>shell 不得自行定义元素类型，只装配与配置——<xref href="https://dita-lang.org/2.0/dita/archspec/base/configuration" scope="external">文档类型配置</xref></li>
+        <li>generalization 后受影响元素的内容模型必须与原内容模型一致——<xref href="https://dita-lang.org/2.0/dita/archspec/base/expansion-modules" scope="external">扩展模块</xref></li>
+        <li>处理器必须先求值分支过滤才能构造 key space——<xref href="https://dita-lang.org/2.0/dita/archspec/base/branch-filtering" scope="external">分支过滤</xref></li>
+        <li>有效值在 conref 与 keyref 解析之后求解——<xref href="https://dita-lang.org/2.0/dita/archspec/base/determining-effective-attribute-values" scope="external">确定属性的有效值</xref></li>
+        <li>以上七处条文均在前序笔记中逐页核对</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列条文外，本篇正文整体为原笔记与本库的推导，可被反驳，不得当作规范条文引用：以「同一个事实只应存在于一处」作为单一公理重构 DITA 是本篇的组织方式，规范并未这样表述；与数据库范式化的类比、<xmlatt>class</xmlatt> 作为随数据携带的类型信息表、与里氏替换原则的对应，均为类比，规范未使用这些术语；九步推导中每一步「由上一步逼出」的论证（自足性作为 topic 边界的判据、禁止能力的价值、条件维度必须正交、类型化两条理由的强度差异与对三分法的保留、extension facilities 分工与「永不修改共享模块」的表述、连锁结果表四行）同属推理；把可推导部分与历史选择分开的做法，为本库编排。</p>
     </section>
   </conbody>
 </concept>

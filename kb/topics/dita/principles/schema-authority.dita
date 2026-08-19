@@ -100,8 +100,15 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：DITA document、DITA document type、DITA document-type shell 三条定义与「shell 不直接声明任何元素或属性类型」的原文，逐条读自规范源码 v2.0-beta03 的术语章，见<xref href="https://dita-lang.org/dita/archspec/base/basic-dita-terminology" scope="external">基本 DITA 术语</xref>；author SHOULD NOT 修改 <xmlatt>class</xmlatt>、vocabulary module MUST NOT 修改其未 specialize 元素的 <xmlatt>class</xmlatt>、默认值不能是 fixed，见 <xref href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external">class 属性规则与语法</xref>；语法文件以 RNG 与 DTD 两种形式提供、出入以 RELAX NG 为准、RELAX NG 定义是规范性版本、OASIS 文件不使用无法翻译为 DTD 的 RELAX NG 特性、DITA 对 RELAX NG 的使用依赖 RELAX NG DTD Compatibility 规范提供默认属性值与内嵌文档的机制，均逐页核对自规范源码全文检索；<filepath>doctypes/</filepath> 下只有 dtd 与 rng 两个子目录、未随发行提供 XSD，两个 basetopic 文件引入同一组模块，以及正文引用的两条 catalog 映射与 catalog 的串接层次与 2.0、2.x 两条并存，均取自 v2.0-beta03 实际文件；术语章的定义只提 constraint 模块而未提 expansion module，是对同一批源文件的直接观察。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 schema 的通用定义、DITA 的 schema 由 shell 加其引入模块构成的说法、两个 shell 引入同一组模块即实现同一 document type 的推论、语法层与设计层与文档层的三层归属、schema 管与不管的对照，为归纳；术语章未提 expansion module 的成因为推测；schema 文件的四种取得途径、未配 catalog 的三种后果，来自使用经验；processor 依据 <xmlatt>class</xmlatt> 而非元素名匹配一行，来自通用 DITA 实践，未逐页核对；任何组织都可以定义自己的 schema、两层定义权的划分、以及把定义模块与编写 shell 混做的后果，为本库归纳。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>DITA document、DITA document type、DITA document-type shell 三条定义与「shell 不直接声明任何元素或属性类型」的原文——<xref href="https://dita-lang.org/dita/archspec/base/basic-dita-terminology" scope="external">基本 DITA 术语</xref>（逐条读自规范源码 v2.0-beta03 的术语章）</li>
+        <li>author SHOULD NOT 修改 <xmlatt>class</xmlatt>、vocabulary module MUST NOT 修改其未 specialize 元素的 <xmlatt>class</xmlatt>、默认值不能是 fixed——<xref href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external">class 属性规则与语法</xref></li>
+        <li>语法文件以 RNG 与 DTD 两种形式提供、出入以 RELAX NG 为准、RELAX NG 定义是规范性版本、OASIS 文件不使用无法翻译为 DTD 的 RELAX NG 特性、DITA 对 RELAX NG 的使用依赖 RELAX NG DTD Compatibility 规范提供默认属性值与内嵌文档的机制——规范源码全文检索（均已逐页核对）</li>
+        <li><filepath>doctypes/</filepath> 下只有 dtd 与 rng 两个子目录、未随发行提供 XSD，两个 basetopic 文件引入同一组模块，正文引用的两条 catalog 映射与 catalog 的串接层次与 2.0、2.x 两条并存，术语章的定义只提 constraint 模块而未提 expansion module——v2.0-beta03 实际文件的直接观察</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：schema 的通用定义、DITA 的 schema 由 shell 加其引入模块构成的说法、两个 shell 引入同一组模块即实现同一 document type 的推论、语法层与设计层与文档层的三层归属、schema 管与不管的对照，为归纳；术语章未提 expansion module 的成因为推测；schema 文件的四种取得途径、未配 catalog 的三种后果，来自使用经验；processor 依据 <xmlatt>class</xmlatt> 而非元素名匹配一行，来自通用 DITA 实践，未逐页核对；任何组织都可以定义自己的 schema、两层定义权的划分、把定义模块与编写 shell 混做的后果，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

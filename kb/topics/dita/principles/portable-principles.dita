@@ -96,8 +96,15 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：本篇八条原则引用到的规范条文出处有三处，均在前序笔记中逐页核对——<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref>（派生链属性由 shell 默认注入、随实例携带）、<xref href="https://dita-lang.org/2.0/dita/archspec/base/expansion-modules" scope="external">扩展模块</xref>（泛化后受影响元素的内容模型必须与原内容模型一致）、<xref href="https://dita-lang.org/2.0/dita/archspec/base/configuration" scope="external">文档类型配置</xref>（shell 只装配与配置，不自行定义元素类型）。</p>
-      <p><b>判断</b>：除事实段所列条文外，本篇正文整体为原笔记与本库的推导，可被反驳，不得当作规范条文引用。其中八条原则的挑选与表述、可迁移的两点判据、每条在 DITA 之外的对应物（变量名与主键、依赖私有状态的函数、类型系统与 lint、消息自带类型标签、协议演进规约、插件点与镜像分层、依赖注入与特性开关、规范推行的激励结构）、与里氏替换原则的对应、以及「收益与代价是同一个决定的两面」这一结论，均属判断；把 DITA 的实际口碑当作激励错配的样本，是社会技术层面的推测，未经系统验证。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>派生链属性由 shell 默认注入、随实例携带——<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref></li>
+        <li>泛化后受影响元素的内容模型必须与原内容模型一致——<xref href="https://dita-lang.org/2.0/dita/archspec/base/expansion-modules" scope="external">扩展模块</xref></li>
+        <li>shell 只装配与配置，不自行定义元素类型——<xref href="https://dita-lang.org/2.0/dita/archspec/base/configuration" scope="external">文档类型配置</xref></li>
+        <li>以上三处条文均在前序笔记中逐页核对</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列条文外，本篇正文整体为原笔记与本库的推导，可被反驳，不得当作规范条文引用：八条原则的挑选与表述、可迁移的两点判据、每条在 DITA 之外的对应物（变量名与主键、依赖私有状态的函数、类型系统与 lint、消息自带类型标签、协议演进规约、插件点与镜像分层、依赖注入与特性开关、规范推行的激励结构）、与里氏替换原则的对应、「收益与代价是同一个决定的两面」这一结论，均属判断；把 DITA 的实际口碑当作激励错配的样本，是社会技术层面的推测，未经系统验证。</p>
     </section>
   </conbody>
 </concept>

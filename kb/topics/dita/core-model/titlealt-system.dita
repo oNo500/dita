@@ -87,8 +87,14 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：<xmlatt>title-role</xmlatt> 五个取值及各自语义、多值与处理器自定义取值、三处可出现的位置、<xmlelement>topicref</xmlelement> 一侧优先的合并规则、alternative titles domain 的五个简写元素，均转自 <xref href="https://dita-lang.org/dita/langref/base/titlealt" scope="external">titlealt 元素</xref>；<xmlelement>titlealt</xmlelement> 在 <xmlelement>prolog</xmlelement> 内须排在 <xmlelement>author</xmlelement> 之前转自 <xref href="https://dita-lang.org/dita/langref/base/prolog" scope="external">prolog 元素</xref>；<xmlelement>titlealts</xmlelement> 容器与 <xmlatt>navtitle</xmlatt> 属性的退役转自 <xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref>。三份页面均已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 linking 作为 navigation 与 search 回落值的说法未逐页核对，正文已标注；相同则不写、统一简写与完整写法二选一、合并方向决定改写落点，为本库归纳。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li><xmlatt>title-role</xmlatt> 五个取值及各自语义、多值与处理器自定义取值、三处可出现的位置、<xmlelement>topicref</xmlelement> 一侧优先的合并规则、alternative titles domain 的五个简写元素——<xref href="https://dita-lang.org/dita/langref/base/titlealt" scope="external">titlealt 元素</xref>（已逐页核对）</li>
+        <li><xmlelement>titlealt</xmlelement> 在 <xmlelement>prolog</xmlelement> 内须排在 <xmlelement>author</xmlelement> 之前——<xref href="https://dita-lang.org/dita/langref/base/prolog" scope="external">prolog 元素</xref>（已逐页核对）</li>
+        <li><xmlelement>titlealts</xmlelement> 容器与 <xmlatt>navtitle</xmlatt> 属性的退役——<xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref>（已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：linking 作为 navigation 与 search 回落值的说法未逐页核对，正文已标注；相同则不写、统一简写与完整写法二选一、合并方向决定改写落点，为本库归纳。</p>
     </section>
   </refbody>
 </reference>
