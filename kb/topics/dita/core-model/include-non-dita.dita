@@ -74,8 +74,12 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：用途、<xmlatt>parse</xmlatt> 的两种取值及 xml 限于 <xmlelement>foreign</xmlelement> 内、<xmlatt>encoding</xmlatt> 的探测行为、<xmlatt>keyref</xmlatt> 支持、内容模型、可出现位置、与 conref 及 <xmlelement>coderef</xmlelement> 的区别，以及三个示例的写法，均转自 <xref href="https://dita-lang.org/dita/langref/base/include" scope="external">include 元素</xref>，已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳：把配置与代码样例改为引用源文件以消除副本漂移、三个写法的取舍与四个示例的用途说明、两类不适用场合的界线、被引资源成为构建输入及其对目录调整的敏感性，均为本库归纳。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>用途、<xmlatt>parse</xmlatt> 两种取值（xml 限于 <xmlelement>foreign</xmlelement> 内）、<xmlatt>encoding</xmlatt> 探测、<xmlatt>keyref</xmlatt> 支持、内容模型与可出现位置、与 conref 及 <xmlelement>coderef</xmlelement> 的分工、三个示例的写法——<xref href="https://dita-lang.org/dita/langref/base/include" scope="external">include 元素</xref>（已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：以引用消除副本漂移、三种写法与四个示例的取舍、两类不适用场合的界线、被引资源成为构建输入后对目录调整的敏感。</p>
     </section>
   </conbody>
 </concept>

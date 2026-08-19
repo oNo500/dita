@@ -138,8 +138,13 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：<xmlatt>keys</xmlatt> 的值类型为 NMTOKENS、只能以空格分隔，转自 <xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref>；DITA-OT 4.4 提供的 2.0 preview 支持基于 2026-01-25 的草案语法文件，而 v2.0-beta03 发布于其后，转自 <xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA 2.0 preview 支持</xref>与 <xref href="https://github.com/oasis-tcs/dita/releases" scope="external">oasis-tcs/dita 发布页</xref>。三处均已逐页核对。</p>
-      <p><b>判断</b>：除事实段两条外，三张表其余各行均属判断，可被反驳。其中默认属性补齐、按派生链匹配的写法与空格陷阱、generalization 后的祖先链要求、安装时编译配置、catalog 与公共标识符、调试选项、字体配置、DITAVAL 排除导致引用落空、key 取最先定义者、条件打在能整体去掉的层级、conref push 的来处、subjectScheme 作受控值、<xmlelement>keytext</xmlelement> 的工具链支持，来自 DITA 与 DITA-OT 使用经验，非规范条文，未逐条核对；三张表的分组方式与「先查什么」的排列顺序为本库归纳。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li><xmlatt>keys</xmlatt> 的值类型为 NMTOKENS、只能以空格分隔——<xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref>（已逐页核对）</li>
+        <li>DITA-OT 4.4 的 2.0 preview 支持基于 2026-01-25 的草案语法文件，而 v2.0-beta03 发布于其后——<xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA 2.0 preview 支持</xref>、<xref href="https://github.com/oasis-tcs/dita/releases" scope="external">oasis-tcs/dita 发布页</xref>（均已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段两条外，三张表其余各行均属判断，可被反驳：默认属性补齐与按派生链匹配、generalization 后的祖先链要求、安装编译配置、catalog 与公共标识符、调试选项、字体配置、DITAVAL 排除导致引用落空、key 取最先定义者、条件打在能整体去掉的层级、conref push 的来处、subjectScheme 作受控值、<xmlelement>keytext</xmlelement> 的工具链支持，均来自使用经验而非规范条文，未逐条核对；三张表的分组与「先查什么」的排列顺序为本库归纳。</p>
     </section>
   </refbody>
 </reference>

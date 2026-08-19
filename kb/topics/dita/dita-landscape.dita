@@ -174,8 +174,14 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：版本现状四项与三条实践含义的依据为 <xref href="https://dita-lang.org/specifications" scope="external">规范总入口</xref>、<xref href="https://github.com/oasis-tcs/dita/releases" scope="external">OASIS TC 发布页</xref>、<xref href="https://www.dita-ot.org/dev/release-notes/" scope="external">DITA-OT 发布说明</xref>与 <xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA-OT 的 2.0 支持说明</xref>，均已逐页核对。刻意排除一节里两条独立版本线的状态，依据是 <xref href="https://github.com/oasis-tcs/dita-learning-training" scope="external">学习培训仓库</xref>无 release 且长期未推送、<xref href="https://github.com/oasis-tcs/dita-lwdita" scope="external">轻量版仓库</xref>自成版本线，两处仓库实况已在调研笔记核对。维度对标所引的规范编排取自规范总入口与 <xref href="https://www.dita-ot.org/dev/" scope="external">DITA-OT 文档</xref>的现有类目。</p>
-      <p><b>判断</b>：二十三个维度的取舍与六组划分、三处归位（解析机制单列、检索归入扩展与外接、生态与选材归入工具链落地）、四项刻意排除，均为本库判断，可被反驳。与其他方案的定位差一表为判断性内容，未逐页核对各方案的规范原文；该表的量级词表达的是相对位置，不是可测量的指标。维度清单是否齐全属人审事项。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>版本现状四项与三条实践含义——<xref href="https://dita-lang.org/specifications" scope="external">规范总入口</xref>、<xref href="https://github.com/oasis-tcs/dita/releases" scope="external">OASIS TC 发布页</xref>、<xref href="https://www.dita-ot.org/dev/release-notes/" scope="external">DITA-OT 发布说明</xref>、<xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA-OT 的 2.0 支持说明</xref>（均已逐页核对）</li>
+        <li>刻意排除一节里两条独立版本线的状态：无 release 且长期未推送、自成版本线——<xref href="https://github.com/oasis-tcs/dita-learning-training" scope="external">学习培训仓库</xref>、<xref href="https://github.com/oasis-tcs/dita-lwdita" scope="external">轻量版仓库</xref>（仓库实况已在调研笔记核对）</li>
+        <li>维度对标所引的规范编排与工具链类目——<xref href="https://dita-lang.org/specifications" scope="external">规范总入口</xref>、<xref href="https://www.dita-ot.org/dev/" scope="external">DITA-OT 文档</xref>的现有类目</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：二十三个维度的取舍与六组划分、三处归位、四项刻意排除，以及与其他方案的定位差一表——该表未逐页核对各方案的规范原文，量级词表达相对位置而非可测指标。维度清单是否齐全属人审事项。</p>
     </section>
   </conbody>
 </concept>
