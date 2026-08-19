@@ -16,7 +16,7 @@
 ## 现在到哪了
 
 - **内容**：24 篇 topic（12 条术语 + 12 篇内容），全部已归入词表主题树。九个分支里 **6 个仍空**；`ai` / `content-engineering` / `web` 有内容。**Phase 5 批量重写已开工**：coding-agents 域建了全景，覆盖度 5/20。
-- **规则**：R1–R11 全部有实现且全过（R11 归 `dita-tools`）。
+- **规则**：R1–R21 全部有实现且全过（R9 归 `dita-tools ia`，R10 已被 R20 吸收，R11 归 `dita-tools`）。
 - **工具**：`dita-tools ia` 是 IA 治理骨架——以词表主题树为骨、内容挂其上，四状态标出哪空 / 在做 / 算完。map 与 topic 两层解析器都在，受控值直读词表。
 - **交付物**：单源 → 双工具变体（`CLAUDE.md` / `AGENTS.md`）已跑通。
 - **治理**：`just check` 一条命令跑齐（结构 + 规则 + 测试 + lint + fmt）；外链活性 `just links` 定期跑。
