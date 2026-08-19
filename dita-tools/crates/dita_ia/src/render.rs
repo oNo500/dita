@@ -241,6 +241,29 @@ pub fn exception_lines(report: &IaReport, details: bool) -> Vec<String> {
                 .join("、")
         ));
     }
+    // 重复 topicref：同一处编排里同一篇被引用两次。缺陷信号，不门控——
+    // 判定边界（哪些重复合法、哪些不报）见 `duplicates` 模块的模块注释。
+    for dup in &report.duplicate_refs {
+        match dup.kind {
+            crate::DuplicateKind::SameMap => lines.push(format!(
+                "map {} 内重复引用 {} {} 次——一个 map 说不出一篇有两个位置（复制粘贴条目的典型事故）",
+                rel(&dup.scope, report),
+                rel(&dup.topic, report),
+                dup.count
+            )),
+            crate::DuplicateKind::SameTree => lines.push(format!(
+                "{} 树内 {} 次到达 {}（经 {}）——导航里出现两次，分支统计与覆盖度也重复计数",
+                rel(&dup.scope, report),
+                dup.count,
+                rel(&dup.topic, report),
+                dup.via
+                    .iter()
+                    .map(|p| rel(p, report))
+                    .collect::<Vec<_>>()
+                    .join("、")
+            )),
+        }
+    }
     let unplaced = report
         .topics
         .len()
@@ -300,6 +323,20 @@ pub fn exception_lines(report: &IaReport, details: bool) -> Vec<String> {
         lines.push("未读到词表：规划对照与值检查均已跳过".to_string());
     }
     lines
+}
+
+/// 报告里的路径写法：相对 kb 根（`topics_root` 的上一级）。map 与 topic 出现在
+/// 同一行时，两边都从 `maps/` / `topics/` 起头才看得出关系；孤儿那一行只列
+/// topic，故仍按 `topics_root` 裁剪，两处不统一是刻意的。
+fn rel(path: &std::path::Path, report: &IaReport) -> String {
+    let base = report
+        .topics_root
+        .parent()
+        .unwrap_or(report.topics_root.as_path());
+    path.strip_prefix(base)
+        .unwrap_or(path)
+        .display()
+        .to_string()
 }
 
 fn errs_present(report: &IaReport) -> bool {

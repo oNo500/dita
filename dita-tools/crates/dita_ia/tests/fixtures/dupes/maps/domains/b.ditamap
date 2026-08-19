@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map xml:lang="zh-CN">
+  <title>B 分支</title>
+  <topicref href="../../topics/t2.dita"/>
+  <topicref href="../../topics/t3.dita"/>
+  <!-- resource-only 两条指向同一篇：合法的键别名手法，不该报 -->
+  <topicref href="../../topics/t4.dita" keys="t4-a" processing-role="resource-only"/>
+  <topicref href="../../topics/t4.dita" keys="t4-b" processing-role="resource-only"/>
+</map>

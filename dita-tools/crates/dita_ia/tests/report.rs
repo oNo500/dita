@@ -425,3 +425,117 @@ fn only_empty_leaves_hide_behind_details() {
     );
     assert!(only_in_full[0].contains("词表空叶子"), "{only_in_full:?}");
 }
+
+// ── 重复 topicref（判定边界见 src/duplicates.rs 的模块注释）───────────────
+
+const DUPES: &str = "tests/fixtures/dupes";
+
+fn dupes_report() -> IaReport {
+    let root = Path::new(DUPES);
+    build_report(
+        &[root.join("maps/root.ditamap")],
+        &root.join("topics"),
+        Some(&root.join("maps")),
+        // 这棵 fixture 树没有词表：重复检测不读词表，值检查跳过并说明即可
+        Some(&PathBuf::from("does/not/exist.ditamap")),
+    )
+    .expect("report failed")
+}
+
+fn dup_of<'a>(report: &'a IaReport, topic: &str) -> Vec<&'a dita_ia::DuplicateRef> {
+    report
+        .duplicate_refs
+        .iter()
+        .filter(|d| d.topic.ends_with(topic))
+        .collect()
+}
+
+/// 同 map 内重复：a.ditamap 引了 t1 两次。没有合法读法——一个 map 说不出
+/// "这一篇在我这里有两个位置"。
+#[test]
+fn a_topic_referenced_twice_by_one_map_is_reported() {
+    let report = dupes_report();
+    let hits = dup_of(&report, "t1.dita");
+    assert_eq!(hits.len(), 1, "{:?}", report.duplicate_refs);
+    assert_eq!(hits[0].kind, dita_ia::DuplicateKind::SameMap);
+    assert_eq!(hits[0].count, 2);
+    assert!(hits[0].scope.ends_with("a.ditamap"), "{:?}", hits[0]);
+}
+
+/// 同一棵树内经不同 map 两次到达：a 与 b 各引一次 t2，展开后导航里是两个节点，
+/// 分支统计与覆盖度也各算一遍。
+#[test]
+fn a_topic_reached_twice_through_different_maps_is_reported() {
+    let report = dupes_report();
+    let hits = dup_of(&report, "t2.dita");
+    assert_eq!(hits.len(), 1, "{:?}", report.duplicate_refs);
+    assert_eq!(hits[0].kind, dita_ia::DuplicateKind::SameTree);
+    assert!(hits[0].scope.ends_with("root.ditamap"));
+    assert_eq!(hits[0].via.len(), 2, "两个来源 map 都要点名：{:?}", hits[0]);
+}
+
+/// **不报**：t3 在 root 树与交付物 map 各出现一次。一份内容多处编排正是 DITA
+/// 的用途，报了就是误报——这一条塌了，整个检查会因噪声被关掉。
+#[test]
+fn the_same_topic_in_two_separate_trees_is_legitimate() {
+    let report = dupes_report();
+    assert!(
+        dup_of(&report, "t3.dita").is_empty(),
+        "跨编排单位不是重复：{:?}",
+        report.duplicate_refs
+    );
+}
+
+/// **不报**：t4 被两条 `processing-role="resource-only"` 的 topicref 指到。
+/// 它们不是导航节点，同一个 href 挂两个 key 是合法的别名手法。
+#[test]
+fn resource_only_references_are_not_navigation_duplicates() {
+    let report = dupes_report();
+    assert!(
+        dup_of(&report, "t4.dita").is_empty(),
+        "resource-only 不是导航节点：{:?}",
+        report.duplicate_refs
+    );
+}
+
+/// 领域 map 既作为 root 的子树、又被 --maps-dir 单独解析一次。同一份内容看两遍，
+/// 计数不得翻倍，也不得把 t1 报成两条。
+#[test]
+fn a_map_seen_from_two_directions_is_counted_once() {
+    let report = dupes_report();
+    assert_eq!(
+        report.duplicate_refs.len(),
+        2,
+        "只该有 t1（同 map）与 t2（同树）两条：{:?}",
+        report.duplicate_refs
+    );
+}
+
+/// 重复是缺陷信号，不是存量清单——两种模式下都必须出现在「需要处理」里。
+/// （空叶子那次的教训：把缺陷信号门控到 --details 之下，四篇漂移穿过了每一次验收。）
+#[test]
+fn duplicate_refs_are_never_gated_behind_details() {
+    let report = dupes_report();
+    for details in [false, true] {
+        let lines = dita_ia::exception_lines(&report, details);
+        assert!(
+            lines.iter().any(|l| l.contains("内重复引用")),
+            "details={details}: {lines:?}"
+        );
+        assert!(
+            lines.iter().any(|l| l.contains("次到达")),
+            "details={details}: {lines:?}"
+        );
+    }
+}
+
+/// 干净的库一条都不报：mini fixture 没有任何重复。
+#[test]
+fn a_clean_library_reports_no_duplicates() {
+    let report = report();
+    assert!(
+        report.duplicate_refs.is_empty(),
+        "{:?}",
+        report.duplicate_refs
+    );
+}

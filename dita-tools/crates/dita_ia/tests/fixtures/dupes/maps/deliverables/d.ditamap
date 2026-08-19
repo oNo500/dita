@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 另一棵树：与 root 树各引 t3 一次，是"一份内容多处编排"，不该报 -->
+<map xml:lang="zh-CN">
+  <title>交付物</title>
+  <topicref href="../../topics/t3.dita"/>
+</map>

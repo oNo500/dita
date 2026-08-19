@@ -51,7 +51,7 @@ dita-tools/  执行引擎     产出：校验结果、IA 视图
 | R20（吸收 R10） | 体裁声明的挂靠与取舍：词表 genre-values 里带 `hangs-off-genre` 的体裁（当前只有 quickstart → tech-landscape），其 topic 必须有一个 xref 解析到该体裁的、同 domain 的篇（打开被引文件读 `@outputclass` 与 domain，不是「有没有 xref」），且根元素的 `@dimension` 须非空、全部落在概览 `planned-dimension` 内、并且是**真子集**（覆盖全部即非取舍）。略过的维度刻意不要求逐条声明——它是可推导的差集，`ia` 已在算。「取舍」一节的**存在**归 R13（节名属体裁结构，正本在词表 `required-section`，工具不得内联该字面）。恒 error：查的是体裁的定义性条件，且 R10 自首版即恒 error，吸收不得放宽 | `dita-tools lint`（2026-08-18） | `dita-tools lint` ✅ |
 | ~~R10~~ | ~~quickstart 挂靠~~ | **已被 R20 吸收（2026-08-18）**：`check-rules.xsl` 那一段已删，`rules.sch` 保留记档与差分对账（R20 通过必然 R10 通过，反之不然） | 归 R20 |
 | 结构校验 | RNG shell 一致性 | `dita validate`（DITA-OT） | DITA-OT，不自造 |
-| map 结构 / 孤儿 topic | 引用文件是否存在、topic 是否被引 | `dita-tools ia` | dita-tools |
+| map 结构 / 孤儿 topic / 重复 topicref | 引用文件是否存在、topic 是否被引、同一处编排里是否引了两次（同 map 文件内重复；同一棵解析树内经不同 map 两次到达。跨编排单位各引一次是合法的多处编排，不报；resource-only 与只带 keyref 的 topicref 不在射程，理由见 `duplicates` 模块注释） | `dita-tools ia` | dita-tools |
 | 链接活性 | 外链 404 检测 | `scripts/link-check.py`（2026-08-15） | `dita-tools links`（要联网，独立跑，暂不急迁） |
 | 发布构建 | HTML5 / markdown 变体 | DITA-OT + org.lwdita | DITA-OT，不自造 |
 

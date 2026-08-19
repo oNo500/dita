@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map xml:lang="zh-CN">
+  <title>A 分支</title>
+  <!-- 同 map 内重复：复制粘贴条目的典型事故 -->
+  <topicref href="../../topics/t1.dita"/>
+  <topicref href="../../topics/t1.dita"/>
+  <!-- 与 b.ditamap 一起构成"同一棵树内经不同 map 两次到达" -->
+  <topicref href="../../topics/t2.dita"/>
+</map>

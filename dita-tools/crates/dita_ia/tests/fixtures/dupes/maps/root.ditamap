@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 重复 topicref 的 fixture 树。每一处重复都是刻意的，改动前先读 duplicates.rs 的判定边界。 -->
+<map xml:lang="zh-CN">
+  <title>重复用例</title>
+  <topichead>
+    <topicmeta><navtitle>A 分支</navtitle></topicmeta>
+    <mapref href="domains/a.ditamap"/>
+  </topichead>
+  <topichead>
+    <topicmeta><navtitle>B 分支</navtitle></topicmeta>
+    <mapref href="domains/b.ditamap"/>
+  </topichead>
+</map>

@@ -1,5 +1,6 @@
 mod consistency;
 mod domain;
+mod duplicates;
 mod governance;
 mod orphan;
 mod paint;
@@ -19,6 +20,7 @@ use std::{
 
 pub use consistency::check_group_titles;
 pub use domain::{Branches, branches};
+pub use duplicates::{DuplicateKind, DuplicateRef, duplicate_topicrefs};
 pub use governance::{BenchmarkEntry, BranchPlan, ValueUsage};
 pub use paint::Paint;
 pub use render::{exception_lines, print_report};
@@ -47,6 +49,9 @@ pub struct IaReport {
     pub value_usage: Vec<ValueUsage>,
     /// The subject tree with content hung on it — the view itself.
     pub skeleton: Vec<Node>,
+    /// 重复 topicref：同一处编排里同一篇被引用两次。合法的"多处编排"不在内，
+    /// 判定边界见 `duplicates` 模块。
+    pub duplicate_refs: Vec<DuplicateRef>,
     /// R17's reverse report: registered leaves no topic names as its domain —
     /// the tree's empty leaves — counted per top-level branch and sorted by
     /// count descending (ties broken by branch key). A `--details`-only view:
@@ -101,6 +106,7 @@ pub fn build_report(
     }
 
     let orphans = orphan::find_orphans(&consulted, topics_root);
+    let duplicate_refs = duplicates::duplicate_topicrefs(&consulted);
 
     // every topic under topics_root, referenced or not: an orphan's metadata is
     // as interesting as any other, and often more so
@@ -181,6 +187,7 @@ pub fn build_report(
         benchmarks,
         value_usage,
         skeleton,
+        duplicate_refs,
         empty_leaves_by_branch: empty_leaves,
     })
 }
