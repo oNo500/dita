@@ -37,18 +37,20 @@ dita-tools/  执行引擎     产出：校验结果、IA 视图
 
 | 规则 | 内容 | 现在谁做 | 终态归属 |
 |---|---|---|---|
-| R1–R6、R8 | shortdesc、时效标注、核对日期、三个属性值域、来源 | `scripts/check-rules.xsl`（Saxon） | `dita-tools lint`（实现后 xsl 退役，SSOT 手抄副本随之还清） |
+| R1–R6、R8、R21 | shortdesc、时效标注、核对日期、三个属性值域、来源状况声明、verified 须有实际来源 | `scripts/check-rules.xsl`（Saxon） | `dita-tools lint`（实现后 xsl 退役，SSOT 手抄副本随之还清） |
 | R7 | 术语裸字面 → `term keyref` | `scripts/term-normalize.py`（报告版） | `dita-tools lint` |
 | R9 / 维度覆盖度 | 领域全景、盲区统计 | `dita-tools ia`（脚本已于 2026-08-15 退役） | `dita-tools ia` ✅ |
 | **R11** | **`@dimension` 值合法性** | `dita-tools ia` 已报 error | `dita-tools lint`（归属冲突随终态落定而消） |
 | R12–R13 | 体裁必标、值合法、类型匹配、必需节齐全 | `dita-tools lint`（2026-08-16） | `dita-tools lint` ✅ |
-| R14 | 来源节两段标签、禁正文手写日期 | `dita-tools lint` | 同上 ✅ |
+| R14 | 来源节不得有段标签（两段划分 2026-08-19 废止）、禁旧标签「已核对」、禁正文手写日期 | `dita-tools lint` | 同上 ✅ |
 | R15 | 文风代理指标（粗体/破折号/程度词，恒 warning） | `dita-tools lint` | 同上 ✅；格言句与场景化开头仍归人审 |
 | R16 | concept 实现层行内标记数量阈值，超阈值拆 concept（判据）＋ reference（配置） | `dita-tools lint`（2026-08-16） | 同上 ✅ |
 | R17 | `domain` 值必须是 subjectScheme 已注册的 subject key（唯一未受控的元数据字段；enumerationdef 绑不了 data 元素，值域只能落这里） | `dita-tools ia` 已报 error，另有反向报表（已注册零挂靠的空叶子，--details 按分支归并展示） | `dita-tools ia` ✅ |
 | R18 | 内容 topic（含 glossentry）必须显式标 `@maturity`——DITAVAL 的 exclude 只匹配写出来的属性值，未标注不匹配、会绕开成熟度门；与 R2 对称，恒 error（不按 maturity 分级，因为被检查的正是分级依据的属性本身） | `dita-tools lint`（2026-08-17） | `dita-tools lint` ✅ |
-| R19 | dita 域 topic 必须在 prolog 声明 `upstream-node`（标题所依据的上游节点标题原文，逐字英文；组合篇多条；自造写 `coined` 并在头注释留三道关），声明须在上游节点索引 `kb/vocab/upstream-nodes.tsv` 中解析得到。比对前双方归一化（大小写不敏感、空白折叠），归一化后精确匹配，不做模糊/子串——假通过比误报更隐蔽。解析不到时消息列三种可能（拼写有误 / 上游改名或删除 / 索引未收录），不断言作者出错。索引读不到 → 走"未执行"（lint 退出码 2），不静默通过 | `dita-tools lint`（2026-08-18） | `dita-tools lint` ✅；覆盖面按分支推广（补抓取器 + `bm-*` 的 `index-source`/`index-generated`，判定逻辑不动） |
+| R19 | dita 域 topic 必须在 prolog 声明 `upstream-node`（标题所依据的上游节点标题原文，逐字英文；组合篇多条；**标题自造**写 `coined` 并在头注释留三道关——「标题自造」指上游知识树无此节点名，与 R8 的「无外部来源」是两件事，见 terminology-rules 的术语分家一条），声明须在上游节点索引 `kb/vocab/upstream-nodes.tsv` 中解析得到。比对前双方归一化（大小写不敏感、空白折叠），归一化后精确匹配，不做模糊/子串——假通过比误报更隐蔽。解析不到时消息列三种可能（拼写有误 / 上游改名或删除 / 索引未收录），不断言作者出错。索引读不到 → 走"未执行"（lint 退出码 2），不静默通过 | `dita-tools lint`（2026-08-18） | `dita-tools lint` ✅；覆盖面按分支推广（补抓取器 + `bm-*` 的 `index-source`/`index-generated`，判定逻辑不动） |
 | R20（吸收 R10） | 体裁声明的挂靠与取舍：词表 genre-values 里带 `hangs-off-genre` 的体裁（当前只有 quickstart → tech-landscape），其 topic 必须有一个 xref 解析到该体裁的、同 domain 的篇（打开被引文件读 `@outputclass` 与 domain，不是「有没有 xref」），且根元素的 `@dimension` 须非空、全部落在全景 `planned-dimension` 内、并且是**真子集**（覆盖全部即非取舍）。略过的维度刻意不要求逐条声明——它是可推导的差集，`ia` 已在算。「取舍」一节的**存在**归 R13（节名属体裁结构，正本在词表 `required-section`，工具不得内联该字面）。恒 error：查的是体裁的定义性条件，且 R10 自首版即恒 error，吸收不得放宽 | `dita-tools lint`（2026-08-18） | `dita-tools lint` ✅ |
+| R8（2026-08-19 改判据） | 从「必须有来源」改为「必须**显式声明**来源状况」。三态，取第一个成立者：`prolog/source`（交付物源专用，来源节会进常驻上下文）／来源节内有 `xref[@scope='external']`／来源节第一个 `p` 以固定字面「本篇无外部来源」开头。字面固定是可判定性的全部依据——退化成「有文字即可」等于没有规则。一篇只能有一个来源节。边界：不判地址是否真支撑对应断言（编辑判断，人审）、不判作者说谎、来源全在库内正本的篇会被要求写声明句 | `scripts/check-rules.xsl` | 同 R1–R6 |
+| R21（2026-08-19 加） | 声明「本篇无外部来源」的篇不得晋 `verified`，封顶 curated——verified 的定义就是「来源已逐条核对」。判定复用 R8 的无来源态字面，故实现与 R8 同处而不进 lint（单源判定优先于「新能力进平台」）。现全库 0 篇 verified，属前置防护。与 R3 分工：R3 管有没有日期，R21 管有没有可核对的对象 | `scripts/check-rules.xsl` | 同 R1–R6 |
 | ~~R10~~ | ~~quickstart 挂靠~~ | **已被 R20 吸收（2026-08-18）**：`check-rules.xsl` 那一段已删，`rules.sch` 保留记档与差分对账（R20 通过必然 R10 通过，反之不然） | 归 R20 |
 | 结构校验 | RNG shell 一致性 | `dita validate`（DITA-OT） | DITA-OT，不自造 |
 | map 结构 / 孤儿 topic / 重复 topicref | 引用文件是否存在、topic 是否被引、同一处编排里是否引了两次（同 map 文件内重复；同一棵解析树内经不同 map 两次到达。跨编排单位各引一次是合法的多处编排，不报；resource-only 与只带 keyref 的 topicref 不在射程，理由见 `duplicates` 模块注释） | `dita-tools ia` | dita-tools |

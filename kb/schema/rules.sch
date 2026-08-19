@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- KB 业务规则（Schematron，ISO/IEC 19757-3）R1–R20。
+<!-- KB 业务规则（Schematron，ISO/IEC 19757-3）R1–R21。
      分工：RNG 管结构、subjectScheme enumerationdef 构建期管受控值；
      本文件管 RNG 表达不了的跨属性/语义/业务规则（编辑期即时 + 审查脚本批量）。
      R12–R16（2026-08-16 加，随 writing-style 落地）与 R18–R20 由 dita-tools lint 实现
-     （新能力直接进平台，不再扩 check-rules.xsl——它正在被逐步取代）；严重度按 maturity 分级：
+     （新能力直接进平台，不再扩 check-rules.xsl——它正在被逐步取代）。R21（2026-08-19 加）
+     是这条惯例的刻意例外，落在 check-rules.xsl 里与 R8 同处：它的判定就是 R8「无来源态」
+     的否定，分落两处必然漂移，单源判定优先于「新能力进平台」。严重度按 maturity 分级：
      draft 记 warning（草稿不阻断），curated/verified 记 error（晋级门）。R18 是例外，恒 error
      （被检查的正是分级所依赖的属性）；R19 随分级，但索引读不到时走"未执行"而非通过。
      DITA topic 无命名空间，context 直接用元素名。写法用 XPath1 子集，便于自带处理器执行。
@@ -12,7 +14,7 @@
      机器面。规则的人读正本在 topics/content-engineering/，本文件只管机器执行——
      两处内容不重复，改规则先改正本，再看这条 R 是否要跟着调。 -->
 <schema xmlns="http://purl.oclc.org/dsdl/schematron">
-  <title>KB 业务规则 R1-R20</title>
+  <title>KB 业务规则 R1-R21</title>
 
   <!-- 归属：LLM 友好与检索 / writing-llm-friendly -->
   <pattern id="R1-shortdesc">
@@ -71,10 +73,29 @@
   </pattern>
 
   <!-- 归属：来源与成熟度 / writing-sourcing -->
-  <pattern id="R8-source-required">
+  <pattern id="R8-source-state-declared">
     <rule context="concept | reference">
-      <assert test="prolog/source or .//xref[@scope='external'] or .//data[@name='source']"
-        >R8（error）：concept/reference 必须有至少一个来源（prolog source 或来源节外链）。内容应有出处。</assert>
+      <assert test="prolog/source
+                    or section[normalize-space(title)='来源'][.//xref[@scope='external']]
+                    or section[normalize-space(title)='来源']/p[1][starts-with(normalize-space(.),'本篇无外部来源')]"
+        >R8（error，2026-08-19 改判据，用户裁定）：必须**显式声明来源状况**，而不再是「必须有来源」。
+        原判据（prolog source 或正文任一处外链）把「这篇没有来源」判成错误，逼出的是仪式而不是纪律；
+        新判据允许没有来源，但不允许不说。三态判定，逐级取第一个成立者，彼此互斥：
+        ①**prolog 态**——根元素有 prolog/source。交付物源（构建成 CLAUDE.md / AGENTS.md）专用：
+        正文加来源节会让整节进入常驻上下文，违背「无条件层必须薄」，故来源落 prolog，与来源节等效。
+        ②**列条目态**——末尾一节标题为「来源」，节内至少有一个 xref[@scope='external']。
+        地址是机器可见的，不是一句「参考了官方文档」。
+        ③**声明无来源态**——来源节的**第一个 p** 的规范化文本以固定字面「本篇无外部来源」开头
+        （全写作「本篇无外部来源，属本库方法论。」）。字面固定是这条规则可判定的全部依据：
+        判据若退化成「来源节里有文字即可」，规则就等于没有，而判不准的检查会毁掉整条规则的可信度。
+        另：一篇只能有一个「来源」节，多个节让上述判定失去唯一解，一并报错。
+        **明确的判定边界**（写在这里，免得被当成漏洞）：
+        （a）漏报——机器只看有没有地址，不看那个地址是否真支撑正文的对应断言；条目怎么切分、
+        支撑关系成不成立，都是编辑判断，归人审（与 R14 形式一项同一处置）。
+        （b）漏报——作者可以在实际有来源的篇上写声明句。机器判不了谎，它只保证「没说」会被拦。
+        （c）误报——来源全在库内正本、无任何外链的篇会被判为须写声明句。本库当前无此情形；
+        真出现时正确写法是写声明句并在其后指路到正本，不是造一个外链充数。
+        （d）链接活性不在本条内，归 link-check.py 定期跑。</assert>
     </rule>
   </pattern>
 
@@ -118,18 +139,24 @@
   </pattern>
 
   <!-- 归属：来源与成熟度 / writing-sourcing -->
-  <!-- 形式一项刻意不加检查（2026-08-19，随全库来源节条目化）：事实段现在写成 ul、
-       一条一行「支撑正文哪部分——地址」，正本在 writing-sourcing。能想到的机器代理只有
-       「来源节里有 external xref 就必须有 ul」，而它对事实段为「无」的篇必然误报——
-       那几篇正文全是本库判断，来源节里的外链是「该源不承担本篇任何断言」的反向声明
-       （naming-rules、rot-detection、writing-style、RAG 三篇、engineering-ci）。
-       规则真正要的「每条说明它支撑正文哪一部分」更判不了：条目怎么切分是编辑判断。
-       与 R14 穷尽性一项同一处置——判不准的代理会让整条规则被忽略，靠人审接住。 -->
+  <!-- 条目内容一项刻意不加检查（2026-08-19，随全库来源节条目化）：条目现在写成 ul、
+       一条一行「支撑正文哪部分——地址」，正本在 writing-sourcing。能想到的机器代理是
+       「每个 li 都要有 external xref」，而它对现存 11 条汇总式条目必然误报——付费文本
+       只能援引公开摘要、「以上各条由本库其他各篇逐页核实」、本库自己实测的命令，
+       都没有可挂的外链。规则真正要的「每条说明它支撑正文哪一部分」更判不了：
+       条目怎么切分是编辑判断。判不准的代理会让整条规则被忽略，靠人审接住。 -->
   <pattern id="R14-source-section">
-    <rule context="section[title='来源']">
-      <assert test=".//b[normalize-space()='事实'] and .//b[normalize-space()='判断']"
-        >R14：来源节固定两段标签「事实」「判断」（可空不可省）；旧标签「已核对」应改；
-        正文不写核对日期（日期唯一存放处是 prolog data name="reviewed"）。</assert>
+    <rule context="section[normalize-space(title)='来源']">
+      <assert test="not(.//b)"
+        >R14（2026-08-19 改写，用户裁定）：来源节**不再分段**，因此节内不得出现段标签
+        b。废掉的是「事实／判断」两段划分与「两段须穷尽正文全部断言的归属」
+        那条通则：来源节只列**有来源**的条目，其余默认为本库判断，不再逐条认领。
+        新形式是——有来源时一个 ul，一条一行「本条支撑正文的哪一部分——地址」；
+        整篇核对状态一致时在列表前写一句（「以下各条均已逐页核对。」），逐条不同时各写各的；
+        无来源时一段散文，以 R8 的固定字面「本篇无外部来源」开头。
+        判定形式取「节内无 b」而不是「不得出现『事实』二字」：后者会误伤正文式表述
+        （「四个实例各自的事实……」），前者只认标记，零歧义。旧标签「已核对」与
+        正文手写核对日期同样报错（日期唯一存放处是 prolog data name="reviewed"）。由 lint 执行。</assert>
     </rule>
   </pattern>
 
@@ -250,6 +277,22 @@
         恒 error 的两条理由：其一，被查的不是完成度而是体裁的定义性条件——不挂靠任何框架的
         quickstart 不是未写完的 quickstart，是标错体裁的 how-to；其二，被吸收的 R10 自首版
         起即为恒 error，吸收不得顺带放宽。由 dita-tools lint 执行。</assert>
+    </rule>
+  </pattern>
+
+  <!-- 归属：来源与成熟度 / writing-sourcing -->
+  <pattern id="R21-verified-needs-real-source">
+    <rule context="*[@maturity='verified']">
+      <assert test="not(section[normalize-space(title)='来源']/p[1][starts-with(normalize-space(.),'本篇无外部来源')])"
+        >R21（2026-08-19 定，error，用户裁定）：声明「本篇无外部来源」的篇不得晋 verified，
+        成熟度封顶 curated。verified 的现行定义就是「来源已逐条核对」（见 writing-sourcing 与词表
+        maturity-values 的注），无来源天然对不上这个定义——晋上去等于宣称核对了一份不存在的清单。
+        判定复用 R8 的无来源态字面，不另立判据：两条问的是同一件事的两面，
+        各写一份必然漂移，故实现与 R8 同处（check-rules.xsl）。
+        现全库 0 篇 verified，本条眼下零命中，属**前置防护**——先立规则再有存量，
+        比等存量出现再回头补规则便宜。
+        与 R3 的分工：R3 管 volatile+verified 必须有核对日期，本条管 verified 必须有可核对的对象；
+        两条都通过，verified 才既有对象也有日期。</assert>
     </rule>
   </pattern>
 

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<concept id="clean" outputclass="best-practice" maturity="curated" volatility="stable">
-  <title>合规样例</title>
-  <shortdesc>各节齐全，来源一节不分段，语气平实。</shortdesc>
+<!-- R14 变异样例：来源节保留 2026-08-19 之前的两段划分。 -->
+<concept id="source-two-labels" outputclass="best-practice" maturity="curated" volatility="stable">
+  <title>来源节仍分两段的样例</title>
+  <shortdesc>各节齐全，只有来源节还写着旧的事实与判断两段标签。</shortdesc>
   <conbody>
     <section><title>场景</title><p>说明。</p></section>
     <section><title>做法：三条</title><p>说明。</p></section>
     <section><title>边界</title><p>说明。</p></section>
     <section><title>来源</title>
-      <p>以下各条均已逐页核对。</p>
+      <p><b>事实</b></p>
       <ul>
         <li>做法一节的三条——<xref href="https://example.org/spec" scope="external">样例规范</xref></li>
       </ul>
+      <p><b>判断</b>：其余为本库归纳。</p>
     </section>
   </conbody>
 </concept>

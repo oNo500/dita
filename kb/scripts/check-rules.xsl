@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- KB 业务规则检查（可执行版，Saxon 跑）。实现 schema/rules.sch 的 R1–R8（R10 于 2026-08-18 被 R20 吸收进 dita-tools lint，此处删除，见 rules.sch 该条注释）。
+<!-- KB 业务规则检查（可执行版，Saxon 跑）。实现 schema/rules.sch 的 R1–R8 与 R21
+     （R10 于 2026-08-18 被 R20 吸收进 dita-tools lint，此处删除，见 rules.sch 该条注释）。
+     R21（2026-08-19 加）本该按「新能力直接进平台」的惯例落 dita-tools lint，此处是刻意的例外：
+     它的判定就是 R8 无来源态的否定，两处各实现一份必然漂移，故与 R8 同处共用一组变量。
      用 DITA-OT 自带 Saxon-HE 执行，不引第三方 Schematron 编译器。
      ⚠ 须与 schema/rules.sch 保持同步（那份是人读规格，本份是可执行实现）；
         将来接入 SchXslt 后可直接编译 rules.sch，删除本份消除重复。
@@ -27,7 +30,7 @@
        只绑定全局 xsl:param，绑不到命名模板自己的局部 xsl:param，踩过坑记在这。 -->
   <xsl:param name="kb-dir" as="xs:string?"/>
 
-  <!-- 规则实现本体：对一份已解析文档执行 R1–R8（R9/R10 除外，见上），每条违规一行，
+  <!-- 规则实现本体：对一份已解析文档执行 R1–R8 与 R21（R9/R10 除外，见上），每条违规一行，
        行首按调用方给的 $prefix 定位到具体文件（批量入口传 "[rules] <rel>: "，
        单文件调试入口传空串）。 -->
   <xsl:template name="check-doc">
@@ -61,8 +64,34 @@
     <xsl:for-each select="$doc//term[not(@keyref)]">
       <xsl:value-of select="concat($prefix,'R7(warning): 裸 term 未用 keyref（术语库建成后应引 keyref）','&#10;')"/>
     </xsl:for-each>
-    <xsl:if test="$r[self::concept or self::reference] and not($r/prolog/source or $r//xref[@scope='external'] or $r//data[@name='source'])">
-      <xsl:value-of select="concat($prefix,'R8(error): concept/reference 必须有至少一个来源','&#10;')"/>
+    <!-- R8（2026-08-19 改判据）与 R21（同日新增）共用同一组变量：两条问的是同一件事的
+         两面（来源状况是什么 / 该状况配不配 verified），判定若各写一份必然漂移。 -->
+    <xsl:variable name="srcSections" select="$doc//section[normalize-space(title)='来源']"/>
+    <xsl:variable name="srcSection" select="$srcSections[1]"/>
+    <!-- 无来源态的判据是一个固定字面，不是"有文字即可"：机器认的是本节第一段以
+         「本篇无外部来源」开头，作者写下这句时那份心理成本仍在。 -->
+    <xsl:variable name="declaresNone"
+                  select="boolean($srcSection/p[1][starts-with(normalize-space(.),'本篇无外部来源')])"/>
+    <xsl:if test="count($srcSections) &gt; 1">
+      <xsl:value-of select="concat($prefix,'R8(error): 有 ',count($srcSections),' 个「来源」节——来源状况只声明一次，多个节让判定失去唯一解','&#10;')"/>
+    </xsl:if>
+    <xsl:if test="$r[self::concept or self::reference]">
+      <xsl:choose>
+        <!-- 交付物源（构建成 CLAUDE.md / AGENTS.md）不设来源节：整节会进常驻上下文。
+             这类篇把来源落 prolog/source，与来源节等效。 -->
+        <xsl:when test="$r/prolog/source"/>
+        <xsl:when test="empty($srcSection)">
+          <xsl:value-of select="concat($prefix,'R8(error): 缺来源节——必须显式声明来源状况：有来源就在末尾「来源」一节逐条列出（每条附 scope=&quot;external&quot; 的地址），无来源就让该节第一段以「本篇无外部来源，属本库方法论。」开头；交付物源可改在 prolog/source 声明','&#10;')"/>
+        </xsl:when>
+        <xsl:when test="$declaresNone"/>
+        <xsl:when test="$srcSection//xref[@scope='external']"/>
+        <xsl:otherwise>
+          <xsl:value-of select="concat($prefix,'R8(error): 来源节既无外部地址、也无无来源声明——二选一：逐条列出来源（每条附 scope=&quot;external&quot; 的 xref），或让本节第一段以「本篇无外部来源」开头','&#10;')"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:if>
+    <xsl:if test="$r/@maturity='verified' and $declaresNone">
+      <xsl:value-of select="concat($prefix,'R21(error): 声明「本篇无外部来源」的篇不得标 maturity=&quot;verified&quot;——verified 的定义是来源已逐条核对，无来源对不上该定义，成熟度封顶 curated','&#10;')"/>
     </xsl:if>
   </xsl:template>
 
@@ -75,7 +104,7 @@
   </xsl:template>
 
   <!-- 批量入口：java ... net.sf.saxon.Transform -it:main -xsl:check-rules.xsl "kb-dir=file://<KB 绝对路径>"
-       一次 JVM 执行完 kb/topics 下全部 .dita 的 R1–R8。 -->
+       一次 JVM 执行完 kb/topics 下全部 .dita 的 R1–R8 与 R21。 -->
   <xsl:template name="main">
     <xsl:if test="not($kb-dir)">
       <xsl:message terminate="yes">缺 kb-dir 参数：java ... -it:main -xsl:check-rules.xsl "kb-dir=file://&lt;kb 绝对路径&gt;"</xsl:message>

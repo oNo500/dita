@@ -51,7 +51,7 @@ fn curated_violations_are_errors() {
     let d = lint("violations.dita");
     assert!(
         d.error_count() >= 5,
-        "缺节×2 + 旧标签 + 手写日期 + 粗体/程度词: {:?}",
+        "缺节×2 + 段标签 + 旧标签 + 手写日期 + 粗体/程度词: {:?}",
         d.items
             .iter()
             .map(dita_diagnostics::Diagnostic::message)
@@ -66,6 +66,29 @@ fn curated_violations_are_errors() {
     assert!(msgs.iter().any(|m| m.contains("缺必需节「做法」")));
     assert!(msgs.iter().any(|m| m.contains("已核对")));
     assert!(msgs.iter().any(|m| m.contains("手写日期")));
+}
+
+/// R14 自 2026-08-19 起反过来查：两段划分与穷尽归属废止，来源节里一个段标签都不该留。
+/// 变异体是「把旧形式原样喂回去」——旧形式必须报错，否则这轮改动等于没落地。
+#[test]
+fn source_section_paragraph_labels_are_flagged() {
+    let d = lint("source-two-labels.dita");
+    let msgs = messages(&d);
+    let hit = msgs
+        .iter()
+        .find(|m| m.contains("R14"))
+        .unwrap_or_else(|| panic!("来源节的旧段标签必须报出：{msgs:?}"));
+    assert!(hit.contains('事'), "消息要点出命中的标签：{hit}");
+    assert!(hit.contains('判'), "两个标签都要点出：{hit}");
+    assert_eq!(d.error_count(), 1, "只报一条，不按标签个数刷屏：{msgs:?}");
+}
+
+/// 无来源篇的来源节是一段散文，没有列表也没有标记——R14 对它必须沉默
+/// （「有没有来源」是 R8 的判断，不是这里的）。
+#[test]
+fn source_section_without_external_source_passes() {
+    let d = lint("source-no-external.dita");
+    assert_eq!(d.items.len(), 0, "{:?}", messages(&d));
 }
 
 #[test]

@@ -2,6 +2,11 @@
 //! section, register, split threshold, maturity presence, upstream provenance,
 //! and a genre's declared hang-off (quickstart → its domain landscape).
 //!
+//! R8 and R21 — whether a topic declares its sourcing state at all, and whether
+//! that state permits `verified` — live in `kb/scripts/check-rules.xsl`, not
+//! here. They share one literal and one judgement; splitting them across two
+//! implementations is how a rule drifts out of agreement with itself.
+//!
 //! Spec lives in `kb/schema/rules.sch`; genre values and their metadata live in
 //! the subject scheme — nothing here carries a value list of its own.
 //!
@@ -672,8 +677,22 @@ fn check_genre(
     }
 }
 
-/// R14: the source section carries the 事实/判断 labels, no legacy label,
-/// no prose dates — the date lives once, in prolog's reviewed.
+/// R14: the source section carries no paragraph labels at all, no legacy
+/// label, no prose dates — the date lives once, in prolog's reviewed.
+///
+/// Until 2026-08-19 this rule demanded the opposite: two labelled paragraphs,
+/// 事实 and 判断, empty-but-never-absent, together exhausting every assertion
+/// in the body. The user struck that down. The section now lists only what
+/// actually has a source; everything else is this library's own judgement by
+/// default, claimed nowhere. With nothing left to divide, the labels have no
+/// job, and their absence is what this checks.
+///
+/// The machine face is "no `b` element in the section", not "the characters
+/// 事实 must not appear". The latter would misfire on ordinary prose (「四个
+/// 实例各自的事实……」); the former reads a marker, not a word, and has no
+/// ambiguity to resolve. Whether the source section *exists* and which of the
+/// two shapes it takes is R8's judgement, not this one's — one capability,
+/// one place.
 fn check_source_section(root: roxmltree::Node, push: &mut impl FnMut(String)) {
     let Some(section) = root
         .descendants()
@@ -688,15 +707,24 @@ fn check_source_section(root: roxmltree::Node, push: &mut impl FnMut(String)) {
         return; // source presence is R8's job, not ours
     };
 
-    let labels: Vec<&str> = section
+    let labels: Vec<String> = section
         .descendants()
         .filter(|n| n.has_tag_name("b"))
-        .filter_map(|b| b.text())
+        .map(|b| {
+            b.descendants()
+                .filter(roxmltree::Node::is_text)
+                .filter_map(|n| n.text())
+                .collect::<String>()
+                .trim()
+                .to_string()
+        })
         .collect();
-    for want in ["事实", "判断"] {
-        if !labels.iter().any(|l| l.trim() == want) {
-            push(format!("R14：来源节缺「{want}」段标签（可空不可省）"));
-        }
+    if !labels.is_empty() {
+        push(format!(
+            "R14：来源节含段标签「{}」——两段划分（事实／判断）与穷尽归属已于 2026-08-19 废止，\
+             本节只列有来源的条目，其余默认为本库判断，不再逐条认领",
+            labels.join("」「")
+        ));
     }
     let text: String = section
         .descendants()
@@ -728,7 +756,9 @@ fn check_register(root: roxmltree::Node, push: &mut impl FnMut(String)) {
             .descendants()
             .filter(|n| n.has_tag_name("b"))
             .count();
-        // 上限对来源节同样是 2：恰好容纳「事实」「判断」两个段标签
+        // 来源节自 2026-08-19 起一个段标签都不留（R14），故这里的上限 2 对它是死条款；
+        // 保留统一上限而不为来源节特判，是因为两条查的东西不同：R14 查标记在不在，
+        // 本条查粗体有没有被当语气用，重叠的那一格由 R14 先报，消息也更准。
         if bold > 2 {
             push(format!(
                 "R15：节「{title}」有 {bold} 处粗体（上限 2）——粗体不承担语气"

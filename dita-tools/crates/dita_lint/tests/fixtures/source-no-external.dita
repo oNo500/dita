@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 本库自造。 -->
-<concept id="upstream-coined-bare" outputclass="best-practice" maturity="curated" volatility="stable">
-  <title>样例</title>
-  <shortdesc>一句摘要。</shortdesc>
-  <prolog>
-    <source href="https://example.invalid/x" scope="external"/>
-    <data name="domain" value="dita"/>
-    <data name="upstream-node" value="coined"/>
-  </prolog>
+<!-- R14 边界样例：来源节写成无来源声明，不分段，也不含任何标记。 -->
+<concept id="source-no-external" outputclass="best-practice" maturity="curated" volatility="stable">
+  <title>无外部来源的样例</title>
+  <shortdesc>各节齐全，来源节以固定字面声明本篇没有外部来源。</shortdesc>
   <conbody>
     <section><title>场景</title><p>说明。</p></section>
     <section><title>做法：三条</title><p>说明。</p></section>

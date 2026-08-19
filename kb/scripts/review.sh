@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 机器检查：一条命令串全套——RNG 结构校验 + 业务规则 R1–R8 + 体裁文体 R12–R16
+# 机器检查：一条命令串全套——RNG 结构校验 + 业务规则 R1–R8 与 R21 + 体裁文体 R12–R16
 # + 成熟度 R18 + 上游声明 R19 + 体裁挂靠 R20 + 术语扫描。
 # 依赖：DITA-OT（dita validate + 自带 Saxon）与 uv（跑 kb/scripts 下的 .py）。
 # 两者缺任何一个都不会静默放行——缺什么就少跑什么，且结果不得当作通过。
@@ -69,7 +69,7 @@ fi
 
 fail=0
 
-echo "== 1. 结构校验（RNG）+ 业务规则（R1–R8）=="
+echo "== 1. 结构校验（RNG）+ 业务规则（R1–R8 与 R21）=="
 
 # 结构：dita validate 以一个 map 为输入，DITA-OT 自己沿 topicref/mapref 树遍历全部被引 topic，
 # 一次调用顶过去一篇篇起 JVM。root.ditamap 是 domain 骨架的根，覆盖 kb/topics 下绝大多数
@@ -91,20 +91,20 @@ for m in $STRUCT_MAPS; do
 done
 
 # 业务规则：一次 Saxon 调用，check-rules.xsl 的 main 模板用 XSLT 3.0 collection()
-# 遍历 kb/topics 下全部 .dita 各执行一遍 R1–R8，每条违规行自带 "[rules] <rel>: " 前缀
+# 遍历 kb/topics 下全部 .dita 各执行一遍 R1–R8 与 R21，每条违规行自带 "[rules] <rel>: " 前缀
 # （文件名前缀现在是 XSLT 自己出的，不再靠这里 sed 拼）。单篇 XML 解析失败（格式错）
 # 用 xsl:try 隔离，只报该篇 R0，不拖垮其余各篇的检查结果——那篇的结构性错误本身，
 # 上面的 dita validate 已经带着文件名行号报过了。
 #
 # 退出码必须看：Saxon 失败时 stdout 常常是空的（编译错、找不到 -it 入口、CP 缺 jar 都
 # 是这样），只判 "$out" 非空等于把"没跑成"读成"零违规"。批量化之后这一层是一次调用，
-# 一次失败＝R1–R8 整层失效，还会被下面的 "✅ 全过" 盖住——正是本脚本第 4–5 行
+# 一次失败＝R1–R8 与 R21 整层失效，还会被下面的 "✅ 全过" 盖住——正是本脚本第 4–5 行
 # 与 102–103 行明令禁止的假绿。所以非零退出码走 skipped 通道（exit 2），不走 fail。
 if [ "$skipped" -eq 0 ]; then
   out="$(java -cp "$CP" net.sf.saxon.Transform -it:main -xsl:"$XSL" "kb-dir=file://$KB" 2>/tmp/kb-rules-err.log)"
   rc=$?
   if [ "$rc" -ne 0 ]; then
-    echo "Saxon 执行失败（退出码 $rc），业务规则 R1–R8 未执行：" >&2
+    echo "Saxon 执行失败（退出码 $rc），业务规则 R1–R8 与 R21 未执行：" >&2
     sed 's/^/    /' /tmp/kb-rules-err.log >&2
     skipped=1
     skip_reason="Saxon 执行失败（退出码 $rc）"
@@ -151,7 +151,7 @@ echo
 # 跳过 ≠ 通过：某项检查没跑就报"全过"是假绿。但"没跑"也不能盖住"真失败"——
 # 确定的失败先说，未执行随后说，两者可同时成立，退出码取更确定的那个（失败 1 > 跳过 2）。
 if [ "$skipped" -ne 0 ]; then
-  echo "⚠️  业务规则 R1–R8 未执行（$skip_reason），本次结果不能当作通过依据"
+  echo "⚠️  业务规则 R1–R8 与 R21 未执行（$skip_reason），本次结果不能当作通过依据"
 fi
 if [ "$term_skipped" -ne 0 ]; then
   echo "⚠️  术语扫描未执行（找不到 uv）"
