@@ -12,7 +12,11 @@
      （kb/vocab/upstream-nodes.tsv，OASIS 2.0 规范 archSpec/langRef ＋ DITA-OT 4.4 docsrc）
      内无「领域概览」这一体裁的节点——两边都不给某个技术领域的全景篇，只给机制节点与工具操作。
      二、先怀疑切分。概览篇的边界就是整个分支，无处可并；重切等于取消这一体裁。
-     三、只组合，不发明。「领域概览」是本库 tech-landscape 体裁的固定后缀，DITA 为领域名。 -->
+     三、只组合，不发明。「领域概览」是本库 tech-landscape 体裁的固定后缀，DITA 为领域名。
+
+     形式：按概览形式规则（正本 domain-dimension-method）排版——论证集中在「维度的来源」一节，
+     六个分组只给标签与维度表。原六段分组导语里的归位判断已并入开篇，
+     「写作与收录判据不属本域」并入刻意排除节。 -->
 <concept id="dita-landscape" xml:lang="zh-CN"
          outputclass="tech-landscape"
          maturity="draft" volatility="volatile"
@@ -53,41 +57,39 @@
   <conbody>
     <section>
       <title>维度的来源</title>
-      <p>DITA 有两重身份：一份 OASIS 规范，和一套以 DITA-OT 为参考实现的处理工具链。按单一身份切维度都会漏掉一半：只读规范会把实现约定误当规范约定，只读工具文档则永远说不清某个行为是规范要求还是这一版实现的选择。</p>
-      <p>因此维度取自三路对标，三路各补一块别处没有的问题域：</p>
+      <p>DITA 有两重身份：一份 OASIS 规范，和一套以 DITA-OT 为参考实现的工具链。只读规范会把实现约定误当规范约定，只读工具文档则说不清某个行为是规范要求还是这一版实现的选择。</p>
+      <p>维度取自三路对标，各补一块别处没有的问题域：</p>
       <ul>
-        <li>规范自身的编排。语言参考（base 与技术内容两个包）回答元素长什么样，架构规范回答处理器该怎么算，一致性一节回答什么叫做到了。三者在规范里就是分开的文档，维度也照此分开。</li>
-        <li>DITA-OT 文档的类目。安装、构建与项目文件、扩展点与插件、程序化调用，这一路给出工具链侧的维度，也给出规范不承诺的那部分现实。</li>
-        <li>本库调研笔记的问题分布。角色与阅读边界、第一性原理推导、翻译与本地化、内容进检索系统，这四块问题在前两路里没有对应类目，却在实际学习中反复出现，由它带出。</li>
+        <li>规范自身的编排。语言参考回答元素长什么样，架构规范回答处理器该怎么算，一致性一节回答什么叫做到了，三者在规范里就是分开的文档。</li>
+        <li>DITA-OT 文档的类目。安装、构建与项目文件、扩展点与插件、程序化调用，兼给出规范不承诺的那部分现实。</li>
+        <li>本库调研笔记的问题分布。角色与阅读边界、第一性原理推导、翻译与本地化、内容进检索系统，前两路无对应类目。</li>
       </ul>
-      <p>维度与目录簇不是一一对应的两套切法。簇按内容来源归置文件，维度按问题域归置注意力，一个维度可以横跨数簇，一篇内容也可以同时覆盖两个维度。</p>
+      <p>二十三个维度分六组。三处归位是判断而非惯例：解析机制单列成组，自研处理逻辑的判据在解析规则而不在元素本身；检索归入扩展与外接，它问的是内容离开 DITA 之后还剩多少结构；生态与选材归入工具链落地，编辑器与插件的可用性同样决定内容能否产出。前五组默认已决定要用 DITA，第六组质疑该前提：成本落在写内容的人身上，收益落在维护多变体的人身上。</p>
+      <p>维度与目录簇是两套切法。簇按内容来源归置文件，维度按问题域归置注意力，一个维度可横跨数簇，一篇内容也可同时覆盖两个维度。</p>
     </section>
 
     <section>
       <title>一、立场、权限与自用规矩</title>
-      <p>学一门标准之前先定三件事：它为什么长成这样、你有没有权限改它、你自己按什么规矩写。DITA 的元素清单是推导结果而非约定清单，跳过推导，后面每条规则都退化成需要背诵的条目；权限划定阅读边界，定义词汇与外壳是架构师的职责，写内容的人读到外壳为止；自用规矩把前两条落到日常，流程管一篇从起草到复核怎么走。写作与收录判据不在本域，它管的是本库写作而非 DITA 本身，正本在 writing-principles 域。</p>
       <simpletable relcolwidth="1* 3*">
         <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
         <strow><stentry>原理与推导（dim-principles）</stentry><stentry><term keyref="term-ssot">同一个事实只存在于一处</term>这条公理推得出哪些结构、又要付出哪几笔代价；哪些设计是必然，哪些只是历史选择</stentry></strow>
         <strow><stentry>角色与权限（dim-roles）</stentry><stentry>规范写给哪几种角色看、各角色该读哪部分、谁有权定义 <term keyref="term-schema">schema</term> 与文档类型外壳</stentry></strow>
-        <strow><stentry>写作与维护流程（dim-process）</stentry><stentry>一篇内容从起草、校验到入库走哪几步，已入库的内容按什么节奏复核与维护</stentry></strow>
+        <strow><stentry>写作与维护流程（dim-process）</stentry><stentry>一篇内容从起草、校验到入库走哪几步，入库后按什么节奏复核</stentry></strow>
       </simpletable>
     </section>
 
     <section>
       <title>二、规范定义的模型</title>
-      <p>模型层回答合法的内容长什么样，三个问题依次是：内容按什么切分、结构从哪里来、元数据按什么归类。第三问容易被并进前两问，但过滤用的元数据与分类用的元数据服务的是两套下游处理，混为一谈会让分类树按错误的语义生长。</p>
       <simpletable relcolwidth="1* 3*">
         <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
         <strow><stentry>核心模型（dim-concept）</stentry><stentry>topic 类型化与 map 结构分离的心智模型；类型与主题为什么是正交的两件事</stentry></strow>
         <strow><stentry>结构与模板（dim-structure-template）</stentry><stentry>各 topic 类型的内容模型允许什么、标题体系怎么用、表格与多媒体元素之间怎么选</stentry></strow>
-        <strow><stentry>分类与元数据（dim-classification）</stentry><stentry>过滤用与分类用元数据之分、subjectScheme 作为分类法机制的能力边界、字段与分类树的设计规则</stentry></strow>
+        <strow><stentry>分类与元数据（dim-classification）</stentry><stentry>过滤用与分类用元数据之分（下游处理不同，混淆会让分类树按错误语义生长）、subjectScheme 作为分类法机制的能力边界、字段与分类树的设计规则</stentry></strow>
       </simpletable>
     </section>
 
     <section>
       <title>三、解析机制与可预测性</title>
-      <p>这组是自研处理逻辑的判据所在。DITA 的多数能力不在元素本身，而在解析规则：一段被引内容带进来哪些属性、一个键在哪个作用域里解析、过滤发生在流水线的哪一段。自研逻辑与规范不一致时症状往往出现在很远的地方，先立规则再写代码比事后对齐便宜。</p>
       <simpletable relcolwidth="1* 3*">
         <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
         <strow><stentry>复用、条件化与属性解析（dim-mechanism）</stentry><stentry><term keyref="term-conref">conref</term> 的拉取与推送、<term keyref="term-keyref">keyref</term> 与 keytext、条件属性与分支过滤在什么时机解析、属性有效值的优先级与 metadata cascading 按什么规则算、这些解析各自落在 <term keyref="term-preprocess">preprocess</term>（预处理）的哪一阶段</stentry></strow>
@@ -98,10 +100,9 @@
 
     <section>
       <title>四、扩展与外接</title>
-      <p>specialization 是 DITA 区别于其他文档格式的地方，也是本域「具备二次开发能力」这条目标的落点。扩展有向内与向外两个方向：向内是给词汇加元素、加约束，向外是把内容送进别的系统，或把别的内容引进来。检索这一项归在此处，因为它问的是内容离开 DITA 之后还剩多少结构。</p>
       <simpletable relcolwidth="1* 3*">
         <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>extension facilities 内部构造（dim-internals）</stentry><stentry><xmlatt>class</xmlatt> 派生链怎么构造、三大 extension facilities 如何分工、文档类型外壳与 vocabulary module、<term keyref="term-constraint">constraint</term> 与 expansion module 的差别</stentry></strow>
+        <strow><stentry>extension facilities 内部构造（dim-internals）</stentry><stentry><xmlatt>class</xmlatt> 派生链怎么构造、三大 extension facilities 如何分工、文档类型外壳与 vocabulary module、<term keyref="term-constraint">constraint</term>（约束）与 expansion module 的差别</stentry></strow>
         <strow><stentry>插件与程序化处理（dim-integration）</stentry><stentry>DITA-OT 扩展点与插件结构、XSLT 覆盖机制、自定义 <term keyref="term-transtype">transtype</term>（输出类型）、把工具当库调用</stentry></strow>
         <strow><stentry>跨格式互通（dim-interop）</stentry><stentry>引用非 DITA 的外部内容、与 Markdown 互转、翻译交换格式在流程里的定位</stentry></strow>
         <strow><stentry>检索用途（dim-retrieval）</stentry><stentry>topic 自足性与检索切块的吻合度、切块粒度与检索元数据怎么定、送进检索的应当是解析前还是解析后的内容</stentry></strow>
@@ -110,7 +111,6 @@
 
     <section>
       <title>五、工具链落地</title>
-      <p>规范支持与工具链支持是两件事，这组维度问的是在你的机器上支持到什么程度。答案随发行版变动。生态与选材放在这里而不是放在判断那组，因为编辑器与插件的可用性同样决定内容能否产出。</p>
       <simpletable relcolwidth="1* 3*">
         <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
         <strow><stentry>安装与触发（dim-install）</stentry><stentry>DITA-OT 的安装方式、运行时依赖是什么、doctype 声明与 catalog 怎么让它按 2.0 处理文档</stentry></strow>
@@ -123,11 +123,10 @@
 
     <section>
       <title>六、取舍与失效</title>
-      <p>前五组默认已经决定要用 DITA，这组质疑该前提。判断题不能由前面几组的知识自动推出答案，因为成本落在写内容的人身上，收益落在维护多变体的人身上，两者往往不是同一批人。失效边界与判断放在同一组：知道它在哪儿不成立，才谈得上判断它值不值得。</p>
       <simpletable relcolwidth="1* 3*">
         <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
         <strow><stentry>定位对比（dim-comparison）</stentry><stentry>与 DocBook、Markdown、AsciiDoc 在语义粒度、内建复用、条件化、可扩展性上的差别</stentry></strow>
-        <strow><stentry>判断与取舍（dim-decision）</stentry><stentry>上不上 2.0、表格选哪套体系、处理解析前还是解析后的内容，这类需要给出判据的问题</stentry></strow>
+        <strow><stentry>判断与取舍（dim-decision）</stentry><stentry>上不上 2.0、表格选哪套体系、处理解析前还是解析后的内容，这类判据题</stentry></strow>
         <strow><stentry>采用与成本（dim-adoption）</stentry><stentry>改造手段的选用次序、投入产出的成立条件、工程化与持续集成的门槛</stentry></strow>
         <strow><stentry>版本演进（dim-evolution）</stentry><stentry>规范的阶段状态、工具链基线与规范版本的差距、做 specialization 时锁版本的做法</stentry></strow>
         <strow><stentry>边界与反模式（dim-boundary-pitfalls）</stentry><stentry>用 keytext 拼句子、低于句子粒度的 conref、把未解析内容送进检索这类已知会出错的做法</stentry></strow>
@@ -143,7 +142,7 @@
         <strow><stentry>基线差</stentry><stentry>DITA-OT 4.4 的语法文件取自 2026-01-25 的 2.0 草案，比 beta03 早约五个月，两者可能有差异</stentry></strow>
         <strow><stentry>主线信号</stentry><stentry>dita-lang.org 的无版本号路径指向 2.0，1.3 的内容移到带版本号的路径下</stentry></strow>
       </simpletable>
-      <p>由此得到三条实践含义。其一，规范支持不等于工具链支持：DITA-OT 的 preview 已相当完整，编辑器与各家内容管理系统的 2.0 支持程度参差，投入内容之前先在最小样例上运行一遍实际要用的工具。其二，规范还会变，做 specialization 时锁定所基于的 beta 版本号，并尽量从稳定基类派生。其三，元素派生链的记录机制是架构的基础且保持稳定，按派生链匹配的模板、specialization 方法与 generalization 算法都不受 beta 状态影响，二次开发可以照常进行。</p>
+      <p>三条实践含义。其一，规范支持不等于工具链支持，编辑器与内容管理系统的支持程度参差，投入内容之前先在最小样例上运行实际要用的工具。其二，规范还会变，做 specialization 时锁定所基于的 beta 版本号并从稳定基类派生。其三，元素派生链的记录机制不受 beta 状态影响，按派生链匹配的模板与 generalization 算法照常可用。</p>
     </section>
 
     <section>
@@ -168,6 +167,7 @@
         <li>DITA 1.3 及 1.x 到 2.0 的迁移内容。本域按纯 2.0 建，不铺历史包袱；已被 2.0 移除的元素只在讲演进与降级时作为反面出现，不单列维度。</li>
         <li>轻量版与学习培训两条独立版本线。前者是独立的规范线，后者在 2.0 无产出，与本域两条目标都不相交。</li>
         <li>内容管理系统的产品评测。选型对比停在文档格式一层，产品能力随商业版本变动，纳入即过期，生态维度只记录支持程度与入口。</li>
+        <li>写作与收录判据。它管的是本库怎么写内容，不是 DITA 本身，正本在 writing-principles 域。</li>
       </ul>
       <p>排除是写明理由的取舍，与没想到不同，后者才是维度完整性要防的事。</p>
     </section>
@@ -175,7 +175,7 @@
     <section>
       <title>来源</title>
       <p><b>事实</b>：版本现状四项与三条实践含义的依据为 <xref href="https://dita-lang.org/specifications" scope="external">规范总入口</xref>、<xref href="https://github.com/oasis-tcs/dita/releases" scope="external">OASIS TC 发布页</xref>、<xref href="https://www.dita-ot.org/dev/release-notes/" scope="external">DITA-OT 发布说明</xref>与 <xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA-OT 的 2.0 支持说明</xref>，均已逐页核对。刻意排除一节里两条独立版本线的状态，依据是 <xref href="https://github.com/oasis-tcs/dita-learning-training" scope="external">学习培训仓库</xref>无 release 且长期未推送、<xref href="https://github.com/oasis-tcs/dita-lwdita" scope="external">轻量版仓库</xref>自成版本线，两处仓库实况已在调研笔记核对。维度对标所引的规范编排取自规范总入口与 <xref href="https://www.dita-ot.org/dev/" scope="external">DITA-OT 文档</xref>的现有类目。</p>
-      <p><b>判断</b>：二十三个维度的取舍与六组划分、三项刻意排除、把检索归入扩展与外接而非工程实践，均为本库判断，可被反驳。与其他方案的定位差一表为判断性内容，未逐页核对各方案的规范原文；该表的量级词表达的是相对位置，不是可测量的指标。维度清单是否齐全属人审事项。</p>
+      <p><b>判断</b>：二十三个维度的取舍与六组划分、三处归位（解析机制单列、检索归入扩展与外接、生态与选材归入工具链落地）、四项刻意排除，均为本库判断，可被反驳。与其他方案的定位差一表为判断性内容，未逐页核对各方案的规范原文；该表的量级词表达的是相对位置，不是可测量的指标。维度清单是否齐全属人审事项。</p>
     </section>
   </conbody>
 </concept>
