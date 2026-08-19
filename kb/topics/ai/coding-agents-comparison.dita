@@ -5,7 +5,7 @@
          outputclass="best-practice"
          maturity="draft" volatility="volatile"
          dimension="dim-comparison">
-  <title>agent CLI 结构对比：Claude Code、Codex、Antigravity</title>
+  <title>agent CLI 结构对比</title>
   <shortdesc>选型依据是结构差异而非功能清单：指令文件的合并语义、形态覆盖面、并行任务的归属；扩展机制已趋同。</shortdesc>
   <prolog>
     <source href="https://code.claude.com/docs/en/how-claude-code-works" scope="external"/>

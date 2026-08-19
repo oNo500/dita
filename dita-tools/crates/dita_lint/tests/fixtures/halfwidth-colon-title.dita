@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<concept id="halfwidth-colon" outputclass="best-practice" maturity="draft" volatility="stable">
+  <title>xml:lang 与本地化属性</title>
+  <shortdesc>半角冒号在标识符内部，不是副标题串接——本条代理刻意不扫它。</shortdesc>
+  <conbody><p>正文。</p></conbody>
+</concept>

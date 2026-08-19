@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<concept id="colon" outputclass="best-practice" maturity="draft" volatility="stable">
+  <title>agent CLI 结构对比：Claude Code、Codex、Antigravity</title>
+  <shortdesc>冒号副标题样例——冒号后是枚举，属于摘要与正文首句。</shortdesc>
+  <conbody><p>正文。</p></conbody>
+</concept>

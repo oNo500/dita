@@ -105,6 +105,42 @@ fn claim_shaped_titles_are_flagged() {
     assert!(d.items.iter().any(|i| i.message().contains("论断句式")));
 }
 
+/// 第四个标题代理：冒号副标题。2026-08 的实测是 22 篇里 14 篇带，靠人眼两轮
+/// 改名才清完——正是"没有机器面的规则必然漂"的样本。
+#[test]
+fn colon_subtitles_are_flagged() {
+    let d = lint("colon-title.dita");
+    let msgs = messages(&d);
+    let hit = msgs
+        .iter()
+        .find(|m| m.contains("冒号副标题"))
+        .unwrap_or_else(|| panic!("冒号标题必须报出：{msgs:?}"));
+    assert!(hit.contains("naming-rules"), "消息要指向规则正本：{hit}");
+    assert!(
+        hit.contains("shortdesc"),
+        "要说清冒号后的内容该去哪，否则作者不知道怎么改：{hit}"
+    );
+}
+
+/// 不含冒号的标题一句不报。半角冒号同样不报，且这不是疏忽：它出现在标识符
+/// 内部（`xml:lang`、URL scheme），扫它会误伤正是命名规则要求保留的那类标题。
+/// 缺口是明知的——半角写法的副标题由人审接住，与 R15 口语词同一取法。
+#[test]
+fn titles_without_a_full_width_colon_are_not_flagged() {
+    for f in [
+        "clean.dita",
+        "claim-title.dita",
+        "halfwidth-colon-title.dita",
+    ] {
+        let d = lint(f);
+        assert!(
+            messages(&d).iter().all(|m| !m.contains("冒号")),
+            "{f}: {:?}",
+            messages(&d)
+        );
+    }
+}
+
 #[test]
 fn missing_maturity_is_flagged_as_error() {
     // R18: an unmet @maturity slips past the DITAVAL exclude entirely (it

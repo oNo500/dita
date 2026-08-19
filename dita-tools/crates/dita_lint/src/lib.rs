@@ -572,6 +572,24 @@ fn check_maturity_required(
 
 /// Title proxies for the naming rules: a title is a name, not a claim. Full
 /// judgement (locating term, upstream category alignment) stays human.
+///
+/// The colon is banned outright rather than judged. "Is this colon a subtitle?"
+/// would need the half of the naming rule no machine can evaluate — whether
+/// what stands before the colon already names the node on its own — and a
+/// proxy that guesses at that would misfire, which is the one thing that gets
+/// a rule ignored (the same reasoning R19's normalisation ruling rests on).
+/// Banned outright, the rule is simply true: the enumeration or gloss that
+/// follows a colon belongs in `shortdesc` and the body's opening sentence,
+/// never in the name. 2026-08 measured 14 of 22 topics carrying one, and two
+/// rounds of hand-renaming were what cleared them.
+///
+/// Only the full-width `：` is scanned. A half-width colon occurs inside
+/// identifiers (`xml:lang`, a URL scheme), where it is not punctuation at all,
+/// so banning it would misfire on exactly the titles the naming rule wants —
+/// the ones that keep the upstream mechanism name. This library's titles are
+/// Chinese, and its subtitle disease is written full-width every time. The gap
+/// is real and deliberate: a subtitle spelled with `:` passes, and human review
+/// catches it — the same under-reporting trade R15's colloquial list makes.
 fn check_title(root: roxmltree::Node, push: &mut impl FnMut(String)) {
     let title: String = root
         .children()
@@ -583,7 +601,15 @@ fn check_title(root: roxmltree::Node, push: &mut impl FnMut(String)) {
                 .collect()
         })
         .unwrap_or_default();
-    for (pat, why) in [("？", "问句"), ("，不是", "论断句式"), ("——", "破折号")] {
+    for (pat, why) in [
+        ("？", "问句"),
+        ("，不是", "论断句式"),
+        ("——", "破折号"),
+        (
+            "：",
+            "冒号副标题（冒号后的枚举与说明写进 shortdesc 与正文首句）",
+        ),
+    ] {
         if title.contains(pat) {
             push(format!(
                 "标题「{title}」含{why}——标题是专业命名（naming-rules 标题规则）"
