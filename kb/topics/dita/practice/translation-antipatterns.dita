@@ -80,9 +80,9 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
+      <p><b>事实</b>（已逐页核对）</p>
       <ul>
-        <li>多数元素的可译性属性没有默认值，为承载非发布内容而设计的元素默认取不翻译——<xref href="https://dita-lang.org/2.0/dita/archspec/base/the-translate-attribute" scope="external">translate 属性</xref>（已逐页核对）</li>
+        <li>多数元素的可译性属性没有默认值，为承载非发布内容而设计的元素默认取不翻译——<xref href="https://dita-lang.org/2.0/dita/archspec/base/the-translate-attribute" scope="external">translate 属性</xref></li>
       </ul>
       <p><b>判断</b></p>
       <p>除事实段那一条外，正文其余陈述均属判断，可被反驳：变量文本只用于名词性内容、conref 的最小安全粒度是完整句、术语走 glossentry 加 keyref、语义元素便于翻译工具整类跳过、图片文字进不了翻译流程、翻译启动前冻结源，来自翻译通识与行业做法，规范未如此表述，未逐页核对；德语、法语、日语三处形态变化的举例与「变量拼句在目标语言必然出错」的论证，同属该类；两条规则是自足性判据在翻译维度的加强版这一解释、两条硬规则可接进 Schematron 启发式检查、单语言库降为风格建议的判断，为本库归纳。</p>

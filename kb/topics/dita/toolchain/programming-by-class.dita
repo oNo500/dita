@@ -116,9 +116,9 @@ def attr_specializations(root):
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
+      <p><b>事实</b>（已逐页核对）</p>
       <ul>
-        <li><xmlatt>specializations</xmlatt> 由 doctype shell 默认注入而非作者手写，其形式语法为属性派生链的斜杠分隔形式——<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref>（已逐页核对）</li>
+        <li><xmlatt>specializations</xmlatt> 由 doctype shell 默认注入而非作者手写，其形式语法为属性派生链的斜杠分隔形式——<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref></li>
       </ul>
       <p><b>判断</b></p>
       <p>除事实段所列外，正文其余陈述均属判断，可被反驳：lxml 须开启语法文件加载与默认属性补齐才能取到默认属性、默认属性补齐只对 DTD 生效、多数 RNG 校验器不注入 RELAX NG DTD Compatibility 声明的默认值、<codeph>XML_CATALOG_FILES</codeph> 的用法，来自使用经验，未逐工具验证；<xmlatt>class</xmlatt> 取值的空格匹配写法、三段示例代码、DITA-OT 中间产物已写入派生链属性，来自通用实践与实现观察；不按元素名分支的理由、两条路的取舍与退出点的判断次序，为本库归纳。</p>

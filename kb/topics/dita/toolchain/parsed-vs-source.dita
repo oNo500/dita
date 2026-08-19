@@ -80,9 +80,9 @@ dita -i root.ditamap -f html5 -o /tmp/out --temp=./tmp --debug</codeblock>
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
+      <p><b>事实</b>（已逐页核对）</p>
       <ul>
-        <li><xmlatt>specializations</xmlatt> 由 doctype shell 默认注入而非作者手写——<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref>（已逐页核对）</li>
+        <li><xmlatt>specializations</xmlatt> 由 doctype shell 默认注入而非作者手写——<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref></li>
       </ul>
       <p><b>判断</b></p>
       <p>除事实段那一条外，正文其余陈述均属判断，可被反驳：对比表各行的状态描述、两条取得解析后内容的命令、<xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt> 出自同一套默认值机制，来自通用 DITA 实践与 DITA-OT 实现观察，未逐页核对；自行实现解析的五项代价、三条反例、按「内容还是内容之间的关系」区分用途的判据，为本库归纳。</p>

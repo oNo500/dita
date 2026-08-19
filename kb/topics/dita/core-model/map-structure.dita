@@ -110,12 +110,12 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
+      <p><b>事实</b>（均已逐页核对）</p>
       <ul>
-        <li><xmlelement>mapref</xmlelement> 等价于 <xmlatt>format</xmlatt> 为 ditamap 的 <xmlelement>topicref</xmlelement>、被引 map 的层级在引用位置并入容器 map、示例显示被引 map 的子项替换 <xmlelement>mapref</xmlelement> 本身——<xref href="https://dita-lang.org/dita/langref/base/mapref" scope="external">mapref 元素</xref>（已逐页核对）</li>
-        <li><xmlelement>topichead</xmlelement> 在 2.0 仍存在，导航标题改用 <xmlelement>topicmeta</xmlelement> 内的 <xmlelement>navtitle</xmlelement>——<xref href="https://dita-lang.org/dita/langref/base/topichead" scope="external">topichead 元素</xref>（已逐页核对）</li>
-        <li><xmlelement>keytext</xmlelement> 在 map 示例中的用法——<xref href="https://dita-lang.org/dita/langref/base/keytext" scope="external">keytext 元素</xref>（已逐页核对）</li>
-        <li><xmlatt>navtitle</xmlatt> 属性与 <xmlelement>topicset</xmlelement> 的退役、<xmlatt>keys</xmlatt> 收紧为 NMTOKENS——<xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref>（已逐页核对）</li>
+        <li><xmlelement>mapref</xmlelement> 等价于 <xmlatt>format</xmlatt> 为 ditamap 的 <xmlelement>topicref</xmlelement>、被引 map 的层级在引用位置并入容器 map、示例显示被引 map 的子项替换 <xmlelement>mapref</xmlelement> 本身——<xref href="https://dita-lang.org/dita/langref/base/mapref" scope="external">mapref 元素</xref></li>
+        <li><xmlelement>topichead</xmlelement> 在 2.0 仍存在，导航标题改用 <xmlelement>topicmeta</xmlelement> 内的 <xmlelement>navtitle</xmlelement>——<xref href="https://dita-lang.org/dita/langref/base/topichead" scope="external">topichead 元素</xref></li>
+        <li><xmlelement>keytext</xmlelement> 在 map 示例中的用法——<xref href="https://dita-lang.org/dita/langref/base/keytext" scope="external">keytext 元素</xref></li>
+        <li><xmlatt>navtitle</xmlatt> 属性与 <xmlelement>topicset</xmlelement> 的退役、<xmlatt>keys</xmlatt> 收紧为 NMTOKENS——<xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref></li>
       </ul>
       <p><b>判断</b></p>
       <p>除事实段所列外，正文其余陈述均属判断，可被反驳：<xmlelement>topicref</xmlelement> 属性表中除 <xmlatt>collection-type</xmlatt> 与 <xmlatt>linking</xmlatt> 之外的取值、<xmlelement>bookmap</xmlelement> 的结构与 <xmlelement>chapter</xmlelement> 派生链的具体取值、<xmlelement>reltable</xmlelement> 的维护成本论证，来自通用 DITA 实践，未逐页核对；保住分组名的两条路及其取舍、按「产出页面」与「进导航」两问分类节点、层级异常的排查次序，为本库归纳；html5 输出下的合并行为为本库在 DITA-OT 4.4 上的一次实测，属实现观察。</p>

@@ -99,9 +99,9 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
+      <p><b>事实</b>（已逐页核对）</p>
       <ul>
-        <li>shell 的定义（规定一份 DITA 文档中允许的元素和属性、集成结构模块与域模块与元素配置模块）、能做的四件事（选模块、应用 constraint 与 expansion、指定 topic 嵌套规则、配置默认属性值）、不得直接定义元素类型且无需修改 vocabulary module、文档类型配置一节由概览与规则与等价性与一致性四个子页构成——<xref href="https://dita-lang.org/2.0/dita/archspec/base/configuration" scope="external">文档类型配置</xref>（已逐页核对）</li>
+        <li>shell 的定义（规定一份 DITA 文档中允许的元素和属性、集成结构模块与域模块与元素配置模块）、能做的四件事（选模块、应用 constraint 与 expansion、指定 topic 嵌套规则、配置默认属性值）、不得直接定义元素类型且无需修改 vocabulary module、文档类型配置一节由概览与规则与等价性与一致性四个子页构成——<xref href="https://dita-lang.org/2.0/dita/archspec/base/configuration" scope="external">文档类型配置</xref></li>
       </ul>
       <p><b>判断</b></p>
       <p>除事实段那一条外，正文其余陈述均属判断，可被反驳：<xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt> 由校验器注入因而不做校验就拿不到、换 shell 校验结果不同、升级时定制不丢、能否互相 conref 取决于双方 shell 装配清单，这五条现象的成因来自通用 DITA 实践与本库的工具链观察；equivalence 一节是判断两批内容能否安全互换的依据、跨组织复用前先比对装配清单的建议，为本库归纳；三组规则的具体条文未逐条核对，本篇仅列其存在与用途。</p>

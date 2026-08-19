@@ -92,9 +92,9 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
+      <p><b>事实</b>（已逐页核对）</p>
       <ul>
-        <li>DITA-OT 4.4 基于 2026-01-25 的 2.0 草案语法文件提供 preview 支持——<xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA 2.0 preview 支持</xref>（已逐页核对）</li>
+        <li>DITA-OT 4.4 基于 2026-01-25 的 2.0 草案语法文件提供 preview 支持——<xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA 2.0 preview 支持</xref></li>
       </ul>
       <p><b>判断</b></p>
       <p>除事实段那一条外，正文其余陈述均属判断，可被反驳：四类编辑器的能力与定位、内容管理系统的职责、默认 pdf transtype 走 Apache FOP、三条 PDF 路线的成本与效果，来自通用实践，未逐页核对，产品清单也未逐项验证；按团队构成选编辑器的判据、把不由自己决定的依赖降到最少这条理由、三条反例与其中的成本推断，为本库归纳。</p>

@@ -74,11 +74,11 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
+      <p><b>事实</b>（均已逐页核对）</p>
       <ul>
-        <li><xmlatt>chunk</xmlatt> 用于控制源文档结构与输出文档结构的映射——<xref href="https://dita-lang.org/dita/archspec/base/chunk-attribute-overview" scope="external">关于 chunk 属性</xref>（已逐页核对）</li>
-        <li>combine 作用于 map、分支或 map 引用时合并该分组的全部源文档且分组内部的 <xmlatt>chunk</xmlatt> 被忽略、split 使每个 topic 单独成为一个输出文档、根上设默认而 combine 分支覆盖、输出的层级结构应与源保持一致——<xref href="https://dita-lang.org/dita/archspec/base/chunk-attribute-combine" scope="external">处理 chunk=combine</xref>、<xref href="https://dita-lang.org/dita/archspec/base/chunk-attribute-split" scope="external">处理 chunk=split</xref>（均已逐页核对）</li>
-        <li>1.x 的全部 chunk 令牌在 2.0 被移除，仅保留 combine 与 split——<xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref>（已逐页核对）</li>
+        <li><xmlatt>chunk</xmlatt> 用于控制源文档结构与输出文档结构的映射——<xref href="https://dita-lang.org/dita/archspec/base/chunk-attribute-overview" scope="external">关于 chunk 属性</xref></li>
+        <li>combine 作用于 map、分支或 map 引用时合并该分组的全部源文档且分组内部的 <xmlatt>chunk</xmlatt> 被忽略、split 使每个 topic 单独成为一个输出文档、根上设默认而 combine 分支覆盖、输出的层级结构应与源保持一致——<xref href="https://dita-lang.org/dita/archspec/base/chunk-attribute-combine" scope="external">处理 chunk=combine</xref>、<xref href="https://dita-lang.org/dita/archspec/base/chunk-attribute-split" scope="external">处理 chunk=split</xref></li>
+        <li>1.x 的全部 chunk 令牌在 2.0 被移除，仅保留 combine 与 split——<xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref></li>
       </ul>
       <p><b>判断</b></p>
       <p>除事实段所列外，正文其余陈述均属判断，可被反驳：典型用法一节的四行为本库归纳的实践建议，规范只定义取值语义、不给出场合判据；从 1.x 迁移时须逐个 map 检查 chunk 取值，亦为本库归纳。</p>

@@ -57,9 +57,9 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
+      <p><b>事实</b>（已逐页核对）</p>
       <ul>
-        <li>解析 conref 时属性按两级优先级合成（引用方元素上指定的全部属性优先，取值为 <codeph>-dita-use-conref-target</codeph> 的除外；其次是被引用方元素上指定的全部属性，<xmlatt>id</xmlatt> 除外）、属性值从不合并且多值属性亦整体取一边、<xmlatt>xml:lang</xmlatt> 另有特殊处理、<codeph>-dita-use-conref-target</codeph> 的保留条件、整条链解析后仍残留该值时必须视同该属性未指定——<xref href="https://dita-lang.org/2.0/dita/archspec/base/conref-attributes-specified-on-elements" scope="external">解析 conref 时的属性处理</xref>（已逐页核对）</li>
+        <li>解析 conref 时属性按两级优先级合成（引用方元素上指定的全部属性优先，取值为 <codeph>-dita-use-conref-target</codeph> 的除外；其次是被引用方元素上指定的全部属性，<xmlatt>id</xmlatt> 除外）、属性值从不合并且多值属性亦整体取一边、<xmlatt>xml:lang</xmlatt> 另有特殊处理、<codeph>-dita-use-conref-target</codeph> 的保留条件、整条链解析后仍残留该值时必须视同该属性未指定——<xref href="https://dita-lang.org/2.0/dita/archspec/base/conref-attributes-specified-on-elements" scope="external">解析 conref 时的属性处理</xref></li>
       </ul>
       <p><b>判断</b></p>
       <p>除事实段所列外，正文其余陈述均属判断，可被反驳：<xmlatt>id</xmlatt> 被排除是为避免重复标识符这一解释、必填属性与 conref 冲突的场景描述、样例的写法，来自通用 DITA 实践与对规则的推导，未逐页核对；把级联的并集与 conref 的整体取一边对照着记的建议，为本库归纳。</p>

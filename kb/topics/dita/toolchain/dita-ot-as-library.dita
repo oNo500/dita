@@ -75,9 +75,9 @@ job.getFileInfo().forEach(fi -&gt;
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
+      <p><b>事实</b>（已逐页核对）</p>
       <ul>
-        <li><xmlatt>specializations</xmlatt> 由 doctype shell 默认注入而非作者手写，且属 DITA 2.0——<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref>（已逐页核对）</li>
+        <li><xmlatt>specializations</xmlatt> 由 doctype shell 默认注入而非作者手写，且属 DITA 2.0——<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref></li>
       </ul>
       <p><b>判断</b></p>
       <p>除事实段那一条外，正文其余陈述均属判断，可被反驳：org.dita.normalize 把 <xmlatt>specializations</xmlatt> 混入输出一事来自相关问题单的检索结果，未打开逐条核对；两段 Java 示例与 <filepath>.job.xml</filepath> 的作用与字段，依版本可能有出入，未逐版本核对；进程内构建的适用场合、输出阶段显式过滤的纪律、重写文档时丢弃派生链属性的做法、退出点的两项判断，为本库归纳。</p>

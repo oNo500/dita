@@ -87,9 +87,9 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
+      <p><b>事实</b>（已逐页核对）</p>
       <ul>
-        <li>OASIS 的 DITA 技术委员会发行包 v2.0-beta03 内含语法文件，可作为自建模块的起点——<xref href="https://github.com/oasis-tcs/dita/releases" scope="external">oasis-tcs/dita 发行页</xref>（已逐页核对）</li>
+        <li>OASIS 的 DITA 技术委员会发行包 v2.0-beta03 内含语法文件，可作为自建模块的起点——<xref href="https://github.com/oasis-tcs/dita/releases" scope="external">oasis-tcs/dita 发行页</xref></li>
       </ul>
       <p><b>判断</b></p>
       <p>除事实段那一条外，正文其余陈述均属判断，可被反驳：<xmlatt>outputclass</xmlatt> 为通用属性且被原样输出为 HTML 的 class、内容模型的子集关系与由此得到的降级与无损 generalization、RNG 相对 DTD 的可读性与规范性地位、RNG 到 DTD 的转换管道及其前提，来自通用 DITA 实践与社区通识，未逐页核对；四步做法的次序、成本与收益的对照、四条反例、<xmlatt>outputclass</xmlatt> 替代范围的界线，为本库归纳。</p>

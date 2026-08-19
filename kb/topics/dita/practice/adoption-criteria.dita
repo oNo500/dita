@@ -90,11 +90,11 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
+      <p><b>事实</b>（均已逐页核对）</p>
       <ul>
-        <li>DITA 2.0 在规范列表中列为 draft、1.3 及更早版本为 OASIS Standard——<xref href="https://www.dita-lang.org/specifications" scope="external">DITA 规范列表</xref>（已逐页核对）</li>
-        <li>v2.0-beta03 发布于 2026-07-02 且标记为 pre-release——<xref href="https://github.com/oasis-tcs/dita/releases" scope="external">oasis-tcs/dita 发布页</xref>（已逐页核对）</li>
-        <li>DITA-OT 4.4 的 2.0 preview 支持基于 2026-01-25 的草案语法文件——<xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA 2.0 preview 支持</xref>（已逐页核对）</li>
+        <li>DITA 2.0 在规范列表中列为 draft、1.3 及更早版本为 OASIS Standard——<xref href="https://www.dita-lang.org/specifications" scope="external">DITA 规范列表</xref></li>
+        <li>v2.0-beta03 发布于 2026-07-02 且标记为 pre-release——<xref href="https://github.com/oasis-tcs/dita/releases" scope="external">oasis-tcs/dita 发布页</xref></li>
+        <li>DITA-OT 4.4 的 2.0 preview 支持基于 2026-01-25 的草案语法文件——<xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA 2.0 preview 支持</xref></li>
       </ul>
       <p><b>判断</b></p>
       <p>除事实段三条外，正文其余陈述均属判断，可被反驳：九条采用与否的条件、中间路线的可行性、四类处境的建议、上 2.0 要接受的三件事、从稳定基类派生与避开讨论中区域等四条降低风险的做法，来自通用实践，未逐页核对；四个 2.0 新增机制最能划出工具链支持边界这一判断，出自本库调研笔记的学习路径，未经实测；固定成本靠重复摊平的解释、按支持进度归属划分 2.0 处境的分界线、四条反例，为本库归纳。</p>

@@ -87,10 +87,10 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
+      <p><b>事实</b>（均已逐页核对）</p>
       <ul>
-        <li>可被 specialize 的属性只有 <xmlatt>props</xmlatt> 与 <xmlatt>base</xmlatt>、多级派生的两个示例，以及本篇据以推出两个推论的三条取值规则（形式语法、由 document-type shell 默认值注入、不含元素 domain；其陈述正本在 class-derivation 一篇）——<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref>（已逐页核对）</li>
-        <li>DITAVAL 的 <xmlelement>prop</xmlelement> 以 <xmlatt>att</xmlatt>、<xmlatt>val</xmlatt>、<xmlatt>action</xmlatt> 三个属性表达一条过滤规则——<xref href="https://dita-lang.org/dita/langref/ditaval/prop" scope="external">prop 语言参考</xref>（已逐页核对）</li>
+        <li>可被 specialize 的属性只有 <xmlatt>props</xmlatt> 与 <xmlatt>base</xmlatt>、多级派生的两个示例，以及本篇据以推出两个推论的三条取值规则（形式语法、由 document-type shell 默认值注入、不含元素 domain；其陈述正本在 class-derivation 一篇）——<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref></li>
+        <li>DITAVAL 的 <xmlelement>prop</xmlelement> 以 <xmlatt>att</xmlatt>、<xmlatt>val</xmlatt>、<xmlatt>action</xmlatt> 三个属性表达一条过滤规则——<xref href="https://dita-lang.org/dita/langref/ditaval/prop" scope="external">prop 语言参考</xref></li>
       </ul>
       <p><b>判断</b></p>
       <p>除事实段所列外，正文其余陈述均属判断，可被反驳：<xmlatt>base</xmlatt> 用于不参与条件处理的语义属性、把多个维度挤进 <xmlatt>otherprops</xmlatt> 的代价、派生出的属性名可直接用于 DITAVAL、逐级退回的过程与「名称(值)」的 generalization 落地语法、文档实例不带 domain 记录这一推论，来自通用 DITA 实践与实现观察，未逐页核对；维度与取值的分辨判据、三步落地次序与两侧验证的建议，为本库归纳。</p>

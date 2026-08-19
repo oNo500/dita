@@ -91,9 +91,9 @@ ls /tmp/dita-temp</codeblock>
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
+      <p><b>事实</b>（已逐页核对）</p>
       <ul>
-        <li>临时目录、调试与详细输出三个选项由 dita 命令提供——<xref href="https://www.dita-ot.org/dev/topics/build-using-dita-command" scope="external">使用 dita 命令构建</xref>（已逐页核对）</li>
+        <li>临时目录、调试与详细输出三个选项由 dita 命令提供——<xref href="https://www.dita-ot.org/dev/topics/build-using-dita-command" scope="external">使用 dita 命令构建</xref></li>
       </ul>
       <p><b>判断</b></p>
       <p>除事实段那一条外，正文其余陈述均属判断，可被反驳：plugin 安装命令的行为、「改动 plugin 后须重新安装」及其解释、调试选项保留临时目录与堆栈的具体表现，来自通用 DITA-OT 实践，未逐页核对；四步循环、最小测试输入的建议、症状与查法的对应表、临时目录的清理建议，为本库归纳。</p>

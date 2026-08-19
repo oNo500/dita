@@ -77,9 +77,9 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
+      <p><b>事实</b>（已逐页核对）</p>
       <ul>
-        <li><xmlelement>author</xmlelement> 的 <xmlatt>type</xmlatt> 取值为 creator 与 contributor、该页未提及 Dublin Core——<xref href="https://dita-lang.org/dita/langref/base/author" scope="external">author 语言参考</xref>（已逐页核对）</li>
+        <li><xmlelement>author</xmlelement> 的 <xmlatt>type</xmlatt> 取值为 creator 与 contributor、该页未提及 Dublin Core——<xref href="https://dita-lang.org/dita/langref/base/author" scope="external">author 语言参考</xref></li>
       </ul>
       <p><b>判断</b></p>
       <p>除事实段那一条外，正文其余陈述均属判断，可被反驳：十五个元素的清单与三组划分为 DCMI 标准的通识内容，本库未另行核对；对应表各行的落点、Type 与 Format 与 Relation 三项被架构承担的解读、由此得出的「要设计的字段比十五项少」、把清单当检查单而非建设清单的用法，为本库归纳；各落点元素在规范中的确切内容模型与可用位置，本篇未逐条核对。</p>

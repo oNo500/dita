@@ -100,10 +100,10 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
+      <p><b>事实</b>（均已逐页核对）</p>
       <ul>
-        <li>XSLT 覆盖靠安装时自动追加 import 语句、扩展点在 plugin.xml 中以 feature 声明、可用 transtype 限定自定义代码的生效范围——<xref href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external">插件扩展点</xref>（已逐页核对）</li>
-        <li>2.0 新元素在 DITA-OT 中的可用性与各自的版本下限——<xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA 2.0 preview 支持</xref>（已逐页核对）</li>
+        <li>XSLT 覆盖靠安装时自动追加 import 语句、扩展点在 plugin.xml 中以 feature 声明、可用 transtype 限定自定义代码的生效范围——<xref href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external">插件扩展点</xref></li>
+        <li>2.0 新元素在 DITA-OT 中的可用性与各自的版本下限——<xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA 2.0 preview 支持</xref></li>
       </ul>
       <p><b>判断</b></p>
       <p>除事实段所列外，正文其余陈述均属判断，可被反驳：两份样式表示例的写法、priority 与 next-match 的用法、示例中 <xmlatt>class</xmlatt> 里的模块名取值（如 multimedia-d 一段）来自通用实践，未经核对；「改完不重新安装即不生效」与「多个 plugin 覆盖同一模板时哪一个生效由 import 顺序决定」两条推论、两步排查的次序、两类不适用场合的界线，为本库归纳。</p>

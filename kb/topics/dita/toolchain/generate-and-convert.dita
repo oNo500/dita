@@ -116,9 +116,9 @@ dita -i root.ditamap -f markdown_gitbook -o out   # GitBook，带目录文件</c
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
+      <p><b>事实</b>（已逐页核对）</p>
       <ul>
-        <li>DOCTYPE 公共标识符的格式与版本号写法——<xref href="https://dita-lang.org/dita/non-normative/dtd-public-identifiers" scope="external">DTD 公共标识符</xref>（已逐页核对）</li>
+        <li>DOCTYPE 公共标识符的格式与版本号写法——<xref href="https://dita-lang.org/dita/non-normative/dtd-public-identifiers" scope="external">DTD 公共标识符</xref></li>
       </ul>
       <p><b>判断</b></p>
       <p>除事实段那一条外，正文其余陈述均属判断，可被反驳：生成 topic 的示例代码、org.lwdita 的三个 transtype 名称、把 Markdown 文件当作 topic 引用的写法与其标题和摘要约定、front matter 提供元数据、映射难点表各行，来自通用实践，未逐项验证；plugin 对 2.0 新元素的覆盖须实测这一提示同属判断；标识符须从源数据派生的理由、把转出方向定位为单向发布通道、不做双向同步这条边界，为本库归纳。</p>

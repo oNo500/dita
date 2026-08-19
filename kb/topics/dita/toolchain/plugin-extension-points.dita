@@ -164,10 +164,10 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
+      <p><b>事实</b>（均已逐页核对）</p>
       <ul>
-        <li>扩展点在 <filepath>plugin.xml</filepath> 中以 <xmlelement>feature</xmlelement> 的 <xmlatt>extension</xmlatt> 声明、官方分为通用与 preprocess 与 XSLT import 与 XSLT 参数与版本支持信息五组、XSLT 覆盖靠安装时自动追加 import 语句、<codeph>${transtype}</codeph> 可限定自定义代码的生效范围、<codeph>depend.preprocess.post</codeph> 等标识符——<xref href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external">插件扩展点</xref>（已逐页核对）</li>
-        <li>catalog 扩展点用于注册 specialization <term keyref="term-schema">schema</term>——<xref href="https://www.dita-ot.org/dev/topics/plugin-xmlcatalog" scope="external">扩展 XML catalog 文件</xref>（已逐页核对）</li>
+        <li>扩展点在 <filepath>plugin.xml</filepath> 中以 <xmlelement>feature</xmlelement> 的 <xmlatt>extension</xmlatt> 声明、官方分为通用与 preprocess 与 XSLT import 与 XSLT 参数与版本支持信息五组、XSLT 覆盖靠安装时自动追加 import 语句、<codeph>${transtype}</codeph> 可限定自定义代码的生效范围、<codeph>depend.preprocess.post</codeph> 等标识符——<xref href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external">插件扩展点</xref></li>
+        <li>catalog 扩展点用于注册 specialization <term keyref="term-schema">schema</term>——<xref href="https://www.dita-ot.org/dev/topics/plugin-xmlcatalog" scope="external">扩展 XML catalog 文件</xref></li>
       </ul>
       <p><b>判断</b></p>
       <p>除事实段所列外，正文其余陈述均属判断，可被反驳：目录形态与命名约定、plugin.xml 完整示例中各条 feature 的组合写法、安装与卸载命令的行为及「改动 plugin 后须重新安装」、现成 plugin 推荐表，来自通用 DITA-OT 实践，未逐页核对；plugin 配置在安装时被编译进配置与 import 链因而不重新安装即不生效这一解释，为本库归纳。</p>
