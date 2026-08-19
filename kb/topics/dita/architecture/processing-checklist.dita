@@ -90,8 +90,13 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：分支过滤必须先于 root map 的 key space 构造，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/branch-filtering" scope="external">分支过滤</xref>；属性有效值的求解发生在 <xmlatt>conref</xmlatt> 与 <xmlatt>keyref</xmlatt> 解析之后，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/determining-effective-attribute-values" scope="external">确定属性的有效值</xref>。两处均已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列两条外，本篇其余内容均属判断，可被反驳。七步次序中间各步的排法、条件过滤拆成两步的理由与依赖环的解法、key 解析一侧除次序外的四条、三处高频错误及其症状，为本库基于上述两条规范约束与实现观察的归纳，笔记明确列为未逐页核对。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>分支过滤必须先于 root map 的 key space 构造——<xref href="https://dita-lang.org/2.0/dita/archspec/base/branch-filtering" scope="external">分支过滤</xref>（已逐页核对）</li>
+        <li>属性有效值的求解发生在 <xmlatt>conref</xmlatt> 与 <xmlatt>keyref</xmlatt> 解析之后——<xref href="https://dita-lang.org/2.0/dita/archspec/base/determining-effective-attribute-values" scope="external">确定属性的有效值</xref>（已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列两条外，本篇其余内容均属判断，可被反驳：七步次序中间各步的排法、条件过滤拆成两步的理由与依赖环的解法、key 解析一侧除次序外的四条、三处高频错误及其症状，为本库基于上述两条规范约束与实现观察的归纳，笔记明确列为未逐页核对。</p>
     </section>
   </refbody>
 </reference>

@@ -92,8 +92,13 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：级联的定义、其作用于包含层级而非 specialization 层级，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/map-cascading" scope="external">元数据级联</xref>；会级联的属性完整清单、多值属性加性而单值属性取最近祖先、<xmlatt>cascade</xmlatt> 的 merge 与 nomerge 两个取值的语义及 nomerge 阻止累积而非完全关闭级联、关系表沿 <xmlelement>reltable</xmlelement> 到 <xmlelement>topicref</xmlelement> 的级联路径，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/cascading-in-a-ditamap" scope="external">DITA map 中元数据属性的级联</xref>。两处均已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中两段样例按上述规则构造，非从规范抄录；追加而非覆盖所导致的症状、在根上显式写 nomerge 的建议、在 <xmlelement>relcolspec</xmlelement> 上给整列打标的用法、排查时先查清单的做法，为本库归纳。map 到 map 的级联另有规则，本篇未展开。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>级联的定义、其作用于包含层级而非 specialization 层级——<xref href="https://dita-lang.org/2.0/dita/archspec/base/map-cascading" scope="external">元数据级联</xref>（已逐页核对）</li>
+        <li>会级联的属性完整清单、多值属性加性而单值属性取最近祖先、<xmlatt>cascade</xmlatt> 的 merge 与 nomerge 两个取值的语义及 nomerge 阻止累积而非完全关闭级联、关系表沿 <xmlelement>reltable</xmlelement> 到 <xmlelement>topicref</xmlelement> 的级联路径——<xref href="https://dita-lang.org/2.0/dita/archspec/base/cascading-in-a-ditamap" scope="external">DITA map 中元数据属性的级联</xref>（已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：两段样例按上述规则构造，非从规范抄录；追加而非覆盖所导致的症状、在根上显式写 nomerge 的建议、在 <xmlelement>relcolspec</xmlelement> 上给整列打标的用法、排查时先查清单的做法，为本库归纳；map 到 map 的级联另有规则，本篇未展开。</p>
     </section>
   </conbody>
 </concept>

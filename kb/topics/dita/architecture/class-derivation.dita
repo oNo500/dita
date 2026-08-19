@@ -84,8 +84,13 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：<xmlatt>class</xmlatt> 的前缀分结构模块与 domain 模块两种取值并后跟一个或多个空格、token 形如模块名加元素名、从最通用到最具体排列、须含未改名的中间模块、取值必须以至少一个空格结尾、除 ditabase 根元素外每个 DITA 元素都必须有该属性、语法声明的默认值不得为 fixed，转自 <xref href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external">class 属性规则与语法</xref>；<xmlatt>specializations</xmlatt> 的形式语法、仅记录属性 specialization 而不含元素 domain、值由 document-type shell 的默认值注入，转自 <xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref>。两份页面均已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中三条规定各自挡住哪类处理错误、属性沿链逐级退回的过程、示例中派生链与 <xmlelement>uicontrol</xmlelement> 降级的具体取值，来自通用 DITA 实践与实现观察，未从语法文件逐字核对；裸解析取不到默认属性属实现观察；按派生链匹配而不按元素名匹配这条处理规则，以及本篇与 specialization 三篇、与派生链解析一篇的边界划法，为本库归纳。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li><xmlatt>class</xmlatt> 的前缀分结构模块与 domain 模块两种取值并后跟一个或多个空格、token 形如模块名加元素名、从最通用到最具体排列、须含未改名的中间模块、取值必须以至少一个空格结尾、除 ditabase 根元素外每个 DITA 元素都必须有该属性、语法声明的默认值不得为 fixed——<xref href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external">class 属性规则与语法</xref>（已逐页核对）</li>
+        <li><xmlatt>specializations</xmlatt> 的形式语法、仅记录属性 specialization 而不含元素 domain、值由 document-type shell 的默认值注入——<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">specializations 属性规则与语法</xref>（已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：三条规定各自挡住哪类处理错误、属性沿链逐级退回的过程、示例中派生链与 <xmlelement>uicontrol</xmlelement> 降级的具体取值，来自通用 DITA 实践与实现观察，未从语法文件逐字核对；裸解析取不到默认属性属实现观察；按派生链匹配而不按元素名匹配这条处理规则，以及本篇与 specialization 三篇、与派生链解析一篇的边界划法，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

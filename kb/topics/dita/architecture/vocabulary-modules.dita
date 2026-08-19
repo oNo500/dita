@@ -93,8 +93,14 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：模块化是 DITA 设计与实现的核心、它使 specialization 层级的复用与扩展成为可能、DITA 语法文件是一组声明各 specialization 所需标记的模块文件而 shell 集成特定创作与发布场景所需的模块，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/specialization-modularization" scope="external">模块化</xref>；一个 DITA 元素类型或属性恰好在一个 vocabulary module 中声明、三种 vocabulary module 的定义、结构模块名通常等于根元素名、元素域模块可含多个元素并有短名、该名称或短名用于在 <xmlatt>class</xmlatt> 属性值中标识该模块、短名须为合法 XML name token 且在其 specialization 层级内唯一、属性域模块定义恰好一个 <xmlatt>base</xmlatt> 或 <xmlatt>props</xmlatt> 的 specialization、给 topic 用的域元素须最终派生自 topic 模块元素而给 map 用的须派生自 map 模块元素且 map 专有元素不能出现在 topic 中，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/specialization-vocabulary-modules" scope="external">vocabulary modules</xref>。两处均已逐页核对。文件命名对照表、五个属性域模块文件的存在、<xmlatt>specializations</xmlatt> 的 token 与属性域文件的对应，核对自 v2.0-beta03 语法文件目录。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 constraint 与 expansion 模块归 element-configuration module 一类的层级归属、三条关于条件属性的推论、<xmlatt>specializations</xmlatt> 不记录元素域的成因、结论节读文件的次序，为本库归纳；<xmlelement>uicontrol</xmlelement> 与 <xmlelement>task</xmlelement> 两段样例按上述规则构造，非从规范逐字抄录。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>模块化是 DITA 设计与实现的核心、它使 specialization 层级的复用与扩展成为可能、DITA 语法文件是一组声明各 specialization 所需标记的模块文件而 shell 集成特定创作与发布场景所需的模块——<xref href="https://dita-lang.org/2.0/dita/archspec/base/specialization-modularization" scope="external">模块化</xref>（已逐页核对）</li>
+        <li>一个 DITA 元素类型或属性恰好在一个 vocabulary module 中声明、三种 vocabulary module 的定义、结构模块名通常等于根元素名、元素域模块可含多个元素并有短名、该名称或短名用于在 <xmlatt>class</xmlatt> 属性值中标识该模块、短名须为合法 XML name token 且在其 specialization 层级内唯一、属性域模块定义恰好一个 <xmlatt>base</xmlatt> 或 <xmlatt>props</xmlatt> 的 specialization、给 topic 用的域元素须最终派生自 topic 模块元素而给 map 用的须派生自 map 模块元素且 map 专有元素不能出现在 topic 中——<xref href="https://dita-lang.org/2.0/dita/archspec/base/specialization-vocabulary-modules" scope="external">vocabulary modules</xref>（已逐页核对）</li>
+        <li>文件命名对照表、五个属性域模块文件的存在、<xmlatt>specializations</xmlatt> 的 token 与属性域文件的对应——v2.0-beta03 语法文件目录（已逐文件核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：constraint 与 expansion 模块归 element-configuration module 一类的层级归属、三条关于条件属性的推论、<xmlatt>specializations</xmlatt> 不记录元素域的成因、结论节读文件的次序，为本库归纳；<xmlelement>uicontrol</xmlelement> 与 <xmlelement>task</xmlelement> 两段样例按上述规则构造，非从规范逐字抄录。</p>
     </section>
   </conbody>
 </concept>

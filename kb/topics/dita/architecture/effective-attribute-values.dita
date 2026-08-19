@@ -88,8 +88,12 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：属性有效值按显式值、XML 语法默认或固定值、级联值、受控值默认、处理器提供的默认这一次序解析，且该次序发生在 <xmlatt>conref</xmlatt> 与 <xmlatt>keyref</xmlatt> 解析之后；多值属性的加性与非加性行为遵循 <xmlatt>cascade</xmlatt> 的规则。转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/determining-effective-attribute-values" scope="external">确定属性的有效值</xref>，已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中表内第 4 级与第 5 级的举例、<xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt> 由语法文件声明为默认属性因而属第 2 级、裸解析取不到这两个属性，来自通用 DITA 实践与实现观察，未逐页核对；解析次序颠倒后的后果、按五级逐级排查的做法、这条次序在处理模型里的位置，为本库归纳。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>属性有效值按显式值、XML 语法默认或固定值、级联值、受控值默认、处理器提供的默认这一次序解析，且该次序发生在 <xmlatt>conref</xmlatt> 与 <xmlatt>keyref</xmlatt> 解析之后；多值属性的加性与非加性行为遵循 <xmlatt>cascade</xmlatt> 的规则——<xref href="https://dita-lang.org/2.0/dita/archspec/base/determining-effective-attribute-values" scope="external">确定属性的有效值</xref>（已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：表内第 4 级与第 5 级的举例、<xmlatt>class</xmlatt> 与 <xmlatt>specializations</xmlatt> 由语法文件声明为默认属性因而属第 2 级、裸解析取不到这两个属性，来自通用 DITA 实践与实现观察，未逐页核对；解析次序颠倒后的后果、按五级逐级排查的做法、这条次序在处理模型里的位置，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

@@ -80,8 +80,12 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：key 提供一层间接使资源可在 map 层面定义、<xmlatt>keys</xmlatt> 由 <xmlelement>topicref</xmlelement> 或其 <term keyref="term-specialization">specialization</term> 定义、key 可解析为 <xmlatt>href</xmlatt> 与 key 定义元素的内容或两者、<xmlatt>keyscope</xmlatt> 控制作用域边界且跨作用域引用需以作用域名限定、key 依上下文解析为链接或文本或两者，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/key-based-addressing" scope="external">基于 key 的寻址</xref>，已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 key space 由 root map 出发按深度优先的文档顺序构造、同名定义取遍历中最先者、覆盖须置于 <xmlelement>mapref</xmlelement> 之前、四种引用上下文各解析成什么、作用域可嵌套与可多值的可见性规则，笔记列在未逐页核对，正文已逐处标注；两段样例按上述规则构造，非从规范抄录；记反覆盖规则的症状、三个性质对自研解析逻辑的约束、先出中间结果再核对的建议，为本库归纳。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>key 提供一层间接使资源可在 map 层面定义、<xmlatt>keys</xmlatt> 由 <xmlelement>topicref</xmlelement> 或其 <term keyref="term-specialization">specialization</term> 定义、key 可解析为 <xmlatt>href</xmlatt> 与 key 定义元素的内容或两者、<xmlatt>keyscope</xmlatt> 控制作用域边界且跨作用域引用需以作用域名限定、key 依上下文解析为链接或文本或两者——<xref href="https://dita-lang.org/2.0/dita/archspec/base/key-based-addressing" scope="external">基于 key 的寻址</xref>（已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：key space 由 root map 出发按深度优先的文档顺序构造、同名定义取遍历中最先者、覆盖须置于 <xmlelement>mapref</xmlelement> 之前、四种引用上下文各解析成什么、作用域可嵌套与可多值的可见性规则，笔记列在未逐页核对，正文已逐处标注；两段样例按上述规则构造，非从规范抄录；记反覆盖规则的症状、三个性质对自研解析逻辑的约束、先出中间结果再核对的建议，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

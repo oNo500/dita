@@ -97,8 +97,14 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：规范提供三个 extension facility，即 document-type configuration、specialization 与 element-type configuration，generalization 是把用了 specialization 的内容转为未 specialize 标记的过程而非第四个 facility，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/ditaspecialization" scope="external">Overview of DITA extension facilities</xref>；document-type configuration 能选模块、应用 constraint 与 expansion、指定 topic 嵌套规则、配置默认属性值，且不得直接定义元素类型、无需修改 vocabulary module，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/configuration" scope="external">文档类型配置</xref>；expansion module 与 constraint 互为反向、其作用是在特定元素类型中引入 specialize 出来的属性或元素而不使之全局可用、其核心规则为 generalize 后受影响元素的内容模型必须与该元素原本的内容模型一致，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/expansion-modules" scope="external">扩展模块</xref>。三处均已逐页核对。</p>
-      <p><b>判断</b>：把三种 specialization 与 constraint 摊平并称四种扩展手段属层级错读、三个 facility 均不修改已有 vocabulary module 因而定制不被上游覆盖、constraint 与 expansion 的用途与典型举例、<xmlelement>sensor-id</xmlelement> 这一例、担心新元素全局可用时应选 expansion module 的判据、结论节的事项与 facility 对应表，为本库归纳或来自通用 DITA 实践，未逐页核对。element-type configuration 与 constraint module 的具体条文本篇未展开。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>规范提供三个 extension facility，即 document-type configuration、specialization 与 element-type configuration；generalization 是把用了 specialization 的内容转为未 specialize 标记的过程，而非第四个 facility——<xref href="https://dita-lang.org/2.0/dita/archspec/base/ditaspecialization" scope="external">Overview of DITA extension facilities</xref>（已逐页核对）</li>
+        <li>document-type configuration 能选模块、应用 constraint 与 expansion、指定 topic 嵌套规则、配置默认属性值，且不得直接定义元素类型、无需修改 vocabulary module——<xref href="https://dita-lang.org/2.0/dita/archspec/base/configuration" scope="external">文档类型配置</xref>（已逐页核对）</li>
+        <li>expansion module 与 constraint 互为反向，其作用是在特定元素类型中引入 specialize 出来的属性或元素而不使之全局可用，核心规则为 generalize 后受影响元素的内容模型必须与该元素原本的内容模型一致——<xref href="https://dita-lang.org/2.0/dita/archspec/base/expansion-modules" scope="external">扩展模块</xref>（已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：把三种 specialization 与 constraint 摊平并称四种扩展手段属层级错读、三个 facility 均不修改已有 vocabulary module 因而定制不被上游覆盖、constraint 与 expansion 的用途与典型举例、<xmlelement>sensor-id</xmlelement> 这一例、担心新元素全局可用时应选 expansion module 的判据、结论节的事项与 facility 对应表，为本库归纳或来自通用 DITA 实践，未逐页核对；element-type configuration 与 constraint module 的具体条文本篇未展开。</p>
     </section>
   </conbody>
 </concept>

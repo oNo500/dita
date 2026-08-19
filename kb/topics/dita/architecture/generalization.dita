@@ -88,8 +88,16 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：Generalization 是架构规范「Configuration and specialization」章下与 Specialization、Constraints 平级的节点，其定义为反转 specialization、把 specialize 出的元素与属性转回派生自的类型，转自 <xref href="https://dita-lang.org/dita/archspec/base/generalization" scope="external">Generalization</xref>；可 generalize 到任意祖先层级、三类用途（迁移、临时往返、在不支持该 specialization 的环境里复用）、迁移用途下实例文档里的两个属性须缺席以便用 shell 默认值而往返用途下应保留原取值、受约束文档改绑 shell 即可去约束且元素不必改名、用了 expansion module 的文档可能须先 generalize 才可交换，转自 <xref href="https://dita-lang.org/dita/archspec/base/generalization-overview" scope="external">Overview of generalization</xref>；元素一侧靠检查 <xmlatt>class</xmlatt> 判定所属模块并改名成更通用的形态、<xmlelement>step</xmlelement> 的取值 "- topic/li task/step " 泛化为 <xmlelement>li</xmlelement>，转自 <xref href="https://dita-lang.org/dita/archspec/base/generalization-elements" scope="external">Element generalization</xref>；属性一侧祖先属性的取值由属性名加圆括号内的原取值构成、处理器据 <xmlatt>specializations</xmlatt> 判定祖先链与中间落点的合法性、同一元素上不得同时出现同一属性的 generalized 与 specialized 取值，转自 <xref href="https://dita-lang.org/dita/archspec/base/generalization-attributes" scope="external">Attribute generalization</xref>；<xmlatt>class</xmlatt> 须列出从最通用到最具体的完整祖先链、未改名的中间层同样要列出，转自 <xref href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external">class 属性规则与语法</xref>。五处均已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中不认识这套模块的处理器会跳过或校验不过这两种结局、三类用途落到实际协作里的措辞、双方共同认得的那一层就是可停位置这条操作性表述，来自通用 DITA 实践与实现观察，未逐页核对；完整祖先链与「找得到可停位置」之间的因果解释、新模块写完先测 generalization 的验收建议、把验收而非交换列为第一个用处，为本库归纳。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>Generalization 是架构规范「Configuration and specialization」章下与 Specialization、Constraints 平级的节点，其定义为反转 specialization、把 specialize 出的元素与属性转回派生自的类型——<xref href="https://dita-lang.org/dita/archspec/base/generalization" scope="external">Generalization</xref>（已逐页核对）</li>
+        <li>可 generalize 到任意祖先层级、三类用途（迁移、临时往返、在不支持该 specialization 的环境里复用）、迁移用途下实例文档里的两个属性须缺席以便用 shell 默认值而往返用途下应保留原取值、受约束文档改绑 shell 即可去约束且元素不必改名、用了 expansion module 的文档可能须先 generalize 才可交换——<xref href="https://dita-lang.org/dita/archspec/base/generalization-overview" scope="external">Overview of generalization</xref>（已逐页核对）</li>
+        <li>元素一侧靠检查 <xmlatt>class</xmlatt> 判定所属模块并改名成更通用的形态、<xmlelement>step</xmlelement> 的取值 "- topic/li task/step " 泛化为 <xmlelement>li</xmlelement>——<xref href="https://dita-lang.org/dita/archspec/base/generalization-elements" scope="external">Element generalization</xref>（已逐页核对）</li>
+        <li>属性一侧祖先属性的取值由属性名加圆括号内的原取值构成、处理器据 <xmlatt>specializations</xmlatt> 判定祖先链与中间落点的合法性、同一元素上不得同时出现同一属性的 generalized 与 specialized 取值——<xref href="https://dita-lang.org/dita/archspec/base/generalization-attributes" scope="external">Attribute generalization</xref>（已逐页核对）</li>
+        <li><xmlatt>class</xmlatt> 须列出从最通用到最具体的完整祖先链、未改名的中间层同样要列出——<xref href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external">class 属性规则与语法</xref>（已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：不认识这套模块的处理器会跳过或校验不过这两种结局、三类用途落到实际协作里的措辞、双方共同认得的那一层就是可停位置这条操作性表述，来自通用 DITA 实践与实现观察，未逐页核对；完整祖先链与「找得到可停位置」之间的因果解释、新模块写完先测 generalization 的验收建议、把验收而非交换列为第一个用处，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

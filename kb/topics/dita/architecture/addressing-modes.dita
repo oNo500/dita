@@ -66,8 +66,13 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：DITA 只有直接 URI 与间接 key 两种寻址机制、元素通过 <xmlatt>id</xmlatt> 获得唯一标识、规范定义两种片段标识符语法（完整式与用于同 topic 内非 topic 元素的缩写式）、<xmlatt>format</xmlatt> 与 <xmlatt>href</xmlatt> 与 <xmlatt>scope</xmlatt> 与 <xmlatt>type</xmlatt> 共同描述一条链接、<xmlelement>resourceid</xmlelement> 提供 <keyword>context hook</keyword>，转自 <xref href="https://dita-lang.org/dita/archspec/base/ditaaddressing" scope="external">DITA 寻址</xref>；key 提供一层间接使资源（URI、元数据、变量文本字符串）可在 map 层面定义而非在每个 topic 中各自定义，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/key-based-addressing" scope="external">基于 key 的寻址</xref>。两处均已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中 <xmlatt>id</xmlatt> 唯一性的两级作用范围、<xmlatt>scope</xmlatt> 三个取值的语义表述、<xmlelement>resourceid</xmlelement> 与 1.x <xmlatt>copy-to</xmlatt> 的关系，笔记列在未核对，本篇按其表述转录而不作断言；两种绑定时机的代价对比、结论节的分界判据，为本库归纳。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>DITA 只有直接 URI 与间接 key 两种寻址机制、元素通过 <xmlatt>id</xmlatt> 获得唯一标识、规范定义两种片段标识符语法（完整式与用于同 topic 内非 topic 元素的缩写式）、<xmlatt>format</xmlatt> 与 <xmlatt>href</xmlatt> 与 <xmlatt>scope</xmlatt> 与 <xmlatt>type</xmlatt> 共同描述一条链接、<xmlelement>resourceid</xmlelement> 提供 <keyword>context hook</keyword>——<xref href="https://dita-lang.org/dita/archspec/base/ditaaddressing" scope="external">DITA 寻址</xref>（已逐页核对）</li>
+        <li>key 提供一层间接，使资源（URI、元数据、变量文本字符串）可在 map 层面定义而非在每个 topic 中各自定义——<xref href="https://dita-lang.org/2.0/dita/archspec/base/key-based-addressing" scope="external">基于 key 的寻址</xref>（已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：<xmlatt>id</xmlatt> 唯一性的两级作用范围、<xmlatt>scope</xmlatt> 三个取值的语义表述、<xmlelement>resourceid</xmlelement> 与 1.x <xmlatt>copy-to</xmlatt> 的关系，笔记列在未核对，本篇按其表述转录而不作断言；两种绑定时机的代价对比、结论节的分界判据，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

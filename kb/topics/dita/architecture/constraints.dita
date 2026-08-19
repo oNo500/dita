@@ -98,8 +98,13 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：Constraints 是架构规范「Configuration and specialization」章下与 Specialization、Generalization、Expansion modules 平级的节点，constraint 因此不是 specialization 的一种形态，转自 <xref href="https://dita-lang.org/dita/archspec/base/constraints" scope="external">Constraints</xref> 及该章的目录结构；constraint module 的四项功能（收紧内容模型且不得把必填改回可选或改动有序元素的次序、收紧可用属性与属性取值集合、收紧 domain 提供的扩展元素及其内容模型、用 domain 扩展元素替换基础元素）、凡符合收紧后语法的实例同样符合收紧前的语法、RNG 一侧收紧 domain 扩展元素可由 document-type configuration 直接完成，转自 <xref href="https://dita-lang.org/dita/archspec/base/constraints-overview" scope="external">Overview of constraints</xref>。两处均已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中六条常见写法及各自的用意、constraint 是语法文件一级规则因而在输入时即拒绝违规内容、它与 lint 脚本在生效时刻上的差别，来自通用 DITA 实践与工具使用观察，未逐页核对；constraint 一改会使既有内容成批失效因而宜早做、specialization 与 constraint 的选用判据、选错时的症状，为本库归纳。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>Constraints 是架构规范「Configuration and specialization」章下与 Specialization、Generalization、Expansion modules 平级的节点，constraint 因此不是 specialization 的一种形态——<xref href="https://dita-lang.org/dita/archspec/base/constraints" scope="external">Constraints</xref> 及该章的目录结构（已逐页核对）</li>
+        <li>constraint module 的四项功能（收紧内容模型且不得把必填改回可选或改动有序元素的次序、收紧可用属性与属性取值集合、收紧 domain 提供的扩展元素及其内容模型、用 domain 扩展元素替换基础元素）、凡符合收紧后语法的实例同样符合收紧前的语法、RNG 一侧收紧 domain 扩展元素可由 document-type configuration 直接完成——<xref href="https://dita-lang.org/dita/archspec/base/constraints-overview" scope="external">Overview of constraints</xref>（已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：六条常见写法及各自的用意、constraint 是语法文件一级规则因而在输入时即拒绝违规内容、它与 lint 脚本在生效时刻上的差别，来自通用 DITA 实践与工具使用观察，未逐页核对；constraint 一改会使既有内容成批失效因而宜早做、specialization 与 constraint 的选用判据、选错时的症状，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

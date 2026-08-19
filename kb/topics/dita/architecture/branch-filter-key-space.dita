@@ -81,8 +81,12 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：<xmlelement>ditavalref</xmlelement> 的作用范围为该分支本身及其引用的本地 map 与 topic、多个 <xmlelement>ditavalref</xmlelement> 兄弟导致分支克隆且每份独立过滤、<xmlelement>ditavalmeta</xmlelement> 的四个子元素分别改资源名与生成标题、分支被克隆时处理器必须处理资源名与 key 名的冲突、分支过滤可导致 root map 全局 key space 发生变化因而处理器必须求值分支过滤以构造 key space，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/branch-filtering" scope="external">分支过滤</xref>，已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中四条后果、三条实践建议、拆成两个 root map 各构建一次的退路，为本库归纳；样例按事实段所列的机制描述构造，非从规范抄录；分支过滤与 key 解析在 DITA-OT preprocess 中的先后落点，来自本库对该工具链的观察，未逐页核对。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li><xmlelement>ditavalref</xmlelement> 的作用范围为该分支本身及其引用的本地 map 与 topic、多个 <xmlelement>ditavalref</xmlelement> 兄弟导致分支克隆且每份独立过滤、<xmlelement>ditavalmeta</xmlelement> 的四个子元素分别改资源名与生成标题、分支被克隆时处理器必须处理资源名与 key 名的冲突、分支过滤可导致 root map 全局 key space 发生变化因而处理器必须求值分支过滤以构造 key space——<xref href="https://dita-lang.org/2.0/dita/archspec/base/branch-filtering" scope="external">分支过滤</xref>（已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：四条后果、三条实践建议、拆成两个 root map 各构建一次的退路，为本库归纳；样例按事实段所列的机制描述构造，非从规范抄录；分支过滤与 key 解析在 DITA-OT preprocess 中的先后落点，来自本库对该工具链的观察，未逐页核对。</p>
     </section>
   </conbody>
 </concept>
