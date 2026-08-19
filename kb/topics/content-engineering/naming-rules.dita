@@ -76,7 +76,8 @@
     <section>
       <title>边界</title>
       <p>本篇管名字与归属字段。正文里用哪个词见 <xref href="terminology-rules.dita">kb 术语治理</xref>；一篇的形状与语体见 <xref href="writing-style.dita">kb 文体与语体</xref>；主题树与维度值集本身怎么建、怎么对标，正本在词表与 <xref href="domain-dimension-method.dita">kb 领域维度框架与 80/20 取舍</xref>。</p>
-      <p>标题与上游节点的对应已从人审转为声明式溯源：每篇在 prolog 声明自己对应的上游节点，索引核实其存在性，自造篇声明为自造。规则编号 R19（2026-08-18 落地，原设计稿写的 R18 已被"成熟度必标"占用），机器面在 dita-tools lint，规格记档在 <filepath>kb/schema/rules.sch</filepath>，覆盖面目前是 dita 域、按分支推广。它查不出的是"节点存在但选错了"——声明与标题出自同一判断，这一类只能靠独立复核；机制的定位与这类盲区见 <xref href="rot-detection.dita">kb 腐烂检测机制</xref>。</p>
+      <p>标题与上游节点的对应已从人审转为声明式溯源：每篇在 prolog 声明自己对应的上游节点，索引核实其存在性，标题自造的篇声明为 <codeph>coined</codeph>。规则编号 R19（2026-08-18 落地，原设计稿写的 R18 已被"成熟度必标"占用），机器面在 dita-tools lint，规格记档在 <filepath>kb/schema/rules.sch</filepath>，覆盖面目前是 dita 域、按分支推广。它查不出的是"节点存在但选错了"——声明与标题出自同一判断，这一类只能靠独立复核；机制的定位与这类盲区见 <xref href="rot-detection.dita">kb 腐烂检测机制</xref>。</p>
+      <p>本篇说的自造是<b>标题自造</b>，判据是上游知识树里没有这个节点名，与正文有没有出处无关。正文断言无出处那件事叫<b>无外部来源</b>，判据与机器面（R8、R21）在 <xref href="writing-sourcing.dita">kb 来源与成熟度标注</xref>。两者正交，规则文案里不写光杆的"自造"，理由与两级命名自造的分档一并记在 <xref href="terminology-rules.dita">kb 术语治理</xref> 的边界一节。</p>
     </section>
 
     <section>

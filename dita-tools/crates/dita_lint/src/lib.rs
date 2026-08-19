@@ -216,6 +216,14 @@ const SPLIT_THRESHOLD: usize = 8;
 /// file's logic.
 const INDEXED_DOMAINS: [&str; 1] = ["dita"];
 /// R19: the value that says "no upstream node exists for this one".
+///
+/// This is 标题自造 — the upstream knowledge tree has no node by this *name*.
+/// It is not 无外部来源, R8's judgement, which is about the body's assertions
+/// having no external provenance. The two are orthogonal: most of the topics
+/// declaring `coined` do cite sources for their facts, and a topic whose title
+/// comes straight from upstream may cite nothing at all. The rules read each
+/// other wrong the moment the two are called by one name, so neither this file
+/// nor `rules.sch` writes a bare 「自造」 (terminology-rules 边界 has the split).
 const COINED: &str = "coined";
 /// R19: the three gates a coined title has to have passed (naming-rules).
 /// Their names have to appear in the file header comment — the argument itself
@@ -339,7 +347,8 @@ fn check_upstream_node(
         push(
             "R19：缺 upstream-node 声明——dita 域 topic 必须写明标题取自上游哪个节点\
              （prolog data name=\"upstream-node\" value=\"节点标题原文\"）；\
-             本库自造的写 value=\"coined\"，并在文件头注释写明三道关"
+             标题自造的写 value=\"coined\"（指上游无此节点名，与 R8 的「无外部来源」是两件事），\
+             并在文件头注释写明三道关"
                 .to_string(),
         );
         return;
@@ -355,8 +364,8 @@ fn check_upstream_node(
                 .collect();
             if !missing.is_empty() {
                 push(format!(
-                    "R19：声明 coined（本库自造）但文件头注释缺三道关说明「{}」\
-                     ——自造得留下论证，否则与「查不到就写 coined」无从区分",
+                    "R19：声明 coined（标题自造）但文件头注释缺三道关说明「{}」\
+                     ——标题自造得留下论证，否则与「查不到就写 coined」无从区分",
                     missing.join("」「")
                 ));
             }
