@@ -70,14 +70,11 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
       <ul>
         <li>来源与日期为标准元数据字段：<codeph>source</codeph> 为"派生出本资源的相关资源"、<codeph>date</codeph> 为"与资源生命周期事件关联的时间"——<xref href="https://www.dublincore.org/specifications/dublin-core/dcmi-terms/" scope="external">DCMI Metadata Terms</xref></li>
         <li>DITA 侧的对应机制——<xref href="https://dita-lang.org/dita/langref/base/source" scope="external">prolog source 元素</xref></li>
         <li>条件过滤只认写出来的属性：<xmlatt>action</xmlatt> 取 include/exclude/passthrough/flag，匹配按写出来的 <xmlatt>att</xmlatt> 与 <xmlatt>val</xmlatt> 进行，没有「要求某属性必须出现」这一档，属性缺席也不构成匹配——<xref href="https://dita-lang.org/dita/langref/ditaval/prop" scope="external">DITAVAL 的 prop 元素</xref></li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳，且均无外部标准背书、效力来自机器强制（R2/R3/R8/R18 与 lint 晋级门）：三档成熟度、两值时效、volatile 无日期不得 verified、来源两段分档；「两段须穷尽正文全部断言」此前只存在于迁移工作区的执行档案里、无版本化正本，故在此认领，它无机器面，R14 只校验两个标签在不在，穷尽性靠人审；内容层与结构层对称防腐、结构层以事件触发为主而到期只 flag 不阻塞，登记项与复核纪律以词表内 benchmark-registry 的实际内容为准。成熟度门开在 draft 与 curated 之间、档位随库的成熟度上移、被引主体由构建脚本正面断言，为 2026-08-17 落地时的决定，直接理由是全库当时零篇 verified（见各篇 <xmlatt>maturity</xmlatt> 标注，可核对）；R18 同日决定，与 R2 对称，堵住「未标注即被过滤放过」这一格，恒 error 而不分级，因为被检查的正是分级依据的那个属性缺席。来源节两段的形式（事实段条目化、判断段散文、事实为无者两段皆散文、承载元素统一 <xmlelement>ul</xmlelement>）为 2026-08-19 本库决定，起因是全库实测事实段把所有条目缝进一个长句、地址埋在文字里；这条同样无机器面，理由与穷尽性一致：条目该怎么切分机器判不准，判不准的代理会毁掉规则的可信度。</p>
     </section>
   </conbody>
 </concept>

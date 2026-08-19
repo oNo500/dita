@@ -68,13 +68,10 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
       <ul>
         <li>上下文工程的定义、最小高信号 token 集、context rot 的成因与梯度性质、四种策略、压缩须保留的三类信息——<xref href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" scope="external">Anthropic, Effective context engineering for AI agents</xref></li>
         <li>四条命令的行为——<xref href="https://code.claude.com/docs/en/context-window" scope="external">Claude Code, Explore the context window</xref></li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：四种策略与四种超支形态的对应为本库归纳，官方仅并列给出策略。</p>
     </section>
   </conbody>
 </concept>

@@ -57,12 +57,9 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
       <ul>
         <li>skill 按相关性逐个触发、可由用户直接调用，无跨 skill 顺序机制——<xref href="https://code.claude.com/docs/en/skills" scope="external">Claude Code, Skills</xref></li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：两种承载方式的划分与取舍判据为原创归纳，独立编排物的成本估计因人而异。</p>
     </section>
   </conbody>
 </concept>

@@ -139,15 +139,13 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>（均已逐页核对）</p>
+      <p>以下各条均已逐页核对。</p>
       <ul>
         <li><xmlelement>data</xmlelement> 用于承载属性与元数据、带名与值及数据类型三个属性、可出现在 prolog 与元数据容器及大量其他容器中、处理器默认应当不渲染它、被显式定位为 <term keyref="term-specialization">specialization</term> 的基类、仅用于属性而不用于正文内容流——<xref href="https://dita-lang.org/dita/langref/base/data" scope="external">data 语言参考</xref></li>
         <li><xmlelement>othermeta</xmlelement> 的名与内容两个属性必填、内容模型为空、限于元数据容器内、2.0 仍然存在——<xref href="https://dita-lang.org/dita/langref/base/othermeta" scope="external">othermeta 语言参考</xref></li>
         <li>受控值绑定时容器节点自身不是合法值、空枚举使属性无合法值、默认值在级联值之后求值——<xref href="https://dita-lang.org/2.0/dita/archspec/base/binding-controlled-values-to-attribute" scope="external">绑定受控值到属性</xref></li>
         <li>分类属性以空格分隔引用主题的键——<xref href="https://dita-lang.org/2.0/dita/archspec/base/subject-scheme-maps-and-usage" scope="external">subject scheme map 及其使用</xref></li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：对照表里受控值校验、参与过滤、沿 map 级联三列的各行取值，分类属性的可用位置，prolog 元数据元素可由 map 一侧下沉，均未逐条核对；五步判断顺序、「没有校验的位置只适合放草稿」的定性、给权宜字段定迁移期限的建议、五条反例，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

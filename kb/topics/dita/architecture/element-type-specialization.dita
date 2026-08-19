@@ -166,15 +166,13 @@ domain：前缀 +，派生的是一个跨 topic 类型可用的元素
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>（均已逐页核对）</p>
+      <p>以下各条均已逐页核对。</p>
       <ul>
         <li>specialized 元素类型的四条特征（形式正确的 <xmlatt>class</xmlatt>、内容模型与所派生自的元素相同或更窄、属性集为其子集或从其属性派生出的属性、属性取值与取值范围同为子集），以及 DITA 元素不属于任何命名空间、只有 <xmlatt>DITAArchVersion</xmlatt> 在 DITA 定义的命名空间里——<xref href="https://dita-lang.org/dita/archspec/base/specialization-rules-elements" scope="external">元素类型的 specialization 规则</xref></li>
         <li>specialization 分 structural 与 domain 两类，前者从 topic 类型或 map 类型派生（concept 与 task 之于 topic、bookmap 之于 map），后者从 topic 或 map 内部定义的元素派生并可装配进 document-type shell——<xref href="https://dita-lang.org/dita/archspec/base/specialization-overview" scope="external">specialization 概述</xref></li>
         <li><xmlelement>coderef</xmlelement> 由 <xmlelement>include</xmlelement> specialize 而来——<xref href="https://dita-lang.org/dita/langref/base/include" scope="external">include 元素</xref></li>
         <li><xmlatt>class</xmlatt> 两个前缀的分工，即 structural 一类取减号、domain 一类取加号——<xref href="https://dita-lang.org/dita/archspec/base/specialization-class-attribute" scope="external">class 属性规则与语法</xref>；该属性其余构造规则的事实认领归 <xref href="class-derivation.dita">@class 与 @specializations 属性规则与语法</xref>，本篇不重述、不重复认领</li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：RNG 模块示例的写法（示意结构，非官方模板逐行抄录）、引模块而不引外壳的理由、斜杠前一段是模块名、domain 模块名以 <codeph>-d</codeph> 收尾的写法、十二个自带 domain 的清单与各自的覆盖范围、六个可派生基类及其适用范围、<xmlatt>title-role</xmlatt> 接受自定义取值、plugin 与 catalog 的注册步骤、未写 XSLT 也按基类模板渲染、不认识 domain 元素的处理器按基类处理，来自通用 DITA 实践与 DITA-OT 实现观察，未逐页核对；先画映射表的要求、三步次序与三类失败症状、以 generalization 验证派生链的建议、两类之间的选用判据、拿不准时优先 domain specialization 的建议、先定基类再装配的次序，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

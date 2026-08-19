@@ -98,15 +98,13 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>（均已逐页核对）</p>
+      <p>以下各条均已逐页核对。</p>
       <ul>
         <li>TOC 节点的默认生成规则与四种例外、<xmlatt>toc</xmlatt> 级联到子节点且后代可显式改回、map 引 map 时导航树在引用点并入、节点显示文本取有效导航标题、Navigation 一节仅含 TOC 与替代标题两个子页——<xref href="https://dita-lang.org/2.0/dita/archspec/base/table-of-contents" scope="external">目录</xref></li>
         <li>索引设施六项的语义——<xref href="https://dita-lang.org/2.0/dita/archspec/base/indexes" scope="external">索引</xref></li>
         <li><xmlatt>collection-type</xmlatt> 与 <xmlatt>linking</xmlatt> 各四个取值的定义——<xref href="https://dita-lang.org/dita/langref/base/topicref" scope="external">topicref 语言参考</xref></li>
         <li>关系表的四条链接规则——<xref href="https://dita-lang.org/dita/langref/base/reltable" scope="external">reltable 语言参考</xref></li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：<xmlelement>topichead</xmlelement> 靠导航标题生成节点为对 TOC 规则的推论、索引项放 <xmlelement>prolog</xmlelement> 与放正文的页码差异及在 map 上补索引的用法属实现观察、map 层级链接的具体生成为实现惯例而规范未单列算法，均已在正文逐处标注，笔记列为未逐页核对；三类产出可预期程度递减的排序与跨处理器实测的建议，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

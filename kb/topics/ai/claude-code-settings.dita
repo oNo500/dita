@@ -84,12 +84,9 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
       <ul>
         <li>四层作用域与位置、五级优先级、三种权限规则与未命中默认询问、通配符语义、权限规则跨层合并且 deny 优先、MCP 键的特殊合并、即时生效与需重启之分、<codeph>/status</codeph> 的加载来源列表、<codeph>/doctor</codeph> 检查被剥离条目——<xref href="https://code.claude.com/docs/en/settings" scope="external">Claude Code, Settings</xref>（逐条对照；本篇仅收录该页所载内容，settings 键全表与 CLI 参数未核对、未写入）</li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外仅一处："彻底禁用某动作写 deny 即可，无需清理各处 allow"由合并规则推出，非官方原文。本篇 volatile：设置键与合并语义随版本变动，日期一旧，先回官方页复核再引用。</p>
     </section>
   </refbody>
 </reference>

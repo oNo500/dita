@@ -65,13 +65,10 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
       <ul>
         <li>自足性源自 <term keyref="term-zettelkasten">Zettelkasten</term> 的<term keyref="term-atomicity">原子化</term>原则（一条笔记一件事、脱离语境成立）——<xref href="https://zettelkasten.de/introduction/" scope="external">zettelkasten.de</xref></li>
         <li>按读者需求划分文档类型——<xref href="https://diataxis.fr/" scope="external">Diátaxis</xref></li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：把三项合并为准入门槛（前两项皆不过即为噪音）、领域特有性这一项及其换技术栈检验法、不通过时改挂通用分支或删除的处置，均为本库设计，末三项 2026-08-17 人审后新增。8 处这个拆分阈值同为本库取值，是"判据与配置并存"的代理指标而非自然常数，实测偏严或偏松都应改数而非弃用。</p>
     </section>
   </conbody>
 </concept>

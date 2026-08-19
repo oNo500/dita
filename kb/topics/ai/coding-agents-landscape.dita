@@ -128,7 +128,6 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
       <ul>
         <li>MCP 的三方角色、JSON-RPC 2.0 基础、服务端与客户端各自提供的能力、三项可选扩展与协商方式、按日期标识的版本——<xref href="https://modelcontextprotocol.io/specification/latest" scope="external">MCP 规范</xref></li>
         <li>基金会成立日期、三个创始项目及其捐出方、白金成员名单、已发布服务端超过一万个、AGENTS.md 被六万余个项目采用——<xref href="https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation" scope="external">Linux Foundation 公告</xref>、<xref href="https://www.anthropic.com/news/donating-the-model-context-protocol-and-establishing-of-the-agentic-ai-foundation" scope="external">Anthropic 的捐赠说明</xref>、<xref href="https://aaif.io/" scope="external">Agentic AI Foundation</xref></li>
@@ -138,8 +137,6 @@
         <li>三家实现的官方文档结构，与 Codex 文档已迁站一事——<xref href="https://code.claude.com/docs/" scope="external">Claude Code 文档</xref>、<xref href="https://learn.chatgpt.com/docs/quickstart" scope="external">Codex 文档</xref>、<xref href="https://antigravity.google/docs/getting-started" scope="external">Antigravity 文档</xref></li>
         <li>基金会内的开源实现——<xref href="https://block.github.io/goose/" scope="external">goose</xref></li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：把四份规范按「各管一段接口」并列、从文档组织方式反推产品形态的三行判读、「引用规范比引用产品文档稳」、协议与产品两类断言分开处理的引用纪律、二十二个维度的取舍与各自的一句释义、三项刻意排除，均为本库判断。三家文档结构以核对时点的站点实况为准，站点改版后需重核。维度清单是否齐全属人审事项。</p>
     </section>
   </conbody>
 </concept>

@@ -139,7 +139,6 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
       <ul>
         <li>四象限之外另立判断、质量与工作流几组说明页，框架为 Daniele Procida 的作品——<xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>、<xref href="https://diataxis.fr/colophon/" scope="external">Diátaxis 版本说明页</xref></li>
         <li>模板按核心、社区、杂项三个包组织，核心包为 concept、how-to、README、reference、release notes、troubleshooting、tutorial 七项，杂项含 glossary、style guide、terminology system、user personas 等；项目由志愿者社区维护，模板已发布到 1.6.0——<xref href="https://www.thegooddocsproject.dev/template" scope="external">The Good Docs Project 模板页</xref></li>
@@ -152,8 +151,6 @@
         <li>受控英语规范的定位与获取方式——<xref href="https://asd-ste100.org/" scope="external">ASD-STE100</xref></li>
         <li>受控值由 <term keyref="term-subject-scheme">subject scheme</term> 定义并绑定到属性，是 DITA 规范提供的机制——<xref href="https://dita-lang.org/2.0/dita/archspec/base/binding-controlled-values-to-attribute" scope="external">绑定到属性</xref></li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：把上游归为四批并按性质分成社区框架、厂商规约与正式标准三类、「可判定的那部分能落成检查、其余落不下来」、二十个维度的取舍与各自的一句释义、四项刻意排除、定位差一表的五个比较项与其中各栏的判定，均为本库判断，无外部标准背书；该表的量级词表达相对位置而非可测指标。两份 ISO 标准的适用范围取自公开摘要，条款未核。维度清单是否齐全属人审事项。</p>
     </section>
   </conbody>
 </concept>

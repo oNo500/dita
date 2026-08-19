@@ -71,12 +71,10 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>（已逐页核对）</p>
+      <p>以下各条已逐页核对。</p>
       <ul>
         <li>基础排序短语通常取 <xmlelement>title</xmlelement> 的内容而无标题元素另行构造、处理器必须把 <xmlelement>sort-as</xmlelement> 的内容前置到基础排序短语以构造有效排序短语、<q>24 Hour Support Hotline</q> 示例、规范不定义 collation 与 locale 且排序与分组的细节是实现相关的、处理器应当文档化其确定基础排序短语的方式、中文与日文需由作者手工提供注音排序键——<xref href="https://dita-lang.org/2.0/dita/archspec/base/sort-as-processing" scope="external">排序</xref></li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：拼接后前缀相同时后半段继续参与比较这一推论、样例的写法、跨处理器迁移要实测排序行为，来自对规则的推导与实现观察，未逐页核对；结论节的四条中文场景建议为本库归纳。</p>
     </section>
   </conbody>
 </concept>

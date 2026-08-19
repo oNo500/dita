@@ -114,7 +114,6 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
       <ul>
         <li>治理由 OpenJS Foundation 持有商标与知识产权，下设九个 working group 并由 Administrative 一组裁决冲突——<xref href="https://www.electronjs.org/governance" scope="external">Electron 治理页</xref></li>
         <li>每八周一个大版本、对齐 Chromium 四周周期、只支持最新三个稳定大版本、破坏性变更尽量保留两个大版本——<xref href="https://www.electronjs.org/docs/latest/tutorial/electron-timelines" scope="external">Electron 发布时间线</xref></li>
@@ -127,8 +126,6 @@
         <li>Tauri 2 已稳定发布，用系统 webview 而非捆绑浏览器——<xref href="https://v2.tauri.app/" scope="external">Tauri 2 文档</xref></li>
         <li>维度对标所依据的十个顶层文档类目——<xref href="https://www.electronjs.org/docs/latest" scope="external">Electron 官方文档</xref></li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：把约束归为四层并按这个次序排查、支持窗口二十四周因而升级是固定成本、安全默认值前移是这个项目最连续的一条线索、Electron 与系统 webview 方案的差别落在渲染引擎版本控制权上、十四个维度的取舍与各自的一句释义、三项刻意排除，均为本库判断。Tauri 的稳定发布月份取自其站点的发布公告，未逐条核对两套方案的实测数据。维度清单是否齐全属人审事项。</p>
     </section>
   </conbody>
 </concept>

@@ -80,14 +80,11 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
       <ul>
         <li><xmlelement>video</xmlelement> 的子元素顺序、单一来源走 <xmlatt>href</xmlatt> 与多格式候选走 <xmlelement>media-source</xmlelement> 两种给源方式、四个播放属性、<xmlelement>media-track</xmlelement> 与 <xmlelement>video-poster</xmlelement> 的用途——<xref href="https://dita-lang.org/dita/langref/base/video" scope="external">video 元素</xref>（已逐页核对）</li>
         <li>multimedia elements 作为一个 domain 及其包含的五个元素——<xref href="https://dita-lang.org/dita/langref/containers/multimedia-elements" scope="external">Multimedia elements</xref></li>
         <li><xmlelement>image</xmlelement> 归在 body elements 下——<xref href="https://dita-lang.org/dita/langref/base/image" scope="external">image 元素</xref></li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：<xmlelement>image</xmlelement> 的 <xmlatt>placement</xmlatt>、<xmlatt>scale</xmlatt>、<xmlatt>scalefit</xmlatt> 与空 <xmlelement>alt</xmlelement> 的无障碍做法未逐页核对，正文已逐条标注；<xmlelement>audio</xmlelement> 与 <xmlelement>video</xmlelement> 同族为推断，未单独核对；键定义的 <xmlelement>keytext</xmlelement> 用于图片时相当于 <xmlelement>alt</xmlelement> 来自通用实践；<xmlelement>fallback</xmlelement> 该写什么、它与 <xmlelement>include</xmlelement> 属同一设计的说法，为本库归纳。</p>
     </section>
   </refbody>
 </reference>

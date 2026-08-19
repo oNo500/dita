@@ -51,12 +51,9 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
       <ul>
         <li>三相循环、模型与工具两部件、agentic harness 的定义、内置工具五类、可验证目标的建议、两种介入方式的语义、快照与外部副作用的边界、会话独立性、与行内助手的对照——<xref href="https://code.claude.com/docs/en/how-claude-code-works" scope="external">Claude Code, How Claude Code works</xref></li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：把三条使用要点组织为因果链，以及"可验证目标的作用范围大于精确提示"的比较，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

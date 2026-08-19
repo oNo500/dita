@@ -82,14 +82,12 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>（均已逐页核对）</p>
+      <p>以下各条均已逐页核对。</p>
       <ul>
         <li>subject scheme 为一种 map 类型、受控值与主题经键定义机制组织、分类与子分类构成树、树内解析的键引用不产生变量文本与链接而语义为绑定与关联——<xref href="https://dita-lang.org/2.0/dita/archspec/base/subjectschema" scope="external">subject scheme map</xref></li>
         <li><xmlelement>enumerationdef</xmlelement> 与 <xmlelement>attributedef</xmlelement>、<xmlelement>subjectdef</xmlelement>、<xmlelement>defaultSubject</xmlelement> 的分工、容器节点自身不是合法值、空枚举使属性无合法值、受控值默认在显式值与语法默认及级联值之后而在处理器默认之前求值——<xref href="https://dita-lang.org/2.0/dita/archspec/base/binding-controlled-values-to-attribute" scope="external">绑定受控值到属性</xref></li>
         <li>向上查找算法（先精确匹配，无则沿层级上溯至命中）、排除与标记沿层级向下继承及其治疗师原例、三条对处理器的期望——<xref href="https://dita-lang.org/2.0/dita/archspec/base/processing-controlled-attribute-values" scope="external">处理受控属性值</xref></li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：「排除父节点时子节点是否也该消失」这条画树判据、云平台与迁移指南的例子、一棵树只管一个正交维度、多维度合树导致节点数按乘积增长，是从事实段所列的向上查找规则推出的分析，规范未如此表述；三个维度与三个人的引入门槛、把树当作可评审的版本化文件治理、演进走版本化变更而非临时发明取值，为本库归纳的实践建议。</p>
     </section>
   </conbody>
 </concept>

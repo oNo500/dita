@@ -78,13 +78,10 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
       <ul>
         <li><xmlelement>simpletable</xmlelement> 的内容模型 <codeph>title?, sthead?, strow+</codeph>（2.0 起含 <xmlelement>title</xmlelement>）、<xmlatt>relcolwidth</xmlatt> 给比例列宽、<xmlatt>keycol</xmlatt> 指定纵向表头列——<xref href="https://dita-lang.org/dita/langref/base/simpletable" scope="external">simpletable 元素</xref>（已逐页核对）</li>
         <li><xmlelement>table</xmlelement> 的模型为 OASIS Exchange Table Model，上游把两者归在同一个容器节点下——<xref href="https://dita-lang.org/dita/langref/containers/table-elements" scope="external">Table elements</xref></li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：CALS 一侧的内容模型概述与跨行跨列、列声明、行表头的属性细节，<xmlelement>choicetable</xmlelement> 与 <xmlelement>properties</xmlelement> 派生自 <xmlelement>simpletable</xmlelement> 的说法，来自通用 DITA 实践，未逐页核对；默认选 <xmlelement>simpletable</xmlelement> 的判断、三条理由、三个反例、三条边界，以及用 constraint module 把约定变成机器可查规则的建议，为本库归纳；多格式输出时合并单元格的降级为实现观察，未在各输出格式上逐一验证。</p>
     </section>
   </conbody>
 </concept>

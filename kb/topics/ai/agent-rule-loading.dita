@@ -69,14 +69,11 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
       <ul>
         <li>三种加载条件对应产品中的实际开关（alwaysApply、globs、按描述判定）——<xref href="https://cursor.com/docs/rules" scope="external">Cursor, Rules</xref></li>
         <li>CLAUDE.md 每会话载入、建议精简、过长降低遵循度——<xref href="https://code.claude.com/docs/en/memory" scope="external">Claude Code, Memory</xref></li>
         <li>skill 正文按需加载——<xref href="https://code.claude.com/docs/en/skills" scope="external">Claude Code, Skills</xref></li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：先 glob 后体量的选层判据、宽 glob 例外、入口双轨，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

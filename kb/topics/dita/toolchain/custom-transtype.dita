@@ -107,12 +107,10 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>（已逐页核对）</p>
+      <p>以下各条已逐页核对。</p>
       <ul>
         <li>扩展点在 plugin.xml 中以 feature 的 extension 声明、可用当前输出格式限定自定义代码的生效范围、preprocess 前后置扩展点的标识符——<xref href="https://www.dita-ot.org/dev/extension-points/plugin-extension-points" scope="external">插件扩展点</xref></li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：新格式的 plugin.xml 与构建文件示例、<codeph>dita2X</codeph> 命名约定、依赖链里的初始化与 preprocess 两个 target 名、内置属性表、ant-contrib 任务不随发行版保证提供、界面字符串本地化的配置方式，来自通用 DITA-OT 实践，未逐页核对；插入位置按解析前后取舍、报错时的两步排查次序、与覆盖 XSLT 的分工，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

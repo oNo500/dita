@@ -88,7 +88,7 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>（除注明外均已逐页核对）</p>
+      <p>以下各条除注明外均已逐页核对。</p>
       <ul>
         <li>information typing 的定义与理由、「可能的信息类型集合是无界的」、新类型经 specialization 产生、已有类型匹配时应直接用或作为基类——<xref href="https://dita-lang.org/dita/archspec/base/information-typing" scope="external">Information typing</xref></li>
         <li><xmlelement>topic</xmlelement> 的内容模型、<xmlatt>id</xmlatt> 必需、<xmlelement>shortdesc</xmlelement> 与 <xmlelement>abstract</xmlelement> 互斥——<xref href="https://dita-lang.org/dita/langref/base/topic" scope="external">topic 元素</xref></li>
@@ -99,8 +99,6 @@
         <li>machinery task、classification map 与 glossary 一侧 shell 的移除、子步骤元素的退役——<xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref></li>
         <li>两个包各有哪些语法文件、<xmlelement>glossgroup</xmlelement> 仍在、strict task 由 constraint module 实现——<xref href="https://github.com/oasis-tcs/dita" scope="external">base 仓库</xref>、<xref href="https://github.com/oasis-tcs/dita-techcomm" scope="external">technical content 仓库</xref>在 v2.0-beta03 的语法文件目录实况（已逐文件核对）</li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：base 包结构模块的清单未找到与 technical content 包等价的分组页面逐条核对；类型与主题正交的示例表、三个常用类型的典型内容、reference 的判据用法、三种失败模式、默认选 strict task 与 general task 的适用场合，来自通用 DITA 实践；<xmlelement>concept</xmlelement> 派生链的具体取值按 <xmlatt>class</xmlatt> 规则推导，未从语法文件逐字核对；先自足性后类型的判断顺序、数结构模块而不数 shell 的说法为本库归纳。</p>
     </section>
   </conbody>
 </concept>

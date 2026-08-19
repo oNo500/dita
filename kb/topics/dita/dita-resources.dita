@@ -89,13 +89,10 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
       <ul>
         <li>两组入口逐条转自——<xref href="https://dita-lang.org/specifications" scope="external">规范总入口</xref>、<xref href="https://www.dita-ot.org/dev/" scope="external">DITA-OT 文档</xref>（链接可达性经调研期核对）</li>
         <li>无版本号路径指向 2.0——来自站点结构本身</li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：收录范围限于规范与实现两类、教程与产品页不收、三条取用规则，均为本库判断；各入口「用它查什么」一栏是按用途归纳的说明，非原页面的自我描述。</p>
     </section>
   </refbody>
 </reference>

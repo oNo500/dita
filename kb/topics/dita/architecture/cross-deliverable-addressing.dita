@@ -62,12 +62,10 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>（已逐页核对）</p>
+      <p>以下各条已逐页核对。</p>
       <ul>
         <li>跨交付物寻址使不同 root map 之间的链接可用、<xmlatt>keyscope</xmlatt> 控制作用域边界且跨作用域引用需以作用域名限定——<xref href="https://dita-lang.org/2.0/dita/archspec/base/key-based-addressing" scope="external">基于 key 的寻址</xref></li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段两条外，正文其余陈述均属判断，可被反驳：三步做法与样例、<codeph>peer</codeph> 表示属于同一套交付物但不在本次构建范围内这一语义表述、处理器生成指向对方发布位置的链接这一行为描述，笔记列在未逐页核对，本篇按其表述转录并在边界一节标明须实测；两处实测点与 key 名当作对外接口维护的约定，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

@@ -155,7 +155,6 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b></p>
       <ul>
         <li>已发布版本与草案预览的分列、无版本号路径指向 2.0——<xref href="https://dita-lang.org/specifications" scope="external">DITA 规范总入口</xref></li>
         <li>TC 的章程目标、四个在运作的子委员会与八个已关闭的子委员会——<xref href="https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=dita" scope="external">OASIS DITA TC</xref></li>
@@ -168,8 +167,6 @@
         <li>iiRDS 由 tekom 下的 Consortium 维护，最新版本 1.3——<xref href="https://www.iirds.org/" scope="external">iiRDS 官网</xref></li>
         <li>Lightweight DITA 与学习培训两条版本线的仓库实况：无 release 且长期未推送——<xref href="https://github.com/oasis-tcs/dita-lwdita" scope="external">轻量版仓库</xref>、<xref href="https://github.com/oasis-tcs/dita-learning-training" scope="external">学习培训仓库</xref></li>
       </ul>
-      <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：把相邻标准按分工列在同一张表里的划分方式、三条落地含义、五项刻意排除、二十三个维度的取舍与各自的一句释义，以及定位差一表——该表未逐页核对各方案的规范原文，量级词表达相对位置而非可测指标。iiRDS 1.3 的发布月份取自官网的版本说明，未核对发布公告原件。维度清单是否齐全属人审事项。</p>
     </section>
   </conbody>
 </concept>

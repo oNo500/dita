@@ -81,8 +81,7 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：无。OASIS 规范以 <xref href="https://dita-lang.org/dita/archspec/base/basic-dita-terminology" scope="external">Basic DITA terminology</xref> 定义规范自身的用词，不涉及内容库一侧的标题与归属命名，不承担本篇任何断言。</p>
-      <p><b>判断</b>：正文全部陈述均属判断，可被反驳：以"领域知识树上的标准叫法"为标题规则、自造三道关与头注释留证、kb 前缀按治理篇与领域篇二分、文件名与 <xmlatt>id</xmlatt> 发布后不改、归属字段的三行分工，均为本库设计，无外部标准背书；冒号副标题的比例与孤儿 domain 值取自本库 2026-08 的实测。R19 的形制以设计稿与 <filepath>rules.sch</filepath> 为准，本篇只述其定位，其中归一化、精确匹配、解析不到时列三种可能三条为 2026-08-18 用户裁定，理由是误报会让规则失去可信度。</p>
+      <p>本篇无外部来源，属本库方法论。OASIS 规范以 <xref href="https://dita-lang.org/dita/archspec/base/basic-dita-terminology" scope="external">Basic DITA terminology</xref> 定义规范自身的用词，不涉及内容库一侧的标题与归属命名，不承担本篇任何断言。</p>
     </section>
   </conbody>
 </concept>
