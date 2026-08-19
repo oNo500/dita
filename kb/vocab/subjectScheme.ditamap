@@ -19,7 +19,7 @@
      · 新增横切「维度值集」dimension：dim-common 通用核心 11 ＋ 四族特有
        （A 技术制品 9 / B 工程治理 8 / C AI 构建 10 / D 方法规范 7），共 45 键。
        维度标引：内容 topic 用从 @props specialize 出的属性 @dimension（enumerationdef 绑本值集、可多值）；
-       概览用 prolog data（planned-dimension 规划清单 + domain 域，属治理元数据）。key 统一 dim- 前缀避免撞键。
+       全景用 prolog data（planned-dimension 规划清单 + domain 域，属治理元数据）。key 统一 dim- 前缀避免撞键。
        依据五路对标（矿场＋技术制品＋工程治理＋AI＋写作），见 cases 维度对标报告.md。
      · 含矿场特有维度 dim-mental-model-migration（更换技术栈的差异，外部五路框架均无）。
      · v0.3 后按需补 dim-packaging（打包分发/自动更新，A 族桌面框架子类首个，electron 样板触发）。 -->
@@ -157,7 +157,7 @@
        横切"内容讲主题的哪个方面"。DITA 2.0 移除了 classification domain（topicsubject/subjectref 等元素 2.0 不存在），
        受控维度标引改由"从 @props specialize 出的属性 + enumerationdef 绑受控值"承担（与 maturity/volatility/tool 同路）：
        内容 topic 在根用 @dimension 标覆盖的维度（specialize 自 @props、shell 声明；可多值；enumerationdef 校验值在本值集内，见文件末绑定）；
-       概览 topic 用 prolog data name="planned-dimension" 声明本域规划清单、data name="domain" 标域
+       全景 topic 用 prolog data name="planned-dimension" 声明本域规划清单、data name="domain" 标域
        （规划/域属治理元数据、非内容分类，用 data 承载）。覆盖度＝planned vs 各 topic 的 @dimension，按 domain 求差可算。
        key 统一 dim- 前缀，避免与主题树/其他值集撞键（同 tool- 前缀先例）。
        两层：dim-common 通用核心（所有族可用）＋ 四族特有子集。
@@ -225,11 +225,11 @@
       <subjectdef keys="dim-consistency"/>
       <subjectdef keys="dim-interop"/>
       <subjectdef keys="dim-register"/>    <!-- 语体与用词：语气、句式、禁用词、强调手段的配额。
-           writing-principles 概览的对标补出（Google developer documentation style guide 的
+           writing-principles 全景的对标补出（Google developer documentation style guide 的
            Voice and tone / Language and grammar / Punctuation 三组、Microsoft Writing Style Guide 的
            brand voice / Word choice / Grammar and parts of speech / Punctuation 四组，两家均占顶层类目的
            三分之一强），D 族原七个值里无一承担：结构与模板管骨架，语体管的是散文表层，
-           归入前者是类目错置。补法照 dim-packaging 的先例——单个领域的概览对标触发，按需补一个值。 -->
+           归入前者是类目错置。补法照 dim-packaging 的先例——单个领域的全景对标触发，按需补一个值。 -->
     </subjectdef>
 
   </subjectdef>
@@ -320,7 +320,7 @@
       <data name="index-generated" value="2026-08-18"/>
     </subjectdef>
 
-    <!-- writing-principles 分支（随该域概览落地新增）。与 bm-content-engineering 分列，理由同
+    <!-- writing-principles 分支（随该域全景落地新增）。与 bm-content-engineering 分列，理由同
          bm-dita：那条的锚点覆盖整个知识工程分支（术语标准与结构化内容标准），而写作规则这一支的
          权威在另一批文档上——单篇文档形态的两个框架、两家写作风格指南。挂在上面那条里等于
          替另外几支宣称"已按这批锚点对标"。 -->
@@ -328,7 +328,28 @@
       <data name="anchor">Diátaxis（站点类目：四象限 ＋ the map / the compass / quality / workflow / adoption）· The Good Docs Project（Core pack 七模板 ＋ Misc pack 的 glossary / style guide / terminology system / user personas，另有 Tactics）· Google developer documentation style guide（九组顶层类目）· Microsoft Writing Style Guide（二十余项顶层类目，含 Checklists / Content planning / Search and writing）· ISO 704 与 ISO 25964 / NISO Z39.19（概念、定义、指称与三类概念关系）· OASIS DITA 2.0 的 subject scheme 与受控值绑定</data>
       <data name="last-benchmarked" value="2026-08-18"/>
       <data name="cadence" value="stable-on-trigger"/>
-      <data name="event-trigger">Diátaxis 或 Good Docs 改版站点类目；两家风格指南重构顶层类目；ISO 704 / 25964 出新版；本支连续 ≥3 篇内容标不上概览已列的维度</data>
+      <data name="event-trigger">Diátaxis 或 Good Docs 改版站点类目；两家风格指南重构顶层类目；ISO 704 / 25964 出新版；本支连续 ≥3 篇内容标不上全景已列的维度</data>
+    </subjectdef>
+
+    <!-- electron 分支（2026-08-19 补登记）。本域维度原是做机制样板时凭印象列的，无对标记录；
+         本轮按官方文档的十个顶层类目逐条映射后补出四维（速查 / 配置 / 集成 / 安装），
+         Contributing 一类判为不适用。与 bm-web 分列：那条的锚点是前端路线图与 MDN 课程，
+         覆盖整个 Web 分支，说不出桌面框架这一支的类目。 -->
+    <subjectdef keys="bm-electron">
+      <data name="anchor">Electron 官方文档顶层类目（Get Started / Processes in Electron / Best Practices / Examples / Development / Native Node Modules / Distribution / Testing And Debugging / References / Contributing）＋ 治理页的九个 working group ＋ 发布时间线与发布页（八周节奏、三条稳定线）</data>
+      <data name="last-benchmarked" value="2026-08-19"/>
+      <data name="cadence" value="volatile-6mo"/>
+      <data name="event-trigger">官方文档顶层类目重构；发布或支持策略变更；系统 webview 一路方案成为默认选项；本域连续 ≥3 篇内容标不上全景已列的维度</data>
+    </subjectdef>
+
+    <!-- coding-agents 分支（2026-08-19 补登记）。原先只在全景的文件头注释里提过一句
+         「官方文档结构」，无登记。与 bm-ai 分列：那条覆盖整个 AI 分支的官方文档与路线图，
+         而本支的锚点还包括三份已交给基金会的规范，二者的失效事件不同。 -->
+    <subjectdef keys="bm-coding-agents">
+      <data name="anchor">三家官方文档现行结构：Claude Code（code.claude.com/docs 分组索引）· Codex（原 developers.openai.com/codex，已 308 迁至 learn.chatgpt.com/docs）· Antigravity（2.0 / CLI / SDK / IDE 四条产品线）＋ 三份规范：MCP（Agentic AI Foundation，按日期版本）· AGENTS.md（同上）· Agent Skills（agentskills.io）</data>
+      <data name="last-benchmarked" value="2026-08-19"/>
+      <data name="cadence" value="volatile-6mo"/>
+      <data name="event-trigger">任一家官方文档大类重构或迁站；MCP 发新版本日期；AGENTS.md 或 Agent Skills 规范改版；新协议出现真实笔记；本域连续 ≥3 篇内容标不上全景已列的维度</data>
     </subjectdef>
 
     <!-- 维度值集的对标（v0.3 新增）：登记的不是主题分支，是横切 dimension 值集本身。 -->
@@ -363,7 +384,7 @@
       <data name="required-section" value="取舍"/>
       <data name="required-section" value="前置"/>
       <data name="required-section" value="步骤"/>
-      <!-- R20：quickstart 是在完整维度框架上选出的一条路径，必须挂靠所属领域的概览体裁。
+      <!-- R20：quickstart 是在完整维度框架上选出的一条路径，必须挂靠所属领域的全景体裁。
            这一对关系（谁挂靠谁）的正本在这里，不在 lint——工具不得内联值清单，
            它读本字段判定；换言之 quickstart 与 tech-landscape 两个字面只出现在词表里。
            取舍一节同理：节名是体裁结构的一部分，故走 required-section 由 R13 执行，
@@ -387,6 +408,11 @@
       <data name="required-section" value="反例"/>
       <data name="required-section" value="边界"/>
     </subjectdef>
+    <!-- tech-landscape 的中文标题后缀是「领域全景」（2026-08-19 定死，此前一度改叫
+         「领域全景」，反复改名本身是问题，就此不再动）。人读正本在 naming-rules 的体裁后缀一条。
+         这一体裁的正文主体是该领域的业界生态与标准——有哪些规范、谁在维护、有哪些实现与工具、
+         当前处在什么状态；本库自拟的维度框架以 prolog 的 planned-dimension 为正本，
+         正文只留末尾一节的清单索引，覆盖度与盲区由 dita-tools ia 求差算出，不手抄。 -->
     <subjectdef keys="tech-landscape">
       <data name="dita-type" value="concept"/>
     </subjectdef>

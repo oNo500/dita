@@ -12,7 +12,7 @@
      代价是分支名在此与领域 map 的 <title> 各存一份，会漂移；由 dita-tools 的
      一致性检查覆盖（navtitle 与被引 map 标题不符即报警），不靠人记得同步。
 
-     迁移路径：将来某个分支写了真实的落地 topic（如「Web 技术栈」概览），就把该
+     迁移路径：将来某个分支写了真实的落地 topic（如「Web 技术栈」全景），就把该
      分支的 topichead 换成指向那个 topic 的 topicref——分组节点从无内容的占位变成真实页面，
      标题副本随之消失。逐分支迁移，互不影响。topichead 是当前形态，不是终态。 -->
 <map xml:lang="zh-CN">

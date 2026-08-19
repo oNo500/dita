@@ -93,7 +93,7 @@
         <li>写正文——用精细行内语义，不统一写成一个 <xmlelement>codeph</xmlelement>；机制名用英文原名。</li>
         <li>标元数据——<xmlatt>maturity</xmlatt>、<xmlatt>volatility</xmlatt>（必标）、<xmlatt>dimension</xmlatt>（覆盖的维度，可多值）、prolog 的 domain。</li>
         <li>挂术语与来源——关键术语走 <xmlelement>term</xmlelement> <xmlatt>keyref</xmlatt>；concept/reference 必有来源。</li>
-        <li>建新领域时——先建概览 topic 并在 prolog 列规划维度清单（盲区由 <cmdname>dita-tools ia</cmdname> 求差得出，不手写）；入门路径按 80/20 从完整图上切，写成 quickstart 并挂靠该概览。</li>
+        <li>建新领域时——先建全景 topic 并在 prolog 列规划维度清单（盲区由 <cmdname>dita-tools ia</cmdname> 求差得出，不手写）；入门路径按 80/20 从完整图上切，写成 quickstart 并挂靠该全景。</li>
         <li>写完执行 <cmdname>review.sh</cmdname>——结构＋业务规则＋覆盖度，有 error 按报告自修后重新执行。</li>
       </ol>
     </section>
@@ -166,7 +166,7 @@
         <strow><stentry>verified 内容标核对日期 data name="reviewed"</stentry><stentry>R3</stentry></strow>
         <strow><stentry>关键术语用 <xmlelement>term</xmlelement> 加 <xmlatt>keyref</xmlatt></stentry><stentry>R7</stentry></strow>
         <strow><stentry>concept/reference 必有来源</stentry><stentry>R8</stentry></strow>
-        <strow><stentry>建域先概览；quickstart 挂靠本域概览，并标 <xmlatt>dimension</xmlatt> 声明覆盖哪几维</stentry><stentry>R20 + dita-tools ia（R9 观测与覆盖度）</stentry></strow>
+        <strow><stentry>建域先全景；quickstart 挂靠本域全景，并标 <xmlatt>dimension</xmlatt> 声明覆盖哪几维</stentry><stentry>R20 + dita-tools ia（R9 观测与覆盖度）</stentry></strow>
         <strow><stentry>标体裁并按必需节写</stentry><stentry>R12/R13</stentry></strow>
         <strow><stentry>来源节两段标签齐备</stentry><stentry>R14</stentry></strow>
         <strow><stentry>语气平实、用词书面</stentry><stentry>R15（代理指标）</stentry></strow>
