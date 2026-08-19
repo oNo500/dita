@@ -1,6 +1,15 @@
 use anyhow::Result;
-use clap::Args;
+use clap::{Args, ValueEnum};
 use std::path::PathBuf;
+
+/// 报告的两个面。
+#[derive(Clone, Copy, PartialEq, Eq, ValueEnum)]
+pub enum Format {
+    /// 终端里读的骨架树（默认）
+    Human,
+    /// 机器读的全量报告，字段契约见 `dita_ia` 的 `json` 模块
+    Json,
+}
 
 #[derive(Args)]
 pub struct IaArgs {
@@ -30,11 +39,18 @@ pub struct IaArgs {
     #[arg(long)]
     pub details: bool,
 
+    /// Output shape. `json` is the machine face: always the full report, since
+    /// --details and --depth exist to fit a terminal, and a contract that
+    /// changes shape with the command line is not one.
+    #[arg(long, value_enum, default_value_t = Format::Human)]
+    pub format: Format,
+
     /// Limit how many levels of the subject tree are expanded
     #[arg(long)]
     pub depth: Option<usize>,
 }
 
+#[allow(clippy::print_stdout)]
 pub fn run(args: &IaArgs) -> Result<()> {
     let maps_dir = if args.root_only {
         None
@@ -42,7 +58,14 @@ pub fn run(args: &IaArgs) -> Result<()> {
         Some(args.maps_dir.as_path())
     };
     let report = dita_ia::build_report(&args.map, &args.topics, maps_dir, Some(&args.vocab))?;
-    dita_ia::print_report(&report, args.details, args.depth);
+    match args.format {
+        Format::Human => dita_ia::print_report(&report, args.details, args.depth),
+        // pretty，不是紧凑一行：这份报告也会被人拿去 diff 两次运行的差异
+        Format::Json => println!(
+            "{}",
+            serde_json::to_string_pretty(&dita_ia::json_report(&report))?
+        ),
+    }
     if report.diagnostics.has_errors() {
         std::process::exit(1);
     }

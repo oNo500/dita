@@ -3,8 +3,11 @@
 //! 这里是本 crate 唯一允许写 stdout 的地方——`print_stdout` 那条 lint 是对的
 //! （库不该替调用方决定输出到哪），所以渲染被隔离在这一个模块里，计算层不受豁免。
 //!
-//! 终局：等 `--format json` 落地（见 `docs/plans/2026-08-15-topic-parser-and-ia-depth.md`
-//! Task 4），渲染应抽成 formatter 并整体搬进 `dita_cli`——库产出数据、应用决定呈现。
+//! 终局：渲染应抽成 formatter 并整体搬进 `dita_cli`——库产出数据、应用决定呈现
+//! （见 `docs/plans/2026-08-15-topic-parser-and-ia-depth.md` Task 4）。
+//! `--format json`（2026-08-19 落地，见 `json.rs`）已按这个方向走了一半：那一面
+//! 只产数据，写到哪去由 CLI 决定。人读这一面还留在这里——搬它要连带迁 `Paint`
+//! 与树形绘制，且必须在输出一个字节都不变的前提下做。
 //! 在那之前，本模块的 allow 是有边界、有落款的技术债，不是默认放行。
 #![allow(clippy::print_stdout)]
 

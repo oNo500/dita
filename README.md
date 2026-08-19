@@ -36,6 +36,7 @@
 cd kb && sh scripts/review.sh               # 结构校验 + 业务规则 + 覆盖度 + 术语扫描
 cd kb && sh scripts/build-agent-rules.sh    # 单源 → out/<tool>.md
 cd kb && dita-tools ia                      # IA 概览：分支状态、维度盲区、孤儿、重复 topicref
+cd kb && dita-tools ia --format json        # 同一份报告的机器面（接 CI、做历史对比；契约见 dita_ia 的 json 模块）
 ```
 
 > `dita-tools` 需先安装：`cd dita-tools && cargo install --path apps/dita_cli`。它默认按 kb 的

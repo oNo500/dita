@@ -539,3 +539,154 @@ fn a_clean_library_reports_no_duplicates() {
         report.duplicate_refs
     );
 }
+
+// ── JSON 形（契约见 src/json.rs 的模块注释）──────────────────────────────
+
+/// 顶层字段是契约的骨架。这条断言故意用**相等**而不是 contains：加字段要主动
+/// 改这里一次，删字段更要——下游按名取值，删掉一个就是破坏性变更。
+#[test]
+fn json_top_level_keys_are_the_contract() {
+    let json = dita_ia::json_report(&report());
+    let mut keys: Vec<&str> = json
+        .as_object()
+        .unwrap()
+        .keys()
+        .map(String::as_str)
+        .collect();
+    keys.sort_unstable();
+    assert_eq!(
+        keys,
+        [
+            "benchmarks",
+            "branches",
+            "coverage",
+            "diagnostics",
+            "exceptions",
+            "plans",
+            "schema_version",
+            "skeleton",
+            "totals",
+            "value_usage",
+        ]
+    );
+    assert_eq!(json["schema_version"], 1);
+}
+
+/// 每一段都要有内容，不能是空壳：分支树、每域篇数与覆盖度、词表统计。
+#[test]
+fn json_carries_the_tree_the_coverage_and_the_vocabulary_stats() {
+    let json = dita_ia::json_report(&report());
+
+    assert_eq!(json["totals"]["topics"], 5);
+    assert!(json["totals"]["planned_nodes"].as_u64().unwrap() > 0);
+
+    let demo = json["skeleton"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|n| n["key"] == "demo")
+        .expect("demo 节点");
+    assert_eq!(demo["state"], "in_progress");
+    assert_eq!(demo["label"], "演示分支");
+    assert!(!demo["children"].as_array().unwrap().is_empty());
+    // 没有概览的节点是 null，不是 0/0——后者会被读成"规划了零维度"
+    assert!(demo["children"][0]["coverage"].is_null());
+
+    let coverage = json["coverage"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|c| c["domain"] == "demo")
+        .expect("demo 域");
+    assert_eq!(coverage["percent"], 100);
+    assert_eq!(coverage["topics"], 4);
+    assert!(
+        coverage["outside_plan"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|v| v == "dim-nonexistent")
+    );
+
+    let maturity = json["value_usage"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|u| u["attribute"] == "maturity")
+        .expect("maturity 用量");
+    assert_eq!(maturity["used"]["curated"], 4);
+    assert!(
+        maturity["unused"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|v| v == "draft")
+    );
+}
+
+/// 异常段与人读的「需要处理」是同一批事实，逐项给结构而不是拼成一句话。
+#[test]
+fn json_exceptions_are_structured_not_prose() {
+    let json = dita_ia::json_report(&report());
+    let ex = &json["exceptions"];
+    assert_eq!(ex["blind_dimensions"], 0);
+    assert_eq!(ex["vocab_loaded"], true);
+    assert_eq!(ex["diagnostics"]["errors"], 3);
+    let outside = ex["outside_plan"].as_array().unwrap();
+    assert_eq!(outside[0]["domain"], "demo");
+    assert!(
+        outside[0]["dimensions"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|v| v == "dim-nonexistent")
+    );
+}
+
+/// 空叶子在人读输出里门控在 `--details` 之下（一屏放不下），JSON 里必须无条件
+/// 带上：机器没有"一屏"这个问题，而随开关变形的契约不是契约。
+#[test]
+fn json_is_never_gated_by_details() {
+    let json = dita_ia::json_report(&report());
+    let leaves = json["exceptions"]["empty_leaves_by_branch"]
+        .as_array()
+        .unwrap();
+    let total: u64 = leaves.iter().map(|l| l["count"].as_u64().unwrap()).sum();
+    assert_eq!(total, 3, "{leaves:?}");
+    assert!(
+        !dita_ia::exception_lines(&report(), false)
+            .iter()
+            .any(|l| l.contains("词表空叶子"))
+    );
+}
+
+/// 重复 topicref 进 JSON 的异常段，形状也进得来（同 map / 同树各一条）。
+#[test]
+fn json_exceptions_name_duplicate_topicrefs() {
+    let json = dita_ia::json_report(&dupes_report());
+    let dups = json["exceptions"]["duplicate_topicrefs"]
+        .as_array()
+        .unwrap();
+    assert_eq!(dups.len(), 2, "{dups:?}");
+    let kinds: Vec<&str> = dups.iter().map(|d| d["kind"].as_str().unwrap()).collect();
+    assert!(kinds.contains(&"same_map"), "{kinds:?}");
+    assert!(kinds.contains(&"same_tree"), "{kinds:?}");
+    let same_tree = dups.iter().find(|d| d["kind"] == "same_tree").unwrap();
+    assert_eq!(same_tree["via"].as_array().unwrap().len(), 2);
+}
+
+/// 路径相对 kb 根，map 与 topic 同一基准——绝对路径会把构建目录写进产物，
+/// 两次运行就无法比对。
+#[test]
+fn json_paths_are_relative_to_the_kb_root() {
+    let json = dita_ia::json_report(&dupes_report());
+    let dups = json["exceptions"]["duplicate_topicrefs"]
+        .as_array()
+        .unwrap();
+    for d in dups {
+        let scope = d["scope"].as_str().unwrap();
+        let topic = d["topic"].as_str().unwrap();
+        assert!(scope.starts_with("maps/"), "{scope}");
+        assert!(topic.starts_with("topics/"), "{topic}");
+    }
+}
