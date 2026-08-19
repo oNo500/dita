@@ -137,12 +137,16 @@
 
     <section>
       <title>来源的落位</title>
-      <p>来源节写什么见 <xref href="writing-sourcing.dita">kb 来源与成熟度标注</xref>，本节只给落位。concept/reference 必有来源，否则 R8 报错：</p>
+      <p>来源节写什么见 <xref href="writing-sourcing.dita">kb 来源与成熟度标注</xref>，本节只给落位。concept/reference 必须显式声明来源状况，两态二选一，R8 按结构分辨：</p>
       <ul>
-        <li>一两个主来源：prolog <xmlelement>source</xmlelement>。</li>
-        <li>大量来源：正文末尾"来源"节，多个 <xmlelement>xref</xmlelement> <xmlatt>scope</xmlatt>="external"。</li>
+        <li>有来源：正文末尾"来源"一节写成 <xmlelement>ul</xmlelement>，一条一行「本条支撑正文的哪一部分——地址」，其中至少一条带 <xmlatt>scope</xmlatt>="external"。</li>
+        <li>无来源：同一节改成一段散文，以固定字面「本篇无外部来源，属本库方法论。」开头，节内不放列表。</li>
+        <li>两态不得并存：列了条目又写声明句，R8 报自相矛盾。</li>
+        <li>体裁 artifact 的交付物源例外：不设来源节，来源落 prolog <xmlelement>source</xmlelement>——来源节会整节进入常驻上下文。</li>
         <li>所有外链统一 <xmlatt>scope</xmlatt>="external"，便于链接活性检查。</li>
       </ul>
+      <p>来源节不再分"事实""判断"两段，也不再穷尽认领正文的每一条断言：只列有来源的条目，其余默认为本库判断。R14 校验节内没有段标签。无外部来源的篇成熟度封顶 curated，晋 verified 由 R21 阻断。</p>
+      <p>无上游权威时的准入：先问业界有没有对应的体系分类，有就用它；没有就不许单方直陈，改用 comparison 体裁多方对照（对照对象、各方做法、差异、本库取舍四节）。</p>
     </section>
 
     <section>
@@ -165,10 +169,11 @@
         <strow><stentry>显式标 volatility / maturity、只用受控值</stentry><stentry>R2/R4/R5</stentry></strow>
         <strow><stentry>verified 内容标核对日期 data name="reviewed"</stentry><stentry>R3</stentry></strow>
         <strow><stentry>关键术语用 <xmlelement>term</xmlelement> 加 <xmlatt>keyref</xmlatt></stentry><stentry>R7</stentry></strow>
-        <strow><stentry>concept/reference 必有来源</stentry><stentry>R8</stentry></strow>
+        <strow><stentry>concept/reference 显式声明来源状况（列条目或写"本篇无外部来源"）</stentry><stentry>R8</stentry></strow>
         <strow><stentry>建域先全景；quickstart 挂靠本域全景，并标 <xmlatt>dimension</xmlatt> 声明覆盖哪几维</stentry><stentry>R20 + dita-tools ia（R9 观测与覆盖度）</stentry></strow>
         <strow><stentry>标体裁并按必需节写</stentry><stentry>R12/R13</stentry></strow>
-        <strow><stentry>来源节两段标签齐备</stentry><stentry>R14</stentry></strow>
+        <strow><stentry>来源节不带段标签、不写核对日期</stentry><stentry>R14</stentry></strow>
+        <strow><stentry>无外部来源的篇不晋 verified</stentry><stentry>R21</stentry></strow>
         <strow><stentry>语气平实、用词书面</stentry><stentry>R15（代理指标）</stentry></strow>
         <strow><stentry>实现层行内标记超阈值即拆</stentry><stentry>R16</stentry></strow>
         <strow><stentry>domain 填词表已注册的主题键</stentry><stentry>R17</stentry></strow>

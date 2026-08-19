@@ -419,6 +419,25 @@
     <subjectdef keys="deep-dive">
       <data name="dita-type" value="concept"/>
     </subjectdef>
+    <!-- comparison（2026-08-19 加，随来源政策修订，用户裁定）。用途是准入而非体例：
+         无上游权威时不许单方直陈——单方直陈的断言不可证伪，多方对照的比较可核。
+         判据是「先问业界有没有对应的体系分类，有就用它；没有就多方类比并标为比较」。
+         四个必需节各对应一个可判定的写作动作，缺一节这篇就退回单方直陈：
+         对照对象＝拿谁来比、为什么是这几家（三角定位的边选得对不对，读者要能自己判）；
+         各方做法＝各家分别怎么做，逐家平铺，不先下结论；
+         差异＝差在哪几条轴上、各自落在轴的哪一端，这一节是比较的产出；
+         本库取舍＝本库选了什么、为什么。末节刻意不叫「取舍」——quickstart 的「取舍」
+         指的是维度取舍（覆盖了全景规划清单的哪几维），两者语义不同，同名会让作者与
+         R13 的前缀匹配一起犯迷糊。四节名照用户裁定原样落地，不改：本库刚在体裁中文名上
+         反复改过三轮，改名的成本是真实的，而这四个名字各自已对应一个明确的写作动作。
+         不设 hangs-off-genre：比较不是全景上的一条路径，无框架可挂。 -->
+    <subjectdef keys="comparison">
+      <data name="dita-type" value="concept"/>
+      <data name="required-section" value="对照对象"/>
+      <data name="required-section" value="各方做法"/>
+      <data name="required-section" value="差异"/>
+      <data name="required-section" value="本库取舍"/>
+    </subjectdef>
     <subjectdef keys="artifact">
       <data name="dita-type" value="reference"/>
     </subjectdef>

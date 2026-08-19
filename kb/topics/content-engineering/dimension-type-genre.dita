@@ -92,9 +92,10 @@
         <strow><stentry>tutorial</stentry><stentry><xmlelement>concept</xmlelement></stentry><stentry>quickstart</stentry><stentry>Good Docs Project 模板</stentry></strow>
         <strow><stentry>how-to</stentry><stentry><xmlelement>concept</xmlelement></stentry><stentry>how-to</stentry><stentry>Diátaxis</stentry></strow>
         <strow><stentry>reference</stentry><stentry><xmlelement>reference</xmlelement></stentry><stentry>纯参考、cheatsheet、curated-resources</stentry><stentry>Diátaxis 与本库实践</stentry></strow>
-        <strow><stentry>explanation</stentry><stentry><xmlelement>concept</xmlelement></stentry><stentry>best-practice、tech-landscape、deep-dive</stentry><stentry>模式语言与评估矩阵</stentry></strow>
+        <strow><stentry>explanation</stentry><stentry><xmlelement>concept</xmlelement></stentry><stentry>best-practice、tech-landscape、deep-dive、comparison</stentry><stentry>模式语言与评估矩阵</stentry></strow>
         <strow><stentry>troubleshooting</stentry><stentry><xmlelement>troubleshooting</xmlelement></stentry><stentry>排障</stentry><stentry>DITA 原生类型</stentry></strow>
       </simpletable>
+      <p>comparison（2026-08-19 加）在这张表里属 explanation 象限，但它进来的理由不是体例而是准入：无上游权威时不许单方直陈，须拿几家做法并列对照，四个必需节（对照对象、各方做法、差异、本库取舍）把这件事变成机器查得到的结构。判据与理由的正本在 <xref href="writing-sourcing.dita">kb 来源与成熟度标注</xref>。</p>
       <p>tutorial 与 how-to 两象限在 DITA 侧原本对应 <xmlelement>task</xmlelement>，2026-08-16 起改绑 <xmlelement>concept</xmlelement>：<xmlelement>taskbody</xmlelement> 不允许 section 后置于 <xmlelement>steps</xmlelement>，来源节收尾与体裁必需节因此两难。</p>
       <p>这张表回答的是「某篇归哪里」，而不是「要不要加类型」。资源清单不是新类型，是 <xmlelement>reference</xmlelement> 的一个体裁 curated-resources；架构决策记录与读书笔记同理，是 explanation 象限的体裁。归位靠 <xmlatt>outputclass</xmlatt>，框架不动。</p>
     </section>
