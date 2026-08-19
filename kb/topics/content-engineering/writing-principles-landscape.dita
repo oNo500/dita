@@ -1,40 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 领域概览（tech-landscape 体裁）：writing-principles 域。
-     维度框架五路对标（对标锚点已登记进词表 benchmark-registry 的 bm-writing-principles）：
-     ① Diátaxis 站点类目 ② The Good Docs Project 模板包与 Tactics
-     ③ Google developer documentation style guide 与 Microsoft Writing Style Guide 的顶层类目
-     ④ ISO 704 与 ISO 25964 / NISO Z39.19 ⑤ 本支已有内容的问题分布。
-     对标当日补出一个词表里没有的维度 dim-register（语体与用词），已随本篇登记进词表。
-     覆盖状态不写在正文：planned-dimension 与各内容 topic 的 @dimension 求差由 dita-tools ia 计算。
-     本篇自身承载与外部框架的定位差一项，故根元素标 dim-comparison。
+<!-- 领域全景（tech-landscape 体裁）：writing-principles 域。
+     2026-08-19 重写：正文主体由本库自拟的维度框架改为业界生态与标准——这一支有哪些框架、
+     标准与工具，各由谁维护、处在什么状态，本库补在它们停下来的地方。维度框架退为末尾一节的
+     机读清单索引，规划清单仍在 prolog，覆盖度与盲区由 dita-tools ia 求差算出，正文零手抄。
+     体裁后缀同日改回「领域全景」（词表 genre-values 与 naming-rules 为正本）。
+     本轮随生态一节补进 dim-ecosystem（本域第二十维）：工具与社区的分布此前无维度承担，
+     quickstart 的略过集与两处计数同步更新。五路对标的登记在词表 benchmark-registry 的
+     bm-writing-principles，本篇不复述。
 
-     标题《kb 写作规则领域概览》系本库自造，三道关如下。
-     一、穷尽查证：Diátaxis 站点无「领域概览」这一页型，它给的是四象限与若干说明页；
-       Good Docs Project 的三个模板包内无对应模板；两家写作风格指南的顶层类目里没有
-       「某个领域的维度全景」这一类；OASIS DITA 规范只给 subject scheme 这类机制，不给体裁。
+     标题《kb 写作规则领域全景》系本库自造，三道关如下。
+     一、穷尽查证：Diátaxis 站点无「领域全景」这一页型，它给的是四象限与若干说明页；
+       The Good Docs Project 的模板包内无对应模板；两家写作风格指南的顶层类目里没有
+       「某个领域的标准与生态全景」这一类；OASIS DITA 规范只给 subject scheme 这类机制，不给体裁。
        四处查过，上游确无对应叫法。
      二、先怀疑切分：与 dimension-type-genre、domain-dimension-method 的边界已核——前者讲分类
        框架分几层，后者讲建域的顺序与约束，两篇都是方法正本；本篇是 writing-principles 这一个
-       领域的维度清单本身，是方法的产物而非方法。合并会让方法正本里长出某一个领域的清单。
-     三、只组合不发明：「领域概览」是本库 tech-landscape 体裁的固定后缀（先例见 dita-landscape），
+       领域的外部标准与生态本身，是方法的产物而非方法。
+     三、只组合不发明：「领域全景」是本库 tech-landscape 体裁的固定后缀（先例见 dita-landscape），
        「写作规则」是本支在领域 map 与词表注释里的既有叫法，kb 前缀沿用本簇既有篇。未造新词。
 
      R19 覆盖面目前只有 domain="dita"（其上游可本地解析），本域无上游节点索引，
-     故不写 upstream-node 声明——本支其余各篇同此约定，写了反而会宣称该域已建索引。
-
-     形式：按概览形式规则（正本 domain-dimension-method）排版，论证集中在「维度的来源」一节，
-     六个分组只给标签与维度表。原六段分组导语里的归位判断已并入开篇。 -->
+     故不写 upstream-node 声明——本支其余各篇同此约定，写了反而会宣称该域已建索引。 -->
 <concept id="writing-principles-landscape" xml:lang="zh-CN"
          outputclass="tech-landscape"
          maturity="draft" volatility="volatile"
-         dimension="dim-comparison">
-  <title>kb 写作规则领域概览</title>
-  <shortdesc>写作规则要回答六类问题：凭什么算写对了、一篇长什么样、概念叫什么、归属与时效怎么记、写出来给谁用、这套规则在哪儿不成立。维度按这六类切分，每一类都能指回外部权威的对应类目，指不回去的那几个由本库自己的问题分布带出。</shortdesc>
+         dimension="dim-comparison dim-ecosystem">
+  <title>kb 写作规则领域全景</title>
+  <shortdesc>写作规则的上游被切在四批互不引用的文档里：讲文档形态的框架、给模板的志愿者项目、两家厂商的写作风格指南、术语与用户文档的国际标准。四批各有维护方与版本，合起来仍不管归属、时效与机器校验，本库的规则集补的正是它们停下来之后的那一段。</shortdesc>
   <prolog>
     <source href="https://diataxis.fr/" scope="external"/>
     <data name="domain" value="writing-principles"/>
-    <data name="reviewed" value="2026-08"/>
+    <data name="reviewed" value="2026-08-19"/>
     <!-- 本域规划维度清单（机读）。内容 topic 在根元素标 @dimension 声明覆盖，
          构建期按 domain 分组求差得盲区与覆盖度。 -->
     <data name="planned-dimension" value="dim-principles"/>
@@ -55,83 +52,36 @@
     <data name="planned-dimension" value="dim-process"/>
     <data name="planned-dimension" value="dim-comparison"/>
     <data name="planned-dimension" value="dim-adoption"/>
+    <data name="planned-dimension" value="dim-ecosystem"/>
     <data name="planned-dimension" value="dim-boundary-pitfalls"/>
   </prolog>
   <conbody>
     <section>
-      <title>维度的来源</title>
-      <p>这一支的上游不是单一权威，写作方法被切在四批互不引用的文档里：讲文档形态的框架、给模板的项目、写作风格指南、术语与知识组织的国际标准。按任何一批单独列维度都会缺口成片——只读文档形态框架得到一张只有四个类型的清单，只读风格指南得到一份没有分类、没有归属、也没有时效的用词手册。</p>
-      <p>维度因此取自五路对标，四路在外、一路在内，每路各补一块别处没有的问题域：</p>
-      <ul>
-        <li>单篇文档形态的两个框架。Diátaxis 在四象限之外另立判断、质量与工作流几组说明页；The Good Docs Project 给的是可填写的模板包，另带词表、术语系统与读者画像。这一路给出内容形状与准入判据两组。</li>
-        <li>写作风格指南的编排。Google 与 Microsoft 两家的顶层类目高度一致，语体与用词在两家都占三分之一强，而本库词表的方法规范族原本无一个值承担它，这一路直接补出 dim-register。</li>
-        <li>术语与知识组织的国际标准。ISO 704 讲概念、定义与指称三者的联系与构词通则，ISO 25964 与 NISO Z39.19 讲等同、层级、关联三类概念关系。这一路给出命名、术语与关系一组。</li>
-        <li>DITA 规范的元数据与分类章。受控值靠 <term keyref="term-subject-scheme">subject scheme</term> 定义并绑定到属性，元数据另有层叠与过滤两套语义。这一路给出归属字段的值域治理与机器面的边界。</li>
-        <li>本支已有内容的问题分布。检索与模型取用、一份规则出成各工具的规则文件、AI 主笔与人审怎么分工，这三块外部四路都无对应类目，却是本库写作规则的日常。</li>
-      </ul>
-      <p>十九个维度分六组。四处归位是判断而非惯例：第一组的三维次序不可换，判据不从信条推出会互相矛盾，分工不先划清则机器判不了的事无人管；语体单列而不并入结构与模板，两家风格指南各给它独立类目，合并会让它失去可检查的形式；术语与概念关系分成两维，因为失效方式不同，叫法错了读者找不到，关系错了整棵树往错误的语义方向长；归属、时效与一致性收在一组，共用「写下时正确的东西会静悄悄地变成错的」这个前提。末组质疑前五组的前提：成本落在每一篇的写作时间上，收益落在库长大之后的检索与复用上，两笔账不在同一时刻结清。</p>
-      <p>维度与目录簇是两套切法。簇按内容来源归置文件，维度按问题域归置注意力，一个维度可横跨数篇，一篇内容也可同时覆盖两个维度。</p>
+      <title>上游的四批文本</title>
+      <p>这一支没有单一权威。可援引的文本分四批，彼此不引用，覆盖的层也不同：按任何一批单独建规则都会缺口成片，只读文档形态框架得到一张只有四个类型的清单，只读风格指南得到一份没有分类、没有归属、也没有时效的用词手册。</p>
+      <simpletable relcolwidth="1.5* 1.3* 1.2* 1.8*">
+        <sthead><stentry>上游</stentry><stentry>维护方</stentry><stentry>状态</stentry><stentry>管哪一层</stentry></sthead>
+        <strow><stentry>Diátaxis</stentry><stentry>Daniele Procida</stentry><stentry>活文档，仓库接收 issue 与 pull request</stentry><stentry>单篇文档的类型划分，另加判断、质量与工作流几组说明</stentry></strow>
+        <strow><stentry>The Good Docs Project</stentry><stentry>七十余人的志愿者社区</stentry><stentry>模板发布到 1.6.0</stentry><stentry>各体裁的可填写模板，另有词表、术语系统与读者画像</stentry></strow>
+        <strow><stentry>Google developer documentation style guide</stentry><stentry>Google</stentry><stentry>活文档</stentry><stentry>语体、语法、标点、格式与命名</stentry></strow>
+        <strow><stentry>Microsoft Writing Style Guide</stentry><stentry>Microsoft</stentry><stentry>活文档</stentry><stentry>品牌语气、检查表、词表、内容规划与可检索性</stentry></strow>
+        <strow><stentry>ISO 704、ISO 25964 与 ANSI/NISO Z39.19</stentry><stentry>ISO 与 NISO</stentry><stentry>正式标准，前两者为付费文本</stentry><stentry>概念、定义与指称的关系，等同、层级、关联三类概念关系</stentry></strow>
+        <strow><stentry>ISO/IEC/IEEE 26514</stentry><stentry>ISO、IEC 与 IEEE 联合</stentry><stentry>2022 版为现行版，付费文本</stentry><stentry>用户文档的设计与开发要求，含结构、内容与格式</stentry></strow>
+      </simpletable>
+      <p>四批的性质并不相同：前两批是社区框架，可自由取用；两家风格指南是厂商的内部规约对外公开，权威性来自使用规模而非标准化程序；末一批是走过标准化程序的正式标准，多为付费文本，只能援引公开的适用范围说明。</p>
     </section>
 
     <section>
-      <title>一、凭什么算写对了</title>
-      <simpletable relcolwidth="1* 3*">
-        <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>原则与公理（dim-principles）</stentry><stentry><term keyref="term-ssot">单一真相源</term>、<term keyref="term-atomicity">原子化</term>、<term keyref="term-mece">相互独立、完全穷尽</term>这几条底层信条各推得出哪些规则；两条信条冲突时以谁为准</stentry></strow>
-        <strow><stentry>准入与质量判据（dim-criteria）</stentry><stentry>一条内容进不进库、拆到多细、写到什么程度算够；成熟度的晋级条件是什么</stentry></strow>
-        <strow><stentry>角色与分工（dim-roles）</stentry><stentry>事前的写作规则、事后的机器校验、最后的人审各管一段中的哪一段；AI 主笔时哪些判断不能交出去</stentry></strow>
-      </simpletable>
+      <title>实现与工具</title>
+      <p>这一支的规则大多停在人读文本上，可执行的实现只有少数几处。散文校验一侧的通行工具是 Vale，MIT 许可的命令行 linter，按包分发风格规则，Google 与 Microsoft 两家风格指南都有现成的包可安装。它证明了一件事：风格指南里可判定的那部分能落成检查，其余部分落不下来。</p>
+      <p>模板一侧的实现是 The Good Docs Project 的模板包，把体裁的骨架做成可填写的文件。社区一侧是 Write the Docs，它不出标准，出的是会议、聊天频道与经验汇编，用于观察这一行的实际做法。</p>
+      <p>本库自己的实现是另一条路：规则写成 topic，可判定的部分落成入库检查，与内容放在同一个仓库、同一套构建里。</p>
     </section>
 
     <section>
-      <title>二、一篇长什么样</title>
-      <simpletable relcolwidth="1* 3*">
-        <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>规则体系的心智模型（dim-concept）</stentry><stentry>维度、类型、体裁三层各管什么、层与层为什么正交；判断「缺不缺」落在哪一层</stentry></strow>
-        <strow><stentry>类型与体裁的划分（dim-classification）</stentry><stentry>类型清单从哪里来、按什么轴切、一篇具体归哪一类；装不下的内容按什么处置</stentry></strow>
-        <strow><stentry>结构与必需节（dim-structure-template）</stentry><stentry>每个体裁的骨架有哪些节、节序按什么定、标题体系与表和列表怎么选</stentry></strow>
-        <strow><stentry>语体与用词（dim-register）</stentry><stentry>语气、句式、禁用词、强调手段的配额；哪些约束能做成机器可判的代理指标，代理的失真在哪</stentry></strow>
-        <strow><stentry>正例与反例（dim-examples）</stentry><stentry>例子放在骨架的哪一节、反例给到什么颗粒度、样例自身要不要自洽到可执行</stentry></strow>
-      </simpletable>
-    </section>
-
-    <section>
-      <title>三、概念叫什么、彼此怎么连</title>
-      <simpletable relcolwidth="1* 3*">
-        <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>术语与界定（dim-terminology）</stentry><stentry>一个概念在正文里用英文原名还是中文、括号里给译名还是给解释、自造叫法要过哪几道关</stentry></strow>
-        <strow><stentry>概念之间的关系（dim-relations）</stentry><stentry>等同、层级、关联三类关系分别怎么建、同义词归到哪个节点、篇与篇之间靠引用还是靠共同上位节点连</stentry></strow>
-      </simpletable>
-    </section>
-
-    <section>
-      <title>四、归属、时效与一致性</title>
-      <simpletable relcolwidth="1* 3*">
-        <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>归属字段与值域（dim-governance）</stentry><stentry>每篇标哪些字段、哪些字段受控、未受控的字段靠什么兜底、词表由谁改</stentry></strow>
-        <strow><stentry>演进与腐烂（dim-evolution）</stentry><stentry>一条事实、一棵分类树、一批元数据、一组标题各挂在哪个库外锚点上；锚点动了怎么被发现</stentry></strow>
-        <strow><stentry>一致性与机器校验（dim-consistency）</stentry><stentry>哪些规则能落成机器面、严重度按什么分级、检查未执行时怎么报；机器判不了的部分交给谁</stentry></strow>
-      </simpletable>
-    </section>
-
-    <section>
-      <title>五、写出来给谁用</title>
-      <simpletable relcolwidth="1* 3*">
-        <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>检索与模型取用（dim-retrieval）</stentry><stentry>一段被单独截出后是否仍然成立、摘要与元数据怎么写才被检索到、切块粒度按什么定</stentry></strow>
-        <strow><stentry>单源多输出（dim-interop）</stentry><stentry>一份规则怎么出成各工具的规则文件、变体之间按什么过滤、与 Markdown 一类格式怎么往返</stentry></strow>
-        <strow><stentry>写作与维护流程（dim-process）</stentry><stentry>一篇从起草、校验到入库走哪几步；已入库的内容按什么节奏复核；建一个新领域从哪一步开始</stentry></strow>
-      </simpletable>
-    </section>
-
-    <section>
-      <title>六、定位与失效</title>
-      <simpletable relcolwidth="1* 3*">
-        <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>与外部框架的定位差（dim-comparison）</stentry><stentry>本库规则集与文档形态框架、模板项目、写作风格指南、术语标准各覆盖到哪一层，重叠在哪、缺口在哪</stentry></strow>
-        <strow><stentry>采用与推广（dim-adoption）</stentry><stentry>规则怎么让人与 AI 真的照做、新人从哪一篇读起、规则改了之后存量内容怎么补</stentry></strow>
-        <strow><stentry>边界与反模式（dim-boundary-pitfalls）</stentry><stentry>这套规则在什么条件下不成立、哪几种写法已知会出错、把规则当成写作模板会导致什么</stentry></strow>
-      </simpletable>
+      <title>当前状态</title>
+      <p>四批上游的变动速度不在一个量级。两家风格指南是活文档，随时改而不发版本号，引用它们只能引类目名与条目名，引不到版本。社区框架次之，Diátaxis 按仓库里的 issue 与 pull request 演进，The Good Docs Project 的模板按版本发布。正式标准最慢，以年计，用户文档那份的现行版停在 2022 年。</p>
+      <p>由此得到本支的复核纪律：引用风格指南与社区框架的断言按类目名核，类目改名即失效；引用正式标准的断言按版本号核，出新版才需重看。两类的触发条件不同，各自登记在词表的对标登记里。</p>
     </section>
 
     <section>
@@ -149,10 +99,39 @@
     </section>
 
     <section>
+      <title>本域的维度框架</title>
+      <p>规划的维度清单以本篇 <xmlelement>prolog</xmlelement> 里的机读字段为正本，共二十项，取自四批上游的类目加本支已有内容的问题分布；对标锚点登记在词表的 benchmark-registry，本节不复述。覆盖到哪一步、还剩哪些盲区，由 <cmdname>dita-tools ia</cmdname> 按各内容 topic 声明的 <xmlatt>dimension</xmlatt> 与这份清单求差算出，正文一个数都不写。</p>
+      <simpletable relcolwidth="1.6* 2.4*">
+        <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
+        <strow><stentry>dim-principles</stentry><stentry>底层信条各推得出哪些规则，冲突时以谁为准</stentry></strow>
+        <strow><stentry>dim-criteria</stentry><stentry>进不进库、拆到多细、写到什么程度算够</stentry></strow>
+        <strow><stentry>dim-roles</stentry><stentry>规则、机器校验与人审各管一段中的哪一段</stentry></strow>
+        <strow><stentry>dim-concept</stentry><stentry>维度、类型、体裁三层各管什么、为什么正交</stentry></strow>
+        <strow><stentry>dim-classification</stentry><stentry>类型清单从哪里来、一篇具体归哪一类</stentry></strow>
+        <strow><stentry>dim-structure-template</stentry><stentry>每个体裁的骨架有哪些节、节序按什么定</stentry></strow>
+        <strow><stentry>dim-register</stentry><stentry>语气、句式、禁用词与强调手段的配额</stentry></strow>
+        <strow><stentry>dim-examples</stentry><stentry>例子放在哪一节、反例给到什么颗粒度</stentry></strow>
+        <strow><stentry>dim-terminology</stentry><stentry>用英文原名还是中文、括号里给译名还是给解释</stentry></strow>
+        <strow><stentry>dim-relations</stentry><stentry>等同、层级、关联三类关系分别怎么建</stentry></strow>
+        <strow><stentry>dim-governance</stentry><stentry>每篇标哪些字段、哪些受控、词表由谁改</stentry></strow>
+        <strow><stentry>dim-evolution</stentry><stentry>内容挂在哪个库外锚点上、锚点动了怎么被发现</stentry></strow>
+        <strow><stentry>dim-consistency</stentry><stentry>哪些规则能落成机器面、严重度怎么分级</stentry></strow>
+        <strow><stentry>dim-retrieval</stentry><stentry>一段被单独截出后是否仍成立、切块粒度怎么定</stentry></strow>
+        <strow><stentry>dim-interop</stentry><stentry>一份规则怎么出成各工具的规则文件</stentry></strow>
+        <strow><stentry>dim-process</stentry><stentry>从起草到入库走哪几步、按什么节奏复核</stentry></strow>
+        <strow><stentry>dim-comparison</stentry><stentry>本库规则集与外部四批各覆盖到哪一层</stentry></strow>
+        <strow><stentry>dim-adoption</stentry><stentry>规则怎么让人与 AI 真的照做、存量怎么补</stentry></strow>
+        <strow><stentry>dim-ecosystem</stentry><stentry>这一支有哪些框架、标准、工具与社区，各由谁维护</stentry></strow>
+        <strow><stentry>dim-boundary-pitfalls</stentry><stentry>这套规则在什么条件下不成立、哪几种写法已知会出错</stentry></strow>
+      </simpletable>
+    </section>
+
+    <section>
       <title>刻意排除的范围</title>
       <ul>
         <li>面向公众发布的产品文档写作。发布说明、用户手册、API 文档这类形态在模板项目里各有一套，而本库的产出只供自己与 AI 读取，写它们等于替一个不存在的读者立规矩。</li>
         <li>无障碍与包容性用语。两家风格指南各有大段规定，其约束对象是面向公众的英文文案；本库内容为中文、无对外发布通道，一套受控用语表的维护成本收不回来。</li>
+        <li>受控语言与机器翻译工程。ASD-STE100 一类规范约束的是英文受控写作，其收益在人工翻译与合规审查上，与本库的产出与读者都不相交，本篇只记录它的存在。</li>
         <li>排版与视觉呈现。字体、图注、配色由输出格式决定，写作规则停在语义标记这一层，不介入渲染。</li>
       </ul>
       <p>排除是写明理由的取舍，与没想到不同，后者才是维度完整性要防的事。</p>
@@ -162,16 +141,19 @@
       <title>来源</title>
       <p><b>事实</b></p>
       <ul>
-        <li>四象限之外另立判断、质量与工作流几组说明页——<xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>（类目结构已逐页核对）</li>
-        <li>模板按核心、社区、杂项三个包组织，核心包为 concept、how-to、README、reference、release notes、troubleshooting、tutorial 七项，杂项含 glossary、style guide、terminology system、user personas 等——<xref href="https://www.thegooddocsproject.dev/template" scope="external">The Good Docs Project 模板页</xref>（类目结构已逐页核对）</li>
-        <li>顶层类目分总则、语法与词法、标点、格式与组织、链接、计算机界面、HTML 与 CSS、命名几组，A–Z 词表置于最前——<xref href="https://developers.google.com/style" scope="external">Google developer documentation style guide</xref>（类目结构已逐页核对）</li>
-        <li>以品牌语气、检查表、A–Z 词表、无障碍、内容规划、发布前复核、可检索性等二十余项顶层类目组织——<xref href="https://learn.microsoft.com/en-us/style-guide/welcome/" scope="external">Microsoft Writing Style Guide</xref>（类目结构已逐页核对）</li>
-        <li>受控词表（同义环、分类法、叙词表）的构建、格式与管理指南——<xref href="https://www.niso.org/publications/ansiniso-z3919-2005-r2010" scope="external">ANSI/NISO Z39.19</xref>，ISO 侧对应标准为 ISO 25964（适用范围说明已逐页核对）</li>
-        <li>术语工作确立客体、概念、定义与指称之间的联系，并给出构词与定义写作的通则——ISO 704:2022（付费文本，只援引公开的适用范围说明，未取原文核对条款）</li>
-        <li>受控值由 subject scheme 定义并绑定到属性，是 DITA 规范提供的机制——<xref href="https://dita-lang.org/2.0/dita/archspec/base/binding-controlled-values-to-attribute" scope="external">绑定到属性</xref></li>
+        <li>四象限之外另立判断、质量与工作流几组说明页，框架为 Daniele Procida 的作品——<xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>、<xref href="https://diataxis.fr/colophon/" scope="external">Diátaxis 版本说明页</xref></li>
+        <li>模板按核心、社区、杂项三个包组织，核心包为 concept、how-to、README、reference、release notes、troubleshooting、tutorial 七项，杂项含 glossary、style guide、terminology system、user personas 等；项目由志愿者社区维护，模板已发布到 1.6.0——<xref href="https://www.thegooddocsproject.dev/template" scope="external">The Good Docs Project 模板页</xref></li>
+        <li>顶层类目分总则、语法与词法、标点、格式与组织、链接、计算机界面、HTML 与 CSS、命名几组，A–Z 词表置于最前——<xref href="https://developers.google.com/style" scope="external">Google developer documentation style guide</xref></li>
+        <li>以品牌语气、检查表、A–Z 词表、无障碍、内容规划、发布前复核、可检索性等二十余项顶层类目组织——<xref href="https://learn.microsoft.com/en-us/style-guide/welcome/" scope="external">Microsoft Writing Style Guide</xref></li>
+        <li>受控词表（同义环、分类法、叙词表）的构建、格式与管理指南——<xref href="https://www.niso.org/publications/ansiniso-z3919-2005-r2010" scope="external">ANSI/NISO Z39.19</xref>，ISO 侧对应标准为 ISO 25964</li>
+        <li>术语工作确立客体、概念、定义与指称之间的联系并给出构词通则（ISO 704:2022）、用户文档的设计与开发要求由 ISO/IEC/IEEE 26514:2022 承担：两者均为付费文本，只援引公开的适用范围说明，未取原文核对条款</li>
+        <li>Vale 为 MIT 许可的散文 linter，按包分发风格规则，Microsoft 与 Google 等风格指南有现成包——<xref href="https://vale.sh/" scope="external">Vale</xref></li>
+        <li>技术写作社区不出标准而出会议与经验汇编——<xref href="https://www.writethedocs.org/" scope="external">Write the Docs</xref></li>
+        <li>受控英语规范的定位与获取方式——<xref href="https://asd-ste100.org/" scope="external">ASD-STE100</xref></li>
+        <li>受控值由 <term keyref="term-subject-scheme">subject scheme</term> 定义并绑定到属性，是 DITA 规范提供的机制——<xref href="https://dita-lang.org/2.0/dita/archspec/base/binding-controlled-values-to-attribute" scope="external">绑定到属性</xref></li>
       </ul>
       <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：十九个维度的取舍与六组划分、语体单列为一个维度而不并入结构与模板、术语与概念关系分成两维、把等同与层级与关联三类关系作为一个独立维度（取自叙词表领域的通行分类，未逐条核对标准原文）、三项刻意排除、定位差一表的五个比较项与其中各栏的判定，均为本库判断，无外部标准背书；该表的量级词表达相对位置而非可测指标。维度清单是否齐全属人审事项。</p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：把上游归为四批并按性质分成社区框架、厂商规约与正式标准三类、「可判定的那部分能落成检查、其余落不下来」、二十个维度的取舍与各自的一句释义、四项刻意排除、定位差一表的五个比较项与其中各栏的判定，均为本库判断，无外部标准背书；该表的量级词表达相对位置而非可测指标。两份 ISO 标准的适用范围取自公开摘要，条款未核。维度清单是否齐全属人审事项。</p>
     </section>
   </conbody>
 </concept>
