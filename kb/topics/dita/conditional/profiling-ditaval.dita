@@ -120,8 +120,16 @@ dita -i root.ditamap -f html5 -o out-win   --filter=windows.ditaval</codeblock>
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：条件处理指按处理期的条件对信息做过滤或标记、属性取值支持空格分隔与分组两种形态，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/condproc" scope="external">条件处理</xref>；未被规则列出的属性或取值默认保留、同一属性内全部取值被排除才判排除、分组值按组独立判定、任一属性判排除则元素被排除及其三产品原例，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/filtering" scope="external">过滤</xref>；多个标记按遇到顺序都渲染、样式冲突时最低层级生效、同时命中标记与排除时按排除处理、追加输出 class 名的属性，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/flagging" scope="external">标记</xref>；<xmlelement>prop</xmlelement> 的三个属性、四种动作的语义（含 passthrough 为保留内容且把属性值留在输出中供下游使用）、不写取值时为该属性的整体默认而两者都不写时为全局默认，转自 <xref href="https://dita-lang.org/dita/langref/ditaval/prop" scope="external">prop 语言参考</xref>；1.x 的 <xmlatt>print</xmlatt> 由 <xmlatt>deliveryTarget</xmlatt> 取代，转自 <xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref>。五处均已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中七个条件属性的清单与各自的维度、<xmlatt>rev</xmlatt> 用于标记而不用于排除、排除向后代传播、必需子元素被排空导致文档不合法这一风险、把条件标在能整体去掉的层级上这条建议、构建时以过滤选项指定规则文件的写法、passthrough 用于运行时切换的用法，来自通用 DITA 实践与 DITA-OT 实现观察，未逐页核对；三条判定规则的记法与各退出点的划分，为本库归纳。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>条件处理指按处理期的条件对信息做过滤或标记、属性取值支持空格分隔与分组两种形态——<xref href="https://dita-lang.org/2.0/dita/archspec/base/condproc" scope="external">条件处理</xref>（已逐页核对）</li>
+        <li>未被规则列出的属性或取值默认保留、同一属性内全部取值被排除才判排除、分组值按组独立判定、任一属性判排除则元素被排除及其三产品原例——<xref href="https://dita-lang.org/2.0/dita/archspec/base/filtering" scope="external">过滤</xref>（已逐页核对）</li>
+        <li>多个标记按遇到顺序都渲染、样式冲突时最低层级生效、同时命中标记与排除时按排除处理、追加输出 class 名的属性——<xref href="https://dita-lang.org/2.0/dita/archspec/base/flagging" scope="external">标记</xref>（已逐页核对）</li>
+        <li><xmlelement>prop</xmlelement> 的三个属性、四种动作的语义（passthrough 为保留内容且把属性值留在输出中供下游使用）、不写取值时为该属性的整体默认而两者都不写时为全局默认——<xref href="https://dita-lang.org/dita/langref/ditaval/prop" scope="external">prop 语言参考</xref>（已逐页核对）</li>
+        <li>1.x 的 <xmlatt>print</xmlatt> 由 <xmlatt>deliveryTarget</xmlatt> 取代——<xref href="https://dita-lang.org/2.0/dita/non-normative/information-about-migrating-to-dita-2-0" scope="external">迁移到 DITA 2.0</xref>（已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：七个条件属性的清单与各自的维度、<xmlatt>rev</xmlatt> 用于标记而不用于排除、排除向后代传播、必需子元素被排空导致文档不合法这一风险、把条件标在能整体去掉的层级上这条建议、构建时以过滤选项指定规则文件的写法、passthrough 用于运行时切换的用法，来自通用 DITA 实践与 DITA-OT 实现观察，未逐页核对；三条判定规则的记法与各退出点的划分，为本库归纳。</p>
     </section>
   </conbody>
 </concept>
