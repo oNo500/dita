@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 快速上手（quickstart 体裁）：dita 域，概览 dita-landscape 二十三个维度上按解锁度选出的四维。
+<!-- 快速上手（quickstart 体裁）：dita 域，全景 dita-landscape 二十三个维度上按解锁度选出的四维。
      补新篇而非扩 dita-ot-quickstart：那篇的主题是工具制品（安装、doctype、构建命令，
      维度 dim-install / dim-usage），本篇的主题是内容本身怎么组织（dim-concept /
      dim-structure-template / dim-mechanism / dim-relations）。两者的读者时刻不同——
@@ -18,7 +18,7 @@
        全景与路径之分，与 core-model 各篇的边界是路径与正本之分——本篇不复述任何一篇的
        内容，只给次序与理由。三处都不构成合并理由。
      三、只组合不发明：「快速上手」是本库 quickstart 体裁的固定后缀（先例见 dita-landscape
-       的「领域概览」），「内容组织」由 content 与 organization 两个领域既有词素直译而来，
+       的「领域全景」），「内容组织」由 content 与 organization 两个领域既有词素直译而来，
        未造新概念名、未造新分类框架。
 
      R19：声明 coined，理由即上面的三道关。 -->
@@ -42,14 +42,14 @@
 
     <section>
       <title>取舍</title>
-      <p>本篇覆盖 <xref href="dita-landscape.dita">DITA 领域概览</xref>二十三个维度中的四个：核心模型（dim-concept）、结构与模板（dim-structure-template）、复用与条件化机制（dim-mechanism）、寻址与关系（dim-relations）。取舍依据是解锁度与使用频率，不是熟悉程度。这四维每建一篇内容都要用到，且是少数几个「先错后改代价高」的维度：类型选错要重写正文，寻址方式选错要改遍全部引用点。</p>
+      <p>本篇覆盖 <xref href="dita-landscape.dita">DITA 领域全景</xref>二十三个维度中的四个：核心模型（dim-concept）、结构与模板（dim-structure-template）、复用与条件化机制（dim-mechanism）、寻址与关系（dim-relations）。取舍依据是解锁度与使用频率，不是熟悉程度。这四维每建一篇内容都要用到，且是少数几个「先错后改代价高」的维度：类型选错要重写正文，寻址方式选错要改遍全部引用点。</p>
       <p>略过的十九个维度分三类，各有可以推迟的理由：</p>
       <ul>
         <li>推迟到有第二个人参与时再看：原理与推导、角色与权限、写作与维护流程。它们回答的是为什么与由谁定，一个人建一小组内容不受阻。</li>
         <li>推迟到库长大后再看：分类与元数据、一致性与降级、检索用途、演进与版本、采用与成本。这几维的收益随内容量增长，十来篇时投入的产出为零。</li>
-        <li>推迟到遇上再查：安装与触发、日常构建、排障与调试、速查、生态与选材、内部构造、插件与程序化处理、跨格式互通、定位对比、判断与取舍、边界与反模式。前两维由 <xref href="toolchain/dita-ot-quickstart.dita">DITA-OT 安装与 2.0 doctype 触发</xref>作为前置承接，其余各维属查询式内容，遇到具体问题时按概览的分组去查即可。</li>
+        <li>推迟到遇上再查：安装与触发、日常构建、排障与调试、速查、生态与选材、内部构造、插件与程序化处理、跨格式互通、定位对比、判断与取舍、边界与反模式。前两维由 <xref href="toolchain/dita-ot-quickstart.dita">DITA-OT 安装与 2.0 doctype 触发</xref>作为前置承接，其余各维属查询式内容，遇到具体问题时按全景末节的维度清单对号去查即可。</li>
       </ul>
-      <p>略过不等于不存在。概览是完整的那张图，本篇只是图上的一条起步路线，把入门路径当成 DITA 的全部会得出「这套东西无非是带标签的 Markdown」这类结论。</p>
+      <p>略过不等于不存在。全景是完整的那张图，本篇只是图上的一条起步路线，把入门路径当成 DITA 的全部会得出「这套东西无非是带标签的 Markdown」这类结论。</p>
     </section>
 
     <section>

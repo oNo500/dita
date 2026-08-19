@@ -1,33 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/concept-kb.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!-- 领域概览（tech-landscape 体裁）：dita 域。
-     迁自 research/README.md「版本现状」节与 research/notes/01-core-model.md §6（与其他方案的定位差）。
-     维度框架三路对标：OASIS 规范自身的编排 ＋ DITA-OT 文档类目 ＋ research/notes 00–15 的问题分布。
-     覆盖状态不写在正文：planned-dimension 与各内容 topic 的 @dimension 求差由 dita-tools ia 计算。
-     本篇自身承载定位对比与版本现状两项内容，故根元素标这两个维度。
-     本库自造：概览篇在上游无对应节点（OASIS 规范与 DITA-OT 文档均无「领域概览」这一体裁），
-     「领域概览」是本库 tech-landscape 体裁的固定后缀，DITA 为领域名，未造新词。
+<!-- 领域全景（tech-landscape 体裁）：dita 域。
+     2026-08-19 重写：正文主体由本库自拟的维度框架改为业界生态与标准——这个领域有哪些
+     规范、谁在维护、有哪些实现与工具、当前处在什么状态。维度框架退为末尾一节的机读清单
+     索引，规划清单本身仍在 prolog，覆盖度与盲区由 dita-tools ia 求差算出，正文零手抄。
+     体裁后缀同日改回「领域全景」（词表 genre-values 与 naming-rules 为正本）。
+     原正文的六组维度表与分组论证已删；「版本现状」与「与其他方案的定位差」两节吸收进
+     当前状态与定位差两节。三路对标（OASIS 规范编排 ＋ DITA-OT 文档类目 ＋ 调研笔记问题分布）
+     的登记在词表 benchmark-registry 的 bm-dita，本篇不复述。
 
-     R19 回填核对（2026-08-18）：声明 coined，三道关如下。一、穷尽查证。上游节点索引
+     本库自造：全景篇在上游无对应节点。三道关如下。一、穷尽查证。上游节点索引
      （kb/vocab/upstream-nodes.tsv，OASIS 2.0 规范 archSpec/langRef ＋ DITA-OT 4.4 docsrc）
-     内无「领域概览」这一体裁的节点——两边都不给某个技术领域的全景篇，只给机制节点与工具操作。
-     二、先怀疑切分。概览篇的边界就是整个分支，无处可并；重切等于取消这一体裁。
-     三、只组合，不发明。「领域概览」是本库 tech-landscape 体裁的固定后缀，DITA 为领域名。
-
-     形式：按概览形式规则（正本 domain-dimension-method）排版——论证集中在「维度的来源」一节，
-     六个分组只给标签与维度表。原六段分组导语里的归位判断已并入开篇，
-     「写作与收录判据不属本域」并入刻意排除节。 -->
+     内无「领域全景」这一体裁的节点——两边都不给某个技术领域的全景篇，只给机制节点与工具操作。
+     二、先怀疑切分。全景篇的边界就是整个分支，无处可并；重切等于取消这一体裁。
+     三、只组合，不发明。「领域全景」是本库 tech-landscape 体裁的固定后缀，DITA 为领域名。 -->
 <concept id="dita-landscape" xml:lang="zh-CN"
          outputclass="tech-landscape"
          maturity="draft" volatility="volatile"
-         dimension="dim-comparison dim-evolution">
-  <title>DITA 领域概览</title>
-  <shortdesc>理解 DITA 要分开回答六类问题：这套架构为什么推导成这样、规范定义了哪些模型、机制按什么规则解析、扩展点开在何处、工具链支持到什么程度、什么条件下不该用它。维度按这六类切分，与规范和工具文档的编排逐条对得上。</shortdesc>
+         dimension="dim-comparison dim-evolution dim-ecosystem">
+  <title>DITA 领域全景</title>
+  <shortdesc>DITA 由 OASIS 的 DITA 技术委员会维护，1.3 是现行正式版，2.0 停在 beta；工具链一侧以 DITA-OT 为参考实现，按自己的节奏对 2.0 做预览支持。结构化内容这一片还有交换与交付两侧的相邻标准各管一段，选型与落地的判断从这几处的实况出发。</shortdesc>
   <prolog>
     <source href="https://dita-lang.org/specifications" scope="external"/>
     <data name="domain" value="dita"/>
     <data name="upstream-node" value="coined"/>
-    <data name="reviewed" value="2026-08"/>
+    <data name="reviewed" value="2026-08-19"/>
     <!-- 本域规划维度清单（机读）。内容 topic 在根元素标 @dimension 声明覆盖，
          构建期按 domain 分组求差得盲区与覆盖度。 -->
     <data name="planned-dimension" value="dim-principles"/>
@@ -56,105 +53,57 @@
   </prolog>
   <conbody>
     <section>
-      <title>维度的来源</title>
-      <p>DITA 有两重身份：一份 OASIS 规范，和一套以 DITA-OT 为参考实现的工具链。只读规范会把实现约定误当规范约定，只读工具文档则说不清某个行为是规范要求还是这一版实现的选择。</p>
-      <p>维度取自三路对标，各补一块别处没有的问题域：</p>
-      <ul>
-        <li>规范自身的编排。语言参考回答元素长什么样，架构规范回答处理器该怎么算，一致性一节回答什么叫做到了，三者在规范里就是分开的文档。</li>
-        <li>DITA-OT 文档的类目。安装、构建与项目文件、扩展点与插件、程序化调用，兼给出规范不承诺的那部分现实。</li>
-        <li>本库调研笔记的问题分布。角色与阅读边界、第一性原理推导、翻译与本地化、内容进检索系统，前两路无对应类目。</li>
-      </ul>
-      <p>二十三个维度分六组。三处归位是判断而非惯例：解析机制单列成组，自研处理逻辑的判据在解析规则而不在元素本身；检索归入扩展与外接，它问的是内容离开 DITA 之后还剩多少结构；生态与选材归入工具链落地，编辑器与插件的可用性同样决定内容能否产出。前五组默认已决定要用 DITA，第六组质疑该前提：成本落在写内容的人身上，收益落在维护多变体的人身上。</p>
-      <p>维度与目录簇是两套切法。簇按内容来源归置文件，维度按问题域归置注意力，一个维度可横跨数簇，一篇内容也可同时覆盖两个维度。</p>
-    </section>
-
-    <section>
-      <title>一、立场、权限与自用规矩</title>
-      <simpletable relcolwidth="1* 3*">
-        <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>原理与推导（dim-principles）</stentry><stentry><term keyref="term-ssot">同一个事实只存在于一处</term>这条公理推得出哪些结构、又要付出哪几笔代价；哪些设计是必然，哪些只是历史选择</stentry></strow>
-        <strow><stentry>角色与权限（dim-roles）</stentry><stentry>规范写给哪几种角色看、各角色该读哪部分、谁有权定义 <term keyref="term-schema">schema</term> 与文档类型外壳</stentry></strow>
-        <strow><stentry>写作与维护流程（dim-process）</stentry><stentry>一篇内容从起草、校验到入库走哪几步，入库后按什么节奏复核</stentry></strow>
+      <title>规范与相邻标准</title>
+      <p>DITA 是 OASIS 名下的一项标准，正式发布的最新版本为 1.3 加 Errata 02，2.0 目前只有 beta。结构化内容这一片不止 DITA 一家：文档标准另有两条独立版本线，翻译交换与交付元数据则各由另一套标准承担，它们与 DITA 分工而不重叠。</p>
+      <simpletable relcolwidth="1.3* 1.2* 2.2*">
+        <sthead><stentry>标准</stentry><stentry>维护方</stentry><stentry>状态与分工</stentry></sthead>
+        <strow><stentry>DITA 1.3（Errata 02）</stentry><stentry>OASIS DITA TC</stentry><stentry>现行正式版，本库不建这一支</stentry></strow>
+        <strow><stentry>DITA 2.0</stentry><stentry>OASIS DITA TC</stentry><stentry>beta 阶段，最新为 v2.0-beta03</stentry></strow>
+        <strow><stentry>DITA for Technical Communication 2.0</stentry><stentry>DITA Technical Communication SC</stentry><stentry>草案，concept 与 task 一类技术内容的类型在这个包里</stentry></strow>
+        <strow><stentry>Lightweight DITA</stentry><stentry>Lightweight DITA SC</stentry><stentry>草案，自成版本线</stentry></strow>
+        <strow><stentry>DocBook</stentry><stentry>无在运作的委员会</stentry><stentry>语义粒度相近的另一条文档标准线，无带降级的扩展机制</stentry></strow>
+        <strow><stentry>S1000D</stentry><stentry>ASD、AIA 与 ATA 联合</stentry><stentry>航空与国防领域的独立标准，与 DITA 并列而非上下游</stentry></strow>
+        <strow><stentry>XLIFF 2.1</stentry><stentry>OASIS XLIFF TC</stentry><stentry>OASIS Standard，翻译环节的交换格式，与 DITA 配合</stentry></strow>
+        <strow><stentry>iiRDS 1.3</stentry><stentry>tekom 下的 iiRDS Consortium</stentry><stentry>交付侧的元数据标准，管内容送出去之后怎么被请求</stentry></strow>
       </simpletable>
     </section>
 
     <section>
-      <title>二、规范定义的模型</title>
-      <simpletable relcolwidth="1* 3*">
-        <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>核心模型（dim-concept）</stentry><stentry>topic 类型化与 map 结构分离的心智模型；类型与主题为什么是正交的两件事</stentry></strow>
-        <strow><stentry>结构与模板（dim-structure-template）</stentry><stentry>各 topic 类型的内容模型允许什么、标题体系怎么用、表格与多媒体元素之间怎么选</stentry></strow>
-        <strow><stentry>分类与元数据（dim-classification）</stentry><stentry>过滤用与分类用元数据之分（下游处理不同，混淆会让分类树按错误语义生长）、subjectScheme 作为分类法机制的能力边界、字段与分类树的设计规则</stentry></strow>
-      </simpletable>
+      <title>维护方与发布节奏</title>
+      <p>规范一侧的维护方是 OASIS DITA TC，章程写明的目标是定义并维护这套架构、推广用它建标准信息类型与领域词汇。委员会下设四个在运作的子委员会：Help、Learning and Training、Technical Communication、Lightweight DITA；另有八个已关闭，其中包括制药、半导体与机械几个行业特化方向。</p>
+      <p>规范源码与语法文件放在 GitHub 的 oasis-tcs/dita 仓库，按 release 发布。2.0 的三个 beta 分别发布于 2025-06-14、2025-10-04 与 2026-07-02，两次间隔都在四个月以上。</p>
+      <p>工具链一侧是另一套治理。DITA-OT 是社区维护的开源项目，发布节奏与 OASIS 无关，它对 2.0 的支持自称 preview 而非完整实现。规范支持与工具支持因此是两笔账，同一个特性在规范里定了、在工具里未必能用。</p>
     </section>
 
     <section>
-      <title>三、解析机制与可预测性</title>
-      <simpletable relcolwidth="1* 3*">
-        <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>复用、条件化与属性解析（dim-mechanism）</stentry><stentry><term keyref="term-conref">conref</term> 的拉取与推送、<term keyref="term-keyref">keyref</term> 与 keytext、条件属性与分支过滤在什么时机解析、属性有效值的优先级与 metadata cascading 按什么规则算、这些解析各自落在 <term keyref="term-preprocess">preprocess</term>（预处理）的哪一阶段</stentry></strow>
-        <strow><stentry>寻址与关系（dim-relations）</stentry><stentry>直接与间接寻址的分工、key space 与 key scope 嵌套、跨交付物引用、导航与链接的生成</stentry></strow>
-        <strow><stentry>一致性与降级（dim-consistency）</stentry><stentry><term keyref="term-generalization">generalization</term>（泛化）算法怎么把 <term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）内容还原、规范意义上的一致性怎么判定、处理器不认识自定义元素时会发生什么</stentry></strow>
-      </simpletable>
+      <title>实现与工具</title>
+      <p>参考实现是 DITA-OT，最新版本 4.4 发布于 2026-01-31，运行要求 Java 17 及以上，其语法文件取自 2026-01-25 的 2.0 草案。它同时是本库全部构建、校验与输出的执行者。</p>
+      <p>扩展靠 <term keyref="term-plugin">plugin</term>（插件）分发：官方站点维护一份插件注册表，登记方式是向 dita-ot/registry 仓库提交 pull request；自定义 <term keyref="term-transtype">transtype</term>（输出类型）与 XSLT 覆盖都以插件形态存在。</p>
+      <p>编辑器与内容管理系统一侧以商业产品为主，产品能力随版本变动，纳入即过期，本库不做产品评测。可信度分层与直达入口见 <xref href="dita-resources.dita">DITA 权威资源入口</xref>。</p>
     </section>
 
     <section>
-      <title>四、扩展与外接</title>
-      <simpletable relcolwidth="1* 3*">
-        <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>extension facilities 内部构造（dim-internals）</stentry><stentry><xmlatt>class</xmlatt> 派生链怎么构造、三大 extension facilities 如何分工、文档类型外壳与 vocabulary module、<term keyref="term-constraint">constraint</term>（约束）与 expansion module 的差别</stentry></strow>
-        <strow><stentry>插件与程序化处理（dim-integration）</stentry><stentry>DITA-OT 扩展点与插件结构、XSLT 覆盖机制、自定义 <term keyref="term-transtype">transtype</term>（输出类型）、把工具当库调用</stentry></strow>
-        <strow><stentry>跨格式互通（dim-interop）</stentry><stentry>引用非 DITA 的外部内容、与 Markdown 互转、翻译交换格式在流程里的定位</stentry></strow>
-        <strow><stentry>检索用途（dim-retrieval）</stentry><stentry>topic 自足性与检索切块的吻合度、切块粒度与检索元数据怎么定、送进检索的应当是解析前还是解析后的内容</stentry></strow>
-      </simpletable>
-    </section>
-
-    <section>
-      <title>五、工具链落地</title>
-      <simpletable relcolwidth="1* 3*">
-        <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>安装与触发（dim-install）</stentry><stentry>DITA-OT 的安装方式、运行时依赖是什么、doctype 声明与 catalog 怎么让它按 2.0 处理文档</stentry></strow>
-        <strow><stentry>日常构建（dim-usage）</stentry><stentry>常用命令与项目文件、输出格式的选择、校验与 Schematron 怎么接进构建</stentry></strow>
-        <strow><stentry>排障与调试（dim-troubleshooting）</stentry><stentry>高频报错的症状与处置、插件调试工作流、中间产物在哪一步被改坏</stentry></strow>
-        <strow><stentry>速查（dim-reference）</stentry><stentry>扩展点清单、属性优先级表、本地化属性这类需要查而不需要通读的内容</stentry></strow>
-        <strow><stentry>生态与选材（dim-ecosystem）</stentry><stentry>编辑器与内容管理系统的支持程度、插件注册表、权威资源入口的可信度分层</stentry></strow>
-      </simpletable>
-    </section>
-
-    <section>
-      <title>六、取舍与失效</title>
-      <simpletable relcolwidth="1* 3*">
-        <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
-        <strow><stentry>定位对比（dim-comparison）</stentry><stentry>与 DocBook、Markdown、AsciiDoc 在语义粒度、内建复用、条件化、可扩展性上的差别</stentry></strow>
-        <strow><stentry>判断与取舍（dim-decision）</stentry><stentry>上不上 2.0、表格选哪套体系、处理解析前还是解析后的内容，这类判据题</stentry></strow>
-        <strow><stentry>采用与成本（dim-adoption）</stentry><stentry>改造手段的选用次序、投入产出的成立条件、工程化与持续集成的门槛</stentry></strow>
-        <strow><stentry>版本演进（dim-evolution）</stentry><stentry>规范的阶段状态、工具链基线与规范版本的差距、做 specialization 时锁版本的做法</stentry></strow>
-        <strow><stentry>边界与反模式（dim-boundary-pitfalls）</stentry><stentry>用 keytext 拼句子、低于句子粒度的 conref、把未解析内容送进检索这类已知会出错的做法</stentry></strow>
-      </simpletable>
-    </section>
-
-    <section>
-      <title>版本现状</title>
+      <title>当前状态</title>
       <simpletable relcolwidth="1* 3*">
         <sthead><stentry>项</stentry><stentry>状况</stentry></sthead>
-        <strow><stentry>规范状态</stentry><stentry>DITA 2.0 处于 beta，尚未成为 OASIS Standard，最新发布为 v2.0-beta03（2026-07-02）</stentry></strow>
-        <strow><stentry>参考实现</stentry><stentry>DITA-OT 4.4（2026-01-31）提供 2.0 的 preview 支持，运行要求 Java 17 及以上</stentry></strow>
-        <strow><stentry>基线差</stentry><stentry>DITA-OT 4.4 的语法文件取自 2026-01-25 的 2.0 草案，比 beta03 早约五个月，两者可能有差异</stentry></strow>
+        <strow><stentry>规范阶段</stentry><stentry>2.0 尚未成为 OASIS Standard，最新发布为 v2.0-beta03</stentry></strow>
+        <strow><stentry>工具链基线</stentry><stentry>DITA-OT 4.4 的语法文件取自比 beta03 早约五个月的草案，两者可能有差异</stentry></strow>
         <strow><stentry>主线信号</stentry><stentry>dita-lang.org 的无版本号路径指向 2.0，1.3 的内容移到带版本号的路径下</stentry></strow>
+        <strow><stentry>相邻标准</stentry><stentry>DocBook 的 OASIS 技术委员会已于 2024-09 关闭；iiRDS 于 2025-11 发布 1.3</stentry></strow>
       </simpletable>
-      <p>三条实践含义。其一，规范支持不等于工具链支持，编辑器与内容管理系统的支持程度参差，投入内容之前先在最小样例上运行实际要用的工具。其二，规范还会变，做 specialization 时锁定所基于的 beta 版本号并从稳定基类派生。其三，元素派生链的记录机制不受 beta 状态影响，按派生链匹配的模板与 generalization 算法照常可用。</p>
+      <p>三条落地含义。其一，规范支持不等于工具链支持，投入内容之前先在最小样例上验证实际要用的那套工具。其二，规范还会变，做 <term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）时锁定所依据的 beta 版本号并从稳定基类派生。其三，元素派生链的记录机制不受 beta 状态影响，按派生链匹配的模板与 <term keyref="term-generalization">generalization</term>（泛化）算法照常可用。</p>
     </section>
 
     <section>
-      <title>与其他方案的定位差</title>
+      <title>与相邻格式的定位差</title>
       <p>选型对比的价值不在于分出高下，而在于看清 DITA 用什么换什么：它拿作者门槛和工具成本，换语义粒度、强制类型化、内建复用与带降级的可扩展性。</p>
       <simpletable relcolwidth="1.2* 1* 1* 1* 1*">
         <sthead><stentry>比较项</stentry><stentry>DITA</stentry><stentry>DocBook</stentry><stentry>Markdown</stentry><stentry>AsciiDoc</stentry></sthead>
         <strow><stentry>语义粒度</stentry><stentry>极细</stentry><stentry>细</stentry><stentry>无</stentry><stentry>中</stentry></strow>
         <strow><stentry>类型化强制</stentry><stentry>有</stentry><stentry>无</stentry><stentry>无</stentry><stentry>无</stentry></strow>
-        <strow><stentry>内建复用</stentry><stentry>conref、keyref 与 include 三套</stentry><stentry>有限</stentry><stentry>无</stentry><stentry>文件包含</stentry></strow>
+        <strow><stentry>内建复用</stentry><stentry><term keyref="term-conref">conref</term>、<term keyref="term-keyref">keyref</term> 与 include 三套</stentry><stentry>有限</stentry><stentry>无</stentry><stentry>文件包含</stentry></strow>
         <strow><stentry>条件化</stentry><stentry>正交多维</stentry><stentry>有</stentry><stentry>无</stentry><stentry>一维开关</stentry></strow>
-        <strow><stentry>可扩展性</stentry><stentry>specialization 并自动降级</stentry><stentry>改 schema，无降级</stentry><stentry>靠插件</stentry><stentry>靠扩展</stentry></strow>
+        <strow><stentry>可扩展性</stentry><stentry>specialization 并自动降级</stentry><stentry>改 <term keyref="term-schema">schema</term>，无降级</stentry><stentry>靠插件</stentry><stentry>靠扩展</stentry></strow>
         <strow><stentry>作者门槛</stentry><stentry>高</stentry><stentry>高</stentry><stentry>极低</stentry><stentry>低</stentry></strow>
         <strow><stentry>工具成本</stentry><stentry>高</stentry><stentry>中</stentry><stentry>极低</stentry><stentry>低</stentry></strow>
       </simpletable>
@@ -162,11 +111,43 @@
     </section>
 
     <section>
+      <title>本域的维度框架</title>
+      <p>规划的维度清单以本篇 <xmlelement>prolog</xmlelement> 里的机读字段为正本，共二十三项；对标依据登记在词表的 benchmark-registry，本节不复述。覆盖到哪一步、还剩哪些盲区，由 <cmdname>dita-tools ia</cmdname> 按各内容 topic 声明的 <xmlatt>dimension</xmlatt> 与这份清单求差算出，正文一个数都不写。</p>
+      <simpletable relcolwidth="1.4* 2.6*">
+        <sthead><stentry>维度</stentry><stentry>这个维度回答的问题</stentry></sthead>
+        <strow><stentry>dim-principles</stentry><stentry>公理推得出哪些结构、各要付出哪笔代价</stentry></strow>
+        <strow><stentry>dim-roles</stentry><stentry>规范写给哪几种角色看、谁有权定义文档类型外壳</stentry></strow>
+        <strow><stentry>dim-concept</stentry><stentry>topic 类型化与 map 结构分离的心智模型</stentry></strow>
+        <strow><stentry>dim-structure-template</stentry><stentry>各类型的内容模型、标题体系与表格元素的选用</stentry></strow>
+        <strow><stentry>dim-classification</stentry><stentry>过滤用与分类用元数据之分、分类树的设计规则</stentry></strow>
+        <strow><stentry>dim-mechanism</stentry><stentry>复用、条件化与属性解析各落在哪个处理阶段</stentry></strow>
+        <strow><stentry>dim-relations</stentry><stentry>直接与间接寻址的分工、key space 与跨交付物引用</stentry></strow>
+        <strow><stentry>dim-process</stentry><stentry>一篇内容从起草到入库的步骤与复核节奏</stentry></strow>
+        <strow><stentry>dim-consistency</stentry><stentry>泛化算法、一致性判定、处理器遇上未知元素的行为</stentry></strow>
+        <strow><stentry>dim-internals</stentry><stentry>派生链的构造与三大扩展机制的分工</stentry></strow>
+        <strow><stentry>dim-integration</stentry><stentry>扩展点、XSLT 覆盖、自定义输出类型、把工具当库调用</stentry></strow>
+        <strow><stentry>dim-interop</stentry><stentry>引用非 DITA 内容、与 Markdown 互转、翻译交换</stentry></strow>
+        <strow><stentry>dim-retrieval</stentry><stentry>切块粒度、检索元数据、送进检索的内容取哪一形态</stentry></strow>
+        <strow><stentry>dim-install</stentry><stentry>安装方式、运行时依赖、按 2.0 处理文档的触发条件</stentry></strow>
+        <strow><stentry>dim-usage</stentry><stentry>常用命令、项目文件、输出格式与校验的接入</stentry></strow>
+        <strow><stentry>dim-troubleshooting</stentry><stentry>高频报错的处置、插件调试、中间产物的排查</stentry></strow>
+        <strow><stentry>dim-reference</stentry><stentry>扩展点清单、属性优先级、本地化属性一类速查内容</stentry></strow>
+        <strow><stentry>dim-ecosystem</stentry><stentry>标准与实现的分布、编辑器与工具的支持程度、入口可信度</stentry></strow>
+        <strow><stentry>dim-comparison</stentry><stentry>与相邻文档格式在粒度、复用与扩展上的差别</stentry></strow>
+        <strow><stentry>dim-decision</stentry><stentry>上不上 2.0、表格选哪套、处理哪一形态的内容</stentry></strow>
+        <strow><stentry>dim-adoption</stentry><stentry>改造手段的次序、投入产出的成立条件、工程化门槛</stentry></strow>
+        <strow><stentry>dim-evolution</stentry><stentry>规范阶段、工具链基线差、做扩展时的锁版本做法</stentry></strow>
+        <strow><stentry>dim-boundary-pitfalls</stentry><stentry>已知会出错的用法与它们各自的失效方式</stentry></strow>
+      </simpletable>
+    </section>
+
+    <section>
       <title>刻意排除的范围</title>
       <ul>
-        <li>DITA 1.3 及 1.x 到 2.0 的迁移内容。本域按纯 2.0 建，不铺历史包袱；已被 2.0 移除的元素只在讲演进与降级时作为反面出现，不单列维度。</li>
-        <li>轻量版与学习培训两条独立版本线。前者是独立的规范线，后者在 2.0 无产出，与本域两条目标都不相交。</li>
-        <li>内容管理系统的产品评测。选型对比停在文档格式一层，产品能力随商业版本变动，纳入即过期，生态维度只记录支持程度与入口。</li>
+        <li>DITA 1.3 及 1.x 到 2.0 的迁移内容。本域按纯 2.0 建，不铺历史包袱；已被 2.0 移除的元素只在讲演进与降级时作为反面出现。</li>
+        <li>Lightweight DITA 与学习培训两条独立版本线。前者是独立的规范线，后者在 2.0 无产出，与本域两条目标都不相交。</li>
+        <li>内容管理系统与编辑器的产品评测。选型对比停在文档格式一层，产品能力随商业版本变动，生态一节只记录支持程度与入口。</li>
+        <li>S1000D 与 iiRDS 的内部结构。两者在本篇只作为相邻标准出现，各自成域，写进本域会让边界失守。</li>
         <li>写作与收录判据。它管的是本库怎么写内容，不是 DITA 本身，正本在 writing-principles 域。</li>
       </ul>
       <p>排除是写明理由的取舍，与没想到不同，后者才是维度完整性要防的事。</p>
@@ -176,12 +157,19 @@
       <title>来源</title>
       <p><b>事实</b></p>
       <ul>
-        <li>版本现状四项与三条实践含义——<xref href="https://dita-lang.org/specifications" scope="external">规范总入口</xref>、<xref href="https://github.com/oasis-tcs/dita/releases" scope="external">OASIS TC 发布页</xref>、<xref href="https://www.dita-ot.org/dev/release-notes/" scope="external">DITA-OT 发布说明</xref>、<xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA-OT 的 2.0 支持说明</xref>（均已逐页核对）</li>
-        <li>刻意排除一节里两条独立版本线的状态：无 release 且长期未推送、自成版本线——<xref href="https://github.com/oasis-tcs/dita-learning-training" scope="external">学习培训仓库</xref>、<xref href="https://github.com/oasis-tcs/dita-lwdita" scope="external">轻量版仓库</xref>（仓库实况已在调研笔记核对）</li>
-        <li>维度对标所引的规范编排与工具链类目——<xref href="https://dita-lang.org/specifications" scope="external">规范总入口</xref>、<xref href="https://www.dita-ot.org/dev/" scope="external">DITA-OT 文档</xref>的现有类目</li>
+        <li>已发布版本与草案预览的分列、无版本号路径指向 2.0——<xref href="https://dita-lang.org/specifications" scope="external">DITA 规范总入口</xref></li>
+        <li>TC 的章程目标、四个在运作的子委员会与八个已关闭的子委员会——<xref href="https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=dita" scope="external">OASIS DITA TC</xref></li>
+        <li>2.0 三个 beta 的版本号与发布日期、1.3 加 Errata 的发布记录——<xref href="https://github.com/oasis-tcs/dita/releases" scope="external">oasis-tcs/dita 发布页</xref></li>
+        <li>DITA-OT 4.4 的发布日期、Java 17 及以上的运行要求、语法文件取自 2026-01-25 草案——<xref href="https://www.dita-ot.org/dev/release-notes/" scope="external">DITA-OT 发布说明</xref>、<xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA-OT 的 2.0 支持说明</xref></li>
+        <li>插件注册表的存在与登记方式为提交 pull request——<xref href="https://www.dita-ot.org/plugins" scope="external">插件注册表</xref>、<xref href="https://github.com/dita-ot/registry" scope="external">registry 仓库</xref></li>
+        <li>DocBook 的 OASIS 技术委员会已关闭——<xref href="https://docbook.org/" scope="external">DocBook 官网</xref></li>
+        <li>S1000D 由 ASD、AIA 与 ATA 联合维护——<xref href="https://s1000d.org/" scope="external">S1000D 官网</xref></li>
+        <li>XLIFF 2.1 为 OASIS Standard——<xref href="https://docs.oasis-open.org/xliff/xliff-core/v2.1/xliff-core-v2.1.html" scope="external">XLIFF 2.1 规范</xref></li>
+        <li>iiRDS 由 tekom 下的 Consortium 维护，最新版本 1.3——<xref href="https://www.iirds.org/" scope="external">iiRDS 官网</xref></li>
+        <li>Lightweight DITA 与学习培训两条版本线的仓库实况：无 release 且长期未推送——<xref href="https://github.com/oasis-tcs/dita-lwdita" scope="external">轻量版仓库</xref>、<xref href="https://github.com/oasis-tcs/dita-learning-training" scope="external">学习培训仓库</xref></li>
       </ul>
       <p><b>判断</b></p>
-      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：二十三个维度的取舍与六组划分、三处归位、四项刻意排除，以及与其他方案的定位差一表——该表未逐页核对各方案的规范原文，量级词表达相对位置而非可测指标。维度清单是否齐全属人审事项。</p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：把相邻标准按分工列在同一张表里的划分方式、三条落地含义、五项刻意排除、二十三个维度的取舍与各自的一句释义，以及定位差一表——该表未逐页核对各方案的规范原文，量级词表达相对位置而非可测指标。iiRDS 1.3 的发布月份取自官网的版本说明，未核对发布公告原件。维度清单是否齐全属人审事项。</p>
     </section>
   </conbody>
 </concept>
