@@ -1,4 +1,4 @@
-use crate::{Branches, DomainCoverage};
+use crate::{Branches, DomainCoverage, Paint};
 use dita_ast::TopicMeta;
 use dita_vocab::{Subject, Vocabulary};
 use std::collections::{BTreeMap, BTreeSet};
@@ -31,6 +31,55 @@ impl State {
     }
 }
 
+/// One topic as it appears in the skeleton's leaves: the file that carries it,
+/// and how a human should read it.
+///
+/// `title` is `None` when the topic has no `<title>`/`<glossterm>` at all —
+/// parsing already raises a diagnostic warning for that ("topic has no
+/// title"), so this is not a second place that judges the omission, only one
+/// that has to say plainly it has nothing to show.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct TopicRef {
+    pub file_name: String,
+    pub title: Option<String>,
+}
+
+impl TopicRef {
+    #[must_use]
+    pub fn from_meta(meta: &TopicMeta) -> Self {
+        Self {
+            file_name: meta
+                .path
+                .file_name()
+                .and_then(|s| s.to_str())
+                .unwrap_or("?")
+                .to_string(),
+            title: (!meta.title.is_empty()).then(|| meta.title.clone()),
+        }
+    }
+
+    /// The label a tree line shows for this topic.
+    ///
+    /// Title-first — that is the whole point of this change: file names are
+    /// ASCII kebab for cross-platform and referencing reasons, not for a
+    /// human deciding whether a title is right. `details` appends the file
+    /// name after the title (dimmed, parenthesised) rather than replacing it,
+    /// matching how `--details` elsewhere adds detail without hiding the
+    /// default view. A missing title falls back to the file name — nothing
+    /// else to show — marked so the gap itself stays visible instead of
+    /// silently reading like a normal, if terse, label.
+    #[must_use]
+    pub fn label(&self, paint: Paint, details: bool) -> String {
+        match &self.title {
+            Some(title) if details => {
+                format!("{title}  {}", paint.dim(&format!("({})", self.file_name)))
+            }
+            Some(title) => title.clone(),
+            None => format!("{}  {}", self.file_name, paint.red("⚠ 无标题")),
+        }
+    }
+}
+
 /// One node of the skeleton: a subject key, what hangs under it, and how it is
 /// doing.
 #[derive(Debug)]
@@ -39,13 +88,13 @@ pub struct Node {
     pub label: Option<String>,
     pub state: State,
     /// Topics that declared this key as their domain.
-    pub topics: Vec<String>,
+    pub topics: Vec<TopicRef>,
     /// Coverage, when a landscape declares this domain.
     pub coverage: Option<(usize, usize)>,
     pub children: Vec<Node>,
     /// Topics under this branch that declared no domain, so nothing places them
     /// under a sub-topic. Only branches collect these.
-    pub unplaced: Vec<String>,
+    pub unplaced: Vec<TopicRef>,
     /// Map groups under this branch with no corresponding vocabulary key.
     pub outside: Vec<String>,
     pub benchmark: Option<String>,
@@ -86,13 +135,13 @@ pub fn build(input: &Input) -> Vec<Node> {
     };
 
     // topics that named a subject key as their domain
-    let mut by_domain: BTreeMap<&str, Vec<String>> = BTreeMap::new();
+    let mut by_domain: BTreeMap<&str, Vec<TopicRef>> = BTreeMap::new();
     for meta in input.topics {
         if let Some(domain) = &meta.domain {
             by_domain
                 .entry(domain.as_str())
                 .or_default()
-                .push(file_name(meta));
+                .push(TopicRef::from_meta(meta));
         }
     }
     let coverage: BTreeMap<&str, &DomainCoverage> = input
@@ -136,7 +185,7 @@ pub fn build(input: &Input) -> Vec<Node> {
             topics: paths
                 .iter()
                 .filter_map(|p| input.topics.iter().find(|t| &t.path == p))
-                .map(file_name)
+                .map(TopicRef::from_meta)
                 .collect(),
             coverage: None,
             children: Vec::new(),
@@ -150,7 +199,7 @@ pub fn build(input: &Input) -> Vec<Node> {
 
 fn build_node(
     subject: &Subject,
-    by_domain: &BTreeMap<&str, Vec<String>>,
+    by_domain: &BTreeMap<&str, Vec<TopicRef>>,
     coverage: &BTreeMap<&str, &DomainCoverage>,
 ) -> Node {
     let topics = by_domain
@@ -206,7 +255,7 @@ fn attach_unplaced(
     for path in paths {
         if !placed.contains(path.to_str().unwrap_or_default()) {
             if let Some(meta) = input.topics.iter().find(|t| &t.path == path) {
-                node.unplaced.push(file_name(meta));
+                node.unplaced.push(TopicRef::from_meta(meta));
             }
         }
     }
@@ -252,10 +301,50 @@ fn is_done(node: &Node) -> bool {
     (own || children_done) && node.unplaced.is_empty()
 }
 
-fn file_name(meta: &TopicMeta) -> String {
-    meta.path
-        .file_name()
-        .and_then(|s| s.to_str())
-        .unwrap_or("?")
-        .to_string()
+#[cfg(test)]
+mod tests {
+    use super::{Paint, TopicMeta, TopicRef};
+    use dita_ast::TopicType;
+    use std::path::PathBuf;
+
+    fn meta(title: &str) -> TopicMeta {
+        TopicMeta {
+            path: PathBuf::from("topics/demo/agent-context-budget.dita"),
+            id: None,
+            title: title.to_string(),
+            topic_type: TopicType::Concept,
+            lang: None,
+            maturity: None,
+            volatility: None,
+            dimensions: Vec::new(),
+            tools: Vec::new(),
+            domain: None,
+            planned_dimensions: Vec::new(),
+            reviewed: None,
+        }
+    }
+
+    #[test]
+    fn label_prefers_the_title_over_the_file_name() {
+        let t = TopicRef::from_meta(&meta("上下文预算"));
+        assert_eq!(t.label(Paint::off(), false), "上下文预算");
+    }
+
+    #[test]
+    fn details_appends_the_file_name_after_the_title() {
+        let t = TopicRef::from_meta(&meta("上下文预算"));
+        assert_eq!(
+            t.label(Paint::off(), true),
+            "上下文预算  (agent-context-budget.dita)"
+        );
+    }
+
+    #[test]
+    fn a_missing_title_falls_back_to_the_file_name_and_is_marked() {
+        let t = TopicRef::from_meta(&meta(""));
+        assert_eq!(t.title, None);
+        let label = t.label(Paint::off(), false);
+        assert!(label.contains("agent-context-budget.dita"));
+        assert!(label.contains("无标题"), "must flag the gap: {label}");
+    }
 }

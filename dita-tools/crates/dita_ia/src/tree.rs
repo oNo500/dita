@@ -1,7 +1,7 @@
 //! 骨架树的渲染（与 `render.rs` 同属渲染层，`print_stdout` 的豁免理由见那里）。
 #![allow(clippy::print_stdout)]
 
-use crate::{BenchmarkEntry, BranchPlan, DomainCoverage};
+use crate::{BenchmarkEntry, BranchPlan, DomainCoverage, Paint, TopicRef};
 use dita_ast::{DitaMap, MapNode, ProcessingRole, TopicMeta};
 use std::{collections::BTreeMap, path::PathBuf};
 
@@ -14,6 +14,7 @@ use std::{collections::BTreeMap, path::PathBuf};
 pub struct Annotations<'a> {
     /// Print every leaf instead of collapsing long uniform runs.
     pub full: bool,
+    pub paint: Paint,
     pub topics: BTreeMap<PathBuf, &'a TopicMeta>,
     /// branch label → what the vocabulary plans for it
     pub plans: BTreeMap<String, &'a BranchPlan>,
@@ -75,7 +76,13 @@ fn print_nodes(nodes: &[MapNode], prefix: &str, ann: &Annotations) {
                     println!("{prefix}{conn}✗ {name}   ← 文件不存在");
                     continue;
                 }
-                println!("{prefix}{conn}{name}{}", topic_note(&path, ann));
+                // topic 节点默认显示标题（人读的），文件名是 ASCII kebab 契约，
+                // 不是给人看的——见 dita-tools ia 的 title-display 设计
+                let label = ann.topics.get(&path).map_or_else(
+                    || name.to_string(),
+                    |meta| TopicRef::from_meta(meta).label(ann.paint, ann.full),
+                );
+                println!("{prefix}{conn}{label}{}", topic_note(&path, ann));
                 print_nodes(&t.children, &child_prefix, ann);
             }
             MapNode::TopicHead(h) => {

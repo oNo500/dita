@@ -266,7 +266,9 @@ fn a_typo_in_domain_falls_into_the_bucket_and_errors() {
     let report = report();
     let demo = node(&report.skeleton, "demo");
     assert!(
-        demo.unplaced.iter().any(|n| n == "bogus-domain.dita"),
+        demo.unplaced
+            .iter()
+            .any(|n| n.file_name == "bogus-domain.dita"),
         "typo'd domain must stay visible in the unplaced bucket: {:?}",
         demo.unplaced
     );
@@ -569,7 +571,9 @@ fn json_top_level_keys_are_the_contract() {
             "value_usage",
         ]
     );
-    assert_eq!(json["schema_version"], 1);
+    // 2（2026-08-19）：skeleton[].topics[] / unplaced[] 从字符串（文件名）改成
+    // {file_name, title} 对象——元素形状变了，抬版本号。
+    assert_eq!(json["schema_version"], 2);
 }
 
 /// 每一段都要有内容，不能是空壳：分支树、每域篇数与覆盖度、词表统计。
@@ -591,6 +595,23 @@ fn json_carries_the_tree_the_coverage_and_the_vocabulary_stats() {
     assert!(!demo["children"].as_array().unwrap().is_empty());
     // 没有概览的节点是 null，不是 0/0——后者会被读成"规划了零维度"
     assert!(demo["children"][0]["coverage"].is_null());
+
+    // topics[] / unplaced[] 元素是 {file_name, title}，不再是裸文件名——
+    // 这是本轮改动加的：`just ia` 默认要能显示标题，JSON 面也得跟着给标题。
+    let landscape = demo["topics"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|t| t["file_name"] == "landscape.dita")
+        .expect("landscape.dita in demo topics");
+    assert_eq!(landscape["title"], "演示域概览");
+    let unplaced = demo["unplaced"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|t| t["file_name"] == "bogus-domain.dita")
+        .expect("bogus-domain.dita in demo unplaced");
+    assert_eq!(unplaced["title"], "domain 填了不存在的键");
 
     let coverage = json["coverage"]
         .as_array()

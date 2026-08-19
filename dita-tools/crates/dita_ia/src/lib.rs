@@ -26,7 +26,7 @@ pub use governance::{BenchmarkEntry, BranchPlan, ValueUsage};
 pub use json::json_report;
 pub use paint::Paint;
 pub use render::{exception_lines, print_report};
-pub use skeleton::{Node, State};
+pub use skeleton::{Node, State, TopicRef};
 pub use stats::{BranchStats, DomainCoverage};
 pub use tree::count_topics;
 

@@ -21,7 +21,7 @@ pub fn print_report(report: &IaReport, details: bool, depth: Option<usize>) {
     println!();
     if report.skeleton.is_empty() {
         // no vocabulary means no "ought", so fall back to what the maps say
-        let ann = annotations(report, details);
+        let ann = annotations(report, details, paint);
         for map in &report.display {
             tree::print_skeleton(map, &ann);
         }
@@ -33,7 +33,7 @@ pub fn print_report(report: &IaReport, details: bool, depth: Option<usize>) {
         println!("知识体系   全库 {total} 篇（骨架内 {placed}）· 词表规划 {planned} 个主题节点\n");
         let last = report.skeleton.len().saturating_sub(1);
         for (i, node) in report.skeleton.iter().enumerate() {
-            print_node(node, "", i == last, paint, depth, 0);
+            print_node(node, "", i == last, paint, depth, 0, details);
         }
         println!(
             "\n{}",
@@ -70,6 +70,7 @@ fn print_node(
     paint: Paint,
     depth: Option<usize>,
     level: usize,
+    details: bool,
 ) {
     let conn = if is_last { "└── " } else { "├── " };
     let child_prefix = format!("{prefix}{}", if is_last { "    " } else { "│   " });
@@ -126,16 +127,17 @@ fn print_node(
             paint,
             depth,
             level + 1,
+            details,
         );
     }
-    for name in &node.topics {
+    for topic in &node.topics {
         printed += 1;
         let conn = if printed == total {
             "└──"
         } else {
             "├──"
         };
-        println!("{child_prefix}{conn} {name}");
+        println!("{child_prefix}{conn} {}", topic.label(paint, details));
     }
     if !node.unplaced.is_empty() {
         printed += 1;
@@ -144,16 +146,21 @@ fn print_node(
         } else {
             "├──"
         };
+        let names = node
+            .unplaced
+            .iter()
+            .map(|t| t.label(paint, details))
+            .collect::<Vec<_>>()
+            .join("、");
         println!(
-            "{child_prefix}{conn} {} {} 篇未归子主题：{}",
+            "{child_prefix}{conn} {} {} 篇未归子主题：{names}",
             paint.red("⚠"),
             node.unplaced.len(),
-            node.unplaced.join("、")
         );
     }
 }
 
-fn annotations(report: &IaReport, details: bool) -> tree::Annotations<'_> {
+fn annotations(report: &IaReport, details: bool, paint: Paint) -> tree::Annotations<'_> {
     let mut illegal: std::collections::BTreeMap<PathBuf, usize> = std::collections::BTreeMap::new();
     for d in &report.diagnostics.items {
         if d.is_error() && d.message().contains("不在词表中") {
@@ -162,6 +169,7 @@ fn annotations(report: &IaReport, details: bool) -> tree::Annotations<'_> {
     }
     tree::Annotations {
         full: details,
+        paint,
         topics: report.topics.iter().map(|t| (t.path.clone(), t)).collect(),
         plans: report
             .plans

@@ -24,12 +24,16 @@
 //! 对象的键按字典序输出（`serde_json` 默认 `BTreeMap`）。顺序因此是确定的，
 //! 两次运行的产物可以直接 diff；下游按名取值，不该依赖顺序。
 
-use crate::{DuplicateKind, IaReport, Node, State};
+use crate::{DuplicateKind, IaReport, Node, State, TopicRef};
 use serde_json::{Map, Value, json};
 use std::path::Path;
 
 /// 契约版本。加字段不动它；改名、删字段、改语义要抬。
-const SCHEMA_VERSION: u32 = 1;
+///
+/// 2（2026-08-19）：`skeleton[].topics[]` / `skeleton[].unplaced[]` 从
+/// `string`（文件名）改成 `{file_name, title}`——元素形状变了，按字段名取值的
+/// 下游会直接读到一个对象而不是预期的字符串，这不是加字段能盖过去的增量。
+const SCHEMA_VERSION: u32 = 2;
 
 /// 整份报告的 JSON 形。
 #[must_use]
@@ -134,8 +138,8 @@ fn node(node: &Node) -> Value {
             State::Done => "done",
             State::NotApplicable => "not_applicable",
         },
-        "topics": node.topics,
-        "unplaced": node.unplaced,
+        "topics": node.topics.iter().map(topic_ref).collect::<Vec<_>>(),
+        "unplaced": node.unplaced.iter().map(topic_ref).collect::<Vec<_>>(),
         "outside": node.outside,
         // 没有概览的节点是 null，不是 0/0——后者会被读成"规划了零维度"
         "coverage": node.coverage.map(|(covered, planned)| json!({
@@ -144,6 +148,17 @@ fn node(node: &Node) -> Value {
         })),
         "benchmark": node.benchmark,
         "children": node.children.iter().map(self::node).collect::<Vec<_>>(),
+    })
+}
+
+/// `title` is `null`, not `""`, when the topic has none — same convention as
+/// `coverage` below: a fabricated empty string would read as "title is the
+/// empty string" instead of "there is no title", and a downstream consumer
+/// cannot tell those apart without this.
+fn topic_ref(t: &TopicRef) -> Value {
+    json!({
+        "file_name": t.file_name,
+        "title": t.title,
     })
 }
 
