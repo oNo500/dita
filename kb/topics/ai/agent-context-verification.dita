@@ -53,8 +53,13 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：llms.txt 的定位（网页为人而建，还原为文本既困难又不精确；为 agent 提供集中的精炼信息）见 <xref href="https://llmstxt.org/" scope="external">llms.txt 提案</xref>；统一检索入口的实例见 <xref href="https://context7.com/" scope="external">Context7</xref>。llms-full.txt 是生态惯例，不属提案本身。</p>
-      <p><b>判断</b>：两链并行的划分、四级递进与命中即止、被执行还是被遵守的判据、第三方资产三项验证、仅收官方 skill 的收录标准，均为实践归纳，可被反驳。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>llms.txt 的定位：网页为人而建、还原为文本既困难又不精确，故为 agent 提供集中的精炼信息——<xref href="https://llmstxt.org/" scope="external">llms.txt 提案</xref>（llms-full.txt 是生态惯例，不属提案本身）</li>
+        <li>统一检索入口的实例——<xref href="https://context7.com/" scope="external">Context7</xref></li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：两链并行的划分、四级递进与命中即止、被执行还是被遵守的判据、第三方资产三项验证、仅收官方 skill 的收录标准，均为实践归纳。</p>
     </section>
   </conbody>
 </concept>

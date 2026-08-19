@@ -67,8 +67,15 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：hook 的定位与阻断能力，见 <xref href="https://code.claude.com/docs/en/hooks" scope="external">Claude Code, Hooks</xref>；CLAUDE.md 为上下文而非强制配置，见 <xref href="https://code.claude.com/docs/en/memory" scope="external">Memory</xref>；tool search 默认启用、延迟加载、影响甚微，见 <xref href="https://code.claude.com/docs/en/mcp" scope="external">MCP</xref>；skill 按描述匹配触发，见 <xref href="https://code.claude.com/docs/en/skills" scope="external">Skills</xref>。</p>
-      <p><b>判断</b>：触发方与阻断能力的二属性框架，以及"不容遗漏则 hook"的判据，为本库归纳，可被反驳。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>hook 的定位与阻断能力——<xref href="https://code.claude.com/docs/en/hooks" scope="external">Claude Code, Hooks</xref></li>
+        <li>CLAUDE.md 为上下文而非强制配置——<xref href="https://code.claude.com/docs/en/memory" scope="external">Memory</xref></li>
+        <li>tool search 默认启用、延迟加载、影响甚微——<xref href="https://code.claude.com/docs/en/mcp" scope="external">MCP</xref></li>
+        <li>skill 按描述匹配触发——<xref href="https://code.claude.com/docs/en/skills" scope="external">Skills</xref></li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：触发方与阻断能力的二属性框架，以及"不容遗漏则 hook"的判据，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

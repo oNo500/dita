@@ -55,8 +55,13 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：维度值集与其中技术制品一族的构成，以词表 <filepath>kb/vocab/subjectScheme.ditamap</filepath> 为正本，对标锚点登记在其 benchmark-registry。官方文档入口见 <xref href="https://www.electronjs.org/docs/latest" scope="external">Electron 文档</xref>，其类目结构尚未逐节对标，本篇的维度不以它为依据。</p>
-      <p><b>判断</b>：十个维度的取舍、把打包分发与更新单列为技术制品族的首个子类维度、暂不对官方文档类目逐节对标，均为本库判断，可被反驳。维度清单是否齐全属人审事项。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>维度值集与其中技术制品一族的构成——词表 <filepath>kb/vocab/subjectScheme.ditamap</filepath> 为正本，对标锚点登记在其 benchmark-registry</li>
+        <li>官方文档入口——<xref href="https://www.electronjs.org/docs/latest" scope="external">Electron 文档</xref>（类目结构尚未逐节对标，本篇维度不以它为依据）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：十个维度的取舍、把打包分发与更新单列为技术制品族的首个子类维度、暂不对官方文档类目逐节对标，均为本库判断。维度清单是否齐全属人审事项。</p>
     </section>
   </conbody>
 </concept>

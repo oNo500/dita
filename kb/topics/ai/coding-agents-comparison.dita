@@ -53,8 +53,15 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：Codex 指令链的读取顺序、override 优先、拼接语义、合并上限，见 <xref href="https://learn.chatgpt.com/docs/agent-configuration/agents-md" scope="external">Codex, AGENTS.md</xref>；Antigravity 的三形态、Projects 边界、worktree 模式与 CLI 特性，见 <xref href="https://antigravity.google/docs/getting-started" scope="external">Antigravity, Getting started</xref>；Claude Code 的形态与循环一致性，见 <xref href="https://code.claude.com/docs/en/how-claude-code-works" scope="external">How Claude Code works</xref>；跨工具格式见 <xref href="https://agents.md/" scope="external">AGENTS.md</xref>。</p>
-      <p><b>判断</b>：以结构差异而非功能清单为选型依据，及三项差异的选取，为本库归纳，可被反驳。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>Codex 指令链的读取顺序、override 优先、拼接语义、合并上限——<xref href="https://learn.chatgpt.com/docs/agent-configuration/agents-md" scope="external">Codex, AGENTS.md</xref></li>
+        <li>Antigravity 的三形态、Projects 边界、worktree 模式与 CLI 特性——<xref href="https://antigravity.google/docs/getting-started" scope="external">Antigravity, Getting started</xref></li>
+        <li>Claude Code 的形态与循环一致性——<xref href="https://code.claude.com/docs/en/how-claude-code-works" scope="external">How Claude Code works</xref></li>
+        <li>跨工具规则格式——<xref href="https://agents.md/" scope="external">AGENTS.md</xref></li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：以结构差异而非功能清单为选型依据，及三项差异的选取，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

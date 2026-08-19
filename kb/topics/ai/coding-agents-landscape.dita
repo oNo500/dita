@@ -90,8 +90,15 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：对标主锚为 <xref href="https://code.claude.com/docs/" scope="external">Claude Code 官方文档</xref>，其完整索引已取回，官方结构映射以此为据。<xref href="https://developers.openai.com/codex" scope="external">Codex 文档</xref>与 <xref href="https://antigravity.google/docs" scope="external">Antigravity 文档</xref>入口已验证存在，内容未逐节读，其结构对标待各自内容重写时补足。跨工具规则格式见 <xref href="https://agents.md/" scope="external">AGENTS.md</xref>。旧库笔记的问题分布取自本库自有素材，无外部出处。</p>
-      <p><b>判断</b>：二十个维度的取舍、两项刻意排除、把工作方法与选层判据列为独立维度，均为本库判断，可被反驳。维度清单是否齐全属人审事项。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>官方结构映射的对标主锚，完整索引已取回——<xref href="https://code.claude.com/docs/" scope="external">Claude Code 官方文档</xref></li>
+        <li>另两个工具的文档入口已验证存在，内容未逐节读，结构对标待各自内容重写时补足——<xref href="https://developers.openai.com/codex" scope="external">Codex 文档</xref>、<xref href="https://antigravity.google/docs" scope="external">Antigravity 文档</xref></li>
+        <li>跨工具规则格式——<xref href="https://agents.md/" scope="external">AGENTS.md</xref></li>
+        <li>旧库笔记的问题分布——本库自有素材，无外部出处</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：二十个维度的取舍、两项刻意排除、把工作方法与选层判据列为独立维度，均为本库判断。维度清单是否齐全属人审事项。</p>
     </section>
   </conbody>
 </concept>
