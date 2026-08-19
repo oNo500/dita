@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <concept id="landscape" maturity="curated" volatility="stable">
-  <title>演示域概览</title>
+  <title>演示域全景</title>
   <prolog>
     <data name="domain" value="demo"/>
     <data name="planned-dimension" value="dim-concept"/>

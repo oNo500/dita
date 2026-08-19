@@ -39,7 +39,7 @@ dita-tools/  执行引擎     产出：校验结果、IA 视图
 |---|---|---|---|
 | R1–R6、R8 | shortdesc、时效标注、核对日期、三个属性值域、来源 | `scripts/check-rules.xsl`（Saxon） | `dita-tools lint`（实现后 xsl 退役，SSOT 手抄副本随之还清） |
 | R7 | 术语裸字面 → `term keyref` | `scripts/term-normalize.py`（报告版） | `dita-tools lint` |
-| R9 / 维度覆盖度 | 领域概览、盲区统计 | `dita-tools ia`（脚本已于 2026-08-15 退役） | `dita-tools ia` ✅ |
+| R9 / 维度覆盖度 | 领域全景、盲区统计 | `dita-tools ia`（脚本已于 2026-08-15 退役） | `dita-tools ia` ✅ |
 | **R11** | **`@dimension` 值合法性** | `dita-tools ia` 已报 error | `dita-tools lint`（归属冲突随终态落定而消） |
 | R12–R13 | 体裁必标、值合法、类型匹配、必需节齐全 | `dita-tools lint`（2026-08-16） | `dita-tools lint` ✅ |
 | R14 | 来源节两段标签、禁正文手写日期 | `dita-tools lint` | 同上 ✅ |
@@ -48,7 +48,7 @@ dita-tools/  执行引擎     产出：校验结果、IA 视图
 | R17 | `domain` 值必须是 subjectScheme 已注册的 subject key（唯一未受控的元数据字段；enumerationdef 绑不了 data 元素，值域只能落这里） | `dita-tools ia` 已报 error，另有反向报表（已注册零挂靠的空叶子，--details 按分支归并展示） | `dita-tools ia` ✅ |
 | R18 | 内容 topic（含 glossentry）必须显式标 `@maturity`——DITAVAL 的 exclude 只匹配写出来的属性值，未标注不匹配、会绕开成熟度门；与 R2 对称，恒 error（不按 maturity 分级，因为被检查的正是分级依据的属性本身） | `dita-tools lint`（2026-08-17） | `dita-tools lint` ✅ |
 | R19 | dita 域 topic 必须在 prolog 声明 `upstream-node`（标题所依据的上游节点标题原文，逐字英文；组合篇多条；自造写 `coined` 并在头注释留三道关），声明须在上游节点索引 `kb/vocab/upstream-nodes.tsv` 中解析得到。比对前双方归一化（大小写不敏感、空白折叠），归一化后精确匹配，不做模糊/子串——假通过比误报更隐蔽。解析不到时消息列三种可能（拼写有误 / 上游改名或删除 / 索引未收录），不断言作者出错。索引读不到 → 走"未执行"（lint 退出码 2），不静默通过 | `dita-tools lint`（2026-08-18） | `dita-tools lint` ✅；覆盖面按分支推广（补抓取器 + `bm-*` 的 `index-source`/`index-generated`，判定逻辑不动） |
-| R20（吸收 R10） | 体裁声明的挂靠与取舍：词表 genre-values 里带 `hangs-off-genre` 的体裁（当前只有 quickstart → tech-landscape），其 topic 必须有一个 xref 解析到该体裁的、同 domain 的篇（打开被引文件读 `@outputclass` 与 domain，不是「有没有 xref」），且根元素的 `@dimension` 须非空、全部落在概览 `planned-dimension` 内、并且是**真子集**（覆盖全部即非取舍）。略过的维度刻意不要求逐条声明——它是可推导的差集，`ia` 已在算。「取舍」一节的**存在**归 R13（节名属体裁结构，正本在词表 `required-section`，工具不得内联该字面）。恒 error：查的是体裁的定义性条件，且 R10 自首版即恒 error，吸收不得放宽 | `dita-tools lint`（2026-08-18） | `dita-tools lint` ✅ |
+| R20（吸收 R10） | 体裁声明的挂靠与取舍：词表 genre-values 里带 `hangs-off-genre` 的体裁（当前只有 quickstart → tech-landscape），其 topic 必须有一个 xref 解析到该体裁的、同 domain 的篇（打开被引文件读 `@outputclass` 与 domain，不是「有没有 xref」），且根元素的 `@dimension` 须非空、全部落在全景 `planned-dimension` 内、并且是**真子集**（覆盖全部即非取舍）。略过的维度刻意不要求逐条声明——它是可推导的差集，`ia` 已在算。「取舍」一节的**存在**归 R13（节名属体裁结构，正本在词表 `required-section`，工具不得内联该字面）。恒 error：查的是体裁的定义性条件，且 R10 自首版即恒 error，吸收不得放宽 | `dita-tools lint`（2026-08-18） | `dita-tools lint` ✅ |
 | ~~R10~~ | ~~quickstart 挂靠~~ | **已被 R20 吸收（2026-08-18）**：`check-rules.xsl` 那一段已删，`rules.sch` 保留记档与差分对账（R20 通过必然 R10 通过，反之不然） | 归 R20 |
 | 结构校验 | RNG shell 一致性 | `dita validate`（DITA-OT） | DITA-OT，不自造 |
 | map 结构 / 孤儿 topic / 重复 topicref | 引用文件是否存在、topic 是否被引、同一处编排里是否引了两次（同 map 文件内重复；同一棵解析树内经不同 map 两次到达。跨编排单位各引一次是合法的多处编排，不报；resource-only 与只带 keyref 的 topicref 不在射程，理由见 `duplicates` 模块注释） | `dita-tools ia` | dita-tools |
@@ -75,7 +75,7 @@ R11 的归属之所以两份规划都伸手认领，根子在这条线一直没�
 | 面 | 回答 | 数据来自 | 现状 |
 |---|---|---|---|
 | **现状** | 实际长什么样 | `maps/` + `topics/` | ✅ 树、分支统计、孤儿、非法值 |
-| **应然** | 本该长什么样 | `subjectScheme` 主题树（81 个规划节点）；概览的 `planned-dimension` | 维度那半已做，主题树那半未做 |
+| **应然** | 本该长什么样 | `subjectScheme` 主题树（81 个规划节点）；全景的 `planned-dimension` | 维度那半已做，主题树那半未做 |
 | **时间** | 什么时候开始烂 | `benchmark-registry`（对标锚点 + 上次日期 + 复核档位） | 未做 |
 
 没有「应然」，工具只能说"这里 3 篇、那里是空的"；有了它才能说"这个分支规划了 18 个子主题、建了 0 个"。没有「时间」，看不见分类树自身的腐烂——而词表里那 10 条对标登记，写的正是"这棵树多久该重新对标一次"。

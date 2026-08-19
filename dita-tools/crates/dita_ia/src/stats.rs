@@ -115,7 +115,7 @@ pub fn domain_coverage(
         // a planned entry exists only when a landscape declared dimensions —
         // matching the Python implementation, which reports coverage only for
         // domains that have a plan. Creating an empty entry for every declared
-        // domain made nodes without a landscape read "概览 0/0", which claims a
+        // domain made nodes without a landscape read "全景 0/0", which claims a
         // landscape exists when none does.
         if !meta.planned_dimensions.is_empty() {
             planned

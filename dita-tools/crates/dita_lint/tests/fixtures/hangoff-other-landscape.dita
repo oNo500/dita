@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <concept id="hangoff-other-landscape" outputclass="tech-landscape" maturity="draft" volatility="stable"
          dimension="dim-comparison">
-  <title>别域的概览</title>
+  <title>别域的全景</title>
   <shortdesc>域不同，用于域不符用例。</shortdesc>
   <prolog>
     <data name="domain" value="elsewhere"/>

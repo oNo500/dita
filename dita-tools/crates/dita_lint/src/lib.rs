@@ -427,7 +427,7 @@ fn check_hangs_off(
 
     let Some(landscape) = target else {
         err(format!(
-            "R20：{genre} 缺挂靠——正文里没有一个 xref 指向体裁为 {want} 的篇（本域概览）。\
+            "R20：{genre} 缺挂靠——正文里没有一个 xref 指向体裁为 {want} 的篇（本域全景）。\
              {genre} 是在完整维度框架上选出的一条路径，不挂靠框架就无从判断它略过了什么。\
              已解析的库内 xref：{}",
             if tried.is_empty() {
@@ -447,7 +447,7 @@ fn check_hangs_off(
             .any(|d| landscape.domain.contains(&(*d).to_string()))
     {
         err(format!(
-            "R20：挂靠的概览属域「{}」，与本篇的域「{}」不符——{genre} 要挂的是自己所属领域的概览，\
+            "R20：挂靠的全景属域「{}」，与本篇的域「{}」不符——{genre} 要挂的是自己所属领域的全景，\
              挂到别域会让取舍声明对着一份无关的维度清单做",
             landscape.domain.join("、"),
             domain.join("、")
@@ -461,7 +461,7 @@ fn check_hangs_off(
         .collect();
     if covered.is_empty() {
         err(format!(
-            "R20：{genre} 缺取舍声明——根元素必须标 @dimension，声明本篇覆盖了概览规划清单里的哪几个维度。\
+            "R20：{genre} 缺取舍声明——根元素必须标 @dimension，声明本篇覆盖了全景规划清单里的哪几个维度。\
              略过的那些不必逐条抄写，它们是规划清单与本声明的差集，由 dita-tools ia 算出"
         ));
         return;
@@ -474,8 +474,8 @@ fn check_hangs_off(
         .collect();
     if !outside.is_empty() {
         err(format!(
-            "R20：覆盖声明里的「{}」不在概览的规划清单内——要么本篇标错了维度，\
-             要么概览漏登记了这一维（两种都会让覆盖度算不准，先定是哪一种再改）",
+            "R20：覆盖声明里的「{}」不在全景的规划清单内——要么本篇标错了维度，\
+             要么全景漏登记了这一维（两种都会让覆盖度算不准，先定是哪一种再改）",
             outside.join("」「")
         ));
     }
@@ -487,8 +487,8 @@ fn check_hangs_off(
         .collect();
     if skipped.is_empty() {
         err(format!(
-            "R20：本篇覆盖了概览规划的全部 {} 个维度，没有略过任何一维——那不是取舍。\
-             按解锁度与使用频率选出少数几维，其余留给概览",
+            "R20：本篇覆盖了全景规划的全部 {} 个维度，没有略过任何一维——那不是取舍。\
+             按解锁度与使用频率选出少数几维，其余留给全景",
             landscape.planned.len()
         ));
     }

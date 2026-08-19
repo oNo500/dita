@@ -141,7 +141,7 @@ fn node(node: &Node) -> Value {
         "topics": node.topics.iter().map(topic_ref).collect::<Vec<_>>(),
         "unplaced": node.unplaced.iter().map(topic_ref).collect::<Vec<_>>(),
         "outside": node.outside,
-        // 没有概览的节点是 null，不是 0/0——后者会被读成"规划了零维度"
+        // 没有全景的节点是 null，不是 0/0——后者会被读成"规划了零维度"
         "coverage": node.coverage.map(|(covered, planned)| json!({
             "covered": covered,
             "planned": planned,

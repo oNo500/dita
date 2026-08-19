@@ -593,7 +593,7 @@ fn json_carries_the_tree_the_coverage_and_the_vocabulary_stats() {
     assert_eq!(demo["state"], "in_progress");
     assert_eq!(demo["label"], "演示分支");
     assert!(!demo["children"].as_array().unwrap().is_empty());
-    // 没有概览的节点是 null，不是 0/0——后者会被读成"规划了零维度"
+    // 没有全景的节点是 null，不是 0/0——后者会被读成"规划了零维度"
     assert!(demo["children"][0]["coverage"].is_null());
 
     // topics[] / unplaced[] 元素是 {file_name, title}，不再是裸文件名——
@@ -604,7 +604,7 @@ fn json_carries_the_tree_the_coverage_and_the_vocabulary_stats() {
         .iter()
         .find(|t| t["file_name"] == "landscape.dita")
         .expect("landscape.dita in demo topics");
-    assert_eq!(landscape["title"], "演示域概览");
+    assert_eq!(landscape["title"], "演示域全景");
     let unplaced = demo["unplaced"]
         .as_array()
         .unwrap()

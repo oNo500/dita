@@ -170,7 +170,7 @@ fn topic_note(path: &PathBuf, ann: &Annotations) -> String {
     }
     if let Some(cov) = ann.coverage.get(path) {
         parts.push(format!(
-            "概览 {} {}/{}",
+            "全景 {} {}/{}",
             cov.domain,
             cov.covered.len(),
             cov.planned.len()

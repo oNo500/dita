@@ -364,7 +364,7 @@ fn r19_severity_follows_maturity() {
     assert_eq!(d.error_count(), 0, "{:?}", messages(&d));
 }
 
-// ── R20：体裁声明的挂靠（quickstart → 本域概览）──
+// ── R20：体裁声明的挂靠（quickstart → 本域全景）──
 //
 // 恒 error，不随 maturity 分级：查的不是完成度，是体裁的定义性条件——
 // 不挂靠任何框架的 quickstart 不是「未写完的 quickstart」，是标错体裁的 how-to。
@@ -381,7 +381,7 @@ fn quickstart_with_resolved_hangoff_passes() {
     );
 }
 
-/// 变异一：去掉指向概览的 xref。R10 只问「有没有 xref」，本条打开目标看体裁。
+/// 变异一：去掉指向全景的 xref。R10 只问「有没有 xref」，本条打开目标看体裁。
 #[test]
 fn quickstart_without_hangoff_is_error() {
     let d = lint("quickstart-no-hangoff.dita");
@@ -405,7 +405,7 @@ fn quickstart_without_dimension_is_error() {
     );
 }
 
-/// 覆盖了规划清单的全部维度＝没有取舍，那是概览不是路径。
+/// 覆盖了规划清单的全部维度＝没有取舍，那是全景不是路径。
 #[test]
 fn quickstart_covering_every_planned_dimension_is_error() {
     let d = lint("quickstart-covers-all.dita");
@@ -416,7 +416,7 @@ fn quickstart_covering_every_planned_dimension_is_error() {
     );
 }
 
-/// 声明覆盖了概览没规划的维度：不是标错就是概览漏登记，两种都让覆盖度算不准。
+/// 声明覆盖了全景没规划的维度：不是标错就是全景漏登记，两种都让覆盖度算不准。
 #[test]
 fn quickstart_covering_unplanned_dimension_is_error() {
     let d = lint("quickstart-outside-plan.dita");
@@ -427,7 +427,7 @@ fn quickstart_covering_unplanned_dimension_is_error() {
     );
 }
 
-/// 挂到了别域的概览：取舍声明对着一份无关的维度清单做，等于没做。
+/// 挂到了别域的全景：取舍声明对着一份无关的维度清单做，等于没做。
 #[test]
 fn quickstart_hanging_off_another_domain_is_error() {
     let d = lint("quickstart-wrong-domain.dita");

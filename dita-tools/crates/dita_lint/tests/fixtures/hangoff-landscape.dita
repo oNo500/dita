@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <concept id="hangoff-landscape" outputclass="tech-landscape" maturity="draft" volatility="stable"
          dimension="dim-comparison">
-  <title>样例领域概览</title>
+  <title>样例领域全景</title>
   <shortdesc>三个规划维度，供挂靠用例求差。</shortdesc>
   <prolog>
     <data name="domain" value="sample"/>
