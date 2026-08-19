@@ -72,8 +72,14 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：按用户需求而非主题划分文档形态，见 <xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>；按文档形态提供可填写模板、并把词表与术语系统列为独立模板，见 <xref href="https://www.thegooddocsproject.dev/template" scope="external">The Good Docs Project</xref>。两处的类目结构已逐页核对。本篇引用的五条规则各有库内正本，正本的外部来源在各该篇的来源节，本篇不重复列出。</p>
-      <p><b>判断</b>：五个维度的选取与十四个维度的推迟理由、六步的次序、「骨架先搭空再填」、「骨架类报告当场改、语体类留到修订时一并改」、以及收尾的两个判断问题，均为本库判断，可被反驳。取舍是否选准属人审事项，机器只校验挂靠与声明是否齐备。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>按用户需求而非主题划分文档形态——<xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>（类目结构已逐页核对）</li>
+        <li>按文档形态提供可填写模板、并把词表与术语系统列为独立模板——<xref href="https://www.thegooddocsproject.dev/template" scope="external">The Good Docs Project</xref>（类目结构已逐页核对）</li>
+        <li>本篇引用的五条规则——各有库内正本，其外部来源在各该篇的来源节，本篇不重复列出</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：五个维度的选取与十四个维度的推迟理由、六步的次序、「骨架先搭空再填」、「骨架类报告当场改、语体类留到修订时一并改」、收尾的两个判断问题，均为本库判断。取舍是否选准属人审事项，机器只校验挂靠与声明是否齐备。</p>
     </section>
   </conbody>
 </concept>

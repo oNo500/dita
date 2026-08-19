@@ -53,8 +53,13 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：按用户需求划分文档形态见 <xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>（教程、操作指南、技术参考、解释四类，按需求而非主题组织）；DITA 将类型做入语法，<xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/concept" scope="external">concept</xref> 与 <xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/troubleshooting" scope="external">troubleshooting</xref> 等均由 topic <term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）而来。</p>
-      <p><b>判断</b>：Diátaxis 四类与 DITA 五类不一一对应，本库按 DITA 类型执行；扫视与通读的判别问句、两种失败模式，为经验归纳，可被反驳。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>按用户需求而非主题划分文档形态，分教程、操作指南、技术参考、解释四类——<xref href="https://diataxis.fr/" scope="external">Diátaxis</xref></li>
+        <li>DITA 将类型做入语法，各类型均由 topic <term keyref="term-specialization">specialization</term>（从基类派生出更具体的类型）而来——<xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/concept" scope="external">concept</xref>、<xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/troubleshooting" scope="external">troubleshooting</xref></li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：Diátaxis 四类与 DITA 五类不一一对应而本库按 DITA 类型执行、扫视与通读的判别问句、两种失败模式，均为经验归纳。</p>
     </section>
   </conbody>
 </concept>

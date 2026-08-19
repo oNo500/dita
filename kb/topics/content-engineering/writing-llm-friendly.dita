@@ -47,8 +47,13 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：块缺少上下文导致检索失效及"营收增长"例，见 <xref href="https://www.anthropic.com/news/contextual-retrieval" scope="external">Anthropic, Contextual Retrieval</xref>；shortdesc 用于悬停文本、链接预览与搜索结果，见 <xref href="https://dita-lang.org/dita/langref/base/shortdesc" scope="external">DITA, shortdesc</xref>。</p>
-      <p><b>判断</b>：作者摘要优于生成摘要、术语显式化的长期收益、元数据失真损害大于缺失，均为经验归纳，可被反驳。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>块缺少上下文导致检索失效及"营收增长"例——<xref href="https://www.anthropic.com/news/contextual-retrieval" scope="external">Anthropic, Contextual Retrieval</xref></li>
+        <li>shortdesc 用于悬停文本、链接预览与搜索结果——<xref href="https://dita-lang.org/dita/langref/base/shortdesc" scope="external">DITA, shortdesc</xref></li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：作者摘要优于生成摘要、术语显式化的长期收益、元数据失真损害大于缺失，均为经验归纳。</p>
     </section>
   </conbody>
 </concept>

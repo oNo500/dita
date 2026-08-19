@@ -108,8 +108,14 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：按用户需求而非主题划分文档形态、分教程与操作指南与技术参考与解释四类，见 <xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>；DITA 把类型做进语法，<xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/concept" scope="external">concept</xref> 与 <xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/troubleshooting" scope="external">troubleshooting</xref> 等均由 topic 派生；面向不同文档形态提供可填写模板的项目见 <xref href="https://www.thegooddocsproject.dev/" scope="external">The Good Docs Project</xref>。</p>
-      <p><b>判断</b>：维度、类型、体裁的三层划分，四个维度的穷举与「可复用制品是唯一维度缺口」的认定，象限与体裁的具体归位，以及「装不下先归体裁、不新增类型」这条处置，均为本库设计，无外部标准背书，可被反驳。可复用制品维度的 DITA 表达只定到 <xmlelement>reference</xmlelement> 加 artifact 一层，细则未定。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>按用户需求而非主题划分文档形态，分教程、操作指南、技术参考、解释四类——<xref href="https://diataxis.fr/" scope="external">Diátaxis</xref></li>
+        <li>DITA 把类型做进语法，各类型均由 topic 派生——<xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/concept" scope="external">concept</xref>、<xref href="https://dita-lang.org/dita-techcomm/langref/technicalcontent/troubleshooting" scope="external">troubleshooting</xref></li>
+        <li>面向不同文档形态提供可填写模板的项目——<xref href="https://www.thegooddocsproject.dev/" scope="external">The Good Docs Project</xref></li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：维度、类型、体裁的三层划分，四个维度的穷举与「可复用制品是唯一维度缺口」的认定，象限与体裁的具体归位，「装不下先归体裁、不新增类型」这条处置，均为本库设计，无外部标准背书；可复用制品维度的 DITA 表达只定到 <xmlelement>reference</xmlelement> 加 artifact 一层，细则未定。</p>
     </section>
   </conbody>
 </concept>

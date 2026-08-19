@@ -118,6 +118,13 @@
   </pattern>
 
   <!-- 归属：来源与成熟度 / writing-sourcing -->
+  <!-- 形式一项刻意不加检查（2026-08-19，随全库来源节条目化）：事实段现在写成 ul、
+       一条一行「支撑正文哪部分——地址」，正本在 writing-sourcing。能想到的机器代理只有
+       「来源节里有 external xref 就必须有 ul」，而它对事实段为「无」的篇必然误报——
+       那几篇正文全是本库判断，来源节里的外链是「该源不承担本篇任何断言」的反向声明
+       （naming-rules、rot-detection、writing-style、RAG 三篇、engineering-ci）。
+       规则真正要的「每条说明它支撑正文哪一部分」更判不了：条目怎么切分是编辑判断。
+       与 R14 穷尽性一项同一处置——判不准的代理会让整条规则被忽略，靠人审接住。 -->
   <pattern id="R14-source-section">
     <rule context="section[title='来源']">
       <assert test=".//b[normalize-space()='事实'] and .//b[normalize-space()='判断']"

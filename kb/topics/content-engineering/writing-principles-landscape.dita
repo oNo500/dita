@@ -160,8 +160,18 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：四象限之外另立判断、质量与工作流几组说明页，见 <xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>；模板按核心、社区、杂项三个包组织，核心包为 concept、how-to、README、reference、release notes、troubleshooting、tutorial 七项，杂项包含 glossary、style guide、terminology system、user personas 等，见 <xref href="https://www.thegooddocsproject.dev/template" scope="external">The Good Docs Project 模板页</xref>；顶层类目分总则、语法与词法、标点、格式与组织、链接、计算机界面、HTML 与 CSS、命名几组，另把 A–Z 词表置于最前，见 <xref href="https://developers.google.com/style" scope="external">Google developer documentation style guide</xref>；以品牌语气、检查表、A–Z 词表、无障碍、内容规划、发布前复核、可检索性等二十余项顶层类目组织，见 <xref href="https://learn.microsoft.com/en-us/style-guide/welcome/" scope="external">Microsoft Writing Style Guide</xref>；受控词表（同义环、分类法、叙词表）的构建、格式与管理指南，见 <xref href="https://www.niso.org/publications/ansiniso-z3919-2005-r2010" scope="external">ANSI/NISO Z39.19</xref>，其 ISO 侧的对应标准为 ISO 25964；术语工作确立客体、概念、定义与指称之间的联系并给出构词与定义写作的通则，见 ISO 704:2022；受控值由 subject scheme 定义并<xref href="https://dita-lang.org/2.0/dita/archspec/base/binding-controlled-values-to-attribute" scope="external">绑定到属性</xref>是 DITA 规范提供的机制。前四处的类目结构与 Z39.19 的适用范围说明已逐页核对；两项 ISO 标准为付费文本，本篇只援引其公开的适用范围说明，未取原文核对条款。</p>
-      <p><b>判断</b>：十九个维度的取舍与六组划分、语体单列为一个维度而不并入结构与模板、术语与概念关系分成两维、把等同与层级与关联三类关系作为一个独立维度的依据（取自叙词表领域的通行分类，未逐条核对标准原文）、三项刻意排除、定位差一表的五个比较项与其中各栏的判定，均为本库判断，无外部标准背书，可被反驳。定位差表内的量级词表达的是相对位置，不是可测量的指标。维度清单是否齐全属人审事项。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>四象限之外另立判断、质量与工作流几组说明页——<xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>（类目结构已逐页核对）</li>
+        <li>模板按核心、社区、杂项三个包组织，核心包为 concept、how-to、README、reference、release notes、troubleshooting、tutorial 七项，杂项含 glossary、style guide、terminology system、user personas 等——<xref href="https://www.thegooddocsproject.dev/template" scope="external">The Good Docs Project 模板页</xref>（类目结构已逐页核对）</li>
+        <li>顶层类目分总则、语法与词法、标点、格式与组织、链接、计算机界面、HTML 与 CSS、命名几组，A–Z 词表置于最前——<xref href="https://developers.google.com/style" scope="external">Google developer documentation style guide</xref>（类目结构已逐页核对）</li>
+        <li>以品牌语气、检查表、A–Z 词表、无障碍、内容规划、发布前复核、可检索性等二十余项顶层类目组织——<xref href="https://learn.microsoft.com/en-us/style-guide/welcome/" scope="external">Microsoft Writing Style Guide</xref>（类目结构已逐页核对）</li>
+        <li>受控词表（同义环、分类法、叙词表）的构建、格式与管理指南——<xref href="https://www.niso.org/publications/ansiniso-z3919-2005-r2010" scope="external">ANSI/NISO Z39.19</xref>，ISO 侧对应标准为 ISO 25964（适用范围说明已逐页核对）</li>
+        <li>术语工作确立客体、概念、定义与指称之间的联系，并给出构词与定义写作的通则——ISO 704:2022（付费文本，只援引公开的适用范围说明，未取原文核对条款）</li>
+        <li>受控值由 subject scheme 定义并绑定到属性，是 DITA 规范提供的机制——<xref href="https://dita-lang.org/2.0/dita/archspec/base/binding-controlled-values-to-attribute" scope="external">绑定到属性</xref></li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：十九个维度的取舍与六组划分、语体单列为一个维度而不并入结构与模板、术语与概念关系分成两维、把等同与层级与关联三类关系作为一个独立维度（取自叙词表领域的通行分类，未逐条核对标准原文）、三项刻意排除、定位差一表的五个比较项与其中各栏的判定，均为本库判断，无外部标准背书；该表的量级词表达相对位置而非可测指标。维度清单是否齐全属人审事项。</p>
     </section>
   </conbody>
 </concept>

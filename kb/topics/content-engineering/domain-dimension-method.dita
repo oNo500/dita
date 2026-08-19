@@ -93,8 +93,14 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：以 <xref href="https://dita-lang.org/2.0/dita/archspec/base/subjectschema" scope="external">subject scheme map</xref> 定义受控值、并把值集<xref href="https://dita-lang.org/2.0/dita/archspec/base/binding-controlled-values-to-attribute" scope="external">绑定到属性</xref>，是 DITA 规范提供的机制；属性可从 <xref href="https://dita-lang.org/dita/langref/ditaval/prop" scope="external">@props</xref> 派生，见 <xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">attribute specialization</xref>。按用户需求划分文档形态见 <xref href="https://diataxis.fr/" scope="external">Diátaxis</xref>。</p>
-      <p><b>判断</b>：先完整后取舍的三步、概览与 quickstart 配套且概览每领域必有、维度另立横切值集而不进主题树、盲区为词表与 topic 的差集、三层约束的分工、概览的论证集中在开篇一处，均为本库设计，无外部标准背书，可被反驳。末一条 2026-08-19 补入，起因是四篇领域概览实测每组各写一段导语，与标题规则同型——规则管住了内容，没管形状。表中概览挂靠一条仍为规格（属 map 层跨文档判定，由 IA 报表观测），quickstart 一条已由 lint 执行；两者的落地状态以词表与 lint 的实现为准。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>以 subject scheme map 定义受控值、并把值集绑定到属性，是 DITA 规范提供的机制——<xref href="https://dita-lang.org/2.0/dita/archspec/base/subjectschema" scope="external">subject scheme map</xref>、<xref href="https://dita-lang.org/2.0/dita/archspec/base/binding-controlled-values-to-attribute" scope="external">绑定到属性</xref></li>
+        <li>属性可从 @props 派生——<xref href="https://dita-lang.org/dita/langref/ditaval/prop" scope="external">@props</xref>、<xref href="https://dita-lang.org/dita/archspec/base/specialization-specializations-attribute" scope="external">attribute specialization</xref></li>
+        <li>按用户需求划分文档形态——<xref href="https://diataxis.fr/" scope="external">Diátaxis</xref></li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：先完整后取舍的三步、概览与 quickstart 配套且概览每领域必有、维度另立横切值集而不进主题树、盲区为词表与 topic 的差集、三层约束的分工、概览的论证集中在开篇一处，均为本库设计，无外部标准背书；末一条 2026-08-19 补入，起因是四篇领域概览实测每组各写一段导语。表中概览挂靠一条仍为规格（map 层跨文档判定，由 IA 报表观测），quickstart 一条已由 lint 执行，落地状态以词表与 lint 的实现为准。</p>
     </section>
   </conbody>
 </concept>
