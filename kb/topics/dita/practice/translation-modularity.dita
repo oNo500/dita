@@ -83,8 +83,12 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：规范的翻译与本地化一节由 <xmlatt>xml:lang</xmlatt>、<xmlatt>dir</xmlatt>、<xmlatt>translate</xmlatt> 三个属性子页构成，即规范覆盖的是源标记一侧，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/translation" scope="external">翻译与本地化</xref>，已逐页核对。</p>
-      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中翻译支出以重复翻译与同步为主、翻译记忆与内容管理系统按文件跟踪、XLIFF 与 ITS 的工具层分工、先翻译还是先过滤的取舍、各语言目录平行同构，来自行业通行做法，未逐页核对；三个机制各对应一块支出的归纳、语言数作为收益乘数的解释、四个核对项的选取、冻结源版本的必要性，为本库归纳。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>规范的翻译与本地化一节由 <xmlatt>xml:lang</xmlatt>、<xmlatt>dir</xmlatt>、<xmlatt>translate</xmlatt> 三个属性子页构成，即规范覆盖的是源标记一侧——<xref href="https://dita-lang.org/2.0/dita/archspec/base/translation" scope="external">翻译与本地化</xref>（已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段那一条外，正文其余陈述均属判断，可被反驳：翻译支出以重复翻译与同步为主、翻译记忆与内容管理系统按文件跟踪、XLIFF 与 ITS 的工具层分工、先翻译还是先过滤的取舍、各语言目录平行同构，来自行业通行做法，未逐页核对；三个机制各对应一块支出的归纳、语言数作为收益乘数的解释、四个核对项的选取、冻结源版本的必要性，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

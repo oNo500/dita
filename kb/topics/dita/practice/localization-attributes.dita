@@ -82,8 +82,15 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：翻译与本地化一节由三个属性子页构成，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/translation" scope="external">翻译与本地化</xref>；<xmlatt>xml:lang</xmlatt> 指定内容的语言与区域、沿包含层级为未指定的下层元素供值且下层可覆盖、未指定时处理器自定默认、在 <xmlelement>topicref</xmlelement> 上指定时不作用于被引用的资源，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/xmllang" scope="external">xml:lang 属性</xref>；<xmlatt>dir</xmlatt> 的五个取值、<codeph>lro</codeph> 与 <codeph>rlo</codeph> 为对 Unicode 双向算法的覆盖、完整支持该算法的处理器在最高层设 <xmlatt>xml:lang</xmlatt> 即可，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/diratt" scope="external">dir 属性</xref>；<xmlatt>translate</xmlatt> 的三个取值、多数元素无默认、面向非发布内容的元素默认取 <codeph>no</codeph>、存在逐元素译者建议的非规范性附录，转自 <xref href="https://dita-lang.org/2.0/dita/archspec/base/the-translate-attribute" scope="external">translate 属性</xref>。四处均已逐页核对。</p>
-      <p><b>判断</b>：每个 topic 文件在根元素显式声明 <xmlatt>xml:lang</xmlatt>、覆盖值留给双向算法判断不符预期的局部、非规范性附录可作翻译供应商配置的底稿，为本库归纳的实践建议。该附录的具体内容与 <xmlatt>translate</xmlatt> 的继承行为未逐条核对，本篇不作断言。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>翻译与本地化一节由三个属性子页构成——<xref href="https://dita-lang.org/2.0/dita/archspec/base/translation" scope="external">翻译与本地化</xref>（已逐页核对）</li>
+        <li><xmlatt>xml:lang</xmlatt> 指定内容的语言与区域、沿包含层级为未指定的下层元素供值且下层可覆盖、未指定时处理器自定默认、在 <xmlelement>topicref</xmlelement> 上指定时不作用于被引用的资源——<xref href="https://dita-lang.org/2.0/dita/archspec/base/xmllang" scope="external">xml:lang 属性</xref>（已逐页核对）</li>
+        <li><xmlatt>dir</xmlatt> 的五个取值、<codeph>lro</codeph> 与 <codeph>rlo</codeph> 为对 Unicode 双向算法的覆盖、完整支持该算法的处理器在最高层设 <xmlatt>xml:lang</xmlatt> 即可——<xref href="https://dita-lang.org/2.0/dita/archspec/base/diratt" scope="external">dir 属性</xref>（已逐页核对）</li>
+        <li><xmlatt>translate</xmlatt> 的三个取值、多数元素无默认、面向非发布内容的元素默认取 <codeph>no</codeph>、存在逐元素译者建议的非规范性附录——<xref href="https://dita-lang.org/2.0/dita/archspec/base/the-translate-attribute" scope="external">translate 属性</xref>（已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：每个 topic 文件在根元素显式声明 <xmlatt>xml:lang</xmlatt>、覆盖值留给双向算法判断不符预期的局部、非规范性附录可作翻译供应商配置的底稿，为本库归纳的实践建议；该附录的具体内容与 <xmlatt>translate</xmlatt> 的继承行为未逐条核对，本篇不作断言。</p>
     </section>
   </refbody>
 </reference>
