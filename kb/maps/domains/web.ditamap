@@ -5,7 +5,7 @@
      该 map 收 subject/web 分支下的 topic。 -->
 <map xml:lang="zh-CN">
   <title>Web 技术栈</title>
-  <!-- 领域概览（R9：领域 map 必挂概览）。它声明本域的完整维度清单，
+  <!-- 领域全景（R9：领域 map 必挂全景）。它声明本域的完整维度清单，
        覆盖度与盲区都以它为基准；不挂进 map，覆盖度统计取不到本域。 -->
   <topicref href="../../topics/web/electron-landscape.dita"/>
 </map>
