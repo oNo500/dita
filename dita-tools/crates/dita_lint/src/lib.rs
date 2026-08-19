@@ -741,7 +741,11 @@ fn check_source_section(root: roxmltree::Node, push: &mut impl FnMut(String)) {
         .filter_map(|n| n.text())
         .collect();
     if text.contains("已核对") {
-        push("R14：来源节含旧标签「已核对」，应改为「事实」".to_string());
+        push(
+            "R14：来源节含旧标签「已核对」——核对状态改写成列表前的一句话\
+             （如「以下各条均已逐页核对。」），不再作段标签"
+                .to_string(),
+        );
     }
     if text.contains("（20") || text.contains("(20") {
         push("R14：来源节疑似手写日期——日期唯一存放处是 prolog data name=\"reviewed\"".to_string());
