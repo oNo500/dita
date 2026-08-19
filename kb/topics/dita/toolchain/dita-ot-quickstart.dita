@@ -86,8 +86,16 @@ dita --input=sample/root.ditamap --format=html5 --output=out</codeblock>
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：DITA-OT 4.4 要求 Java 17 的版本下限转自 <xref href="https://www.dita-ot.org/dev/release-notes/" scope="external">DITA-OT 发布说明</xref>；2.0 preview 支持基于 2026-01-25 的草案语法文件转自 <xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA 2.0 preview 支持</xref>；DITA 2.0 处于 draft 阶段转自 <xref href="https://www.dita-lang.org/specifications" scope="external">DITA 规范列表</xref>与 <xref href="https://github.com/oasis-tcs/dita/releases" scope="external">TC 发布页</xref>；公共标识符的格式、版本号可为具体号或 2.x 或整个省略、RNG 走 URN，转自 <xref href="https://dita-lang.org/dita/non-normative/dtd-public-identifiers" scope="external">DTD 公共标识符</xref>；<xmlatt>input</xmlatt>、<xmlatt>format</xmlatt> 为必需选项及 <xmlatt>output</xmlatt> 等可选项转自 <xref href="https://www.dita-ot.org/dev/topics/build-using-dita-command" scope="external">使用 dita 命令构建</xref>。以上页面均已逐页核对。</p>
-      <p><b>判断</b>：除事实段所列外，正文其余陈述均属判断，可被反驳。其中脚手架与校验两个命令为 4.3 引入的预览特性来自发布说明的检索结果，模板名称未经验证，故正文写作占位形式；安装方式与环境变量的配置、plugin 命令的行为来自通用 DITA-OT 实践；先用最小样例验证工具链、以及 catalog 条目应以本机随附文件为准这两条建议为本库归纳。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>DITA-OT 4.4 要求 Java 17 的版本下限——<xref href="https://www.dita-ot.org/dev/release-notes/" scope="external">DITA-OT 发布说明</xref>（已逐页核对）</li>
+        <li>2.0 preview 支持基于 2026-01-25 的草案语法文件——<xref href="https://www.dita-ot.org/dev/reference/dita-v2-0-support.html" scope="external">DITA 2.0 preview 支持</xref>（已逐页核对）</li>
+        <li>DITA 2.0 处于 draft 阶段——<xref href="https://www.dita-lang.org/specifications" scope="external">DITA 规范列表</xref>、<xref href="https://github.com/oasis-tcs/dita/releases" scope="external">TC 发布页</xref>（均已逐页核对）</li>
+        <li>公共标识符的格式、版本号可为具体号或 2.x 或整个省略、RNG 走 URN——<xref href="https://dita-lang.org/dita/non-normative/dtd-public-identifiers" scope="external">DTD 公共标识符</xref>（已逐页核对）</li>
+        <li><xmlatt>input</xmlatt>、<xmlatt>format</xmlatt> 为必需选项，<xmlatt>output</xmlatt> 等为可选项——<xref href="https://www.dita-ot.org/dev/topics/build-using-dita-command" scope="external">使用 dita 命令构建</xref>（已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段所列外，正文其余陈述均属判断，可被反驳：脚手架与校验两个命令为 4.3 引入的预览特性来自发布说明的检索结果，模板名称未经验证，故正文写作占位形式；安装方式与环境变量的配置、plugin 命令的行为来自通用 DITA-OT 实践；先用最小样例验证工具链、catalog 条目应以本机随附文件为准，两条建议为本库归纳。</p>
     </section>
   </conbody>
 </concept>

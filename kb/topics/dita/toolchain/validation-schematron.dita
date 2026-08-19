@@ -128,8 +128,13 @@ dita-tools lint --vocab vocab/subjectScheme.ditamap topics</codeblock>
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：DITA 2.0 在规范列表中列为 draft、1.3 及更早版本为 OASIS Standard，转自 <xref href="https://www.dita-lang.org/specifications" scope="external">DITA 规范列表</xref>，已逐页核对。</p>
-      <p><b>判断</b>：除事实段那一条外，正文其余陈述均属判断，可被反驳。其中四种校验的命令与各自能发现的问题、RNG 与 DTD 的关系及 2.0 不再提供 XSD、Schematron 的示例规则与三处运行位置、Oxygen 的原生支持、DITA-OT 无内置 Schematron 支持，均来自通用实践，未逐页核对；DITA 的引用完整性校验命令属 4.3 预览特性来自发布说明的检索结果，未打开页面逐条核对；与 constraint 模块的分工建议、持续集成分层的组合与「源文件一侧照不到过滤后的文档」这一分工，为本库归纳。「把校验接进构建」一节的三条命令不属未核对之列：它们是本库自己的持续集成实际执行的命令，2026-08-17 逐条执行确认可用（三条均退出 0、零违规），可在本仓复现；同节所述本库以手写 XSLT 而非编译产物执行 Schematron 规则，为本仓事实。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>DITA 2.0 在规范列表中列为 draft、1.3 及更早版本为 OASIS Standard——<xref href="https://www.dita-lang.org/specifications" scope="external">DITA 规范列表</xref>（已逐页核对）</li>
+        <li>「把校验接进构建」一节的三条命令——本库自己的持续集成实际执行的命令，2026-08-17 逐条执行确认可用（三条均退出 0、零违规），可在本仓复现；同节所述本库以手写 XSLT 而非编译产物执行 Schematron 规则，为本仓事实</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段两条外，正文其余陈述均属判断，可被反驳：四种校验的命令与各自能发现的问题、RNG 与 DTD 的关系及 2.0 不再提供 XSD、Schematron 的示例规则与三处运行位置、Oxygen 的原生支持、DITA-OT 无内置 Schematron 支持，均来自通用实践，未逐页核对；DITA 的引用完整性校验命令属 4.3 预览特性来自发布说明的检索结果，未打开页面逐条核对；与 constraint 模块的分工建议、持续集成分层的组合与「源文件一侧照不到过滤后的文档」这一分工，为本库归纳。</p>
     </section>
   </conbody>
 </concept>

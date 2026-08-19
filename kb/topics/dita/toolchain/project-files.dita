@@ -77,8 +77,12 @@
 
     <section>
       <title>来源</title>
-      <p><b>事实</b>：project file 有 XML、JSON、YAML 三种等价格式且 XML 为规范性版本，结构分 <xmlelement>context</xmlelement> / <xmlelement>publication</xmlelement> / <xmlelement>deliverable</xmlelement> 三层、可按 <xmlatt>idref</xmlatt> 复用且参数支持覆盖继承，构建以 <codeph>dita --project</codeph> 执行、<codeph>--deliverable</codeph> 指定单件，转自 <xref href="https://www.dita-ot.org/dev/topics/using-project-files" scope="external">Publishing with project files</xref>，已逐页核对。</p>
-      <p><b>判断</b>：何时该从脚本循环改用 project file 的阈值、"组合关系散在脚本里"这一诊断，以及上例的字段取值，为本库归纳与示意，可被反驳。</p>
+      <p><b>事实</b></p>
+      <ul>
+        <li>project file 有 XML、JSON、YAML 三种等价格式且 XML 为规范性版本，结构分 <xmlelement>context</xmlelement> / <xmlelement>publication</xmlelement> / <xmlelement>deliverable</xmlelement> 三层、可按 <xmlatt>idref</xmlatt> 复用且参数支持覆盖继承，构建以 <codeph>dita --project</codeph> 执行、<codeph>--deliverable</codeph> 指定单件——<xref href="https://www.dita-ot.org/dev/topics/using-project-files" scope="external">Publishing with project files</xref>（已逐页核对）</li>
+      </ul>
+      <p><b>判断</b></p>
+      <p>除事实段那一条外，正文其余陈述均属判断，可被反驳：何时该从脚本循环改用 project file 的阈值、"组合关系散在脚本里"这一诊断、上例的字段取值，为本库归纳与示意。</p>
     </section>
   </conbody>
 </concept>
