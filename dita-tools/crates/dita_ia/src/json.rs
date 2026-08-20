@@ -119,6 +119,9 @@ fn exceptions(report: &IaReport) -> Value {
         "empty_leaves_by_branch": report.empty_leaves_by_branch.iter()
             .map(|(branch, count)| json!({ "branch": branch, "count": count }))
             .collect::<Vec<_>>(),
+        "unlandscaped_domains": report.unlandscaped_domains.iter()
+            .map(|(domain, count)| json!({ "domain": domain, "count": count }))
+            .collect::<Vec<_>>(),
         "diagnostics": {
             "errors": report.diagnostics.error_count(),
             "warnings": report.diagnostics.warning_count(),

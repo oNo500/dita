@@ -59,6 +59,13 @@ pub struct IaReport {
     /// count descending (ties broken by branch key). A `--details`-only view:
     /// the flat key list is too long for the default summary.
     pub empty_leaves_by_branch: Vec<(String, usize)>,
+    /// R9's reverse report: domains that hold content but have no landscape on
+    /// themselves or any ancestor key. The coverage table only speaks for
+    /// domains that have a plan, so a missing landscape is invisible there —
+    /// this is the side that catches it. Empty when the vocabulary is absent:
+    /// without the taxonomy the rollup degrades and would report false
+    /// positives for child keys.
+    pub unlandscaped_domains: Vec<(String, usize)>,
 }
 
 /// Build the IA report.
@@ -121,18 +128,7 @@ pub fn build_report(
 
     let branch_map = display.first().map_or_else(Branches::default, branches);
     let branch_stats = stats::branch_stats(&branch_map, &topics);
-    // subject key → its descendants, so coverage can roll up the taxonomy
-    let descendants = vocab
-        .filter(|p| p.exists())
-        .and_then(|p| dita_vocab::parse_vocab(p).ok())
-        .map_or_else(Default::default, |(v, _)| {
-            let mut out: std::collections::BTreeMap<String, std::collections::BTreeSet<String>> =
-                std::collections::BTreeMap::new();
-            if let Some(subject) = v.subject("subject") {
-                collect_descendants(subject, &mut out);
-            }
-            out
-        });
+    let descendants = descendants_map(vocab);
     let coverage = stats::domain_coverage(&branch_map, &topics, &descendants);
 
     let Governance {
@@ -173,6 +169,14 @@ pub fn build_report(
 
     check_domains(&coverage, &mut diagnostics);
 
+    // gated on the vocabulary, not on `descendants` being non-empty: a loaded
+    // vocabulary with a flat subject tree is a legitimate exact-match world
+    let unlandscaped = if vocab_loaded {
+        stats::unlandscaped_domains(&topics, &descendants)
+    } else {
+        Vec::new()
+    };
+
     Ok(IaReport {
         display,
         consulted,
@@ -191,6 +195,7 @@ pub fn build_report(
         skeleton,
         duplicate_refs,
         empty_leaves_by_branch: empty_leaves,
+        unlandscaped_domains: unlandscaped,
     })
 }
 
@@ -229,6 +234,24 @@ fn read_governance(
 /// Check tagged values against the subject scheme — the vocabulary is the only
 /// source of legal values, so this is the one place that knows them.
 /// Record每个 subject 键的全部后代键。
+/// Subject key → its descendants, so coverage can roll up the taxonomy.
+/// A missing or unparsable vocabulary degrades to an empty map — exact
+/// matching — rather than a guessed hierarchy.
+fn descendants_map(
+    vocab: Option<&Path>,
+) -> std::collections::BTreeMap<String, std::collections::BTreeSet<String>> {
+    vocab
+        .filter(|p| p.exists())
+        .and_then(|p| dita_vocab::parse_vocab(p).ok())
+        .map_or_else(Default::default, |(v, _)| {
+            let mut out = std::collections::BTreeMap::new();
+            if let Some(subject) = v.subject("subject") {
+                collect_descendants(subject, &mut out);
+            }
+            out
+        })
+}
+
 fn collect_descendants(
     subject: &dita_vocab::Subject,
     out: &mut std::collections::BTreeMap<String, std::collections::BTreeSet<String>>,

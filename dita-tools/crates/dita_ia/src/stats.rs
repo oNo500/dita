@@ -170,3 +170,40 @@ pub fn domain_coverage(
 fn bump(map: &mut BTreeMap<String, usize>, key: &str) {
     *map.entry(key.to_string()).or_default() += 1;
 }
+
+/// R9 的反向报表：声明了 `domain` 且有内容、却在自身与全部祖先键上都找不到
+/// 全景（planned-dimension 声明）的域。正向的 `domain_coverage` 只为有全景的
+/// 域建条目，缺全景的域在那里没有一行——这里补上那一面。
+///
+/// 豁免与 `domain_coverage` 的滚算对称：全景是按域立的，子键（如工具键）挂在
+/// 有全景的祖先下即算有主。不声明 `domain` 的 topic（如术语库）不参与。
+/// 返回 (域, 篇数)，篇数降序、同数按键名。
+#[must_use]
+pub fn unlandscaped_domains(
+    topics: &[TopicMeta],
+    descendants: &BTreeMap<String, BTreeSet<String>>,
+) -> Vec<(String, usize)> {
+    let mut counts: BTreeMap<String, usize> = BTreeMap::new();
+    let mut landscaped: BTreeSet<&str> = BTreeSet::new();
+    for meta in topics {
+        let Some(domain) = &meta.domain else { continue };
+        *counts.entry(domain.clone()).or_default() += 1;
+        if !meta.planned_dimensions.is_empty() {
+            landscaped.insert(domain);
+        }
+    }
+    let covered_by_ancestor = |domain: &str| {
+        landscaped.iter().any(|l| {
+            *l == domain
+                || descendants
+                    .get(*l)
+                    .is_some_and(|kids| kids.contains(domain))
+        })
+    };
+    let mut out: Vec<(String, usize)> = counts
+        .into_iter()
+        .filter(|(domain, _)| !covered_by_ancestor(domain))
+        .collect();
+    out.sort_by(|(ad, an), (bd, bn)| bn.cmp(an).then_with(|| ad.cmp(bd)));
+    out
+}

@@ -711,3 +711,30 @@ fn json_paths_are_relative_to_the_kb_root() {
         assert!(topic.starts_with("topics/"), "{topic}");
     }
 }
+
+/// R9 反向报表：有内容却无全景的技术域要点名——正向覆盖表只对已有全景的域
+/// 发言，缺全景的域在那里连一行都没有，恰恰是 R9 要抓的静默通过。
+#[test]
+fn domains_with_topics_but_no_landscape_are_reported() {
+    let report = report();
+    // demo 有自己的全景，demo-b1 是 demo 的孙键、被祖先的全景滚算覆盖，
+    // 都不该出现；not-a-subject-key 有 1 篇且无处可挂，必须出现
+    assert_eq!(
+        report.unlandscaped_domains,
+        vec![("not-a-subject-key".to_string(), 1)]
+    );
+    assert!(
+        dita_ia::exception_lines(&report, false)
+            .iter()
+            .any(|l| l.contains("无全景") && l.contains("not-a-subject-key")),
+        "summary must surface the R9 violation without --details"
+    );
+}
+
+/// 词表缺席时滚算无从谈起，报出来的会是降级匹配下的假阳性——整个检查跳过，
+/// 与「未读到词表」的总提示一致。
+#[test]
+fn unlandscaped_check_is_skipped_without_vocab() {
+    let report = report_without_vocab();
+    assert!(report.unlandscaped_domains.is_empty());
+}

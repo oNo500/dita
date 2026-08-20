@@ -288,6 +288,7 @@ pub fn exception_lines(report: &IaReport, details: bool) -> Vec<String> {
     if blind > 0 {
         lines.push(format!("维度盲区 {blind} 个"));
     }
+    lines.extend(unlandscaped_line(&report.unlandscaped_domains));
     // 规划外的覆盖：某篇标了一个该域全景没规划的维度。要么全景漏了这一维，要么
     // 那篇标错了——两种都要人去裁，所以不能只在 --details 里说。
     for c in &report.coverage {
@@ -334,6 +335,23 @@ pub fn exception_lines(report: &IaReport, details: bool) -> Vec<String> {
         lines.push("未读到词表：规划对照与值检查均已跳过".to_string());
     }
     lines
+}
+
+/// R9 反向报表的那一行：有内容却无全景的域是缺陷信号（建域第一步就该有全景），
+/// 与词表空叶子那种存量清单不同，不受 `--details` 门控。
+fn unlandscaped_line(domains: &[(String, usize)]) -> Option<String> {
+    if domains.is_empty() {
+        return None;
+    }
+    let groups: Vec<String> = domains
+        .iter()
+        .map(|(domain, n)| format!("{domain}({n} 篇)"))
+        .collect();
+    Some(format!(
+        "{} 个技术域有内容但无全景（R9）：{}",
+        domains.len(),
+        groups.join("、")
+    ))
 }
 
 /// 报告里的路径写法：相对 kb 根（`topics_root` 的上一级）。map 与 topic 出现在
