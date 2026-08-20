@@ -39,7 +39,7 @@ dita-tools/  执行引擎     产出：校验结果、IA 视图
 |---|---|---|---|
 | R1–R6、R8、R21 | shortdesc、时效标注、核对日期、三个属性值域、来源状况声明、verified 须有实际来源 | `scripts/check-rules.xsl`（Saxon） | `dita-tools lint`（实现后 xsl 退役，SSOT 手抄副本随之还清） |
 | R7 | 术语裸字面 → `term keyref` | `scripts/term-normalize.py`（报告版） | `dita-tools lint` |
-| R9 / 维度覆盖度 | 领域全景、盲区统计 | `dita-tools ia`（脚本已于 2026-08-15 退役） | `dita-tools ia` ✅ |
+| R9 / 维度覆盖度 | 领域全景、盲区统计。粒度是**技术域**（`domain` 键）而非分支 map，子键由祖先的全景滚算豁免；正向按域算覆盖度与盲区，反向点名「有内容却无全景」的域（2026-08-20 补——正向表只为已有全景的域建条目，缺全景本身在那里不可见），粒度决定的理由见 `research/cases/kb-redesign/dimension-completeness.md` | `dita-tools ia`（脚本已于 2026-08-15 退役） | `dita-tools ia` ✅ |
 | **R11** | **`@dimension` 值合法性** | `dita-tools ia` 已报 error | `dita-tools lint`（归属冲突随终态落定而消） |
 | R12–R13 | 体裁必标、值合法、类型匹配、必需节齐全 | `dita-tools lint`（2026-08-16） | `dita-tools lint` ✅ |
 | R14 | 来源节不得有段标签（两段划分 2026-08-19 废止）、禁旧标签「已核对」、禁正文手写日期 | `dita-tools lint` | 同上 ✅ |
